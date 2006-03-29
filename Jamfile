@@ -38,15 +38,3 @@ CSharp supertux-editor.exe
 LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll Dock.dll ;
 CSFLAGS on supertux-editor.exe += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:./gtkgl-sharp.dll ;
 
-DIRS3 = arggh arggh/Libs arggh/Drawing arggh/DataStructures
-        arggh/SceneGraph arggh/Sprites ;
-SOURCES = ;
-for i in $(DIRS3) {
-    SOURCES += [ Wildcard $(i) : *.cs ] ;
-}
-CSharp arggh.exe
-    : $(SOURCES)
-;
-LinkWith arggh.exe : Resources.dll Lisp.dll LispReader.dll ;
-CSFLAGS on arggh.exe += -unsafe ;
-
