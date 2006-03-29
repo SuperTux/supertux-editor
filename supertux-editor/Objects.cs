@@ -107,14 +107,14 @@ public class Fish : SimpleObject {
 public class MrTree : SimpleObject {
 	public MrTree() {
 		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "large-left";
 	}
 }
 
-[SupertuxObject("poisonivy", "images/creatues/poison_ivy/poison_ivy.sprite")]
+[SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite")]
 public class PoisonIvy : SimpleObject {
 	public PoisonIvy() {
-		Sprite = SpriteManager.Create("images/creatues/poison_ivy/poison_ivy.sprite");
+		Sprite = SpriteManager.Create("images/creatures/poison_ivy/poison_ivy.sprite");
 		Sprite.Action = "left";
 	}
 }
