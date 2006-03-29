@@ -1,0 +1,52 @@
+SubDir TOP ;
+
+CSharp gtkgl-sharp.dll : [ Wildcard gtkgl-sharp : *.cs ] ;
+CSFLAGS on gtkgl-sharp.dll += -unsafe -pkg:gtk-sharp-2.0 ;
+CSharp Dock.dll : [ Wildcard Dock : *.cs ] : [ Wildcard Dock/resources : *.glade *.png ] ;
+CSFLAGS on Dock.dll += -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:Mono.Posix ;
+CSharp Lisp.dll : [ Wildcard Lisp : *.cs ] ;
+CSharp LispReader.dll : [ Wildcard LispReader : *.cs ] ;
+LinkWith LispReader.dll : Lisp.dll ;
+CSharp Resources.dll : [ Wildcard Resources : *.cs ] ;
+
+DIRS = src src/Drawing src/DataStructures src/Libs src/SceneGraph src/Sprites ;
+for i in $(DIRS) {
+    SOURCES += [ Wildcard $(i) : *.cs ] ;
+}
+CSharp supertux.exe
+    : $(SOURCES)
+;
+LinkWith supertux.exe : Lisp.dll Resources.dll ;
+CSFLAGS on supertux.exe += -debug -unsafe ;
+
+CSharp libeditor.dll
+    :   [ Wildcard libeditor/DataStructures : *.cs ]
+        [ Wildcard libeditor/Libs : *.cs ]
+        [ Wildcard libeditor/SceneGraph : *.cs ]
+        [ Wildcard libeditor/Drawing : *.cs ]
+        [ Wildcard libeditor : *.cs ]
+    :   [ Wildcard libeditor/resources : *.glade *.png ]
+;
+LinkWith libeditor.dll : Resources.dll gtkgl-sharp.dll ;
+CSFLAGS on libeditor.dll += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 ;
+
+CSharp supertux-editor.exe
+    :   [ Wildcard supertux-editor : *.cs ]
+        [ Wildcard supertux-editor/Sprites : *.cs ]
+    :   [ Wildcard supertux-editor/resources : *.glade *.png ]
+;
+LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll Dock.dll ;
+CSFLAGS on supertux-editor.exe += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:./gtkgl-sharp.dll ;
+
+DIRS3 = arggh arggh/Libs arggh/Drawing arggh/DataStructures
+        arggh/SceneGraph arggh/Sprites ;
+SOURCES = ;
+for i in $(DIRS3) {
+    SOURCES += [ Wildcard $(i) : *.cs ] ;
+}
+CSharp arggh.exe
+    : $(SOURCES)
+;
+LinkWith arggh.exe : Resources.dll Lisp.dll LispReader.dll ;
+CSFLAGS on arggh.exe += -unsafe ;
+

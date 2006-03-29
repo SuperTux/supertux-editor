@@ -1,0 +1,40 @@
+<Combine name="supertux-sharp" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="Resources" configuration="Debug" />
+      <Entry build="True" name="Lisp" configuration="Debug" />
+      <Entry build="True" name="LispReader" configuration="Debug" />
+      <Entry build="True" name="libeditor" configuration="Debug" />
+      <Entry build="True" name="supertux-editor" configuration="Debug" />
+      <Entry build="True" name="Dock" configuration="Debug" />
+      <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="Resources" configuration="Debug" />
+      <Entry build="True" name="Lisp" configuration="Debug" />
+      <Entry build="True" name="LispReader" configuration="Debug" />
+      <Entry build="True" name="libeditor" configuration="Debug" />
+      <Entry build="True" name="supertux-editor" configuration="Debug" />
+      <Entry build="True" name="Dock" configuration="Debug" />
+      <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
+    </Configuration>
+  </Configurations>
+  <StartMode startupentry="supertux-editor" single="True">
+    <Execute type="None" entry="Resources" />
+    <Execute type="None" entry="Lisp" />
+    <Execute type="None" entry="LispReader" />
+    <Execute type="None" entry="libeditor" />
+    <Execute type="None" entry="supertux-editor" />
+    <Execute type="None" entry="Dock" />
+    <Execute type="None" entry="gtkgl-sharp" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./Resources/Resources.mdp" />
+    <Entry filename="./Lisp/Lisp.mdp" />
+    <Entry filename="./LispReader/LispReader.mdp" />
+    <Entry filename="./libeditor/libeditor.mdp" />
+    <Entry filename="./supertux-editor/supertux-editor.mdp" />
+    <Entry filename="./Dock/Dock.mdp" />
+    <Entry filename="./gtkgl-sharp/gtkgl-sharp.mdp" />
+  </Entries>
+</Combine>
