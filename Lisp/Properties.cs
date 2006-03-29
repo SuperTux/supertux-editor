@@ -133,6 +133,16 @@ public class Properties {
         return true;
     }
 
+    public bool GetIntList(string Name, List<int> AList) {
+        List list = Find(Name);
+        if(list == null)
+            return false;
+        for(int i = 1; i < list.Length; ++i) {
+            AList.Add((int) list[i]);
+        }
+        return true;
+    }	
+
     public IList GetList(string ChildType) {
         ArrayList AList = (ArrayList) Props[ChildType];
         if(AList == null)

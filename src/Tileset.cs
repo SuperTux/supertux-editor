@@ -20,10 +20,10 @@ public class Tileset {
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
 
         Properties TilesP = new Properties(TilesL);
-        foreach(List List in TilesP.GetList("tile")) {
+        foreach(List list in TilesP.GetList("tile")) {
             try {
                 Tile Tile = new Tile();
-                ParseTile(Tile, List);
+                ParseTile(Tile, list);
                 while(Tiles.Count <= Tile.Id)
                     Tiles.Add(null);
                 Tiles[Tile.Id] = Tile;
@@ -32,6 +32,15 @@ public class Tileset {
 				Console.WriteLine(e.StackTrace);
             }
         }
+
+		foreach(List list in TilesP.GetList("tiles")) {
+			try {
+				ParseTiles(list);
+			} catch(Exception e) {
+				Console.WriteLine("Couldn't parse a tiles: " + e.Message);
+				Console.WriteLine(e.StackTrace);
+			}
+		}
     }
 
 	public bool IsValid(uint Id) {
@@ -53,6 +62,53 @@ public class Tileset {
 			return (uint) Tiles.Count;
 		}
 	}
+
+	private void ParseTiles(List list) {
+		Properties props = new Properties(list);
+
+		int width = 0;
+		int height = 0;
+		string image = "";
+		props.Get("width", ref width);
+		props.Get("height", ref height);
+		props.Get("image", ref image);
+		if(width == 0 || height == 0)
+			throw new Exception("Width and Height of tiles block must be > 0");
+
+		List<int> ids = new List<int> ();
+		List<uint> attributes = new List<uint> ();
+		props.GetIntList("ids", ids);
+		props.GetUIntList("attributes", attributes);
+		if(ids.Count != width * height)
+			throw new Exception("Must have width*height ids in tiles block");
+		if(attributes.Count != width * height)
+			throw new Exception("Must have width*height attributes in tiles block");
+		
+		int id = 0;
+		for(int y = 0; y < height; ++y) {
+			for(int x = 0; x < width; ++x) {
+				Tile tile = new Tile();
+				
+				Tile.ImageResource res = new Tile.ImageResource();
+				res.Filename = image;
+				res.x = x * TILE_WIDTH;
+				res.y = y * TILE_HEIGHT;
+				res.w = TILE_WIDTH;
+				res.h = TILE_HEIGHT;
+				tile.Images = new List<Tile.ImageResource>();
+				tile.Images.Add(res);
+				tile.Id = ids[id];
+				tile.Attributes = (Tile.Attribute) attributes[id];
+
+                while(Tiles.Count <= tile.Id)
+                    Tiles.Add(null);
+                Tiles[tile.Id] = tile;
+
+				id++;
+			}
+		}
+	}
+	
 
     private void ParseTile(Tile Tile, List Data) {
         Properties Props = new Properties(Data);
