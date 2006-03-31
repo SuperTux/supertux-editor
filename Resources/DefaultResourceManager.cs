@@ -24,7 +24,11 @@ namespace Resources
 
         public override TextReader Get(string ResourcePath)
         {
-            return new StreamReader(DataDir + ResourcePath);
+        	try {
+        		return new StreamReader(DataDir + ResourcePath);
+        	} catch(Exception e) {
+        		throw new Exception("Couldn't load resource '" + ResourcePath + "'", e);
+        	}
         }
 
         public override string GetDirectoryName(string ResourcePath)

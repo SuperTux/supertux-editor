@@ -76,13 +76,13 @@ public class Application : IEditorApplication {
 		SectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
 		SectorSwitchNotebook.ShowAll();
 		DockItem mainDock = new DockItem("MainDock", "MainDock",
-		                                   null, DockItemBehavior.NoGrip);
+		                                 DockItemBehavior.NoGrip);
 		mainDock.Add(SectorSwitchNotebook);
 		dock.AddItem(mainDock, DockPlacement.Center);
 				
 		TileList = new TileListWidget(this, Selection);
 		DockItem tileListDock = new DockItem("TileList", "Tiles",
-		                                       null, DockItemBehavior.NeverFloating);
+											 DockItemBehavior.NeverFloating);
 		tileListDock.Add(TileList);
 		tileListDock.DockTo(mainDock, DockPlacement.Left);
 		
@@ -91,13 +91,13 @@ public class Application : IEditorApplication {
 		scrolledWindow.Add(LayerList);
 		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
 		DockItem layerListDock = new DockItem("LayerList", "Layers",
-		                                        null, DockItemBehavior.NeverFloating);
+		                                      DockItemBehavior.NeverFloating);
 		layerListDock.Add(scrolledWindow);
 		layerListDock.DockTo(mainDock, DockPlacement.Bottom);		
 		
 		ObjectListWidget ObjectList = new ObjectListWidget();
 		DockItem objectListDock = new DockItem("ObjectList", "Objects",
-		                                       null, DockItemBehavior.NeverFloating);
+		                                       DockItemBehavior.NeverFloating);
 		objectListDock.Add(ObjectList);
 		objectListDock.DockTo(tileListDock, DockPlacement.Center);
 		
@@ -105,7 +105,8 @@ public class Application : IEditorApplication {
 		GameObjectListWidget objectList = new GameObjectListWidget(this);
 		scrolledWindow.Add(objectList);
 		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
-		DockItem gObjectListDock = new DockItem("GObjectList", "GObjects", Gtk.Stock.Info,
+		DockItem gObjectListDock = new DockItem("GObjectList", "GObjects",
+		                                        Gtk.Stock.Info,
 		                                        DockItemBehavior.NeverFloating);
 		gObjectListDock.Add(scrolledWindow);
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
@@ -225,7 +226,7 @@ public class Application : IEditorApplication {
 			return;
 		
 		try {
-			string TempName = Path.GetTempPath() + "/supertux-editor.tmp.stl";
+			string TempName = System.IO.Path.GetTempPath() + "/supertux-editor.tmp.stl";
 			Serializer.Write(TempName, Level);
 			Process.Start(Settings.Instance.SupertuxExe, TempName);
 		} catch(Exception e) {
@@ -295,7 +296,7 @@ public class Application : IEditorApplication {
 		} catch(Exception e) {
 			if(app.Level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '/tmp/supertux-editor-emergency.stl'");
-				app.Serializer.Write(Path.GetTempPath() + "/supertux-editor-emergency.stl", app.Level);
+				app.Serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.Level);
 			}
 			throw e;
 		}

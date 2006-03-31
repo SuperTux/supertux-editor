@@ -81,10 +81,9 @@ public class LispSerializer {
 		Properties Props = new Properties(List);
 		
 		// iterate over all fields and properties
-		FieldInfo[] fields = type.GetFields();		
-		foreach(FieldInfo field in fields) {
+		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				Attribute.GetCustomAttribute(field, typeof(LispChildAttribute));
+				field.GetCustomAttribute(typeof(LispChildAttribute));
 			if(ChildAttrib != null) {
 				string Name = ChildAttrib.Name;
 				if(field.FieldType == typeof(int)) {
@@ -112,7 +111,18 @@ public class LispSerializer {
 					else
 						field.SetValue(Result, val);
 				} else {
-					throw new Exception("Type " + field.FieldType + " not supported for LispChild yet");
+					LispRootAttribute rootAttrib = (LispRootAttribute)
+					Attribute.GetCustomAttribute(field.FieldType, typeof(LispRootAttribute));
+					if(rootAttrib == null)
+						throw new Exception("Type " + field.FieldType + " not supported for LispChild");
+					
+					List val = null;
+					if(!Props.Get(Name, ref val)) {
+						Console.WriteLine("Field '" + Name + "' not in lisp");
+					} else {
+						object oval = ReadType(field.FieldType, val);
+						field.SetValue(Result, oval);
+					}
 				}
 			}
 			
@@ -174,7 +184,18 @@ public class LispSerializer {
 					}
 					break;
 				} else {
-					throw new Exception("Type " + ptype + " not supported for LispChild yet");
+					LispRootAttribute rootAttrib = (LispRootAttribute)
+					Attribute.GetCustomAttribute(ptype, typeof(LispRootAttribute));
+					if(rootAttrib == null)
+						throw new Exception("Type " + ptype + " not supported for LispChild");
+					
+					List val = null;
+					if(!Props.Get(Name, ref val)) {
+						Console.WriteLine("Field '" + Name + "' not in lisp");
+					} else {	
+						object oval = ReadType(ptype, val);
+						property.SetValue(Result, oval, null);
+					}
 				}
 			}			
 		}
@@ -188,8 +209,8 @@ public class LispSerializer {
 		return Result;
 	}
 
-	private void WriteType(Writer Writer, Type Type, object Object) {
-		FieldInfo[] fields = Type.GetFields();
+	private void WriteType(Writer Writer, Type type, object Object) {
+		FieldInfo[] fields = type.GetFields();
 		
 		foreach(FieldInfo field in fields) {
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
@@ -200,7 +221,16 @@ public class LispSerializer {
 					if(ChildAttrib.Translatable) {
 						Writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
 					} else {
-						Writer.Write(ChildAttrib.Name, Value);
+						Type childType = field.FieldType;
+						LispRootAttribute rootAttrib = (LispRootAttribute)
+							Attribute.GetCustomAttribute(childType, typeof(LispRootAttribute));
+						if(rootAttrib != null) {
+							Writer.StartList(ChildAttrib.Name);
+							WriteType(Writer, childType, Value);
+							Writer.EndList(ChildAttrib.Name);
+						} else {
+							Writer.Write(ChildAttrib.Name, Value);
+						}
 					}
 				} else {
 					Console.WriteLine("Warning: Field '" + field.Name + "' is null");
@@ -226,6 +256,36 @@ public class LispSerializer {
 						}
 					}
 				}
+			}
+		}
+		
+		PropertyInfo[] properties = type.GetProperties();
+		foreach(PropertyInfo property in properties) {
+			if(!property.CanRead)
+				continue;
+			
+			LispChildAttribute ChildAttrib = (LispChildAttribute)
+				Attribute.GetCustomAttribute(property, typeof(LispChildAttribute));
+			if(ChildAttrib != null) {
+				object Value = property.GetValue(Object, null);
+				if(Value != null) {
+					if(ChildAttrib.Translatable) {
+						Writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
+					} else {
+						Type childType = property.PropertyType;
+						LispRootAttribute rootAttrib = (LispRootAttribute)
+							Attribute.GetCustomAttribute(childType, typeof(LispRootAttribute));
+						if(rootAttrib != null) {
+							Writer.StartList(ChildAttrib.Name);
+							WriteType(Writer, childType, Value);
+							Writer.EndList(ChildAttrib.Name);
+						} else {
+							Writer.Write(ChildAttrib.Name, Value);
+						}						
+					}
+				} else {
+					Console.WriteLine("Warning: Field '" + property.Name + "' is null");
+				}				
 			}
 		}
 			

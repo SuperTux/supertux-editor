@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Lisp;
 
-[LispRootAttribute(Name = "sector")]
+[LispRootAttribute("sector")]
 public class Sector : ICustomLispSerializer {
 	[LispChild("name")]
 	public string Name = "";

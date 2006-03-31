@@ -201,6 +201,36 @@ public class Bell : SimpleObject {
 	}
 }
 
+[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite")]
+public class AngryStone : SimpleObject {
+	public AngryStone() {
+		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
+	}
+}
+
+[SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
+public class FlyingPlatform : SimpleObject {
+	[ChooseResourceSetting]	
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			Sprite = SpriteManager.Create(value);
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "";
+	
+	[LispChild("path")]
+	public Path Path;
+
+	public FlyingPlatform() {
+		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");			
+	}
+}
+
 [SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite")]
 public class WilloWisp : SimpleObject {
 	[LispChild("sector")]

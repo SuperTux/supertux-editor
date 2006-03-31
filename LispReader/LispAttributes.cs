@@ -4,6 +4,11 @@ using System;
 				AllowMultiple=false)]
 public class LispRootAttribute : Attribute {
 	public string Name;
+	
+	public LispRootAttribute(string name)
+	{
+		this.Name = name;
+	}
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,

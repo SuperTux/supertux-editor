@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-[LispRoot(Name = "supertux-level")]
+[LispRoot("supertux-level")]
 public class Level {
 	[LispChild("version")]
 	public int Version = 2;

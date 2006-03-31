@@ -39,7 +39,7 @@ public class Settings {
 	public void Save() {
 		StreamWriter writer = null;
 		try {
-			string dir = Path.GetDirectoryName(SettingsFile);
+			string dir = System.IO.Path.GetDirectoryName(SettingsFile);
 			DirectoryInfo d = new DirectoryInfo(dir);
 			if(!d.Exists)
 				d.Create();

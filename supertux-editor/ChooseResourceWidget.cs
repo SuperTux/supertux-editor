@@ -32,6 +32,7 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 		HBox box = new HBox();
 		entry = new Entry();
 		entry.Text = field.GetValue(Object).ToString();
+		entry.Changed += OnEntryChanged;
 		box.Add(entry);
 		
 		Button chooseButton = new Button("...");
@@ -61,8 +62,18 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 			entry.Text = dialog.Filename.Substring(Settings.Instance.SupertuxData.Length,
 			                                          dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
 		else
-			entry.Text = Path.GetFileName(dialog.Filename);
+			entry.Text = System.IO.Path.GetFileName(dialog.Filename);
 		
 		dialog.Destroy();
+	}
+
+	private void OnEntryChanged(object o, EventArgs arg)
+	{
+		try {
+			Entry entry = (Entry) o;
+			field.SetValue(_object, entry.Text);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
 	}
 }

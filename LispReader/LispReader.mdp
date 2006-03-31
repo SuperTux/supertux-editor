@@ -20,6 +20,7 @@
     <File name="./ICustomLispSerializer.cs" subtype="Code" buildaction="Compile" />
     <File name="./LispAttributes.cs" subtype="Code" buildaction="Compile" />
     <File name="./LispSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="./FieldOrProperty.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Lisp" />

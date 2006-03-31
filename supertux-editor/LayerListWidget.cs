@@ -37,7 +37,6 @@ public class LayerListWidget : TreeView {
 		                                                       visibilityRenderer);
 		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);
 		AppendColumn(visibilityColumn);
-		Console.WriteLine("J: " + visibilityRenderer.Mode);
 		
 		CellRendererText TextRenderer = new CellRendererText();
 		TreeViewColumn TypeColumn = new TreeViewColumn();
