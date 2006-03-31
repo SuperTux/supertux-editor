@@ -24,7 +24,7 @@ public class GameObjectListWidget : TreeView
 	private void OnSectorChanged(Level level, Sector newSector)
 	{
 		TreeStore store = new TreeStore(typeof(System.Object));			
-		foreach(IGameObject Object in newSector.GameObjects) {
+		foreach(IGameObject Object in newSector.GetObjects()) {
 			if(! (Object is IObject) && !(Object is Tilemap))
 				store.AppendValues(Object);
 		}

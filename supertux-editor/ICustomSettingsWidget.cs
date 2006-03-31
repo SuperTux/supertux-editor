@@ -1,10 +1,11 @@
 using System;
 using System.Reflection;
 using Gtk;
+using LispReader;
 
 public interface ICustomSettingsWidget
 {
-	FieldInfo Field {
+	FieldOrProperty Field {
 		get;
 		set;
 	}

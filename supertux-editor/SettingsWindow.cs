@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Gtk;
+using LispReader;
 
 public class SettingsWindow
 {
 	private Window window;
 	private System.Object Object;
-	private Hashtable fieldTable = new Hashtable();
+	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	
 	public SettingsWindow(string Title, System.Object Object)
 	{
@@ -38,15 +39,14 @@ public class SettingsWindow
 		VBox box = new VBox();
 		
 		// iterate over all fields and properties
-		Type Type = Object.GetType();
-		FieldInfo[] fields = Type.GetFields();
+		Type type = Object.GetType();
 		List<Widget> editWidgets = new List<Widget>();
-		foreach(FieldInfo field in fields) {
+		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			CustomSettingsWidgetAttribute customSettings = (CustomSettingsWidgetAttribute)
-			Attribute.GetCustomAttribute(field, typeof(CustomSettingsWidgetAttribute));
+				field.GetCustomAttribute(typeof(CustomSettingsWidgetAttribute));
 			if(customSettings != null) {
-				Type type = customSettings.Type;
-				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(type);
+				Type customType = customSettings.Type;
+				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(customType);
 				customWidget.Object = Object;
 				customWidget.Field = field;
 				editWidgets.Add(customWidget.Create());
@@ -54,19 +54,19 @@ public class SettingsWindow
 			}
 			
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				Attribute.GetCustomAttribute(field, typeof(LispChildAttribute));
+				field.GetCustomAttribute(typeof(LispChildAttribute));
 			if(ChildAttrib == null)
 				continue;
 			
-			if(field.FieldType == typeof(string) || field.FieldType == typeof(float)
-				|| field.FieldType == typeof(int)) {
+			if(field.Type == typeof(string) || field.Type == typeof(float)
+				|| field.Type == typeof(int)) {
 				Entry entry = new Entry();
 				entry.Name = field.Name;
 				entry.Text = field.GetValue(Object).ToString();
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
 				editWidgets.Add(entry);
-			} else if(field.FieldType == typeof(bool)) {
+			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
 				checkButton.Active = (bool) field.GetValue(Object);
@@ -123,10 +123,10 @@ public class SettingsWindow
 	{
 		try {
 			Entry entry = (Entry) o;
-			FieldInfo field = (FieldInfo) fieldTable[entry.Name];
-			if(field.FieldType == typeof(string)) {
+			FieldOrProperty field = fieldTable[entry.Name];
+			if(field.Type == typeof(string)) {
 				field.SetValue(Object, entry.Text);
-			} else if(field.FieldType == typeof(float)) {
+			} else if(field.Type == typeof(float)) {
 				float parsed = Single.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text)
 					entry.Text = parsed.ToString();
@@ -141,7 +141,7 @@ public class SettingsWindow
 	{
 		try {
 			CheckButton checkButton = (CheckButton) o;
-			FieldInfo field = (FieldInfo) fieldTable[checkButton.Name];
+			FieldOrProperty field = fieldTable[checkButton.Name];
 			field.SetValue(Object, checkButton.Active);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);

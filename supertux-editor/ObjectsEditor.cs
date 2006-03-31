@@ -213,7 +213,7 @@ public class ObjectsEditor : IEditor
 	{
 		if(ActiveObject == null)
 			return;
-		Sector.GameObjects.Remove((IGameObject) ActiveObject);
+		Sector.Remove((IGameObject) ActiveObject);
 		ActiveObject = null;
 	}
 

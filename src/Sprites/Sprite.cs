@@ -13,7 +13,6 @@ public class Sprite : Node {
     private SpriteData.Action CurrentAction;
     private SpriteData.Action _NextAction;
     private float ActionTimeOffset;
-	public Vector Pos = new Vector();
 	
 	public float Width {
 		get {
@@ -33,7 +32,8 @@ public class Sprite : Node {
 		}
 	}
     
-    internal Sprite(SpriteData Data) {
+    internal Sprite(SpriteData Data)
+    {
         this.Data = Data;
     	CurrentAction = null;
     	if(Data.Actions.Count > 0) {
@@ -83,7 +83,13 @@ public class Sprite : Node {
         }
     }
     
-    public void Draw() {
+    public virtual void Draw()
+    {
+    	Draw(new Vector(0, 0));
+    }
+    
+    public virtual void Draw(Vector pos)
+    {
 		if(CurrentAction == null || CurrentAction.Frames.Count == 0)
 			return;
 		
@@ -97,7 +103,7 @@ public class Sprite : Node {
         }
         int AnimationFrame = ((int) AnimationTime) % CurrentAction.Frames.Count;
         Surface Surface = CurrentAction.Frames[AnimationFrame];
-        Surface.Draw(Pos - CurrentAction.Offset);
+        Surface.Draw(pos - CurrentAction.Offset);
     }
 }
     

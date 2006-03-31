@@ -62,10 +62,9 @@ public class ObjectListWidget : GLWidgetBase
 					scalex = scaley;	
 				}
 				
+				gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );	
-				ObjectSprite.Pos.X = x / scalex;
-				ObjectSprite.Pos.Y = y / scaley;				
-				ObjectSprite.Draw();
+				ObjectSprite.Draw(-ObjectSprite.Offset);
 				gl.PopMatrix();
 			}
 			//mark the selected object

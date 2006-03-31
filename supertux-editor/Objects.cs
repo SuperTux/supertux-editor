@@ -1,5 +1,8 @@
 using Sprites;
 using System;
+using LispReader;
+using DataStructures;
+using SceneGraph;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 public class SupertuxObjectAttribute : Attribute {
@@ -209,7 +212,7 @@ public class AngryStone : SimpleObject {
 }
 
 [SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
-public class FlyingPlatform : SimpleObject {
+public class FlyingPlatform : IGameObject, IObject, Node {
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -217,18 +220,50 @@ public class FlyingPlatform : SimpleObject {
 			return spriteFile;
 		}
 		set {
-			Sprite = SpriteManager.Create(value);
 			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
 		}
 	}
 	private string spriteFile = "";
 	
+	private Sprite Sprite;
+	
 	[LispChild("path")]
 	public Path Path;
+	
+	public virtual bool Resizable {
+		get {
+			return false;
+		}
+	}
 
-	public FlyingPlatform() {
+	public FlyingPlatform()
+	{
 		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");			
 	}
+	
+	public void Draw()
+	{
+		Sprite.Draw(Path.Nodes[0].Pos);
+	}
+	
+	public virtual Node GetSceneGraphNode() {
+		return this;
+	}
+	
+	public virtual void ChangeArea(RectangleF NewArea) {
+	}
+	
+	public virtual RectangleF Area {
+		get {
+			float x = Path.Nodes[0].X;
+			float y = Path.Nodes[0].Y;
+			
+			return new RectangleF(x - Sprite.Offset.X, y - Sprite.Offset.Y,
+				                  Sprite.Width, Sprite.Height);
+		}
+	}	
 }
 
 [SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite")]
@@ -287,8 +322,9 @@ public class ScriptedObject : SimpleObject {
 			return spriteFile;
 		}
 		set {
-			Sprite = SpriteManager.Create(value);
 			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
 		}
 	}
 	private string spriteFile = "";

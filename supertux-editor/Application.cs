@@ -6,6 +6,7 @@ using Glade;
 using Gdl;
 using Sdl;
 using Drawing;
+using LispReader;
 
 public class Application : IEditorApplication {
 	[Glade.Widget]
@@ -286,6 +287,7 @@ public class Application : IEditorApplication {
 
 	public static void Main(string[] args)
 	{
+		LispSerializer.SetupSerializers(typeof(Application).Assembly);
 		InitSdl();
 		
 		Gtk.Application.Init();

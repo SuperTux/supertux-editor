@@ -1,220 +1,169 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
 using Lisp;
 
-/**
- * This class allows serialization of .net Classes to/from lisp constructs.
- * You just have to annotate the class to specify a mapping from fields/lists to
- * lisp structures.
- *
- * The design is similar to System.Xml.Serialization.XmlSerializer
- */
-public class LispSerializer {
-	private Type RootType;
-	
-	public LispSerializer(Type RootType) {
-		this.RootType = RootType;
-	}
+namespace LispReader
+{
 
-	public void Write(string FileName, object Object) {
-		TextWriter Writer = new StreamWriter(FileName);
-		try {
-			Write(Writer, FileName, Object);
-		} finally {
-			Writer.Close();
-		}
-	}
-
-	public void Write(TextWriter TextWriter, string Dest, object Object) {
-		LispRootAttribute RootAttrib = (LispRootAttribute)
-			Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
-		if(RootAttrib == null)
-			throw new Exception("Type needs to have LispRoot attribute");
-
-		Writer Writer = new Writer(TextWriter);
-		Writer.StartList(RootAttrib.Name);
-		Write(Writer, Object);
-		Writer.EndList(RootAttrib.Name);
-	}
-
-	public void Write(Writer Writer, object Object) {
-		WriteType(Writer, RootType, Object);
-	}
-
-	public object Read(string FileName) {
-		TextReader Reader = new StreamReader(FileName);
-		try {
-			return Read(Reader, FileName);
-		} finally {
-			Reader.Close();
-		}
-	}
-
-	public object Read(TextReader Reader, string Source) {
-		LispRootAttribute RootAttrib = (LispRootAttribute)
-			Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
-		if(RootAttrib == null)
-			throw new Exception("Type needs to have LispRoot attribute");
-
-		Lexer Lexer = new Lexer(Reader);
-		Parser Parser = new Parser(Lexer);
-
-		List Root = Parser.Parse();
-		Properties RootP = new Properties(Root);
-
-		List List = null;
-		if(!RootP.Get(RootAttrib.Name, ref List))
-			throw new Exception("'" + Source + "' is not a " + RootAttrib.Name + " file");
+	/**
+	 * This class allows serialization of .net Classes to/from lisp constructs.
+	 * You just have to annotate the class to specify a mapping from fields/lists to
+	 * lisp structures.
+	 *
+	 * The design is similar to System.Xml.Serialization.XmlSerializer
+	 */
+	public class LispSerializer {
+		private Type RootType;
+		private static Dictionary<Type, ILispSerializer> typeSerializers
+			= new Dictionary<Type, ILispSerializer>();
 		
-		return ReadType(RootType, List);
-	}
-
-	public object Read(List List) {
-		return ReadType(RootType, List);
-	}
-
-	private object ReadType(Type type, List List) {
-		object Result = CreateObject(type);
-
-		Properties Props = new Properties(List);
+		static LispSerializer()
+		{
+			SetupSerializers(typeof(LispSerializer).Assembly);
+		}
 		
-		// iterate over all fields and properties
-		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
-			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				field.GetCustomAttribute(typeof(LispChildAttribute));
-			if(ChildAttrib != null) {
-				string Name = ChildAttrib.Name;
-				if(field.Type == typeof(int)) {
-					int val = 0;
-					if(!Props.Get(Name, ref val))
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					else
-						field.SetValue(Result, val);
-				} else if(field.Type == typeof(string)) {
-					string val = null;
-					if(!Props.Get(Name, ref val))
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					else
-						field.SetValue(Result, val);
-				} else if(field.Type == typeof(float)) {
-					float val = 0;
-					if(!Props.Get(Name, ref val))
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					else
-						field.SetValue(Result, val);
-				} else if(field.Type == typeof(bool)) {
-					bool val = false;
-					if(!Props.Get(Name, ref val))
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					else
-						field.SetValue(Result, val);
-				} else {
-					LispRootAttribute rootAttrib = (LispRootAttribute)
-					Attribute.GetCustomAttribute(field.Type, typeof(LispRootAttribute));
-					if(rootAttrib == null)
-						throw new Exception("Type " + field.Type + " not supported for LispChild");
-					
-					List val = null;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {
-						object oval = ReadType(field.Type, val);
-						field.SetValue(Result, oval);
-					}
-				}
+		public LispSerializer(Type RootType)
+		{
+			this.RootType = RootType;
+		}
+
+		public void Write(string FileName, object Object)
+		{
+			TextWriter Writer = new StreamWriter(FileName);
+			try {
+				Write(Writer, FileName, Object);
+			} finally {
+				Writer.Close();
 			}
+		}
+
+		public void Write(TextWriter TextWriter, string Dest, object Object)
+		{
+			LispRootAttribute rootAttrib = (LispRootAttribute)
+				Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
+			if(rootAttrib == null)
+				throw new Exception("Type needs to have LispRoot attribute");
+
+			Writer Writer = new Writer(TextWriter);
+			Write(Writer, rootAttrib.Name, Object);
+		}
+
+		public void Write(Writer Writer, string name, object Object)
+		{
+			WriteType(Writer, RootType, name, Object);
+		}
+
+		public object Read(string FileName)
+		{
+			TextReader Reader = new StreamReader(FileName);
+			try {
+				return Read(Reader, FileName);
+			} finally {
+				Reader.Close();
+			}
+		}
+
+		public object Read(TextReader Reader, string Source)
+		{
+			LispRootAttribute RootAttrib = (LispRootAttribute)
+				Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
+			if(RootAttrib == null)
+				throw new Exception("Type needs to have LispRoot attribute");
+
+			Lexer Lexer = new Lexer(Reader);
+			Parser Parser = new Parser(Lexer);
+
+			List Root = Parser.Parse();
+			Properties RootP = new Properties(Root);
+
+			List List = null;
+			if(!RootP.Get(RootAttrib.Name, ref List))
+				throw new Exception("'" + Source + "' is not a " + RootAttrib.Name + " file");
 			
-			foreach(LispChildsAttribute ChildsAttrib in
-					field.GetCustomAttributes(typeof(LispChildsAttribute))) {
-				if(ChildsAttrib != null) {
-					object list = field.GetValue(Result);
-					Type ListType = field.Type;
-					MethodInfo AddMethod = ListType.GetMethod(
-							"Add", new Type[] { ChildsAttrib.ListType }, null);
-					if(AddMethod == null)
-						throw new Exception("No Add method found for field " + field.Name);
-
-					foreach(List ChildList in Props.GetList(ChildsAttrib.Name)) {
-						object child = ReadType(ChildsAttrib.Type, ChildList);
-						AddMethod.Invoke(list, new object[] { child } );
-					}
-				}
-			}			
+			return ReadType(RootType, List);
 		}
 
-		if(Result is ICustomLispSerializer) {
-			ICustomLispSerializer Custom = (ICustomLispSerializer) Result;
-			Custom.CustomLispRead(Props);
-			Custom.FinishRead();
+		public object Read(List List)
+		{
+			return ReadType(RootType, List);
 		}
 
-		return Result;
-	}
-
-	private void WriteType(Writer Writer, Type type, object Object) {
-		
-		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
-			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				field.GetCustomAttribute(typeof(LispChildAttribute));
-			if(ChildAttrib != null) {		
-				object Value = field.GetValue(Object);
-				if(Value != null) {
-					if(ChildAttrib.Translatable) {
-						Writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
-					} else {
-						Type childType = field.Type;
-						LispRootAttribute rootAttrib = (LispRootAttribute)
-							Attribute.GetCustomAttribute(childType, typeof(LispRootAttribute));
-						if(rootAttrib != null) {
-							Writer.StartList(ChildAttrib.Name);
-							WriteType(Writer, childType, Value);
-							Writer.EndList(ChildAttrib.Name);
-						} else {
-							Writer.Write(ChildAttrib.Name, Value);
-						}
-					}
-				} else {
-					Console.WriteLine("Warning: Field '" + field.Name + "' is null");
-				}
-			}
-
-			foreach(LispChildsAttribute ChildsAttrib in
-					field.GetCustomAttributes(typeof(LispChildsAttribute))) {
-				if(ChildsAttrib != null) {
-					object list = field.GetValue(Object);
-					if(! (list is IEnumerable))
-						throw new Exception("Field '" + field.Name + "' is not IEnumerable");
-					
-					IEnumerable enumerable = (IEnumerable) list;
-
-					foreach(object ChildObject in enumerable) {
-						if(ChildsAttrib.Type.IsAssignableFrom(
-									ChildObject.GetType())) {
-							Writer.StartList(ChildsAttrib.Name);
-							WriteType(Writer, ChildsAttrib.Type, ChildObject);
-							Writer.EndList(ChildsAttrib.Name);
-						}
-					}
-				}
-			}
+		private object ReadType(Type type, List list)
+		{
+			ILispSerializer serializer = GetSerializer(type);
+			if(serializer == null)
+				serializer = CreateRootSerializer(type);
+			
+			return serializer.Read(list);
 		}		
+
+		private void WriteType(Writer writer, Type type, string name, object Object)
+		{
+			ILispSerializer serializer = GetSerializer(type);
+			if(serializer == null)
+				serializer = CreateRootSerializer(type);
 			
-		if(Object is ICustomLispSerializer) {
-			ICustomLispSerializer Custom = (ICustomLispSerializer) Object;
-			Custom.CustomLispWrite(Writer);
+			serializer.Write(writer, name, Object);
+		}
+
+		private static object CreateObject(Type Type)
+		{
+			// create object
+			ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
+			if(Constructor == null)
+				throw new Exception("Type '" + Type + "' has no public constructor without arguments");
+			object Result = Constructor.Invoke(new object[] {});
+
+			return Result;
+		}
+		
+		public static ILispSerializer GetSerializer(Type type)
+		{
+			ILispSerializer result;
+			typeSerializers.TryGetValue(type, out result);
+			return result;
+		}
+		
+		public static void SetupSerializers(Assembly assembly)
+		{
+			foreach(Type type in assembly.GetTypes()) {
+				ScanType(type);
+			}
+		}
+		
+		public static void ScanType(Type type)
+		{
+			foreach(Type nestedType in type.GetNestedTypes())
+				ScanType(nestedType);
+			
+			LispCustomSerializerAttribute customSerializer =
+			 	(LispCustomSerializerAttribute)
+			 	Attribute.GetCustomAttribute(type, typeof(LispCustomSerializerAttribute));
+			if(customSerializer != null) {
+				object instance = CreateObject(type);
+				typeSerializers.Add(customSerializer.Type, (ILispSerializer) instance);
+				return;
+			}
+			
+			LispRootAttribute rootAttrib = (LispRootAttribute)
+				Attribute.GetCustomAttribute(type, typeof(LispRootAttribute));
+			if(rootAttrib != null) {
+				LispRootSerializer serializer = new LispRootSerializer(type);
+				typeSerializers.Add(type, serializer);
+				return;
+			}
+		}
+		
+		internal static ILispSerializer CreateRootSerializer(Type type)
+		{
+			LispRootSerializer serializer = new LispRootSerializer(type);
+			typeSerializers.Add(type, serializer);
+			
+			return serializer;
 		}
 	}
 
-	private object CreateObject(Type Type) {
-		// create object
-		ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
-		if(Constructor == null)
-			throw new Exception("Type '" + Type + "' has no public constructor without arguments");
-		object Result = Constructor.Invoke(new object[] {});
-
-		return Result;
-	}
 }
-

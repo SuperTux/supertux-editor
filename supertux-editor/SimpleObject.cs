@@ -2,11 +2,12 @@ using DataStructures;
 using Sprites;
 using System;
 using Lisp;
+using LispReader;
 using Drawing;
 using OpenGl;
 using SceneGraph;
 
-public abstract class SimpleObject : IGameObject, IObject, ICustomLispSerializer {
+public abstract class SimpleObject : IGameObject, IObject, Node {
 	[LispChild("x")]
 	public float X;
 	[LispChild("y")]
@@ -27,35 +28,35 @@ public abstract class SimpleObject : IGameObject, IObject, ICustomLispSerializer
 			return false;
 		}
 	}
-
-	protected Sprite Sprite;
+	
+	private Sprite sprite;
+	protected Sprite Sprite {
+		get {
+			return sprite;
+		}
+		set {
+			sprite = value;
+		}
+	}
 
 	public virtual void ChangeArea(RectangleF NewArea) {
 		X = NewArea.Left;
 		Y = NewArea.Top;
-		Sprite.Pos.X = X;
-		Sprite.Pos.Y = Y;
 	}
 
-	public virtual void FinishRead() {
-		if(Sprite != null) {
-			Sprite.Pos.X = X;
-			Sprite.Pos.Y = Y;
-		}
-	}
-
-	public virtual void CustomLispWrite(Writer Writer) {
-	}
-
-	public virtual void CustomLispRead(Properties Props) {
+	public virtual void Draw() {
+		if(Sprite == null)
+			return;
+		
+		Sprite.Draw(new Vector(X, Y));
 	}
 	
 	public virtual Node GetSceneGraphNode() {
-		return Sprite;
+		return this;
 	}
 }
 
-public class SimpleObjectArea : SimpleObject, Node
+public class SimpleObjectArea : SimpleObject
 {
 	[LispChild("width")]
 	public float Width = 32;
@@ -76,7 +77,7 @@ public class SimpleObjectArea : SimpleObject, Node
 		}
 	}
 	
-	public void Draw() {
+	public override void Draw() {
 		float left = X;
 		float right = X + Width;
 		float top = Y;

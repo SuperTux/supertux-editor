@@ -21,3 +21,11 @@ public class ChooseResourceSetting : CustomSettingsWidgetAttribute
 	}
 }
 
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
+				AllowMultiple=false)]
+public class ChooseColorSetting : CustomSettingsWidgetAttribute
+{
+	public ChooseColorSetting() : base(typeof(ChooseColorWidget))
+	{
+	}
+}

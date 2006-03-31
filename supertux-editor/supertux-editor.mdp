@@ -60,6 +60,8 @@
     <File name="./ObjectListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./LevelUtil.cs" subtype="Code" buildaction="Compile" />
     <File name="./Path.cs" subtype="Code" buildaction="Compile" />
+    <File name="./ColorSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="./ChooseColorWidget.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />

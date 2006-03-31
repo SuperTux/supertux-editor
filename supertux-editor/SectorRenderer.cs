@@ -8,12 +8,12 @@ public class SectorRenderer : RenderView
 	private ColorNode objectsColorNode;
 	private NodeWithChilds objectsNode;
 	
-	public SectorRenderer(Level Level, Sector Sector)
+	public SectorRenderer(Level level, Sector sector)
 	{
 		Layer Layer = new Layer();
 		
-		foreach(Tilemap tilemap in Sector.GetObjects(typeof(Tilemap))) {
-			Node node = new TilemapNode(tilemap, Level.Tileset);
+		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
+			Node node = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
 			Layer.Add(tilemap.Layer, colorNode);
 			colors[tilemap] = colorNode;
@@ -23,13 +23,16 @@ public class SectorRenderer : RenderView
 		objectsColorNode = new ColorNode(objectsNode, new Color(1f, 1f, 1f, 1f));
 		Layer.Add(1, objectsColorNode);
 		
-		foreach(IObject Object in Sector.GetObjects(typeof(IObject))) {
+		foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
 			Node node = Object.GetSceneGraphNode();
 			if(node != null)
 				objectsNode.AddChild(node);
 		}
 		
 		this.SceneGraphRoot = Layer;
+		
+		sector.ObjectAdded += OnObjectAdded;
+		sector.ObjectRemoved += OnObjectRemoved;
 	}
 	
 	public void SetTilemapColor(Tilemap tilemap, Color color)
@@ -43,5 +46,27 @@ public class SectorRenderer : RenderView
 	{
 		objectsColorNode.Color = color;
 		QueueDraw();
+	}
+	
+	private void OnObjectAdded(Sector sector, IGameObject Object)
+	{
+		if(! (Object is IObject))
+			return;
+		
+		IObject iObject = (IObject) Object;
+		Node node = iObject.GetSceneGraphNode();
+		if(node != null)
+			objectsNode.AddChild(node);
+	}
+	
+	private void OnObjectRemoved(Sector sector, IGameObject Object)
+	{
+		if(! (Object is IObject))
+			return;
+		
+		IObject iObject = (IObject) Object;
+		Node node = iObject.GetSceneGraphNode();
+		if(node != null)
+			objectsNode.RemoveChild(node);
 	}
 }

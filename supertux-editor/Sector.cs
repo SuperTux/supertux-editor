@@ -3,6 +3,10 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using Lisp;
+using LispReader;
+
+public delegate void ObjectAddedHandler(Sector sector, IGameObject Object);
+public delegate void ObjectRemovedHandler(Sector sector, IGameObject Object);
 
 [LispRootAttribute("sector")]
 public class Sector : ICustomLispSerializer {
@@ -16,7 +20,10 @@ public class Sector : ICustomLispSerializer {
 	[LispChild("init-script")]
 	public string InitScript = "";
 
-	public List<IGameObject> GameObjects = new List<IGameObject> ();
+	private List<IGameObject> GameObjects = new List<IGameObject> ();
+	
+	public event ObjectAddedHandler ObjectAdded;
+	public event ObjectRemovedHandler ObjectRemoved;
 
 	private class DynamicList : IEnumerable {
 		public Sector Sector;
@@ -34,6 +41,29 @@ public class Sector : ICustomLispSerializer {
 		Result.Sector = this;
 		Result.ObjectsType = ObjectsType;
 		return Result;
+	}
+	public IEnumerable<IGameObject> GetObjects() {
+		return GameObjects;
+	}
+	
+	public void Add(IGameObject Object)
+	{
+		GameObjects.Add(Object);
+		try {
+			ObjectAdded(this, Object);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
+	}
+	
+	public void Remove(IGameObject Object)
+	{
+		GameObjects.Remove(Object);
+		try {
+			ObjectRemoved(this, Object);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
 	}
 	
 	public void CustomLispRead(Properties props) {
@@ -60,9 +90,7 @@ public class Sector : ICustomLispSerializer {
 			
 			LispSerializer serializer = new LispSerializer(type);
 			foreach(object Object in GetObjects(type)) {
-				Writer.StartList(objectAttribute.Name);
-				serializer.Write(Writer, Object);
-				Writer.EndList(objectAttribute.Name);
+				serializer.Write(Writer, objectAttribute.Name, Object);
 			}
 		}
 		

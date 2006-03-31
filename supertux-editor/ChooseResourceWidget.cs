@@ -2,11 +2,12 @@ using System;
 using System.IO;
 using System.Reflection;
 using Gtk;
+using LispReader;
 
 public class ChooseResourceWidget : ICustomSettingsWidget
 {
-	public FieldInfo field;
-	public FieldInfo Field {
+	public FieldOrProperty field;
+	public FieldOrProperty Field {
 		get {
 			return field;
 		}
@@ -31,7 +32,10 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 	{
 		HBox box = new HBox();
 		entry = new Entry();
-		entry.Text = field.GetValue(Object).ToString();
+		string val = (string) field.GetValue(Object);
+		if(val != null)
+			entry.Text = val;
+		
 		entry.Changed += OnEntryChanged;
 		box.Add(entry);
 		
