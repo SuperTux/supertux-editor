@@ -86,25 +86,25 @@ public class LispSerializer {
 				field.GetCustomAttribute(typeof(LispChildAttribute));
 			if(ChildAttrib != null) {
 				string Name = ChildAttrib.Name;
-				if(field.FieldType == typeof(int)) {
+				if(field.Type == typeof(int)) {
 					int val = 0;
 					if(!Props.Get(Name, ref val))
 						Console.WriteLine("Field '" + Name + "' not in lisp");
 					else
 						field.SetValue(Result, val);
-				} else if(field.FieldType == typeof(string)) {
+				} else if(field.Type == typeof(string)) {
 					string val = null;
 					if(!Props.Get(Name, ref val))
 						Console.WriteLine("Field '" + Name + "' not in lisp");
 					else
 						field.SetValue(Result, val);
-				} else if(field.FieldType == typeof(float)) {
+				} else if(field.Type == typeof(float)) {
 					float val = 0;
 					if(!Props.Get(Name, ref val))
 						Console.WriteLine("Field '" + Name + "' not in lisp");
 					else
 						field.SetValue(Result, val);
-				} else if(field.FieldType == typeof(bool)) {
+				} else if(field.Type == typeof(bool)) {
 					bool val = false;
 					if(!Props.Get(Name, ref val))
 						Console.WriteLine("Field '" + Name + "' not in lisp");
@@ -112,25 +112,25 @@ public class LispSerializer {
 						field.SetValue(Result, val);
 				} else {
 					LispRootAttribute rootAttrib = (LispRootAttribute)
-					Attribute.GetCustomAttribute(field.FieldType, typeof(LispRootAttribute));
+					Attribute.GetCustomAttribute(field.Type, typeof(LispRootAttribute));
 					if(rootAttrib == null)
-						throw new Exception("Type " + field.FieldType + " not supported for LispChild");
+						throw new Exception("Type " + field.Type + " not supported for LispChild");
 					
 					List val = null;
 					if(!Props.Get(Name, ref val)) {
 						Console.WriteLine("Field '" + Name + "' not in lisp");
 					} else {
-						object oval = ReadType(field.FieldType, val);
+						object oval = ReadType(field.Type, val);
 						field.SetValue(Result, oval);
 					}
 				}
 			}
 			
 			foreach(LispChildsAttribute ChildsAttrib in
-					Attribute.GetCustomAttributes(field, typeof(LispChildsAttribute))) {
+					field.GetCustomAttributes(typeof(LispChildsAttribute))) {
 				if(ChildsAttrib != null) {
 					object list = field.GetValue(Result);
-					Type ListType = field.FieldType;
+					Type ListType = field.Type;
 					MethodInfo AddMethod = ListType.GetMethod(
 							"Add", new Type[] { ChildsAttrib.ListType }, null);
 					if(AddMethod == null)
@@ -139,62 +139,6 @@ public class LispSerializer {
 					foreach(List ChildList in Props.GetList(ChildsAttrib.Name)) {
 						object child = ReadType(ChildsAttrib.Type, ChildList);
 						AddMethod.Invoke(list, new object[] { child } );
-					}
-				}
-			}			
-		}
-		
-		PropertyInfo[] properties = type.GetProperties();
-		foreach(PropertyInfo property in properties) {
-			if(!property.CanWrite)
-				continue;
-			
-			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				Attribute.GetCustomAttribute(property, typeof(LispChildAttribute));
-			if(ChildAttrib != null) {
-				string Name = ChildAttrib.Name;
-				Type ptype = property.PropertyType;
-				if(ptype == typeof(int)) {
-					int val = 0;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {
-						property.SetValue(Result, val, null);
-					}
-				} else if(ptype == typeof(string)) {
-					string val = null;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {
-						property.SetValue(Result, val, null);
-					}
-				} else if(ptype == typeof(float)) {
-					float val = 0;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {
-						property.SetValue(Result, val, null);
-					}
-				} else if(ptype == typeof(bool)) {
-					bool val = false;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {
-						property.SetValue(Result, val, null);
-					}
-					break;
-				} else {
-					LispRootAttribute rootAttrib = (LispRootAttribute)
-					Attribute.GetCustomAttribute(ptype, typeof(LispRootAttribute));
-					if(rootAttrib == null)
-						throw new Exception("Type " + ptype + " not supported for LispChild");
-					
-					List val = null;
-					if(!Props.Get(Name, ref val)) {
-						Console.WriteLine("Field '" + Name + "' not in lisp");
-					} else {	
-						object oval = ReadType(ptype, val);
-						property.SetValue(Result, oval, null);
 					}
 				}
 			}			
@@ -210,18 +154,17 @@ public class LispSerializer {
 	}
 
 	private void WriteType(Writer Writer, Type type, object Object) {
-		FieldInfo[] fields = type.GetFields();
 		
-		foreach(FieldInfo field in fields) {
+		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				Attribute.GetCustomAttribute(field, typeof(LispChildAttribute));
-			if(ChildAttrib != null) {
+				field.GetCustomAttribute(typeof(LispChildAttribute));
+			if(ChildAttrib != null) {		
 				object Value = field.GetValue(Object);
 				if(Value != null) {
 					if(ChildAttrib.Translatable) {
 						Writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
 					} else {
-						Type childType = field.FieldType;
+						Type childType = field.Type;
 						LispRootAttribute rootAttrib = (LispRootAttribute)
 							Attribute.GetCustomAttribute(childType, typeof(LispRootAttribute));
 						if(rootAttrib != null) {
@@ -238,8 +181,7 @@ public class LispSerializer {
 			}
 
 			foreach(LispChildsAttribute ChildsAttrib in
-					Attribute.GetCustomAttributes(field,
-												  typeof(LispChildsAttribute))) {
+					field.GetCustomAttributes(typeof(LispChildsAttribute))) {
 				if(ChildsAttrib != null) {
 					object list = field.GetValue(Object);
 					if(! (list is IEnumerable))
@@ -257,37 +199,7 @@ public class LispSerializer {
 					}
 				}
 			}
-		}
-		
-		PropertyInfo[] properties = type.GetProperties();
-		foreach(PropertyInfo property in properties) {
-			if(!property.CanRead)
-				continue;
-			
-			LispChildAttribute ChildAttrib = (LispChildAttribute)
-				Attribute.GetCustomAttribute(property, typeof(LispChildAttribute));
-			if(ChildAttrib != null) {
-				object Value = property.GetValue(Object, null);
-				if(Value != null) {
-					if(ChildAttrib.Translatable) {
-						Writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
-					} else {
-						Type childType = property.PropertyType;
-						LispRootAttribute rootAttrib = (LispRootAttribute)
-							Attribute.GetCustomAttribute(childType, typeof(LispRootAttribute));
-						if(rootAttrib != null) {
-							Writer.StartList(ChildAttrib.Name);
-							WriteType(Writer, childType, Value);
-							Writer.EndList(ChildAttrib.Name);
-						} else {
-							Writer.Write(ChildAttrib.Name, Value);
-						}						
-					}
-				} else {
-					Console.WriteLine("Warning: Field '" + property.Name + "' is null");
-				}				
-			}
-		}
+		}		
 			
 		if(Object is ICustomLispSerializer) {
 			ICustomLispSerializer Custom = (ICustomLispSerializer) Object;
