@@ -302,3 +302,27 @@ public class SecretArea : SimpleObjectArea {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);
 	}
 }
+
+[SupertuxObject("particles-rain", "images/engine/editor/rain.png")]
+public class RainParticles : IGameObject {
+}
+
+// TODO need an image for ghost particles...
+[SupertuxObject("particles-ghosts", "images/engine/editor/rain.png")]
+public class GhostParticles : IGameObject {
+}
+
+[SupertuxObject("particles-snow", "images/engine/editor/snow.png")]
+public class SnowParticles : IGameObject {
+}
+
+[SupertuxObject("particles-clouds", "images/engine/editor/clouds.png")]
+public class CloudParticles : IGameObject {
+}
+
+[SupertuxObject("leveltime", "images/engine/editor/clock.png")]
+public class LevelTime : IGameObject {
+	[LispChild("time")]
+	public float Time;
+}
+

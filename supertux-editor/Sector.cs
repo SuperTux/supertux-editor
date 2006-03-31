@@ -16,9 +16,6 @@ public class Sector : ICustomLispSerializer {
 	[LispChild("init-script")]
 	public string InitScript = "";
 
-	[LispChilds(Name = "camera", Type = typeof(Camera), ListType = typeof(IGameObject)),
-	 LispChilds(Name = "background", Type = typeof(Background), ListType = typeof(IGameObject)),
-	 LispChilds(Name = "tilemap", Type = typeof(Tilemap), ListType = typeof(IGameObject))]
 	public List<IGameObject> GameObjects = new List<IGameObject> ();
 
 	private class DynamicList : IEnumerable {

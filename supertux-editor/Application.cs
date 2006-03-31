@@ -170,6 +170,7 @@ public class Application : IEditorApplication {
 			if(NewLevel.Version < 2)
 				throw new Exception("Old Level Format not supported");
 			ChangeCurrentLevel(NewLevel);
+			this.FileName = Filename;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}

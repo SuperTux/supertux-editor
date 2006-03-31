@@ -4,6 +4,8 @@ using SceneGraph;
 using Lisp;
 using System.Collections.Generic;
 
+// TODO need new image
+[SupertuxObject("tilemap", "images/engine/editor/background.png")]
 public class Tilemap : Field<uint>, IGameObject, ICustomLispSerializer {
 	[LispChild("layer")]
 	public string LayerName;

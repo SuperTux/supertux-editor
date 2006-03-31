@@ -44,7 +44,7 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 	
 	private void OnChoose(object o, EventArgs args)
 	{
-		FileChooserDialog dialog = new FileChooserDialog("Choose a Level", null, FileChooserAction.Open, new object[] {});
+		FileChooserDialog dialog = new FileChooserDialog("Choose resource", null, FileChooserAction.Open, new object[] {});
 		dialog.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 		dialog.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
 		dialog.DefaultResponse = Gtk.ResponseType.Ok;

@@ -17,7 +17,7 @@ public class Properties {
             if(! (o is List))
                 throw new Exception("Child of properties lisp is not a list");
             List ChildList = (List) o;
-            if(ChildList.Length > 1) {
+            if(ChildList.Length > 0) {
                 if(! (ChildList[0] is Symbol))
                     throw new Exception("property has no symbol as name");
                 Symbol name = (Symbol) ChildList[0];

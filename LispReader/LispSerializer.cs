@@ -20,19 +20,20 @@ public class LispSerializer {
 
 	public void Write(string FileName, object Object) {
 		TextWriter Writer = new StreamWriter(FileName);
-		Write(Writer, FileName, Object);
-		Writer.Close();
+		try {
+			Write(Writer, FileName, Object);
+		} finally {
+			Writer.Close();
+		}
 	}
 
 	public void Write(TextWriter TextWriter, string Dest, object Object) {
-		Writer Writer = new Writer(TextWriter);
-		
 		LispRootAttribute RootAttrib = (LispRootAttribute)
 			Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
 		if(RootAttrib == null)
 			throw new Exception("Type needs to have LispRoot attribute");
 
-
+		Writer Writer = new Writer(TextWriter);
 		Writer.StartList(RootAttrib.Name);
 		Write(Writer, Object);
 		Writer.EndList(RootAttrib.Name);
@@ -44,7 +45,11 @@ public class LispSerializer {
 
 	public object Read(string FileName) {
 		TextReader Reader = new StreamReader(FileName);
-		return Read(Reader, FileName);
+		try {
+			return Read(Reader, FileName);
+		} finally {
+			Reader.Close();
+		}
 	}
 
 	public object Read(TextReader Reader, string Source) {

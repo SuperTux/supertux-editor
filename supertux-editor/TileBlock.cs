@@ -31,7 +31,7 @@ public class TileBlock : Field<uint> {
 		uint H = Math.Min((uint) (Tilemap.Height - pos.Y), Height);
 		for(uint y = StartY; y < H; ++y) {
 			for(uint x = StartX; x < W; ++x) {
-				if(this[x, y] == 0)
+				if(this[x, y] == 0 && (Width > 1 || Height > 1))
 					continue;
 				
 				Tilemap[(uint) (pos.X + x), (uint) (pos.Y + y)] = this[x, y];
