@@ -201,6 +201,19 @@ public class Bell : SimpleObject {
 	}
 }
 
+[SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite")]
+public class WilloWisp : SimpleObject {
+	[LispChild("sector")]
+	public string Sector;
+	[LispChild("spawnpoint")]
+	public string SpawnPoint;
+	
+	public WilloWisp() {
+		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
+		Sprite.Action = "idle";
+	}
+}
+
 [SupertuxObject("rock", "images/objects/rock/rock.sprite")]
 public class Rock : SimpleObject {
 	public Rock() {
