@@ -17,7 +17,8 @@ namespace Resources
         }
 
         // Try to avoid this function
-        public override string GetFilename(string ResourcePath)
+        [System.Obsolete("Do not use GetFileName: resource could be inside an archive file")]        
+        public override string GetFileName(string ResourcePath)
         {
             return DataDir + ResourcePath;
         }

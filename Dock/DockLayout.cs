@@ -44,7 +44,7 @@ namespace Gdl
 		Widget itemsUI, layoutsUI;
 		DockMaster master = null;
 		ArrayList layouts;
-		Hashtable placeholders;
+		protected Hashtable placeholders;
 		bool loading;
 
 		CheckButton locked_check;
@@ -628,7 +628,7 @@ namespace Gdl
 			}
 		}
 
-		void LoadLayoutCb (object sender, EventArgs a)
+		protected void LoadLayoutCb (object sender, EventArgs a)
 		{
 			TreeModel model;
 			TreeIter iter;
@@ -637,7 +637,7 @@ namespace Gdl
 				LoadLayout ((string) model.GetValue (iter, NAME_COL));
 		}
 
-		void DeleteLayoutCb (object sender, EventArgs a)
+		protected void DeleteLayoutCb (object sender, EventArgs a)
 		{
 			TreeModel model;
 			TreeIter iter;

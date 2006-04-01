@@ -25,7 +25,7 @@ public class TextureManager {
 
 	private static ImageTexture CreateImageTexture(string Resourcepath) {
 		IntPtr image = IMG.Load(
-				ResourceManager.Instance.GetFilename(Resourcepath));
+				ResourceManager.Instance.GetFileName(Resourcepath));
 		if(image == IntPtr.Zero) {
 			throw new Exception("Couldn't load image '" + Resourcepath
 					+ "' : " + SDL.GetError());

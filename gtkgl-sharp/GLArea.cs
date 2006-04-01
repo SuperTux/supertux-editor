@@ -39,17 +39,15 @@ namespace Gtk
 
 	public class GLArea : DrawingArea
 	{
-		static GLib.GType type = RegisterGType (typeof (GLArea));
-
 		GLContext context;
 
-		public GLArea (int[] attributeList) : base (type)
+		public GLArea (int[] attributeList)
 		{
 			DoubleBuffered = false;
 			context = GLContext.CreateContext (attributeList, null, IntPtr.Zero);
 		}
 
-		public GLArea (int[] attributeList, GLArea share) : base (type)
+		public GLArea (int[] attributeList, GLArea share)
 		{
 			DoubleBuffered = false;
 			context = GLContext.CreateContext (attributeList,
@@ -64,12 +62,6 @@ namespace Gtk
 		public void SwapBuffers ()
 		{
 			context.SwapBuffers (this.GdkWindow.Handle);
-		}
-
-		public static new GLib.GType GType {
-			get {
-				return type;
-			}
 		}
 	}
 }

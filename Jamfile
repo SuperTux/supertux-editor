@@ -9,15 +9,15 @@ CSharp LispReader.dll : [ Wildcard LispReader : *.cs ] ;
 LinkWith LispReader.dll : Lisp.dll ;
 CSharp Resources.dll : [ Wildcard Resources : *.cs ] ;
 
-DIRS = src src/Drawing src/DataStructures src/Libs src/SceneGraph src/Sprites ;
-for i in $(DIRS) {
-    SOURCES += [ Wildcard $(i) : *.cs ] ;
-}
-CSharp supertux.exe
-    : $(SOURCES)
-;
-LinkWith supertux.exe : Lisp.dll Resources.dll ;
-CSFLAGS on supertux.exe += -debug -unsafe ;
+# DIRS = src src/Drawing src/DataStructures src/Libs src/SceneGraph src/Sprites ;
+# for i in $(DIRS) {
+#     SOURCES += [ Wildcard $(i) : *.cs ] ;
+# }
+# CSharp supertux.exe
+#     : $(SOURCES)
+# ;
+# LinkWith supertux.exe : Lisp.dll Resources.dll ;
+# CSFLAGS on supertux.exe += -debug -unsafe ;
 
 CSharp libeditor.dll
     :   [ Wildcard libeditor/DataStructures : *.cs ]

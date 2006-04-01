@@ -57,10 +57,12 @@ namespace Gdk
 		static extern IntPtr glXChooseVisual (IntPtr display,
 			int screen,
 			int[] attribList);
-
+		
+		/*
 		[DllImport("GL")]
 		static extern void glXDestroyContext(IntPtr display,
-			IntPtr context);
+		                                       IntPtr context);
+		*/
 
 		[DllImport("X11")]
 		static extern void XFree (IntPtr reference);
