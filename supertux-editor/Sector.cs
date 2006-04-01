@@ -50,7 +50,8 @@ public class Sector : ICustomLispSerializer {
 	{
 		GameObjects.Add(Object);
 		try {
-			ObjectAdded(this, Object);
+			if(ObjectAdded != null)
+				ObjectAdded(this, Object);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -60,7 +61,8 @@ public class Sector : ICustomLispSerializer {
 	{
 		GameObjects.Remove(Object);
 		try {
-			ObjectRemoved(this, Object);
+			if(ObjectRemoved != null)
+				ObjectRemoved(this, Object);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}

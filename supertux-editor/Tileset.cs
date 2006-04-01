@@ -2,12 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Lisp;
+using LispReader;
 using Resources;
 
 public class Tileset {
-    private List<Tile> Tiles = new List<Tile>();
-    private string BaseDir;
+	private List<Tile> tiles = new List<Tile>();
+	private Dictionary<string, TileGroup> tileGroups = new Dictionary<string, TileGroup>();
+    private string baseDir;
 	public static bool LoadEditorImages;
+	
+	public IDictionary<string, TileGroup> TileGroups {
+		get {
+			return tileGroups;
+		}
+	}
 
 	public const int TILE_WIDTH = 32;
 	public const int TILE_HEIGHT = 32;
@@ -16,17 +24,17 @@ public class Tileset {
     }
 
     public Tileset(string Resourcepath) {
-        BaseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
+        baseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
 
         Properties TilesP = new Properties(TilesL);
         foreach(List list in TilesP.GetList("tile")) {
             try {
-                Tile Tile = new Tile();
-                ParseTile(Tile, list);
-                while(Tiles.Count <= Tile.Id)
-                    Tiles.Add(null);
-                Tiles[Tile.Id] = Tile;
+                Tile tile = new Tile();
+                ParseTile(tile, list);
+                while(tiles.Count <= tile.Id)
+                    tiles.Add(null);
+                tiles[tile.Id] = tile;
             } catch(Exception e) {
                 Console.WriteLine("Couldn't parse a Tile: " + e.Message);
 				Console.WriteLine(e.StackTrace);
@@ -41,25 +49,36 @@ public class Tileset {
 				Console.WriteLine(e.StackTrace);
 			}
 		}
+		
+		LispSerializer serializer = new LispSerializer(typeof(TileGroup));
+    	foreach(List list in TilesP.GetList("tilegroup")) {
+    		try {
+    			TileGroup group = (TileGroup) serializer.Read(list);
+    			tileGroups.Add(group.Name, group);
+    		} catch(Exception e) {
+    			Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
+    			Console.WriteLine(e.StackTrace);
+    		}
+    	}
     }
 
 	public bool IsValid(uint Id) {
-		return Tiles[(int) Id] != null;
+		return tiles[(int) Id] != null;
 	}
 
     public Tile Get(uint Id) {
-        Tile Tile = Tiles[(int) Id];
-		if(Tile == null)
+        Tile tile = tiles[(int) Id];
+		if(tile == null)
 			return null;
 
-        Tile.LoadSurfaces(BaseDir, LoadEditorImages);
+        tile.LoadSurfaces(baseDir, LoadEditorImages);
         
-        return Tile;
+        return tile;
     }
 
 	public uint LastTileId {
 		get {
-			return (uint) Tiles.Count;
+			return (uint) tiles.Count;
 		}
 	}
 
@@ -100,9 +119,9 @@ public class Tileset {
 				tile.Id = ids[id];
 				tile.Attributes = (Tile.Attribute) attributes[id];
 
-                while(Tiles.Count <= tile.Id)
-                    Tiles.Add(null);
-                Tiles[tile.Id] = tile;
+                while(tiles.Count <= tile.Id)
+                    tiles.Add(null);
+                tiles[tile.Id] = tile;
 
 				id++;
 			}
@@ -116,15 +135,15 @@ public class Tileset {
         if(!Props.Get("id", ref Tile.Id))
             throw new Exception("Tile has no ID");
 
-		List Images = null;
-		Props.Get("images", ref Images);
-		if(Images != null)
-			Tile.Images = ParseTileImages(Images);
+		List images = null;
+		Props.Get("images", ref images);
+		if(images != null)
+			Tile.Images = ParseTileImages(images);
 		
-		List EditorImages = null;
-		Props.Get("editor-images", ref EditorImages);
-		if(EditorImages != null) {
-			Tile.EditorImages = ParseTileImages(EditorImages);
+		List editorImages = null;
+		Props.Get("editor-images", ref editorImages);
+		if(editorImages != null) {
+			Tile.EditorImages = ParseTileImages(editorImages);
 		}
 
         bool val = false;
@@ -165,13 +184,13 @@ public class Tileset {
     }
 
 	private List<Tile.ImageResource> ParseTileImages(List list) {
-		List<Tile.ImageResource> Result = new List<Tile.ImageResource>();
+		List<Tile.ImageResource> result = new List<Tile.ImageResource>();
 
 		for(int i = 1; i < list.Length; ++i) {
 			if(list[i] is string) {
 				Tile.ImageResource resource = new Tile.ImageResource();
 				resource.Filename = (string) list[i];
-				Result.Add(resource);
+				result.Add(resource);
 			} else {
 				if(!(list[i] is List)) {
 					Console.WriteLine("Unexpected data in images part: " + list[i]);
@@ -198,11 +217,11 @@ public class Tileset {
 				resource.y = (int) region[3];
 				resource.w = (int) region[4];
 				resource.h = (int) region[5];
-				Result.Add(resource);
+				result.Add(resource);
 			}
 		}
 
-		return Result;
+		return result;
 	}
 }
 
