@@ -42,6 +42,10 @@ public abstract class SimpleObject : IGameObject, IObject, Node {
 	public virtual void ChangeArea(RectangleF NewArea) {
 		X = NewArea.Left;
 		Y = NewArea.Top;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
 	}
 
 	public virtual void Draw() {

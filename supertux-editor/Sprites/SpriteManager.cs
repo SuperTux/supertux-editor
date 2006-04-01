@@ -3,6 +3,7 @@ using System.IO;
 using System;
 using Lisp;
 using Resources;
+using DataStructures;
 using Drawing;
 
 namespace Sprites {
@@ -21,15 +22,19 @@ namespace Sprites {
             return new Sprite(SpriteDatas[SpriteFile]);
         }
         
-        public static Sprite CreateFromImage(string ImageFile) {
+        public static Sprite CreateFromImage(string ImageFile, Vector offset) {
         	if(!SpriteDatas.ContainsKey(ImageFile)) {
         		Surface Surface = new Surface(ImageFile);
-        		SpriteData Data = new SpriteData(Surface);
+        		SpriteData Data = new SpriteData(Surface, offset);
         		SpriteDatas[ImageFile] = Data;
         		return new Sprite(Data);
         	}
         	
         	return new Sprite(SpriteDatas[ImageFile]);
+        } 
+        
+        public static Sprite CreateFromImage(string ImageFile) {
+        	return CreateFromImage(ImageFile, new Vector(0, 0));
         }
         
         private static SpriteData LoadSprite(string Filename) {

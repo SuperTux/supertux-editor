@@ -73,8 +73,9 @@ internal class SpriteData {
         }
 	}
 	
-	public SpriteData(Surface Surface) {
+	public SpriteData(Surface Surface, Vector offset) {
 		Action Action = new Action("default", Surface);
+		Action.Offset = offset;
 		Actions.Add(Action.Name, Action);
 	}	
 }

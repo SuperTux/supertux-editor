@@ -41,22 +41,28 @@ namespace LispReader
 							field.SetValue(result, val);
 					} else if(field.Type == typeof(string)) {
 						string val = null;
-						if(!props.Get(Name, ref val))
-							Console.WriteLine("Field '" + Name + "' not in lisp");
-						else
+						if(!props.Get(Name, ref val)) {
+							if(!ChildAttrib.Optional)
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
 							field.SetValue(result, val);
+						}
 					} else if(field.Type == typeof(float)) {
 						float val = 0;
-						if(!props.Get(Name, ref val))
-							Console.WriteLine("Field '" + Name + "' not in lisp");
-						else
+						if(!props.Get(Name, ref val)) {
+							if(!ChildAttrib.Optional)	
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
 							field.SetValue(result, val);
+						}
 					} else if(field.Type == typeof(bool)) {
 						bool val = false;
-						if(!props.Get(Name, ref val))
-							Console.WriteLine("Field '" + Name + "' not in lisp");
-						else
+						if(!props.Get(Name, ref val)) {
+							if(!ChildAttrib.Optional)
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
 							field.SetValue(result, val);
+						}
 					} else if(field.Type == typeof(List<uint>)) {
 						List<uint> val = new List<uint>();
 						if(!props.GetUIntList(Name, val))
@@ -70,7 +76,8 @@ namespace LispReader
 						
 						List val = null;
 						if(!props.Get(Name, ref val)) {
-							Console.WriteLine("Field '" + Name + "' not in lisp");
+							if(!ChildAttrib.Optional)
+								Console.WriteLine("Field '" + Name + "' not in lisp");
 						} else {
 							object oval = serializer.Read(val);
 							field.SetValue(result, oval);
@@ -126,7 +133,8 @@ namespace LispReader
 							if(serializer != null) {
 								serializer.Write(writer, ChildAttrib.Name, Value);
 							} else {
-								writer.Write(ChildAttrib.Name, Value);
+								if(!ChildAttrib.Optional || !Value.Equals(ChildAttrib.Default))
+									writer.Write(ChildAttrib.Name, Value);
 							}
 						}
 					} else {

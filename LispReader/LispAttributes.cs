@@ -32,6 +32,8 @@ namespace LispReader
 	public class LispChildAttribute : Attribute
 	{				
 		public bool Translatable;
+		public bool Optional;
+		public object Default;
 		public string Name;
 
 		public LispChildAttribute(string Name) {
