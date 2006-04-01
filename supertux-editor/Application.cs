@@ -12,20 +12,20 @@ public class Application : IEditorApplication {
 	[Glade.Widget]
 	private Gtk.Window MainWindow;
 
-	private TileListWidget TileList;
-	private LayerListWidget LayerList;
-	private SectorSwitchNotebook SectorSwitchNotebook;
-	private Selection Selection;
+	private TileListWidget tileList;
+	private LayerListWidget layerList;
+	private SectorSwitchNotebook sectorSwitchNotebook;
+	private Selection selection;
 
 	private FileChooserDialog FileChooser;
 	private Dock dock;
 	private DockLayout layout;
 
-	private Level Level;
-	private Sector Sector;
-	private	LispSerializer Serializer = new LispSerializer(typeof(Level));
-	private string FileName;
-	private string LayoutFile;
+	private Level level;
+	private Sector sector;
+	private	LispSerializer serializer = new LispSerializer(typeof(Level));
+	private string fileName;
+	private string layoutFile;
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -33,13 +33,13 @@ public class Application : IEditorApplication {
 	
 	public SectorRenderer CurrentRenderer {
 		get {
-			return SectorSwitchNotebook.CurrentRenderer;
+			return sectorSwitchNotebook.CurrentRenderer;
 		}
 	}
 
 	private Application(string[] args) {
-		LayoutFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		LayoutFile += "/" + Constants.PACKAGE_NAME + "/layout.xml";
+		layoutFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+		layoutFile += "/" + Constants.PACKAGE_NAME + "/layout.xml";
 		
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
 		Glade.XML gxml = new Glade.XML("editor.glade", null);
@@ -50,7 +50,7 @@ public class Application : IEditorApplication {
 
 		Tileset.LoadEditorImages = true;
 
-		Selection = new Selection();
+		selection = new Selection();
 		
 		SetupDock();
 		
@@ -73,38 +73,38 @@ public class Application : IEditorApplication {
 	
 	private void SetupDock()
 	{
-		SectorSwitchNotebook = new SectorSwitchNotebook(this);
-		SectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
-		SectorSwitchNotebook.ShowAll();
+		sectorSwitchNotebook = new SectorSwitchNotebook(this);
+		sectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
+		sectorSwitchNotebook.ShowAll();
 		DockItem mainDock = new DockItem("MainDock", "MainDock",
 		                                 DockItemBehavior.NoGrip);
-		mainDock.Add(SectorSwitchNotebook);
+		mainDock.Add(sectorSwitchNotebook);
 		dock.AddItem(mainDock, DockPlacement.Center);
 				
-		TileList = new TileListWidget(this, Selection);
+		Widget tileListWidget = CreateTileList();
 		DockItem tileListDock = new DockItem("TileList", "Tiles",
 											 DockItemBehavior.NeverFloating);
-		tileListDock.Add(TileList);
+		tileListDock.Add(tileListWidget);
 		tileListDock.DockTo(mainDock, DockPlacement.Left);
 		
 		ScrolledWindow scrolledWindow = new ScrolledWindow();
-		LayerList = new LayerListWidget(this);
-		scrolledWindow.Add(LayerList);
+		layerList = new LayerListWidget(this);
+		scrolledWindow.Add(layerList);
 		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
 		DockItem layerListDock = new DockItem("LayerList", "Layers",
 		                                      DockItemBehavior.NeverFloating);
 		layerListDock.Add(scrolledWindow);
 		layerListDock.DockTo(mainDock, DockPlacement.Bottom);		
 		
-		ObjectListWidget ObjectList = new ObjectListWidget();
+		ObjectListWidget objectList = new ObjectListWidget();
 		DockItem objectListDock = new DockItem("ObjectList", "Objects",
 		                                       DockItemBehavior.NeverFloating);
-		objectListDock.Add(ObjectList);
+		objectListDock.Add(objectList);
 		objectListDock.DockTo(tileListDock, DockPlacement.Center);
 		
 		scrolledWindow = new ScrolledWindow();
-		GameObjectListWidget objectList = new GameObjectListWidget(this);
-		scrolledWindow.Add(objectList);
+		GameObjectListWidget gObjectList = new GameObjectListWidget(this);
+		scrolledWindow.Add(gObjectList);
 		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
 		DockItem gObjectListDock = new DockItem("GObjectList", "GObjects",
 		                                        Gtk.Stock.Info,
@@ -112,8 +112,23 @@ public class Application : IEditorApplication {
 		gObjectListDock.Add(scrolledWindow);
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
 		
-		layout.LoadFromFile(LayoutFile);
+		layout.LoadFromFile(layoutFile);
 		layout.LoadLayout("__default__");
+	}
+	
+	private Widget CreateTileList()
+	{
+		VBox box = new VBox();
+		box.Homogeneous = false;
+		
+		ComboBoxEntry combo = new ComboBoxEntry(new string[] { "test", "1", "zwo" });
+		combo.Changed += OnTileGroupChoosen;
+		box.PackStart(combo, false, true, 0);
+				
+		tileList = new TileListWidget(this, selection);
+		box.PackStart(tileList, true, true, 0);
+		
+		return box;
 	}
 	
 	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
@@ -140,6 +155,10 @@ public class Application : IEditorApplication {
 	 		throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
 		}
 	}
+	
+	private void OnTileGroupChoosen(object o, EventArgs args)
+	{
+	}
 
 	protected void OnNew(object o, EventArgs args)
 	{
@@ -165,14 +184,14 @@ public class Application : IEditorApplication {
 		Load(FileChooser.Filename);
 	}
 
-	private void Load(string Filename)
+	private void Load(string fileName)
 	{
 		try {
-			Level NewLevel = (Level) Serializer.Read(Filename);
-			if(NewLevel.Version < 2)
+			Level newLevel = (Level) serializer.Read(fileName);
+			if(newLevel.Version < 2)
 				throw new Exception("Old Level Format not supported");
-			ChangeCurrentLevel(NewLevel);
-			this.FileName = Filename;
+			ChangeCurrentLevel(newLevel);
+			this.fileName = fileName;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -188,12 +207,12 @@ public class Application : IEditorApplication {
 		Save(true);
 	}
 
-	protected void Save(bool ChooseName)
+	protected void Save(bool chooseName)
 	{
-		if(FileName == null)
-			ChooseName = true;
+		if(fileName == null)
+			chooseName = true;
 
-		if(ChooseName) {
+		if(chooseName) {
 			FileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 			FileChooser.Action = FileChooserAction.Save;
 			int result = FileChooser.Run();
@@ -202,11 +221,11 @@ public class Application : IEditorApplication {
 				return;
 			Settings.Instance.LastDirectoryName = FileChooser.CurrentFolder;
 			Settings.Instance.Save();
-			FileName = FileChooser.Filename;
+			fileName = FileChooser.Filename;
 		}
 		
 		try {
-			Serializer.Write(FileName, Level);
+			serializer.Write(fileName, level);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't save level", e);
 		}
@@ -223,13 +242,13 @@ public class Application : IEditorApplication {
 	
 	protected void OnPlay(object o, EventArgs args)
 	{
-		if(Level == null)
+		if(level == null)
 			return;
 		
 		try {
-			string TempName = System.IO.Path.GetTempPath() + "/supertux-editor.tmp.stl";
-			Serializer.Write(TempName, Level);
-			Process.Start(Settings.Instance.SupertuxExe, TempName);
+			string tempName = System.IO.Path.GetTempPath() + "/supertux-editor.tmp.stl";
+			serializer.Write(tempName, level);
+			Process.Start(Settings.Instance.SupertuxExe, tempName);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't start supertux", e);
 		}
@@ -237,10 +256,10 @@ public class Application : IEditorApplication {
 	
 	protected void OnLevelProperties(object o, EventArgs args)
 	{
-		if(Level == null)
+		if(level == null)
 			return;
 		
-		new SettingsWindow("Level Properties", Level);	
+		new SettingsWindow("Level Properties", level);	
 	}
 	
 	private void OnDelete(object o, DeleteEventArgs args)
@@ -253,36 +272,36 @@ public class Application : IEditorApplication {
 	private void Close()
 	{
 		Settings.Instance.Save();
-		layout.SaveToFile(LayoutFile);
+		layout.SaveToFile(layoutFile);
 		MainWindow.Destroy();
 		Gtk.Application.Quit();
 	}
 
-	public void ChangeCurrentLevel(Level NewLevel)
+	public void ChangeCurrentLevel(Level newLevel)
 	{
-		Level = NewLevel;
-		LevelChanged(Level);
-		ChangeCurrentSector(Level.Sectors[0]);
+		level = newLevel;
+		LevelChanged(level);
+		ChangeCurrentSector(level.Sectors[0]);
 	}
 
-	public void ChangeCurrentSector(Sector NewSector)
+	public void ChangeCurrentSector(Sector newSector)
 	{
-		this.Sector = NewSector;
-		SectorChanged(Level, NewSector);
+		this.sector = newSector;
+		SectorChanged(level, newSector);
 	}
 
-	public void ChangeCurrentTilemap(Tilemap Tilemap)
+	public void ChangeCurrentTilemap(Tilemap tilemap)
 	{
-		TilemapChanged(Tilemap);
-		TilemapEditor Editor = new TilemapEditor(Tilemap, Level.Tileset,
-		                                         Selection);
-		SectorSwitchNotebook.CurrentRenderer.Editor = Editor;
+		TilemapChanged(tilemap);
+		TilemapEditor editor = new TilemapEditor(tilemap, level.Tileset,
+		                                         selection);
+		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
 
 	public void SetObjectsEditMode()
 	{
-		ObjectsEditor Editor = new ObjectsEditor(Sector);
-		SectorSwitchNotebook.CurrentRenderer.Editor = Editor;
+		ObjectsEditor editor = new ObjectsEditor(sector);
+		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
 
 	public static void Main(string[] args)
@@ -296,9 +315,9 @@ public class Application : IEditorApplication {
 		try {
 			Gtk.Application.Run();
 		} catch(Exception e) {
-			if(app.Level != null) {
+			if(app.level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '/tmp/supertux-editor-emergency.stl'");
-				app.Serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.Level);
+				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}
 			throw e;
 		}

@@ -1,6 +1,7 @@
 using SceneGraph;
 using Drawing;
 using System.Collections;
+using Gtk;
 
 public class SectorRenderer : RenderView
 {
@@ -33,6 +34,9 @@ public class SectorRenderer : RenderView
 		
 		sector.ObjectAdded += OnObjectAdded;
 		sector.ObjectRemoved += OnObjectRemoved;
+		
+		Drag.DestSet(this, DestDefaults.All, ObjectListWidget.DragTargetEntries, Gdk.DragAction.Default);
+		DragMotion += OnDragMotion;
 	}
 	
 	public void SetTilemapColor(Tilemap tilemap, Color color)
@@ -69,4 +73,10 @@ public class SectorRenderer : RenderView
 		if(node != null)
 			objectsNode.RemoveChild(node);
 	}
+	
+	private void OnDragMotion(object o, DragMotionArgs args)
+	{
+		System.Console.WriteLine("Motion: " + args.X + " - " + args.Y);
+		//Console.WriteLine("Blup: " + args.Context
+	}	
 }

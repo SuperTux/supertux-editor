@@ -4,6 +4,7 @@ using OpenGl;
 using Sprites;
 using DataStructures;
 using Gtk;
+using Gdk;
 
 public class ObjectListWidget : GLWidgetBase
 {
@@ -21,12 +22,22 @@ public class ObjectListWidget : GLWidgetBase
 	private List<Sprite> GameObjectSprite = new List<Sprite>();
 	private int SelectedObjectNr = NONE;
 	
+    public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
+    	new TargetEntry("GameObject", TargetFlags.App, 0)
+    };
+	
 	public ObjectListWidget()
 	{
 		SetSizeRequest( COLUMN_WIDTH * TILES_PER_ROW, -1);
 		
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
+		AddEvents((int) Gdk.EventMask.AllEventsMask);
+		
+        Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
+                    DragTargetEntries, DragAction.Default);
+
+		DragBegin += OnDragBegin;
 	}
 	
 	/*
@@ -158,4 +169,9 @@ public class ObjectListWidget : GLWidgetBase
 			}
 		}
 	}
+	
+	private void OnDragBegin(object o, DragBeginArgs args)
+	{
+		Console.WriteLine("Dragstart");		
+	}		
 }

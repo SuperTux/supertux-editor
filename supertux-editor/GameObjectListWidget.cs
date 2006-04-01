@@ -73,5 +73,5 @@ public class GameObjectListWidget : TreeView
 	private void OnProperties(object o, EventArgs args)
 	{
 		new SettingsWindow(currentObject.GetType().Name, currentObject);
-	}
+	}	
 }

@@ -23,8 +23,6 @@
     <File name="./IGameObject.cs" subtype="Code" buildaction="Compile" />
     <File name="./IEditorApplication.cs" subtype="Code" buildaction="Compile" />
     <File name="./IObject.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ITile.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ITileset.cs" subtype="Code" buildaction="Compile" />
     <File name="./LayerListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./Level.cs" subtype="Code" buildaction="Compile" />
     <File name="./Objects.cs" subtype="Code" buildaction="Compile" />
