@@ -91,6 +91,10 @@ public class SectorSwitchNotebook : Notebook
 		propertiesItem.Activated += OnPropertiesActivated;
 		popupMenu.Add(propertiesItem);
 		
+		MenuItem resizeItem = new MenuItem("Resize");
+		resizeItem.Activated += OnResizeActivated;
+		popupMenu.Add(resizeItem);
+		
 		MenuItem createNewItem = new ImageMenuItem(Stock.New, null);
 		createNewItem.Activated += OnCreateNew;
 		popupMenu.Add(createNewItem);
@@ -130,6 +134,15 @@ public class SectorSwitchNotebook : Notebook
 		Level.Sectors.Remove(Sector);
 		ClearTabList();
 		CreateTabList();
+	}
+	
+	private void OnResizeActivated(object o, EventArgs args)
+	{
+		try {
+			ResizeDialog dialog = new ResizeDialog(Sector);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
 	}
 	
 	private void OnCreateNew(object o, EventArgs args)

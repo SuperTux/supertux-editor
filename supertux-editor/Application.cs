@@ -42,7 +42,7 @@ public class Application : IEditorApplication {
 		layoutFile += "/" + Constants.PACKAGE_NAME + "/layout.xml";
 		
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
-		Glade.XML gxml = new Glade.XML("editor.glade", null);
+		Glade.XML gxml = new Glade.XML("editor.glade", "MainWindow");
 		gxml.Autoconnect(this);
 	
 		if(MainWindow == null)
