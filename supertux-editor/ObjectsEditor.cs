@@ -103,8 +103,8 @@ public class ObjectsEditor : IEditor
 		}
 	}
 	
-	private Sector Sector;
-	private IObject ActiveObject;
+	private Sector sector;
+	private IObject activeObject;
 	private Vector pressPoint;
 	private RectangleF originalArea;
 	private bool dragging;
@@ -112,15 +112,15 @@ public class ObjectsEditor : IEditor
 
 	public event RedrawEventHandler Redraw;
 	
-	public ObjectsEditor(Sector Sector)
+	public ObjectsEditor(Sector sector)
 	{
-		this.Sector = Sector;
+		this.sector = sector;
 	}
 	
 	public void Draw()
 	{
-		if(ActiveObject != null) {
-			IObject obj = ActiveObject;
+		if(activeObject != null) {
+			IObject obj = activeObject;
 			if(obj is ControlPoint)
 				obj = ((ControlPoint) obj).Object;
 
@@ -137,43 +137,43 @@ public class ObjectsEditor : IEditor
 	{
 		if(button == 1) {
 			pressPoint = pos;
-			ActiveObject = null;
+			activeObject = null;
 			foreach(ControlPoint point in controlPoints) {
 				if(point.Area.Contains(pos)) {
-					ActiveObject = point;
+					activeObject = point;
 					break;
 				}
 			}
 			
-			if(ActiveObject == null) {
+			if(activeObject == null) {
 				controlPoints.Clear();
-				foreach(IObject Object in Sector.GetObjects(typeof(IObject))) {
+				foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
 					if(Object.Area.Contains(pos)) {
-						ActiveObject = Object;
+						activeObject = Object;
 						break;
 					}
 				}
 			}
 			
-			if(ActiveObject != null) {
-				originalArea = ActiveObject.Area;
+			if(activeObject != null) {
+				originalArea = activeObject.Area;
 				dragging = true;
-				if(ActiveObject.Resizable) {
-					controlPoints.Add(new ControlPoint(ActiveObject,
+				if(activeObject.Resizable) {
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.TOP));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.RIGHT));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.BOTTOM));
-					controlPoints.Add(new ControlPoint(ActiveObject,
+					controlPoints.Add(new ControlPoint(activeObject,
                            ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
 				}
 			}
@@ -186,13 +186,19 @@ public class ObjectsEditor : IEditor
 	
 	private void PopupMenu(int button)
 	{
-		if(! (ActiveObject is IGameObject))
+		if(! (activeObject is IGameObject))
 			return;
 		
 		Menu popupMenu = new Menu();
-		MenuItem item = new ImageMenuItem(Stock.Properties, null);
-		item.Activated += OnProperties;
-		popupMenu.Append(item);
+		
+		MenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
+		propertiesItem.Activated += OnProperties;
+		popupMenu.Append(propertiesItem);
+		
+		MenuItem cloneItem = new MenuItem("Clone");
+		cloneItem.Activated += OnClone;
+		cloneItem.Sensitive = activeObject is ICloneable;
+		popupMenu.Append(cloneItem);
 		
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
@@ -204,17 +210,31 @@ public class ObjectsEditor : IEditor
 	
 	private void OnProperties(object o, EventArgs args)
 	{
-		if(ActiveObject == null)
+		if(activeObject == null)
 			return;
-		new SettingsWindow(ActiveObject.GetType().Name + " Object Properties", ActiveObject);
+		new SettingsWindow(activeObject.GetType().Name + " Object Properties", activeObject);
+	}
+	
+	private void OnClone(object o, EventArgs args)
+	{
+		if(activeObject == null)
+			return;
+		
+		try {
+			object newObject = ((ICloneable) activeObject).Clone();
+			IGameObject gameObject = (IGameObject) newObject;
+			sector.Add(gameObject);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
 	}
 	
 	private void OnDelete(object o, EventArgs args)
 	{
-		if(ActiveObject == null)
+		if(activeObject == null)
 			return;
-		Sector.Remove((IGameObject) ActiveObject);
-		ActiveObject = null;
+		sector.Remove((IGameObject) activeObject);
+		activeObject = null;
 	}
 
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
@@ -244,7 +264,7 @@ public class ObjectsEditor : IEditor
 		RectangleF newArea = new RectangleF(spos.X, spos.Y,
 		                                       originalArea.Width,
 		                                       originalArea.Height);
-		ActiveObject.ChangeArea(newArea);
+		activeObject.ChangeArea(newArea);
 		Redraw();		
 	}
 }

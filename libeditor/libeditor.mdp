@@ -46,6 +46,7 @@
     <File name="./ErrorDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./SceneGraph/ColorNode.cs" subtype="Code" buildaction="Compile" />
     <File name="./resources/errordialog.glade" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./SceneGraph/Rect.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Resources" />

@@ -1,5 +1,6 @@
 using System;
 using Gtk;
+using Gdk;
 using Glade;
 
 public class ResizeDialog
@@ -23,6 +24,17 @@ public class ResizeDialog
 		if(resizeDialog == null || WidthEntry == null || HeightEntry == null)
 			throw new Exception("Couldn't load resize Dialog");
 		
+		uint width = 0;
+		uint height = 0;
+		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
+			if(tilemap.Width > width)
+				width = tilemap.Width;
+			if(tilemap.Height > height)
+				height = tilemap.Height;
+		}
+		WidthEntry.Text = width.ToString();
+		HeightEntry.Text = height.ToString();
+		
 		resizeDialog.ShowAll();
 	}
 	
@@ -34,6 +46,7 @@ public class ResizeDialog
 			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				tilemap.Resize(newWidth, newHeight, 0);				
 			}
+			sector.EmitSizeChanged();
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -44,5 +57,5 @@ public class ResizeDialog
 	protected void OnCancel(object o, EventArgs args)
 	{
 		resizeDialog.Hide();	
-	}
+	}	
 }

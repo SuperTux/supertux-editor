@@ -43,6 +43,7 @@ public class RenderView : GLWidgetBase {
 	}
 
 	protected override void DrawGl() {
+		gl.ClearColor(0.4f, 0, 0.4f, 1);
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 
 		if(SceneGraphRoot != null)

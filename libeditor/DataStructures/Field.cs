@@ -85,7 +85,7 @@ namespace DataStructures
 	        List<T> NewElements = new List<T>();
 	        for(uint y = 0; y < NewHeight; ++y) {
 	            for(uint x = 0; x < NewWidth; ++x) {
-	                if(y < Width && x < Height)
+	                if(x < Width && y < Height)
 	                    NewElements.Add(this[x, y]);
 	                else
 	                    NewElements.Add(FillValue);

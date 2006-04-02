@@ -7,7 +7,7 @@ using Drawing;
 using OpenGl;
 using SceneGraph;
 
-public abstract class SimpleObject : IGameObject, IObject, Node {
+public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	[LispChild("x")]
 	public float X;
 	[LispChild("y")]
@@ -57,6 +57,10 @@ public abstract class SimpleObject : IGameObject, IObject, Node {
 	
 	public virtual Node GetSceneGraphNode() {
 		return this;
+	}
+	
+	public object Clone() {
+		return MemberwiseClone();	
 	}
 }
 

@@ -36,6 +36,7 @@ public class TilemapEditor : IEditor {
 		}
 		if(selecting) {
 			gl.Color4f(0, 0, 1, 0.7f);
+			gl.Disable(gl.TEXTURE_2D);
 
 			float left = SelectionP1.X * 32f;
 			float top = SelectionP1.Y * 32f;
@@ -48,6 +49,8 @@ public class TilemapEditor : IEditor {
 			gl.Vertex2f(right, bottom);
 			gl.Vertex2f(left, bottom);
 			gl.End();
+			
+			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
 		}
 	}

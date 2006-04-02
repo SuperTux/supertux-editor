@@ -7,6 +7,7 @@ using LispReader;
 
 public delegate void ObjectAddedHandler(Sector sector, IGameObject Object);
 public delegate void ObjectRemovedHandler(Sector sector, IGameObject Object);
+public delegate void SizeChangedHandler(Sector sector);
 
 [LispRootAttribute("sector")]
 public class Sector : ICustomLispSerializer {
@@ -24,6 +25,7 @@ public class Sector : ICustomLispSerializer {
 	
 	public event ObjectAddedHandler ObjectAdded;
 	public event ObjectRemovedHandler ObjectRemoved;
+	public event SizeChangedHandler SizeChanged;
 
 	private class DynamicList : IEnumerable {
 		public Sector Sector;
@@ -66,6 +68,12 @@ public class Sector : ICustomLispSerializer {
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
+	}
+	
+	public void EmitSizeChanged()
+	{
+		if(SizeChanged != null)
+			SizeChanged(this);
 	}
 	
 	public void CustomLispRead(Properties props) {
