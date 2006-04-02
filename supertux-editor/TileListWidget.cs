@@ -8,9 +8,10 @@ using SceneGraph;
 using DataStructures;
 
 public class TileListWidget : GLWidgetBase {
-	private Tileset Tileset;
-	private List<uint> Tiles = new List<uint>();
-	private Selection Selection;
+	private Tileset tileset;
+	private List<uint> tiles = new List<uint>();
+	private Selection selection;
+	private Level level;
 
 	private const int TILE_WIDTH = 32;
 	private const int TILE_HEIGHT = 32;
@@ -22,10 +23,10 @@ public class TileListWidget : GLWidgetBase {
 
 	private int hovertile = -1;
 
-	public TileListWidget(IEditorApplication Application, Selection Selection)
+	public TileListWidget(IEditorApplication application, Selection selection)
 	{
-		this.Selection = Selection;
-		Selection.Changed += OnSelectionChanged;
+		this.selection = selection;
+		selection.Changed += OnSelectionChanged;
 		
 		Tileset.LoadEditorImages = true;
 		SetSizeRequest((TILE_WIDTH + SPACING_X) * TILES_PER_ROW, -1);
@@ -40,19 +41,30 @@ public class TileListWidget : GLWidgetBase {
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);						
 		AddEvents((int) Gdk.EventMask.ScrollMask);	
 
-		Application.LevelChanged += OnLevelChanged;
+		application.LevelChanged += OnLevelChanged;
 	}
 
-	private void OnLevelChanged(Level Level)
+	private void OnLevelChanged(Level level)
 	{
-		Tileset = Level.Tileset;
+		if(this.level != null)
+			this.level.TilesetChanged -= OnTilesetChanged;
+		if(level != null)
+			level.TilesetChanged += OnTilesetChanged;
+		
+		this.level = level;
+		OnTilesetChanged(level);
+	}
+	
+	private void OnTilesetChanged(Level level)
+	{
+		tileset = level.Tileset;
 		Translation = new Vector(0, 0);
 		Zoom = 1.0f;
 
-		Tiles.Clear();
-		for(uint Id = 0; Id < Tileset.LastTileId; ++Id) {
-			if(Tileset.IsValid(Id))
-				Tiles.Add(Id);
+		tiles.Clear();
+		for(uint Id = 0; Id < tileset.LastTileId; ++Id) {
+			if(tileset.IsValid(Id))
+				tiles.Add(Id);
 		}
 			
 		QueueDraw();
@@ -65,7 +77,7 @@ public class TileListWidget : GLWidgetBase {
 
 	protected override void DrawGl()
 	{
-		if(Tileset == null)
+		if(tileset == null)
 			return;
 	
 		gl.Clear(gl.COLOR_BUFFER_BIT);
@@ -75,21 +87,21 @@ public class TileListWidget : GLWidgetBase {
 		Vector pos = new Vector(0,
 				(starttile / TILES_PER_ROW) * (ROW_HEIGHT));
 		float maxwidth = (TILE_WIDTH + SPACING_X) * TILES_PER_ROW;
-		for(int i = starttile; i < Tiles.Count; i++) {
-			Tile Tile = Tileset.Get(Tiles[i]);
+		for(int i = starttile; i < tiles.Count; i++) {
+			Tile tile = tileset.Get(tiles[i]);
 
-			Tile.DrawEditor(pos);
+			tile.DrawEditor(pos);
 
 			bool selected = false;
-			if(Selection.TileListFirstTile > 0
-					&& i > Selection.TileListFirstTile
-					&& i - Selection.TileListFirstTile 
-						< Selection.TileListH * TILES_PER_ROW
-					&& i - Selection.TileListFirstTile % TILES_PER_ROW 
-						< Selection.TileListW-1) {
+			if(selection.TileListFirstTile > 0
+					&& i > selection.TileListFirstTile
+					&& i - selection.TileListFirstTile 
+						< selection.TileListH * TILES_PER_ROW
+					&& i - selection.TileListFirstTile % TILES_PER_ROW 
+						< selection.TileListW-1) {
 				selected = true;
-			} else if(Selection.Width == 1 && Selection.Height == 1 &&
-					Tiles[i] == Selection[0, 0]) {
+			} else if(selection.Width == 1 && selection.Height == 1 &&
+					tiles[i] == selection[0, 0]) {
 				selected = true;
 			}
 
@@ -127,9 +139,9 @@ public class TileListWidget : GLWidgetBase {
 			if(tile < 0)
 				return;
 			
-			Selection.Resize(1, 1, 0);
-			Selection[0, 0] = Tiles[tile];
-			Selection.FireChangedEvent();
+			selection.Resize(1, 1, 0);
+			selection[0, 0] = tiles[tile];
+			selection.FireChangedEvent();
 			QueueDraw();
 		}
 	}
@@ -157,7 +169,7 @@ public class TileListWidget : GLWidgetBase {
 			Console.WriteLine("Warning: PosToTile < 0?!?");
 			return -1;
 		}
-		if(tile >= Tiles.Count)
+		if(tile >= tiles.Count)
 			return -1;
 
 		return tile;

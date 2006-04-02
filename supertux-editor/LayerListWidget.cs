@@ -22,8 +22,14 @@ public class LayerListWidget : TreeView {
 		                                            Gdk.Rectangle background_area,
 		                                            Gdk.Rectangle cell_area,
 		                                            CellRendererState flags) {
+			if(VisibilityChanged != null)
+				VisibilityChanged(this, null);                                            		
 			return base.StartEditing(evnt, widget, path, background_area, cell_area, flags);
-		}                                            
+		}
+		                                            
+		public delegate void VisibilityChangedHandler(object o, EventArgs args);
+		
+		public event VisibilityChangedHandler VisibilityChanged;
 	}
 	
 	public LayerListWidget(IEditorApplication Application)
@@ -32,7 +38,7 @@ public class LayerListWidget : TreeView {
 		ButtonPressEvent += OnButtonPressed;
 		
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
-		//visibilityRenderer.EditingStarted += OnVisibilityChange;
+		visibilityRenderer.VisibilityChanged += OnVisibilityChange;
 		TreeViewColumn visibilityColumn = new TreeViewColumn("Visibility",
 		                                                       visibilityRenderer);
 		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);

@@ -7,13 +7,13 @@ using Resources;
 
 public class Tileset {
 	private List<Tile> tiles = new List<Tile>();
-	private Dictionary<string, TileGroup> tileGroups = new Dictionary<string, TileGroup>();
+	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
     private string baseDir;
 	public static bool LoadEditorImages;
 	
-	public IDictionary<string, TileGroup> TileGroups {
+	public IDictionary<string, Tilegroup> Tilegroups {
 		get {
-			return tileGroups;
+			return tilegroups;
 		}
 	}
 
@@ -50,11 +50,11 @@ public class Tileset {
 			}
 		}
 		
-		LispSerializer serializer = new LispSerializer(typeof(TileGroup));
+		LispSerializer serializer = new LispSerializer(typeof(Tilegroup));
     	foreach(List list in TilesP.GetList("tilegroup")) {
     		try {
-    			TileGroup group = (TileGroup) serializer.Read(list);
-    			tileGroups.Add(group.Name, group);
+    			Tilegroup group = (Tilegroup) serializer.Read(list);
+    			tilegroups.Add(group.Name, group);
     		} catch(Exception e) {
     			Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
     			Console.WriteLine(e.StackTrace);

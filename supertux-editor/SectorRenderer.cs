@@ -55,7 +55,7 @@ public class SectorRenderer : RenderView
 		Drag.DestSet(this, DestDefaults.All, ObjectListWidget.DragTargetEntries, Gdk.DragAction.Default);
 		DragMotion += OnDragMotion;		
 	}
-	
+
 	public void SetTilemapColor(Tilemap tilemap, Color color)
 	{
 		ColorNode colorNode = (ColorNode) colors[tilemap];

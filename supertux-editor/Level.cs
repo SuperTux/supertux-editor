@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using LispReader;
 
+public delegate void TilesetChangedHandler(Level level);
+
 [LispRoot("supertux-level")]
 public class Level
 {
@@ -14,7 +16,8 @@ public class Level
 	public string Author = "";
 	
 	private string tilesetFile = "images/tiles.strf";
-	public Tileset Tileset = new Tileset("images/tiles.strf");	
+	public Tileset Tileset = new Tileset("images/tiles.strf");
+	public event TilesetChangedHandler TilesetChanged;
 	
 	[LispChild("tileset", Optional = true, Default = "images/tiles.strf")]
 	[ChooseResourceSetting]
@@ -27,6 +30,8 @@ public class Level
 				return;
 			tilesetFile = value;
 			Tileset = new Tileset(value);
+			if(TilesetChanged != null)
+				TilesetChanged(this);
 		}
 	}
 	

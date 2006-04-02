@@ -1,27 +1,22 @@
 Bugs:
-- Sprite textures fail to get loaded sometimes...
-
+- Sprite textures get loaded with no opengl context active
 
 Editor:
 - Support for Undo
-- Manipulate Background Images
 - Scroll TileList with middle mouse, Get different Tilegroups
 - Overview widget?
-- Possibility to resize levels
 - preserve unknown lisp trees
-- Grab Mouse Pointer when scrolling
+- Grab Mouse Pointer when scrolling so that we can scroll wide
 - Separate supertux specific from generic code so that we can reuse it for
   arggh levels or other games... - ~ok
-- Draw Lines around level borders
-- make it possible to override the block drawing mode not allowing all positions with the shift key - ok
 - Add CustomEditor for:
     - DataFiles - ok
     - Sectors
     - Spawnpoints
-    - Colors
-- Add popupmenu when right clicking on Notebook, 1 entry per page, possibility
-  to remove current sector, add new sector, (rename and settings?) - ~ok
-- Make Object properties such a tab?
+    - Colors - ok
+- Make Object properties a tab?
 - Fullscreen mode?
 - Script editor? Launch external editor?
 - Ask for Save on close
+- Support paths
+

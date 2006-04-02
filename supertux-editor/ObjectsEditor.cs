@@ -135,53 +135,80 @@ public class ObjectsEditor : IEditor
 
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
-		if(button == 1) {
-			pressPoint = pos;
-			activeObject = null;
-			foreach(ControlPoint point in controlPoints) {
-				if(point.Area.Contains(pos)) {
-					activeObject = point;
-					break;
-				}
+		if(button == 1 || button == 3) {
+			if(activeObject == null || !activeObject.Area.Contains(pos)) {
+				MakeActive(FindNext(pos));
 			}
-			
-			if(activeObject == null) {
-				controlPoints.Clear();
-				foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
-					if(Object.Area.Contains(pos)) {
-						activeObject = Object;
-						break;
-					}
-				}
-			}
-			
-			if(activeObject != null) {
+					
+			if(activeObject != null && button == 1) {
+				pressPoint = pos;
 				originalArea = activeObject.Area;
 				dragging = true;
-				if(activeObject.Resizable) {
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.TOP));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.RIGHT));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.BOTTOM));
-					controlPoints.Add(new ControlPoint(activeObject,
-                           ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
-				}
 			}
+			
 			Redraw();
 		}
 		if(button == 3) {
 			PopupMenu(button);		
 		}
+	}
+	
+	private IObject FindNext(Vector pos)
+	{
+		foreach(ControlPoint point in controlPoints) {
+			if(point.Area.Contains(pos)) {
+				return point;
+			}
+		}
+		
+		IObject firstObject = null;
+		bool foundLastActive = false;
+		foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
+			if(Object.Area.Contains(pos)) {
+				if(firstObject == null)
+					firstObject = Object;
+				
+				if(Object == activeObject) {
+					foundLastActive = true;
+					continue;
+				}
+				if(foundLastActive) {
+					return Object;
+				}
+			}
+		}
+			
+		if(firstObject != null)
+			return firstObject;
+		
+		return null;
+	}
+	
+	private void MakeActive(IObject Object)
+	{
+		activeObject = Object;
+		
+		if(! (activeObject is ControlPoint))
+			controlPoints.Clear();
+		
+		if(activeObject != null && activeObject.Resizable) {
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.TOP));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.LEFT));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.RIGHT));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.BOTTOM));
+			controlPoints.Add(new ControlPoint(activeObject,
+                 ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
+		}		
 	}
 	
 	private void PopupMenu(int button)
@@ -240,8 +267,15 @@ public class ObjectsEditor : IEditor
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
 	{
 		if(dragging) {
-			moveObject(pos, (Modifiers & ModifierType.ShiftMask) != 0);
 			dragging = false;
+			
+			if(pos != pressPoint) {
+				moveObject(pos, (Modifiers & ModifierType.ShiftMask) != 0);
+			} else {
+				Console.WriteLine("next");
+				MakeActive(FindNext(pos));
+				Redraw();
+			}
 		}
 	}
 

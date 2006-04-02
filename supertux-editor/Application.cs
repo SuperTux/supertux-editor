@@ -120,11 +120,10 @@ public class Application : IEditorApplication {
 		VBox box = new VBox();
 		box.Homogeneous = false;
 		
-		ComboBoxEntry combo = new ComboBoxEntry(new string[] { "test", "1", "zwo" });
-		combo.Changed += OnTileGroupChoosen;
-		box.PackStart(combo, false, true, 0);
-				
 		tileList = new TileListWidget(this, selection);
+		TilegroupSelector selector = new TilegroupSelector(this, tileList);
+		
+		box.PackStart(selector, false, true, 0);				
 		box.PackStart(tileList, true, true, 0);
 		
 		return box;
@@ -153,10 +152,6 @@ public class Application : IEditorApplication {
 		if(SDL.Init(SDL.INIT_EVERYTHING | SDL.INIT_NOPARACHUTE) < 0) {
 	 		throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
 		}
-	}
-	
-	private void OnTileGroupChoosen(object o, EventArgs args)
-	{
 	}
 
 	protected void OnNew(object o, EventArgs args)

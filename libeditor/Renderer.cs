@@ -17,8 +17,12 @@ public class RenderView : GLWidgetBase {
 	private IEditor editor;
 	public IEditor Editor {
 		set {
-			if(this.editor != null)
+			if(this.editor != null) {
 				this.editor.Redraw -= QueueDraw;
+				if(this.editor is IDisposable)
+					((IDisposable) this.editor).Dispose();
+			}
+
 			this.editor = value;
 			this.editor.Redraw += QueueDraw;
 		}

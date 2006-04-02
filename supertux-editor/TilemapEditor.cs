@@ -3,8 +3,8 @@ using OpenGl;
 using System;
 using Gdk;
 
-public class TilemapEditor : IEditor {
-	private Selection Selection;
+public class TilemapEditor : IEditor, IDisposable {
+	private Selection selection;
 	private bool drawing;
 	private bool selecting;	
 	private FieldPos MouseTilePos;
@@ -18,12 +18,17 @@ public class TilemapEditor : IEditor {
 
 	public event RedrawEventHandler Redraw;
 
-	public TilemapEditor(Tilemap Tilemap, Tileset Tileset, Selection Selection)
+	public TilemapEditor(Tilemap Tilemap, Tileset Tileset, Selection selection)
 	{
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
-		this.Selection = Selection;
-		Selection.Changed += OnSelectionChanged;
+		this.selection = selection;
+		selection.Changed += OnSelectionChanged;
+	}
+
+	public void Dispose()
+	{
+		selection.Changed -= OnSelectionChanged;
 	}
 
 	public void Draw()
@@ -31,7 +36,7 @@ public class TilemapEditor : IEditor {
 		if(!selecting) {
 			gl.Color4f(1, 1, 1, 0.7f);
 			Vector pos = new Vector(MouseTilePos.X * 32f, MouseTilePos.Y * 32f);
-			Selection.Draw(pos, Tileset);
+			selection.Draw(pos, Tileset);
 			gl.Color4f(1, 1, 1, 1);
 		}
 		if(selecting) {
@@ -60,7 +65,7 @@ public class TilemapEditor : IEditor {
 		UpdateMouseTilePos(MousePos);
 	
 		if(button == 1) {
-			Selection.ApplyToTilemap(MouseTilePos, Tilemap);
+			selection.ApplyToTilemap(MouseTilePos, Tilemap);
 			LastDrawPos = MouseTilePos;
 			drawing = true;
 			Redraw();
@@ -90,16 +95,16 @@ public class TilemapEditor : IEditor {
 
 			uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
 			uint NewHeight = (uint) (SelectionP2.Y - SelectionP1.Y) + 1;
-			Selection.Resize(NewWidth, NewHeight, 0);
+			selection.Resize(NewWidth, NewHeight, 0);
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
-					Selection[x, y] 
+					selection[x, y] 
 						= Tilemap[(uint) SelectionP1.X + x,
 						  		  (uint) SelectionP1.Y + y];
 				}
 			}
 
-			Selection.FireChangedEvent();
+			selection.FireChangedEvent();
 			selecting = false;
 		}
 
@@ -111,10 +116,10 @@ public class TilemapEditor : IEditor {
 		if(UpdateMouseTilePos(MousePos)) {
 			if(drawing &&
 					( (Modifiers & ModifierType.ShiftMask) != 0 ||
-				((LastDrawPos.X - MouseTilePos.X) % Selection.Width == 0 &&
-				 (LastDrawPos.Y - MouseTilePos.Y) % Selection.Height == 0))) {
+				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
+				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
 				LastDrawPos = MouseTilePos;
-				Selection.ApplyToTilemap(MouseTilePos, Tilemap);
+				selection.ApplyToTilemap(MouseTilePos, Tilemap);
 			}
 			if(selecting)
 				UpdateSelection();
