@@ -38,17 +38,26 @@ namespace Gdk
 
 	internal abstract class GLContext
 	{
-        private static bool useWGLContext = false;
+        private static bool useWGLContext;
 
 		public static GLContext CreateContext (int[] attrs,
 			GLContext share, IntPtr gdkDrawable)
 		{
-			if(useWGLContext) {
-				return new W32GLContext(attrs,
-					(W32GLContext) share, gdkDrawable);
-            } else {
-				return new X11GLContext(attrs,
-					(X11GLContext) share, gdkDrawable);
+			if(!useWGLContext) {
+				try {
+					return new X11GLContext(attrs,
+							(X11GLContext) share, gdkDrawable);
+				} catch(DllNotFoundException e) {
+					useWGLContext = true;
+					return CreateContext(attrs, share, gdkDrawable);
+				}
+			} else {
+				try {
+					return new W32GLContext(attrs,
+							(W32GLContext) share, gdkDrawable);
+				} catch(DllNotFoundException e) {
+					throw new Exception("Couldn't find OpenGl library", e);
+				}
             }
 		}
 
