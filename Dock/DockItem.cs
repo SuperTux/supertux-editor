@@ -466,9 +466,11 @@ namespace Gdl
 		protected override bool OnExposeEvent (Gdk.EventExpose evnt)
 		{
 			if (IsDrawable && evnt.Window == GdkWindow) {
+				/* TODO this crashs win32 at the moment...
 				Style.PaintBox (Style, GdkWindow, State,
 						ShadowType.None, evnt.Area, this,
 						"dockitem", 0, 0, -1, -1);
+				 */
 				base.OnExposeEvent (evnt);
 			}
 

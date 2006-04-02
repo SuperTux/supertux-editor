@@ -49,8 +49,8 @@ namespace Gdk
 							(X11GLContext) share, gdkDrawable);
 				} catch(DllNotFoundException ) {
 					useWGLContext = true;
-					return CreateContext(attrs, share, gdkDrawable);
 				}
+				return CreateContext(attrs, share, gdkDrawable);
 			} else {
 				try {
 					return new W32GLContext(attrs,

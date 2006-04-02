@@ -7,7 +7,7 @@ using System.Security;
 namespace OpenGl {
 	public class gl {
 
-        private const string GL_DLL = "GL.dll";
+        private const string GL_DLL = "OpenGL32.dll";
     
 		public const uint _2_BYTES = 0x1407;
 		public const uint _2D = 0x0600;
