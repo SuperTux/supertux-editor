@@ -16,9 +16,9 @@ public class Sector : ICustomLispSerializer {
 	[ChooseResourceSetting]
 	[LispChild("music")]
 	public string Music = "";
-	[LispChild("gravity")]
-	public float Gravity = 10.0f;
-	[LispChild("init-script")]
+	[LispChild("gravity", Optional = true, Default = 10f)]
+	public float Gravity = 10f;
+	[LispChild("init-script", Optional = true, Default = "")]
 	public string InitScript = "";
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();

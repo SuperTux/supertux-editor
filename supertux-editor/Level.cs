@@ -16,7 +16,7 @@ public class Level
 	private string tilesetFile = "images/tiles.strf";
 	public Tileset Tileset = new Tileset("images/tiles.strf");	
 	
-	[LispChild("tileset")]
+	[LispChild("tileset", Optional = true, Default = "images/tiles.strf")]
 	[ChooseResourceSetting]
 	public string TilesetFile {
 		get {

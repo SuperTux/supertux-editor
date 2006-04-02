@@ -35,10 +35,12 @@ namespace LispReader
 					string Name = ChildAttrib.Name;
 					if(field.Type == typeof(int)) {
 						int val = 0;
-						if(!props.Get(Name, ref val))
-							Console.WriteLine("Field '" + Name + "' not in lisp");
-						else
+						if(!props.Get(Name, ref val)) {
+							if(!ChildAttrib.Optional)	
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
 							field.SetValue(result, val);
+						}
 					} else if(field.Type == typeof(string)) {
 						string val = null;
 						if(!props.Get(Name, ref val)) {
@@ -65,10 +67,12 @@ namespace LispReader
 						}
 					} else if(field.Type == typeof(List<uint>)) {
 						List<uint> val = new List<uint>();
-						if(!props.GetUIntList(Name, val))
-							Console.WriteLine("Field '" + Name + "' not in lisp");
-						else
+						if(!props.GetUIntList(Name, val)) {
+							if(!ChildAttrib.Optional)	
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
 							field.SetValue(result, val);
+						}
 					} else {
 						ILispSerializer serializer = LispSerializer.GetSerializer(field.Type);
 						if(serializer == null)

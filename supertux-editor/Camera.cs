@@ -4,6 +4,6 @@ using LispReader;
 public class Camera : IGameObject {
 	[LispChild("mode")]
 	public string Mode = "normal";
-	[LispChild("backscrolling")]
+	[LispChild("backscrolling", Optional = true, Default = true)]
 	public bool BackScrolling = true;
 }

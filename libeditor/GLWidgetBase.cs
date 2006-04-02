@@ -43,6 +43,7 @@ public abstract class GLWidgetBase : GLArea {
 
 	public GLWidgetBase() 
 		: base(attrlist, ShareArea) {
+		GlUtil.ContextValid = false;
 		ExposeEvent += OnExposed;
 		ConfigureEvent += OnConfigure;
 		
@@ -57,6 +58,8 @@ public abstract class GLWidgetBase : GLArea {
 			return;
 		}
 
+		GlUtil.ContextValid = true;
+
 		gl.MatrixMode(gl.MODELVIEW);
 		gl.LoadIdentity();
 		gl.Scalef(Zoom, Zoom, 1f);
@@ -66,6 +69,8 @@ public abstract class GLWidgetBase : GLArea {
 		GlUtil.Assert("After Drawing");
 
 		SwapBuffers();
+
+		GlUtil.ContextValid = false;
 	}
 
 	private void OnConfigure(object o, ConfigureEventArgs args) {
@@ -73,6 +78,8 @@ public abstract class GLWidgetBase : GLArea {
 			Console.WriteLine("Warning: MakeCurrent() - OnConfigure failed");
 			return;
 		}
+
+		GlUtil.ContextValid = true;
 
 		// setup opengl state and transform
         gl.Disable(gl.DEPTH_TEST);
@@ -91,6 +98,8 @@ public abstract class GLWidgetBase : GLArea {
         gl.LoadIdentity();
 		
 		GlUtil.Assert("After setting opengl transforms");
+
+		GlUtil.ContextValid = false;
 	}
 
 	protected abstract void DrawGl();

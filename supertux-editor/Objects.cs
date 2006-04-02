@@ -359,8 +359,8 @@ public class ScriptedObject : SimpleObject
 		}
 	}
 	private string spriteFile = "";
-	[LispChild("layer")]
-	public int Layer;
+	[LispChild("layer", Optional = true, Default = 0)]
+	public int Layer = 0;
 	[LispChild("visible")]
 	public bool Visible = true;
 	[LispChild("physic-enabled")]

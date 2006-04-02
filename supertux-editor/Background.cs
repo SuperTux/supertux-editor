@@ -8,13 +8,13 @@ public class Background : IGameObject {
 	public string Image;
 	[LispChild("speed")]
 	public float Speed = 0.5f;
-	[LispChild("layer")]
+	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 }
 
 [SupertuxObject("gradient", "images/engine/editor/gradient.png")]
 public class Gradient : IGameObject {
-	[LispChild("layer")]
+	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 	[ChooseColorSetting]
 	[LispChild("top_color")]

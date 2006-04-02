@@ -92,6 +92,9 @@ public class Texture : IDisposable {
         if(handle == 0)
             return;            
 
+		if(!GlUtil.ContextValid)
+			Console.WriteLine("Warning: Texture disposed without opengl context");
+
         uint[] handles = { handle };
 
         gl.DeleteTextures(1, handles);
@@ -133,6 +136,9 @@ public class Texture : IDisposable {
     }
 
     private unsafe void CreateTexture() {
+		if(!GlUtil.ContextValid)
+			Console.WriteLine("Warning: Texture created without opengl context");
+		
         uint[] handles = new uint[1];
         gl.GenTextures(1, handles);
         // 0 is used as special value to mark invalid textures here
