@@ -32,11 +32,16 @@ using Glade;
 
 public class ErrorDialog : IDisposable
 {
-	[Glade.Widget ("ErrorDialog")] Dialog dialog;
-	[Glade.Widget] Button okButton;
-	[Glade.Widget] Label descriptionLabel;
-	[Glade.Widget] Gtk.TextView detailsTextView;
-	[Glade.Widget] Gtk.Expander expander;
+	[Glade.Widget ("ErrorDialog")]
+	Dialog dialog;
+	[Glade.Widget]
+	Button okButton;
+	[Glade.Widget]
+	Label descriptionLabel;
+	[Glade.Widget]
+	Gtk.TextView detailsTextView;
+	[Glade.Widget]
+	Gtk.Expander expander;
 	
 	TextTag tagNoWrap;
 	TextTag tagWrap;

@@ -6,11 +6,11 @@ using Glade;
 public class ResizeDialog
 {
 	[Glade.Widget]
-	private Dialog resizeDialog;
+	private Dialog resizeDialog = null;
 	[Glade.Widget]
-	private Entry WidthEntry;
+	private Entry WidthEntry = null;
 	[Glade.Widget]
-	private Entry HeightEntry;
+	private Entry HeightEntry = null;
 	
 	private Sector sector;
 	

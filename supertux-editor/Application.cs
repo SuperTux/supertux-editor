@@ -10,7 +10,7 @@ using LispReader;
 
 public class Application : IEditorApplication {
 	[Glade.Widget]
-	private Gtk.Window MainWindow;
+	private Gtk.Window MainWindow = null;
 
 	private TileListWidget tileList;
 	private LayerListWidget layerList;
@@ -107,7 +107,6 @@ public class Application : IEditorApplication {
 		scrolledWindow.Add(gObjectList);
 		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
 		DockItem gObjectListDock = new DockItem("GObjectList", "GObjects",
-		                                        Gtk.Stock.Info,
 		                                        DockItemBehavior.NeverFloating);
 		gObjectListDock.Add(scrolledWindow);
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);

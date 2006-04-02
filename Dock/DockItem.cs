@@ -23,7 +23,6 @@
  */
 using System;
 using System.Xml;
-using Mono.Unix;
 using Gtk;
 
 namespace Gdl
@@ -758,12 +757,12 @@ namespace Gdl
 				menu.AttachToWidget (this, new MenuDetachFunc (DetachMenu));
 				
 				// Hide menuitem
-				MenuItem mitem = new MenuItem (Catalog.GetString("Hide"));
+				MenuItem mitem = new MenuItem ("Hide");
 				mitem.Activated += new EventHandler (ItemHideCb);
 				menu.Append (mitem);
 
 				// Lock menuitem
-				CheckMenuItem citem = new CheckMenuItem (Catalog.GetString("Lock"));
+				CheckMenuItem citem = new CheckMenuItem ("Lock");
 				citem.Active = this.Locked;
 				citem.Toggled += new EventHandler (ItemLockCb);
 				menu.Append (citem);

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{25EDC925-F941-4DF1-9824-52F03F819757}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dock</RootNamespace>
+    <AssemblyName>Dock</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="AfterAttribute.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="DetachedHandler.cs" />
+    <Compile Include="Dock.cs" />
+    <Compile Include="DockBar.cs" />
+    <Compile Include="DockBarButton.cs" />
+    <Compile Include="DockedHandler.cs" />
+    <Compile Include="DockItem.cs" />
+    <Compile Include="DockItemBehavior.cs" />
+    <Compile Include="DockItemGrip.cs" />
+    <Compile Include="DockLayout.cs" />
+    <Compile Include="DockMaster.cs" />
+    <Compile Include="DockNotebook.cs" />
+    <Compile Include="DockObject.cs" />
+    <Compile Include="DockObjectFlags.cs" />
+    <Compile Include="DockPaned.cs" />
+    <Compile Include="DockPlaceholder.cs" />
+    <Compile Include="DockPlacement.cs" />
+    <Compile Include="DockRequest.cs" />
+    <Compile Include="ExportAttribute.cs" />
+    <Compile Include="GdlDockTest.cs" />
+    <Compile Include="GdlStock.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\layout.glade">
+      <LogicalName>layout.glade</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-menu-right-12.png">
+      <LogicalName>stock-menu-right-12.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-close-12.png">
+      <LogicalName>stock-close-12.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-menu-left-12.png">
+      <LogicalName>stock-menu-left-12.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

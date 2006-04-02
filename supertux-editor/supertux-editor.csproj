@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EC40E667-B055-408B-9D92-C3640EB2B032}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>supertux_editor</RootNamespace>
+    <AssemblyName>supertux-editor</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Application.cs" />
+    <Compile Include="Background.cs" />
+    <Compile Include="Camera.cs" />
+    <Compile Include="ChooseColorWidget.cs" />
+    <Compile Include="ChooseResourceWidget.cs" />
+    <Compile Include="ColorSerializer.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="CustomSettingsWidgetAttribute.cs" />
+    <Compile Include="EditorStock.cs" />
+    <Compile Include="GameObjectListWidget.cs" />
+    <Compile Include="ICustomSettingsWidget.cs" />
+    <Compile Include="IEditorApplication.cs" />
+    <Compile Include="IGameObject.cs" />
+    <Compile Include="IObject.cs" />
+    <Compile Include="LayerListWidget.cs" />
+    <Compile Include="Level.cs" />
+    <Compile Include="LevelUtil.cs" />
+    <Compile Include="ObjectListWidget.cs" />
+    <Compile Include="Objects.cs" />
+    <Compile Include="ObjectsEditor.cs" />
+    <Compile Include="Path.cs" />
+    <Compile Include="ResizeDialog.cs" />
+    <Compile Include="Sector.cs" />
+    <Compile Include="SectorRenderer.cs" />
+    <Compile Include="SectorSwitchNotebook.cs" />
+    <Compile Include="Selection.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="SettingsWindow.cs" />
+    <Compile Include="SimpleObject.cs" />
+    <Compile Include="Sprites\Sprite.cs" />
+    <Compile Include="Sprites\SpriteData.cs" />
+    <Compile Include="Sprites\SpriteManager.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="TileBlock.cs" />
+    <Compile Include="TileGroup.cs" />
+    <Compile Include="TileListWidget.cs" />
+    <Compile Include="Tilemap.cs" />
+    <Compile Include="TilemapEditor.cs" />
+    <Compile Include="TilemapNode.cs" />
+    <Compile Include="Tileset.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="WorldmapObjects.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="System" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dock\Dock.csproj">
+      <Project>{25EDC925-F941-4DF1-9824-52F03F819757}</Project>
+      <Name>Dock</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\gtkgl-sharp\gtkgl-sharp.csproj">
+      <Project>{BA787F0F-DD07-45A1-B4D8-6F643ADE289C}</Project>
+      <Name>gtkgl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\libeditor\libeditor.csproj">
+      <Project>{FD0B9E66-17B4-495E-B099-439507637A6C}</Project>
+      <Name>libeditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LispReader\LispReader.csproj">
+      <Project>{2DDAEA33-FE40-4FF5-BF60-BBD4DD13576D}</Project>
+      <Name>LispReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Lisp\Lisp.csproj">
+      <Project>{9EC3C894-3BEA-419C-ABE1-634B86AE7C0C}</Project>
+      <Name>Lisp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{77EC70E4-F69F-4929-AA4B-3CA90D467F7D}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\stock-eye-12.png">
+      <LogicalName>stock-eye-12.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-eye-half-12.png">
+      <LogicalName>stock-eye-half-12.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\editor.glade">
+      <LogicalName>editor.glade</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

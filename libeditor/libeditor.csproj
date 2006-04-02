@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FD0B9E66-17B4-495E-B099-439507637A6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>libeditor</RootNamespace>
+    <AssemblyName>libeditor</AssemblyName>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="DataStructures\Field.cs" />
+    <Compile Include="DataStructures\FieldPos.cs" />
+    <Compile Include="DataStructures\Matrix.cs" />
+    <Compile Include="DataStructures\RectangleF.cs" />
+    <Compile Include="DataStructures\SizeF.cs" />
+    <Compile Include="DataStructures\Vector.cs" />
+    <Compile Include="Drawing\Color.cs" />
+    <Compile Include="Drawing\ColorNode.cs" />
+    <Compile Include="Drawing\Font.cs" />
+    <Compile Include="Drawing\GlUtil.cs" />
+    <Compile Include="Drawing\ImageTexture.cs" />
+    <Compile Include="Drawing\Rect.cs" />
+    <Compile Include="Drawing\Surface.cs" />
+    <Compile Include="Drawing\Texture.cs" />
+    <Compile Include="Drawing\TextureManager.cs" />
+    <Compile Include="ErrorDialog.cs" />
+    <Compile Include="GLWidgetBase.cs" />
+    <Compile Include="IEditor.cs" />
+    <Compile Include="Libs\FreeType.cs" />
+    <Compile Include="Libs\OpenGl.cs" />
+    <Compile Include="Libs\OpenGlUtil.cs" />
+    <Compile Include="Libs\Sdl.cs" />
+    <Compile Include="Libs\SdlImage.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="SceneGraph\Layer.cs" />
+    <Compile Include="SceneGraph\Node.cs" />
+    <Compile Include="SceneGraph\NodeWithChilds.cs" />
+    <Compile Include="SceneGraph\Transform.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\gtkgl-sharp\gtkgl-sharp.csproj">
+      <Project>{BA787F0F-DD07-45A1-B4D8-6F643ADE289C}</Project>
+      <Name>gtkgl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Resources\Resources.csproj">
+      <Project>{77EC70E4-F69F-4929-AA4B-3CA90D467F7D}</Project>
+      <Name>Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\errordialog.glade" />
+  </ItemGroup>
+</Project>

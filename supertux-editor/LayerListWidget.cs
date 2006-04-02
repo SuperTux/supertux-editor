@@ -32,7 +32,7 @@ public class LayerListWidget : TreeView {
 		ButtonPressEvent += OnButtonPressed;
 		
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
-		visibilityRenderer.EditingStarted += OnVisibilityChange;
+		//visibilityRenderer.EditingStarted += OnVisibilityChange;
 		TreeViewColumn visibilityColumn = new TreeViewColumn("Visibility",
 		                                                       visibilityRenderer);
 		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);
