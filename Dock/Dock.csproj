@@ -6,7 +6,7 @@
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{25EDC925-F941-4DF1-9824-52F03F819757}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dock</RootNamespace>
     <AssemblyName>Dock</AssemblyName>
@@ -59,7 +59,6 @@
     <Compile Include="DockPlacement.cs" />
     <Compile Include="DockRequest.cs" />
     <Compile Include="ExportAttribute.cs" />
-    <Compile Include="GdlDockTest.cs" />
     <Compile Include="GdlStock.cs" />
   </ItemGroup>
   <ItemGroup>

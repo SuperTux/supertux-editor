@@ -112,7 +112,7 @@ public class Application : IEditorApplication {
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
 		
 		layout.LoadFromFile(layoutFile);
-		layout.LoadLayout("__default__");
+		//layout.LoadLayout("__default__");
 	}
 	
 	private Widget CreateTileList()

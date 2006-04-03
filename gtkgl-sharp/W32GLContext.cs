@@ -150,7 +150,10 @@ namespace Gdk
 
         ~W32GLContext()
         {
-            wglDeleteContext(renderingContext);
+			if (renderingContext != IntPtr.Zero) {
+				wglDeleteContext(renderingContext);
+				renderingContext = IntPtr.Zero;
+			}
         }
 
         public unsafe override bool MakeCurrent(IntPtr gdkDrawable)
@@ -241,9 +244,9 @@ namespace Gdk
                 if (share != null) {
                     if (share.renderingContext != IntPtr.Zero) {
                         Console.WriteLine("DoSharing");
-                        if (!wglShareLists(renderingContext, share.renderingContext))
+                        if (!wglShareLists(share.renderingContext, renderingContext))
                             throw new Exception("Can't share opengl contexts");
-                    } else
+					} else
                         throw new Exception("Trying to share with uninitialized context...");
                 } else {
                     Console.WriteLine("Share zero");

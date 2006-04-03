@@ -103,7 +103,7 @@ namespace Gdl
 			}
 		}
 		
-		public new DockItem Item {
+		public DockItem Item {
 			get {
 				return item;
 			}

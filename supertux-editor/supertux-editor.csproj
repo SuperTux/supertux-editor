@@ -72,6 +72,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="TileBlock.cs" />
     <Compile Include="TileGroup.cs" />
+    <Compile Include="TileGroupSelector.cs" />
     <Compile Include="TileListWidget.cs" />
     <Compile Include="Tilemap.cs" />
     <Compile Include="TilemapEditor.cs" />

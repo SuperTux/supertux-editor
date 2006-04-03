@@ -6,7 +6,7 @@ using DataStructures;
 using Drawing;
 
 public abstract class GLWidgetBase : GLArea {
-	private static GLWidgetBase ShareArea = null;
+	public static GLWidgetBase ShareArea = null;
 	
 	private float _Zoom = 1.0f;
 	protected float Zoom {
