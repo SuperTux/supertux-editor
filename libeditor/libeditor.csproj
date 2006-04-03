@@ -88,6 +88,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="resources\errordialog.glade" />
+    <EmbeddedResource Include="resources\errordialog.glade">
+        <LogicalName>errrodialog.glade</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
