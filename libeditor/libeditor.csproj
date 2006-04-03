@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\errordialog.glade">
-        <LogicalName>errrodialog.glade</LogicalName>
+        <LogicalName>errordialog.glade</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

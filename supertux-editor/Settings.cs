@@ -28,8 +28,8 @@ public class Settings {
 				reader.Close();
 		}
 		
-		if(!Instance.SupertuxData.EndsWith("/"))
-			Instance.SupertuxData += "/";
+		if(!Instance.SupertuxData.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
+			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
         Resources.ResourceManager.Instance = new Resources.DefaultResourceManager(Instance.SupertuxData + "/");
 	}
 
