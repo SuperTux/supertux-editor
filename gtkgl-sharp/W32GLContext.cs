@@ -143,6 +143,9 @@ namespace Gdk
         {
             this.attributes = attributeList;
             this.share = share;
+			
+			// force .net to load the OpenGL dll :-/
+			glFlush();
         }
 
         ~W32GLContext()
@@ -153,9 +156,6 @@ namespace Gdk
         public unsafe override bool MakeCurrent(IntPtr gdkDrawable)
         {
             if (!initialized) {
-                // force .net to load the OpenGL dll :-/
-                glFlush();
-
                 IntPtr hwnd = gdk_win32_drawable_get_handle(gdkDrawable);
                 deviceContext = GetDC(hwnd);
 

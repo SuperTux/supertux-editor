@@ -53,7 +53,7 @@ namespace Gdk
 					useWGLContext = true;
 					try {
 						return CreateContext(attrs, share, gdkDrawable);
-					} catch(DllNotFoundException e2) {
+					} catch(Exception e2) {
 						Console.WriteLine("Failed setting up wgl context", e2.Message);
 						Console.WriteLine(e2.StackTrace);
 					}
