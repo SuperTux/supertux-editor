@@ -664,7 +664,7 @@ namespace Sdl {
 
 	public class SDL {
 
-            private const string SDL_DLL = "SDL.dll";
+        private const string SDL_DLL = "sdl.dll";
     
 		public const uint AUDIO_S16 = 0x8010;
 		public const uint AUDIO_S16LSB = 0x8010;
