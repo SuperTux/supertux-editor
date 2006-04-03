@@ -99,7 +99,7 @@ namespace Gdk
         internal const uint PFD_DOUBLEBUFFER_DONTCARE = 0x40000000;
         internal const uint PFD_STEREO_DONTCARE = 0x80000000;
 
-        public const string GL_DLL = "OpenGL32";
+        public const string GL_DLL = "opengl32.dll";
 
         [DllImport("libgdk-win32-2.0-0.dll")]
         static extern IntPtr gdk_win32_drawable_get_handle(IntPtr d);
