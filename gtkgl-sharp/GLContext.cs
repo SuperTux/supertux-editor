@@ -60,7 +60,7 @@ namespace Gdk
 					
 					Console.WriteLine("glx problem: " + e.Message);
 					Console.WriteLine(e.StackTrace);
-					useWGLContext = true;
+					useWGLContext = false;
 
 					throw e;
 				}
