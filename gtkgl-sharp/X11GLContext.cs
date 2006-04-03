@@ -38,7 +38,7 @@ namespace Gdk
 
 	internal class X11GLContext : GLContext
 	{
-		private const string GL_DLL = "opengl32.dll";
+		private const string GL_DLL = "GL";
 		
 		[DllImport(GL_DLL)]
 		static extern bool glXMakeCurrent (IntPtr display,

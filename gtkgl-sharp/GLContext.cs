@@ -48,7 +48,7 @@ namespace Gdk
 					return new X11GLContext(attrs,
 							(X11GLContext) share, gdkDrawable);
 				} catch(DllNotFoundException e) {
-					Console.WriteLine("Failed setting up X11 opengl context" + e.Message);
+					Console.WriteLine("Failed setting up X11 opengl context: " + e.Message);
 					Console.WriteLine(e.StackTrace);
 					Console.WriteLine("Trying win32 API");
 					useWGLContext = true;
