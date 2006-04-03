@@ -75,7 +75,7 @@ public class WorldmapLevel : WorldmapObject
 	}
 }
 
-[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite")]
+[SupertuxObject("special-tile", "images/worldmap/common/teleporter.sprite")]
 public class SpecialTile : WorldmapObject
 {
 	[LispChild("teleport-to-x", Optional = true, Default = -1f)]
@@ -91,6 +91,6 @@ public class SpecialTile : WorldmapObject
 	
 	public SpecialTile()
 	{
-		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+		Sprite = SpriteManager.Create("images/worldmap/common/teleporter.sprite");
 	}
 }
