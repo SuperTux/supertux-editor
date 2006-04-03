@@ -84,6 +84,8 @@ public class SpecialTile : WorldmapObject
 	public float TeleportToY = -1f;
 	[LispChild("map-message", Optional = true, Default = "", Translatable = true)]
 	public string Message = "";
+	[LispChild("invisible-tile", Optional = true, Default = false)]
+	public bool invisible;
 	[LispChild("passive-message", Optional = true, Default = false)]
 	public bool PassiveMessage;
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
