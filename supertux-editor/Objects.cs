@@ -218,11 +218,11 @@ public class Trampoline : SimpleObject
 	}
 }
 
-[SupertuxObject("bell", "images/objects/bell/bell.sprite")]
-public class Bell : SimpleObject
+[SupertuxObject("firefly", "images/objects/bell/firefly.sprite")]
+public class Firefly : SimpleObject
 {
-	public Bell() {
-		Sprite = SpriteManager.Create("images/objects/bell/bell.sprite");
+	public Firefly() {
+		Sprite = SpriteManager.Create("images/objects/firefly/firefly.sprite");
 		Sprite.Action = "normal";
 	}
 }
