@@ -61,15 +61,12 @@ namespace Gdk
 					Console.WriteLine("glx problem: " + e.Message);
 					Console.WriteLine(e.StackTrace);
 					useWGLContext = true;
+
+					throw e;
 				}
-				return CreateContext(attrs, share, gdkDrawable);
 			} else {
-				try {
-					return new W32GLContext(attrs,
+				return new W32GLContext(attrs,
 							(W32GLContext) share, gdkDrawable);
-				} catch(DllNotFoundException e) {
-					throw new Exception("Couldn't find OpenGl library", e);
-				}
             }
 		}
 
