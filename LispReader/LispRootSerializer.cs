@@ -129,7 +129,8 @@ namespace LispReader
 					object Value = field.GetValue(Object);
 					if(Value != null) {
 						if(ChildAttrib.Translatable) {
-							writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
+							if(!ChildAttrib.Optional || !Value.Equals(ChildAttrib.Default))
+								writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
 						} else {
 							Type childType = field.Type;
 							
