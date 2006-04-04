@@ -5,17 +5,19 @@ using OpenGl;
 namespace SceneGraph
 {
 
-public class Transform : NodeWithChilds {
-    public Matrix Matrix;
-    
-    public override unsafe void Draw() {
-        gl.PushMatrix();
-        gl.MultMatrixf(Matrix.Elements);
+	public class Transform : NodeWithChilds
+	{
+		public Matrix Matrix;
 
-        DrawChilds();
+		public override unsafe void Draw()
+		{
+			gl.PushMatrix();
+			gl.MultMatrixf(Matrix.Elements);
 
-        gl.PopMatrix();
-    }
-}
+			DrawChilds();
+
+			gl.PopMatrix();
+		}
+	}
 
 }

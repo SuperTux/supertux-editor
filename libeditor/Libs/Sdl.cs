@@ -4,9 +4,11 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 
-namespace Sdl {
+namespace Sdl
+{
 	[StructLayout(LayoutKind.Sequential)]
-	public struct RWops {
+	public struct RWops
+	{
 		public IntPtr /* funcptr */ seek;
 		public IntPtr /* funcptr */ read;
 		public IntPtr /* funcptr */ write;
@@ -19,11 +21,13 @@ namespace Sdl {
 
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct _SDL_TimerID {
+	public struct _SDL_TimerID
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct AudioSpec {
+	public struct AudioSpec
+	{
 		public int freq;
 		public ushort format;
 		public byte channels;
@@ -36,7 +40,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct AudioCVT {
+	public struct AudioCVT
+	{
 		public int needed;
 		public ushort src_format;
 		public ushort dst_format;
@@ -51,7 +56,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct CDtrack {
+	public struct CDtrack
+	{
 		public byte id;
 		public byte type;
 		public ushort unused;
@@ -60,7 +66,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct CD {
+	public struct CD
+	{
 		public int id;
 		public CDstatus status;
 		public int numtracks;
@@ -70,11 +77,13 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Joystick {
+	public struct Joystick
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct keysym {
+	public struct keysym
+	{
 		public byte scancode;
 		public Key sym;
 		public KMod mod;
@@ -85,7 +94,8 @@ namespace Sdl {
 
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Rect {
+	public struct Rect
+	{
 		public short x;
 		public short y;
 		public ushort w;
@@ -93,7 +103,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Color {
+	public struct Color
+	{
 		public byte r;
 		public byte g;
 		public byte b;
@@ -101,13 +112,15 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Palette {
+	public struct Palette
+	{
 		public int ncolors;
 		public IntPtr /*Color*/ colors;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct PixelFormat {
+	public struct PixelFormat
+	{
 		public IntPtr /*Palette*/ palette;
 		public byte BitsPerPixel;
 		public byte BytesPerPixel;
@@ -128,7 +141,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Surface {
+	public struct Surface
+	{
 		public uint flags;
 		public IntPtr /*PixelFormat*/ format;
 		public int w;
@@ -146,15 +160,18 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct private_hwdata {
+	public struct private_hwdata
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct BlitMap {
+	public struct BlitMap
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct VideoInfo {
+	public struct VideoInfo
+	{
 		public uint hw_available;
 		public uint wm_available;
 		public uint UnusedBits1;
@@ -172,7 +189,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Overlay {
+	public struct Overlay
+	{
 		public uint format;
 		public int w;
 		public int h;
@@ -186,19 +204,23 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct private_yuvhwfuncs {
+	public struct private_yuvhwfuncs
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct private_yuvhwdata {
+	public struct private_yuvhwdata
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct WMcursor {
+	public struct WMcursor
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Cursor {
+	public struct Cursor
+	{
 		public Rect area;
 		public short hot_x;
 		public short hot_y;
@@ -209,14 +231,16 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ActiveEvent {
+	public struct ActiveEvent
+	{
 		public byte type;
 		public byte gain;
 		public byte state;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct KeyboardEvent {
+	public struct KeyboardEvent
+	{
 		public byte type;
 		public byte which;
 		public byte state;
@@ -224,7 +248,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct MouseMotionEvent {
+	public struct MouseMotionEvent
+	{
 		public byte type;
 		public byte which;
 		public byte state;
@@ -235,7 +260,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct MouseButtonEvent {
+	public struct MouseButtonEvent
+	{
 		public byte type;
 		public byte which;
 		public byte button;
@@ -245,7 +271,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct JoyAxisEvent {
+	public struct JoyAxisEvent
+	{
 		public byte type;
 		public byte which;
 		public byte axis;
@@ -253,7 +280,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct JoyBallEvent {
+	public struct JoyBallEvent
+	{
 		public byte type;
 		public byte which;
 		public byte ball;
@@ -262,7 +290,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct JoyHatEvent {
+	public struct JoyHatEvent
+	{
 		public byte type;
 		public byte which;
 		public byte hat;
@@ -270,7 +299,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct JoyButtonEvent {
+	public struct JoyButtonEvent
+	{
 		public byte type;
 		public byte which;
 		public byte button;
@@ -278,24 +308,28 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ResizeEvent {
+	public struct ResizeEvent
+	{
 		public byte type;
 		public int w;
 		public int h;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ExposeEvent {
+	public struct ExposeEvent
+	{
 		public byte type;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct QuitEvent {
+	public struct QuitEvent
+	{
 		public byte type;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct UserEvent {
+	public struct UserEvent
+	{
 		public byte type;
 		public int code;
 		public IntPtr /*void*/ data1;
@@ -303,17 +337,20 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct SysWMmsg {
+	public struct SysWMmsg
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct SysWMEvent {
+	public struct SysWMEvent
+	{
 		public byte type;
 		public IntPtr /*SysWMmsg*/ msg;
 	}
 
 	[StructLayout(LayoutKind.Explicit)]
-	public struct Event {
+	public struct Event
+	{
 		[FieldOffset(0)]
 		public byte type;
 		[FieldOffset(0)]
@@ -345,7 +382,8 @@ namespace Sdl {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Version {
+	public struct Version
+	{
 		public byte major;
 		public byte minor;
 		public byte patch;
@@ -354,7 +392,8 @@ namespace Sdl {
 
 
 
-	public enum ErrorCode {
+	public enum ErrorCode
+	{
 		ENOMEM,
 		EFREAD,
 		EFWRITE,
@@ -362,13 +401,15 @@ namespace Sdl {
 		LASTERROR,
 	}
 
-	public enum AudioStatus {
+	public enum AudioStatus
+	{
 		STOPPED = 0,
 		PLAYING,
 		PAUSED,
 	}
 
-	public enum CDstatus {
+	public enum CDstatus
+	{
 		TRAYEMPTY,
 		STOPPED,
 		PLAYING,
@@ -376,7 +417,8 @@ namespace Sdl {
 		ERROR = (int) (-1),
 	}
 
-	public enum Key {
+	public enum Key
+	{
 		UNKNOWN = 0,
 		FIRST = 0,
 		BACKSPACE = 8,
@@ -613,7 +655,8 @@ namespace Sdl {
 		LAST,
 	}
 
-	public enum KMod {
+	public enum KMod
+	{
 		NONE = 0x0000,
 		LSHIFT = 0x0001,
 		RSHIFT = 0x0002,
@@ -629,7 +672,8 @@ namespace Sdl {
 		RESERVED = 0x8000,
 	}
 
-	public enum GLattr {
+	public enum GLattr
+	{
 		RED_SIZE,
 		GREEN_SIZE,
 		BLUE_SIZE,
@@ -647,7 +691,8 @@ namespace Sdl {
 		MULTISAMPLESAMPLES,
 	}
 
-	public enum GrabMode {
+	public enum GrabMode
+	{
 		QUERY = (int) (-1),
 		OFF = 0,
 		ON = 1,
@@ -656,16 +701,18 @@ namespace Sdl {
 
 
 
-	public enum EventAction {
+	public enum EventAction
+	{
 		ADDEVENT,
 		PEEKEVENT,
 		GETEVENT,
 	}
 
-	public class SDL {
+	public class SDL
+	{
 
-        private const string SDL_DLL = "sdl.dll";
-    
+		private const string SDL_DLL = "sdl.dll";
+
 		public const uint AUDIO_S16 = 0x8010;
 		public const uint AUDIO_S16LSB = 0x8010;
 		public const uint AUDIO_S16MSB = 0x9010;
@@ -788,388 +835,389 @@ namespace Sdl {
 		public const int QUITMASK = (int) (1 << QUIT);
 		public const int SYSWMEVENTMASK = (int) (1 << SYSWMEVENT);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetError"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetError"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ _GetError();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_ClearError"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_ClearError"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearError();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Error"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Error"), SuppressUnmanagedCodeSecurity]
 		public static extern void Error(ErrorCode code);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_RWFromFile"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_RWFromFile"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*RWops*/ RWFromFile(string file, string mode);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_RWFromMem"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_RWFromMem"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*RWops*/ RWFromMem(IntPtr mem, int size);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetTicks"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetTicks"), SuppressUnmanagedCodeSecurity]
 		public static extern uint GetTicks();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Delay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Delay"), SuppressUnmanagedCodeSecurity]
 		public static extern void Delay(uint ms);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_AudioInit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_AudioInit"), SuppressUnmanagedCodeSecurity]
 		public static extern int AudioInit(string driver_name);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_AudioQuit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_AudioQuit"), SuppressUnmanagedCodeSecurity]
 		public static extern void AudioQuit();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_AudioDriverName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_AudioDriverName"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ AudioDriverName([In, Out] sbyte[] namebuf, int maxlen);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_OpenAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_OpenAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern int OpenAudio(ref AudioSpec desired, ref AudioSpec obtained);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetAudioStatus"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetAudioStatus"), SuppressUnmanagedCodeSecurity]
 		public static extern AudioStatus GetAudioStatus();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_PauseAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_PauseAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern void PauseAudio(int pause_on);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_FreeWAV"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_FreeWAV"), SuppressUnmanagedCodeSecurity]
 		public static extern void FreeWAV([In, Out] byte[] audio_buf);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_BuildAudioCVT"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_BuildAudioCVT"), SuppressUnmanagedCodeSecurity]
 		public static extern int BuildAudioCVT(ref AudioCVT cvt, ushort src_format, byte src_channels, int src_rate, ushort dst_format, byte dst_channels, int dst_rate);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_ConvertAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_ConvertAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern int ConvertAudio(ref AudioCVT cvt);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_MixAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_MixAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern void MixAudio([In, Out] byte[] dst, [In] byte[] src, uint len, int volume);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_LockAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_LockAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern void LockAudio();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UnlockAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UnlockAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern void UnlockAudio();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CloseAudio"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CloseAudio"), SuppressUnmanagedCodeSecurity]
 		public static extern void CloseAudio();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDNumDrives"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDNumDrives"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDNumDrives();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDName"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ CDName(int drive);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDOpen"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDOpen"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*CD*/ CDOpen(int drive);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDStatus"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDStatus"), SuppressUnmanagedCodeSecurity]
 		public static extern CDstatus CDStatus(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDPlayTracks"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDPlayTracks"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDPlayTracks(IntPtr /*CD*/ cdrom, int start_track, int start_frame, int ntracks, int nframes);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDPlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDPlay"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDPlay(IntPtr /*CD*/ cdrom, int start, int length);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDPause"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDPause"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDPause(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDResume"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDResume"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDResume(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDStop"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDStop"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDStop(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDEject"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDEject"), SuppressUnmanagedCodeSecurity]
 		public static extern int CDEject(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CDClose"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CDClose"), SuppressUnmanagedCodeSecurity]
 		public static extern void CDClose(IntPtr /*CD*/ cdrom);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_NumJoysticks"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_NumJoysticks"), SuppressUnmanagedCodeSecurity]
 		public static extern int NumJoysticks();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickName"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ JoystickName(int device_index);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickOpen"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickOpen"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Joystick*/ JoystickOpen(int device_index);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickOpened"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickOpened"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickOpened(int device_index);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickIndex"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickIndex"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickIndex(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickNumAxes"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickNumAxes"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickNumAxes(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickNumBalls"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickNumBalls"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickNumBalls(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickNumHats"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickNumHats"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickNumHats(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickNumButtons"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickNumButtons"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickNumButtons(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickUpdate"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickUpdate"), SuppressUnmanagedCodeSecurity]
 		public static extern void JoystickUpdate();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickEventState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickEventState"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickEventState(int state);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickGetAxis"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickGetAxis"), SuppressUnmanagedCodeSecurity]
 		public static extern short JoystickGetAxis(IntPtr /*Joystick*/ joystick, int axis);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickGetHat"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickGetHat"), SuppressUnmanagedCodeSecurity]
 		public static extern byte JoystickGetHat(IntPtr /*Joystick*/ joystick, int hat);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickGetBall"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickGetBall"), SuppressUnmanagedCodeSecurity]
 		public static extern int JoystickGetBall(IntPtr /*Joystick*/ joystick, int ball, [In, Out] int[] dx, [In, Out] int[] dy);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickGetButton"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickGetButton"), SuppressUnmanagedCodeSecurity]
 		public static extern byte JoystickGetButton(IntPtr /*Joystick*/ joystick, int button);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_JoystickClose"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_JoystickClose"), SuppressUnmanagedCodeSecurity]
 		public static extern void JoystickClose(IntPtr /*Joystick*/ joystick);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetAppState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetAppState"), SuppressUnmanagedCodeSecurity]
 		public static extern byte GetAppState();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_EnableUNICODE"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_EnableUNICODE"), SuppressUnmanagedCodeSecurity]
 		public static extern int EnableUNICODE(bool enable);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_EnableKeyRepeat"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_EnableKeyRepeat"), SuppressUnmanagedCodeSecurity]
 		public static extern int EnableKeyRepeat(int delay, int interval);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetKeyState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetKeyState"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*byte*/ GetKeyState([In, Out] int[] numkeys);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetModState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetModState"), SuppressUnmanagedCodeSecurity]
 		public static extern KMod GetModState();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetModState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetModState"), SuppressUnmanagedCodeSecurity]
 		public static extern void SetModState(KMod modstate);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetKeyName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetKeyName"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ GetKeyName(Key key);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_VideoInit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_VideoInit"), SuppressUnmanagedCodeSecurity]
 		public static extern int VideoInit(string driver_name, uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_VideoQuit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_VideoQuit"), SuppressUnmanagedCodeSecurity]
 		public static extern void VideoQuit();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_VideoDriverName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_VideoDriverName"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ VideoDriverName([In, Out] sbyte[] namebuf, int maxlen);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetVideoSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetVideoSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ GetVideoSurface();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetVideoInfo"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetVideoInfo"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*VideoInfo*/ GetVideoInfo();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_VideoModeOK"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_VideoModeOK"), SuppressUnmanagedCodeSecurity]
 		public static extern int VideoModeOK(int width, int height, int bpp, uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_ListModes"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_ListModes"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*IntPtr Rect*/ ListModes(ref PixelFormat format, uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetVideoMode"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetVideoMode"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ SetVideoMode(int width, int height, int bpp, uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UpdateRects"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UpdateRects"), SuppressUnmanagedCodeSecurity]
 		public static extern void UpdateRects(IntPtr /*Surface*/ screen, int numrects, ref Rect rects);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UpdateRect"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UpdateRect"), SuppressUnmanagedCodeSecurity]
 		public static extern void UpdateRect(IntPtr /*Surface*/ screen, int x, int y, uint w, uint h);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Flip"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Flip"), SuppressUnmanagedCodeSecurity]
 		public static extern int Flip(IntPtr /*Surface*/ screen);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetGamma"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetGamma"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetGamma(float red, float green, float blue);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetGammaRamp"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetGammaRamp"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetGammaRamp([In] ushort[] red, [In] ushort[] green, [In] ushort[] blue);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetGammaRamp"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetGammaRamp"), SuppressUnmanagedCodeSecurity]
 		public static extern int GetGammaRamp([In, Out] ushort[] red, [In, Out] ushort[] green, [In, Out] ushort[] blue);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetColors"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetColors"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetColors(IntPtr /*Surface*/ surface, ref Color colors, int firstcolor, int ncolors);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetPalette"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetPalette"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetPalette(IntPtr /*Surface*/ surface, int flags, ref Color colors, int firstcolor, int ncolors);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_MapRGB"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_MapRGB"), SuppressUnmanagedCodeSecurity]
 		public static extern uint MapRGB(ref PixelFormat format, byte r, byte g, byte b);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_MapRGBA"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_MapRGBA"), SuppressUnmanagedCodeSecurity]
 		public static extern uint MapRGBA(ref PixelFormat format, byte r, byte g, byte b, byte a);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetRGB"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetRGB"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetRGB(uint pixel, ref PixelFormat fmt, [In, Out] byte[] r, [In, Out] byte[] g, [In, Out] byte[] b);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetRGBA"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetRGBA"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetRGBA(uint pixel, ref PixelFormat fmt, [In, Out] byte[] r, [In, Out] byte[] g, [In, Out] byte[] b, [In, Out] byte[] a);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CreateRGBSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CreateRGBSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ CreateRGBSurface(uint flags, int width, int height, int depth, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CreateRGBSurfaceFrom"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CreateRGBSurfaceFrom"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ CreateRGBSurfaceFrom(IntPtr pixels, int width, int height, int depth, int pitch, uint Rmask, uint Gmask, uint Bmask, uint Amask);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_FreeSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_FreeSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern void FreeSurface(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_LockSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_LockSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern int LockSurface(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UnlockSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UnlockSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern void UnlockSurface(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_LoadBMP_RW"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_LoadBMP_RW"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ LoadBMP_RW(ref RWops src, int freesrc);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SaveBMP_RW"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SaveBMP_RW"), SuppressUnmanagedCodeSecurity]
 		public static extern int SaveBMP_RW(IntPtr /*Surface*/ surface, ref RWops dst, int freedst);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetColorKey"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetColorKey"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetColorKey(IntPtr /*Surface*/ surface, uint flag, uint key);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetAlpha"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetAlpha"), SuppressUnmanagedCodeSecurity]
 		public static extern int SetAlpha(IntPtr /*Surface*/ surface, uint flag, byte alpha);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetClipRect"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetClipRect"), SuppressUnmanagedCodeSecurity]
 		public static extern bool SetClipRect(IntPtr /*Surface*/ surface, Rect rect);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetClipRect"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetClipRect"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetClipRect(IntPtr /*Surface*/ surface, out Rect rect);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_ConvertSurface"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_ConvertSurface"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ ConvertSurface(IntPtr /*Surface*/ src, ref PixelFormat fmt, uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UpperBlit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UpperBlit"), SuppressUnmanagedCodeSecurity]
 		public static extern int BlitSurface(IntPtr /*Surface*/ src, IntPtr /*Rect*/ srcrect, IntPtr /*Surface*/ dst, IntPtr /*Rect*/ dstrect);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_LowerBlit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_LowerBlit"), SuppressUnmanagedCodeSecurity]
 		public static extern int LowerBlit(IntPtr /*Surface*/ src, IntPtr /*Rect*/ srcrect, IntPtr /*Surface*/ dst, IntPtr /*Rect*/ dstrect);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_FillRect"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_FillRect"), SuppressUnmanagedCodeSecurity]
 		public static extern int FillRect(IntPtr /*Surface*/ dst, Rect dstrect, uint color);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_DisplayFormat"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_DisplayFormat"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ DisplayFormat(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_DisplayFormatAlpha"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_DisplayFormatAlpha"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Surface*/ DisplayFormatAlpha(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CreateYUVOverlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CreateYUVOverlay"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Overlay*/ CreateYUVOverlay(int width, int height, uint format, IntPtr /*Surface*/ display);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_LockYUVOverlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_LockYUVOverlay"), SuppressUnmanagedCodeSecurity]
 		public static extern int LockYUVOverlay(ref Overlay overlay);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_UnlockYUVOverlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_UnlockYUVOverlay"), SuppressUnmanagedCodeSecurity]
 		public static extern void UnlockYUVOverlay(ref Overlay overlay);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_DisplayYUVOverlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_DisplayYUVOverlay"), SuppressUnmanagedCodeSecurity]
 		public static extern int DisplayYUVOverlay(ref Overlay overlay, Rect dstrect);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_FreeYUVOverlay"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_FreeYUVOverlay"), SuppressUnmanagedCodeSecurity]
 		public static extern void FreeYUVOverlay(ref Overlay overlay);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GL_LoadLibrary"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GL_LoadLibrary"), SuppressUnmanagedCodeSecurity]
 		public static extern int GL_LoadLibrary(string path);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GL_SetAttribute"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GL_SetAttribute"), SuppressUnmanagedCodeSecurity]
 		public static extern int GL_SetAttribute(GLattr attr, int _value);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GL_GetAttribute"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GL_GetAttribute"), SuppressUnmanagedCodeSecurity]
 		public static extern int GL_GetAttribute(GLattr attr, [In, Out] int[] _value);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GL_SwapBuffers"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GL_SwapBuffers"), SuppressUnmanagedCodeSecurity]
 		public static extern void GL_SwapBuffers();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WM_SetCaption"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_SetCaption"), SuppressUnmanagedCodeSecurity]
 		public static extern void WM_SetCaption(string title, string icon);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WM_GetCaption"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_GetCaption"), SuppressUnmanagedCodeSecurity]
 		public static extern void WM_GetCaption(IntPtr /*IntPtr sbyte*/ title, IntPtr /*IntPtr sbyte*/ icon);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WM_IconifyWindow"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_IconifyWindow"), SuppressUnmanagedCodeSecurity]
 		public static extern int WM_IconifyWindow();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WM_ToggleFullScreen"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_ToggleFullScreen"), SuppressUnmanagedCodeSecurity]
 		public static extern int WM_ToggleFullScreen(IntPtr /*Surface*/ surface);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WM_GrabInput"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_GrabInput"), SuppressUnmanagedCodeSecurity]
 		public static extern GrabMode WM_GrabInput(GrabMode mode);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetMouseState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetMouseState"), SuppressUnmanagedCodeSecurity]
 		public static extern byte GetMouseState([In, Out] int[] x, [In, Out] int[] y);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetRelativeMouseState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetRelativeMouseState"), SuppressUnmanagedCodeSecurity]
 		public static extern byte GetRelativeMouseState([In, Out] int[] x, [In, Out] int[] y);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WarpMouse"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WarpMouse"), SuppressUnmanagedCodeSecurity]
 		public static extern void WarpMouse(ushort x, ushort y);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_CreateCursor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_CreateCursor"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Cursor*/ CreateCursor([In, Out] byte[] data, [In, Out] byte[] mask, int w, int h, int hot_x, int hot_y);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_SetCursor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_SetCursor"), SuppressUnmanagedCodeSecurity]
 		public static extern void SetCursor(IntPtr /*Cursor*/ cursor);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_GetCursor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_GetCursor"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Cursor*/ GetCursor();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_FreeCursor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_FreeCursor"), SuppressUnmanagedCodeSecurity]
 		public static extern void FreeCursor(IntPtr /*Cursor*/ cursor);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_ShowCursor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_ShowCursor"), SuppressUnmanagedCodeSecurity]
 		public static extern int ShowCursor(int toggle);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_PumpEvents"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_PumpEvents"), SuppressUnmanagedCodeSecurity]
 		public static extern void PumpEvents();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_PeepEvents"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_PeepEvents"), SuppressUnmanagedCodeSecurity]
 		public static extern int PeepEvents([Out] Event[] events, int numevents, EventAction action, uint mask);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_PollEvent"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_PollEvent"), SuppressUnmanagedCodeSecurity]
 		public static extern int PollEvent(out Event _event);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WaitEvent"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WaitEvent"), SuppressUnmanagedCodeSecurity]
 		public static extern int WaitEvent(out Event _event);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_PushEvent"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_PushEvent"), SuppressUnmanagedCodeSecurity]
 		public static extern int PushEvent(Event _event);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_EventState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_EventState"), SuppressUnmanagedCodeSecurity]
 		public static extern byte EventState(byte type, int state);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Linked_Version"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Linked_Version"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*Version*/ Linked_Version();
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Init"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Init"), SuppressUnmanagedCodeSecurity]
 		public static extern int Init(uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_InitSubSystem"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_InitSubSystem"), SuppressUnmanagedCodeSecurity]
 		public static extern int InitSubSystem(uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_QuitSubSystem"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_QuitSubSystem"), SuppressUnmanagedCodeSecurity]
 		public static extern void QuitSubSystem(uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_WasInit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WasInit"), SuppressUnmanagedCodeSecurity]
 		public static extern uint WasInit(uint flags);
 
-		[DllImport(SDL_DLL, EntryPoint="SDL_Quit"), SuppressUnmanagedCodeSecurity]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_Quit"), SuppressUnmanagedCodeSecurity]
 		public static extern void Quit();
 
 
-                [DllImport(SDL_DLL, EntryPoint="SDL_WM_SetIcon")]
-                public static extern void WM_SetIcon(IntPtr icon, IntPtr mask);
-    
-                public static string GetError() {
-                    return Marshal.PtrToStringAuto(_GetError());
-                }
-    
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_SetIcon")]
+		public static extern void WM_SetIcon(IntPtr icon, IntPtr mask);
+
+		public static string GetError()
+		{
+			return Marshal.PtrToStringAuto(_GetError());
+		}
+
 	}
 }

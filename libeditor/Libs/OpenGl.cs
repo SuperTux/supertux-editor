@@ -4,11 +4,13 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 
-namespace OpenGl {
-	public class gl {
+namespace OpenGl
+{
+	public class gl
+	{
 
-        private const string GL_DLL = "opengl32.dll";
-    
+		private const string GL_DLL = "opengl32.dll";
+
 		public const uint _2_BYTES = 0x1407;
 		public const uint _2D = 0x0600;
 		public const uint _3_BYTES = 0x1408;
@@ -772,1012 +774,1012 @@ namespace OpenGl {
 		public const uint ZOOM_X = 0x0D16;
 		public const uint ZOOM_Y = 0x0D17;
 
-		[DllImport(GL_DLL, EntryPoint="glAccum"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glAccum"), SuppressUnmanagedCodeSecurity]
 		public static extern void Accum(uint op, float _value);
 
-		[DllImport(GL_DLL, EntryPoint="glAlphaFunc"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glAlphaFunc"), SuppressUnmanagedCodeSecurity]
 		public static extern void AlphaFunc(uint func, float _ref);
 
-		[DllImport(GL_DLL, EntryPoint="glAreTexturesResident"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glAreTexturesResident"), SuppressUnmanagedCodeSecurity]
 		public static extern byte AreTexturesResident(int n, [In] uint[] textures, [In, Out] byte[] residences);
 
-		[DllImport(GL_DLL, EntryPoint="glArrayElement"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glArrayElement"), SuppressUnmanagedCodeSecurity]
 		public static extern void ArrayElement(int i);
 
-		[DllImport(GL_DLL, EntryPoint="glBegin"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glBegin"), SuppressUnmanagedCodeSecurity]
 		public static extern void Begin(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glBindTexture"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glBindTexture"), SuppressUnmanagedCodeSecurity]
 		public static extern void BindTexture(uint target, uint texture);
 
-		[DllImport(GL_DLL, EntryPoint="glBitmap"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glBitmap"), SuppressUnmanagedCodeSecurity]
 		public static extern void Bitmap(int width, int height, float xorig, float yorig, float xmove, float ymove, [In] byte[] bitmap);
 
-		[DllImport(GL_DLL, EntryPoint="glBlendFunc"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glBlendFunc"), SuppressUnmanagedCodeSecurity]
 		public static extern void BlendFunc(uint sfactor, uint dfactor);
 
-		[DllImport(GL_DLL, EntryPoint="glCallList"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCallList"), SuppressUnmanagedCodeSecurity]
 		public static extern void CallList(uint list);
 
-		[DllImport(GL_DLL, EntryPoint="glCallLists"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCallLists"), SuppressUnmanagedCodeSecurity]
 		public static extern void CallLists(int n, uint type, IntPtr lists);
 
-		[DllImport(GL_DLL, EntryPoint="glClear"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClear"), SuppressUnmanagedCodeSecurity]
 		public static extern void Clear(uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glClearAccum"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClearAccum"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearAccum(float red, float green, float blue, float alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glClearColor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClearColor"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearColor(float red, float green, float blue, float alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glClearDepth"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClearDepth"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearDepth(double depth);
 
-		[DllImport(GL_DLL, EntryPoint="glClearIndex"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClearIndex"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearIndex(float c);
 
-		[DllImport(GL_DLL, EntryPoint="glClearStencil"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClearStencil"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClearStencil(int s);
 
-		[DllImport(GL_DLL, EntryPoint="glClipPlane"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glClipPlane"), SuppressUnmanagedCodeSecurity]
 		public static extern void ClipPlane(uint plane, [In] double[] equation);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3b"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3b"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3b(sbyte red, sbyte green, sbyte blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3bv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3bv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3bv(string v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3d(double red, double green, double blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3f(float red, float green, float blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3i(int red, int green, int blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3s(short red, short green, short blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3ub"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3ub"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3ub(byte red, byte green, byte blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3ubv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3ubv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3ubv([In] byte[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3ui"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3ui"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3ui(uint red, uint green, uint blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3uiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3uiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3uiv([In] uint[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3us"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3us"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3us(ushort red, ushort green, ushort blue);
 
-		[DllImport(GL_DLL, EntryPoint="glColor3usv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor3usv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color3usv([In] ushort[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4b"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4b"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4b(sbyte red, sbyte green, sbyte blue, sbyte alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4bv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4bv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4bv(string v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4d(double red, double green, double blue, double alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4f(float red, float green, float blue, float alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4i(int red, int green, int blue, int alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4s(short red, short green, short blue, short alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4ub"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4ub"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4ub(byte red, byte green, byte blue, byte alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4ubv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4ubv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4ubv([In] byte[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4ui"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4ui"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4ui(uint red, uint green, uint blue, uint alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4uiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4uiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4uiv([In] uint[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4us"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4us"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4us(ushort red, ushort green, ushort blue, ushort alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColor4usv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColor4usv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Color4usv([In] ushort[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glColorMask"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColorMask"), SuppressUnmanagedCodeSecurity]
 		public static extern void ColorMask(byte red, byte green, byte blue, byte alpha);
 
-		[DllImport(GL_DLL, EntryPoint="glColorMaterial"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColorMaterial"), SuppressUnmanagedCodeSecurity]
 		public static extern void ColorMaterial(uint face, uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glColorPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glColorPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void ColorPointer(int size, uint type, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glCopyPixels"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCopyPixels"), SuppressUnmanagedCodeSecurity]
 		public static extern void CopyPixels(int x, int y, int width, int height, uint type);
 
-		[DllImport(GL_DLL, EntryPoint="glCopyTexImage1D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCopyTexImage1D"), SuppressUnmanagedCodeSecurity]
 		public static extern void CopyTexImage1D(uint target, int level, uint internalFormat, int x, int y, int width, int border);
 
-		[DllImport(GL_DLL, EntryPoint="glCopyTexImage2D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCopyTexImage2D"), SuppressUnmanagedCodeSecurity]
 		public static extern void CopyTexImage2D(uint target, int level, uint internalFormat, int x, int y, int width, int height, int border);
 
-		[DllImport(GL_DLL, EntryPoint="glCopyTexSubImage1D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCopyTexSubImage1D"), SuppressUnmanagedCodeSecurity]
 		public static extern void CopyTexSubImage1D(uint target, int level, int xoffset, int x, int y, int width);
 
-		[DllImport(GL_DLL, EntryPoint="glCopyTexSubImage2D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCopyTexSubImage2D"), SuppressUnmanagedCodeSecurity]
 		public static extern void CopyTexSubImage2D(uint target, int level, int xoffset, int yoffset, int x, int y, int width, int height);
 
-		[DllImport(GL_DLL, EntryPoint="glCullFace"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glCullFace"), SuppressUnmanagedCodeSecurity]
 		public static extern void CullFace(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glDeleteLists"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDeleteLists"), SuppressUnmanagedCodeSecurity]
 		public static extern void DeleteLists(uint list, int range);
 
-		[DllImport(GL_DLL, EntryPoint="glDeleteTextures"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDeleteTextures"), SuppressUnmanagedCodeSecurity]
 		public static extern void DeleteTextures(int n, [In] uint[] textures);
 
-		[DllImport(GL_DLL, EntryPoint="glDepthFunc"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDepthFunc"), SuppressUnmanagedCodeSecurity]
 		public static extern void DepthFunc(uint func);
 
-		[DllImport(GL_DLL, EntryPoint="glDepthMask"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDepthMask"), SuppressUnmanagedCodeSecurity]
 		public static extern void DepthMask(byte flag);
 
-		[DllImport(GL_DLL, EntryPoint="glDepthRange"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDepthRange"), SuppressUnmanagedCodeSecurity]
 		public static extern void DepthRange(double zNear, double zFar);
 
-		[DllImport(GL_DLL, EntryPoint="glDisable"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDisable"), SuppressUnmanagedCodeSecurity]
 		public static extern void Disable(uint cap);
 
-		[DllImport(GL_DLL, EntryPoint="glDisableClientState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDisableClientState"), SuppressUnmanagedCodeSecurity]
 		public static extern void DisableClientState(uint array);
 
-		[DllImport(GL_DLL, EntryPoint="glDrawArrays"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDrawArrays"), SuppressUnmanagedCodeSecurity]
 		public static extern void DrawArrays(uint mode, int first, int count);
 
-		[DllImport(GL_DLL, EntryPoint="glDrawBuffer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDrawBuffer"), SuppressUnmanagedCodeSecurity]
 		public static extern void DrawBuffer(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glDrawElements"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDrawElements"), SuppressUnmanagedCodeSecurity]
 		public static extern void DrawElements(uint mode, int count, uint type, IntPtr indices);
 
-		[DllImport(GL_DLL, EntryPoint="glDrawPixels"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glDrawPixels"), SuppressUnmanagedCodeSecurity]
 		public static extern void DrawPixels(int width, int height, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glEdgeFlag"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEdgeFlag"), SuppressUnmanagedCodeSecurity]
 		public static extern void EdgeFlag(byte flag);
 
-		[DllImport(GL_DLL, EntryPoint="glEdgeFlagPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEdgeFlagPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void EdgeFlagPointer(int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glEdgeFlagv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEdgeFlagv"), SuppressUnmanagedCodeSecurity]
 		public static extern void EdgeFlagv([In] byte[] flag);
 
-		[DllImport(GL_DLL, EntryPoint="glEnable"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEnable"), SuppressUnmanagedCodeSecurity]
 		public static extern void Enable(uint cap);
 
-		[DllImport(GL_DLL, EntryPoint="glEnableClientState"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEnableClientState"), SuppressUnmanagedCodeSecurity]
 		public static extern void EnableClientState(uint array);
 
-		[DllImport(GL_DLL, EntryPoint="glEnd"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEnd"), SuppressUnmanagedCodeSecurity]
 		public static extern void End();
 
-		[DllImport(GL_DLL, EntryPoint="glEndList"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEndList"), SuppressUnmanagedCodeSecurity]
 		public static extern void EndList();
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord1d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord1d"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord1d(double u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord1dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord1dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord1dv([In] double[] u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord1f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord1f"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord1f(float u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord1fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord1fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord1fv([In] float[] u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord2d(double u, double v);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord2dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord2dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord2dv([In] double[] u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord2f(float u, float v);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalCoord2fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalCoord2fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalCoord2fv([In] float[] u);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalMesh1"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalMesh1"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalMesh1(uint mode, int i1, int i2);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalMesh2"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalMesh2"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalMesh2(uint mode, int i1, int i2, int j1, int j2);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalPoint1"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalPoint1"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalPoint1(int i);
 
-		[DllImport(GL_DLL, EntryPoint="glEvalPoint2"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glEvalPoint2"), SuppressUnmanagedCodeSecurity]
 		public static extern void EvalPoint2(int i, int j);
 
-		[DllImport(GL_DLL, EntryPoint="glFeedbackBuffer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFeedbackBuffer"), SuppressUnmanagedCodeSecurity]
 		public static extern void FeedbackBuffer(int size, uint type, [In, Out] float[] buffer);
 
-		[DllImport(GL_DLL, EntryPoint="glFinish"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFinish"), SuppressUnmanagedCodeSecurity]
 		public static extern void Finish();
 
-		[DllImport(GL_DLL, EntryPoint="glFlush"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFlush"), SuppressUnmanagedCodeSecurity]
 		public static extern void Flush();
 
-		[DllImport(GL_DLL, EntryPoint="glFogf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFogf"), SuppressUnmanagedCodeSecurity]
 		public static extern void Fogf(uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glFogfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFogfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Fogfv(uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glFogi"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFogi"), SuppressUnmanagedCodeSecurity]
 		public static extern void Fogi(uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glFogiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFogiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Fogiv(uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glFrontFace"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFrontFace"), SuppressUnmanagedCodeSecurity]
 		public static extern void FrontFace(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glFrustum"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glFrustum"), SuppressUnmanagedCodeSecurity]
 		public static extern void Frustum(double left, double right, double bottom, double top, double zNear, double zFar);
 
-		[DllImport(GL_DLL, EntryPoint="glGenLists"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGenLists"), SuppressUnmanagedCodeSecurity]
 		public static extern uint GenLists(int range);
 
-		[DllImport(GL_DLL, EntryPoint="glGenTextures"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGenTextures"), SuppressUnmanagedCodeSecurity]
 		public static extern void GenTextures(int n, [In, Out] uint[] textures);
 
-		[DllImport(GL_DLL, EntryPoint="glGetBooleanv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetBooleanv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetBooleanv(uint pname, [In, Out] byte[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetClipPlane"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetClipPlane"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetClipPlane(uint plane, [In, Out] double[] equation);
 
-		[DllImport(GL_DLL, EntryPoint="glGetDoublev"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetDoublev"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetDoublev(uint pname, [In, Out] double[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetError"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetError"), SuppressUnmanagedCodeSecurity]
 		public static extern uint GetError();
 
-		[DllImport(GL_DLL, EntryPoint="glGetFloatv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetFloatv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetFloatv(uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetIntegerv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetIntegerv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetIntegerv(uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetLightfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetLightfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetLightfv(uint light, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetLightiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetLightiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetLightiv(uint light, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetMapdv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetMapdv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetMapdv(uint target, uint query, [In, Out] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glGetMapfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetMapfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetMapfv(uint target, uint query, [In, Out] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glGetMapiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetMapiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetMapiv(uint target, uint query, [In, Out] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glGetMaterialfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetMaterialfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetMaterialfv(uint face, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetMaterialiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetMaterialiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetMaterialiv(uint face, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetPixelMapfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetPixelMapfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetPixelMapfv(uint map, [In, Out] float[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glGetPixelMapuiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetPixelMapuiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetPixelMapuiv(uint map, [In, Out] uint[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glGetPixelMapusv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetPixelMapusv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetPixelMapusv(uint map, [In, Out] ushort[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glGetPointerv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetPointerv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetPointerv(uint pname, IntPtr /*IntPtr void*/ _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetPolygonStipple"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetPolygonStipple"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetPolygonStipple([In, Out] byte[] mask);
 
-		[DllImport(GL_DLL, EntryPoint="glGetString"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetString"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*byte*/ GetString(uint name);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexEnvfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexEnvfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexEnvfv(uint target, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexEnviv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexEnviv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexEnviv(uint target, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexGendv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexGendv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexGendv(uint coord, uint pname, [In, Out] double[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexGenfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexGenfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexGenfv(uint coord, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexGeniv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexGeniv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexGeniv(uint coord, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexImage"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexImage"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexImage(uint target, int level, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexLevelParameterfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexLevelParameterfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexLevelParameterfv(uint target, int level, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexLevelParameteriv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexLevelParameteriv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexLevelParameteriv(uint target, int level, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexParameterfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexParameterfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexParameterfv(uint target, uint pname, [In, Out] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glGetTexParameteriv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glGetTexParameteriv"), SuppressUnmanagedCodeSecurity]
 		public static extern void GetTexParameteriv(uint target, uint pname, [In, Out] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glHint"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glHint"), SuppressUnmanagedCodeSecurity]
 		public static extern void Hint(uint target, uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexMask"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexMask"), SuppressUnmanagedCodeSecurity]
 		public static extern void IndexMask(uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void IndexPointer(uint type, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexd"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexd"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexd(double c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexdv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexdv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexdv([In] double[] c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexf"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexf(float c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexfv([In] float[] c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexi"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexi"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexi(int c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexiv([In] int[] c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexs"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexs"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexs(short c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexsv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexsv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexsv([In] short[] c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexub"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexub"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexub(byte c);
 
-		[DllImport(GL_DLL, EntryPoint="glIndexubv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIndexubv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Indexubv([In] byte[] c);
 
-		[DllImport(GL_DLL, EntryPoint="glInitNames"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glInitNames"), SuppressUnmanagedCodeSecurity]
 		public static extern void InitNames();
 
-		[DllImport(GL_DLL, EntryPoint="glInterleavedArrays"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glInterleavedArrays"), SuppressUnmanagedCodeSecurity]
 		public static extern void InterleavedArrays(uint format, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glIsEnabled"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIsEnabled"), SuppressUnmanagedCodeSecurity]
 		public static extern byte IsEnabled(uint cap);
 
-		[DllImport(GL_DLL, EntryPoint="glIsList"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIsList"), SuppressUnmanagedCodeSecurity]
 		public static extern byte IsList(uint list);
 
-		[DllImport(GL_DLL, EntryPoint="glIsTexture"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glIsTexture"), SuppressUnmanagedCodeSecurity]
 		public static extern byte IsTexture(uint texture);
 
-		[DllImport(GL_DLL, EntryPoint="glLightModelf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightModelf"), SuppressUnmanagedCodeSecurity]
 		public static extern void LightModelf(uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glLightModelfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightModelfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void LightModelfv(uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glLightModeli"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightModeli"), SuppressUnmanagedCodeSecurity]
 		public static extern void LightModeli(uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glLightModeliv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightModeliv"), SuppressUnmanagedCodeSecurity]
 		public static extern void LightModeliv(uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glLightf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightf"), SuppressUnmanagedCodeSecurity]
 		public static extern void Lightf(uint light, uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glLightfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Lightfv(uint light, uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glLighti"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLighti"), SuppressUnmanagedCodeSecurity]
 		public static extern void Lighti(uint light, uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glLightiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLightiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Lightiv(uint light, uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glLineStipple"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLineStipple"), SuppressUnmanagedCodeSecurity]
 		public static extern void LineStipple(int factor, ushort pattern);
 
-		[DllImport(GL_DLL, EntryPoint="glLineWidth"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLineWidth"), SuppressUnmanagedCodeSecurity]
 		public static extern void LineWidth(float width);
 
-		[DllImport(GL_DLL, EntryPoint="glListBase"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glListBase"), SuppressUnmanagedCodeSecurity]
 		public static extern void ListBase(uint _base);
 
-		[DllImport(GL_DLL, EntryPoint="glLoadIdentity"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLoadIdentity"), SuppressUnmanagedCodeSecurity]
 		public static extern void LoadIdentity();
 
-		[DllImport(GL_DLL, EntryPoint="glLoadMatrixd"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLoadMatrixd"), SuppressUnmanagedCodeSecurity]
 		public static extern void LoadMatrixd([In] double[] m);
 
-		[DllImport(GL_DLL, EntryPoint="glLoadMatrixf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLoadMatrixf"), SuppressUnmanagedCodeSecurity]
 		public static extern void LoadMatrixf([In] float[] m);
 
-		[DllImport(GL_DLL, EntryPoint="glLoadName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLoadName"), SuppressUnmanagedCodeSecurity]
 		public static extern void LoadName(uint name);
 
-		[DllImport(GL_DLL, EntryPoint="glLogicOp"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glLogicOp"), SuppressUnmanagedCodeSecurity]
 		public static extern void LogicOp(uint opcode);
 
-		[DllImport(GL_DLL, EntryPoint="glMap1d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMap1d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Map1d(uint target, double u1, double u2, int stride, int order, [In] double[] points);
 
-		[DllImport(GL_DLL, EntryPoint="glMap1f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMap1f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Map1f(uint target, float u1, float u2, int stride, int order, [In] float[] points);
 
-		[DllImport(GL_DLL, EntryPoint="glMap2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMap2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Map2d(uint target, double u1, double u2, int ustride, int uorder, double v1, double v2, int vstride, int vorder, [In] double[] points);
 
-		[DllImport(GL_DLL, EntryPoint="glMap2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMap2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Map2f(uint target, float u1, float u2, int ustride, int uorder, float v1, float v2, int vstride, int vorder, [In] float[] points);
 
-		[DllImport(GL_DLL, EntryPoint="glMapGrid1d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMapGrid1d"), SuppressUnmanagedCodeSecurity]
 		public static extern void MapGrid1d(int un, double u1, double u2);
 
-		[DllImport(GL_DLL, EntryPoint="glMapGrid1f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMapGrid1f"), SuppressUnmanagedCodeSecurity]
 		public static extern void MapGrid1f(int un, float u1, float u2);
 
-		[DllImport(GL_DLL, EntryPoint="glMapGrid2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMapGrid2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void MapGrid2d(int un, double u1, double u2, int vn, double v1, double v2);
 
-		[DllImport(GL_DLL, EntryPoint="glMapGrid2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMapGrid2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void MapGrid2f(int un, float u1, float u2, int vn, float v1, float v2);
 
-		[DllImport(GL_DLL, EntryPoint="glMaterialf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMaterialf"), SuppressUnmanagedCodeSecurity]
 		public static extern void Materialf(uint face, uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glMaterialfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMaterialfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Materialfv(uint face, uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glMateriali"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMateriali"), SuppressUnmanagedCodeSecurity]
 		public static extern void Materiali(uint face, uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glMaterialiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMaterialiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Materialiv(uint face, uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glMatrixMode"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMatrixMode"), SuppressUnmanagedCodeSecurity]
 		public static extern void MatrixMode(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glMultMatrixd"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMultMatrixd"), SuppressUnmanagedCodeSecurity]
 		public static extern void MultMatrixd([In] double[] m);
 
-		[DllImport(GL_DLL, EntryPoint="glMultMatrixf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glMultMatrixf"), SuppressUnmanagedCodeSecurity]
 		public static extern void MultMatrixf([In] float[] m);
 
-		[DllImport(GL_DLL, EntryPoint="glNewList"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNewList"), SuppressUnmanagedCodeSecurity]
 		public static extern void NewList(uint list, uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3b"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3b"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3b(sbyte nx, sbyte ny, sbyte nz);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3bv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3bv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3bv(string v);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3d(double nx, double ny, double nz);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3f(float nx, float ny, float nz);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3i(int nx, int ny, int nz);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3s(short nx, short ny, short nz);
 
-		[DllImport(GL_DLL, EntryPoint="glNormal3sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormal3sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Normal3sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glNormalPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glNormalPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void NormalPointer(uint type, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glOrtho"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glOrtho"), SuppressUnmanagedCodeSecurity]
 		public static extern void Ortho(double left, double right, double bottom, double top, double zNear, double zFar);
 
-		[DllImport(GL_DLL, EntryPoint="glPassThrough"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPassThrough"), SuppressUnmanagedCodeSecurity]
 		public static extern void PassThrough(float token);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelMapfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelMapfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelMapfv(uint map, int mapsize, [In] float[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelMapuiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelMapuiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelMapuiv(uint map, int mapsize, [In] uint[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelMapusv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelMapusv"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelMapusv(uint map, int mapsize, [In] ushort[] values);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelStoref"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelStoref"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelStoref(uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelStorei"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelStorei"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelStorei(uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelTransferf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelTransferf"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelTransferf(uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelTransferi"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelTransferi"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelTransferi(uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glPixelZoom"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPixelZoom"), SuppressUnmanagedCodeSecurity]
 		public static extern void PixelZoom(float xfactor, float yfactor);
 
-		[DllImport(GL_DLL, EntryPoint="glPointSize"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPointSize"), SuppressUnmanagedCodeSecurity]
 		public static extern void PointSize(float size);
 
-		[DllImport(GL_DLL, EntryPoint="glPolygonMode"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPolygonMode"), SuppressUnmanagedCodeSecurity]
 		public static extern void PolygonMode(uint face, uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glPolygonOffset"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPolygonOffset"), SuppressUnmanagedCodeSecurity]
 		public static extern void PolygonOffset(float factor, float units);
 
-		[DllImport(GL_DLL, EntryPoint="glPolygonStipple"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPolygonStipple"), SuppressUnmanagedCodeSecurity]
 		public static extern void PolygonStipple([In] byte[] mask);
 
-		[DllImport(GL_DLL, EntryPoint="glPopAttrib"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPopAttrib"), SuppressUnmanagedCodeSecurity]
 		public static extern void PopAttrib();
 
-		[DllImport(GL_DLL, EntryPoint="glPopClientAttrib"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPopClientAttrib"), SuppressUnmanagedCodeSecurity]
 		public static extern void PopClientAttrib();
 
-		[DllImport(GL_DLL, EntryPoint="glPopMatrix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPopMatrix"), SuppressUnmanagedCodeSecurity]
 		public static extern void PopMatrix();
 
-		[DllImport(GL_DLL, EntryPoint="glPopName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPopName"), SuppressUnmanagedCodeSecurity]
 		public static extern void PopName();
 
-		[DllImport(GL_DLL, EntryPoint="glPrioritizeTextures"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPrioritizeTextures"), SuppressUnmanagedCodeSecurity]
 		public static extern void PrioritizeTextures(int n, [In] uint[] textures, [In] float[] priorities);
 
-		[DllImport(GL_DLL, EntryPoint="glPushAttrib"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPushAttrib"), SuppressUnmanagedCodeSecurity]
 		public static extern void PushAttrib(uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glPushClientAttrib"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPushClientAttrib"), SuppressUnmanagedCodeSecurity]
 		public static extern void PushClientAttrib(uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glPushMatrix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPushMatrix"), SuppressUnmanagedCodeSecurity]
 		public static extern void PushMatrix();
 
-		[DllImport(GL_DLL, EntryPoint="glPushName"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glPushName"), SuppressUnmanagedCodeSecurity]
 		public static extern void PushName(uint name);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2d(double x, double y);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2f(float x, float y);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2i"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2i(int x, int y);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2s"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2s(short x, short y);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos2sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos2sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos2sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3d"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3d(double x, double y, double z);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3f"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3f(float x, float y, float z);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3i"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3i(int x, int y, int z);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3s"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3s(short x, short y, short z);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos3sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos3sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos3sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4d"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4d(double x, double y, double z, double w);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4f"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4f(float x, float y, float z, float w);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4i"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4i(int x, int y, int z, int w);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4s"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4s(short x, short y, short z, short w);
 
-		[DllImport(GL_DLL, EntryPoint="glRasterPos4sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRasterPos4sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void RasterPos4sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glReadBuffer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glReadBuffer"), SuppressUnmanagedCodeSecurity]
 		public static extern void ReadBuffer(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glReadPixels"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glReadPixels"), SuppressUnmanagedCodeSecurity]
 		public static extern void ReadPixels(int x, int y, int width, int height, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glRectd"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectd"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectd(double x1, double y1, double x2, double y2);
 
-		[DllImport(GL_DLL, EntryPoint="glRectdv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectdv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectdv([In] double[] v1, [In] double[] v2);
 
-		[DllImport(GL_DLL, EntryPoint="glRectf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectf"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectf(float x1, float y1, float x2, float y2);
 
-		[DllImport(GL_DLL, EntryPoint="glRectfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectfv([In] float[] v1, [In] float[] v2);
 
-		[DllImport(GL_DLL, EntryPoint="glRecti"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRecti"), SuppressUnmanagedCodeSecurity]
 		public static extern void Recti(int x1, int y1, int x2, int y2);
 
-		[DllImport(GL_DLL, EntryPoint="glRectiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectiv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectiv([In] int[] v1, [In] int[] v2);
 
-		[DllImport(GL_DLL, EntryPoint="glRects"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRects"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rects(short x1, short y1, short x2, short y2);
 
-		[DllImport(GL_DLL, EntryPoint="glRectsv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRectsv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rectsv([In] short[] v1, [In] short[] v2);
 
-		[DllImport(GL_DLL, EntryPoint="glRenderMode"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRenderMode"), SuppressUnmanagedCodeSecurity]
 		public static extern int RenderMode(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glRotated"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRotated"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rotated(double angle, double x, double y, double z);
 
-		[DllImport(GL_DLL, EntryPoint="glRotatef"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glRotatef"), SuppressUnmanagedCodeSecurity]
 		public static extern void Rotatef(float angle, float x, float y, float z);
 
-		[DllImport(GL_DLL, EntryPoint="glScaled"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glScaled"), SuppressUnmanagedCodeSecurity]
 		public static extern void Scaled(double x, double y, double z);
 
-		[DllImport(GL_DLL, EntryPoint="glScalef"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glScalef"), SuppressUnmanagedCodeSecurity]
 		public static extern void Scalef(float x, float y, float z);
 
-		[DllImport(GL_DLL, EntryPoint="glScissor"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glScissor"), SuppressUnmanagedCodeSecurity]
 		public static extern void Scissor(int x, int y, int width, int height);
 
-		[DllImport(GL_DLL, EntryPoint="glSelectBuffer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glSelectBuffer"), SuppressUnmanagedCodeSecurity]
 		public static extern void SelectBuffer(int size, [In, Out] uint[] buffer);
 
-		[DllImport(GL_DLL, EntryPoint="glShadeModel"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glShadeModel"), SuppressUnmanagedCodeSecurity]
 		public static extern void ShadeModel(uint mode);
 
-		[DllImport(GL_DLL, EntryPoint="glStencilFunc"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glStencilFunc"), SuppressUnmanagedCodeSecurity]
 		public static extern void StencilFunc(uint func, int _ref, uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glStencilMask"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glStencilMask"), SuppressUnmanagedCodeSecurity]
 		public static extern void StencilMask(uint mask);
 
-		[DllImport(GL_DLL, EntryPoint="glStencilOp"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glStencilOp"), SuppressUnmanagedCodeSecurity]
 		public static extern void StencilOp(uint fail, uint zfail, uint zpass);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1d"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1d(double s);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1f"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1f(float s);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1i"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1i(int s);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1s"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1s(short s);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord1sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord1sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord1sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2d(double s, double t);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2f(float s, float t);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2i"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2i(int s, int t);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2s"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2s(short s, short t);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord2sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord2sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord2sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3d"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3d(double s, double t, double r);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3f"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3f(float s, float t, float r);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3i"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3i(int s, int t, int r);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3s"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3s(short s, short t, short r);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord3sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord3sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord3sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4d"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4d(double s, double t, double r, double q);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4f"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4f(float s, float t, float r, float q);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4i"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4i(int s, int t, int r, int q);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4s"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4s(short s, short t, short r, short q);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoord4sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoord4sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoord4sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glTexCoordPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexCoordPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexCoordPointer(int size, uint type, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glTexEnvf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexEnvf"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexEnvf(uint target, uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexEnvfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexEnvfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexEnvfv(uint target, uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexEnvi"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexEnvi"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexEnvi(uint target, uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexEnviv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexEnviv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexEnviv(uint target, uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGend"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGend"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGend(uint coord, uint pname, double param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGendv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGendv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGendv(uint coord, uint pname, [In] double[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGenf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGenf"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGenf(uint coord, uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGenfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGenfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGenfv(uint coord, uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGeni"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGeni"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGeni(uint coord, uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexGeniv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexGeniv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexGeniv(uint coord, uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexImage1D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexImage1D"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexImage1D(uint target, int level, int internalformat, int width, int border, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glTexImage2D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexImage2D"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexImage2D(uint target, int level, int internalformat, int width, int height, int border, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glTexParameterf"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexParameterf"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexParameterf(uint target, uint pname, float param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexParameterfv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexParameterfv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexParameterfv(uint target, uint pname, [In] float[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexParameteri"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexParameteri"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexParameteri(uint target, uint pname, int param);
 
-		[DllImport(GL_DLL, EntryPoint="glTexParameteriv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexParameteriv"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexParameteriv(uint target, uint pname, [In] int[] _params);
 
-		[DllImport(GL_DLL, EntryPoint="glTexSubImage1D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexSubImage1D"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexSubImage1D(uint target, int level, int xoffset, int width, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glTexSubImage2D"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTexSubImage2D"), SuppressUnmanagedCodeSecurity]
 		public static extern void TexSubImage2D(uint target, int level, int xoffset, int yoffset, int width, int height, uint format, uint type, IntPtr pixels);
 
-		[DllImport(GL_DLL, EntryPoint="glTranslated"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTranslated"), SuppressUnmanagedCodeSecurity]
 		public static extern void Translated(double x, double y, double z);
 
-		[DllImport(GL_DLL, EntryPoint="glTranslatef"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glTranslatef"), SuppressUnmanagedCodeSecurity]
 		public static extern void Translatef(float x, float y, float z);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2d(double x, double y);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2f(float x, float y);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2i(int x, int y);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2s(short x, short y);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex2sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex2sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex2sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3d(double x, double y, double z);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3f(float x, float y, float z);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3i(int x, int y, int z);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3s(short x, short y, short z);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex3sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex3sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex3sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4d"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4d"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4d(double x, double y, double z, double w);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4dv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4dv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4dv([In] double[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4f"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4f"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4f(float x, float y, float z, float w);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4fv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4fv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4fv([In] float[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4i"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4i"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4i(int x, int y, int z, int w);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4iv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4iv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4iv([In] int[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4s"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4s"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4s(short x, short y, short z, short w);
 
-		[DllImport(GL_DLL, EntryPoint="glVertex4sv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertex4sv"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vertex4sv([In] short[] v);
 
-		[DllImport(GL_DLL, EntryPoint="glVertexPointer"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glVertexPointer"), SuppressUnmanagedCodeSecurity]
 		public static extern void VertexPointer(int size, uint type, int stride, IntPtr pointer);
 
-		[DllImport(GL_DLL, EntryPoint="glViewport"), SuppressUnmanagedCodeSecurity]
+		[DllImport(GL_DLL, EntryPoint = "glViewport"), SuppressUnmanagedCodeSecurity]
 		public static extern void Viewport(int x, int y, int width, int height);
 
 

@@ -1,7 +1,8 @@
 using DataStructures;
 using Gdk;
 
-public interface IEditor {
+public interface IEditor
+{
 	void Draw();
 	void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers);
 	void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers);

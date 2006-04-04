@@ -32,7 +32,7 @@ using Glade;
 
 public class ErrorDialog : IDisposable
 {
-	[Glade.Widget ("ErrorDialog")]
+	[Glade.Widget("ErrorDialog")]
 	Dialog dialog = null;
 	[Glade.Widget]
 	Button okButton = null;
@@ -42,105 +42,108 @@ public class ErrorDialog : IDisposable
 	Gtk.TextView detailsTextView = null;
 	[Glade.Widget]
 	Gtk.Expander expander = null;
-	
+
 	TextTag tagNoWrap;
 	TextTag tagWrap;
-	
+
 	public static void Exception(Exception e)
 	{
 		Exception("Unexpected Exception", e);
 	}
-		
+
 	public static void Exception(string Mess, Exception e)
 	{
 		ErrorDialog dialog = new ErrorDialog(null);
-		
+
 		dialog.Message = Mess + ": " + e.Message;
 		do {
 			dialog.AddDetails("\"" + e.Message + "\"\n", false);
 			dialog.AddDetails(e.StackTrace, false);
-			
+
 			if(e.InnerException != null) {
 				dialog.AddDetails("\n\n--Caused by--\n\n", false);
 			}
 			e = e.InnerException;
 		} while(e != null);
-		
+
 		dialog.Show();
 	}
-	
-	public ErrorDialog (Window parent)
+
+	public ErrorDialog(Window parent)
 	{
-		new Glade.XML (null, "errordialog.glade", "ErrorDialog", null).Autoconnect (this);
+		new Glade.XML(null, "errordialog.glade", "ErrorDialog", null).Autoconnect(this);
 		dialog.TransientFor = parent;
-		okButton.Clicked += new EventHandler (OnClose);
-		expander.Activated += new EventHandler (OnExpanded);
-		descriptionLabel.ModifyBg (StateType.Normal, new Gdk.Color (255,0,0));
-		
-		tagNoWrap = new TextTag ("nowrap");
+		okButton.Clicked += new EventHandler(OnClose);
+		expander.Activated += new EventHandler(OnExpanded);
+		descriptionLabel.ModifyBg(StateType.Normal, new Gdk.Color(255, 0, 0));
+
+		tagNoWrap = new TextTag("nowrap");
 		tagNoWrap.WrapMode = WrapMode.None;
-		detailsTextView.Buffer.TagTable.Add (tagNoWrap);
-		
-		tagWrap = new TextTag ("wrap");
+		detailsTextView.Buffer.TagTable.Add(tagNoWrap);
+
+		tagWrap = new TextTag("wrap");
 		tagWrap.WrapMode = WrapMode.Word;
-		detailsTextView.Buffer.TagTable.Add (tagWrap);
-		
+		detailsTextView.Buffer.TagTable.Add(tagWrap);
+
 		expander.Visible = false;
 	}
-	
-	public string Message {
+
+	public string Message
+	{
 		get { return descriptionLabel.Text; }
-		set {
+		set
+		{
 			string message = value;
-			while (message.EndsWith ("\r") || message.EndsWith ("\n"))
-				message = message.Substring (0, message.Length - 1);
-			if (!message.EndsWith (".")) message += ".";
+			while(message.EndsWith("\r") || message.EndsWith("\n"))
+				message = message.Substring(0, message.Length - 1);
+			if(!message.EndsWith("."))
+				message += ".";
 			descriptionLabel.Text = message;
 		}
 	}
-	
-	public void AddDetails (string text, bool wrapped)
+
+	public void AddDetails(string text, bool wrapped)
 	{
 		TextIter it = detailsTextView.Buffer.EndIter;
-		if (wrapped)
-			detailsTextView.Buffer.InsertWithTags (ref it, text, tagWrap);
+		if(wrapped)
+			detailsTextView.Buffer.InsertWithTags(ref it, text, tagWrap);
 		else
-			detailsTextView.Buffer.InsertWithTags (ref it, text, tagNoWrap);
+			detailsTextView.Buffer.InsertWithTags(ref it, text, tagNoWrap);
 		expander.Visible = true;
 	}
-	
-	public void Show ()
+
+	public void Show()
 	{
-		dialog.Show ();
+		dialog.Show();
 	}
-	
-	public void Run ()
+
+	public void Run()
 	{
-		dialog.Show ();
-		dialog.Run ();
+		dialog.Show();
+		dialog.Run();
 	}
-	
-	public void Dispose ()
+
+	public void Dispose()
 	{
-		dialog.Destroy ();
-		dialog.Dispose ();
+		dialog.Destroy();
+		dialog.Dispose();
 	}
-	
-	void OnClose (object sender, EventArgs args)
+
+	void OnClose(object sender, EventArgs args)
 	{
-		dialog.Destroy ();
+		dialog.Destroy();
 	}
-	
-	void OnExpanded (object sender, EventArgs args)
+
+	void OnExpanded(object sender, EventArgs args)
 	{
-		GLib.Timeout.Add (100, new GLib.TimeoutHandler (UpdateSize));
+		GLib.Timeout.Add(100, new GLib.TimeoutHandler(UpdateSize));
 	}
-	
-	bool UpdateSize ()
+
+	bool UpdateSize()
 	{
 		int w, h;
-		dialog.GetSize (out w, out h);
-		dialog.Resize (w, 1);
+		dialog.GetSize(out w, out h);
+		dialog.Resize(w, 1);
 		return false;
 	}
 }

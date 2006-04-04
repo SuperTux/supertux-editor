@@ -1,7 +1,8 @@
 namespace SceneGraph
 {
 
-	public interface Node {
+	public interface Node
+	{
 		void Draw();
 	}
 

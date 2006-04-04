@@ -1,6 +1,6 @@
 namespace Drawing
 {
-	
+
 	public struct Color
 	{
 		/// red part of the color
@@ -11,20 +11,22 @@ namespace Drawing
 		public float Blue;
 		/// alpha part of the color 1.0 = full opaque, 0.0 = invisible
 		public float Alpha;
-		
-		public Color(float Red, float Green, float Blue, float Alpha) {
+
+		public Color(float Red, float Green, float Blue, float Alpha)
+		{
 			this.Red = Red;
 			this.Green = Green;
 			this.Blue = Blue;
 			this.Alpha = Alpha;
 		}
-		
-		public Color(float Red, float Green, float Blue) {
+
+		public Color(float Red, float Green, float Blue)
+		{
 			this.Red = Red;
 			this.Green = Green;
 			this.Blue = Blue;
 			this.Alpha = 1.0f;
-		}		
+		}
 	}
-	
+
 }

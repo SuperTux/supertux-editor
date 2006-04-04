@@ -4,11 +4,13 @@ using System.Runtime.InteropServices;
 using System.Security;
 
 using System.Collections;
-    
 
-namespace FreeType {
+
+namespace FreeType
+{
 	[StructLayout(LayoutKind.Sequential)]
-	public struct MemoryRec_ {
+	public struct MemoryRec_
+	{
 		public IntPtr /*void*/ user;
 		public IntPtr /* funcptr */ alloc;
 		public IntPtr /* funcptr */ free;
@@ -16,7 +18,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct StreamRec {
+	public struct StreamRec
+	{
 		public IntPtr /*byte*/ _base;
 		public uint size;
 		public uint pos;
@@ -30,7 +33,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Explicit)]
-	public struct StreamDesc {
+	public struct StreamDesc
+	{
 		[FieldOffset(0)]
 		public int _value;
 		[FieldOffset(0)]
@@ -38,13 +42,15 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Vector {
+	public struct Vector
+	{
 		public int x;
 		public int y;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct BBox {
+	public struct BBox
+	{
 		public int xMin;
 		public int yMin;
 		public int xMax;
@@ -52,7 +58,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Bitmap {
+	public struct Bitmap
+	{
 		public int rows;
 		public int width;
 		public int pitch;
@@ -64,7 +71,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Outline {
+	public struct Outline
+	{
 		public short n_contours;
 		public short n_points;
 		public IntPtr /*Vector*/ points;
@@ -74,7 +82,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Outline_Funcs {
+	public struct Outline_Funcs
+	{
 		public IntPtr /* funcptr */ move_to;
 		public IntPtr /* funcptr */ line_to;
 		public IntPtr /* funcptr */ conic_to;
@@ -84,18 +93,21 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct RasterRec_ {
+	public struct RasterRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Span {
+	public struct Span
+	{
 		public short x;
 		public ushort len;
 		public byte coverage;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Raster_Params {
+	public struct Raster_Params
+	{
 		public IntPtr /*Bitmap*/ target;
 		public IntPtr /*void*/ source;
 		public int flags;
@@ -108,7 +120,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Raster_Funcs {
+	public struct Raster_Funcs
+	{
 		public Glyph_Format glyph_format;
 		public IntPtr /* funcptr */ raster_new;
 		public IntPtr /* funcptr */ raster_reset;
@@ -118,13 +131,15 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct UnitVector {
+	public struct UnitVector
+	{
 		public short x;
 		public short y;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Matrix {
+	public struct Matrix
+	{
 		public int xx;
 		public int xy;
 		public int yx;
@@ -132,32 +147,37 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Data {
+	public struct Data
+	{
 		public IntPtr /*byte*/ pointer;
 		public int length;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Generic {
+	public struct Generic
+	{
 		public IntPtr /*void*/ data;
 		public IntPtr /* funcptr */ finalizer;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ListNodeRec {
+	public struct ListNodeRec
+	{
 		public IntPtr /*ListNodeRec*/ prev;
 		public IntPtr /*ListNodeRec*/ next;
 		public IntPtr /*void*/ data;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ListRec {
+	public struct ListRec
+	{
 		public IntPtr /*ListNodeRec*/ head;
 		public IntPtr /*ListNodeRec*/ tail;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Glyph_Metrics {
+	public struct Glyph_Metrics
+	{
 		public int width;
 		public int height;
 		public int horiBearingX;
@@ -169,7 +189,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Bitmap_Size {
+	public struct Bitmap_Size
+	{
 		public short height;
 		public short width;
 		public int size;
@@ -178,23 +199,28 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct LibraryRec_ {
+	public struct LibraryRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct ModuleRec_ {
+	public struct ModuleRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct DriverRec_ {
+	public struct DriverRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct RendererRec_ {
+	public struct RendererRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct FaceRec {
+	public struct FaceRec
+	{
 		public int num_faces;
 		public int face_index;
 		public int face_flags;
@@ -229,7 +255,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct SizeRec {
+	public struct SizeRec
+	{
 		public IntPtr /*FaceRec*/ face;
 		public Generic generic;
 		public Size_Metrics metrics;
@@ -237,7 +264,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct GlyphSlotRec {
+	public struct GlyphSlotRec
+	{
 		public IntPtr /*LibraryRec_*/ library;
 		public IntPtr /*FaceRec*/ face;
 		public IntPtr /*GlyphSlotRec*/ next;
@@ -263,7 +291,8 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct CharMapRec {
+	public struct CharMapRec
+	{
 		public IntPtr /*FaceRec*/ face;
 		public Encoding encoding;
 		public ushort platform_id;
@@ -271,15 +300,18 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Face_InternalRec_ {
+	public struct Face_InternalRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Size_InternalRec_ {
+	public struct Size_InternalRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Size_Metrics {
+	public struct Size_Metrics
+	{
 		public ushort x_ppem;
 		public ushort y_ppem;
 		public int x_scale;
@@ -291,21 +323,25 @@ namespace FreeType {
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct SubGlyphRec_ {
+	public struct SubGlyphRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Slot_InternalRec_ {
+	public struct Slot_InternalRec_
+	{
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Parameter {
+	public struct Parameter
+	{
 		public uint tag;
 		public IntPtr /*void*/ data;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Open_Args {
+	public struct Open_Args
+	{
 		public uint flags;
 		public IntPtr /*byte*/ memory_base;
 		public int memory_size;
@@ -318,7 +354,8 @@ namespace FreeType {
 
 
 
-	public enum Pixel_Mode {
+	public enum Pixel_Mode
+	{
 		PIXEL_MODE_NONE = 0,
 		PIXEL_MODE_MONO,
 		PIXEL_MODE_GRAY,
@@ -329,7 +366,8 @@ namespace FreeType {
 		PIXEL_MODE_MAX,
 	}
 
-	public enum Glyph_Format {
+	public enum Glyph_Format
+	{
 		GLYPH_FORMAT_NONE = (int) ((uint) 0 << 24 | (uint) 0 << 16 | (uint) 0 << 8 | (uint) 0),
 		GLYPH_FORMAT_COMPOSITE = (int) ((uint) 'c' << 24 | (uint) 'o' << 16 | (uint) 'm' << 8 | (uint) 'p'),
 		GLYPH_FORMAT_BITMAP = (int) ((uint) 'b' << 24 | (uint) 'i' << 16 | (uint) 't' << 8 | (uint) 's'),
@@ -337,7 +375,8 @@ namespace FreeType {
 		GLYPH_FORMAT_PLOTTER = (int) ((uint) 'p' << 24 | (uint) 'l' << 16 | (uint) 'o' << 8 | (uint) 't'),
 	}
 
-	public enum Encoding {
+	public enum Encoding
+	{
 		ENCODING_NONE = (int) ((uint) 0 << 24 | (uint) 0 << 16 | (uint) 0 << 8 | (uint) 0),
 		ENCODING_MS_SYMBOL = (int) ((uint) 's' << 24 | (uint) 'y' << 16 | (uint) 'm' << 8 | (uint) 'b'),
 		ENCODING_UNICODE = (int) ((uint) 'u' << 24 | (uint) 'n' << 16 | (uint) 'i' << 8 | (uint) 'c'),
@@ -359,7 +398,8 @@ namespace FreeType {
 		ENCODING_APPLE_ROMAN = (int) ((uint) 'a' << 24 | (uint) 'r' << 16 | (uint) 'm' << 8 | (uint) 'n'),
 	}
 
-	public enum Render_Mode {
+	public enum Render_Mode
+	{
 		RENDER_MODE_NORMAL = 0,
 		RENDER_MODE_LIGHT,
 		RENDER_MODE_MONO,
@@ -368,217 +408,220 @@ namespace FreeType {
 		RENDER_MODE_MAX,
 	}
 
-	public enum Kerning_Mode {
+	public enum Kerning_Mode
+	{
 		KERNING_DEFAULT = 0,
 		KERNING_UNFITTED,
 		KERNING_UNSCALED,
 	}
 
-	public class FT {
+	public class FT
+	{
 
-            private const string FT_DLL = "freetype.dll";
-                public static Hashtable ErrorStrings ;
-            static FT() {
-                ErrorStrings = new Hashtable();
-  ErrorStrings[0x00] = "no error";
+		private const string FT_DLL = "freetype.dll";
+		public static Hashtable ErrorStrings;
+		static FT()
+		{
+			ErrorStrings = new Hashtable();
+			ErrorStrings[0x00] = "no error";
 
 
-  ErrorStrings[0x01] = "cannot open resource";
+			ErrorStrings[0x01] = "cannot open resource";
 
-  ErrorStrings[0x02] = "unknown file format";
+			ErrorStrings[0x02] = "unknown file format";
 
-  ErrorStrings[0x03] = "broken file";
+			ErrorStrings[0x03] = "broken file";
 
-  ErrorStrings[0x04] = "invalid FreeType version";
+			ErrorStrings[0x04] = "invalid FreeType version";
 
-  ErrorStrings[0x05] = "module version is too low";
+			ErrorStrings[0x05] = "module version is too low";
 
-  ErrorStrings[0x06] = "invalid argument";
+			ErrorStrings[0x06] = "invalid argument";
 
-  ErrorStrings[0x07] = "unimplemented feature";
+			ErrorStrings[0x07] = "unimplemented feature";
 
-  ErrorStrings[0x08] = "broken table";
+			ErrorStrings[0x08] = "broken table";
 
-  ErrorStrings[0x09] = "broken offset within table";
+			ErrorStrings[0x09] = "broken offset within table";
 
 
 
 
-  ErrorStrings[0x10] = "invalid glyph index";
+			ErrorStrings[0x10] = "invalid glyph index";
 
-  ErrorStrings[0x11] = "invalid character code";
+			ErrorStrings[0x11] = "invalid character code";
 
-  ErrorStrings[0x12] = "unsupported glyph image format";
+			ErrorStrings[0x12] = "unsupported glyph image format";
 
-  ErrorStrings[0x13] = "cannot render this glyph format";
+			ErrorStrings[0x13] = "cannot render this glyph format";
 
-  ErrorStrings[0x14] = "invalid outline";
+			ErrorStrings[0x14] = "invalid outline";
 
-  ErrorStrings[0x15] = "invalid composite glyph";
+			ErrorStrings[0x15] = "invalid composite glyph";
 
-  ErrorStrings[0x16] = "too many hints";
+			ErrorStrings[0x16] = "too many hints";
 
-  ErrorStrings[0x17] = "invalid pixel size";
+			ErrorStrings[0x17] = "invalid pixel size";
 
 
 
 
-  ErrorStrings[0x20] = "invalid object handle";
+			ErrorStrings[0x20] = "invalid object handle";
 
-  ErrorStrings[0x21] = "invalid library handle";
+			ErrorStrings[0x21] = "invalid library handle";
 
-  ErrorStrings[0x22] = "invalid module handle";
+			ErrorStrings[0x22] = "invalid module handle";
 
-  ErrorStrings[0x23] = "invalid face handle";
+			ErrorStrings[0x23] = "invalid face handle";
 
-  ErrorStrings[0x24] = "invalid size handle";
+			ErrorStrings[0x24] = "invalid size handle";
 
-  ErrorStrings[0x25] = "invalid glyph slot handle";
+			ErrorStrings[0x25] = "invalid glyph slot handle";
 
-  ErrorStrings[0x26] = "invalid charmap handle";
+			ErrorStrings[0x26] = "invalid charmap handle";
 
-  ErrorStrings[0x27] = "invalid cache manager handle";
+			ErrorStrings[0x27] = "invalid cache manager handle";
 
-  ErrorStrings[0x28] = "invalid stream handle";
+			ErrorStrings[0x28] = "invalid stream handle";
 
 
 
 
-  ErrorStrings[0x30] = "too many modules";
+			ErrorStrings[0x30] = "too many modules";
 
-  ErrorStrings[0x31] = "too many extensions";
+			ErrorStrings[0x31] = "too many extensions";
 
 
 
 
-  ErrorStrings[0x40] = "out of memory";
+			ErrorStrings[0x40] = "out of memory";
 
-  ErrorStrings[0x41] = "unlisted object";
+			ErrorStrings[0x41] = "unlisted object";
 
 
 
 
-  ErrorStrings[0x51] = "cannot open stream";
+			ErrorStrings[0x51] = "cannot open stream";
 
-  ErrorStrings[0x52] = "invalid stream seek";
+			ErrorStrings[0x52] = "invalid stream seek";
 
-  ErrorStrings[0x53] = "invalid stream skip";
+			ErrorStrings[0x53] = "invalid stream skip";
 
-  ErrorStrings[0x54] = "invalid stream read";
+			ErrorStrings[0x54] = "invalid stream read";
 
-  ErrorStrings[0x55] = "invalid stream operation";
+			ErrorStrings[0x55] = "invalid stream operation";
 
-  ErrorStrings[0x56] = "invalid frame operation";
+			ErrorStrings[0x56] = "invalid frame operation";
 
-  ErrorStrings[0x57] = "nested frame access";
+			ErrorStrings[0x57] = "nested frame access";
 
-  ErrorStrings[0x58] = "invalid frame read";
+			ErrorStrings[0x58] = "invalid frame read";
 
 
 
 
-  ErrorStrings[0x60] = "raster uninitialized";
+			ErrorStrings[0x60] = "raster uninitialized";
 
-  ErrorStrings[0x61] = "raster corrupted";
+			ErrorStrings[0x61] = "raster corrupted";
 
-  ErrorStrings[0x62] = "raster overflow";
+			ErrorStrings[0x62] = "raster overflow";
 
-  ErrorStrings[0x63] = "negative height while rastering";
+			ErrorStrings[0x63] = "negative height while rastering";
 
 
 
 
-  ErrorStrings[0x70] = "too many registered caches";
+			ErrorStrings[0x70] = "too many registered caches";
 
 
 
 
-  ErrorStrings[0x80] = "invalid opcode";
+			ErrorStrings[0x80] = "invalid opcode";
 
-  ErrorStrings[0x81] = "too few arguments";
+			ErrorStrings[0x81] = "too few arguments";
 
-  ErrorStrings[0x82] = "stack overflow";
+			ErrorStrings[0x82] = "stack overflow";
 
-  ErrorStrings[0x83] = "code overflow";
+			ErrorStrings[0x83] = "code overflow";
 
-  ErrorStrings[0x84] = "bad argument";
+			ErrorStrings[0x84] = "bad argument";
 
-  ErrorStrings[0x85] = "division by zero";
+			ErrorStrings[0x85] = "division by zero";
 
-  ErrorStrings[0x86] = "invalid reference";
+			ErrorStrings[0x86] = "invalid reference";
 
-  ErrorStrings[0x87] = "found debug opcode";
+			ErrorStrings[0x87] = "found debug opcode";
 
-  ErrorStrings[0x88] = "found ENDF opcode in execution stream";
+			ErrorStrings[0x88] = "found ENDF opcode in execution stream";
 
-  ErrorStrings[0x89] = "nested DEFS";
+			ErrorStrings[0x89] = "nested DEFS";
 
-  ErrorStrings[0x8A] = "invalid code range";
+			ErrorStrings[0x8A] = "invalid code range";
 
-  ErrorStrings[0x8B] = "execution context too long";
+			ErrorStrings[0x8B] = "execution context too long";
 
-  ErrorStrings[0x8C] = "too many function definitions";
+			ErrorStrings[0x8C] = "too many function definitions";
 
-  ErrorStrings[0x8D] = "too many instruction definitions";
+			ErrorStrings[0x8D] = "too many instruction definitions";
 
-  ErrorStrings[0x8E] = "SFNT font table missing";
+			ErrorStrings[0x8E] = "SFNT font table missing";
 
-  ErrorStrings[0x8F] = "horizontal header (hhea) table missing";
+			ErrorStrings[0x8F] = "horizontal header (hhea) table missing";
 
-  ErrorStrings[0x90] = "locations (loca) table missing";
+			ErrorStrings[0x90] = "locations (loca) table missing";
 
-  ErrorStrings[0x91] = "name table missing";
+			ErrorStrings[0x91] = "name table missing";
 
-  ErrorStrings[0x92] = "character map (cmap) table missing";
+			ErrorStrings[0x92] = "character map (cmap) table missing";
 
-  ErrorStrings[0x93] = "horizontal metrics (hmtx) table missing";
+			ErrorStrings[0x93] = "horizontal metrics (hmtx) table missing";
 
-  ErrorStrings[0x94] = "PostScript (post) table missing";
+			ErrorStrings[0x94] = "PostScript (post) table missing";
 
-  ErrorStrings[0x95] = "invalid horizontal metrics";
+			ErrorStrings[0x95] = "invalid horizontal metrics";
 
-  ErrorStrings[0x96] = "invalid character map (cmap) format";
+			ErrorStrings[0x96] = "invalid character map (cmap) format";
 
-  ErrorStrings[0x97] = "invalid ppem value";
+			ErrorStrings[0x97] = "invalid ppem value";
 
-  ErrorStrings[0x98] = "invalid vertical metrics";
+			ErrorStrings[0x98] = "invalid vertical metrics";
 
-  ErrorStrings[0x99] = "could not find context";
+			ErrorStrings[0x99] = "could not find context";
 
-  ErrorStrings[0x9A] = "invalid PostScript (post) table format";
+			ErrorStrings[0x9A] = "invalid PostScript (post) table format";
 
-  ErrorStrings[0x9B] = "invalid PostScript (post) table";
+			ErrorStrings[0x9B] = "invalid PostScript (post) table";
 
 
 
 
-  ErrorStrings[0xA0] = "opcode syntax error";
+			ErrorStrings[0xA0] = "opcode syntax error";
 
-  ErrorStrings[0xA1] = "argument stack underflow";
+			ErrorStrings[0xA1] = "argument stack underflow";
 
-  ErrorStrings[0xA2] = "ignore";
+			ErrorStrings[0xA2] = "ignore";
 
 
 
 
-  ErrorStrings[0xB0] = "`STARTFONT' field missing";
+			ErrorStrings[0xB0] = "`STARTFONT' field missing";
 
-  ErrorStrings[0xB1] = "`FONT' field missing";
+			ErrorStrings[0xB1] = "`FONT' field missing";
 
-  ErrorStrings[0xB2] = "`SIZE' field missing";
+			ErrorStrings[0xB2] = "`SIZE' field missing";
 
-  ErrorStrings[0xB3] = "`CHARS' field missing";
+			ErrorStrings[0xB3] = "`CHARS' field missing";
 
-  ErrorStrings[0xB4] = "`STARTCHAR' field missing";
+			ErrorStrings[0xB4] = "`STARTCHAR' field missing";
 
-  ErrorStrings[0xB5] = "`ENCODING' field missing";
+			ErrorStrings[0xB5] = "`ENCODING' field missing";
 
-  ErrorStrings[0xB6] = "`BBX' field missing";
+			ErrorStrings[0xB6] = "`BBX' field missing";
 
 
 
 
-            }
+		}
 
 		public const uint ft_open_driver = 0x8;
 		public const uint ft_open_memory = 0x1;
@@ -751,100 +794,100 @@ namespace FreeType {
 		public const int Err_Missing_Encoding_Field = (int) (0xB5 + 0);
 		public const int Err_Missing_Bbx_Field = (int) (0xB6 + 0);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Init_FreeType"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Init_FreeType"), SuppressUnmanagedCodeSecurity]
 		public static extern int Init_FreeType(IntPtr /*IntPtr LibraryRec_*/ alibrary);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Library_Version"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Library_Version"), SuppressUnmanagedCodeSecurity]
 		public static extern void Library_Version(IntPtr /*LibraryRec_*/ library, [In, Out] int[] amajor, [In, Out] int[] aminor, [In, Out] int[] apatch);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Done_FreeType"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Done_FreeType"), SuppressUnmanagedCodeSecurity]
 		public static extern int Done_FreeType(IntPtr /*LibraryRec_*/ library);
 
-		[DllImport(FT_DLL, EntryPoint="FT_New_Face"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_New_Face"), SuppressUnmanagedCodeSecurity]
 		public static extern int New_Face(IntPtr /*LibraryRec_*/ library, string filepathname, int face_index, IntPtr /*IntPtr FaceRec*/ aface);
 
-		[DllImport(FT_DLL, EntryPoint="FT_New_Memory_Face"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_New_Memory_Face"), SuppressUnmanagedCodeSecurity]
 		public static extern int New_Memory_Face(IntPtr /*LibraryRec_*/ library, [In] byte[] file_base, int file_size, int face_index, IntPtr /*IntPtr FaceRec*/ aface);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Open_Face"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Open_Face"), SuppressUnmanagedCodeSecurity]
 		public static extern int Open_Face(IntPtr /*LibraryRec_*/ library, Open_Args args, int face_index, IntPtr /*IntPtr FaceRec*/ aface);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Attach_File"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Attach_File"), SuppressUnmanagedCodeSecurity]
 		public static extern int Attach_File(IntPtr /*FaceRec*/ face, string filepathname);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Attach_Stream"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Attach_Stream"), SuppressUnmanagedCodeSecurity]
 		public static extern int Attach_Stream(IntPtr /*FaceRec*/ face, ref Open_Args parameters);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Done_Face"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Done_Face"), SuppressUnmanagedCodeSecurity]
 		public static extern int Done_Face(IntPtr /*FaceRec*/ face);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Set_Char_Size"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Set_Char_Size"), SuppressUnmanagedCodeSecurity]
 		public static extern int Set_Char_Size(IntPtr /*FaceRec*/ face, int char_width, int char_height, uint horz_resolution, uint vert_resolution);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Set_Pixel_Sizes"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Set_Pixel_Sizes"), SuppressUnmanagedCodeSecurity]
 		public static extern int Set_Pixel_Sizes(IntPtr /*FaceRec*/ face, uint pixel_width, uint pixel_height);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Load_Glyph"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Load_Glyph"), SuppressUnmanagedCodeSecurity]
 		public static extern int Load_Glyph(IntPtr /*FaceRec*/ face, uint glyph_index, int load_flags);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Load_Char"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Load_Char"), SuppressUnmanagedCodeSecurity]
 		public static extern int Load_Char(IntPtr /*FaceRec*/ face, uint char_code, int load_flags);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Set_Transform"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Set_Transform"), SuppressUnmanagedCodeSecurity]
 		public static extern void Set_Transform(IntPtr /*FaceRec*/ face, ref Matrix matrix, ref Vector delta);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Render_Glyph"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Render_Glyph"), SuppressUnmanagedCodeSecurity]
 		public static extern int Render_Glyph(ref GlyphSlotRec slot, Render_Mode render_mode);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Kerning"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Kerning"), SuppressUnmanagedCodeSecurity]
 		public static extern int Get_Kerning(IntPtr /*FaceRec*/ face, uint left_glyph, uint right_glyph, uint kern_mode, out Vector akerning);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Glyph_Name"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Glyph_Name"), SuppressUnmanagedCodeSecurity]
 		public static extern int Get_Glyph_Name(IntPtr /*FaceRec*/ face, uint glyph_index, IntPtr buffer, uint buffer_max);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Postscript_Name"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Postscript_Name"), SuppressUnmanagedCodeSecurity]
 		public static extern IntPtr /*sbyte*/ Get_Postscript_Name(IntPtr /*FaceRec*/ face);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Select_Charmap"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Select_Charmap"), SuppressUnmanagedCodeSecurity]
 		public static extern int Select_Charmap(IntPtr /*FaceRec*/ face, Encoding encoding);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Set_Charmap"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Set_Charmap"), SuppressUnmanagedCodeSecurity]
 		public static extern int Set_Charmap(IntPtr /*FaceRec*/ face, ref CharMapRec charmap);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Charmap_Index"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Charmap_Index"), SuppressUnmanagedCodeSecurity]
 		public static extern int Get_Charmap_Index(ref CharMapRec charmap);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Char_Index"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Char_Index"), SuppressUnmanagedCodeSecurity]
 		public static extern uint Get_Char_Index(IntPtr /*FaceRec*/ face, uint charcode);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_First_Char"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_First_Char"), SuppressUnmanagedCodeSecurity]
 		public static extern uint Get_First_Char(IntPtr /*FaceRec*/ face, [In, Out] uint[] agindex);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Next_Char"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Next_Char"), SuppressUnmanagedCodeSecurity]
 		public static extern uint Get_Next_Char(IntPtr /*FaceRec*/ face, uint char_code, [In, Out] uint[] agindex);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Get_Name_Index"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Get_Name_Index"), SuppressUnmanagedCodeSecurity]
 		public static extern uint Get_Name_Index(IntPtr /*FaceRec*/ face, [In, Out] sbyte[] glyph_name);
 
-		[DllImport(FT_DLL, EntryPoint="FT_MulDiv"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_MulDiv"), SuppressUnmanagedCodeSecurity]
 		public static extern int MulDiv(int a, int b, int c);
 
-		[DllImport(FT_DLL, EntryPoint="FT_MulFix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_MulFix"), SuppressUnmanagedCodeSecurity]
 		public static extern int MulFix(int a, int b);
 
-		[DllImport(FT_DLL, EntryPoint="FT_DivFix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_DivFix"), SuppressUnmanagedCodeSecurity]
 		public static extern int DivFix(int a, int b);
 
-		[DllImport(FT_DLL, EntryPoint="FT_RoundFix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_RoundFix"), SuppressUnmanagedCodeSecurity]
 		public static extern int RoundFix(int a);
 
-		[DllImport(FT_DLL, EntryPoint="FT_CeilFix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_CeilFix"), SuppressUnmanagedCodeSecurity]
 		public static extern int CeilFix(int a);
 
-		[DllImport(FT_DLL, EntryPoint="FT_FloorFix"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_FloorFix"), SuppressUnmanagedCodeSecurity]
 		public static extern int FloorFix(int a);
 
-		[DllImport(FT_DLL, EntryPoint="FT_Vector_Transform"), SuppressUnmanagedCodeSecurity]
+		[DllImport(FT_DLL, EntryPoint = "FT_Vector_Transform"), SuppressUnmanagedCodeSecurity]
 		public static extern void Vector_Transform(ref Vector vec, ref Matrix matrix);
 
 

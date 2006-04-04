@@ -3,7 +3,7 @@ namespace DataStructures
 
 	public class Matrix
 	{
-	    public float[] Elements;
+		public float[] Elements;
 	}
 
 }

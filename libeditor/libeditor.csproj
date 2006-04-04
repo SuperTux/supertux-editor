@@ -65,9 +65,11 @@
     <Compile Include="Libs\Sdl.cs" />
     <Compile Include="Libs\SdlImage.cs" />
     <Compile Include="Renderer.cs" />
+    <Compile Include="SceneGraph\ColorNode.cs" />
     <Compile Include="SceneGraph\Layer.cs" />
     <Compile Include="SceneGraph\Node.cs" />
     <Compile Include="SceneGraph\NodeWithChilds.cs" />
+    <Compile Include="SceneGraph\Rect.cs" />
     <Compile Include="SceneGraph\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -89,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\errordialog.glade">
-        <LogicalName>errordialog.glade</LogicalName>
+      <LogicalName>errordialog.glade</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
