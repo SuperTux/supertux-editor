@@ -75,7 +75,7 @@ public class ObjectListWidget : GLWidgetBase
 				
 				gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );	
-				ObjectSprite.Draw(-ObjectSprite.Offset);
+				ObjectSprite.Draw(ObjectSprite.Offset);
 				gl.PopMatrix();
 			}
 			//mark the selected object

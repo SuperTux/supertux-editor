@@ -37,7 +37,6 @@
     <File name="./DockPlacement.cs" subtype="Code" buildaction="Compile" />
     <File name="./DockRequest.cs" subtype="Code" buildaction="Compile" />
     <File name="./ExportAttribute.cs" subtype="Code" buildaction="Compile" />
-    <File name="./GdlDockTest.cs" subtype="Code" buildaction="Compile" />
     <File name="./GdlStock.cs" subtype="Code" buildaction="Compile" />
     <File name="./resources/layout.glade" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-close-12.png" subtype="Code" buildaction="EmbedAsResource" />
