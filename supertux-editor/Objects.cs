@@ -218,7 +218,7 @@ public class Trampoline : SimpleObject
 	}
 }
 
-[SupertuxObject("firefly", "images/objects/bell/firefly.sprite")]
+[SupertuxObject("firefly", "images/objects/firefly/firefly.sprite")]
 public class Firefly : SimpleObject
 {
 	public Firefly() {
@@ -402,6 +402,20 @@ public class SequenceTrigger : SimpleObjectArea
 
 	public SequenceTrigger() {
 		Color = new Drawing.Color(.8f, 0, 0, 0.8f);
+	}
+}
+
+// TODO need an image
+[SupertuxObject("scripttrigger", "images/engine/editor/sequencetrigger.png")]
+public class ScriptTrigger : SimpleObjectArea
+{
+	[LispChild("script")]
+	public string Sequence;
+	[LispChild("button")]
+	public bool IsButton;
+
+	public ScriptTrigger() {
+		Color = new Drawing.Color(.8f, 0, .8f, 0.8f);
 	}
 }
 
