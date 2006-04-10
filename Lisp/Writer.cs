@@ -43,7 +43,14 @@ public class Writer {
         indent();
         stream.Write("(" + name);
         if(value is string) {
-            stream.Write(" \"" + value.ToString() + "\"");
+            stream.Write(" \"");
+			foreach(char c in value.ToString()) {
+				if(c == '\"')
+					stream.Write("\\\"");
+				else
+					stream.Write(c);
+			}
+			stream.Write("\"");
         } else if(value is IEnumerable) {
             foreach(object o in (IEnumerable) value) {
                 stream.Write(" ");

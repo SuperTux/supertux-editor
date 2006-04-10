@@ -1,5 +1,5 @@
 Bugs:
-- Sprite textures get loaded with no opengl context active
+- Sprite textures get loaded with no opengl context active - ok
 
 Editor:
 - Support for Undo
@@ -19,4 +19,11 @@ Editor:
 - Script editor? Launch external editor?
 - Ask for Save on close
 - Support paths
-
+- Support resizing of level borders with drag&drop
+- Config dialog
+- Change the editor to support "tools":
+    Move around Tool
+    Zoom Tool
+    Rectangle Select Tool
+    Tile paint tool
+- Layer switching on 1-0, CTRL+1-0 to switch visibility, 0 for objects
