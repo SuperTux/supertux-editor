@@ -47,6 +47,8 @@ public class Writer {
 			foreach(char c in value.ToString()) {
 				if(c == '\"')
 					stream.Write("\\\"");
+				else if(c == '\\')
+					stream.Write("\\\\");
 				else
 					stream.Write(c);
 			}
