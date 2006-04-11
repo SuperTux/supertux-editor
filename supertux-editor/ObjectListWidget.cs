@@ -21,6 +21,7 @@ public class ObjectListWidget : GLWidgetBase
 	private List<string> GameObjectName = new List<string>();
 	private List<Sprite> GameObjectSprite = new List<Sprite>();
 	private int SelectedObjectNr = NONE;
+	private int FirstRow = 0;
 	
     public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
     	new TargetEntry("GameObject", TargetFlags.App, 0)
@@ -33,11 +34,13 @@ public class ObjectListWidget : GLWidgetBase
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
+		AddEvents((int) Gdk.EventMask.ScrollMask);	
 		
         Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
                     DragTargetEntries, DragAction.Default);
 
 		DragBegin += OnDragBegin;
+		ScrollEvent += OnScroll;
 	}
 	
 	/*
@@ -53,7 +56,7 @@ public class ObjectListWidget : GLWidgetBase
 		float scalex = 1;
 		float scaley = 1;
 		Sprite ObjectSprite = null;
-		for( int i = 0; i < GameObjectName.Count; i++ ){
+		for( int i = 0 + FirstRow * TILES_PER_ROW; i < GameObjectName.Count; i++ ){
 			ObjectSprite = GameObjectSprite[i];
 			//Draw Image
 			if( ObjectSprite != null ){
@@ -153,7 +156,7 @@ public class ObjectListWidget : GLWidgetBase
 		if(args.Event.Button == 1) {
 			Vector MousePos = new Vector((float) args.Event.X,
 	    								 (float) args.Event.Y);	
-	    	int row = (int) Math.Floor( MousePos.Y / ROW_HEIGHT ); 
+	    	int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT ); 
 	    	int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 	    	if( column >= TILES_PER_ROW ){
 	    		return;	
@@ -173,5 +176,19 @@ public class ObjectListWidget : GLWidgetBase
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
 		Console.WriteLine("Dragstart");		
-	}		
+	}
+	
+	private void OnScroll(object o, ScrollEventArgs args)
+	{
+		if(args.Event.Direction == ScrollDirection.Up && FirstRow > 0 ) {
+			FirstRow -= 1;
+			args.RetVal = true;
+			QueueDraw();
+		} else if( args.Event.Direction == ScrollDirection.Down &&
+		            FirstRow < Math.Floor( GameObjectName.Count / TILES_PER_ROW )) {
+			FirstRow += 1;
+			args.RetVal = true;
+			QueueDraw();
+		}
+	}
 }
