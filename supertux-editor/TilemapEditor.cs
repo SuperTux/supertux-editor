@@ -114,6 +114,9 @@ public class TilemapEditor : IEditor, IDisposable {
 	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
 	{
 		if(UpdateMouseTilePos(MousePos)) {
+			if(selection.Width == 0 || selection.Height == 0)
+				return;
+
 			if(drawing &&
 					( (Modifiers & ModifierType.ShiftMask) != 0 ||
 				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&

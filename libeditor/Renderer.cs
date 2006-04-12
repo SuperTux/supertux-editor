@@ -64,50 +64,62 @@ public class RenderView : GLWidgetBase
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
-		MousePos = MouseToWorld(
-				new Vector((float) args.Event.X, (float) args.Event.Y));
+		try {
+			MousePos = MouseToWorld(
+					new Vector((float) args.Event.X, (float) args.Event.Y));
 
-		if(args.Event.Button == 2) {
-			dragStartMouse = new Vector((float) args.Event.X, (float) args.Event.Y);
-			dragStartTranslation = Translation;
-			dragging = true;
-			QueueDraw();
-		} else if(Editor != null) {
-			Editor.OnMouseButtonPress(MousePos, (int) args.Event.Button, args.Event.State);
+			if(args.Event.Button == 2) {
+				dragStartMouse = new Vector((float) args.Event.X, (float) args.Event.Y);
+				dragStartTranslation = Translation;
+				dragging = true;
+				QueueDraw();
+			} else if(Editor != null) {
+				Editor.OnMouseButtonPress(MousePos, (int) args.Event.Button, args.Event.State);
+			}
+
+			args.RetVal = true;
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
 		}
-
-		args.RetVal = true;
 	}
 
 	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
 	{
-		MousePos = MouseToWorld(
-				new Vector((float) args.Event.X, (float) args.Event.Y));
+		try {
+			MousePos = MouseToWorld(
+					new Vector((float) args.Event.X, (float) args.Event.Y));
 
-		if(args.Event.Button == 2) {
-			dragging = false;
-			QueueDraw();
-		} else if(Editor != null) {
-			Editor.OnMouseButtonRelease(MousePos, (int) args.Event.Button, args.Event.State);
+			if(args.Event.Button == 2) {
+				dragging = false;
+				QueueDraw();
+			} else if(Editor != null) {
+				Editor.OnMouseButtonRelease(MousePos, (int) args.Event.Button, args.Event.State);
+			}
+
+			args.RetVal = true;
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
 		}
-
-		args.RetVal = true;
 	}
 
 	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
 	{
-		Vector pos = new Vector((float) args.Event.X, (float) args.Event.Y);
-		MousePos = MouseToWorld(pos);
+		try {
+			Vector pos = new Vector((float) args.Event.X, (float) args.Event.Y);
+			MousePos = MouseToWorld(pos);
 
-		if(dragging) {
-			Translation = dragStartTranslation
-				+ (pos - dragStartMouse) / Zoom;
-			QueueDraw();
-		} else if(Editor != null) {
-			Editor.OnMouseMotion(MousePos, args.Event.State);
+			if(dragging) {
+				Translation = dragStartTranslation
+					+ (pos - dragStartMouse) / Zoom;
+				QueueDraw();
+			} else if(Editor != null) {
+				Editor.OnMouseMotion(MousePos, args.Event.State);
+			}
+
+			args.RetVal = true;
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
 		}
-
-		args.RetVal = true;
 	}
 
 	private void OnScroll(object o, ScrollEventArgs args)

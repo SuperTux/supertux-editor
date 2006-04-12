@@ -323,12 +323,14 @@ public class UnstableTile : SimpleObject
 	}
 }
 
-[SupertuxObject("infoblock", "images/engine/editor/infoblock.png")]
+[SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite")]
 public class InfoBlock : SimpleObject
 {
+	[LispChild("message")]
+	public string Message;
+
 	public InfoBlock() {
-		//Sprite = SpriteManager.Create("images/objects/
-		// ...
+		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
 	}
 }
 
