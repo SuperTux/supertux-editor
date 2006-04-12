@@ -69,12 +69,15 @@ public class Tile {
     }
 
     public void LoadSurfaces(string BaseDir, bool Editor) {
-        if(Surfaces != null || Images == null)
+        if(Surfaces != null)
             return;
-        Surfaces = new List<Surface>();
-        foreach(ImageResource Resource in Images) {
-			Surfaces.Add(LoadSurface(BaseDir, Resource));
-        }
+		
+		if(Images != null) {
+			Surfaces = new List<Surface>();
+			foreach(ImageResource Resource in Images) {
+				Surfaces.Add(LoadSurface(BaseDir, Resource));
+			}
+		}
 
 		if(Editor && EditorImages != null) {
 			EditorSurfaces = new List<Surface>();

@@ -22,7 +22,7 @@ public class TilemapNode : Node {
                 uint TileId = Field[x, y];
                 Tile Tile = Tileset.Get(TileId);
 				if(Tile != null)
-					Tile.Draw(new Vector(x * 32, y * 32));
+					Tile.DrawEditor(new Vector(x * 32, y * 32));
             }
         }
     }
