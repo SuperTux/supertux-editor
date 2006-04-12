@@ -11,7 +11,7 @@ public class TileBlock : Field<uint> {
 			for(uint x = 0; x < Width; ++x) {
 				uint TileId = this[x, y];
 				Tile Tile = Tileset.Get(TileId);
-				Tile.Draw(CurrentPos);
+				Tile.DrawEditor(CurrentPos);
 				CurrentPos.X += Tileset.TILE_HEIGHT;
 			}
 			CurrentPos.X = Pos.X;
