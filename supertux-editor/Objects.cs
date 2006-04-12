@@ -337,7 +337,23 @@ public class InfoBlock : SimpleObject
 [SupertuxObject("powerup", "images/engine/editor/powerup.png")]
 public class Powerup : SimpleObject
 {
-	// TODO contents...
+	[ChooseResourceSetting]	
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
+		}
+	}
+	private string spriteFile = "";
+	[LispChild("script", Optional = true, Default = "")]
+	public string Script = "";
+	[LispChild("disable-physics", Optional = true, Default = false)]
+	public bool DisablePhysics;
 	
 	public Powerup() {
 	}
