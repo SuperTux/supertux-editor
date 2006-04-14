@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 // TODO need new image
 [SupertuxObject("tilemap", "images/engine/editor/background.png")]
-public class Tilemap : Field<uint>, IGameObject, ICustomLispSerializer {
+public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
 	[LispChild("layer")]
 	public string LayerName;
 	[LispChild("solid")]
@@ -39,8 +39,8 @@ public class Tilemap : Field<uint>, IGameObject, ICustomLispSerializer {
         if(Width == 0 || Height == 0)
             throw new Exception("Width or Height of Tilemap invalid");
         
-        List<uint> Tiles = new List<uint>();
-        Props.GetUIntList("tiles", Tiles);
+        List<int> Tiles = new List<int>();
+        Props.GetIntList("tiles", Tiles);
         if(Tiles.Count != (int) (Width * Height))
             throw new Exception("TileCount != Width*Height");
 

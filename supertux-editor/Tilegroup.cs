@@ -8,7 +8,7 @@ public class Tilegroup
 	[LispChild("name")]
 	public string Name;
 	[LispChild("tiles")]
-	public List<uint> tiles = new List<uint>();
+	public List<int> Tiles = new List<int>();
 	
 	public Tilegroup()
 	{

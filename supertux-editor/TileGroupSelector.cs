@@ -34,7 +34,6 @@ public class TilegroupSelector : ComboBox
 		Tileset tileset = level.Tileset;
 		
 		TreeStore store = new TreeStore(typeof(Tilegroup));
-		//store.AppendValues(null);
 		foreach(Tilegroup group in tileset.Tilegroups.Values) {
 			store.AppendValues(group);
 		}
@@ -46,14 +45,17 @@ public class TilegroupSelector : ComboBox
 		CellRendererText textRenderer = (CellRendererText) renderer;
 		Tilegroup group = (Tilegroup) Model.GetValue(iter, 0);
 		
-		if(group == null)
-			textRenderer.Text = "All";
-		else
-			textRenderer.Text = group.Name;
+		textRenderer.Text = group.Name;
 	}	
 	
 	private void OnTileGroupChoosen(object o, EventArgs args)
 	{
-		//Console.WriteLine(	
+		TreeIter iter;
+
+    	if (!GetActiveIter (out iter))
+    		return;
+		
+		Tilegroup group = (Tilegroup) Model.GetValue(iter, 0);
+		tileList.ChangeTilegroup(group);
 	}
 }

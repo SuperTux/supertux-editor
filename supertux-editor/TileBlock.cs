@@ -1,7 +1,7 @@
 using System;
 using DataStructures;
 
-public class TileBlock : Field<uint> {
+public class TileBlock : Field<int> {
 	public int TileListFirstTile = -1;
 	public int TileListW, TileListH;
 	
@@ -9,7 +9,7 @@ public class TileBlock : Field<uint> {
 		Vector CurrentPos = Pos;
 		for(uint y = 0; y < Height; ++y) {
 			for(uint x = 0; x < Width; ++x) {
-				uint TileId = this[x, y];
+				int TileId = this[x, y];
 				Tile Tile = Tileset.Get(TileId);
 				Tile.DrawEditor(CurrentPos);
 				CurrentPos.X += Tileset.TILE_HEIGHT;

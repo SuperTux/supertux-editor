@@ -65,7 +65,6 @@ public class SectorSwitchNotebook : Notebook
 	{
 		Sector NewSector = Level.Sectors[(int) args.PageNum];
 		SectorChanged(NewSector);
-		CurrentRenderer.GrabFocus();
 	}
 	
 	private void OnButtonPress(object o, ButtonPressEventArgs args)

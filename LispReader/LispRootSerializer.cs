@@ -65,9 +65,9 @@ namespace LispReader
 						} else {
 							field.SetValue(result, val);
 						}
-					} else if(field.Type == typeof(List<uint>)) {
-						List<uint> val = new List<uint>();
-						if(!props.GetUIntList(Name, val)) {
+					} else if(field.Type == typeof(List<int>)) {
+						List<int> val = new List<int>();
+						if(!props.GetIntList(Name, val)) {
 							if(!ChildAttrib.Optional)	
 								Console.WriteLine("Field '" + Name + "' not in lisp");
 						} else {

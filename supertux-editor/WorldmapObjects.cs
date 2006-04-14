@@ -61,8 +61,13 @@ public class WorldmapLevel : WorldmapObject
 		set {
 			spriteFile = value;
 			if(value != "") {
-				Sprite = SpriteManager.Create(value);
-				Sprite.Action = "solved";
+				try {
+					Sprite = SpriteManager.Create(value);
+					Sprite.Action = "solved";
+				} catch(Exception e) {
+					ErrorDialog.Exception(e);
+					Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
+				}
 			}
 		}
 	}
@@ -75,7 +80,7 @@ public class WorldmapLevel : WorldmapObject
 	}
 }
 
-[SupertuxObject("special-tile", "images/worldmap/common/teleporter.sprite")]
+[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite")]
 public class SpecialTile : WorldmapObject
 {
 	[LispChild("teleport-to-x", Optional = true, Default = -1f)]
@@ -90,9 +95,30 @@ public class SpecialTile : WorldmapObject
 	public bool PassiveMessage;
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
 	public string ApplyToDirection = "";
+	[ChooseResourceSetting]	
+	[LispChild("sprite", Optional = true, Default = "")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "") {
+				try {
+					Sprite = SpriteManager.Create(value);
+				} catch(Exception e) {
+					ErrorDialog.Exception(e);
+					Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+				}
+			} else {
+				Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+			}
+		}
+	}
+	private string spriteFile = "";
 	
 	public SpecialTile()
 	{
-		Sprite = SpriteManager.Create("images/worldmap/common/teleporter.sprite");
+		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
 	}
 }

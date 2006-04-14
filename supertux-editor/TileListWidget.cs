@@ -9,7 +9,7 @@ using DataStructures;
 
 public class TileListWidget : GLWidgetBase {
 	private Tileset tileset;
-	private List<uint> tiles = new List<uint>();
+	private Tilegroup tilegroup;
 	private Selection selection;
 	private Level level;
 
@@ -43,6 +43,15 @@ public class TileListWidget : GLWidgetBase {
 
 		application.LevelChanged += OnLevelChanged;
 	}
+	
+	public void ChangeTilegroup(Tilegroup tilegroup)
+	{
+		this.tilegroup = tilegroup;
+		Translation = new Vector(0, 0);
+		Zoom = 1.0f;
+		hovertile = -1;
+		QueueDraw();
+	}
 
 	private void OnLevelChanged(Level level)
 	{
@@ -60,12 +69,8 @@ public class TileListWidget : GLWidgetBase {
 		tileset = level.Tileset;
 		Translation = new Vector(0, 0);
 		Zoom = 1.0f;
-
-		tiles.Clear();
-		for(uint Id = 0; Id < tileset.LastTileId; ++Id) {
-			if(tileset.IsValid(Id))
-				tiles.Add(Id);
-		}
+		
+		tilegroup = tileset.Tilegroups["All"];
 			
 		QueueDraw();
 	}
@@ -87,6 +92,7 @@ public class TileListWidget : GLWidgetBase {
 		Vector pos = new Vector(0,
 				(starttile / TILES_PER_ROW) * (ROW_HEIGHT));
 		float maxwidth = (TILE_WIDTH + SPACING_X) * TILES_PER_ROW;
+		List<int> tiles = tilegroup.Tiles;
 		for(int i = starttile; i < tiles.Count; i++) {
 			Tile tile = tileset.Get(tiles[i]);
 
@@ -133,6 +139,9 @@ public class TileListWidget : GLWidgetBase {
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 1) {
+			if(tilegroup == null)
+				return;
+
 			Vector MousePos = new Vector((float) args.Event.X,
 	    								 (float) args.Event.Y);
 			int tile = PosToTile(MousePos);
@@ -140,7 +149,7 @@ public class TileListWidget : GLWidgetBase {
 				return;
 			
 			selection.Resize(1, 1, 0);
-			selection[0, 0] = tiles[tile];
+			selection[0, 0] = tilegroup.Tiles[tile];
 			selection.FireChangedEvent();
 			QueueDraw();
 		}
@@ -152,6 +161,9 @@ public class TileListWidget : GLWidgetBase {
 
 	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
 	{
+		if(tilegroup == null)
+			return;
+
 		Vector MousePos = new Vector((float) args.Event.X,
 									 (float) args.Event.Y);
 		int newtile = PosToTile(MousePos);
@@ -169,7 +181,7 @@ public class TileListWidget : GLWidgetBase {
 			Console.WriteLine("Warning: PosToTile < 0?!?");
 			return -1;
 		}
-		if(tile >= tiles.Count)
+		if(tile >= tilegroup.Tiles.Count)
 			return -1;
 
 		return tile;

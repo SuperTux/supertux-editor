@@ -50,10 +50,27 @@ public class Tileset {
 			}
 		}
 		
+		// construct a tilegroup with all tiles
+		Tilegroup allGroup = new Tilegroup();
+    	allGroup.Name = "All";
+    	foreach(Tile tile in tiles) {
+    		if(tile != null)
+    			allGroup.Tiles.Add(tile.Id);
+    	}
+    	tilegroups.Add(allGroup.Name, allGroup);
+		
 		LispSerializer serializer = new LispSerializer(typeof(Tilegroup));
     	foreach(List list in TilesP.GetList("tilegroup")) {
     		try {
     			Tilegroup group = (Tilegroup) serializer.Read(list);
+    			for(int i = 0; i < group.Tiles.Count; ) {
+    				if(!IsValid(group.Tiles[i])) {
+    					Console.WriteLine("Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
+    					group.Tiles.RemoveAt(i);
+    					continue;
+    				}
+    				++i;
+    			}
     			tilegroups.Add(group.Name, group);
     		} catch(Exception e) {
     			Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
@@ -62,12 +79,12 @@ public class Tileset {
     	}
     }
 
-	public bool IsValid(uint Id) {
-		return tiles[(int) Id] != null;
+	public bool IsValid(int id) {
+		return tiles[id] != null;
 	}
 
-    public Tile Get(uint Id) {
-        Tile tile = tiles[(int) Id];
+    public Tile Get(int id) {
+        Tile tile = tiles[id];
 		if(tile == null)
 			return null;
 
@@ -76,9 +93,9 @@ public class Tileset {
         return tile;
     }
 
-	public uint LastTileId {
+	public int LastTileId {
 		get {
-			return (uint) tiles.Count;
+			return tiles.Count;
 		}
 	}
 

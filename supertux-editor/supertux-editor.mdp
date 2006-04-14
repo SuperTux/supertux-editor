@@ -26,7 +26,6 @@
     <File name="./LayerListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./Level.cs" subtype="Code" buildaction="Compile" />
     <File name="./Objects.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ObjectsEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sector.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorRenderer.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorSwitchNotebook.cs" subtype="Code" buildaction="Compile" />
@@ -36,7 +35,6 @@
     <File name="./TileBlock.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tilemap.cs" subtype="Code" buildaction="Compile" />
-    <File name="./TilemapEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./TilemapNode.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tileset.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sprites/Sprite.cs" subtype="Code" buildaction="Compile" />
@@ -64,6 +62,12 @@
     <File name="./ResizeDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileGroupSelector.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tilegroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors" subtype="Directory" buildaction="Compile" />
+    <File name="./Editors/Brush.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/BrushData.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/TilemapEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/ObjectsEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/CameraDrag.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
