@@ -17,7 +17,7 @@ public class SupertuxObjectAttribute : Attribute
 }
 
 [SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite")]
-public class MrBomb : SimpleObject
+public class MrBomb : BadguyOnPlatform
 {
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
@@ -26,7 +26,7 @@ public class MrBomb : SimpleObject
 }
 
 [SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite")]
-public class Snowball : SimpleObject
+public class Snowball : BadguyOnPlatform
 {
 	public Snowball() {
 		Sprite = SpriteManager.Create("images/creatures/snowball/snowball.sprite");
@@ -44,7 +44,7 @@ public class Stalactite : SimpleObject
 }
 
 [SupertuxObject("mriceblock", "images/creatures/mr_iceblock/mr_iceblock.sprite")]
-public class MrIceBlock : SimpleObject
+public class MrIceBlock : BadguyOnPlatform
 {
 	public MrIceBlock() {
 		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/mr_iceblock.sprite");
@@ -80,10 +80,19 @@ public class Jumpy : SimpleObject
 }
 
 [SupertuxObject("spiky", "images/creatures/spiky/spiky.sprite")]
-public class Spiky : SimpleObject
+public class Spiky : BadguyOnPlatform
 {
 	public Spiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/spiky.sprite");
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("spiky", "images/creatures/spiky/sleepingspiky.sprite")]
+public class SleepSpiky : BadguyOnPlatform
+{
+	public SleepSpiky() {
+		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
 		Sprite.Action = "left";
 	}
 }
@@ -119,7 +128,7 @@ public class Fish : SimpleObject
 }
 
 [SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite")]
-public class MrTree : SimpleObject
+public class MrTree : BadguyOnPlatform
 {
 	public MrTree() {
 		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
@@ -128,7 +137,7 @@ public class MrTree : SimpleObject
 }
 
 [SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite")]
-public class PoisonIvy : SimpleObject
+public class PoisonIvy : BadguyOnPlatform
 {
 	public PoisonIvy() {
 		Sprite = SpriteManager.Create("images/creatures/poison_ivy/poison_ivy.sprite");
@@ -141,6 +150,24 @@ public class Zeekling : SimpleObject
 {
 	public Zeekling() {
 		Sprite = SpriteManager.Create("images/creatures/zeekling/zeekling.sprite");
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("snowsnail", "images/creatures/snowsnail/snowsnail.sprite")]
+public class SnowSnail : BadguyOnPlatform
+{
+	public SnowSnail() {
+		Sprite = SpriteManager.Create("images/creatures/snowsnail/snowsnail.sprite");
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("totem", "images/creatures/totem/totem.sprite")]
+public class Totem : BadguyOnPlatform
+{
+	public Totem() {
+		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
 		Sprite.Action = "left";
 	}
 }

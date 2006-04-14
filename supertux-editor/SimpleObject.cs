@@ -117,3 +117,7 @@ public class SimpleObjectArea : SimpleObject
 	}
 }
 
+public abstract class BadguyOnPlatform : SimpleObject {
+	[LispChild("stay-on-platform", Optional = true)]
+	public bool StayOnPlatform;
+}
