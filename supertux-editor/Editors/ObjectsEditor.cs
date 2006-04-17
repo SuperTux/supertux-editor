@@ -237,7 +237,7 @@ public class ObjectsEditor : IEditor
 		return null;
 	}
 	
-	private void MakeActive(IObject Object)
+	public void MakeActive(IObject Object)
 	{
 		activeObject = Object;
 		
@@ -325,7 +325,6 @@ public class ObjectsEditor : IEditor
 			if(pos != pressPoint) {
 				moveObject(pos, (Modifiers & ModifierType.ShiftMask) != 0);
 			} else {
-				Console.WriteLine("next");
 				MakeActive(FindNext(pos));
 				Redraw();
 			}

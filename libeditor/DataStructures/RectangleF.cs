@@ -52,6 +52,11 @@ namespace DataStructures
 			Top += vec.Y;
 			Bottom += vec.Y;
 		}
+		
+		public void MoveTo(Vector vec)
+		{
+			Move(new Vector(vec.X - Left, vec.Y - Top));
+		}
 
 		public bool Contains(Vector v)
 		{

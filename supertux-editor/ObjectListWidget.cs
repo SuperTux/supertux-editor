@@ -18,17 +18,20 @@ public class ObjectListWidget : GLWidgetBase
 	private const int NONE = -1;
 	
 	private bool objectsLoaded;
-	private List<string> GameObjectName = new List<string>();
-	private List<Sprite> GameObjectSprite = new List<Sprite>();
+	private List<Type> gameObjectTypes = new List<Type>();
+	private List<Sprite> gameObjectSprites = new List<Sprite>();
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
+	private IEditorApplication application;
 	
     public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
     	new TargetEntry("GameObject", TargetFlags.App, 0)
     };
 	
-	public ObjectListWidget()
+	public ObjectListWidget(IEditorApplication application)
 	{
+		this.application = application;
+		
 		SetSizeRequest( COLUMN_WIDTH * TILES_PER_ROW, -1);
 		
 		ButtonPressEvent += OnButtonPress;
@@ -55,19 +58,19 @@ public class ObjectListWidget : GLWidgetBase
 		int y = 0;
 		float scalex = 1;
 		float scaley = 1;
-		Sprite ObjectSprite = null;
-		for( int i = 0 + FirstRow * TILES_PER_ROW; i < GameObjectName.Count; i++ ){
-			ObjectSprite = GameObjectSprite[i];
+		Sprite objectSprite = null;
+		for( int i = 0 + FirstRow * TILES_PER_ROW; i < gameObjectTypes.Count; i++ ){
+			objectSprite = gameObjectSprites[i];
 			//Draw Image
-			if( ObjectSprite != null ){
+			if( objectSprite != null ){
 				gl.PushMatrix();
 				//Adjust Size
 				scalex = scaley = 1;
-				if( ObjectSprite.Width > TILE_WIDTH ) {
-					scalex = TILE_WIDTH / ObjectSprite.Width;
+				if( objectSprite.Width > TILE_WIDTH ) {
+					scalex = TILE_WIDTH / objectSprite.Width;
 				}
-				if( ObjectSprite.Height > TILE_HEIGHT ){
-					scaley = TILE_HEIGHT / ObjectSprite.Height;
+				if( objectSprite.Height > TILE_HEIGHT ){
+					scaley = TILE_HEIGHT / objectSprite.Height;
 				}
 				//keep aspect ratio
 				if( scalex < scaley ) {
@@ -78,7 +81,7 @@ public class ObjectListWidget : GLWidgetBase
 				
 				gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );	
-				ObjectSprite.Draw(ObjectSprite.Offset);
+				objectSprite.Draw(objectSprite.Offset);
 				gl.PopMatrix();
 			}
 			//mark the selected object
@@ -111,44 +114,56 @@ public class ObjectListWidget : GLWidgetBase
 		if(objectsLoaded)
 			return;
 		
+		// the null object (arrow)
+		gameObjectTypes.Add(null);
+		gameObjectSprites.Add(CreateSprite("images/engine/editor/arrow.png"));
+		
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
-			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+				= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
 				continue;
 			//this should give us all objects
-			GameObjectName.Add( objectAttribute.Name );
-			Sprite Icon;
-			//might be a sprite
-			try{
-				Icon = SpriteManager.Create(objectAttribute.IconSprite);
-			} catch(Exception) {
-				Icon = null;	
-			}
-			if( Icon != null ){ //Try to find a nice action.
-				try { Icon.Action = "left"; }
-				catch { try { Icon.Action = "normal"; }
-					catch { try { Icon.Action = "default"; }
-						catch {
-							// Console.WriteLine("ObjectListWidget: No action selected for " + objectAttribute.Name );
-						}
-					}
-				}
-			} else { //not a sprite so it has to be an Image.
-				try{
-					Icon = SpriteManager.CreateFromImage(objectAttribute.IconSprite);
-				} catch(Exception) {
-					Icon = null;	
-				}
-			}
-			if( Icon == null ) { //no sprite, no image, no can do.
-			Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
+			gameObjectTypes.Add(type);
+			Sprite icon = CreateSprite(objectAttribute.IconSprite);
+			if( icon == null ) { //no sprite, no image, no can do.
+				Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
 			       + " from " +objectAttribute.IconSprite);
 			}
-			GameObjectSprite.Add( Icon );
+			gameObjectSprites.Add(icon);
 		}
 
 		objectsLoaded = true;
+	}
+	
+	private Sprite CreateSprite(string name)
+	{
+		Sprite result = null;
+		
+		//might be a sprite
+		try{
+			result = SpriteManager.Create(name);
+		} catch {
+		}
+		
+		if( result != null ){ //Try to find a nice action.
+			try { result.Action = "left"; }
+			catch { try { result.Action = "normal"; }
+				catch { try { result.Action = "default"; }
+					catch {
+						// Console.WriteLine("ObjectListWidget: No action selected for " + objectAttribute.Name );
+					}
+				}
+			}
+		} else { //not a sprite so it has to be an Image.
+			try{
+				result = SpriteManager.CreateFromImage(name);
+			} catch(Exception) {
+				result = null;	
+			}
+		}
+		
+		return result;
 	}
 	
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
@@ -162,11 +177,18 @@ public class ObjectListWidget : GLWidgetBase
 	    		return;	
 	    	}
 	    	int selected = TILES_PER_ROW * row + column;
-			if( selected  < GameObjectName.Count ){
+			if( selected  < gameObjectTypes.Count ){
 				if( SelectedObjectNr != selected ){
 					SelectedObjectNr = selected;
-					//TODO: tell the rest of te application
-					Console.WriteLine("ObjectListWidget: selection changed to " + GameObjectName[ selected ] );
+					
+					Type type = gameObjectTypes[selected];
+					if(type != null) {
+						IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
+						application.SetEditor(editor);
+					} else {
+						IEditor editor = new ObjectsEditor(application.CurrentSector);
+						application.SetEditor(editor);
+					}
 					QueueDraw();
 				}
 			}
@@ -185,7 +207,7 @@ public class ObjectListWidget : GLWidgetBase
 			args.RetVal = true;
 			QueueDraw();
 		} else if( args.Event.Direction == ScrollDirection.Down &&
-		            FirstRow < Math.Floor( GameObjectName.Count / TILES_PER_ROW )) {
+		            FirstRow < Math.Floor( gameObjectTypes.Count / TILES_PER_ROW )) {
 			FirstRow += 1;
 			args.RetVal = true;
 			QueueDraw();

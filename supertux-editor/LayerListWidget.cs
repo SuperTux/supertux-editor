@@ -5,8 +5,8 @@ using GLib;
 using Drawing;
 
 public class LayerListWidget : TreeView {
-	private IEditorApplication Application;
-	private static object NullObject = new System.Object();
+	private IEditorApplication application;
+	private static object nullObject = new System.Object();
 	private Tilemap currentTilemap;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
 	
@@ -32,9 +32,9 @@ public class LayerListWidget : TreeView {
 		public event VisibilityChangedHandler VisibilityChanged;
 	}
 	
-	public LayerListWidget(IEditorApplication Application)
+	public LayerListWidget(IEditorApplication application)
 	{
-		this.Application = Application;
+		this.application = application;
 		ButtonPressEvent += OnButtonPressed;
 		
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
@@ -53,8 +53,8 @@ public class LayerListWidget : TreeView {
 		
 		HeadersVisible = false;
 
-		Application.SectorChanged += OnSectorChanged;
-		Application.TilemapChanged += OnTilemapChanged;
+		application.SectorChanged += OnSectorChanged;
+		application.TilemapChanged += OnTilemapChanged;
 	}
 
 	private void OnSectorChanged(Level Level, Sector Sector)
@@ -65,8 +65,8 @@ public class LayerListWidget : TreeView {
 			store.AppendValues(Tilemap);
 			visibility[Tilemap] = 1.0f;
 		}
-		store.AppendValues(NullObject);
-		visibility[NullObject] = 1.0f;
+		store.AppendValues(nullObject);
+		visibility[nullObject] = 1.0f;
 		Model = store;
 	}
 
@@ -120,10 +120,10 @@ public class LayerListWidget : TreeView {
     	if(obj is Tilemap) {
     		if(obj != currentTilemap) {
     			currentTilemap = (Tilemap) obj;
-    			Application.ChangeCurrentTilemap(currentTilemap);
+    			application.ChangeCurrentTilemap(currentTilemap);
     		}
     	} else {
-    		Application.SetObjectsEditMode();
+    		application.SetEditor(new ObjectsEditor(application.CurrentSector));
     		currentTilemap = null;
     	}
     	
@@ -165,12 +165,12 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 			
-			Application.CurrentRenderer.SetTilemapColor(currentTilemap,
+			application.CurrentRenderer.SetTilemapColor(currentTilemap,
 		                                                new Color(1, 1, 1, newvis));
 			visibility[currentTilemap] = newvis;
 			QueueDraw();
 		} else {
-			float vis = visibility[NullObject];
+			float vis = visibility[nullObject];
 			float newvis = 1.0f;
 			if(vis == 1.0f) {
 				newvis = 0.5f;
@@ -180,8 +180,8 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 			
-			Application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-			visibility[NullObject] = newvis;
+			application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
+			visibility[nullObject] = newvis;
 			QueueDraw();
 		}
 	}

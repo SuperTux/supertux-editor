@@ -36,6 +36,12 @@ public class Application : IEditorApplication {
 			return sectorSwitchNotebook.CurrentRenderer;
 		}
 	}
+	
+	public Sector CurrentSector {
+		get {
+			return sector;
+		}
+	}
 
 	private Application(string[] args) {
 		layoutFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -96,7 +102,7 @@ public class Application : IEditorApplication {
 		layerListDock.Add(scrolledWindow);
 		layerListDock.DockTo(mainDock, DockPlacement.Bottom);		
 		
-		ObjectListWidget objectList = new ObjectListWidget();
+		ObjectListWidget objectList = new ObjectListWidget(this);
 		DockItem objectListDock = new DockItem("ObjectList", "Objects",
 		                                       DockItemBehavior.NeverFloating);
 		objectListDock.Add(objectList);
@@ -291,10 +297,9 @@ public class Application : IEditorApplication {
 		                                         selection);
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
-
-	public void SetObjectsEditMode()
+	
+	public void SetEditor(IEditor editor)
 	{
-		ObjectsEditor editor = new ObjectsEditor(sector);
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
 

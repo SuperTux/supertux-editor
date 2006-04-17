@@ -62,7 +62,9 @@ public class SettingsWindow
 				|| field.Type == typeof(int)) {
 				Entry entry = new Entry();
 				entry.Name = field.Name;
-				entry.Text = field.GetValue(Object).ToString();
+				object val = field.GetValue(Object);
+				if(val != null)
+					entry.Text = val.ToString();
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
 				editWidgets.Add(entry);

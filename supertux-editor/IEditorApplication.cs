@@ -3,9 +3,12 @@ public interface IEditorApplication
 	void ChangeCurrentLevel(Level NewLevel);
 	void ChangeCurrentSector(Sector Sector);
 	void ChangeCurrentTilemap(Tilemap Tilemap);
-	void SetObjectsEditMode();
+	void SetEditor(IEditor editor);
 	
 	SectorRenderer CurrentRenderer {
+		get;
+	}
+	Sector CurrentSector {
 		get;
 	}
 

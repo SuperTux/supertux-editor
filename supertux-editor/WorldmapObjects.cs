@@ -122,3 +122,40 @@ public class SpecialTile : WorldmapObject
 		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
 	}
 }
+
+[SupertuxObject("sprite-change", "images/engine/editor/spritechange.png")]
+public class SpriteChange : WorldmapObject
+{
+	[ChooseResourceSetting]	
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "") {
+				try {
+					Sprite = SpriteManager.Create(value);
+				} catch(Exception e) {
+					ErrorDialog.Exception(e);
+					Sprite = SpriteManager.Create("images/worldmap/common/tux.sprite");
+				}
+			} else {
+				Sprite = SpriteManager.Create("images/worldmap/common/tux.sprite");
+			}
+		}
+	}
+	private string spriteFile = "";
+	[LispChild("change-on-touch")]
+	public bool ChangeOnTouch;
+	[LispChild("stay-action")]
+	public string StayAction;
+	[LispChild("initial-stay-action")]
+	public bool InitialStayAction = false;
+	
+	public SpriteChange() {
+		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spritechange.png", new Vector(16, 16));
+	}
+}
+
