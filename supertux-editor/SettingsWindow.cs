@@ -11,6 +11,7 @@ public class SettingsWindow
 	private Window window;
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
+	private Label errorLabel;
 	
 	public SettingsWindow(string Title, System.Object Object)
 	{
@@ -107,7 +108,10 @@ public class SettingsWindow
 		closeButton.Clicked += OnCloseClicked;
 		buttonBox.Add(closeButton);
 		buttonBox.Layout = ButtonBoxStyle.End;
-		
+
+		errorLabel = new Label("No errors found.");
+		box.PackStart(errorLabel, false, false, 0);
+
 		box.PackStart(buttonBox, false, false, 0);
 		
 		window.Add(box);
@@ -134,9 +138,14 @@ public class SettingsWindow
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
 			}
+		} catch(FormatException fe) {
+			errorLabel.Text = fe.Message;
+			return;
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
+			return;
 		}
+		errorLabel.Text = "No errors found.";
 	}
 	
 	private void OnCheckButtonToggled(object o, EventArgs args)
