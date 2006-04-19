@@ -12,20 +12,4 @@ public class CustomSettingsWidgetAttribute : Attribute
 	}
 }
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-				AllowMultiple=false)]
-public class ChooseResourceSetting : CustomSettingsWidgetAttribute
-{
-	public ChooseResourceSetting() : base(typeof(ChooseResourceWidget))
-	{
-	}
-}
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-				AllowMultiple=false)]
-public class ChooseColorSetting : CustomSettingsWidgetAttribute
-{
-	public ChooseColorSetting() : base(typeof(ChooseColorWidget))
-	{
-	}
-}

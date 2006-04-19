@@ -17,7 +17,7 @@ public class SupertuxObjectAttribute : Attribute
 }
 
 [SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite")]
-public class MrBomb : BadguyOnPlatform
+public class MrBomb : SimpleObject
 {
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
@@ -26,7 +26,7 @@ public class MrBomb : BadguyOnPlatform
 }
 
 [SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite")]
-public class Snowball : BadguyOnPlatform
+public class Snowball : SimpleObject
 {
 	public Snowball() {
 		Sprite = SpriteManager.Create("images/creatures/snowball/snowball.sprite");
@@ -44,7 +44,7 @@ public class Stalactite : SimpleObject
 }
 
 [SupertuxObject("mriceblock", "images/creatures/mr_iceblock/mr_iceblock.sprite")]
-public class MrIceBlock : BadguyOnPlatform
+public class MrIceBlock : SimpleObject
 {
 	public MrIceBlock() {
 		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/mr_iceblock.sprite");
@@ -80,7 +80,7 @@ public class Jumpy : SimpleObject
 }
 
 [SupertuxObject("spiky", "images/creatures/spiky/spiky.sprite")]
-public class Spiky : BadguyOnPlatform
+public class Spiky : SimpleObject
 {
 	public Spiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/spiky.sprite");
@@ -89,7 +89,7 @@ public class Spiky : BadguyOnPlatform
 }
 
 [SupertuxObject("spiky", "images/creatures/spiky/sleepingspiky.sprite")]
-public class SleepSpiky : BadguyOnPlatform
+public class SleepSpiky : SimpleObject
 {
 	public SleepSpiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
@@ -128,7 +128,7 @@ public class Fish : SimpleObject
 }
 
 [SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite")]
-public class MrTree : BadguyOnPlatform
+public class MrTree : SimpleObject
 {
 	public MrTree() {
 		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
@@ -137,7 +137,7 @@ public class MrTree : BadguyOnPlatform
 }
 
 [SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite")]
-public class PoisonIvy : BadguyOnPlatform
+public class PoisonIvy : SimpleObject
 {
 	public PoisonIvy() {
 		Sprite = SpriteManager.Create("images/creatures/poison_ivy/poison_ivy.sprite");
@@ -155,7 +155,7 @@ public class Zeekling : SimpleObject
 }
 
 [SupertuxObject("snowsnail", "images/creatures/snowsnail/snowsnail.sprite")]
-public class SnowSnail : BadguyOnPlatform
+public class SnowSnail : SimpleObject
 {
 	public SnowSnail() {
 		Sprite = SpriteManager.Create("images/creatures/snowsnail/snowsnail.sprite");
@@ -164,7 +164,7 @@ public class SnowSnail : BadguyOnPlatform
 }
 
 [SupertuxObject("totem", "images/creatures/totem/totem.sprite")]
-public class Totem : BadguyOnPlatform
+public class Totem : SimpleObject
 {
 	public Totem() {
 		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
@@ -193,6 +193,10 @@ public class Dispenser : SimpleObject
 [SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite")]
 public class Yeti : SimpleObject
 {
+	[LispChild("dead-script")]
+	[EditScriptSetting]
+	public String DeadScript = "";
+
 	public Yeti() {
 		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
 		Sprite.Action = "left";
@@ -226,9 +230,9 @@ public class Door : SimpleObject
 public class Hatch : SimpleObject
 {
 	[LispChild("sector")]
-	public string Sector;
+	public string Sector = "";
 	[LispChild("spawnpoint")]
-	public string Spawnpoint;
+	public string Spawnpoint = "";
 	
  	public Hatch() {
 		Sprite = SpriteManager.Create("images/objects/hatch/hatch.sprite");
@@ -322,9 +326,9 @@ public class FlyingPlatform : IGameObject, IObject, Node
 public class WilloWisp : SimpleObject
 {
 	[LispChild("sector")]
-	public string Sector;
+	public string Sector = "";
 	[LispChild("spawnpoint")]
-	public string SpawnPoint;
+	public string SpawnPoint = "";
 	
 	public WilloWisp() {
 		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
@@ -354,7 +358,7 @@ public class UnstableTile : SimpleObject
 public class InfoBlock : SimpleObject
 {
 	[LispChild("message")]
-	public string Message;
+	public string Message = "";
 
 	public InfoBlock() {
 		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
@@ -378,6 +382,7 @@ public class Powerup : SimpleObject
 	}
 	private string spriteFile = "";
 	[LispChild("script", Optional = true, Default = "")]
+	[EditScriptSetting]	
 	public string Script = "";
 	[LispChild("disable-physics", Optional = true, Default = false)]
 	public bool DisablePhysics;
@@ -390,7 +395,7 @@ public class Powerup : SimpleObject
 public class ScriptedObject : SimpleObject
 {
 	[LispChild("name")]
-	public string Name;
+	public string Name = "";
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -424,7 +429,7 @@ public class AmbientSound : SimpleObjectArea
 {
 	[LispChild("sample")]
 	[ChooseResourceSetting]	
-	public string Sample;
+	public string Sample = "";
 	[LispChild("distance_factor")]
 	public float DistanceFactor;
 	[LispChild("distance_bias")]
@@ -443,7 +448,7 @@ public class AmbientSound : SimpleObjectArea
 public class SequenceTrigger : SimpleObjectArea
 {
 	[LispChild("sequence")]
-	public string Sequence;
+	public string Sequence = "";
 
 	public SequenceTrigger() {
 		Color = new Drawing.Color(.8f, 0, 0, 0.8f);
@@ -455,7 +460,8 @@ public class SequenceTrigger : SimpleObjectArea
 public class ScriptTrigger : SimpleObjectArea
 {
 	[LispChild("script")]
-	public string Sequence;
+	[EditScriptSetting]
+	public string Script = "";
 	[LispChild("button")]
 	public bool IsButton;
 
@@ -468,7 +474,7 @@ public class ScriptTrigger : SimpleObjectArea
 public class SecretArea : SimpleObjectArea
 {
 	[LispChild("message")]
-	public string Message;
+	public string Message = "";
 	
 	public SecretArea() {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);

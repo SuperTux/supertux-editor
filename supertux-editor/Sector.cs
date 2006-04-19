@@ -19,6 +19,7 @@ public class Sector : ICustomLispSerializer {
 	[LispChild("gravity", Optional = true, Default = 10f)]
 	public float Gravity = 10f;
 	[LispChild("init-script", Optional = true, Default = "")]
+	[EditScriptSetting]	
 	public string InitScript = "";
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();

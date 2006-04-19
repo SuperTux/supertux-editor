@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language SYSTEM "language.dtd">
+<language _name="Squirrel" version="1.0" _section="Sources" mimetypes="text/x-squirrel">
+	
+	<escape-char>\</escape-char>
+
+	<line-comment _name = "Line Comment" style= "Comment">
+		<start-regex>//</start-regex>
+	</line-comment>
+
+	<block-comment _name = "Block Comment" style = "Comment">
+		<start-regex>/\*</start-regex>
+        	<end-regex>\*/</end-regex>
+	</block-comment>
+
+	<string _name = "String" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&quot;</start-regex>
+		<end-regex>&quot;</end-regex>
+	</string>
+
+	<keyword-list _name = "Keywords" style = "Keyword" case-sensitive="TRUE">
+		<!--
+		  if you plan to update this take the keywords from sqlexer.cpp,
+			the docu is incomplete
+		-->
+		<keyword>break</keyword>
+		<keyword>case</keyword>
+		<keyword>catch</keyword>
+		<keyword>class</keyword>
+		<keyword>clone</keyword>
+		<keyword>constructor</keyword>
+		<keyword>continue</keyword>
+		<keyword>default</keyword>
+		<keyword>delegate</keyword>
+		<keyword>delete</keyword>
+		<keyword>do</keyword>
+		<keyword>else</keyword>
+		<keyword>extends</keyword>
+		<keyword>for</keyword>
+		<keyword>foreach</keyword>
+		<keyword>function</keyword>
+		<keyword>if</keyword>
+		<keyword>in</keyword>
+		<keyword>instanceof</keyword>
+		<keyword>local</keyword>
+		<keyword>parent</keyword>
+		<keyword>resume</keyword>
+		<keyword>return</keyword>
+		<keyword>static</keyword>
+		<keyword>switch</keyword>
+		<keyword>this</keyword>
+		<keyword>throw</keyword>
+		<keyword>try</keyword>
+		<keyword>typeof</keyword>
+		<keyword>yield</keyword>
+		<keyword>while</keyword>
+	</keyword-list>
+
+	<string _name = "Character Constant" style = "String" end-at-line-end = "TRUE">
+		<start-regex>&apos;</start-regex>
+		<end-regex>&apos;</end-regex>
+	</string>
+
+	<pattern-item _name = "Decimal" style = "Decimal">
+		<regex>\b([1-9][0-9]*|0)([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Floating Point Number" style = "Floating Point">
+		<regex>\b([0-9]+[Ee][-]?[0-9]+|([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-]?[0-9]+)?)[fFlL]?</regex>
+	</pattern-item>
+
+	<pattern-item _name = "Hex Number" style = "Base-N Integer">
+		<regex>\b0[xX][0-9a-fA-F]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\b</regex>
+	</pattern-item>
+
+	<keyword-list _name = "Common Macro" style = "Preprocessor" case-sensitive="TRUE">
+		<keyword>null</keyword>
+		<keyword>true</keyword>
+		<keyword>false</keyword>
+		<keyword>vargc</keyword>
+		<keyword>vargv</keyword>
+	</keyword-list>
+</language>

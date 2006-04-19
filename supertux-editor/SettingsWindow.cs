@@ -91,7 +91,7 @@ public class SettingsWindow
 				                 AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
 			} else {
 				Label label = new Label(widget.Name + ":");
-				label.Layout.Alignment = Pango.Alignment.Left;
+				label.SetAlignment(0, 1);
 				table.Attach(label, 0, 1, i, i+1,
 			    	            AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 				table.Attach(widget, 1, 2, i, i+1,
@@ -103,14 +103,18 @@ public class SettingsWindow
 		ButtonBox buttonBox = new HButtonBox();
 		buttonBox.BorderWidth = 12;
 		buttonBox.Spacing = 6;
+		buttonBox.Layout = ButtonBoxStyle.End;
 		
 		Button closeButton = new Button(Stock.Close);
 		closeButton.Clicked += OnCloseClicked;
 		buttonBox.Add(closeButton);
-		buttonBox.Layout = ButtonBoxStyle.End;
-
-		errorLabel = new Label("No errors found.");
-		box.PackStart(errorLabel, false, false, 0);
+		
+		// TODO add a (!) image in front of the label (and hide/show it depending
+		// if there was an error)
+		errorLabel = new Label("");
+		errorLabel.Xalign = 0;
+		errorLabel.Xpad = 12;
+		box.PackStart(errorLabel, true, false, 0);
 
 		box.PackStart(buttonBox, false, false, 0);
 		
@@ -145,7 +149,7 @@ public class SettingsWindow
 			ErrorDialog.Exception(e);
 			return;
 		}
-		errorLabel.Text = "No errors found.";
+		errorLabel.Text = "";
 	}
 	
 	private void OnCheckButtonToggled(object o, EventArgs args)

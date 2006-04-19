@@ -93,6 +93,8 @@ public class SpecialTile : WorldmapObject
 	public bool invisible;
 	[LispChild("passive-message", Optional = true, Default = false)]
 	public bool PassiveMessage;
+	[LispChild("script", Optional = true, Default = "")]
+	public string Script = "";
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
 	public string ApplyToDirection = "";
 	[ChooseResourceSetting]	
