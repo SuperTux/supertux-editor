@@ -336,6 +336,22 @@ public class WilloWisp : SimpleObject
 	}
 }
 
+[SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite")]
+public class DartTrap : SimpleObject
+{
+	[LispChild("initial-delay")]
+	public float initial_delay = 0;
+	[LispChild("fire-delay")]
+	public float fire_delay = 2;
+	[LispChild("ammo")]
+	public int ammo = -1;
+	
+	public DartTrap() {
+		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
+		Sprite.Action = "idle-left";
+	}
+}
+
 [SupertuxObject("rock", "images/objects/rock/rock.sprite")]
 public class Rock : SimpleObject
 {
@@ -473,9 +489,6 @@ public class ScriptTrigger : SimpleObjectArea
 [SupertuxObject("secretarea",  "images/engine/editor/secretarea.png")]
 public class SecretArea : SimpleObjectArea
 {
-	[LispChild("message")]
-	public string Message = "";
-	
 	public SecretArea() {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);
 	}

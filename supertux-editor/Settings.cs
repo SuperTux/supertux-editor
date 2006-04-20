@@ -18,6 +18,7 @@ public class Settings {
 
 		StreamReader reader = null;
 		try {
+			Console.WriteLine("Using configfile: " + SettingsFile);
 			reader = new StreamReader(SettingsFile);
 			Instance = (Settings) settingsSerializer.Deserialize(reader);
 		} catch(Exception e) {
@@ -30,6 +31,8 @@ public class Settings {
 		
 		if(!Instance.SupertuxData.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
 			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
+        Console.WriteLine("Supertux is run as: " + Instance.SupertuxExe);
+        Console.WriteLine("Data files are in: " + Instance.SupertuxData);
         Resources.ResourceManager.Instance = new Resources.DefaultResourceManager(Instance.SupertuxData + "/");
 	}
 
