@@ -88,7 +88,7 @@ public class Spiky : SimpleObject
 	}
 }
 
-[SupertuxObject("spiky", "images/creatures/spiky/sleepingspiky.sprite")]
+[SupertuxObject("sleepingspiky", "images/creatures/spiky/sleepingspiky.sprite")]
 public class SleepSpiky : SimpleObject
 {
 	public SleepSpiky() {
