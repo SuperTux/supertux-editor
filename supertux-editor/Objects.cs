@@ -471,8 +471,7 @@ public class SequenceTrigger : SimpleObjectArea
 	}
 }
 
-// TODO need an image
-[SupertuxObject("scripttrigger", "images/engine/editor/sequencetrigger.png")]
+[SupertuxObject("scripttrigger", "images/engine/editor/scripttrigger.png")]
 public class ScriptTrigger : SimpleObjectArea
 {
 	[LispChild("script")]
@@ -499,8 +498,7 @@ public class RainParticles : IGameObject
 {
 }
 
-// TODO need an image for ghost particles...
-[SupertuxObject("particles-ghosts", "images/engine/editor/rain.png")]
+[SupertuxObject("particles-ghosts", "images/engine/editor/ghostparticles.png")]
 public class GhostParticles : IGameObject
 {
 }
