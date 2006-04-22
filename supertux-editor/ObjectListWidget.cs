@@ -180,14 +180,15 @@ public class ObjectListWidget : GLWidgetBase
 			if( selected  < gameObjectTypes.Count ){
 				if( SelectedObjectNr != selected ){
 					SelectedObjectNr = selected;
-					
-					Type type = gameObjectTypes[selected];
-					if(type != null) {
-						IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
-						application.SetEditor(editor);
-					} else {
-						IEditor editor = new ObjectsEditor(application.CurrentSector);
-						application.SetEditor(editor);
+					if( application.CurrentSector != null ) {
+						Type type = gameObjectTypes[selected];
+						if(type != null) {
+							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
+							application.SetEditor(editor);
+						} else {
+							IEditor editor = new ObjectsEditor(application.CurrentSector);
+							application.SetEditor(editor);
+						}
 					}
 					QueueDraw();
 				}
@@ -207,7 +208,7 @@ public class ObjectListWidget : GLWidgetBase
 			args.RetVal = true;
 			QueueDraw();
 		} else if( args.Event.Direction == ScrollDirection.Down &&
-		            FirstRow < Math.Floor( gameObjectTypes.Count / TILES_PER_ROW )) {
+		            FirstRow + 1 < Math.Floor( gameObjectTypes.Count / TILES_PER_ROW )) {
 			FirstRow += 1;
 			args.RetVal = true;
 			QueueDraw();
