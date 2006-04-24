@@ -9,6 +9,7 @@ using Drawing;
 using LispReader;
 
 public class Application : IEditorApplication {
+	private string MainWindowTitlePrefix; //*< Original MainWindow title, read from .glade ressource */
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
 
@@ -63,6 +64,7 @@ public class Application : IEditorApplication {
 		MainWindow.DeleteEvent += OnDelete;
 
 		MainWindow.SetSizeRequest(900, 675);
+		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
 		
 		FileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
@@ -192,6 +194,7 @@ public class Application : IEditorApplication {
 				throw new Exception("Old Level Format not supported");
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
+			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -222,6 +225,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.LastDirectoryName = FileChooser.CurrentFolder;
 			Settings.Instance.Save();
 			fileName = FileChooser.Filename;
+			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		}
 		
 		try {
