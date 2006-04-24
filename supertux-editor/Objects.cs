@@ -425,8 +425,8 @@ public class ScriptedObject : SimpleObject
 		}
 	}
 	private string spriteFile = "";
-	[LispChild("layer", Optional = true, Default = 0)]
-	public int Layer = 0;
+	[LispChild("z-pos", Optional = true, Default = -10)]
+	public int ZPos = -10;
 	[LispChild("visible")]
 	public bool Visible = true;
 	[LispChild("physic-enabled")]
@@ -496,21 +496,29 @@ public class SecretArea : SimpleObjectArea
 [SupertuxObject("particles-rain", "images/engine/editor/rain.png")]
 public class RainParticles : IGameObject
 {
+	[LispChild("z-pos", Optional = true, Default = 0)]
+	public int ZPos = 0;
 }
 
 [SupertuxObject("particles-ghosts", "images/engine/editor/ghostparticles.png")]
 public class GhostParticles : IGameObject
 {
+	[LispChild("z-pos", Optional = true, Default = -200)]
+	public int ZPos = -200;
 }
 
 [SupertuxObject("particles-snow", "images/engine/editor/snow.png")]
 public class SnowParticles : IGameObject
 {
+	[LispChild("z-pos", Optional = true, Default = -200)]
+	public int ZPos = -200;
 }
 
 [SupertuxObject("particles-clouds", "images/engine/editor/clouds.png")]
 public class CloudParticles : IGameObject
 {
+	[LispChild("z-pos", Optional = true, Default = -200)]
+	public int ZPos = -200;
 }
 
 [SupertuxObject("leveltime", "images/engine/editor/clock.png")]

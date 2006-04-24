@@ -8,8 +8,8 @@ using System.Collections.Generic;
 // TODO need new image
 [SupertuxObject("tilemap", "images/engine/editor/background.png")]
 public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
-	[LispChild("layer")]
-	public string LayerName;
+	[LispChild("z-pos")]
+	public int ZPos = 0;
 	[LispChild("solid")]
 	public bool Solid = false;
 	[LispChild("speed")]
@@ -18,19 +18,6 @@ public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
 	public Tilemap() {
 	}
 
-	public float Layer {
-		get {
-			if(LayerName == "background")
-				return -10f;
-			else if(LayerName == "foreground")
-				return 10f;
-			else if(LayerName == "interactive")
-				return 0f;
-			else
-				return 0f;
-		}
-	}
- 
 	public void CustomLispRead(Properties Props) {
         uint Width = 0;
         uint Height = 0;

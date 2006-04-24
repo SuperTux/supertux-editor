@@ -19,7 +19,7 @@ public class SectorRenderer : RenderView
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			Node node = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
-			layer.Add(tilemap.Layer, colorNode);
+			layer.Add(tilemap.ZPos, colorNode);
 			colors[tilemap] = colorNode;
 		}
 		

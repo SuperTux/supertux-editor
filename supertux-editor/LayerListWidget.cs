@@ -99,7 +99,7 @@ public class LayerListWidget : TreeView {
 		CellRendererText TextRenderer = (CellRendererText) Renderer;
 		if(o is Tilemap) {
 			Tilemap Tilemap = (Tilemap) o;
-			TextRenderer.Text = Tilemap.LayerName;
+			TextRenderer.Text = "Tilemap (" + Tilemap.ZPos + ")";
 		} else {
 			TextRenderer.Text = "Objects";
 		}

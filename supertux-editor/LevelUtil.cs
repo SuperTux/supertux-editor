@@ -20,18 +20,18 @@ public class LevelUtil
 
 		Tilemap tilemap = new Tilemap();
 		tilemap.Resize(100, 35, 0);
-		tilemap.LayerName = "background";
+		tilemap.ZPos = -100;
 		sector.Add(tilemap);
 
 		tilemap = new Tilemap();
 		tilemap.Resize(100, 35, 0);
-		tilemap.LayerName = "interactive";
+		tilemap.ZPos = 0;
 		tilemap.Solid = true;
 		sector.Add(tilemap);
 
 		tilemap = new Tilemap();
 		tilemap.Resize(100, 35, 0);
-		tilemap.LayerName = "foreground";
+		tilemap.ZPos = 100;
 		sector.Add(tilemap);
 
 		SpawnPoint spawnpoint = new SpawnPoint();
