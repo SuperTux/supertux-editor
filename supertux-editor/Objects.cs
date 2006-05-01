@@ -154,11 +154,11 @@ public class Zeekling : SimpleObject
 	}
 }
 
-[SupertuxObject("snowsnail", "images/creatures/snowsnail/snowsnail.sprite")]
-public class SnowSnail : SimpleObject
+[SupertuxObject("snail", "images/creatures/snail/snail.sprite")]
+public class Snail : SimpleObject
 {
-	public SnowSnail() {
-		Sprite = SpriteManager.Create("images/creatures/snowsnail/snowsnail.sprite");
+	public Snail() {
+		Sprite = SpriteManager.Create("images/creatures/snail/snail.sprite");
 		Sprite.Action = "left";
 	}
 }
@@ -352,6 +352,15 @@ public class DartTrap : SimpleObject
 	}
 }
 
+[SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite")]
+public class SkullyHop : SimpleObject
+{
+	public SkullyHop() {
+		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
+		Sprite.Action = "standing-left";
+	}
+}
+
 [SupertuxObject("rock", "images/objects/rock/rock.sprite")]
 public class Rock : SimpleObject
 {
@@ -366,6 +375,15 @@ public class UnstableTile : SimpleObject
 {
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
+[SupertuxObject("weak_block", "images/objects/strawbox/strawbox.sprite")]
+public class WeakBlock : SimpleObject
+{
+	public WeakBlock() {
+		Sprite = SpriteManager.Create("images/objects/strawbox/strawbox.sprite");
 		Sprite.Action = "normal";
 	}
 }
