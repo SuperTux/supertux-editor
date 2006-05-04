@@ -361,6 +361,15 @@ public class SkullyHop : SimpleObject
 	}
 }
 
+[SupertuxObject("igel", "images/creatures/igel/igel.sprite")]
+public class Igel : SimpleObject
+{
+	public Igel() {
+		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
+		Sprite.Action = "walking-left";
+	}
+}
+
 [SupertuxObject("rock", "images/objects/rock/rock.sprite")]
 public class Rock : SimpleObject
 {
