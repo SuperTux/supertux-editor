@@ -29,7 +29,7 @@ public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
         List<int> Tiles = new List<int>();
         Props.GetIntList("tiles", Tiles);
         if(Tiles.Count != (int) (Width * Height))
-            throw new Exception("TileCount != Width*Height");
+            throw new Exception("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
 
 		Assign(Tiles, Width, Height);
 	}
