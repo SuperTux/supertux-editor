@@ -379,6 +379,15 @@ public class Rock : SimpleObject
 	}
 }
 
+[SupertuxObject("candle", "images/objects/candle/candle.sprite")]
+public class Candle : SimpleObject
+{
+	public Candle() {
+		Sprite = SpriteManager.Create("images/objects/candle/candle.sprite");
+		Sprite.Action = "default";
+	}
+}
+
 [SupertuxObject("unstable_tile", "images/objects/unstable_tile/unstable_tile.sprite")]
 public class UnstableTile : SimpleObject
 {
