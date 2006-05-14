@@ -1,15 +1,15 @@
-<Project name="supertux-editor" fileversion="2.0" language="C#" ctype="DotNetProject">
+<Project name="supertux-editor" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../" assembly="supertux-editor" />
       <Build debugmode="True" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Csc" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="../" assembly="supertux-editor" />
       <Build debugmode="False" target="Exe" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
@@ -18,23 +18,16 @@
   </DeploymentInformation>
   <Contents>
     <File name="./Application.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Background.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Camera.cs" subtype="Code" buildaction="Compile" />
     <File name="./IGameObject.cs" subtype="Code" buildaction="Compile" />
     <File name="./IEditorApplication.cs" subtype="Code" buildaction="Compile" />
     <File name="./IObject.cs" subtype="Code" buildaction="Compile" />
     <File name="./LayerListWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Level.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Objects.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Sector.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorRenderer.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorSwitchNotebook.cs" subtype="Code" buildaction="Compile" />
     <File name="./Selection.cs" subtype="Code" buildaction="Compile" />
-    <File name="./SimpleObject.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tile.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileBlock.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileListWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Tilemap.cs" subtype="Code" buildaction="Compile" />
     <File name="./TilemapNode.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tileset.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sprites/Sprite.cs" subtype="Code" buildaction="Compile" />
@@ -55,10 +48,8 @@
     <File name="./CustomSettingsWidgetAttribute.cs" subtype="Code" buildaction="Compile" />
     <File name="./ObjectListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./LevelUtil.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Path.cs" subtype="Code" buildaction="Compile" />
     <File name="./ColorSerializer.cs" subtype="Code" buildaction="Compile" />
     <File name="./ChooseColorWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./WorldmapObjects.cs" subtype="Code" buildaction="Compile" />
     <File name="./ResizeDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileGroupSelector.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tilegroup.cs" subtype="Code" buildaction="Compile" />
@@ -71,6 +62,18 @@
     <File name="./Editors/ObjectCreationEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./ScriptEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./EditScriptWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./SettingsDialog.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/PathEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects" subtype="Directory" buildaction="Compile" />
+    <File name="./LevelObjects/Camera.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/SimpleObject.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/WorldmapObjects.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Level.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Sector.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Objects.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Tilemap.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Background.cs" subtype="Code" buildaction="Compile" />
+    <File name="./LevelObjects/Path.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
@@ -78,11 +81,11 @@
     <ProjectReference type="Project" localcopy="True" refto="LispReader" />
     <ProjectReference type="Project" localcopy="True" refto="Resources" />
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Project" localcopy="True" refto="Dock" />
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
 </Project>

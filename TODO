@@ -4,6 +4,8 @@ Bugs:
 Editor:
 - Support for Undo
 - Scroll TileList with middle mouse, Get different Tilegroups
+- Add scrollbars to tilelist widget
+- Add scrollbars to level?
 - Overview widget?
 - preserve unknown lisp trees
 - Grab Mouse Pointer when scrolling so that we can scroll wide
@@ -15,13 +17,12 @@ Editor:
     - Spawnpoints
     - Colors - ok
     - Longer texts
-- Make Object properties a tab?
-- Fullscreen mode?
-- Script editor? Launch external editor?
+- Make Object properties a tab
+- Script editor? Launch external editor? - ok
 - Ask for Save on close
 - Support paths
 - Support resizing of level borders with drag&drop
-- Config dialog
+- Config dialog - ok
 - Change the editor to support "tools":
     Move around Tool
     Zoom Tool

@@ -120,6 +120,8 @@ public class Application : IEditorApplication {
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
 		
 		layout.LoadFromFile(layoutFile);
+		// don't enable this until we have a way to redisplay windows that the
+		// user accidently closed
 		//layout.LoadLayout("__default__");
 	}
 	
@@ -264,6 +266,11 @@ public class Application : IEditorApplication {
 			return;
 		
 		new SettingsWindow("Level Properties", level);	
+	}
+	
+	protected void OnSettings(object o, EventArgs args)
+	{
+		new SettingsDialog();
 	}
 	
 	private void OnDelete(object o, DeleteEventArgs args)
