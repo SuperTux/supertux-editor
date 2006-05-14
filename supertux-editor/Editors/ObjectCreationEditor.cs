@@ -36,7 +36,7 @@ public class ObjectCreationEditor : IEditor
 		
 		// switch back to object edit mode when shift was not pressed
 		if((Modifiers & ModifierType.ShiftMask) == 0) {
-			ObjectsEditor editor = new ObjectsEditor(application.CurrentSector);
+			ObjectsEditor editor = new ObjectsEditor(application, application.CurrentSector);
 			if(gameObject is IObject) {
 				editor.MakeActive((IObject) gameObject);
 			}

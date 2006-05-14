@@ -14,7 +14,7 @@ public class Sector : ICustomLispSerializer {
 	[LispChild("name")]
 	public string Name = "";
 	[ChooseResourceSetting]
-	[LispChild("music")]
+	[LispChild("music", Optional = true, Default = "")]
 	public string Music = "";
 	[LispChild("gravity", Optional = true, Default = 10f)]
 	public float Gravity = 10f;

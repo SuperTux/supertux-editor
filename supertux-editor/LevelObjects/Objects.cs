@@ -267,7 +267,7 @@ public class AngryStone : SimpleObject
 }
 
 [SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
-public class FlyingPlatform : IGameObject, IObject, Node
+public class FlyingPlatform : IGameObject, IObject, IPathObject, Node
 {
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
@@ -285,8 +285,16 @@ public class FlyingPlatform : IGameObject, IObject, Node
 	
 	private Sprite Sprite;
 	
+	private Path path;
 	[LispChild("path")]
-	public Path Path;
+	public Path Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
 	
 	public virtual bool Resizable {
 		get {
@@ -428,8 +436,12 @@ public class Powerup : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
-				Sprite = SpriteManager.Create(value);
+			try {
+				if(value != "")
+					Sprite = SpriteManager.Create(value);
+			} catch(Exception e) {
+				ErrorDialog.Exception(e);
+			}
 		}
 	}
 	private string spriteFile = "";

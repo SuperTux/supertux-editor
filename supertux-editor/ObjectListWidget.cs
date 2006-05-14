@@ -186,7 +186,7 @@ public class ObjectListWidget : GLWidgetBase
 							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
 							application.SetEditor(editor);
 						} else {
-							IEditor editor = new ObjectsEditor(application.CurrentSector);
+							IEditor editor = new ObjectsEditor(application, application.CurrentSector);
 							application.SetEditor(editor);
 						}
 					}

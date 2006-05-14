@@ -123,7 +123,7 @@ public class LayerListWidget : TreeView {
     			application.ChangeCurrentTilemap(currentTilemap);
     		}
     	} else {
-    		application.SetEditor(new ObjectsEditor(application.CurrentSector));
+    		application.SetEditor(new ObjectsEditor(application, application.CurrentSector));
     		currentTilemap = null;
     	}
     	

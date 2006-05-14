@@ -103,6 +103,7 @@ public class ObjectsEditor : IEditor
 		}
 	}
 	
+	private IEditorApplication application;
 	private Sector sector;
 	private IObject activeObject;
 	private Vector pressPoint;
@@ -112,8 +113,9 @@ public class ObjectsEditor : IEditor
 
 	public event RedrawEventHandler Redraw;
 	
-	public ObjectsEditor(Sector sector)
+	public ObjectsEditor(IEditorApplication application, Sector sector)
 	{
+		this.application = application;
 		this.sector = sector;
 	}
 	
@@ -227,6 +229,12 @@ public class ObjectsEditor : IEditor
 		cloneItem.Sensitive = activeObject is ICloneable;
 		popupMenu.Append(cloneItem);
 		
+		if(activeObject is IPathObject) {
+			MenuItem editPathItem = new MenuItem("Edit Path");
+			editPathItem.Activated += OnEditPath;
+			popupMenu.Append(editPathItem);
+		}
+		
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
@@ -254,6 +262,15 @@ public class ObjectsEditor : IEditor
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
+	}
+	
+	private void OnEditPath(object o, EventArgs args)
+	{
+		if(! (activeObject is IPathObject))
+			return;
+		
+		IPathObject pathObject = (IPathObject) activeObject;
+		application.SetEditor(new PathEditor(pathObject.Path));
 	}
 	
 	private void OnDelete(object o, EventArgs args)

@@ -178,4 +178,3 @@ public class TilemapEditor : IEditor, IDisposable {
 		Redraw();
 	}
 }
-

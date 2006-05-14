@@ -311,6 +311,11 @@ public class Application : IEditorApplication {
 	
 	public void SetEditor(IEditor editor)
 	{
+		IEditor oldEditor = sectorSwitchNotebook.CurrentRenderer.Editor;
+		if(oldEditor is IDisposable) {
+			IDisposable disposable = (IDisposable) oldEditor;
+			disposable.Dispose();
+		}
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
 
