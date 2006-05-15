@@ -37,7 +37,6 @@
     <File name="./Util.cs" subtype="Code" buildaction="Compile" />
     <File name="./Settings.cs" subtype="Code" buildaction="Compile" />
     <File name="./Constants.cs" subtype="Code" buildaction="Compile" />
-    <File name="./SettingsView.cs" subtype="Code" buildaction="Compile" />
     <File name="./resources/editor.glade" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-eye-12.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-eye-half-12.png" subtype="Code" buildaction="EmbedAsResource" />
@@ -76,6 +75,7 @@
     <File name="./LevelObjects/Path.cs" subtype="Code" buildaction="Compile" />
     <File name="./resources/modifier-move.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/modifier-plus.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./PropertiesView.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />

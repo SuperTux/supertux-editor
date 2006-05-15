@@ -132,8 +132,16 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
 		if(dragging) {
-			selectedNode.Pos = originalPos + (pos - pressPoint);
-			Redraw();
+			Vector spos = originalPos + (pos - pressPoint);
+			// snap to 32pixel?
+			if((Modifiers & ModifierType.ShiftMask) != 0) {
+				spos = new Vector((float) ((int)spos.X / 32) * 32,
+				                  (float) ((int)spos.Y / 32) * 32);
+			}
+			if(selectedNode.Pos != spos) {
+				selectedNode.Pos = spos; 
+				Redraw();
+			}
 		} else {
 			Path.Node node = FindNodeAt(pos);
 			Vector dummy = new Vector(0, 0);
