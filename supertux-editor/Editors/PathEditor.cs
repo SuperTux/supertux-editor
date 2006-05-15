@@ -89,38 +89,43 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 	
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
-		Path.Node node = FindNodeAt(pos);
-		
-		if(node == null) {
-			if((Modifiers & ModifierType.ControlMask) != 0) {
-				Vector pointOnEdge = new Vector(0, 0);
-				int addNode = FindPath(pos, ref pointOnEdge);
-				if(addNode >= 0) {
+		if(button == 1) {
+			Path.Node node = FindNodeAt(pos);
+			
+			if(node == null) {
+				if((Modifiers & ModifierType.ControlMask) != 0) {
+					Vector pointOnEdge = new Vector(0, 0);
+					int addNode = FindPath(pos, ref pointOnEdge);
+					if(addNode >= 0) {
+						node = new Path.Node();
+						node.Pos = pointOnEdge;
+						path.Nodes.Insert(addNode+1, node);
+					}
+				} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
 					node = new Path.Node();
-					node.Pos = pointOnEdge;
-					path.Nodes.Insert(addNode+1, node);
+					node.Pos = pos;
+					path.Nodes.Add(node);
+				} else if(selectedNode == path.Nodes[0]) {
+					node = new Path.Node();
+					node.Pos = pos;
+					path.Nodes.Insert(0, node);
 				}
-			} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
-				node = new Path.Node();
-				node.Pos = pos;
-				path.Nodes.Add(node);
-			} else if(selectedNode == path.Nodes[0]) {
-				node = new Path.Node();
-				node.Pos = pos;
-				path.Nodes.Insert(0, node);
 			}
-		}
-		
-		if(node != selectedNode) {
-			selectedNode = node;			
-			Redraw();
-		}
-		
-		if(selectedNode != null) {
-			application.EditProperties(selectedNode, "Path Node");
-			dragging = true;
-			pressPoint = pos;
-			originalPos = selectedNode.Pos;
+			
+			if(node != selectedNode) {
+				selectedNode = node;			
+				Redraw();
+			}
+			
+			if(selectedNode != null) {
+				application.EditProperties(selectedNode, "Path Node");
+				dragging = true;
+				pressPoint = pos;
+				originalPos = selectedNode.Pos;
+			}
+			
+		} else if(button == 3) {
+			PopupMenu(button);			
 		}
 	}
 	
@@ -158,6 +163,30 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 				CursorChange(new Cursor(CursorType.Arrow));
 			}
 		}
+	}
+	
+	private void PopupMenu(int button)
+	{
+		if(selectedNode == null)
+			return;
+		
+		Menu popupMenu = new Menu();
+		
+		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
+		deleteItem.Activated += OnDelete;
+		deleteItem.Sensitive = path.Nodes.Count > 1;
+		popupMenu.Append(deleteItem);
+		
+		popupMenu.ShowAll();
+		popupMenu.Popup(); 
+	}
+	
+	private void OnDelete(object o, EventArgs args)
+	{
+		path.Nodes.Remove(selectedNode);
+		selectedNode = null;
+		dragging = false;
+		Redraw();
 	}
 	
 	/**

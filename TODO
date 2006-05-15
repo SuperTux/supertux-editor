@@ -20,7 +20,7 @@ Editor:
 - Make Object properties a tab
 - Script editor? Launch external editor? - ok
 - Ask for Save on close
-- Support paths
+- Support paths - ok
 - Support resizing of level borders with drag&drop
 - Config dialog - ok
 - Change the editor to support "tools":
