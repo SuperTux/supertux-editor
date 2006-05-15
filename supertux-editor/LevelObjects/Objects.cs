@@ -304,7 +304,9 @@ public class FlyingPlatform : IGameObject, IObject, IPathObject, Node
 
 	public FlyingPlatform()
 	{
-		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");			
+		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");
+		path = new Path();
+		path.Nodes.Add(new Path.Node());
 	}
 	
 	public void Draw()

@@ -100,14 +100,14 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 					node.Pos = pointOnEdge;
 					path.Nodes.Insert(addNode+1, node);
 				}
-			} else if(selectedNode == path.Nodes[0]) {
-				node = new Path.Node();
-				node.Pos = pos;
-				path.Nodes.Insert(0, node);
 			} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
 				node = new Path.Node();
 				node.Pos = pos;
 				path.Nodes.Add(node);
+			} else if(selectedNode == path.Nodes[0]) {
+				node = new Path.Node();
+				node.Pos = pos;
+				path.Nodes.Insert(0, node);
 			}
 		}
 		
