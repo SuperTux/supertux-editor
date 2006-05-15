@@ -11,9 +11,11 @@ public class SectorRenderer : RenderView
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
 	private SceneGraph.Rectangle sectorFill;
+	private Level level;
 	
 	public SectorRenderer(Level level, Sector sector)
 	{
+		this.level = level;
 		Layer layer = new Layer();
 		
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
@@ -79,7 +81,15 @@ public class SectorRenderer : RenderView
 		if(node != null)
 			objectsNode.AddChild(node);
 		
-		// TODO handle tilemaps
+		if(Object is Tilemap) {
+			Layer layer = (Layer) SceneGraphRoot;
+			
+			Tilemap tilemap = (Tilemap) Object;
+			Node tnode = new TilemapNode(tilemap, level.Tileset);
+			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
+			layer.Add(tilemap.ZPos, colorNode);
+			colors[tilemap] = colorNode;
+		}
 	}
 	
 	private void OnObjectRemoved(Sector sector, IGameObject Object)

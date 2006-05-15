@@ -403,7 +403,7 @@ public class UnstableTile : SimpleObject
 {
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");
-		Sprite.Action = "normal";
+		Sprite.Action = "default";
 	}
 }
 
