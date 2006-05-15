@@ -5,6 +5,7 @@ public class GameObjectListWidget : TreeView
 {
 	private IGameObject currentObject;
 	private IEditorApplication application;
+	private Sector sector;
 	
 	public GameObjectListWidget(IEditorApplication application)
 	{
@@ -23,15 +24,35 @@ public class GameObjectListWidget : TreeView
 		application.SectorChanged += OnSectorChanged;
 	}
 	
-	private void OnSectorChanged(Level level, Sector newSector)
+	private void OnSectorChanged(Level level, Sector sector)
+	{
+		sector.ObjectAdded -= ObjectsChanged;
+		sector.ObjectRemoved -= ObjectsChanged;
+		
+		this.sector = sector;
+		
+		sector.ObjectAdded += ObjectsChanged;
+		sector.ObjectAdded += ObjectsChanged;
+		UpdateList();
+	}
+	
+	private void ObjectsChanged(Sector sector, IGameObject Object)
+	{
+		if((Object is IObject) || (Object is Tilemap))
+			return;
+		
+		UpdateList();
+	}
+	
+	private void UpdateList()
 	{
 		TreeStore store = new TreeStore(typeof(System.Object));			
-		foreach(IGameObject Object in newSector.GetObjects()) {
+		foreach(IGameObject Object in sector.GetObjects()) {
 			if(! (Object is IObject) && !(Object is Tilemap))
 				store.AppendValues(Object);
 		}
-		Model = store;
-	}
+		Model = store;	
+	}	
 	
 	private void TextDataFunc(TreeViewColumn Column, CellRenderer Renderer,
 			             	  TreeModel Model, TreeIter Iter)
@@ -54,6 +75,7 @@ public class GameObjectListWidget : TreeView
     		return;
     	
     	currentObject = (IGameObject) Model.GetValue(iter, 0);
+    	application.EditProperties(currentObject, currentObject.GetType().Name);
     	
     	if(args.Event.Button == 3) {
     		ShowPopupMenu();
@@ -64,16 +86,20 @@ public class GameObjectListWidget : TreeView
 	{
 		Menu popupMenu = new Menu();
 
-		ImageMenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
-		propertiesItem.Activated += OnProperties;
-		popupMenu.Add(propertiesItem);
+		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
+		deleteItem.Activated += OnDelete;
+		popupMenu.Append(deleteItem);
 		
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
 	
-	private void OnProperties(object o, EventArgs args)
+	private void OnDelete(object o, EventArgs args)
 	{
-		application.EditProperties(currentObject, currentObject.GetType().Name);
-	}	
+		if(currentObject == null)
+			return;
+		
+		sector.Remove(currentObject);
+		UpdateList();
+	}
 }

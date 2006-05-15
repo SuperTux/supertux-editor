@@ -8,6 +8,7 @@ public class LayerListWidget : TreeView {
 	private IEditorApplication application;
 	private static object nullObject = new System.Object();
 	private Tilemap currentTilemap;
+	private Sector sector;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
 	
 	private class VisibilityRenderer : CellRendererPixbuf
@@ -57,17 +58,37 @@ public class LayerListWidget : TreeView {
 		application.TilemapChanged += OnTilemapChanged;
 	}
 
-	private void OnSectorChanged(Level Level, Sector Sector)
+	private void OnSectorChanged(Level level, Sector sector)
+	{
+		sector.ObjectAdded -= ObjectsChanged;
+		sector.ObjectRemoved -= ObjectsChanged;
+		
+		this.sector = sector;
+		
+		sector.ObjectAdded += ObjectsChanged;
+		sector.ObjectAdded += ObjectsChanged;
+		UpdateList();
+	}
+	
+	private void ObjectsChanged(Sector sector, IGameObject Object)
+	{
+		if(! (Object is Tilemap))
+			return;
+		
+		UpdateList();
+	}
+	
+	private void UpdateList()
 	{
 		visibility.Clear();
 		TreeStore store = new TreeStore(typeof(System.Object));
-		foreach(Tilemap Tilemap in Sector.GetObjects(typeof(Tilemap))) {
+		foreach(Tilemap Tilemap in sector.GetObjects(typeof(Tilemap))) {
 			store.AppendValues(Tilemap);
 			visibility[Tilemap] = 1.0f;
 		}
 		store.AppendValues(nullObject);
 		visibility[nullObject] = 1.0f;
-		Model = store;
+		Model = store;		
 	}
 
 	private void OnTilemapChanged(Tilemap Tilemap)
@@ -136,21 +157,23 @@ public class LayerListWidget : TreeView {
 	private void ShowPopupMenu()
 	{
 		Menu popupMenu = new Menu();
-
-		ImageMenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
-		propertiesItem.Activated += OnProperties;
-		popupMenu.Add(propertiesItem);
 		
+		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
+		deleteItem.Activated += OnDelete;
+		popupMenu.Append(deleteItem);
+
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
 	
-	private void OnProperties(object o, EventArgs args)
+	private void OnDelete(object o, EventArgs args)
 	{
 		if(currentTilemap == null)
 			return;
 		
-		application.EditProperties(currentTilemap, "Tilemap");
+		sector.Remove(currentTilemap);
+		currentTilemap = null;
+		UpdateList();
 	}
 	
 	private void OnVisibilityChange(object o, EventArgs args)

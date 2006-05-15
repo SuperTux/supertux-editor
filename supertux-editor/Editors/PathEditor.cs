@@ -17,23 +17,26 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 	private bool dragging;
 	private Vector pressPoint;
 	private Vector originalPos;
-	private uint timerId;
 	private ushort linepattern = 7;
-	private bool killTimer;
+	private static bool killTimer;
 	private IEditorApplication application;
 	
 	public PathEditor(IEditorApplication application, Path path)
 	{
 		this.application = application;
 		this.path = path;
-		timerId = GLib.Timeout.Add(100, Animate);
+		killTimer = false;
+		GLib.Timeout.Add(100, Animate);
 	}
 	
 	private bool Animate()
 	{
+		if(killTimer)
+			return false;
+		
 		linepattern = (ushort) ((linepattern >> 15) | (linepattern << 1));
 		Redraw();
-		return !killTimer;
+		return true;
 	}
 	
 	public void Dispose()

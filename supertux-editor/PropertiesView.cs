@@ -8,7 +8,6 @@ using LispReader;
 
 public class PropertiesView : ScrolledWindow
 {
-	private Widget widget;
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	private Label errorLabel;

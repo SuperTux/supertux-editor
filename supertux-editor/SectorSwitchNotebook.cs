@@ -3,11 +3,11 @@ using Gtk;
 
 public class SectorSwitchNotebook : Notebook
 {
-	private Level Level;
-	private Sector Sector;
+	private Level level;
+	private Sector sector;
 	private IEditorApplication application;
 
-	public delegate void SectorChangedEventHandler(Sector NewSector);
+	public delegate void SectorChangedEventHandler(Sector newSector);
 	public event SectorChangedEventHandler SectorChanged;
 
 	public SectorRenderer CurrentRenderer {
@@ -16,28 +16,28 @@ public class SectorSwitchNotebook : Notebook
 		}
 	}
 
-	public SectorSwitchNotebook(IEditorApplication Application)
+	public SectorSwitchNotebook(IEditorApplication application)
 	{
 		this.application = application;
 		SwitchPage += OnSwitchPage;
 		ButtonPressEvent += OnButtonPress;
-		Application.LevelChanged += OnLevelChanged;
-		Application.SectorChanged += OnSectorChanged;
+		application.LevelChanged += OnLevelChanged;
+		application.SectorChanged += OnSectorChanged;
 	}
 
-	private void OnLevelChanged(Level NewLevel)
+	private void OnLevelChanged(Level newLevel)
 	{
 		ClearTabList();
-		this.Level = NewLevel;
+		this.level = newLevel;
 		CreateTabList();
 	}
 
-	private void OnSectorChanged(Level Level, Sector NewSector)
+	private void OnSectorChanged(Level level, Sector newSector)
 	{
-		int num = Level.Sectors.IndexOf(NewSector);
+		int num = level.Sectors.IndexOf(newSector);
 		if(num < 0)
 			return;
-		Sector = NewSector;		
+		this.sector = newSector;
 		
 		if(num != CurrentPage) {
 			CurrentPage = num;
@@ -46,26 +46,26 @@ public class SectorSwitchNotebook : Notebook
 
 	private void ClearTabList()
 	{
-		foreach(Widget Widget in this) {
-			Remove(Widget);
+		foreach(Widget widget in this) {
+			Remove(widget);
 		}
 	}
 
 	private void CreateTabList()
 	{
-		foreach(Sector Sector in Level.Sectors) {
-			SectorRenderer Renderer = new SectorRenderer(Level, Sector);
+		foreach(Sector sector in level.Sectors) {
+			SectorRenderer Renderer = new SectorRenderer(level, sector);
 			Renderer.ShowAll();
-			AppendPage(Renderer, new Label(Sector.Name));
+			AppendPage(Renderer, new Label(sector.Name));
 		}
 		
-		if(this.Sector == null && Level.Sectors.Count > 0)
-			this.Sector = Level.Sectors[0];
+		if(this.sector == null && level.Sectors.Count > 0)
+			this.sector = level.Sectors[0];
 	}
 
 	private void OnSwitchPage(object o, SwitchPageArgs args)
 	{
-		Sector NewSector = Level.Sectors[(int) args.PageNum];
+		Sector NewSector = level.Sectors[(int) args.PageNum];
 		SectorChanged(NewSector);
 	}
 	
@@ -80,7 +80,7 @@ public class SectorSwitchNotebook : Notebook
 	{
 		Menu popupMenu = new Menu();
 		
-		foreach(Sector sector in Level.Sectors) {
+		foreach(Sector sector in level.Sectors) {
 			MenuItem item = new MenuItem(sector.Name);
 			item.Name = sector.Name;
 			item.Activated += OnSectorItemActivated;
@@ -111,7 +111,7 @@ public class SectorSwitchNotebook : Notebook
 	private void OnSectorItemActivated(object o, EventArgs args)
 	{
 		MenuItem item = (MenuItem) o;
-		foreach(Sector sector in Level.Sectors) {
+		foreach(Sector sector in level.Sectors) {
 			if(sector.Name == item.Name) {
 				SectorChanged(sector);
 				CurrentRenderer.GrabFocus();
@@ -124,12 +124,12 @@ public class SectorSwitchNotebook : Notebook
 	
 	private void OnPropertiesActivated(object o, EventArgs args)
 	{
-		application.EditProperties(Sector, "Sector");
+		application.EditProperties(sector, "Sector");
 	}
 	
 	private void OnDeleteActivated(object o, EventArgs args)
 	{
-		Level.Sectors.Remove(Sector);
+		level.Sectors.Remove(sector);
 		ClearTabList();
 		CreateTabList();
 	}
@@ -137,7 +137,7 @@ public class SectorSwitchNotebook : Notebook
 	private void OnResizeActivated(object o, EventArgs args)
 	{
 		try {
-			new ResizeDialog(Sector);
+			new ResizeDialog(sector);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -148,10 +148,10 @@ public class SectorSwitchNotebook : Notebook
 		try {
 			Sector sector = LevelUtil.CreateSector("NewSector");
 		
-			Level.Sectors.Add(sector);
+			level.Sectors.Add(sector);
 			ClearTabList();
 			CreateTabList();
-			OnSectorChanged(Level, sector);
+			OnSectorChanged(level, sector);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new sector", e);
 		}

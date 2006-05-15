@@ -38,7 +38,6 @@ public class LevelUtil
 		spawnpoint.X = 96;
 		spawnpoint.Y = 96;
 		spawnpoint.Name = "main";
-		// hack for now...
 		sector.Add(spawnpoint);
 
 		Camera camera = new Camera();
