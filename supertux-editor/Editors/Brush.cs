@@ -21,162 +21,161 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using DataStructures;
 
-/*
-class Brush : IEditor 
+class Brush 
 {
-	private Tilemap tilemap;
-	private Tileset tileset;
-	private BrushData data;
-	
-	public Brush(Tilemap tilemap, Tileset tileset, BrushData data)
+    protected List<TileBlock> patterns;
+	protected uint width;
+    protected uint height;
+    protected Tileset tileset;
+
+	public Brush(uint width, uint height, List<TileBlock> patterns, Tileset tileset)
 	{
-		this.tilemap = tilemap;
-		this.tileset = tileset;
+        this.width = width;
+        this.height = height;
+        this.patterns = patterns;
+        this.tileset = tileset;
+	}
+
+	public Brush(uint width, uint height, Tileset tileset)
+	{
+        this.width = width;
+        this.height = height;
+        this.patterns = new List<TileBlock>();
+        this.tileset = tileset;
+    }
+	
+	public int PatternCount {
+		get {
+			return patterns.Count;
+		}
+	}
+
+    public uint Width {
+        get {
+            return width;
+        }
+    }
+
+    public uint Height {
+        get {
+            return height;
+        }
+    }
+
+    /// <summary>
+    /// Add the tiles of the given tileBlock as a valid pattern
+    /// </summary>
+    /// <param name="tileBlock">tileBlock that specifies the pattern to add</param>
+    public void LearnPattern(TileBlock tileBlock, int startX, int startY) {
+        TileBlock tb = (TileBlock)tileBlock.CloneSubset(startX, startY, width, height);
+        if (!patterns.Contains(tb)) patterns.Add(tb);
+    }
+
+    /// <summary>
+    /// Add all tiles of the given tileBlock to the list of valid patterns
+    /// </summary>
+    /// <param name="tileBlock">tileBlock that specifies the patterns to add</param>
+    public void LearnPatterns(TileBlock tileBlock) {
+        for (int tx = 0; tx < tileBlock.Width - width; tx++) {
+            for (int ty = 0; ty < tileBlock.Height - height; ty++) {
+                LearnPattern(tileBlock, tx, ty);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Remove the tiles of the given tileBlock from the list of valid patterns
+    /// </summary>
+    /// <param name="tileBlock">tileBlock that specifies the pattern to remove</param>
+    public void ForgetPattern(TileBlock tileBlock, int startX, int startY) {
+        TileBlock tb = (TileBlock)tileBlock.CloneSubset(startX, startY, width, height);
+        if (patterns.Contains(tb)) patterns.Remove(tb);
+    }
+
+    protected float calculateSimilarity(TileBlock t1, TileBlock t2) {
+        float sim = 0;
+        if (t1.Width != t2.Width) throw new ArgumentException("TileBlocks had different widths");
+        if (t1.Height != t2.Height) throw new ArgumentException("TileBlocks had different heights");
+        for (int px = 0; px < t1.Width; px++) {
+            for (int py = 0; py < t1.Height; py++) {
+                int id1 = t1[px, py];
+                int id2 = t2[px, py];
+                bool solid1 = ((tileset.Get(id1).Attributes & Tile.Attribute.SOLID) != 0);
+                bool solid2 = ((tileset.Get(id2).Attributes & Tile.Attribute.SOLID) != 0);
+                if (id1 == id2) sim += 1;
+                if (solid1 == solid2) sim += 100;
+            }
+        }
+        return sim;
+    }
+
+	public void ApplyToTilemap(FieldPos pos, Tilemap tilemap, Tileset tileset) {
+        int px = pos.X - (int)(width/2);
+        int py = pos.Y - (int)(height/2);
+		if (px < 0) return;
+		if (py < 0) return;
+		if (px+width > tilemap.Width) return;
+		if (py+width > tilemap.Height) return;
+
+        TileBlock tb = (TileBlock)tilemap.CloneSubset(px, py, width, height);
+
+        float bestSimilarity = 0;
+        TileBlock bestPattern = null;
+        foreach (TileBlock pattern in patterns) {
+            float sim = calculateSimilarity(pattern, tb);
+            if (sim > bestSimilarity) {
+                bestSimilarity = sim;
+                bestPattern = pattern;
+            }
+        }
+        if (bestPattern != null) {
+            bestPattern.ApplyToTilemap(new FieldPos(px, py), tilemap);
+        }
 	}
 	
-	public int Length {
-		get {
-			return id_matrices.Count;
+	public void saveToFile(string fname) {
+		FileStream fs = new FileStream(fname, FileMode.Create);
+		TextWriter tw = new StreamWriter(fs);
+
+		foreach (TileBlock m1 in patterns) {
+			tw.WriteLine("" + m1[0, 0] + "," + m1[0, 1] + "," + m1[0, 2] + "," + m1[1, 0] + "," + m1[1, 1] + "," + m1[1, 2] + "," + m1[2, 0] + "," + m1[2, 1] + "," + m1[2, 2] + "");
 		}
+
+		tw.Close();
+		fs.Close();
 	}
 
-	protected bool equal(int[,] m1, int[,] m2) {
-		for (int px = 0; px < 3; px++) {
-			for (int py = 0; py < 3; py++) {
-				if (m1[px, py] != m2[px, py]) return false;
+	public static Brush loadFromFile(string fname, Tileset tileset) {
+		FileStream fs = new FileStream(fname, FileMode.Open);
+		TextReader trd = new StreamReader(fs);
+
+        Brush brush = new Brush(3, 3, tileset);
+
+		try {
+			string s;
+			while ((s = trd.ReadLine()) != null) {
+				string[] v = s.Split(',');
+				if (v.Length < 9) continue;
+				TileBlock tb = (TileBlock)new Field<int>(3,3,0);
+                tb[0, 0] = int.Parse(v[0]);
+                tb[0, 1] = int.Parse(v[1]);
+                tb[0, 2] = int.Parse(v[2]);
+                tb[1, 0] = int.Parse(v[3]);
+                tb[1, 1] = int.Parse(v[4]);
+                tb[1, 2] = int.Parse(v[5]);
+                tb[1, 0] = int.Parse(v[6]);
+                tb[1, 1] = int.Parse(v[7]);
+                tb[1, 2] = int.Parse(v[8]);
+                if (!brush.patterns.Contains(tb)) brush.patterns.Add(tb);
 			}
-		}
-		return true;
-	}
-
-	protected bool matrixExists(int[,] m1) {
-		foreach (int[,] m2 in id_matrices) {
-			if (equal(m1, m2)) return true;
-		}
-		return false;
-	}
-
-	public void learn(Tilemap tilemap, int tx, int ty) {
-		Tilemap tm = tilemap;
-		TileRepository tr = tileRepository;
-
-		int[,] m1 = new int[3, 3] {
-		            { tm.getTileAt(tx-1,ty-1), tm.getTileAt(tx+0,ty-1), tm.getTileAt(tx+1,ty-1) },
-		            { tm.getTileAt(tx-1,ty+0), tm.getTileAt(tx+0,ty+0), tm.getTileAt(tx+1,ty+0) },
-		            { tm.getTileAt(tx-1,ty+1), tm.getTileAt(tx+0,ty+1), tm.getTileAt(tx+1,ty+1) }
-		         };
-		bool[,] m2 = new bool[3, 3] {
-		            { tr.isSolid[tm.getTileAt(tx-1,ty-1)], tr.isSolid[tm.getTileAt(tx+0,ty-1)], tr.isSolid[tm.getTileAt(tx+1,ty-1)] },
-		            { tr.isSolid[tm.getTileAt(tx-1,ty+0)], tr.isSolid[tm.getTileAt(tx+0,ty+0)], tr.isSolid[tm.getTileAt(tx+1,ty+0)] },
-		            { tr.isSolid[tm.getTileAt(tx-1,ty+1)], tr.isSolid[tm.getTileAt(tx+0,ty+1)], tr.isSolid[tm.getTileAt(tx+1,ty+1)] }
-		         };
-
-		if (!matrixExists(m1)) {
-			id_matrices.Add(m1);
-			solid_matrices.Add(m2);
-		}
-	}
-
-	public void learn(Tilemap tilemap) {
-		for (int tx = 0; tx < tilemap.width; tx++) {
-			for (int ty = 0; ty < tilemap.height; ty++) {
-				learn(tilemap, tx, ty);
-			}
-		}
-	}
-
-	public void forget(Tilemap tilemap, int tx, int ty) {
-		Tilemap tm = tilemap;
-		TileRepository tr = tileRepository;
-
-		int[,] m1 = new int[3, 3] {
-                      { tm.getTileAt(tx-1,ty-1), tm.getTileAt(tx+0,ty-1), tm.getTileAt(tx+1,ty-1) },
-                      { tm.getTileAt(tx-1,ty+0), tm.getTileAt(tx+0,ty+0), tm.getTileAt(tx+1,ty+0) },
-                      { tm.getTileAt(tx-1,ty+1), tm.getTileAt(tx+0,ty+1), tm.getTileAt(tx+1,ty+1) }
-                   };
-		bool[,] m2 = new bool[3, 3] {
-                      { tr.isSolid[tm.getTileAt(tx-1,ty-1)], tr.isSolid[tm.getTileAt(tx+0,ty-1)], tr.isSolid[tm.getTileAt(tx+1,ty-1)] },
-                      { tr.isSolid[tm.getTileAt(tx-1,ty+0)], tr.isSolid[tm.getTileAt(tx+0,ty+0)], tr.isSolid[tm.getTileAt(tx+1,ty+0)] },
-                      { tr.isSolid[tm.getTileAt(tx-1,ty+1)], tr.isSolid[tm.getTileAt(tx+0,ty+1)], tr.isSolid[tm.getTileAt(tx+1,ty+1)] }
-                   };
-
-		for (int i = 0; i < id_matrices.Count; i++) {
-			if (equal(m1, id_matrices[i])) {
-				id_matrices.RemoveAt(i);
-				solid_matrices.RemoveAt(i);
-			}
-		}
-	}
-
-	protected void draw(Tilemap tilemap, int tx, int ty, bool erase) {
-		Tilemap tm = tilemap;
-		TileRepository tr = tileRepository;
-
-		int[,] desiredIdPattern = new int[3, 3] {
-		        { tm.getTileAt(tx-1,ty-1), tm.getTileAt(tx+0,ty-1), tm.getTileAt(tx+1,ty-1) },
-		        { tm.getTileAt(tx-1,ty+0), tm.getTileAt(tx+0,ty+0), tm.getTileAt(tx+1,ty+0) },
-		        { tm.getTileAt(tx-1,ty+1), tm.getTileAt(tx+0,ty+1), tm.getTileAt(tx+1,ty+1) }
-		     };
-
-		bool[,] desiredSolPattern = new bool[3, 3] {
-		        { tr.isSolid[tm.getTileAt(tx-1,ty-1)], tr.isSolid[tm.getTileAt(tx+0,ty-1)], tr.isSolid[tm.getTileAt(tx+1,ty-1)] },
-		        { tr.isSolid[tm.getTileAt(tx-1,ty+0)], !erase                             , tr.isSolid[tm.getTileAt(tx+1,ty+0)] },
-		        { tr.isSolid[tm.getTileAt(tx-1,ty+1)], tr.isSolid[tm.getTileAt(tx+0,ty+1)], tr.isSolid[tm.getTileAt(tx+1,ty+1)] }
-		};
-
-		float bestSimilarity = 0;
-		int[,] bestPattern = new int[3, 3] {
-		        { tm.getTileAt(tx-1,ty-1), tm.getTileAt(tx+0,ty-1), tm.getTileAt(tx+1,ty-1) },
-		        { tm.getTileAt(tx-1,ty+0), tm.getTileAt(tx+0,ty+0), tm.getTileAt(tx+1,ty+0) },
-		        { tm.getTileAt(tx-1,ty+1), tm.getTileAt(tx+0,ty+1), tm.getTileAt(tx+1,ty+1) }
-		     };
-
-		for (int i = 0; i < id_matrices.Count; i++) {
-			int[,] m1 = id_matrices[i];
-			int[,] m2 = desiredIdPattern;
-
-			bool[,] m3 = solid_matrices[i];
-			bool[,] m4 = desiredSolPattern;
-
-			float thisSimilarity = 0;
-			for (int px = 0; px < 3; px++) {
-				for (int py = 0; py < 3; py++) {
-				    if ((px == 1) && (py == 1)) {
-				    	if (tr.isSolid[m1[px, py]] == (!erase))
-				    		thisSimilarity += 1000;
-				        continue;
-				    }
-				    if (m1[px, py] == m2[px, py])
-				    	thisSimilarity += 1;
-					if (m3[px, py] == m4[px, py])
-						thisSimilarity += 100;
-				}
-			}
-
-			if (thisSimilarity > bestSimilarity) {
-				bestSimilarity = thisSimilarity;
-				bestPattern = m1;
-			}
+		} finally {
+			trd.Close();
+			fs.Close();
 		}
 
-		if (bestSimilarity > 0) {
-			int[,] m1 = bestPattern;
+        return brush;
+   }	
 
-			tm.setTileAt(tx - 1, ty - 1, m1[0, 0]);
-			tm.setTileAt(tx + 0, ty - 1, m1[0, 1]);
-			tm.setTileAt(tx + 1, ty - 1, m1[0, 2]);
-			tm.setTileAt(tx - 1, ty + 0, m1[1, 0]);
-			tm.setTileAt(tx + 0, ty + 0, m1[1, 1]);
-			tm.setTileAt(tx + 1, ty + 0, m1[1, 2]);
-			tm.setTileAt(tx - 1, ty + 1, m1[2, 0]);
-			tm.setTileAt(tx + 0, ty + 1, m1[2, 1]);
-			tm.setTileAt(tx + 1, ty + 1, m1[2, 2]);
-		}
-	}
-
-	public void draw(Tilemap tilemap, int tx, int ty) {
-		draw(tilemap, tx, ty, false);
-	}
 }
-*/

@@ -115,6 +115,33 @@ namespace DataStructures
 			List<T> Result = new List<T>(Elements);
 			return Result;
 		}
+
+	// FIXME: untested
+        public override bool Equals(object obj) {
+            if (!(obj is Field<T>)) return false;
+            Field<T> other = (Field<T>)obj;
+            if (this.width != other.width) return false;
+            if (this.height != other.height) return false;
+            return this.Elements.Equals(other.Elements);
+        }
+
+	// FIXME: untested
+        public Field<T> CloneSubset(int startX, int startY, uint width, uint height) {
+            if (startX < 0) throw new ArgumentOutOfRangeException("startX");
+            if (startY < 0) throw new ArgumentOutOfRangeException("startY");
+            if (startX + width > this.Width) throw new ArgumentOutOfRangeException("startX");
+            if (startY + height > this.Height) throw new ArgumentOutOfRangeException("startY");
+            List<T> v = new List<T>();
+            for (int y = 0; y < height; y++) {
+                for (int x = 0; x < width; x++) {
+                    int tx = x + startX;
+                    int ty = y + startY;
+                    v.Add(this[tx, ty]);
+                }
+            }
+            return new Field<T>(v, width, height);
+        }
+
 	}
 
 }
