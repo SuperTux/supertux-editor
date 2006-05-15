@@ -4,9 +4,11 @@ using Gtk;
 public class GameObjectListWidget : TreeView
 {
 	private IGameObject currentObject;
+	private IEditorApplication application;
 	
 	public GameObjectListWidget(IEditorApplication application)
 	{
+		this.application = application;
 		ButtonPressEvent += OnButtonPressed;
 		
 		CellRendererText TextRenderer = new CellRendererText();
@@ -72,6 +74,6 @@ public class GameObjectListWidget : TreeView
 	
 	private void OnProperties(object o, EventArgs args)
 	{
-		new SettingsWindow(currentObject.GetType().Name, currentObject);
+		application.EditProperties(currentObject, currentObject.GetType().Name);
 	}	
 }

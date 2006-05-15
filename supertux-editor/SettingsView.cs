@@ -6,21 +6,15 @@ using System.Reflection;
 using Gtk;
 using LispReader;
 
-public class SettingsWindow
+public class SettingsView : ScrolledWindow
 {
-	private Window window;
+	private Widget widget;
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	private Label errorLabel;
 	
-	public SettingsWindow(string Title, System.Object Object)
+	public SettingsView()
 	{
-		this.Object = Object;
-		try {
-			CreateWindow(Title);
-		} catch(Exception e) {
-			ErrorDialog.Exception(e);
-		}
 	}
 	
 	private object CreateObject(Type Type) {
@@ -33,14 +27,30 @@ public class SettingsWindow
 		return Result;
 	}
 	
-	private void CreateWindow(string Title)
+	public void SetObject(object Object, string title)
 	{
-		window = new Window(Title);
-		
+		this.Object = Object;
+		try {
+			CreatePropertyWidgets(title);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
+	}
+	
+	private void CreatePropertyWidgets(string title)
+	{
 		VBox box = new VBox();
-		
+	
+		Label titleLabel = new Label();
+		titleLabel.Xalign = 0;
+		titleLabel.Xpad = 12;
+		titleLabel.Ypad = 6;
+		titleLabel.Markup = "<b>" + title + "</b>";
+		box.PackStart(titleLabel, true, false, 0);
+	
 		// iterate over all fields and properties
 		Type type = Object.GetType();
+		fieldTable.Clear();
 		List<Widget> editWidgets = new List<Widget>();
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			CustomSettingsWidgetAttribute customSettings = (CustomSettingsWidgetAttribute)
@@ -100,33 +110,17 @@ public class SettingsWindow
 		}
 		box.PackStart(table, true, true, 0);
 		
-		ButtonBox buttonBox = new HButtonBox();
-		buttonBox.BorderWidth = 12;
-		buttonBox.Spacing = 6;
-		buttonBox.Layout = ButtonBoxStyle.End;
-		
-		Button closeButton = new Button(Stock.Close);
-		closeButton.Clicked += OnCloseClicked;
-		buttonBox.Add(closeButton);
-		
 		// TODO add a (!) image in front of the label (and hide/show it depending
 		// if there was an error)
 		errorLabel = new Label("");
 		errorLabel.Xalign = 0;
 		errorLabel.Xpad = 12;
 		box.PackStart(errorLabel, true, false, 0);
-
-		box.PackStart(buttonBox, false, false, 0);
 		
-		window.Add(box);
-		window.Resizable = true;
-		window.DefaultWidth = 500;
-		window.ShowAll();
-	}
-	
-	private void OnCloseClicked(object o, EventArgs args)
-	{
-		window.Hide();	
+		box.ShowAll();
+		
+		Foreach(Remove);
+		AddWithViewport(box);
 	}
 	
 	private void OnEntryChanged(object o, EventArgs args)

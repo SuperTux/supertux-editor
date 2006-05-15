@@ -5,6 +5,7 @@ public class SectorSwitchNotebook : Notebook
 {
 	private Level Level;
 	private Sector Sector;
+	private IEditorApplication application;
 
 	public delegate void SectorChangedEventHandler(Sector NewSector);
 	public event SectorChangedEventHandler SectorChanged;
@@ -17,6 +18,7 @@ public class SectorSwitchNotebook : Notebook
 
 	public SectorSwitchNotebook(IEditorApplication Application)
 	{
+		this.application = application;
 		SwitchPage += OnSwitchPage;
 		ButtonPressEvent += OnButtonPress;
 		Application.LevelChanged += OnLevelChanged;
@@ -122,10 +124,7 @@ public class SectorSwitchNotebook : Notebook
 	
 	private void OnPropertiesActivated(object o, EventArgs args)
 	{
-		new SettingsWindow("Sector Properties", Sector);
-		ClearTabList();
-		CreateTabList();
-		OnSectorChanged(Level, Sector);
+		application.EditProperties(Sector, "Sector");
 	}
 	
 	private void OnDeleteActivated(object o, EventArgs args)

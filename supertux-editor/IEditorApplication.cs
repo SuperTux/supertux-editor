@@ -4,6 +4,7 @@ public interface IEditorApplication
 	void ChangeCurrentSector(Sector Sector);
 	void ChangeCurrentTilemap(Tilemap Tilemap);
 	void SetEditor(IEditor editor);
+	void EditProperties(object Object, string title);
 	
 	SectorRenderer CurrentRenderer {
 		get;

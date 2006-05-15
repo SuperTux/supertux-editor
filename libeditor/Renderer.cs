@@ -16,21 +16,22 @@ public class RenderView : GLWidgetBase
 	private Vector MousePos;
 
 	private IEditor editor;
-	public IEditor Editor
-	{
-		set
-		{
+	public IEditor Editor {
+		set	{
 			if(this.editor != null) {
 				this.editor.Redraw -= QueueDraw;
+				if(this.editor is IEditorCursorChange)
+					((IEditorCursorChange) this.editor).CursorChange -= CursorChange;
 				if(this.editor is IDisposable)
 					((IDisposable) this.editor).Dispose();
 			}
 
 			this.editor = value;
 			this.editor.Redraw += QueueDraw;
+			if(this.editor is IEditorCursorChange)
+				((IEditorCursorChange) this.editor).CursorChange += CursorChange;
 		}
-		get
-		{
+		get {
 			return editor;
 		}
 	}
@@ -145,6 +146,11 @@ public class RenderView : GLWidgetBase
 	private Vector MouseToWorld(Vector MousePos)
 	{
 		return MousePos / Zoom - Translation;
+	}
+	
+	private void CursorChange(Cursor cursor)
+	{
+		GdkWindow.Cursor = cursor;
 	}
 }
 

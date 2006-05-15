@@ -1,5 +1,6 @@
 using DataStructures;
 using Gdk;
+using Gtk;
 
 public interface IEditor
 {
@@ -10,5 +11,11 @@ public interface IEditor
 
 	event RedrawEventHandler Redraw;
 }
-
 public delegate void RedrawEventHandler();
+
+public interface IEditorCursorChange
+{
+	event CursorChangeHandler CursorChange;
+}
+public delegate void CursorChangeHandler(Cursor cursor);
+

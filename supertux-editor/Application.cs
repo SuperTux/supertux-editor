@@ -16,6 +16,7 @@ public class Application : IEditorApplication {
 	private TileListWidget tileList;
 	private LayerListWidget layerList;
 	private SectorSwitchNotebook sectorSwitchNotebook;
+	private SettingsView settingsView;
 	private Selection selection;
 
 	private FileChooserDialog FileChooser;
@@ -118,6 +119,12 @@ public class Application : IEditorApplication {
 		                                        DockItemBehavior.NeverFloating);
 		gObjectListDock.Add(scrolledWindow);
 		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
+		
+		settingsView = new SettingsView();
+		DockItem settingsViewDock = new DockItem("Properties", "Properties",
+		                                           DockItemBehavior.NeverFloating);
+		settingsViewDock.Add(settingsView);
+		settingsViewDock.DockTo(layerListDock, DockPlacement.Center); 
 		
 		layout.LoadFromFile(layoutFile);
 		// don't enable this until we have a way to redisplay windows that the
@@ -265,7 +272,7 @@ public class Application : IEditorApplication {
 		if(level == null)
 			return;
 		
-		new SettingsWindow("Level Properties", level);	
+		EditProperties(level, "Level");
 	}
 	
 	protected void OnSettings(object o, EventArgs args)
@@ -317,6 +324,11 @@ public class Application : IEditorApplication {
 			disposable.Dispose();
 		}
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
+	}
+	
+	public void EditProperties(object Object, string title)
+	{
+		settingsView.SetObject(Object, title);
 	}
 
 	public static void Main(string[] args)

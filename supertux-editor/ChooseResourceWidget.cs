@@ -37,10 +37,10 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 			entry.Text = val;
 		
 		entry.Changed += OnEntryChanged;
-		box.Add(entry);
+		box.PackStart(entry, true, true, 0);
 		
 		Button chooseButton = new Button("...");
-		box.Add(chooseButton);
+		box.PackStart(chooseButton, false, false, 0);
 		chooseButton.Clicked += OnChoose;
 		
 		box.Name = field.Name;

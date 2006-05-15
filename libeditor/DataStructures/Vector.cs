@@ -1,3 +1,5 @@
+using System;
+
 namespace DataStructures
 {
 
@@ -10,6 +12,16 @@ namespace DataStructures
 		{
 			this.X = X;
 			this.Y = Y;
+		}
+		
+		public float Norm()
+		{
+			return (float) Math.Sqrt(X*X + Y*Y);
+		}
+		
+		public Vector Unit()
+		{
+			return this / Norm();
 		}
 
 		public static Vector operator +(Vector v1, Vector v2)
@@ -27,13 +39,12 @@ namespace DataStructures
 			return new Vector(-v.X, -v.Y);
 		}
 
-		/// cross product
 		public static Vector operator *(Vector v1, float s)
 		{
 			return new Vector(v1.X * s, v1.Y * s);
 		}
 
-		/// s-multiplication
+		/// scalar product
 		public static float operator *(Vector v1, Vector v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y;

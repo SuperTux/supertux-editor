@@ -120,6 +120,7 @@ public class LayerListWidget : TreeView {
     	if(obj is Tilemap) {
     		if(obj != currentTilemap) {
     			currentTilemap = (Tilemap) obj;
+    			application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
     			application.ChangeCurrentTilemap(currentTilemap);
     		}
     	} else {
@@ -149,7 +150,7 @@ public class LayerListWidget : TreeView {
 		if(currentTilemap == null)
 			return;
 		
-		new SettingsWindow("Tilemap Properties", currentTilemap);
+		application.EditProperties(currentTilemap, "Tilemap");
 	}
 	
 	private void OnVisibilityChange(object o, EventArgs args)

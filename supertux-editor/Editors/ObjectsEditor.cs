@@ -190,8 +190,11 @@ public class ObjectsEditor : IEditor
 	{
 		activeObject = Object;
 		
-		if(! (activeObject is ControlPoint))
+		if(! (activeObject is ControlPoint)) {
+			if(activeObject != null)
+				application.EditProperties(activeObject, activeObject.GetType().Name);			
 			controlPoints.Clear();
+		}
 		
 		if(activeObject != null && activeObject.Resizable) {
 			controlPoints.Add(new ControlPoint(activeObject,
@@ -220,10 +223,6 @@ public class ObjectsEditor : IEditor
 		
 		Menu popupMenu = new Menu();
 		
-		MenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
-		propertiesItem.Activated += OnProperties;
-		popupMenu.Append(propertiesItem);
-		
 		MenuItem cloneItem = new MenuItem("Clone");
 		cloneItem.Activated += OnClone;
 		cloneItem.Sensitive = activeObject is ICloneable;
@@ -241,13 +240,6 @@ public class ObjectsEditor : IEditor
 		
 		popupMenu.ShowAll();
 		popupMenu.Popup(); 
-	}
-	
-	private void OnProperties(object o, EventArgs args)
-	{
-		if(activeObject == null)
-			return;
-		new SettingsWindow(activeObject.GetType().Name + " Object Properties", activeObject);
 	}
 	
 	private void OnClone(object o, EventArgs args)
@@ -270,7 +262,7 @@ public class ObjectsEditor : IEditor
 			return;
 		
 		IPathObject pathObject = (IPathObject) activeObject;
-		application.SetEditor(new PathEditor(pathObject.Path));
+		application.SetEditor(new PathEditor(application, pathObject.Path));
 	}
 	
 	private void OnDelete(object o, EventArgs args)
