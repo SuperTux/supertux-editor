@@ -208,7 +208,7 @@ public class ObjectListWidget : GLWidgetBase
 			args.RetVal = true;
 			QueueDraw();
 		} else if( args.Event.Direction == ScrollDirection.Down &&
-		            FirstRow + 1 < Math.Floor( gameObjectTypes.Count / TILES_PER_ROW )) {
+		            FirstRow + 1 < Math.Floor( (double)gameObjectTypes.Count / (double)TILES_PER_ROW )) {
 			FirstRow += 1;
 			args.RetVal = true;
 			QueueDraw();

@@ -261,7 +261,7 @@ public class Application : IEditorApplication {
 		try {
 			string tempName = System.IO.Path.GetTempPath() + "/supertux-editor.tmp.stl";
 			serializer.Write(tempName, level);
-			Process.Start(Settings.Instance.SupertuxExe, tempName);
+			Process.Start(Settings.Instance.SupertuxExe, "\"" + tempName + "\"");
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't start supertux", e);
 		}
