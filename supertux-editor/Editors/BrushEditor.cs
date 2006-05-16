@@ -4,10 +4,11 @@ using System;
 using Gdk;
 
 /// <summary>
-/// Smoothes Tilemaps by changing tiles to one of several stored valid patterns
+/// Smoothes Tilemaps by changing tiles to one of several stored valid patterns.
+/// Left-click and drag to apply brush.
+/// Right-click and drag to select an area with patterns to learn.
 /// </summary>
 // TODO: create interface for loading and saving of brushes
-// TODO: implement learning and forgetting patterns
 public class BrushEditor : IEditor, IDisposable {
 	private Selection selection;
 	private bool drawing;
@@ -122,6 +123,7 @@ public class BrushEditor : IEditor, IDisposable {
 						  		  (uint) SelectionP1.Y + y];
 				}
 			}
+			brush.LearnPatterns(selection);
 
 			selection.FireChangedEvent();
 			selecting = false;
@@ -133,18 +135,15 @@ public class BrushEditor : IEditor, IDisposable {
 	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
 	{
 		if(UpdateMouseTilePos(MousePos)) {
-			if(selection.Width == 0 || selection.Height == 0)
-				return;
-
-			if(drawing &&
-					( (Modifiers & ModifierType.ShiftMask) != 0 ||
-				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
-				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
-				LastDrawPos = MouseTilePos;
-				brush.ApplyToTilemap(MouseTilePos, Tilemap);
+			if (drawing) {
+				if (LastDrawPos != MouseTilePos) {
+					LastDrawPos = MouseTilePos;
+					brush.ApplyToTilemap(MouseTilePos, Tilemap);
+				}
 			}
-			if(selecting)
+			if (selecting) {
 				UpdateSelection();
+			}
 			Redraw();
 		}
 	}

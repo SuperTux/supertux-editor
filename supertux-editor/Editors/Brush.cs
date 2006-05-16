@@ -71,7 +71,6 @@ class Brush
 	/// Add the tiles of the given tileBlock as a valid pattern
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the pattern to add</param>
-	// FIXME: untested
 	public void LearnPattern(Field<int> tileBlock, int startX, int startY) {
 		Field<int> tb = (Field<int>)tileBlock.CloneSubset(startX, startY, width, height);
 		if (!patterns.Contains(tb)) patterns.Add(tb);
@@ -81,10 +80,9 @@ class Brush
 	/// Add all tiles of the given tileBlock to the list of valid patterns
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the patterns to add</param>
-	// FIXME: untested
 	public void LearnPatterns(Field<int> tileBlock) {
-		for (int tx = 0; tx < tileBlock.Width - width; tx++) {
-			for (int ty = 0; ty < tileBlock.Height - height; ty++) {
+		for (int tx = 0; tx <= (int)tileBlock.Width - (int)width; tx++) {
+			for (int ty = 0; ty <= (int)tileBlock.Height - (int)height; ty++) {
 				LearnPattern(tileBlock, tx, ty);
 			}
 		}
@@ -94,7 +92,6 @@ class Brush
 	/// Remove the tiles of the given tileBlock from the list of valid patterns
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the pattern to remove</param>
-	// FIXME: untested
 	public void ForgetPattern(Field<int> tileBlock, int startX, int startY) {
 		Field<int> tb = (Field<int>)tileBlock.CloneSubset(startX, startY, width, height);
 		if (patterns.Contains(tb)) patterns.Remove(tb);
