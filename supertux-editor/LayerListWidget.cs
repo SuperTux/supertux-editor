@@ -57,6 +57,12 @@ public class LayerListWidget : TreeView {
 		application.SectorChanged += OnSectorChanged;
 		application.TilemapChanged += OnTilemapChanged;
 	}
+	
+	public Tilemap CurrentTilemap {
+		get {
+			return currentTilemap;
+		}
+	}
 
 	private void OnSectorChanged(Level level, Sector sector)
 	{

@@ -9,8 +9,8 @@ using Gdk;
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
 // TODO: create interface for loading and saving of brushes
-public class BrushEditor : IEditor, IDisposable {
-	private Selection selection;
+public class BrushEditor : IEditor {
+	private Selection selection = new Selection();
 	private bool drawing;
 	private bool selecting;	
 	private FieldPos MouseTilePos;
@@ -20,23 +20,22 @@ public class BrushEditor : IEditor, IDisposable {
 	private FieldPos SelectionP2;
 
 	private Tilemap Tilemap;
-	private Tileset Tileset;
 	private Brush brush;
 
 	public event RedrawEventHandler Redraw;
 
-	public BrushEditor(Tilemap Tilemap, Tileset Tileset, Selection selection)
+	public BrushEditor(Tilemap Tilemap, Tileset Tileset, string brushFile)
 	{
-		this.Tilemap = Tilemap;
-		this.Tileset = Tileset;
-		this.selection = selection;
+		selection = new Selection();
 		selection.Changed += OnSelectionChanged;
-		brush = Brush.loadFromFile("/tmp/ice.csv", Tileset);
+		this.Tilemap = Tilemap;
+		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
-
-	public void Dispose()
-	{
-		selection.Changed -= OnSelectionChanged;
+	
+	public Brush Brush {
+		get {
+			return brush;
+		}
 	}
 
 	public void Draw()

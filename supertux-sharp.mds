@@ -1,22 +1,22 @@
 <Combine name="supertux-sharp" fileversion="2.0">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
-      <Entry configuration="Debug" build="True" name="Resources" />
-      <Entry configuration="Debug" build="True" name="Lisp" />
-      <Entry configuration="Debug" build="True" name="LispReader" />
-      <Entry configuration="Debug" build="True" name="libeditor" />
-      <Entry configuration="Debug" build="True" name="supertux-editor" />
-      <Entry configuration="Debug" build="True" name="Dock" />
-      <Entry configuration="Debug" build="True" name="gtkgl-sharp" />
+      <Entry build="True" name="Resources" configuration="Debug" />
+      <Entry build="True" name="Lisp" configuration="Debug" />
+      <Entry build="True" name="LispReader" configuration="Debug" />
+      <Entry build="True" name="libeditor" configuration="Debug" />
+      <Entry build="True" name="supertux-editor" configuration="Debug" />
+      <Entry build="True" name="Dock" configuration="Debug" />
+      <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry configuration="Debug" build="True" name="Resources" />
-      <Entry configuration="Debug" build="True" name="Lisp" />
-      <Entry configuration="Debug" build="True" name="LispReader" />
-      <Entry configuration="Debug" build="True" name="libeditor" />
-      <Entry configuration="Debug" build="True" name="supertux-editor" />
-      <Entry configuration="Debug" build="True" name="Dock" />
-      <Entry configuration="Debug" build="True" name="gtkgl-sharp" />
+      <Entry build="True" name="Resources" configuration="Debug" />
+      <Entry build="True" name="Lisp" configuration="Debug" />
+      <Entry build="True" name="LispReader" configuration="Debug" />
+      <Entry build="True" name="libeditor" configuration="Debug" />
+      <Entry build="True" name="supertux-editor" configuration="Debug" />
+      <Entry build="True" name="Dock" configuration="Debug" />
+      <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="supertux-editor" single="True">

@@ -19,7 +19,7 @@ public class Application : IEditorApplication {
 	private PropertiesView propertiesView;
 	private Selection selection;
 
-	private FileChooserDialog FileChooser;
+	private FileChooserDialog fileChooser;
 	private Dock dock;
 	private DockLayout layout;
 
@@ -68,12 +68,12 @@ public class Application : IEditorApplication {
 		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
 		
-		FileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
+		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName != null)
-			FileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
-		FileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
-		FileChooser.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
-		FileChooser.DefaultResponse = Gtk.ResponseType.Ok;
+			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+		fileChooser.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
+		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
 
 		if(args.Length > 0) {
 			Load(args[0]);
@@ -183,16 +183,17 @@ public class Application : IEditorApplication {
 
 	protected void OnOpen(object o, EventArgs e)
 	{
-		FileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
-		FileChooser.Action = FileChooserAction.Open;
-		int result = FileChooser.Run();
-		FileChooser.Hide();
+		fileChooser.Title = "Choose a Level";		
+		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+		fileChooser.Action = FileChooserAction.Open;
+		int result = fileChooser.Run();
+		fileChooser.Hide();
 		if(result != (int) ResponseType.Ok)
 			return;
 	
-		Settings.Instance.LastDirectoryName = FileChooser.CurrentFolder;
+		Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 		Settings.Instance.Save();
-		Load(FileChooser.Filename);
+		Load(fileChooser.Filename);
 	}
 
 	private void Load(string fileName)
@@ -225,15 +226,16 @@ public class Application : IEditorApplication {
 			chooseName = true;
 
 		if(chooseName) {
-			FileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
-			FileChooser.Action = FileChooserAction.Save;
-			int result = FileChooser.Run();
-			FileChooser.Hide();
+			fileChooser.Title = "Choose a Level";		
+			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+			fileChooser.Action = FileChooserAction.Save;
+			int result = fileChooser.Run();
+			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
 				return;
-			Settings.Instance.LastDirectoryName = FileChooser.CurrentFolder;
+			Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
-			fileName = FileChooser.Filename;
+			fileName = fileChooser.Filename;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		}
 		
@@ -278,6 +280,56 @@ public class Application : IEditorApplication {
 	protected void OnSettings(object o, EventArgs args)
 	{
 		new SettingsDialog();
+	}
+	
+	protected void OnLoadBrush(object o, EventArgs args)
+	{
+		try {
+			if(layerList.CurrentTilemap == null)
+				throw new Exception("No tilemap selected");
+			
+			fileChooser.Title = "Choose a Brush";
+			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
+			fileChooser.Action = FileChooserAction.Open;
+			int result = fileChooser.Run();
+			fileChooser.Hide();
+			if(result != (int) ResponseType.Ok)
+				return;
+			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
+			Settings.Instance.Save();
+			string brushFile = fileChooser.Filename;
+		
+			BrushEditor editor = new BrushEditor(layerList.CurrentTilemap,
+			                                        level.Tileset, brushFile);
+			SetEditor(editor);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
+	}
+	
+	protected void OnSaveBrush(object o, EventArgs args)
+	{
+		try {
+			IEditor editor = sectorSwitchNotebook.CurrentRenderer.Editor;
+			if(! (editor is BrushEditor))
+				throw new Exception("No brush editor active");
+			BrushEditor brushEditor = (BrushEditor) editor;
+			
+			fileChooser.Title = "Choose a Brush";
+			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
+			fileChooser.Action = FileChooserAction.Save;
+			int result = fileChooser.Run();
+			fileChooser.Hide();
+			if(result != (int) ResponseType.Ok)
+				return;
+			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
+			Settings.Instance.Save();
+			string brushFile = fileChooser.Filename;
+			
+			brushEditor.Brush.saveToFile(brushFile);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);	
+		}
 	}
 	
 	private void OnDelete(object o, DeleteEventArgs args)

@@ -26,7 +26,7 @@ using DataStructures;
 /// <summary>
 /// Smoothes Tilemaps by changing tiles to one of several stored valid patterns
 /// </summary>
-class Brush 
+public class Brush 
 {
 	protected List<Field<int>> patterns;
 	protected uint width;

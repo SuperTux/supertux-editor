@@ -143,6 +143,39 @@
 	  </child>
 
 	  <child>
+	    <widget class="GtkMenuItem" id="tools1">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">Tools</property>
+	      <property name="use_underline">True</property>
+
+	      <child>
+		<widget class="GtkMenu" id="tools1_menu">
+
+		  <child>
+		    <widget class="GtkMenuItem" id="load_brush1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Load Brush</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnLoadBrush" last_modification_time="Tue, 16 May 2006 19:41:05 GMT"/>
+		      <accelerator key="B" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="save_brush1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Save Brush</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnSaveBrush" last_modification_time="Tue, 16 May 2006 19:41:05 GMT"/>
+		      <accelerator key="B" modifiers="GDK_CONTROL_MASK | GDK_SHIFT_MASK" signal="activate"/>
+		    </widget>
+		  </child>
+		</widget>
+	      </child>
+	    </widget>
+	  </child>
+
+	  <child>
 	    <widget class="GtkMenuItem" id="editor1">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Editor</property>

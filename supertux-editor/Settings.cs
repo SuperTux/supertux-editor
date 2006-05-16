@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 
 public class Settings {
 	public string LastDirectoryName;
+	public string LastBrushDir;
 	public string SupertuxExe = "/usr/local/bin/supertux";
     public string SupertuxData = "/usr/local/share/supertux";
 
