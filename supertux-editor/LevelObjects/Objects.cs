@@ -266,8 +266,7 @@ public class AngryStone : SimpleObject
 	}
 }
 
-[SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
-public class FlyingPlatform : IGameObject, IObject, IPathObject, Node
+public class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
@@ -302,7 +301,7 @@ public class FlyingPlatform : IGameObject, IObject, IPathObject, Node
 		}
 	}
 
-	public FlyingPlatform()
+	public PlatformBase()
 	{
 		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");
 		path = new Path();
@@ -330,6 +329,16 @@ public class FlyingPlatform : IGameObject, IObject, IPathObject, Node
 				                  Sprite.Width, Sprite.Height);
 		}
 	}	
+}
+
+[SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
+public class FlyingPlatform : PlatformBase
+{
+}
+
+[SupertuxObject("hurting_platform", "images/objects/sawblade/sawblade.sprite")]
+public class HurtingPlatform : PlatformBase
+{
 }
 
 [SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite")]
@@ -417,7 +426,7 @@ public class UnstableTile : SimpleObject
 
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");
-		Sprite.Action = "default";
+		Sprite.Action = "normal";
 	}
 }
 
