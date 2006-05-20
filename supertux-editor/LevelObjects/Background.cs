@@ -7,15 +7,15 @@ public class Background : IGameObject {
 	public float X;
 	[LispChild("y", Optional = true, Default = 0)]
 	public float Y;
-	[LispChild("image-top", Optional = true, Default = null)]
+	[LispChild("image-top", Optional = true, Default = "")]
 	[ChooseResourceSetting]	
-	public string ImageTop;
+	public string ImageTop = "";
 	[LispChild("image")]
 	[ChooseResourceSetting]	
-	public string Image;
-	[LispChild("image-bottom", Optional = true, Default = null)]
+	public string Image = "";
+	[LispChild("image-bottom", Optional = true, Default = "")]
 	[ChooseResourceSetting]	
-	public string ImageBottom;
+	public string ImageBottom = "";
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 	[LispChild("layer", Optional = true, Default = -200)]

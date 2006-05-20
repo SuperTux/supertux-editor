@@ -251,8 +251,13 @@ public class Application : IEditorApplication {
 		Close();
 	}
 
+	private bool hidden;
 	protected void OnAbout(object o, EventArgs e)
 	{
+		if(!hidden) {
+			sectorSwitchNotebook.HideAll();
+			sectorSwitchNotebook.ShowAll();
+		}
 	}
 	
 	protected void OnPlay(object o, EventArgs args)
@@ -261,7 +266,13 @@ public class Application : IEditorApplication {
 			return;
 		
 		try {
-			string tempName = System.IO.Path.GetTempPath() + "/supertux-editor.tmp.stl";
+			string tempName = System.IO.Path.GetTempPath();
+			
+			if(level.TilesetFile == "images/worldmap.strf")
+				tempName += "/supertux-editor.tmp.stwm";
+			else
+				tempName += "/supertux-editor.tmp.stl";
+
 			serializer.Write(tempName, level);
 			Process.Start(Settings.Instance.SupertuxExe, "\"" + tempName + "\"");
 		} catch(Exception e) {
@@ -376,6 +387,7 @@ public class Application : IEditorApplication {
 			disposable.Dispose();
 		}
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
+		sectorSwitchNotebook.CurrentRenderer.QueueDraw();
 	}
 	
 	public void EditProperties(object Object, string title)

@@ -47,8 +47,6 @@ public class RenderView : GLWidgetBase
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);
 		CanFocus = true;
-		GrabDefault();
-		GrabFocus();
 	}
 
 	protected override void DrawGl()

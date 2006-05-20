@@ -24,15 +24,7 @@ public class ObjectCreationEditor : IEditor
 	
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
-		IGameObject gameObject = (IGameObject) CreateObject();
-		if(gameObject is IObject) {
-			IObject obj = (IObject) gameObject;
-			RectangleF rect = obj.Area;
-			rect.MoveTo(pos);
-			obj.ChangeArea(rect);
-		}
-		sector.Add(gameObject);
-		Redraw();
+		IGameObject gameObject = CreateObjectAt(pos);
 		
 		// switch back to object edit mode when shift was not pressed
 		if((Modifiers & ModifierType.ShiftMask) == 0) {
@@ -43,13 +35,33 @@ public class ObjectCreationEditor : IEditor
 			application.SetEditor(editor);
 		}
 	}
-	
+
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
 	{
 	}
-	
+
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
+	}
+
+	private IGameObject CreateObjectAt(Vector pos)
+	{
+		IGameObject gameObject = (IGameObject) CreateObject();
+		if(gameObject is IObject) {
+			IObject obj = (IObject) gameObject;
+			RectangleF rect = obj.Area;
+			rect.MoveTo(pos);
+			obj.ChangeArea(rect);
+		}
+		if(gameObject is IPathObject) {
+			Path path = ((IPathObject) gameObject).Path;
+			path.Nodes[0].Pos = pos;
+		}
+		
+		sector.Add(gameObject);
+		Redraw();
+
+		return gameObject;
 	}
 	
 	private object CreateObject()

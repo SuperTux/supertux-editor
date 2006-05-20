@@ -418,8 +418,10 @@ public class UnstableTile : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
+			if(value != "") {
 				Sprite = SpriteManager.Create(value);
+				Sprite.Action = "normal";
+			}
 		}
 	}
 	private string spriteFile = "";

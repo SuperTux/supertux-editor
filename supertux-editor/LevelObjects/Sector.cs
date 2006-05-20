@@ -94,14 +94,15 @@ public class Sector : ICustomLispSerializer {
 	
 	public void CustomLispWrite(Writer Writer) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
-			SupertuxObjectAttribute objectAttribute
-			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+			SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
+				Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
 				continue;
 			
+			string name = objectAttribute.Name;
 			LispSerializer serializer = new LispSerializer(type);
 			foreach(object Object in GetObjects(type)) {
-				serializer.Write(Writer, objectAttribute.Name, Object);
+				serializer.Write(Writer, name, Object);
 			}
 		}
 		

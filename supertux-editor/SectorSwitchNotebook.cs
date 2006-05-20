@@ -114,7 +114,6 @@ public class SectorSwitchNotebook : Notebook
 		foreach(Sector sector in level.Sectors) {
 			if(sector.Name == item.Name) {
 				SectorChanged(sector);
-				CurrentRenderer.GrabFocus();
 				return;
 			}
 		}
