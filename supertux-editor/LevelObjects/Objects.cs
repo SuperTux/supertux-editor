@@ -401,6 +401,20 @@ public class Candle : SimpleObject
 [SupertuxObject("unstable_tile", "images/objects/unstable_tile/unstable_tile.sprite")]
 public class UnstableTile : SimpleObject
 {
+	[ChooseResourceSetting]	
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
+		}
+	}
+	private string spriteFile = "";
+
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");
 		Sprite.Action = "default";
