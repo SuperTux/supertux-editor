@@ -86,10 +86,15 @@ public class GameObjectListWidget : TreeView
 	{
 		Menu popupMenu = new Menu();
 
+		MenuItem editPathItem = new MenuItem("Edit Path");
+		editPathItem.Activated += OnEditPath;
+		editPathItem.Sensitive = currentObject is IPathObject;
+		popupMenu.Append(editPathItem);
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
-		
+
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
@@ -102,4 +107,14 @@ public class GameObjectListWidget : TreeView
 		sector.Remove(currentObject);
 		UpdateList();
 	}
+
+	private void OnEditPath(object o, EventArgs args)
+	{
+		if(! (currentObject is IPathObject))
+			return;
+		
+		IPathObject pathObject = (IPathObject) currentObject;
+		application.SetEditor(new PathEditor(application, pathObject.Path));
+	}
+		
 }
