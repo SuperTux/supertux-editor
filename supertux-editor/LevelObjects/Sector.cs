@@ -105,7 +105,6 @@ public class Sector : ICustomLispSerializer {
 				serializer.Write(Writer, name, Object);
 			}
 		}
-		
 	}
 	
 	public void FinishRead() {

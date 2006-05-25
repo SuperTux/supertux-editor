@@ -184,6 +184,11 @@ public class Kugelblitz : SimpleObject
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite")]
 public class Dispenser : SimpleObject
 {
+    [LispChild("badguy")]
+    public string Badguy = "";
+    [LispChild("cycle")]
+    public float Cycle = 1;
+
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
 		Sprite.Action = "working-left";
