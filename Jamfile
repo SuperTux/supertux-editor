@@ -38,5 +38,5 @@ CSharp supertux-editor.exe
     :   [ Wildcard supertux-editor/resources : *.glade *.png ]
 ;
 LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll Dock.dll ;
-CSFLAGS on supertux-editor.exe += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -pkg:gtksourceview-sharp-2.0 ;
+CSFLAGS on supertux-editor.exe += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 ;
 

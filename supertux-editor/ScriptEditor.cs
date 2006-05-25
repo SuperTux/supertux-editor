@@ -1,68 +1,55 @@
 using System;
 using Gtk;
-using GtkSourceView;
+using Gdk;
+using Glade;
 using LispReader;
 
 public class ScriptEditor
-{	
-	private static SourceLanguagesManager manager;
-	private static SourceLanguage lang;
+{
+	[Glade.Widget]
+	private Dialog scriptDialog = null;
+	[Glade.Widget]
+	private TextView scriptEditor = null;
 
-	private Window window;
-	private SourceBuffer buffer;
 	private FieldOrProperty field;
 	private object object_;
-	
-	static ScriptEditor() {
-		manager = new SourceLanguagesManager();
-		lang = manager.GetLanguageFromMimeType ("text/x-squirrel");
-	}	
 	
 	public ScriptEditor(string title, FieldOrProperty field, object object_)
 	{
 		this.field = field;
 		this.object_ = object_;
+	
+		Glade.XML gxml = new Glade.XML("editor.glade", "scriptDialog");
+		gxml.Autoconnect(this);
 		
+		if(scriptDialog == null || scriptEditor == null)
+			throw new Exception("Couldn't load ScriptEditor dialog");
+		
+		/*
 		window = new Window("Supertux - ScriptEditor - " + title);
 		window.SetSizeRequest(640, 500);
-		
-		buffer = new SourceBuffer (lang);
-		buffer.Highlight = true;
+		*/		
+
 		object val = field.GetValue(object_);
-		buffer.Text = val != null ? val.ToString() : "";
+		scriptEditor.Buffer.Text = val != null ? val.ToString() : "";
+
+		scriptDialog.ShowAll();
+	}
+
+	protected void OnOk(object o, EventArgs args)
+	{
+		try {
+			field.SetValue(object_, scriptEditor.Buffer.Text);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}
 		
-		ScrolledWindow scrollWindow = new ScrolledWindow();
-		SourceView view = new SourceView(buffer);
-		view.AutoIndent = true;
-		view.ShowMargin = true;
-		view.TabsWidth = 4;
-		view.SmartHomeEnd = true;
-		view.ShowLineNumbers = true;
-		view.ShowLineMarkers = true;
-		
-		scrollWindow.Add(view);
-		
-		VBox box = new VBox();
-		box.PackStart(scrollWindow, true, true, 0);
-		
-		ButtonBox buttonBox = new HButtonBox();
-		buttonBox.BorderWidth = 12;
-		buttonBox.Spacing = 6;
-		buttonBox.Layout = ButtonBoxStyle.End;		
-		
-		Button closeButton = new Button(Stock.Close);
-		closeButton.Clicked += OnClose;
-		buttonBox.Add(closeButton);
-		
-		box.PackStart(buttonBox, false, false, 0); 
-		
-		window.Add(box);
-		window.ShowAll();
+		scriptDialog.Hide();
 	}
 	
-	private void OnClose(object sender, EventArgs args)
+	protected void OnCancel(object o, EventArgs args)
 	{
-		field.SetValue(object_, buffer.Text);
-		window.Destroy();
-	}
+		scriptDialog.Hide();	
+	}	
+	
 }
