@@ -130,6 +130,13 @@ public class PropertiesView : ScrolledWindow
 				if(parsed.ToString() != entry.Text)
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
+			} else if(field.Type == typeof(int)) {
+				int parsed = Int32.Parse(entry.Text);
+				if(parsed.ToString() != entry.Text)
+					entry.Text = parsed.ToString();
+				field.SetValue(Object, parsed);
+			} else {
+				throw new Exception("Not implemented yet");
 			}
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;
