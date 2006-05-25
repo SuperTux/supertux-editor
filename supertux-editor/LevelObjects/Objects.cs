@@ -273,6 +273,10 @@ public class AngryStone : SimpleObject
 
 public class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+	[LispChild("running", Optional = true, Default = true)]
+	public bool Running = true;
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
 	public string SpriteFile {
