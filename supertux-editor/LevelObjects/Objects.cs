@@ -245,6 +245,35 @@ public class Hatch : SimpleObject
 	}
 }
 
+[SupertuxObject("switch", "images/objects/switch/switch.sprite")]
+public class Switch : SimpleObject
+{
+	[ChooseResourceSetting]	
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "") {
+				Sprite = SpriteManager.Create(value);
+				Sprite.Action = "off";
+			}
+		}
+	}
+	private string spriteFile = "";
+
+	[LispChild("script")]
+	[EditScriptSetting]
+	public string Script = "";
+
+	public Switch() {
+		Sprite = SpriteManager.Create("images/objects/switch/switch.sprite");
+		Sprite.Action = "off";
+	}
+}
+
 [SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite")]
 public class Trampoline : SimpleObject
 {
