@@ -439,9 +439,14 @@ public class Rock : SimpleObject
 [SupertuxObject("candle", "images/objects/candle/candle.sprite")]
 public class Candle : SimpleObject
 {
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+	[LispChild("burning", Optional = true, Default = true)]
+	public bool Burning = true;
+
 	public Candle() {
 		Sprite = SpriteManager.Create("images/objects/candle/candle.sprite");
-		Sprite.Action = "default";
+		Sprite.Action = "on";
 	}
 }
 
