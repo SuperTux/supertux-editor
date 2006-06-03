@@ -17,6 +17,13 @@ public class SectorRenderer : RenderView
 	{
 		this.level = level;
 		Layer layer = new Layer();
+
+		foreach(Background background in sector.GetObjects(typeof(Background))) {
+			Node node = background.GetSceneGraphNode();
+			if(node == null) continue;
+			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
+			layer.Add(background.Layer, colorNode);
+		}
 		
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			Node node = new TilemapNode(tilemap, level.Tileset);
@@ -90,6 +97,17 @@ public class SectorRenderer : RenderView
 			layer.Add(tilemap.ZPos, colorNode);
 			colors[tilemap] = colorNode;
 		}
+
+		if (Object is Background) {
+			Layer layer = (Layer) SceneGraphRoot;
+			Background background = (Background) Object;
+		
+			Node mynode = background.GetSceneGraphNode();
+			if(mynode != null) {
+				ColorNode colorNode = new ColorNode(mynode, new Color(1f, 1f, 1f, 1f));
+				layer.Add(background.Layer, colorNode);
+			}
+		}
 	}
 	
 	private void OnObjectRemoved(Sector sector, IGameObject Object)
@@ -103,6 +121,8 @@ public class SectorRenderer : RenderView
 			objectsNode.RemoveChild(node);
 		
 		// TODO handle tilemaps
+		
+		// TODO handle backgrounds
 	}
 	
 	private void OnDragMotion(object o, DragMotionArgs args)
