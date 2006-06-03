@@ -46,7 +46,7 @@ public class Background : IGameObject, Node {
 	private string image;
 	protected Surface surface;
 	
-	[LispChild("image-top", Optional = true, Default = "")]
+	[LispChild("image-bottom", Optional = true, Default = "")]
 	[ChooseResourceSetting]	
 	public string ImageBottom {
 		get {
