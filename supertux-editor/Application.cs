@@ -3,7 +3,6 @@ using System.IO;
 using System.Diagnostics;
 using Gtk;
 using Glade;
-using Gdl;
 using Sdl;
 using Drawing;
 using LispReader;
@@ -12,22 +11,28 @@ public class Application : IEditorApplication {
 	private string MainWindowTitlePrefix; //*< Original MainWindow title, read from .glade ressource */
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
-
+	
 	private TileListWidget tileList;
 	private LayerListWidget layerList;
 	private SectorSwitchNotebook sectorSwitchNotebook;
 	private PropertiesView propertiesView;
 	private Selection selection;
 
+	[Glade.Widget]
+	private Widget ToolSelectProps;
+
+	private Widget ToolTilesProps;
+	private Widget ToolObjectsProps;
+
+	[Glade.Widget]
+	private Widget ToolBrushProps;
+
 	private FileChooserDialog fileChooser;
-	private Dock dock;
-	private DockLayout layout;
 
 	private Level level;
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
 	private string fileName;
-	private string layoutFile;
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -46,8 +51,7 @@ public class Application : IEditorApplication {
 	}
 
 	private Application(string[] args) {
-		layoutFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		layoutFile += "/" + Constants.PACKAGE_NAME + "/layout.xml";
+		selection = new Selection();
 		
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
 		Glade.XML gxml = new Glade.XML("editor.glade", "MainWindow");
@@ -58,15 +62,14 @@ public class Application : IEditorApplication {
 
 		Tileset.LoadEditorImages = true;
 
-		selection = new Selection();
-		
-		SetupDock();
-		
 		MainWindow.DeleteEvent += OnDelete;
 
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
+
+		// Tool "Select" is selected by default - call its event handler
+		OnToolSelect(null, null);
 		
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName != null)
@@ -78,58 +81,6 @@ public class Application : IEditorApplication {
 		if(args.Length > 0) {
 			Load(args[0]);
 		}
-	}
-	
-	private void SetupDock()
-	{
-		sectorSwitchNotebook = new SectorSwitchNotebook(this);
-		sectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
-		sectorSwitchNotebook.ShowAll();
-		DockItem mainDock = new DockItem("MainDock", "MainDock",
-		                                 DockItemBehavior.NoGrip);
-		mainDock.Add(sectorSwitchNotebook);
-		dock.AddItem(mainDock, DockPlacement.Center);
-				
-		Widget tileListWidget = CreateTileList();
-		DockItem tileListDock = new DockItem("TileList", "Tiles",
-											 DockItemBehavior.NeverFloating);
-		tileListDock.Add(tileListWidget);
-		tileListDock.DockTo(mainDock, DockPlacement.Left);
-		
-		ScrolledWindow scrolledWindow = new ScrolledWindow();
-		layerList = new LayerListWidget(this);
-		scrolledWindow.Add(layerList);
-		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
-		DockItem layerListDock = new DockItem("LayerList", "Layers",
-		                                      DockItemBehavior.NeverFloating);
-		layerListDock.Add(scrolledWindow);
-		layerListDock.DockTo(mainDock, DockPlacement.Bottom);		
-		
-		ObjectListWidget objectList = new ObjectListWidget(this);
-		DockItem objectListDock = new DockItem("ObjectList", "Objects",
-		                                       DockItemBehavior.NeverFloating);
-		objectListDock.Add(objectList);
-		objectListDock.DockTo(tileListDock, DockPlacement.Center);
-		
-		scrolledWindow = new ScrolledWindow();
-		GameObjectListWidget gObjectList = new GameObjectListWidget(this);
-		scrolledWindow.Add(gObjectList);
-		scrolledWindow.VscrollbarPolicy = PolicyType.Never;
-		DockItem gObjectListDock = new DockItem("GObjectList", "GObjects",
-		                                        DockItemBehavior.NeverFloating);
-		gObjectListDock.Add(scrolledWindow);
-		gObjectListDock.DockTo(layerListDock, DockPlacement.Center);
-		
-		propertiesView = new PropertiesView();
-		DockItem propertiesViewDock = new DockItem("Properties", "Properties",
-		                                           DockItemBehavior.NeverFloating);
-		propertiesViewDock.Add(propertiesView);
-		propertiesViewDock.DockTo(layerListDock, DockPlacement.Center); 
-		
-		layout.LoadFromFile(layoutFile);
-		// don't enable this until we have a way to redisplay windows that the
-		// user accidently closed
-		//layout.LoadLayout("__default__");
 	}
 	
 	private Widget CreateTileList()
@@ -148,20 +99,33 @@ public class Application : IEditorApplication {
 	
 	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
 	{
-		if(func_name == "CreateDockWidget") {
-			dock = new Dock ();		
-			layout = new DockLayout (dock);
-			DockBar dockbar = new DockBar (dock);
-		
-			Box box = new HBox (false, 5);
-			box.PackStart (dockbar, false, false, 0);
-			box.PackEnd (dock, true, true, 0);
-			
-			box.ShowAll();
-			return box;
+		if(func_name == "TileList") {
+			ToolTilesProps = CreateTileList();
+			return ToolTilesProps;
 		}
-		
-		return null;
+		if(func_name == "ObjectList") {
+			ToolObjectsProps = new ObjectListWidget(this);
+			return ToolObjectsProps;
+		}
+		if(func_name == "GObjectList") {
+			Widget ToolGObjectsProps = new GameObjectListWidget(this);
+			return ToolGObjectsProps;
+		}
+		if(func_name == "SectorSwitchNotebook") {
+			sectorSwitchNotebook = new SectorSwitchNotebook(this);
+			sectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
+			sectorSwitchNotebook.ShowAll();
+			return sectorSwitchNotebook;
+		}
+		if(func_name == "LayerList") {
+			layerList = new LayerListWidget(this);
+			return layerList;
+		}
+		if(func_name == "PropertiesView") {
+			propertiesView = new PropertiesView();
+			return propertiesView;
+		}
+		throw new Exception("No Custom Widget Handler named \""+func_name+"\" exists");
 	}
 
 	private static void InitSdl()
@@ -171,6 +135,51 @@ public class Application : IEditorApplication {
 		}
 	}
 
+	// === Begin: Tool Button Handlers === //
+	
+	protected void OnToolSelect(object o, EventArgs args) {
+		ToolSelectProps.Visible = true;
+		ToolTilesProps.Visible = false;
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		SetEditor(new ObjectsEditor(this, CurrentSector));
+	}
+
+	protected void OnToolTiles(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = true;	
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		if (level == null) return;
+		SetEditor(new TilemapEditor(layerList.CurrentTilemap, level.Tileset, selection));
+	}
+
+	protected void OnToolObjects(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = false;	
+		ToolObjectsProps.Visible = true;
+		ToolBrushProps.Visible = false;
+		SetEditor(new ObjectsEditor(this, CurrentSector));
+	}
+
+	protected void OnToolGObjects(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = false;	
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		SetEditor(new ObjectsEditor(this, CurrentSector));
+	}
+
+	protected void OnToolBrush(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = false;	
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = true;
+		SetEditor(new ObjectsEditor(this, CurrentSector));
+	}
+
+	// === End: Tool Button Handlers === //
+	
 	protected void OnNew(object o, EventArgs args)
 	{
 		try {
@@ -293,7 +302,7 @@ public class Application : IEditorApplication {
 		new SettingsDialog();
 	}
 	
-	protected void OnLoadBrush(object o, EventArgs args)
+	protected void OnBrushLoad(object o, EventArgs args)
 	{
 		try {
 			if(layerList.CurrentTilemap == null)
@@ -318,7 +327,7 @@ public class Application : IEditorApplication {
 		}
 	}
 	
-	protected void OnSaveBrush(object o, EventArgs args)
+	protected void OnBrushSaveAs(object o, EventArgs args)
 	{
 		try {
 			IEditor editor = sectorSwitchNotebook.CurrentRenderer.Editor;
@@ -353,7 +362,6 @@ public class Application : IEditorApplication {
 	private void Close()
 	{
 		Settings.Instance.Save();
-		layout.SaveToFile(layoutFile);
 		MainWindow.Destroy();
 		Gtk.Application.Quit();
 	}
@@ -381,6 +389,8 @@ public class Application : IEditorApplication {
 	
 	public void SetEditor(IEditor editor)
 	{
+		if (sectorSwitchNotebook == null) return;
+		if (sectorSwitchNotebook.CurrentRenderer == null) return;
 		IEditor oldEditor = sectorSwitchNotebook.CurrentRenderer.Editor;
 		if(oldEditor is IDisposable) {
 			IDisposable disposable = (IDisposable) oldEditor;

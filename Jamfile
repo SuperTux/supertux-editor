@@ -2,8 +2,6 @@ SubDir TOP ;
 
 CSharp gtkgl-sharp.dll : [ Wildcard gtkgl-sharp : *.cs ] ;
 CSFLAGS on gtkgl-sharp.dll += -unsafe -pkg:gtk-sharp-2.0 ;
-CSharp Dock.dll : [ Wildcard Dock : *.cs ] : [ Wildcard Dock/resources : *.glade *.png ] ;
-CSFLAGS on Dock.dll += -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 -r:Mono.Posix ;
 CSharp Lisp.dll : [ Wildcard Lisp : *.cs ] ;
 CSharp LispReader.dll : [ Wildcard LispReader : *.cs ] ;
 LinkWith LispReader.dll : Lisp.dll ;
@@ -37,6 +35,6 @@ CSharp supertux-editor.exe
         [ Wildcard supertux-editor/LevelObjects : *.cs ]
     :   [ Wildcard supertux-editor/resources : *.glade *.png ]
 ;
-LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll Dock.dll ;
+LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll ;
 CSFLAGS on supertux-editor.exe += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 ;
 
