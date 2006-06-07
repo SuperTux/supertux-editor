@@ -26,9 +26,16 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Widget ToolBrushProps;
-
+	
+	[Glade.Widget]
+	private Statusbar sbMain;
+	
+	private uint printStatusContextID; 
+	private uint printStatusMessageID; 
+	
 	private FileChooserDialog fileChooser;
 
+	
 	private Level level;
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
@@ -49,7 +56,14 @@ public class Application : IEditorApplication {
 			return sector;
 		}
 	}
-
+	
+	/* Write message on main windows's statusbar*/
+	public void PrintStatus( string message )
+	{
+		sbMain.Remove( printStatusContextID, printStatusMessageID);
+        sbMain.Push( printStatusContextID, message );
+	}
+	
 	private Application(string[] args) {
 		selection = new Selection();
 		
@@ -61,7 +75,10 @@ public class Application : IEditorApplication {
 			throw new Exception("Couldn't resolve all widgets");
 
 		Tileset.LoadEditorImages = true;
-
+		
+		printStatusContextID = sbMain.GetContextId("PrintStatus");
+	    printStatusMessageID = sbMain.Push( printStatusContextID, "Welcome to Supertux-Editor.");
+			
 		MainWindow.DeleteEvent += OnDelete;
 
 		MainWindow.SetSizeRequest(900, 675);

@@ -185,9 +185,11 @@ public class ObjectListWidget : GLWidgetBase
 						if(type != null) {
 							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
 							application.SetEditor(editor);
+							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
 							IEditor editor = new ObjectsEditor(application, application.CurrentSector);
 							application.SetEditor(editor);
+						    application.PrintStatus("ObjectListWidget: none selected ");
 						}
 					}
 					QueueDraw();
