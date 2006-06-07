@@ -22,11 +22,14 @@ public class TileListWidget : GLWidgetBase {
 	private const int TILES_PER_ROW = 4;
 
 	private int hovertile = -1;
+	
+	private IEditorApplication application;
 
 	public TileListWidget(IEditorApplication application, Selection selection)
 	{
 		this.selection = selection;
 		selection.Changed += OnSelectionChanged;
+		this.application = application;
 		
 		Tileset.LoadEditorImages = true;
 		SetSizeRequest((TILE_WIDTH + SPACING_X) * TILES_PER_ROW, -1);
@@ -78,6 +81,14 @@ public class TileListWidget : GLWidgetBase {
 	private void OnSelectionChanged()
 	{
 		QueueDraw();
+
+		if( selection.Width == 1 && selection.Height == 1 ){
+			application.PrintStatus( "TileListWidget: Selected tile: " + selection[0, 0] );
+		} else if( selection.Width <= 0 || selection.Height <= 0 ){
+			application.PrintStatus( "TileListWidget: No tile selected tile." );
+		} else {
+			application.PrintStatus( "TileListWidget: Multiple tiles selected." );
+		}
 	}
 
 	protected override void DrawGl()

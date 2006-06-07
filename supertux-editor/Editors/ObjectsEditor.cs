@@ -213,7 +213,8 @@ public class ObjectsEditor : IEditor
                  ControlPoint.AttachPoint.BOTTOM));
 			controlPoints.Add(new ControlPoint(activeObject,
                  ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
-		}		
+		}
+		application.PrintStatus( "ObjectsEditor:MakeActive(" + activeObject + ")" );
 	}
 	
 	private void PopupMenu(int button)
