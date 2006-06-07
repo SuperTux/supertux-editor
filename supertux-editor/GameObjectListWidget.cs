@@ -1,8 +1,11 @@
 using System;
 using Gtk;
 
-public class GameObjectListWidget : TreeView
+public class GameObjectListWidget : IconView
 {
+	const int COL_NAME = 0;
+	const int COL_OBJECT = 1;
+
 	private IGameObject currentObject;
 	private IEditorApplication application;
 	private Sector sector;
@@ -11,16 +14,9 @@ public class GameObjectListWidget : TreeView
 	{
 		this.application = application;
 		ButtonPressEvent += OnButtonPressed;
-		
-		CellRendererText TextRenderer = new CellRendererText();
-		TreeViewColumn TypeColumn = new TreeViewColumn();
-		TypeColumn.PackStart(TextRenderer, true);
-		TypeColumn.SetCellDataFunc(TextRenderer, TextDataFunc);
-		TypeColumn.Title = "Type";
-		AppendColumn(TypeColumn);
 	
-		HeadersVisible = false;
-		
+		TextColumn = COL_NAME;
+
 		application.SectorChanged += OnSectorChanged;
 	}
 	
@@ -46,35 +42,25 @@ public class GameObjectListWidget : TreeView
 	
 	private void UpdateList()
 	{
-		TreeStore store = new TreeStore(typeof(System.Object));			
+		ListStore store = new ListStore(typeof(string), typeof(System.Object));
 		foreach(IGameObject Object in sector.GetObjects()) {
 			if(! (Object is IObject) && !(Object is Tilemap))
-				store.AppendValues(Object);
+				store.AppendValues(Object.GetType().Name, Object);
 		}
 		Model = store;	
 	}	
 	
-	private void TextDataFunc(TreeViewColumn Column, CellRenderer Renderer,
-			             	  TreeModel Model, TreeIter Iter)
-	{
-		object o = Model.GetValue(Iter, 0);
-	
-		CellRendererText TextRenderer = (CellRendererText) Renderer;
-		TextRenderer.Text = o.GetType().Name;
-	}
-	
 	[GLib.ConnectBefore]
     private void OnButtonPressed(object o, ButtonPressEventArgs args)
     {
-    	TreePath path;
-    	if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
-    		return;
-    	
+    	TreePath path = GetPathAtPos((int) args.Event.X, (int) args.Event.Y);
+    	if (path == null) return;
+
     	TreeIter iter;
     	if(!Model.GetIter(out iter, path))
     		return;
     	
-    	currentObject = (IGameObject) Model.GetValue(iter, 0);
+    	currentObject = (IGameObject) Model.GetValue(iter, COL_OBJECT);
     	application.EditProperties(currentObject, currentObject.GetType().Name);
     	
     	if(args.Event.Button == 3) {
