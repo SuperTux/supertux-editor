@@ -120,7 +120,7 @@ public class RenderView : GLWidgetBase
 			ErrorDialog.Exception(e);
 		}
 	}
-
+	
 	private void OnScroll(object o, ScrollEventArgs args)
 	{
 		float oldZoom = Zoom;
@@ -131,16 +131,51 @@ public class RenderView : GLWidgetBase
 		} else if(args.Event.Direction == ScrollDirection.Up) {
 			Zoom *= (float) Math.Sqrt(2);
 		}
-
+		
+		//Limit the Zoom to useful values;
+		if( Zoom < 0.002 || Zoom > 500 ){
+			Zoom = oldZoom;
+		} 
+		     
 		Translation += realMousePos / Zoom - realMousePos / oldZoom;
-
+		
 		MousePos = MouseToWorld(realMousePos);
 		if(Editor != null) {
 			Editor.OnMouseMotion(MousePos, args.Event.State);
 		}
 		args.RetVal = true;
 	}
-
+	
+	public void SetZoom( float newZoom )
+	{
+		float oldZoom = Zoom;
+		Zoom = newZoom;
+		
+		//Limit the Zoom to useful values;
+		if( Zoom < 0.002 || Zoom > 500 ){
+			Zoom = oldZoom;
+		} 
+		
+		//Translation 
+						
+		QueueDraw(); 
+	}
+	
+	public void ZoomIn()
+	{
+		SetZoom( Zoom * (float) Math.Sqrt(2));
+	}
+	
+	public void ZoomOut()
+	{
+		SetZoom( Zoom / (float) Math.Sqrt(2));
+	}
+	
+	public void Home()
+	{
+		Translation *= 0;
+	}
+	
 	private Vector MouseToWorld(Vector MousePos)
 	{
 		return MousePos / Zoom - Translation;

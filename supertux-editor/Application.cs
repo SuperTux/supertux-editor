@@ -197,6 +197,31 @@ public class Application : IEditorApplication {
 
 	// === End: Tool Button Handlers === //
 	
+	
+	protected void OnHome(object o, EventArgs args) {
+		if( sectorSwitchNotebook.CurrentRenderer != null ){
+			sectorSwitchNotebook.CurrentRenderer.Home();
+		}
+	}
+	
+	protected void OnNormalSize(object o, EventArgs args) {
+		if( sectorSwitchNotebook.CurrentRenderer != null ){
+			sectorSwitchNotebook.CurrentRenderer.SetZoom( 1 );
+		}
+	}
+	
+	protected void OnZoomIn(object o, EventArgs args) {
+		if( sectorSwitchNotebook.CurrentRenderer != null ){
+			sectorSwitchNotebook.CurrentRenderer.ZoomIn();
+		}
+	}
+	protected void OnZoomOut(object o, EventArgs args) {
+		if( sectorSwitchNotebook.CurrentRenderer != null ){
+			sectorSwitchNotebook.CurrentRenderer.ZoomOut();
+		}
+	}
+
+	
 	protected void OnNew(object o, EventArgs args)
 	{
 		try {
