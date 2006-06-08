@@ -558,6 +558,23 @@ public class ScriptedObject : SimpleObject
 	}	
 }
 
+[SupertuxObject("wind", "images/engine/editor/wind.png")]
+public class Wind : SimpleObjectArea
+{
+	[LispChild("speed-x")]
+	public float SpeedX = 0;
+
+	[LispChild("speed-y")]
+	public float SpeedY = 0;
+
+	[LispChild("acceleration")]
+	public float Acceleration = 0;
+
+	public Wind() {
+		Color = new Drawing.Color(.8f, 0, 0.8f, 0.8f);
+	}
+}
+
 [SupertuxObject("ambient_sound", "images/engine/editor/ambientsound.png")]
 public class AmbientSound : SimpleObjectArea
 {
