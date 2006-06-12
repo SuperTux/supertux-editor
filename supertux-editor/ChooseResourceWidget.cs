@@ -67,7 +67,7 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 			                                          dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
 		else
 			entry.Text = System.IO.Path.GetFileName(dialog.Filename);
-        entry.Text = entry.Text.Replace("\\", "/"); 
+			entry.Text = entry.Text.Replace("\\", "/"); 
 		dialog.Destroy();
 	}
 

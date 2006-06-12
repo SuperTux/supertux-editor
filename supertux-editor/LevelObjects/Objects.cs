@@ -93,7 +93,7 @@ public class SleepSpiky : SimpleObject
 {
 	public SleepSpiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "sleeping-left";
 	}
 }
 
@@ -112,6 +112,11 @@ public class SpawnPoint : SimpleObject
 [SupertuxObject("flame", "images/creatures/flame/flame.sprite")]
 public class Flame : SimpleObject
 {
+	[LispChild("radius", Optional = true, Default = 100f)]
+	public float Radius = 100f;
+	[LispChild("speed", Optional = true, Default = 2)]
+	public float Speed = 2;
+
 	public Flame() {
 		Sprite = SpriteManager.Create("images/creatures/flame/flame.sprite");
 		Sprite.Action = "normal";
@@ -168,7 +173,7 @@ public class Totem : SimpleObject
 {
 	public Totem() {
 		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "walking-left";
 	}
 }
 
@@ -184,10 +189,10 @@ public class Kugelblitz : SimpleObject
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite")]
 public class Dispenser : SimpleObject
 {
-    [LispChild("badguy")]
-    public string Badguy = "";
-    [LispChild("cycle")]
-    public float Cycle = 1;
+	[LispChild("badguy")]
+	public string Badguy = "";
+	[LispChild("cycle")]
+	public float Cycle = 1;
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
@@ -363,8 +368,7 @@ public class PlatformBase : IGameObject, IObject, IPathObject, Node
 			float x = Path.Nodes[0].X;
 			float y = Path.Nodes[0].Y;
 			
-			return new RectangleF(x - Sprite.Offset.X, y - Sprite.Offset.Y,
-				                  Sprite.Width, Sprite.Height);
+			return new RectangleF(x - Sprite.Offset.X, y - Sprite.Offset.Y, Sprite.Width, Sprite.Height);
 		}
 	}	
 }
@@ -488,6 +492,7 @@ public class WeakBlock : SimpleObject
 public class InfoBlock : SimpleObject
 {
 	[LispChild("message")]
+	[EditScriptSetting]
 	public string Message = "";
 
 	public InfoBlock() {
