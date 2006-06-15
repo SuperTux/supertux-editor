@@ -6,8 +6,20 @@ using Glade;
 using Sdl;
 using Drawing;
 using LispReader;
+using System.Collections.Generic;
 
 public class Application : IEditorApplication {
+
+	private struct UndoSnapshot {
+		public UndoSnapshot(string actionTitle, string snapshot) 
+		{
+			this.actionTitle = actionTitle;
+			this.snapshot = snapshot;
+		}
+		public string actionTitle; /**< title of action that triggered the snapshot, e.g. "Sector resize" */
+		public string snapshot; /**< serialized level */
+	}
+
 	private string MainWindowTitlePrefix; //*< Original MainWindow title, read from .glade ressource */
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
@@ -40,6 +52,12 @@ public class Application : IEditorApplication {
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
 	private string fileName;
+
+	private const int maxUndoSnapshots = 10;
+	private List<UndoSnapshot> undoSnapshots = new List<UndoSnapshot>();
+
+	[Glade.Widget]
+	private Gtk.MenuItem undo1;
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -243,6 +261,7 @@ public class Application : IEditorApplication {
 	protected void OnNew(object o, EventArgs args)
 	{
 		try {
+			undoSnapshots.Clear();
 			Level level = LevelUtil.CreateLevel();
 			ChangeCurrentLevel(level);
 		} catch(Exception e) {
@@ -268,6 +287,7 @@ public class Application : IEditorApplication {
 	private void Load(string fileName)
 	{
 		try {
+			undoSnapshots.Clear();
 			Level newLevel = (Level) serializer.Read(fileName);
 			if(newLevel.Version < 2)
 				throw new Exception("Old Level Format not supported");
@@ -379,7 +399,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
 		
-			BrushEditor editor = new BrushEditor(layerList.CurrentTilemap,
+			BrushEditor editor = new BrushEditor(this, layerList.CurrentTilemap,
 			                                        level.Tileset, brushFile);
 			SetEditor(editor);
 		} catch(Exception e) {
@@ -460,6 +480,40 @@ public class Application : IEditorApplication {
 	public void EditProperties(object Object, string title)
 	{
 		propertiesView.SetObject(Object, title);
+	}
+
+	public void TakeUndoSnapshot(string actionTitle) 
+	{
+		StringWriter sw = new StringWriter();
+		serializer.Write(sw, "level-snapshot", level);
+		string snapshot = sw.ToString();
+		UndoSnapshot us = new UndoSnapshot(actionTitle, snapshot);
+		undoSnapshots.Add(us);
+		while (undoSnapshots.Count > maxUndoSnapshots) undoSnapshots.RemoveAt(0);
+	}
+
+	public void Undo() 
+	{
+		if (undoSnapshots.Count < 1) return;
+		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
+		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
+		StringReader sr = new StringReader(us.snapshot);
+		Level newLevel = (Level) serializer.Read(sr, "level-snapshot");
+		if(newLevel.Version < 2) throw new Exception("Old Level Format not supported");
+		ChangeCurrentLevel(newLevel);
+	}
+
+	public void OnUndo(object o, EventArgs args)
+	{
+		Undo();
+	}
+
+	/**
+	 * Called when "Edit" menu is opened
+	 */
+	public void OnMenuEdit(object o, EventArgs args)
+	{
+		undo1.Sensitive = (undoSnapshots.Count > 0);
 	}
 
 	public static void Main(string[] args)

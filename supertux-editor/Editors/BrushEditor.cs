@@ -19,15 +19,17 @@ public class BrushEditor : IEditor {
 	private FieldPos SelectionP1;
 	private FieldPos SelectionP2;
 
+	private IEditorApplication application;
 	private Tilemap Tilemap;
 	private Brush brush;
 
 	public event RedrawEventHandler Redraw;
 
-	public BrushEditor(Tilemap Tilemap, Tileset Tileset, string brushFile)
+	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
 	{
 		selection = new Selection();
 		selection.Changed += OnSelectionChanged;
+		this.application = application;
 		this.Tilemap = Tilemap;
 		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
@@ -84,6 +86,7 @@ public class BrushEditor : IEditor {
 		UpdateMouseTilePos(MousePos);
 	
 		if(button == 1) {
+			application.TakeUndoSnapshot("Brush Tool");
 			brush.ApplyToTilemap(MouseTilePos, Tilemap);
 			LastDrawPos = MouseTilePos;
 			drawing = true;

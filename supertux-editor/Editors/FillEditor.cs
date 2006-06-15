@@ -13,6 +13,7 @@ public class FillEditor : IEditor, IDisposable {
 	private FieldPos SelectionP1;
 	private FieldPos SelectionP2;
 
+	private IEditorApplication application;
 	private Tilemap Tilemap;
 	private Tileset Tileset;
 
@@ -20,6 +21,7 @@ public class FillEditor : IEditor, IDisposable {
 
 	public FillEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 	{
+		this.application = application;
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
 		this.selection = selection;
@@ -83,7 +85,10 @@ public class FillEditor : IEditor, IDisposable {
 		UpdateMouseTilePos(MousePos);
 	
 		if(button == 1) {
-			if ((selection.Width == 1) && (selection.Height == 1)) FloodFillAt(MouseTilePos, Tilemap[MouseTilePos], selection[0,0]);
+			if ((selection.Width == 1) && (selection.Height == 1)) {
+				application.TakeUndoSnapshot("Fill Tool");
+				FloodFillAt(MouseTilePos, Tilemap[MouseTilePos], selection[0,0]);
+			}
 			LastDrawPos = MouseTilePos;
 			drawing = true;
 			Redraw();

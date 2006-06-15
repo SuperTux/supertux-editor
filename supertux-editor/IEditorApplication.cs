@@ -6,6 +6,7 @@ public interface IEditorApplication
 	void SetEditor(IEditor editor);
 	void EditProperties(object Object, string title);
 	void PrintStatus( string message );
+	void TakeUndoSnapshot(string actionTitle);
 	
 	SectorRenderer CurrentRenderer {
 		get;

@@ -13,6 +13,7 @@ public class TilemapEditor : IEditor, IDisposable {
 	private FieldPos SelectionP1;
 	private FieldPos SelectionP2;
 
+	private IEditorApplication application;
 	private Tilemap Tilemap;
 	private Tileset Tileset;
 
@@ -20,6 +21,7 @@ public class TilemapEditor : IEditor, IDisposable {
 
 	public TilemapEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 	{
+		this.application = application;
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
 		this.selection = selection;
@@ -73,6 +75,7 @@ public class TilemapEditor : IEditor, IDisposable {
 		UpdateMouseTilePos(MousePos);
 
 		if(button == 1) {
+			application.TakeUndoSnapshot("Tiles Tool");
 			selection.ApplyToTilemap(MouseTilePos, Tilemap);
 			LastDrawPos = MouseTilePos;
 			drawing = true;
