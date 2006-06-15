@@ -151,8 +151,9 @@ public class LayerListWidget : TreeView {
     			application.ChangeCurrentTilemap(currentTilemap);
     		}
     	} else {
-    		application.SetEditor(new ObjectsEditor(application, application.CurrentSector));
     		currentTilemap = null;
+		// TODO: clear properties window?
+    		application.ChangeCurrentTilemap(currentTilemap);
     	}
     	
     	if(args.Event.Button == 3) {

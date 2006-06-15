@@ -34,6 +34,35 @@ namespace DataStructures
 		{
 			return base.GetHashCode();
 		}
+
+		public FieldPos Up
+		{
+			get {
+				return new FieldPos(X, Y-1);
+			}
+		}
+
+		public FieldPos Down
+		{
+			get {
+				return new FieldPos(X, Y+1);
+			}
+		}
+
+		public FieldPos Left
+		{
+			get {
+				return new FieldPos(X-1, Y);
+			}
+		}
+
+		public FieldPos Right
+		{
+			get {
+				return new FieldPos(X+1, Y);
+			}
+		}
+
 	}
 
 }

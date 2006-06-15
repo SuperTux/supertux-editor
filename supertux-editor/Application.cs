@@ -168,7 +168,7 @@ public class Application : IEditorApplication {
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
-		SetEditor(new TilemapEditor(layerList.CurrentTilemap, level.Tileset, selection));
+		SetEditor(new TilemapEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
 	}
 
 	protected void OnToolObjects(object o, EventArgs args) {
@@ -193,6 +193,24 @@ public class Application : IEditorApplication {
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = true;
 		SetEditor(new ObjectsEditor(this, CurrentSector));
+	}
+
+	protected void OnToolFill(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = true;	
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		if (level == null) return;
+		SetEditor(new FillEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
+	}
+
+	protected void OnToolReplace(object o, EventArgs args) {
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = true;	
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		if (level == null) return;
+		SetEditor(new ReplaceEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
 	}
 
 	// === End: Tool Button Handlers === //
@@ -424,9 +442,6 @@ public class Application : IEditorApplication {
 	public void ChangeCurrentTilemap(Tilemap tilemap)
 	{
 		TilemapChanged(tilemap);
-		TilemapEditor editor = new TilemapEditor(tilemap, level.Tileset,
-		                                         selection);
-		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 	}
 	
 	public void SetEditor(IEditor editor)

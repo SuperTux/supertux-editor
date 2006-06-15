@@ -3,7 +3,7 @@ using OpenGl;
 using System;
 using Gdk;
 
-public class TilemapEditor : IEditor, IDisposable {
+public class ReplaceEditor : IEditor, IDisposable {
 	private Selection selection;
 	private bool drawing;
 	private bool selecting;	
@@ -18,7 +18,7 @@ public class TilemapEditor : IEditor, IDisposable {
 
 	public event RedrawEventHandler Redraw;
 
-	public TilemapEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
+	public ReplaceEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 	{
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
@@ -30,6 +30,14 @@ public class TilemapEditor : IEditor, IDisposable {
 	public void OnTilemapChanged(Tilemap newTilemap)
 	{
 		Tilemap = newTilemap;
+	}
+
+	private void Replace(int oldId, int newId) {
+		for (int x = 0; x < Tilemap.Width; x++) {
+			for (int y = 0; y < Tilemap.Height; y++) {
+				if (Tilemap[x,y] == oldId) Tilemap[x,y] = newId;
+			}
+		}
 	}
 
 	public void Dispose()
@@ -69,11 +77,11 @@ public class TilemapEditor : IEditor, IDisposable {
 	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
 	{
 		if (Tilemap == null) return;
-	
-		UpdateMouseTilePos(MousePos);
 
+		UpdateMouseTilePos(MousePos);
+	
 		if(button == 1) {
-			selection.ApplyToTilemap(MouseTilePos, Tilemap);
+			if ((selection.Width == 1) && (selection.Height == 1)) Replace(Tilemap[MouseTilePos], selection[0,0]);
 			LastDrawPos = MouseTilePos;
 			drawing = true;
 			Redraw();
@@ -96,7 +104,7 @@ public class TilemapEditor : IEditor, IDisposable {
 		if (Tilemap == null) return;
 
 		UpdateMouseTilePos(MousePos);
-		
+	
 		if(button == 1) {
 			drawing = false;
 		}
@@ -134,7 +142,7 @@ public class TilemapEditor : IEditor, IDisposable {
 				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
 				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
 				LastDrawPos = MouseTilePos;
-				selection.ApplyToTilemap(MouseTilePos, Tilemap);
+				if ((selection.Width == 1) && (selection.Height == 1)) Replace(Tilemap[MouseTilePos], selection[0,0]);
 			}
 			if(selecting)
 				UpdateSelection();

@@ -148,6 +148,14 @@ namespace DataStructures
 			return new Field<T>(v, width, height);
 		}
 
+		public bool InBounds(FieldPos pos) {
+			if (pos.X < 0) return false;
+			if (pos.Y < 0) return false;
+			if (pos.X >= Width) return false;
+			if (pos.Y >= Height) return false;
+			return true;
+		}
+
 	}
 
 }

@@ -434,6 +434,46 @@
 				  <property name="homogeneous">True</property>
 				</packing>
 			      </child>
+
+			      <child>
+				<widget class="GtkRadioToolButton" id="ToolFill">
+				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Fill Tool</property>
+				  <property name="label" translatable="yes">Fill</property>
+				  <property name="use_underline">True</property>
+				  <property name="stock_id">gtk-justify-fill</property>
+				  <property name="visible_horizontal">True</property>
+				  <property name="visible_vertical">True</property>
+				  <property name="is_important">False</property>
+				  <property name="active">False</property>
+				  <property name="group">ToolSelect</property>
+				  <signal name="toggled" handler="OnToolFill" last_modification_time="Thu, 15 Jun 2006 15:11:16 GMT"/>
+				</widget>
+				<packing>
+				  <property name="expand">False</property>
+				  <property name="homogeneous">True</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkRadioToolButton" id="ToolReplace">
+				  <property name="visible">True</property>
+				  <property name="tooltip" translatable="yes">Replace Tool</property>
+				  <property name="label" translatable="yes">Replace</property>
+				  <property name="use_underline">True</property>
+				  <property name="stock_id">gtk-find-and-replace</property>
+				  <property name="visible_horizontal">True</property>
+				  <property name="visible_vertical">True</property>
+				  <property name="is_important">False</property>
+				  <property name="active">False</property>
+				  <property name="group">ToolSelect</property>
+				  <signal name="toggled" handler="OnToolReplace" last_modification_time="Thu, 15 Jun 2006 15:11:46 GMT"/>
+				</widget>
+				<packing>
+				  <property name="expand">False</property>
+				  <property name="homogeneous">True</property>
+				</packing>
+			      </child>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
