@@ -76,7 +76,7 @@ public class TilemapEditor : IEditor, IDisposable {
 
 		if(button == 1) {
 			application.TakeUndoSnapshot("Tiles Tool");
-			selection.ApplyToTilemap(MouseTilePos, Tilemap);
+			selection.ApplyToTilemap(MouseTilePos, Tilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 			LastDrawPos = MouseTilePos;
 			drawing = true;
 			Redraw();
@@ -137,7 +137,7 @@ public class TilemapEditor : IEditor, IDisposable {
 				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
 				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
 				LastDrawPos = MouseTilePos;
-				selection.ApplyToTilemap(MouseTilePos, Tilemap);
+				selection.ApplyToTilemap(MouseTilePos, Tilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 			}
 			if(selecting)
 				UpdateSelection();

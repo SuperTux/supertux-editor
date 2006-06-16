@@ -19,7 +19,7 @@ public class TileBlock : Field<int> {
 		}
 	}
 
-	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
+	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
 		if(pos.X >= Tilemap.Width)
 			return;
 		if(pos.Y >= Tilemap.Height)
@@ -31,11 +31,13 @@ public class TileBlock : Field<int> {
 		uint H = Math.Min((uint) (Tilemap.Height - pos.Y), Height);
 		for(uint y = StartY; y < H; ++y) {
 			for(uint x = StartX; x < W; ++x) {
-				if(this[x, y] == 0 && (Width > 1 || Height > 1))
-					continue;
-				
+				if ((skipNull) && (this[x, y] == 0) && (Width > 1 || Height > 1)) continue;
 				Tilemap[(uint) (pos.X + x), (uint) (pos.Y + y)] = this[x, y];
 			}
 		}
+	}
+	
+	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
+		ApplyToTilemap(pos, Tilemap, true);
 	}
 }
