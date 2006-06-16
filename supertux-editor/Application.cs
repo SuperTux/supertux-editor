@@ -110,6 +110,14 @@ public class Application : IEditorApplication {
 		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
 
+		// Manually set icons for Tools
+		ToolSelect.StockId = EditorStock.ToolSelect;
+		ToolTiles.StockId = EditorStock.ToolTiles;
+		ToolObjects.StockId = EditorStock.ToolObjects;
+		ToolBrush.StockId = EditorStock.ToolBrush;
+		ToolFill.StockId = EditorStock.ToolFill;
+		ToolReplace.StockId = EditorStock.ToolReplace;
+
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
 		
