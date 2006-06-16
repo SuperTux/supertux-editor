@@ -38,7 +38,14 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Widget ToolBrushProps;
-	
+
+	[Glade.Widget] private Gtk.RadioToolButton ToolSelect;
+	[Glade.Widget] private Gtk.RadioToolButton ToolTiles;
+	[Glade.Widget] private Gtk.RadioToolButton ToolObjects;
+	[Glade.Widget] private Gtk.RadioToolButton ToolBrush;
+	[Glade.Widget] private Gtk.RadioToolButton ToolFill;
+	[Glade.Widget] private Gtk.RadioToolButton ToolReplace;
+
 	[Glade.Widget]
 	private Statusbar sbMain;
 	
@@ -172,6 +179,31 @@ public class Application : IEditorApplication {
 
 	// === Begin: Tool Button Handlers === //
 	
+
+	protected void OnMenuToolSelect(object o, EventArgs args) {
+		ToolSelect.Active = true;
+	}
+	
+	protected void OnMenuToolTiles(object o, EventArgs args) {
+		ToolTiles.Active = true;
+	}
+
+	protected void OnMenuToolObjects(object o, EventArgs args) {
+		ToolObjects.Active = true;
+	}
+
+	protected void OnMenuToolBrush(object o, EventArgs args) {
+		ToolBrush.Active = true;
+	}
+
+	protected void OnMenuToolFill(object o, EventArgs args) {
+		ToolFill.Active = true;
+	}
+
+	protected void OnMenuToolReplace(object o, EventArgs args) {
+		ToolReplace.Active = true;
+	}
+
 	protected void OnToolSelect(object o, EventArgs args) {
 		ToolSelectProps.Visible = true;
 		ToolTilesProps.Visible = false;

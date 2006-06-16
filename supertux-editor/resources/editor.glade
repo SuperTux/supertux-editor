@@ -208,6 +208,76 @@
 	  </child>
 
 	  <child>
+	    <widget class="GtkMenuItem" id="tool1">
+	      <property name="visible">True</property>
+	      <property name="label" translatable="yes">_Tool</property>
+	      <property name="use_underline">True</property>
+
+	      <child>
+		<widget class="GtkMenu" id="tool1_menu">
+
+		  <child>
+		    <widget class="GtkMenuItem" id="select1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Select</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolSelect" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		      <accelerator key="F4" modifiers="0" signal="activate"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="tiles1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Tiles</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolTiles" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		      <accelerator key="F5" modifiers="0" signal="activate"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="objects1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Objects</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolObjects" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		      <accelerator key="F6" modifiers="0" signal="activate"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="brush1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Brush</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolBrush" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="fill1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Fill</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolFill" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="replace1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Replace</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolReplace" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		    </widget>
+		  </child>
+		</widget>
+	      </child>
+	    </widget>
+	  </child>
+
+	  <child>
 	    <widget class="GtkMenuItem" id="editor1">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Editor</property>
@@ -388,7 +458,6 @@
 				  <property name="is_important">False</property>
 				  <property name="active">True</property>
 				  <signal name="toggled" handler="OnToolSelect" last_modification_time="Mon, 05 Jun 2006 23:49:25 GMT"/>
-				  <accelerator key="F5" modifiers="0" signal="clicked"/>
 				</widget>
 				<packing>
 				  <property name="expand">False</property>
@@ -409,7 +478,6 @@
 				  <property name="active">False</property>
 				  <property name="group">ToolSelect</property>
 				  <signal name="toggled" handler="OnToolTiles" last_modification_time="Mon, 05 Jun 2006 23:49:35 GMT"/>
-				  <accelerator key="F6" modifiers="0" signal="clicked"/>
 				</widget>
 				<packing>
 				  <property name="expand">False</property>
@@ -430,7 +498,6 @@
 				  <property name="active">False</property>
 				  <property name="group">ToolSelect</property>
 				  <signal name="toggled" handler="OnToolObjects" last_modification_time="Mon, 05 Jun 2006 23:49:44 GMT"/>
-				  <accelerator key="F7" modifiers="0" signal="clicked"/>
 				</widget>
 				<packing>
 				  <property name="expand">False</property>
@@ -451,7 +518,6 @@
 				  <property name="active">False</property>
 				  <property name="group">ToolSelect</property>
 				  <signal name="toggled" handler="OnToolBrush" last_modification_time="Mon, 05 Jun 2006 23:49:54 GMT"/>
-				  <accelerator key="F8" modifiers="0" signal="clicked"/>
 				</widget>
 				<packing>
 				  <property name="expand">False</property>
