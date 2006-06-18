@@ -76,6 +76,14 @@
     <File name="./resources/modifier-plus.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./PropertiesView.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/BrushEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/FillEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Editors/ReplaceEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./resources/stock-tool-brush-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-tool-fill-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-tool-objects-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-tool-replace-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-tool-select-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-tool-tiles-24.png" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />

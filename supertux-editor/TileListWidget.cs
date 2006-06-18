@@ -22,6 +22,7 @@ public class TileListWidget : GLWidgetBase {
 	private const int TILES_PER_ROW = 4;
 
 	private int hovertile = -1;
+	private Vector StartPos;
 	
 	private IEditorApplication application;
 
@@ -164,10 +165,77 @@ public class TileListWidget : GLWidgetBase {
 			selection.FireChangedEvent();
 			QueueDraw();
 		}
+		
+		if(args.Event.Button == 3) {
+			if(tilegroup == null)
+				return;
+			StartPos = new Vector((float) args.Event.X,
+			                         (float) args.Event.Y);
+			application.PrintStatus( "selecting..." );
+		}
 	}
 
 	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
 	{
+		//Select all tile in rectangle by dragging right mouse button
+		if(args.Event.Button == 3) { 
+			if(tilegroup == null)
+				return;
+			
+			application.PrintStatus( "selecting done" );
+			Vector MousePos = new Vector((float) args.Event.X,
+			                                (float) args.Event.Y);
+			
+			Vector upperLeft, lowerRight, lowerLeft;
+			if( MousePos.X < StartPos.X ){
+				upperLeft.X = MousePos.X;
+				lowerRight.X = StartPos.X;
+			} else {
+				upperLeft.X = StartPos.X;
+				lowerRight.X = MousePos.X;
+			}
+			
+			if( MousePos.Y < StartPos.Y ){
+				upperLeft.Y = MousePos.Y; 
+				lowerRight.Y = StartPos.Y; 
+			} else {
+				upperLeft.Y = StartPos.Y;
+				lowerRight.Y = MousePos.Y;
+			}
+			lowerLeft.X = upperLeft.X;
+			lowerLeft.Y = lowerRight.Y;
+			
+			int tile1 = PosToTile(upperLeft);
+			int tile2 = PosToTile(lowerRight);
+			int tile3 = PosToTile(lowerLeft);
+			if(tile1 < 0 || tile2 < 0 || tile3 < 0 )
+				return;
+		
+			int startcolumn, endcolumn, width, height;
+			
+			//That's how much Tiles?
+			/*
+					1 x x
+			        x x x
+			        3 x 2 
+			*/
+			
+			Math.DivRem( tile1, TILES_PER_ROW, out startcolumn );  
+			Math.DivRem( tile2, TILES_PER_ROW, out endcolumn );
+			width = 1 + endcolumn - startcolumn;
+			height = 1 + (( tile3 - tile1 ) / TILES_PER_ROW );
+				
+			selection.Resize( (uint) width, (uint) height, 0);
+			for( int y = 0; y < height; y++ ) {
+				for( int x = 0; x < width; x++ ) { 
+					selection[ x, y] = tilegroup.Tiles[ tile1 + x + TILES_PER_ROW * y ];
+				}
+			}
+			selection.FireChangedEvent();
+			QueueDraw();
+		}
+
+		
 	}
 
 	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
