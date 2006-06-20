@@ -162,3 +162,44 @@ public class SpriteChange : WorldmapObject
 	}
 }
 
+[SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite")]
+public class Teleporter : WorldmapObject
+{
+	[ChooseResourceSetting]	
+	[LispChild("sprite", Optional = true, Default = "")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "") {
+				try {
+					Sprite = SpriteManager.Create(value);
+				} catch(Exception e) {
+					ErrorDialog.Exception(e);
+					Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+				}
+			} else {
+				Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+			}
+		}
+	}
+	private string spriteFile = "";
+
+	[LispChild("worldmap", Optional = true, Default = "")]
+	public string Worldmap = "";
+
+	[LispChild("spawnpoint", Optional = true, Default = "")]
+	public string Spawnpoint = "";
+
+	[LispChild("interactive", Optional = true, Default = false)]
+	public bool Interactive;
+
+	public Teleporter()
+	{
+		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+	}
+}
+
+
