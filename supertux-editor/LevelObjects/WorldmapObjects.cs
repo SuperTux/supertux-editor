@@ -193,8 +193,11 @@ public class Teleporter : WorldmapObject
 	[LispChild("spawnpoint", Optional = true, Default = "")]
 	public string Spawnpoint = "";
 
-	[LispChild("interactive", Optional = true, Default = false)]
-	public bool Interactive;
+	[LispChild("automatic", Optional = true, Default = false)]
+	public bool Automatic;
+
+	[LispChild("message", Optional = true, Default = "", Translatable = true)]
+	public string Message = "";
 
 	public Teleporter()
 	{
