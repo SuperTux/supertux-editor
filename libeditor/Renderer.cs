@@ -154,10 +154,7 @@ public class RenderView : GLWidgetBase
 		//Limit the Zoom to useful values;
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
-		} 
-		
-		//Translation 
-						
+		} 					
 		QueueDraw(); 
 	}
 	

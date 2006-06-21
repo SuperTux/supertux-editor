@@ -102,7 +102,7 @@
 		      <accelerator key="P" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image1">
+			<widget class="GtkImage" id="image4">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-media-play</property>
 			  <property name="icon_size">1</property>
@@ -170,9 +170,22 @@
 		  <child>
 		    <widget class="GtkImageMenuItem" id="home1">
 		      <property name="visible">True</property>
-		      <property name="label">gtk-home</property>
-		      <property name="use_stock">True</property>
-		      <signal name="activate" handler="OnHome" last_modification_time="Thu, 08 Jun 2006 10:55:21 GMT"/>
+		      <property name="label" translatable="yes">_Home</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnHome" last_modification_time="Wed, 21 Jun 2006 22:33:54 GMT"/>
+		      <accelerator key="Home" modifiers="0" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image5">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-home</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
@@ -188,18 +201,44 @@
 		  <child>
 		    <widget class="GtkImageMenuItem" id="zoom_in1">
 		      <property name="visible">True</property>
-		      <property name="label">gtk-zoom-in</property>
-		      <property name="use_stock">True</property>
-		      <signal name="activate" handler="OnZoomIn" last_modification_time="Thu, 08 Jun 2006 10:55:21 GMT"/>
+		      <property name="label" translatable="yes">Zoom _In</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnZoomIn" last_modification_time="Wed, 21 Jun 2006 22:33:54 GMT"/>
+		      <accelerator key="plus" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image6">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-zoom-in</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="zoom_out1">
+		    <widget class="GtkImageMenuItem" id="zoom_out2">
 		      <property name="visible">True</property>
-		      <property name="label">gtk-zoom-out</property>
-		      <property name="use_stock">True</property>
-		      <signal name="activate" handler="OnZoomOut" last_modification_time="Thu, 08 Jun 2006 10:55:21 GMT"/>
+		      <property name="label" translatable="yes">Zoom _Out</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnZoomOut" last_modification_time="Wed, 21 Jun 2006 22:33:54 GMT"/>
+		      <accelerator key="minus" modifiers="GDK_CONTROL_MASK" signal="activate"/>
+
+		      <child internal-child="image">
+			<widget class="GtkImage" id="image7">
+			  <property name="visible">True</property>
+			  <property name="stock">gtk-zoom-out</property>
+			  <property name="icon_size">1</property>
+			  <property name="xalign">0.5</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+		      </child>
 		    </widget>
 		  </child>
 		</widget>
