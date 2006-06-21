@@ -88,7 +88,8 @@ public class TileListWidget : GLWidgetBase {
 		} else if( selection.Width <= 0 || selection.Height <= 0 ){
 			application.PrintStatus( "TileListWidget: No tile selected tile." );
 		} else {
-			application.PrintStatus( "TileListWidget: Multiple tiles selected." );
+			application.PrintStatus( "TileListWidget: [" + selection.Width
+			                           + "x" + selection.Height + "] tiles selected." );
 		}
 	}
 
