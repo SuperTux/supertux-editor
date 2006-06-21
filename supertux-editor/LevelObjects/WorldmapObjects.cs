@@ -156,6 +156,8 @@ public class SpriteChange : WorldmapObject
 	public string StayAction;
 	[LispChild("initial-stay-action")]
 	public bool InitialStayAction = false;
+	[LispChild("stay-group", Optional = true, Default = "")]
+	public string StayGroup;
 	
 	public SpriteChange() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spritechange.png", new Vector(16, 16));
