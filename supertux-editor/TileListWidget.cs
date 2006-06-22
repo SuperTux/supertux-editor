@@ -23,6 +23,7 @@ public class TileListWidget : GLWidgetBase {
 
 	private int hovertile = -1;
 	private Vector StartPos;
+	private bool multiselectInProgress = false;
 	
 	private IEditorApplication application;
 
@@ -110,19 +111,7 @@ public class TileListWidget : GLWidgetBase {
 			Tile tile = tileset.Get(tiles[i]);
 
 			tile.DrawEditor(pos);
-
-			bool selected = false;
-			if(selection.TileListFirstTile > 0
-					&& i > selection.TileListFirstTile
-					&& i - selection.TileListFirstTile 
-						< selection.TileListH * TILES_PER_ROW
-					&& i - selection.TileListFirstTile % TILES_PER_ROW 
-						< selection.TileListW-1) {
-				selected = true;
-			} else if(selection.Width == 1 && selection.Height == 1 &&
-					tiles[i] == selection[0, 0]) {
-				selected = true;
-			}
+			bool selected = IsSelected( tiles[i] );
 
 			if(i == hovertile || selected) {
 				if(selected)
@@ -173,6 +162,7 @@ public class TileListWidget : GLWidgetBase {
 			StartPos = new Vector((float) args.Event.X,
 			                         (float) args.Event.Y);
 			application.PrintStatus( "selecting..." );
+			multiselectInProgress = true;
 		}
 	}
 
@@ -186,22 +176,41 @@ public class TileListWidget : GLWidgetBase {
 			application.PrintStatus( "selecting done" );
 			Vector MousePos = new Vector((float) args.Event.X,
 			                                (float) args.Event.Y);
-			
-			Vector upperLeft, lowerRight, lowerLeft;
-			if( MousePos.X < StartPos.X ){
-				upperLeft.X = MousePos.X;
-				lowerRight.X = StartPos.X;
+			MultiSelect( MousePos, StartPos );
+			multiselectInProgress = false;
+		}
+	}
+	
+	/* Test if tile is selected */
+	private bool IsSelected( int tile ){
+		for( int y = 0; y < selection.Height; y++ ){
+			for ( int x = 0; x < selection.Width; x++ ){
+       			if ( tile == selection[x, y]) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/* select all Tiles in are between pos1 and pos2 */
+	private void MultiSelect( Vector pos1, Vector pos2 )
+	{
+		Vector upperLeft, lowerRight, lowerLeft;
+			if( pos1.X < pos2.X ){
+				upperLeft.X = pos1.X;
+				lowerRight.X = pos2.X;
 			} else {
-				upperLeft.X = StartPos.X;
-				lowerRight.X = MousePos.X;
+				upperLeft.X = pos2.X;
+				lowerRight.X = pos1.X;
 			}
 			
-			if( MousePos.Y < StartPos.Y ){
-				upperLeft.Y = MousePos.Y; 
-				lowerRight.Y = StartPos.Y; 
+			if( pos1.Y < pos2.Y ){
+				upperLeft.Y = pos1.Y; 
+				lowerRight.Y = pos2.Y; 
 			} else {
-				upperLeft.Y = StartPos.Y;
-				lowerRight.Y = MousePos.Y;
+				upperLeft.Y = pos2.Y;
+				lowerRight.Y = pos1.Y;
 			}
 			lowerLeft.X = upperLeft.X;
 			lowerLeft.Y = lowerRight.Y;
@@ -234,11 +243,8 @@ public class TileListWidget : GLWidgetBase {
 			}
 			selection.FireChangedEvent();
 			QueueDraw();
-		}
-
-		
 	}
-
+	
 	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
 	{
 		if(tilegroup == null)
@@ -248,7 +254,11 @@ public class TileListWidget : GLWidgetBase {
 									 (float) args.Event.Y);
 		int newtile = PosToTile(MousePos);
 		if(newtile != hovertile) {
-			QueueDraw();
+			if( multiselectInProgress ){
+				MultiSelect( MousePos, StartPos );	
+			} else {
+				QueueDraw();
+			}
 		}
 		hovertile = newtile;
 	}
