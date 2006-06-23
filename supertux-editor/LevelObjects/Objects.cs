@@ -88,7 +88,7 @@ public class Spiky : SimpleObject
 	}
 }
 
-[SupertuxObject("sleepingspiky", "images/creatures/spiky/sleepingspiky.sprite")]
+[SupertuxObject("sspiky", "images/creatures/spiky/sleepingspiky.sprite")]
 public class SleepSpiky : SimpleObject
 {
 	public SleepSpiky() {
@@ -114,7 +114,7 @@ public class Flame : SimpleObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
-	[LispChild("speed", Optional = true, Default = 2)]
+	[LispChild("speed", Optional = true, Default = 2f)]
 	public float Speed = 2;
 
 	public Flame() {
