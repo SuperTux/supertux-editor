@@ -19,17 +19,17 @@ public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
 	}
 
 	public void CustomLispRead(Properties Props) {
-        uint Width = 0;
-        uint Height = 0;
-        Props.Get("width", ref Width);
-        Props.Get("height", ref Height);
-        if(Width == 0 || Height == 0)
-            throw new Exception("Width or Height of Tilemap invalid");
-        
-        List<int> Tiles = new List<int>();
-        Props.GetIntList("tiles", Tiles);
-        if(Tiles.Count != (int) (Width * Height))
-            throw new Exception("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
+		uint Width = 0;
+		uint Height = 0;
+		Props.Get("width", ref Width);
+		Props.Get("height", ref Height);
+		if(Width == 0 || Height == 0)
+			throw new Exception("Width or Height of Tilemap invalid");
+		
+		List<int> Tiles = new List<int>();
+		Props.GetIntList("tiles", Tiles);
+		if(Tiles.Count != (int) (Width * Height))
+			throw new Exception("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
 
 		Assign(Tiles, Width, Height);
 	}
