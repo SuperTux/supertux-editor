@@ -5,9 +5,9 @@ using SceneGraph;
 
 [SupertuxObject("background", "images/engine/editor/background.png")]
 public class Background : IGameObject, Node {
-	[LispChild("x", Optional = true, Default = 0)]
+	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
-	[LispChild("y", Optional = true, Default = 0)]
+	[LispChild("y", Optional = true, Default = 0f)]
 	public float Y;
 
 	[LispChild("image-top", Optional = true, Default = "")]
