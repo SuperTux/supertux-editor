@@ -20,6 +20,8 @@ Editor:
 - Make Object properties a tab - ok
 - Script editor? Launch external editor? - ok
 - Ask for Save on close
+- The open dialog has an invalid folder selected when saving new maps and crashs
+- When selecting File->New the filename is not resetted
 - Support paths - ok
 - Support resizing of level borders with drag&drop
 - Config dialog - ok
