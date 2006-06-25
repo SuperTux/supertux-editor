@@ -16,11 +16,13 @@ public class Application : IEditorApplication {
 			this.actionTitle = actionTitle;
 			this.snapshot = snapshot;
 		}
-		public string actionTitle; /**< title of action that triggered the snapshot, e.g. "Sector resize" */
-		public string snapshot; /**< serialized level */
+		/// <summary>title of action that triggered the snapshot, e.g. "Sector resize"</summary>
+		public string actionTitle;
+		/// <summary>serialized level</summary>
+		public string snapshot;
 	}
-
-	private string MainWindowTitlePrefix; //*< Original MainWindow title, read from .glade ressource */
+	/// <summary>Original MainWindow title, read from .glade ressource</summary>
+	private string MainWindowTitlePrefix; 
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
 	
@@ -82,7 +84,7 @@ public class Application : IEditorApplication {
 		}
 	}
 	
-	/* Write message on main windows's statusbar*/
+	/// <summary>Write message on main windows's statusbar</summary>
 	public void PrintStatus( string message )
 	{
 		sbMain.Remove( printStatusContextID, printStatusMessageID);
