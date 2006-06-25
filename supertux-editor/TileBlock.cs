@@ -1,10 +1,26 @@
 using System;
 using DataStructures;
+using Lisp;
+using LispReader;
+using System.Collections.Generic;
 
-public class TileBlock : Field<int> {
+[LispRoot("tileblock")]
+public class TileBlock : Field<int>, ICustomLispSerializer {
 	public int TileListFirstTile = -1;
 	public int TileListW, TileListH;
-	
+
+	public TileBlock() : base() {
+	}
+
+	public TileBlock(uint Width, uint Height, int FillValue) : base(Width, Height, FillValue) {
+	}
+
+	/// <summary>
+	/// Clone Subset of other TileBlock
+	/// </summary>
+	public TileBlock(TileBlock Other, int startX, int startY, uint width, uint height) : base(Other, startX, startY, width, height) {
+	}
+
 	public void Draw(Vector Pos, Tileset Tileset) {
 		Vector CurrentPos = Pos;
 		for(uint y = 0; y < Height; ++y) {
@@ -40,4 +56,28 @@ public class TileBlock : Field<int> {
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
 		ApplyToTilemap(pos, Tilemap, true);
 	}
+
+	public void CustomLispRead(Properties Props) {
+		uint Width = 0;
+		uint Height = 0;
+		Props.Get("width", ref Width);
+		Props.Get("height", ref Height);
+		if(Width == 0 || Height == 0) throw new Exception("Width or Height of TileBlock invalid");
+		
+		List<int> Tiles = new List<int>();
+		Props.GetIntList("tiles", Tiles);
+		if(Tiles.Count != (int) (Width * Height)) throw new Exception("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
+
+		Assign(Tiles, Width, Height);
+	}
+
+	public void CustomLispWrite(Writer Writer) {
+		Writer.Write("width", Width);
+		Writer.Write("height", Height);
+		Writer.Write("tiles", GetContentsArray());
+	}
+
+	public void FinishRead() {
+	}
+
 }

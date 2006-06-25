@@ -8,7 +8,6 @@ using Gdk;
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
-// TODO: create interface for loading and saving of brushes
 public class BrushEditor : IEditor {
 	private Selection selection = new Selection();
 	private bool drawing;
@@ -33,7 +32,10 @@ public class BrushEditor : IEditor {
 		this.Tilemap = Tilemap;
 		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
-	
+
+	/// <summary>
+	/// Brush currently in use
+	/// </summary>
 	public Brush Brush {
 		get {
 			return brush;
@@ -42,13 +44,16 @@ public class BrushEditor : IEditor {
 
 	public void Draw()
 	{
+		// when not selecting, draw white rectangle over affected tiles
 		if(!selecting) {
-			// draw white rectangle over affected tiles
+
+			// calculate rectangle to color
 			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * 32f;
 			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * 32f;
 			float w = brush.Width * 32f;
 			float h = brush.Height * 32f;
 
+			// draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
@@ -59,32 +64,38 @@ public class BrushEditor : IEditor {
 			gl.End();
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
-		}
-		if(selecting) {
-			gl.Color4f(0, 0, 1, 0.7f);
-			gl.Disable(gl.TEXTURE_2D);
 
+		}
+
+		// when selecting, draw blue rectangle over selected area
+		if(selecting) {
+
+			// calculate rectangle to color
 			float left = SelectionP1.X * 32f;
 			float top = SelectionP1.Y * 32f;
 			float right = SelectionP2.X * 32f + 32f;
 			float bottom = SelectionP2.Y * 32f + 32f;
 
+			// draw rectangle
+			gl.Color4f(0, 0, 1, 0.7f);
+			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
 			gl.Vertex2f(left, top);
 			gl.Vertex2f(right, top);
 			gl.Vertex2f(right, bottom);
 			gl.Vertex2f(left, bottom);
 			gl.End();
-
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
+
 		}
 	}
 
 	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
 	{
 		UpdateMouseTilePos(MousePos);
-	
+
+		// left mouse button means apply brush
 		if(button == 1) {
 			application.TakeUndoSnapshot("Brush Tool");
 			brush.ApplyToTilemap(MouseTilePos, Tilemap);
@@ -92,6 +103,8 @@ public class BrushEditor : IEditor {
 			drawing = true;
 			Redraw();
 		}
+
+		// right mouse button means select area to learn
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
 				|| MouseTilePos.X >= Tilemap.Width
@@ -109,9 +122,12 @@ public class BrushEditor : IEditor {
 	{
 		UpdateMouseTilePos(MousePos);
 	
+		// left mouse button means apply brush
 		if(button == 1) {
 			drawing = false;
 		}
+
+		// right mouse button means select area to learn
 		if(button == 3) {
 			UpdateSelection();
 

@@ -479,6 +479,15 @@ public class Application : IEditorApplication {
 			string brushFile = fileChooser.Filename;
 			
 			brushEditor.Brush.saveToFile(brushFile);
+			/*
+			try {
+				LispSerializer serializer = new LispSerializer(typeof(Brush));
+				serializer.Write(brushFile, brushEditor.Brush);
+			} catch(Exception e) {
+				ErrorDialog.Exception("Couldn't save brush", e);
+			}
+			*/
+
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);	
 		}

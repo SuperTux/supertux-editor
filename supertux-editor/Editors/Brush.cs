@@ -22,18 +22,37 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using DataStructures;
+using LispReader;
 
 /// <summary>
 /// Smoothes Tilemaps by changing tiles to one of several stored valid patterns
 /// </summary>
 public class Brush 
 {
-	protected List<Field<int>> patterns;
+	/// <summary>
+	/// width (in Tiles) of this Brush
+	/// </summary>
 	protected uint width;
+
+	/// <summary>
+	/// height (in Tiles) of this Brush
+	/// </summary>
 	protected uint height;
+
+	/// <summary>
+	/// List of TileBlocks that constitute a valid pattern
+	/// </summary>
+	protected List<TileBlock> patterns = new List<TileBlock>();
+
+	/// <summary>
+	/// Tileset this Brush uses
+	/// </summary>
 	protected Tileset tileset;
 
-	public Brush(uint width, uint height, List<Field<int>> patterns, Tileset tileset)
+	/// <summary>
+	/// Create a new brush from a given list of patterns
+	/// </summary>
+	public Brush(uint width, uint height, List<TileBlock> patterns, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
@@ -41,26 +60,38 @@ public class Brush
 		this.tileset = tileset;
 	}
 
+	/// <summary>
+	/// Create a new, empty brush
+	/// </summary>
 	public Brush(uint width, uint height, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
-		this.patterns = new List<Field<int>>();
+		this.patterns = new List<TileBlock>();
 		this.tileset = tileset;
 	}
 
+	/// <summary>
+	/// Number of patterns this brush has stored
+	/// </summary>
 	public int PatternCount {
 		get {
 			return patterns.Count;
 		}
 	}
 
+	/// <summary>
+	/// Width (in Tiles) of patterns in this Brush
+	/// </summary>
 	public uint Width {
 		get {
 			return width;
 		}
 	}
 
+	/// <summary>
+	/// Height (in Tiles) of patterns in this Brush
+	/// </summary>
 	public uint Height {
 		get {
 			return height;
@@ -71,8 +102,10 @@ public class Brush
 	/// Add the tiles of the given tileBlock as a valid pattern
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the pattern to add</param>
-	public void LearnPattern(Field<int> tileBlock, int startX, int startY) {
-		Field<int> tb = (Field<int>)tileBlock.CloneSubset(startX, startY, width, height);
+	/// <param name="startX">horizontal offset (in tileBlock) of the pattern to add</param>
+	/// <param name="startY">vertical offset (in tileBlock) of the pattern to add</param>
+	public void LearnPattern(TileBlock tileBlock, int startX, int startY) {
+		TileBlock tb = new TileBlock(tileBlock, startX, startY, width, height);
 		if (!patterns.Contains(tb)) patterns.Add(tb);
 	}
 
@@ -80,7 +113,7 @@ public class Brush
 	/// Add all tiles of the given tileBlock to the list of valid patterns
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the patterns to add</param>
-	public void LearnPatterns(Field<int> tileBlock) {
+	public void LearnPatterns(TileBlock tileBlock) {
 		for (int tx = 0; tx <= (int)tileBlock.Width - (int)width; tx++) {
 			for (int ty = 0; ty <= (int)tileBlock.Height - (int)height; ty++) {
 				LearnPattern(tileBlock, tx, ty);
@@ -92,26 +125,42 @@ public class Brush
 	/// Remove the tiles of the given tileBlock from the list of valid patterns
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the pattern to remove</param>
-	public void ForgetPattern(Field<int> tileBlock, int startX, int startY) {
-		Field<int> tb = (Field<int>)tileBlock.CloneSubset(startX, startY, width, height);
+	/// <param name="startX">horizontal offset (in tileBlock) of the pattern to remove</param>
+	/// <param name="startY">vertical offset (in tileBlock) of the pattern to remove</param>
+	public void ForgetPattern(TileBlock tileBlock, int startX, int startY) {
+		TileBlock tb = new TileBlock(tileBlock, startX, startY, width, height);
 		if (patterns.Contains(tb)) patterns.Remove(tb);
 	}
 
-	protected float calculateSimilarity(Field<int> t1, Field<int> t2) {
+	/// <summary>
+	/// Return a measure of how similar fields t1 and t2 are. 
+	/// </summary>
+	protected float calculateSimilarity(TileBlock t1, TileBlock t2) {
 		float sim = 0;
-		if (t1.Width != t2.Width) throw new ArgumentException("Field<int>s had different widths");
-		if (t1.Height != t2.Height) throw new ArgumentException("Field<int>s had different heights");
+
+		// make sure both fields have equal dimensions
+		if (t1.Width != t2.Width) throw new ArgumentException("TileBlocks had different widths");
+		if (t1.Height != t2.Height) throw new ArgumentException("TileBlocks had different heights");
+
+		// compare each tile in the fields
 		for (int px = 0; px < t1.Width; px++) {
 			for (int py = 0; py < t1.Height; py++) {
 				int id1 = t1[px, py];
 				int id2 = t2[px, py];
 				Tile tile1 = tileset.Get(id1);
 				Tile tile2 = tileset.Get(id2);
+
+				// if any of the tile ids is invalid, make this a really bad match
 				if (tile1 == null) return -1;
 				if (tile2 == null) return -1;
+
 				bool solid1 = ((tile1.Attributes & Tile.Attribute.SOLID) != 0);
 				bool solid2 = ((tile2.Attributes & Tile.Attribute.SOLID) != 0);
+
+				// reward identical tiles...
 				if (id1 == id2) sim += 1;
+
+				// ...but not changing solid to non-solid (and vice versa) is even better
 				if (solid1 == solid2) sim += 100;
 			}
 		}
@@ -119,27 +168,35 @@ public class Brush
 	}
 
 	/// <summary>
-	/// Smoothes Tilemap by changing tiles around the given position to one of several stored valid patterns
+	/// Smoothes Tilemap by changing tiles around the given position to one of the stored patterns
 	/// </summary>
 	public void ApplyToTilemap(FieldPos pos, Tilemap tilemap) {
+
+		// find upper-left corner of where to apply brush
 		int px = pos.X - (int)(width/2);
 		int py = pos.Y - (int)(height/2);
+
+		// make sure we are in bounds of the tilemap
 		if (px < 0) return;
 		if (py < 0) return;
 		if (px+width > tilemap.Width) return;
 		if (py+width > tilemap.Height) return;
 
-		Field<int> tb = (Field<int>)tilemap.CloneSubset(px, py, width, height);
+		// store subset of tilemap where brush will be applied as a reference pattern
+		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
 
+		// find the stored pattern that matches this reference pattern best
 		float bestSimilarity = 0;
-		Field<int> bestPattern = null;
-		foreach (Field<int> pattern in patterns) {
+		TileBlock bestPattern = null;
+		foreach (TileBlock pattern in patterns) {
 			float sim = calculateSimilarity(pattern, tb);
 			if (sim > bestSimilarity) {
 				bestSimilarity = sim;
 				bestPattern = pattern;
 			}
 		}
+
+		// if we found any such pattern, apply it
 		if (bestPattern != null) {
 			uint StartX = (uint) Math.Max(0, -px);
 			uint StartY = (uint) Math.Max(0, -py);
@@ -159,7 +216,7 @@ public class Brush
 		FileStream fs = new FileStream(fname, FileMode.Create);
 		TextWriter tw = new StreamWriter(fs);
 
-		foreach (Field<int> m1 in patterns) {
+		foreach (TileBlock m1 in patterns) {
 			tw.WriteLine("" + m1[0, 0] + "," + m1[1, 0] + "," + m1[2, 0] + "," + m1[0, 1] + "," + m1[1, 1] + "," + m1[2, 1] + "," + m1[0, 2] + "," + m1[1, 2] + "," + m1[2, 2] + "");
 		}
 
@@ -182,7 +239,7 @@ public class Brush
 			while ((s = trd.ReadLine()) != null) {
 				string[] v = s.Split(',');
 				if (v.Length < 9) continue;
-				Field<int> tb = (Field<int>)new Field<int>(3,3,0);
+				TileBlock tb = (TileBlock)new TileBlock(3,3,0);
 				tb[0, 0] = int.Parse(v[0]);
 				tb[1, 0] = int.Parse(v[1]);
 				tb[2, 0] = int.Parse(v[2]);
@@ -203,3 +260,4 @@ public class Brush
 	}	
 
 }
+

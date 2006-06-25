@@ -28,6 +28,25 @@ namespace DataStructures
 			Assign(Values, Width, Height);
 		}
 
+		/// <summary>
+		/// Clone Subset of other field
+		/// </summary>
+		public Field(Field<T> Other, int startX, int startY, uint width, uint height) {
+			this.width = width;
+			this.height = height;
+			if (startX < 0) throw new ArgumentOutOfRangeException("startX");
+			if (startY < 0) throw new ArgumentOutOfRangeException("startY");
+			if (startX + width > Other.Width) throw new ArgumentOutOfRangeException("startX");
+			if (startY + height > Other.Height) throw new ArgumentOutOfRangeException("startY");
+			for (int y = 0; y < height; y++) {
+				for (int x = 0; x < width; x++) {
+					int tx = x + startX;
+					int ty = y + startY;
+					Elements.Add(Other[tx, ty]);
+				}
+			}
+		}
+
 		public uint Width
 		{
 			get
@@ -130,22 +149,6 @@ namespace DataStructures
 			return width.GetHashCode() ^ height.GetHashCode() ^ Elements.GetHashCode();
 		}
 		
-		public Field<T> CloneSubset(int startX, int startY, uint width, uint height) {
-			if (startX < 0) throw new ArgumentOutOfRangeException("startX");
-			if (startY < 0) throw new ArgumentOutOfRangeException("startY");
-			if (startX + width > this.Width) throw new ArgumentOutOfRangeException("startX");
-			if (startY + height > this.Height) throw new ArgumentOutOfRangeException("startY");
-			List<T> v = new List<T>();
-			for (int y = 0; y < height; y++) {
-				for (int x = 0; x < width; x++) {
-					int tx = x + startX;
-					int ty = y + startY;
-					v.Add(this[tx, ty]);
-				}
-			}
-			return new Field<T>(v, width, height);
-		}
-
 		public bool InBounds(FieldPos pos) {
 			if (pos.X < 0) return false;
 			if (pos.Y < 0) return false;
