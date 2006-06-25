@@ -4,12 +4,17 @@ using LispReader;
 using DataStructures;
 using SceneGraph;
 
+// TODO: Write better documentation.
+/// <summary>Attribute that marks a class as an object for use in levels.</summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 public class SupertuxObjectAttribute : Attribute
 {
 	public string Name;
 	public string IconSprite;
-	
+
+	/// <summary>Constructs for <see cref="SupertuxObjectAttribute"/>.</summary>
+	/// <param name="Name">Name of object in the level file</param>
+	/// <param name="IconSprite">Icon used in the object list in the editor</param>
 	public SupertuxObjectAttribute(string Name, string IconSprite) {
 		this.Name = Name;
 		this.IconSprite = IconSprite;
@@ -305,7 +310,8 @@ public class AngryStone : SimpleObject
 	}
 }
 
-public class PlatformBase : IGameObject, IObject, IPathObject, Node
+/// <summary>Base class for platforms.</summary>
+public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";

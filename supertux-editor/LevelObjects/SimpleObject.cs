@@ -7,6 +7,7 @@ using Drawing;
 using OpenGl;
 using SceneGraph;
 
+/// <summary>Base class for objects in levels</summary>
 public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	[LispChild("x")]
 	public float X;
@@ -64,7 +65,8 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	}
 }
 
-public class SimpleObjectArea : SimpleObject
+/// <summary>Base class for ara objects in levels</summary>
+public abstract class SimpleObjectArea : SimpleObject
 {
 	[LispChild("width")]
 	public float Width = 32;

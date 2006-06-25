@@ -6,8 +6,10 @@ using LispReader;
 [LispRoot("path")]
 public class Path
 {
-	[LispChild("mode")]
-	public string Mode;
+	// we should support enums here...
+	/// Can be: oneshot, pingpong and circular
+	[LispChild("mode", Optional = true, Default = "circular")]
+	public string Mode = "circular";
 	
 	[LispChilds(Name = "node", Type = typeof(Node), ListType = typeof(Node))]
 	public List<Node> Nodes = new List<Node>();
