@@ -5,8 +5,7 @@ using Lisp;
 using LispReader;
 using System.Collections.Generic;
 
-// TODO need new image
-[SupertuxObject("tilemap", "images/engine/editor/background.png")]
+[SupertuxObject("tilemap", "images/engine/editor/tilemap.png")]
 public class Tilemap : Field<int>, IGameObject, ICustomLispSerializer {
 	[LispChild("z-pos")]
 	public int ZPos = 0;

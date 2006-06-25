@@ -101,6 +101,7 @@ public class Application : IEditorApplication {
 
 		Tileset.LoadEditorImages = true;
 		
+		//initialize statur bar for PrintStatus()
 		printStatusContextID = sbMain.GetContextId("PrintStatus");
 	    printStatusMessageID = sbMain.Push( printStatusContextID, "Welcome to Supertux-Editor.");
 			
@@ -131,6 +132,8 @@ public class Application : IEditorApplication {
 		if(args.Length > 0) {
 			Load(args[0]);
 		}
+		
+		PrintStatus("Welcome to Supertux-Editor.");
 	}
 	
 	private Widget CreateTileList()
@@ -213,6 +216,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolSelect(object o, EventArgs args) {
+		PrintStatus("Tool: Select");
 		ToolSelectProps.Visible = true;
 		ToolTilesProps.Visible = false;
 		ToolObjectsProps.Visible = false;
@@ -221,6 +225,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolTiles(object o, EventArgs args) {
+		PrintStatus("Tool: Tiles");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;	
 		ToolObjectsProps.Visible = false;
@@ -230,6 +235,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolObjects(object o, EventArgs args) {
+		PrintStatus("Tool: Objects");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;	
 		ToolObjectsProps.Visible = true;
@@ -238,6 +244,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolGObjects(object o, EventArgs args) {
+		PrintStatus("Tool: GObjects");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;	
 		ToolObjectsProps.Visible = false;
@@ -246,6 +253,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolBrush(object o, EventArgs args) {
+		PrintStatus("Tool: Brush");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;	
 		ToolObjectsProps.Visible = false;
@@ -254,6 +262,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolFill(object o, EventArgs args) {
+		PrintStatus("Tool: Fill");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;	
 		ToolObjectsProps.Visible = false;
@@ -263,6 +272,7 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolReplace(object o, EventArgs args) {
+		PrintStatus("Tool: Replace");
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;	
 		ToolObjectsProps.Visible = false;
