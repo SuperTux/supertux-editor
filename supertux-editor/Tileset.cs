@@ -23,6 +23,8 @@ public class Tileset {
 	public Tileset() {
 	}
 
+	/// <summary>Loads the tiles from <paramref name="Resourcepath"/>.</summary>
+	/// <param name="Resourcepath">A path relative to the data folder of SuperTux.</param>
 	public Tileset(string Resourcepath) {
 		baseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
@@ -79,6 +81,8 @@ public class Tileset {
 		}
 	}
 
+	/// <summary>Checks if <paramref name="id"/> is a valid tile id</summary>
+	/// <returns>Returns true if tile id is valid, otherwise false.</returns>
 	public bool IsValid(int id) {
 		return tiles[id] != null;
 	}
@@ -93,12 +97,17 @@ public class Tileset {
 		return tile;
 	}
 
+	/// <summary>Id of the last existing tile.</summary>
 	public int LastTileId {
 		get {
 			return tiles.Count;
 		}
 	}
 
+	/// <summary>Parse a list of tiles (from a tiles block in the tileset file)</summary>
+	/// <exception cref="System.Exception">
+	/// Thrown when width and/or height of ids/attributes of a tiles block is wrong.
+	/// </exception>
 	private void ParseTiles(List list) {
 		Properties props = new Properties(list);
 
@@ -144,8 +153,9 @@ public class Tileset {
 			}
 		}
 	}
-	
 
+	/// <summary>Parse a tile (from a tile block in the tileset file)</summary>
+	/// <exception cref="System.Exception">Thrown when a tile has no ID</exception>
 	private void ParseTile(Tile Tile, List Data) {
 		Properties Props = new Properties(Data);
 
