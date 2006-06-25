@@ -8,7 +8,7 @@ using Resources;
 public class Tileset {
 	private List<Tile> tiles = new List<Tile>();
 	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
-    private string baseDir;
+	private string baseDir;
 	public static bool LoadEditorImages;
 	
 	public IDictionary<string, Tilegroup> Tilegroups {
@@ -20,26 +20,26 @@ public class Tileset {
 	public const int TILE_WIDTH = 32;
 	public const int TILE_HEIGHT = 32;
 
-    public Tileset() {
-    }
+	public Tileset() {
+	}
 
-    public Tileset(string Resourcepath) {
-        baseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
+	public Tileset(string Resourcepath) {
+		baseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
 
-        Properties TilesP = new Properties(TilesL);
-        foreach(List list in TilesP.GetList("tile")) {
-            try {
-                Tile tile = new Tile();
-                ParseTile(tile, list);
-                while(tiles.Count <= tile.Id)
-                    tiles.Add(null);
-                tiles[tile.Id] = tile;
-            } catch(Exception e) {
-                Console.WriteLine("Couldn't parse a Tile: " + e.Message);
+		Properties TilesP = new Properties(TilesL);
+		foreach(List list in TilesP.GetList("tile")) {
+			try {
+				Tile tile = new Tile();
+				ParseTile(tile, list);
+				while(tiles.Count <= tile.Id)
+					tiles.Add(null);
+				tiles[tile.Id] = tile;
+			} catch(Exception e) {
+				Console.WriteLine("Couldn't parse a Tile: " + e.Message);
 				Console.WriteLine(e.StackTrace);
-            }
-        }
+			}
+		}
 
 		foreach(List list in TilesP.GetList("tiles")) {
 			try {
@@ -52,46 +52,46 @@ public class Tileset {
 		
 		// construct a tilegroup with all tiles
 		Tilegroup allGroup = new Tilegroup();
-    	allGroup.Name = "All";
-    	foreach(Tile tile in tiles) {
-    		if(tile != null)
-    			allGroup.Tiles.Add(tile.Id);
-    	}
-    	tilegroups.Add(allGroup.Name, allGroup);
+			allGroup.Name = "All";
+			foreach(Tile tile in tiles) {
+				if(tile != null)
+					allGroup.Tiles.Add(tile.Id);
+			}
+			tilegroups.Add(allGroup.Name, allGroup);
 		
 		LispSerializer serializer = new LispSerializer(typeof(Tilegroup));
-    	foreach(List list in TilesP.GetList("tilegroup")) {
-    		try {
-    			Tilegroup group = (Tilegroup) serializer.Read(list);
-    			for(int i = 0; i < group.Tiles.Count; ) {
-    				if(!IsValid(group.Tiles[i])) {
-    					Console.WriteLine("Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
-    					group.Tiles.RemoveAt(i);
-    					continue;
-    				}
-    				++i;
-    			}
-    			tilegroups.Add(group.Name, group);
-    		} catch(Exception e) {
-    			Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
-    			Console.WriteLine(e.StackTrace);
-    		}
-    	}
-    }
+		foreach(List list in TilesP.GetList("tilegroup")) {
+			try {
+				Tilegroup group = (Tilegroup) serializer.Read(list);
+				for(int i = 0; i < group.Tiles.Count; ) {
+					if(!IsValid(group.Tiles[i])) {
+						Console.WriteLine("Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
+						group.Tiles.RemoveAt(i);
+						continue;
+					}
+					++i;
+				}
+				tilegroups.Add(group.Name, group);
+			} catch(Exception e) {
+				Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
+				Console.WriteLine(e.StackTrace);
+			}
+		}
+	}
 
 	public bool IsValid(int id) {
 		return tiles[id] != null;
 	}
 
-    public Tile Get(int id) {
-        Tile tile = tiles[id];
+	public Tile Get(int id) {
+		Tile tile = tiles[id];
 		if(tile == null)
 			return null;
 
-        tile.LoadSurfaces(baseDir, LoadEditorImages);
-        
-        return tile;
-    }
+		tile.LoadSurfaces(baseDir, LoadEditorImages);
+
+		return tile;
+	}
 
 	public int LastTileId {
 		get {
@@ -136,9 +136,9 @@ public class Tileset {
 				tile.Id = ids[id];
 				tile.Attributes = (Tile.Attribute) attributes[id];
 
-                while(tiles.Count <= tile.Id)
-                    tiles.Add(null);
-                tiles[tile.Id] = tile;
+				while(tiles.Count <= tile.Id)
+					tiles.Add(null);
+				tiles[tile.Id] = tile;
 
 				id++;
 			}
@@ -146,11 +146,11 @@ public class Tileset {
 	}
 	
 
-    private void ParseTile(Tile Tile, List Data) {
-        Properties Props = new Properties(Data);
-        
-        if(!Props.Get("id", ref Tile.Id))
-            throw new Exception("Tile has no ID");
+	private void ParseTile(Tile Tile, List Data) {
+		Properties Props = new Properties(Data);
+
+		if(!Props.Get("id", ref Tile.Id))
+			throw new Exception("Tile has no ID");
 
 		List images = null;
 		Props.Get("images", ref images);
@@ -163,42 +163,42 @@ public class Tileset {
 			Tile.EditorImages = ParseTileImages(editorImages);
 		}
 
-        bool val = false;
-        if(Props.Get("solid", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.SOLID;
-        if(Props.Get("unisolid", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.UNISOLID | Tile.Attribute.SOLID;
-        if(Props.Get("brick", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.BRICK;
-        if(Props.Get("ice", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.ICE;
-        if(Props.Get("water", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WATER;
-        if(Props.Get("spike", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.SPIKE;
-        if(Props.Get("fullbox", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.FULLBOX;
-        if(Props.Get("coin", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.COIN;
-        if(Props.Get("goal", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.GOAL;
+		bool val = false;
+		if(Props.Get("solid", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.SOLID;
+		if(Props.Get("unisolid", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.UNISOLID | Tile.Attribute.SOLID;
+		if(Props.Get("brick", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.BRICK;
+		if(Props.Get("ice", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.ICE;
+		if(Props.Get("water", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WATER;
+		if(Props.Get("spike", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.SPIKE;
+		if(Props.Get("fullbox", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.FULLBOX;
+		if(Props.Get("coin", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.COIN;
+		if(Props.Get("goal", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.GOAL;
 
-        if(Props.Get("north", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WORLDMAP_NORTH;
-        if(Props.Get("south", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WORLDMAP_SOUTH;
-        if(Props.Get("west", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WORLDMAP_WEST;
-        if(Props.Get("east", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WORLDMAP_EAST;
-        if(Props.Get("stop", ref val) && val)
-            Tile.Attributes |= Tile.Attribute.WORLDMAP_STOP;
+		if(Props.Get("north", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WORLDMAP_NORTH;
+		if(Props.Get("south", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WORLDMAP_SOUTH;
+		if(Props.Get("west", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WORLDMAP_WEST;
+		if(Props.Get("east", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WORLDMAP_EAST;
+		if(Props.Get("stop", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.WORLDMAP_STOP;
 
-        Props.Get("data", ref Tile.Data);
-        Props.Get("anim-fps", ref Tile.AnimFps);
-        if(Props.Get("slope-type", ref Tile.Data))
-            Tile.Attributes |= Tile.Attribute.SLOPE | Tile.Attribute.SOLID;
-    }
+		Props.Get("data", ref Tile.Data);
+		Props.Get("anim-fps", ref Tile.AnimFps);
+		if(Props.Get("slope-type", ref Tile.Data))
+			Tile.Attributes |= Tile.Attribute.SLOPE | Tile.Attribute.SOLID;
+	}
 
 	private List<Tile.ImageResource> ParseTileImages(List list) {
 		List<Tile.ImageResource> result = new List<Tile.ImageResource>();

@@ -24,10 +24,10 @@ public class LayerListWidget : TreeView {
 		                                            Gdk.Rectangle cell_area,
 		                                            CellRendererState flags) {
 			if(VisibilityChanged != null)
-				VisibilityChanged(this, null);                                            		
+				VisibilityChanged(this, null);
 			return base.StartEditing(evnt, widget, path, background_area, cell_area, flags);
 		}
-		                                            
+		
 		public delegate void VisibilityChangedHandler(object o, EventArgs args);
 		
 		public event VisibilityChangedHandler VisibilityChanged;
@@ -116,7 +116,7 @@ public class LayerListWidget : TreeView {
 		} else {
 			PixbufRenderer.StockId = EditorStock.Eye;
 		}
-	}                                 	
+	}
 
 	private void TextDataFunc(TreeViewColumn Column, CellRenderer Renderer,
 				             TreeModel Model, TreeIter Iter)
@@ -132,34 +132,34 @@ public class LayerListWidget : TreeView {
 		}
 	}
 
-    [GLib.ConnectBefore]
-    private void OnButtonPressed(object o, ButtonPressEventArgs args)
-    {
-    	TreePath path;
-    	if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
-    		return;
-    	
-    	TreeIter iter;
-    	if(!Model.GetIter(out iter, path))
-    		return;
-    	
-    	object obj = Model.GetValue(iter, 0);
-    	if(obj is Tilemap) {
-    		if(obj != currentTilemap) {
-    			currentTilemap = (Tilemap) obj;
-    			application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
-    			application.ChangeCurrentTilemap(currentTilemap);
-    		}
-    	} else {
-    		currentTilemap = null;
-		// TODO: clear properties window?
-    		application.ChangeCurrentTilemap(currentTilemap);
-    	}
-    	
-    	if(args.Event.Button == 3) {
-    		ShowPopupMenu();
-    	}
-    }
+	[GLib.ConnectBefore]
+	private void OnButtonPressed(object o, ButtonPressEventArgs args)
+	{
+		TreePath path;
+		if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
+			return;
+		
+		TreeIter iter;
+		if(!Model.GetIter(out iter, path))
+			return;
+		
+		object obj = Model.GetValue(iter, 0);
+		if(obj is Tilemap) {
+			if(obj != currentTilemap) {
+				currentTilemap = (Tilemap) obj;
+				application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
+				application.ChangeCurrentTilemap(currentTilemap);
+			}
+		} else {
+			currentTilemap = null;
+	// TODO: clear properties window?
+			application.ChangeCurrentTilemap(currentTilemap);
+		}
+		
+		if(args.Event.Button == 3) {
+			ShowPopupMenu();
+		}
+	}
 
 	private void ShowPopupMenu()
 	{

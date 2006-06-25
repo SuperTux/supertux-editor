@@ -13,7 +13,7 @@ public class TilegroupSelector : ComboBox
 		
 		CellRendererText renderer = new CellRendererText(); 
 		PackStart(renderer, false);
-		SetCellDataFunc(renderer, TextDataFunc);		            
+		SetCellDataFunc(renderer, TextDataFunc);
 		
 		Changed += OnTileGroupChoosen;
 	}
@@ -52,8 +52,8 @@ public class TilegroupSelector : ComboBox
 	{
 		TreeIter iter;
 
-    	if (!GetActiveIter (out iter))
-    		return;
+		if (!GetActiveIter (out iter))
+			return;
 		
 		Tilegroup group = (Tilegroup) Model.GetValue(iter, 0);
 		tileList.ChangeTilegroup(group);

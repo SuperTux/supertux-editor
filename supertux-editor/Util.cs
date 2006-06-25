@@ -3,13 +3,13 @@ using System.IO;
 using Lisp;
 using Resources;
 
-/* This class contains some convenience functions */
+/// <summary>This class contains some convenience functions</summary>
 public class Util {
-    public static List Load(string Filename, string RootElement) {
-        return Load(ResourceManager.Instance.Get(Filename), Filename, RootElement);
-    }
+	public static List Load(string Filename, string RootElement) {
+		return Load(ResourceManager.Instance.Get(Filename), Filename, RootElement);
+	}
 
-    public static List Load(TextReader Reader, string Source, string RootElement) {
+	public static List Load(TextReader Reader, string Source, string RootElement) {
 		try {
 			Lexer Lexer = new Lexer(Reader);
 			Parser Parser = new Parser(Lexer);
@@ -24,8 +24,8 @@ public class Util {
 			return Result;
 		} catch(Exception e) {
 			throw new Exception("Problem parsing '" + Source + "': " 
-					+ e.Message, e);
+			                    + e.Message, e);
 		}
-    }
+	}
 }
 

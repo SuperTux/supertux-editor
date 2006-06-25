@@ -43,7 +43,7 @@ public class TileListWidget : GLWidgetBase {
 		
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.ButtonReleaseMask);
-		AddEvents((int) Gdk.EventMask.PointerMotionMask);						
+		AddEvents((int) Gdk.EventMask.PointerMotionMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);	
 
 		application.LevelChanged += OnLevelChanged;
@@ -193,7 +193,7 @@ public class TileListWidget : GLWidgetBase {
 		return false;
 	}
 
-	/* select all Tiles in are between pos1 and pos2 */
+	/// <summary>select all Tiles in are between pos1 and pos2</summary>
 	private void MultiSelect( Vector pos1, Vector pos2 )
 	{
 		Vector upperLeft, lowerRight, lowerLeft;

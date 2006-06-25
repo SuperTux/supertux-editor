@@ -46,9 +46,7 @@ public class ObjectListWidget : GLWidgetBase
 		ScrollEvent += OnScroll;
 	}
 	
-	/*
-	*   Redraw Widget
-	*/
+	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{
 		LoadObjectImages();
@@ -106,9 +104,7 @@ public class ObjectListWidget : GLWidgetBase
 		}
 	}
 	
-	/*
-	* Loading Images need Gl context so this has to be called from DrawGl
-	*/
+	/// <summary>Loading Images need Gl context so this has to be called from DrawGl</summary>
 	private void LoadObjectImages()
 	{
 		if(objectsLoaded)
@@ -170,13 +166,13 @@ public class ObjectListWidget : GLWidgetBase
 	{
 		if(args.Event.Button == 1) {
 			Vector MousePos = new Vector((float) args.Event.X,
-	    								 (float) args.Event.Y);	
-	    	int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT ); 
-	    	int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
-	    	if( column >= TILES_PER_ROW ){
-	    		return;	
-	    	}
-	    	int selected = TILES_PER_ROW * row + column;
+			                             (float) args.Event.Y);	
+			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT ); 
+			int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
+			if( column >= TILES_PER_ROW ){
+				return;	
+			}
+			int selected = TILES_PER_ROW * row + column;
 			if( selected  < gameObjectTypes.Count ){
 				if( SelectedObjectNr != selected ){
 					SelectedObjectNr = selected;
@@ -189,7 +185,7 @@ public class ObjectListWidget : GLWidgetBase
 						} else {
 							IEditor editor = new ObjectsEditor(application, application.CurrentSector);
 							application.SetEditor(editor);
-						    application.PrintStatus("ObjectListWidget: none selected ");
+							application.PrintStatus("ObjectListWidget: none selected ");
 						}
 					}
 					QueueDraw();
@@ -210,7 +206,7 @@ public class ObjectListWidget : GLWidgetBase
 			args.RetVal = true;
 			QueueDraw();
 		} else if( args.Event.Direction == ScrollDirection.Down &&
-		            FirstRow + 1 < Math.Floor( (double)gameObjectTypes.Count / (double)TILES_PER_ROW )) {
+			         FirstRow + 1 < Math.Floor( (double)gameObjectTypes.Count / (double)TILES_PER_ROW )) {
 			FirstRow += 1;
 			args.RetVal = true;
 			QueueDraw();

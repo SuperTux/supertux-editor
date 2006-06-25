@@ -1,10 +1,8 @@
 using DataStructures;
 using SceneGraph;
 
-/**
- * Object which is draw and occupies an area in the sector
- * TODO: think of a better name for this...
- */
+/// <summary>Object which is draw and occupies an area in the sector</summary>
+/// <remarks>TODO: think of a better name for this...</remarks>
 public interface IObject {
 	void ChangeArea(RectangleF NewArea);
 

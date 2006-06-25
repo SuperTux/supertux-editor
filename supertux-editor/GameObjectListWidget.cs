@@ -51,22 +51,22 @@ public class GameObjectListWidget : IconView
 	}	
 	
 	[GLib.ConnectBefore]
-    private void OnButtonPressed(object o, ButtonPressEventArgs args)
-    {
-    	TreePath path = GetPathAtPos((int) args.Event.X, (int) args.Event.Y);
-    	if (path == null) return;
-
-    	TreeIter iter;
-    	if(!Model.GetIter(out iter, path))
-    		return;
-    	
-    	currentObject = (IGameObject) Model.GetValue(iter, COL_OBJECT);
-    	application.EditProperties(currentObject, currentObject.GetType().Name);
-    	
-    	if(args.Event.Button == 3) {
-    		ShowPopupMenu();
-    	}
-    }
+		private void OnButtonPressed(object o, ButtonPressEventArgs args)
+		{
+			TreePath path = GetPathAtPos((int) args.Event.X, (int) args.Event.Y);
+			if (path == null) return;
+	
+			TreeIter iter;
+			if(!Model.GetIter(out iter, path))
+				return;
+			
+			currentObject = (IGameObject) Model.GetValue(iter, COL_OBJECT);
+			application.EditProperties(currentObject, currentObject.GetType().Name);
+			
+			if(args.Event.Button == 3) {
+				ShowPopupMenu();
+			}
+		}
 
 	private void ShowPopupMenu()
 	{

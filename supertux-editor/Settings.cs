@@ -32,9 +32,9 @@ public class Settings {
 		
 		if(!Instance.SupertuxData.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
 			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
-        Console.WriteLine("Supertux is run as: " + Instance.SupertuxExe);
-        Console.WriteLine("Data files are in: " + Instance.SupertuxData);
-        Resources.ResourceManager.Instance = new Resources.DefaultResourceManager(Instance.SupertuxData + "/");
+			Console.WriteLine("Supertux is run as: " + Instance.SupertuxExe);
+			Console.WriteLine("Data files are in: " + Instance.SupertuxData);
+			Resources.ResourceManager.Instance = new Resources.DefaultResourceManager(Instance.SupertuxData + "/");
 	}
 
 	public Settings() {
