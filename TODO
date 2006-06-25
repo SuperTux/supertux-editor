@@ -25,6 +25,7 @@ Editor:
 - Support paths - ok
 - Support resizing of level borders with drag&drop
 - Config dialog - ok
+- Support selection of multiple objects
 - Change the editor to support "tools":
     Move around Tool
     Zoom Tool
