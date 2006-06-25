@@ -7,16 +7,16 @@ using DataStructures;
 namespace Drawing
 {
 
-	/**
-	 * Surface class. This class basically holds a reference to an opengl texture
-	 * along with texture coordinates that specify a rectangle on that texture.
-	 * Several surface may share a single texture (but can still have different
-	 * texture coordinates)
-	 */
+	/// <summary>
+	/// Surface class. This class basically holds a reference to an opengl texture
+	/// along with texture coordinates that specify a rectangle on that texture.
+	/// Several surface may share a single texture (but can still have different
+	/// texture coordinates)
+	/// </summary>
 	public class Surface : IDisposable, ICloneable
 	{
 		private float width;
-		/** get surface width in pixels */
+		/// <summary>get surface width in pixels</summary>
 		public float Width
 		{
 			get
@@ -26,7 +26,7 @@ namespace Drawing
 		}
 
 		private float height;
-		/** get surface height in pixels */
+		/// <summary>get surface height in pixels</summary>
 		public float Height
 		{
 			get
@@ -36,7 +36,7 @@ namespace Drawing
 		}
 
 		private ImageTexture texture;
-		/** Get OpenGL Texture */
+		/// <summary>Get OpenGL Texture</summary>
 		public Texture Texture
 		{
 			get
@@ -50,9 +50,7 @@ namespace Drawing
 		public float Top;
 		public float Bottom;
 
-		/**
-		 * Construct a new Surface from the given image resource
-		 */
+		/// <summary>Construct a new Surface from the given image resource</summary>
 		public Surface(string Resourcepath)
 		{
 			texture = TextureManager.Get(Resourcepath);

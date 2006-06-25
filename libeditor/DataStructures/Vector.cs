@@ -44,7 +44,7 @@ namespace DataStructures
 			return new Vector(v1.X * s, v1.Y * s);
 		}
 
-		/// scalar product
+		/// <summary>scalar product</summary>
 		public static float operator *(Vector v1, Vector v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y;

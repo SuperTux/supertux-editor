@@ -112,8 +112,8 @@ namespace Drawing
 		}
 
 		public unsafe void copy_to(IntPtr surfacep, uint surface_x, uint surface_y,
-								   uint texture_x, uint texture_y,
-								   uint width, uint height)
+		                           uint texture_x, uint texture_y,
+		                           uint width, uint height)
 		{
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			PixelFormat* format = (PixelFormat*) surface->format;

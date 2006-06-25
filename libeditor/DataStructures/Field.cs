@@ -4,9 +4,7 @@ using System.Collections.Generic;
 namespace DataStructures
 {
 
-	/**
-	 * This class represents a dynamic 2-dimensional array
-	 */
+	/// <summary>This class represents a dynamic 2-dimensional array</summary>
 	public class Field<T>
 	{
 		private List<T> Elements = new List<T>();

@@ -151,7 +151,7 @@ public class ObjectsEditor : IEditor
 			Redraw();
 		}
 		if(button == 3) {
-			PopupMenu(button);		
+			PopupMenu(button);
 		}
 	}
 	
@@ -198,21 +198,21 @@ public class ObjectsEditor : IEditor
 		
 		if(activeObject != null && activeObject.Resizable) {
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
+			                                   ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.TOP));
+			                                   ControlPoint.AttachPoint.TOP));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
+			                                   ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.LEFT));
+			                                   ControlPoint.AttachPoint.LEFT));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.RIGHT));
+			                                   ControlPoint.AttachPoint.RIGHT));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
+			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.BOTTOM));
+			                                   ControlPoint.AttachPoint.BOTTOM));
 			controlPoints.Add(new ControlPoint(activeObject,
-                 ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
+			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
 		}
 		application.PrintStatus( "ObjectsEditor:MakeActive(" + activeObject + ")" );
 	}
@@ -301,14 +301,14 @@ public class ObjectsEditor : IEditor
 		spos += mousePos - pressPoint;
 		if(snap) {
 			spos = new Vector((float) ((int)spos.X / 32) * 32,
-		                      (float) ((int)spos.Y / 32) * 32);	
+			                  (float) ((int)spos.Y / 32) * 32);	
 		}
 		
 		RectangleF newArea = new RectangleF(spos.X, spos.Y,
-		                                       originalArea.Width,
-		                                       originalArea.Height);
+		                                    originalArea.Width,
+		                                    originalArea.Height);
 		activeObject.ChangeArea(newArea);
-		Redraw();		
+		Redraw();
 	}
 }
 

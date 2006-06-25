@@ -7,12 +7,9 @@ using Lisp;
 namespace LispReader
 {
 	
-	/**
-	 * Serializes and Deserializes an object based on reflection.
-	 *
-	 * If someone is looking for a chalenge: Speed could be improved heavily 
-	 * by creating CIL at runtime...
-	 */
+	/// <summary>Serializes and Deserializes an object based on reflection.</summary>
+	/// If someone is looking for a chalenge: Speed could be improved heavily
+	/// by creating CIL at runtime...
 	public class LispRootSerializer : ILispSerializer
 	{
 		private Type type;

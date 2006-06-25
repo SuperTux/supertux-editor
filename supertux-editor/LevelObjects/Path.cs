@@ -37,9 +37,7 @@ public class Path
 	}
 }
 
-/**
- * Implemented by objects that contain a path
- */
+/// <summary>Implemented by objects that contain a path</summary>
 public interface IPathObject {
 	Path Path {
 		get;

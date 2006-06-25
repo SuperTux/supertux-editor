@@ -8,69 +8,69 @@ namespace Sprites
 {
 
 internal class SpriteData {
-    public class Action {
-        public string Name;
-        public List<Surface> Frames = new List<Surface>();
-        public float Speed = 1.0f;
-    	public Vector Offset = new Vector();
-    	public float Width;
-    	public float Height;
-    	
-    	public Action(string Name, Surface Surface) {
-    		this.Name = Name;
-    		Frames.Add(Surface);
-    		Width = Surface.Width;
-    		Height = Surface.Height;
-    	}
-        
-        public Action(List Data, string BaseDir, SpriteData spriteData) {
-            Properties Props = new Properties(Data);
-            
-            if(!Props.Get("name", ref Name))
-                throw new Exception("Action without name specified");
-            Props.Get("fps", ref Speed);
-            Props.Get("x-offset", ref Offset.X);
-            Props.Get("y-offset", ref Offset.Y);
-            List<string> ImageFileNames = new List<string>();
-            Props.GetStringList("images", ImageFileNames);
-            
-            Props.PrintUnusedWarnings();
-            
-            foreach(string ImageFile in ImageFileNames) {
-            	Surface surface = new Surface(BaseDir + "/" + ImageFile); 
-            	Width = Math.Max(Width, surface.Width);
-            	Height = Math.Max(Height, surface.Height);
-            	Frames.Add(surface);
-            }
-            
-            string MirrorActionName = null;
-        	Props.Get("mirror-action", ref MirrorActionName);
-        	if(MirrorActionName != null) {
-        		Action MirrorAction = spriteData.Actions[MirrorActionName];
-        		foreach(Surface surface in MirrorAction.Frames) {
-        			Surface flippedSurface = new Surface(surface);
-        			flippedSurface.Left = surface.Right;
-        			flippedSurface.Right = surface.Left;
-	            	Width = Math.Max(Width, surface.Width);
-	            	Height = Math.Max(Height, surface.Height);
-        			Frames.Add(flippedSurface);
-        		}
-        	}
-        }
-    }
-    
-    public Dictionary<string, Action> Actions = new Dictionary<string, Action>();    
-    
+	public class Action {
+		public string Name;
+		public List<Surface> Frames = new List<Surface>();
+		public float Speed = 1.0f;
+		public Vector Offset = new Vector();
+		public float Width;
+		public float Height;
+		
+		public Action(string Name, Surface Surface) {
+			this.Name = Name;
+			Frames.Add(Surface);
+			Width = Surface.Width;
+			Height = Surface.Height;
+		}
+		
+		public Action(List Data, string BaseDir, SpriteData spriteData) {
+			Properties Props = new Properties(Data);
+			
+			if(!Props.Get("name", ref Name))
+				throw new Exception("Action without name specified");
+			Props.Get("fps", ref Speed);
+			Props.Get("x-offset", ref Offset.X);
+			Props.Get("y-offset", ref Offset.Y);
+			List<string> ImageFileNames = new List<string>();
+			Props.GetStringList("images", ImageFileNames);
+			
+			Props.PrintUnusedWarnings();
+			
+			foreach(string ImageFile in ImageFileNames) {
+				Surface surface = new Surface(BaseDir + "/" + ImageFile); 
+				Width = Math.Max(Width, surface.Width);
+				Height = Math.Max(Height, surface.Height);
+				Frames.Add(surface);
+			}
+			
+			string MirrorActionName = null;
+			Props.Get("mirror-action", ref MirrorActionName);
+			if(MirrorActionName != null) {
+				Action MirrorAction = spriteData.Actions[MirrorActionName];
+				foreach(Surface surface in MirrorAction.Frames) {
+					Surface flippedSurface = new Surface(surface);
+					flippedSurface.Left = surface.Right;
+					flippedSurface.Right = surface.Left;
+					Width = Math.Max(Width, surface.Width);
+					Height = Math.Max(Height, surface.Height);
+					Frames.Add(flippedSurface);
+				}
+			}
+		}
+	}
+	
+	public Dictionary<string, Action> Actions = new Dictionary<string, Action>();    
+	
 	public SpriteData(List Data, string BaseDir) {
-        LispIterator iter = new LispIterator(Data);
-        while(iter.MoveNext()) {
-            if(iter.Key == "action") {
-                Action Action = new Action(iter.List, BaseDir, this);
-                Actions.Add(Action.Name, Action);
-            } else {
-                Console.WriteLine("Unknown tag in sprite: " + iter.Key);
-            }
-        }
+		LispIterator iter = new LispIterator(Data);
+		while(iter.MoveNext()) {
+			if(iter.Key == "action") {
+				Action Action = new Action(iter.List, BaseDir, this);
+				Actions.Add(Action.Name, Action);
+			} else {
+				Console.WriteLine("Unknown tag in sprite: " + iter.Key);
+			}
+		}
 	}
 	
 	public SpriteData(Surface Surface, Vector offset) {

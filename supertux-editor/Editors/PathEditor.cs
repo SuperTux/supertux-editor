@@ -192,9 +192,7 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 		Redraw();
 	}
 	
-	/**
-	 * Returns the first node found at position @p pos
-	 */
+	/// <summary>Returns the first node found at position <paramref name="pos"/></summary>
 	private Path.Node FindNodeAt(Vector pos)
 	{
 		foreach(Path.Node node in path.Nodes) {
@@ -207,11 +205,11 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 		return null;
 	}
 	
-	/**
-	 * Checks all edges between nodes, if the distance of pos towards such an
-	 * edge is smaller than 10, then return the number of the first node in that
-	 * edge
-	 */
+	/// <summary>
+	/// Checks all edges between nodes, if the distance of pos towards such an
+	/// edge is smaller than 10, then return the number of the first node in that
+	/// edge
+	/// </summary>
 	private int FindPath(Vector pos, ref Vector pointOnEdge)
 	{
 		int bestNode = -1;

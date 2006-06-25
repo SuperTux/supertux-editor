@@ -3,13 +3,14 @@ namespace Drawing
 
 	public struct Color
 	{
-		/// red part of the color
+		/// <summary>red part of the color</summary>
 		public float Red;
-		/// green part of the color
+		/// <summary>green part of the color</summary>
 		public float Green;
-		/// blue part of the color
+		/// <summary>blue part of the color</summary>
 		public float Blue;
-		/// alpha part of the color 1.0 = full opaque, 0.0 = invisible
+		/// <summary>alpha part of the color</summary>
+		/// <remarks>1.0 = full opaque, 0.0 = invisible</remarks>
 		public float Alpha;
 
 		public Color(float Red, float Green, float Blue, float Alpha)
