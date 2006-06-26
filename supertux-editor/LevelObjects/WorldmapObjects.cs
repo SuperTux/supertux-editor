@@ -3,7 +3,7 @@ using Sprites;
 using DataStructures;
 using LispReader;
 
-public class WorldmapObject : SimpleObject
+public abstract class WorldmapObject : SimpleObject
 {
 	public WorldmapObject()
 	{
@@ -31,7 +31,7 @@ public class WorldmapObject : SimpleObject
 	}	
 }
 
-[SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png")]
+[SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png", Target = SupertuxObjectUsage.worldmapOnly)]
 public class WorldmapSpawnpoint : WorldmapObject
 {
 	[LispChild("name")]
@@ -43,7 +43,7 @@ public class WorldmapSpawnpoint : WorldmapObject
 	}
 }
 
-[SupertuxObject("level", "images/worldmap/common/leveldot.sprite")]
+[SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
 public class WorldmapLevel : WorldmapObject
 {
 	[LispChild("name")]
@@ -80,7 +80,7 @@ public class WorldmapLevel : WorldmapObject
 	}
 }
 
-[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite")]
+[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
 public class SpecialTile : WorldmapObject
 {
 	[LispChild("teleport-to-x", Optional = true, Default = -1f)]
@@ -126,7 +126,7 @@ public class SpecialTile : WorldmapObject
 	}
 }
 
-[SupertuxObject("sprite-change", "images/engine/editor/spritechange.png")]
+[SupertuxObject("sprite-change", "images/engine/editor/spritechange.png", Target = SupertuxObjectUsage.worldmapOnly)]
 public class SpriteChange : WorldmapObject
 {
 	[ChooseResourceSetting]	
@@ -164,7 +164,7 @@ public class SpriteChange : WorldmapObject
 	}
 }
 
-[SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite")]
+[SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
 public class Teleporter : WorldmapObject
 {
 	[ChooseResourceSetting]	

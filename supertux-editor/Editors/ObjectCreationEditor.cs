@@ -76,7 +76,7 @@ public class ObjectCreationEditor : IEditor
 		//some Objects need special treatment
 		if( Result is Tilemap ){
 			uint width = 0;
-		    uint height = 0;
+			uint height = 0;
 			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				if(tilemap.Width > width)
 					width = tilemap.Width;

@@ -4,13 +4,25 @@ using LispReader;
 using DataStructures;
 using SceneGraph;
 
+/// <summary>Tells where the object can be used.</summary>
+public enum SupertuxObjectUsage {
+	/// <summary>Can be used anywhere. This is the default.</summary>
+	any,
+	/// <summary>Can only be used on worldmaps.</summary>
+	worldmapOnly,
+	/// <summary>Can only be used in "normal" levels.</summary>
+	levelOnly
+}
+
 // TODO: Write better documentation.
-/// <summary>Attribute that marks a class as an object for use in levels.</summary>
+/// <summary>Attribute that marks a class as an object for use in levels/worldmaps.</summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 public class SupertuxObjectAttribute : Attribute
 {
 	public string Name;
 	public string IconSprite;
+	/// <summary>A <see cref="SupertuxObjectUsage"/> describing where the object can be used.</summary>
+	public SupertuxObjectUsage Target;
 
 	/// <summary>Constructs for <see cref="SupertuxObjectAttribute"/>.</summary>
 	/// <param name="Name">Name of object in the level file</param>
@@ -21,7 +33,7 @@ public class SupertuxObjectAttribute : Attribute
 	}
 }
 
-[SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite")]
+[SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class MrBomb : SimpleObject
 {
 	public MrBomb() {
@@ -30,7 +42,7 @@ public class MrBomb : SimpleObject
 	}
 }
 
-[SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite")]
+[SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Snowball : SimpleObject
 {
 	public Snowball() {
@@ -39,7 +51,7 @@ public class Snowball : SimpleObject
 	}
 }
 
-[SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite")]
+[SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Stalactite : SimpleObject
 {
 	public Stalactite() {
@@ -48,7 +60,7 @@ public class Stalactite : SimpleObject
 	}
 }
 
-[SupertuxObject("mriceblock", "images/creatures/mr_iceblock/mr_iceblock.sprite")]
+[SupertuxObject("mriceblock", "images/creatures/mr_iceblock/mr_iceblock.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class MrIceBlock : SimpleObject
 {
 	public MrIceBlock() {
@@ -57,7 +69,7 @@ public class MrIceBlock : SimpleObject
 	}
 }
 
-[SupertuxObject("bouncingsnowball", "images/creatures/bouncing_snowball/bouncing_snowball.sprite")]
+[SupertuxObject("bouncingsnowball", "images/creatures/bouncing_snowball/bouncing_snowball.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class BouncingSnowball : SimpleObject
 {
 	public BouncingSnowball() {
@@ -66,7 +78,7 @@ public class BouncingSnowball : SimpleObject
 	}
 }
 
-[SupertuxObject("flyingsnowball", "images/creatures/flying_snowball/flying_snowball.sprite")]
+[SupertuxObject("flyingsnowball", "images/creatures/flying_snowball/flying_snowball.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class FlyingSnowball : SimpleObject
 {
 	public FlyingSnowball() {
@@ -75,7 +87,7 @@ public class FlyingSnowball : SimpleObject
 	}
 }
 
-[SupertuxObject("jumpy", "images/creatures/jumpy/jumpy.sprite")]
+[SupertuxObject("jumpy", "images/creatures/jumpy/jumpy.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Jumpy : SimpleObject
 {
 	public Jumpy() {
@@ -84,7 +96,7 @@ public class Jumpy : SimpleObject
 	}
 }
 
-[SupertuxObject("spiky", "images/creatures/spiky/spiky.sprite")]
+[SupertuxObject("spiky", "images/creatures/spiky/spiky.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Spiky : SimpleObject
 {
 	public Spiky() {
@@ -93,7 +105,7 @@ public class Spiky : SimpleObject
 	}
 }
 
-[SupertuxObject("sspiky", "images/creatures/spiky/sleepingspiky.sprite")]
+[SupertuxObject("sspiky", "images/creatures/spiky/sleepingspiky.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class SleepSpiky : SimpleObject
 {
 	public SleepSpiky() {
@@ -102,7 +114,7 @@ public class SleepSpiky : SimpleObject
 	}
 }
 
-[SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png")]
+[SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png", Target = SupertuxObjectUsage.levelOnly)]
 public class SpawnPoint : SimpleObject
 {
 	[LispChild("name")]
@@ -114,7 +126,7 @@ public class SpawnPoint : SimpleObject
 	}
 }
 
-[SupertuxObject("flame", "images/creatures/flame/flame.sprite")]
+[SupertuxObject("flame", "images/creatures/flame/flame.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Flame : SimpleObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
@@ -128,7 +140,7 @@ public class Flame : SimpleObject
 	}
 }
 
-[SupertuxObject("fish", "images/creatures/fish/fish.sprite")]
+[SupertuxObject("fish", "images/creatures/fish/fish.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Fish : SimpleObject
 {
 	public Fish() {
@@ -137,7 +149,7 @@ public class Fish : SimpleObject
 	}
 }
 
-[SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite")]
+[SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class MrTree : SimpleObject
 {
 	public MrTree() {
@@ -146,7 +158,7 @@ public class MrTree : SimpleObject
 	}
 }
 
-[SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite")]
+[SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class PoisonIvy : SimpleObject
 {
 	public PoisonIvy() {
@@ -155,7 +167,7 @@ public class PoisonIvy : SimpleObject
 	}
 }
 
-[SupertuxObject("zeekling", "images/creatures/zeekling/zeekling.sprite")]
+[SupertuxObject("zeekling", "images/creatures/zeekling/zeekling.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Zeekling : SimpleObject
 {
 	public Zeekling() {
@@ -164,7 +176,7 @@ public class Zeekling : SimpleObject
 	}
 }
 
-[SupertuxObject("snail", "images/creatures/snail/snail.sprite")]
+[SupertuxObject("snail", "images/creatures/snail/snail.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Snail : SimpleObject
 {
 	public Snail() {
@@ -173,7 +185,7 @@ public class Snail : SimpleObject
 	}
 }
 
-[SupertuxObject("totem", "images/creatures/totem/totem.sprite")]
+[SupertuxObject("totem", "images/creatures/totem/totem.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Totem : SimpleObject
 {
 	public Totem() {
@@ -182,7 +194,7 @@ public class Totem : SimpleObject
 	}
 }
 
-[SupertuxObject("kugelblitz", "images/creatures/kugelblitz/kugelblitz.sprite")]
+[SupertuxObject("kugelblitz", "images/creatures/kugelblitz/kugelblitz.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Kugelblitz : SimpleObject
 {
 	public Kugelblitz() {
@@ -191,7 +203,7 @@ public class Kugelblitz : SimpleObject
 	}
 }
 
-[SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite")]
+[SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Dispenser : SimpleObject
 {
 	[LispChild("badguy")]
@@ -205,7 +217,7 @@ public class Dispenser : SimpleObject
 	}
 }
 
-[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite")]
+[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Yeti : SimpleObject
 {
 	[LispChild("dead-script")]
@@ -218,7 +230,7 @@ public class Yeti : SimpleObject
 	}
 }
 
-[SupertuxObject("stalactite_yeti", "images/engine/editor/stalactite_yeti.png")]
+[SupertuxObject("stalactite_yeti", "images/engine/editor/stalactite_yeti.png", Target = SupertuxObjectUsage.levelOnly)]
 public class StalactiteYeti : SimpleObject
 {
 	public StalactiteYeti() {
@@ -227,7 +239,7 @@ public class StalactiteYeti : SimpleObject
 	}
 }
 
-[SupertuxObject("door", "images/objects/door/door.sprite")]
+[SupertuxObject("door", "images/objects/door/door.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Door : SimpleObject
 {
 	[LispChild("sector")]
@@ -241,7 +253,7 @@ public class Door : SimpleObject
 	}
 }
 
-[SupertuxObject("hatch", "images/objects/hatch/hatch.sprite")]
+[SupertuxObject("hatch", "images/objects/hatch/hatch.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Hatch : SimpleObject
 {
 	[LispChild("sector")]
@@ -255,7 +267,7 @@ public class Hatch : SimpleObject
 	}
 }
 
-[SupertuxObject("switch", "images/objects/switch/switch.sprite")]
+[SupertuxObject("switch", "images/objects/switch/switch.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Switch : SimpleObject
 {
 	[ChooseResourceSetting]	
@@ -284,7 +296,7 @@ public class Switch : SimpleObject
 	}
 }
 
-[SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite")]
+[SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Trampoline : SimpleObject
 {
 	public Trampoline() {
@@ -293,7 +305,7 @@ public class Trampoline : SimpleObject
 	}
 }
 
-[SupertuxObject("firefly", "images/objects/firefly/firefly.sprite")]
+[SupertuxObject("firefly", "images/objects/firefly/firefly.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Firefly : SimpleObject
 {
 	public Firefly() {
@@ -302,7 +314,7 @@ public class Firefly : SimpleObject
 	}
 }
 
-[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite")]
+[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class AngryStone : SimpleObject
 {
 	public AngryStone() {
@@ -379,17 +391,17 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	}	
 }
 
-[SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite")]
+[SupertuxObject("platform", "images/objects/flying_platform/flying_platform.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class FlyingPlatform : PlatformBase
 {
 }
 
-[SupertuxObject("hurting_platform", "images/objects/sawblade/sawblade.sprite")]
+[SupertuxObject("hurting_platform", "images/objects/sawblade/sawblade.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class HurtingPlatform : PlatformBase
 {
 }
 
-[SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite")]
+[SupertuxObject("willowisp", "images/creatures/willowisp/willowisp.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class WilloWisp : SimpleObject
 {
 	[LispChild("sector")]
@@ -403,7 +415,7 @@ public class WilloWisp : SimpleObject
 	}
 }
 
-[SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite")]
+[SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class DartTrap : SimpleObject
 {
 	[LispChild("initial-delay")]
@@ -419,7 +431,7 @@ public class DartTrap : SimpleObject
 	}
 }
 
-[SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite")]
+[SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class SkullyHop : SimpleObject
 {
 	public SkullyHop() {
@@ -428,7 +440,7 @@ public class SkullyHop : SimpleObject
 	}
 }
 
-[SupertuxObject("igel", "images/creatures/igel/igel.sprite")]
+[SupertuxObject("igel", "images/creatures/igel/igel.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Igel : SimpleObject
 {
 	public Igel() {
@@ -437,7 +449,7 @@ public class Igel : SimpleObject
 	}
 }
 
-[SupertuxObject("rock", "images/objects/rock/rock.sprite")]
+[SupertuxObject("rock", "images/objects/rock/rock.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Rock : SimpleObject
 {
 	public Rock() {
@@ -446,7 +458,7 @@ public class Rock : SimpleObject
 	}
 }
 
-[SupertuxObject("candle", "images/objects/candle/candle.sprite")]
+[SupertuxObject("candle", "images/objects/candle/candle.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class Candle : SimpleObject
 {
 	[LispChild("name", Optional = true, Default = "")]
@@ -460,7 +472,7 @@ public class Candle : SimpleObject
 	}
 }
 
-[SupertuxObject("unstable_tile", "images/objects/unstable_tile/unstable_tile.sprite")]
+[SupertuxObject("unstable_tile", "images/objects/unstable_tile/unstable_tile.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class UnstableTile : SimpleObject
 {
 	[ChooseResourceSetting]	
@@ -485,7 +497,7 @@ public class UnstableTile : SimpleObject
 	}
 }
 
-[SupertuxObject("weak_block", "images/objects/strawbox/strawbox.sprite")]
+[SupertuxObject("weak_block", "images/objects/strawbox/strawbox.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class WeakBlock : SimpleObject
 {
 	public WeakBlock() {
@@ -494,7 +506,7 @@ public class WeakBlock : SimpleObject
 	}
 }
 
-[SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite")]
+[SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite", Target = SupertuxObjectUsage.levelOnly)]
 public class InfoBlock : SimpleObject
 {
 	[LispChild("message")]
@@ -506,7 +518,7 @@ public class InfoBlock : SimpleObject
 	}
 }
 
-[SupertuxObject("powerup", "images/engine/editor/powerup.png")]
+[SupertuxObject("powerup", "images/engine/editor/powerup.png", Target = SupertuxObjectUsage.levelOnly)]
 public class Powerup : SimpleObject
 {
 	[ChooseResourceSetting]	
@@ -569,7 +581,7 @@ public class ScriptedObject : SimpleObject
 	}	
 }
 
-[SupertuxObject("wind", "images/engine/editor/wind.png")]
+[SupertuxObject("wind", "images/engine/editor/wind.png", Target = SupertuxObjectUsage.levelOnly)]
 public class Wind : SimpleObjectArea
 {
 	[LispChild("speed-x")]
@@ -667,7 +679,7 @@ public class CloudParticles : IGameObject
 	public int ZPos = -200;
 }
 
-[SupertuxObject("leveltime", "images/engine/editor/clock.png")]
+[SupertuxObject("leveltime", "images/engine/editor/clock.png", Target = SupertuxObjectUsage.levelOnly)]
 public class LevelTime : IGameObject
 {
 	[LispChild("time")]

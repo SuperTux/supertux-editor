@@ -23,6 +23,7 @@ public class ObjectListWidget : GLWidgetBase
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
 	private IEditorApplication application;
+	private Level level;
 	
     public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
     	new TargetEntry("GameObject", TargetFlags.App, 0)
@@ -39,11 +40,12 @@ public class ObjectListWidget : GLWidgetBase
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);	
 		
-        Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
-                    DragTargetEntries, DragAction.Default);
+		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
+		                    DragTargetEntries, DragAction.Default);
 
 		DragBegin += OnDragBegin;
 		ScrollEvent += OnScroll;
+		application.LevelChanged += OnLevelChanged;
 	}
 	
 	/// <summary>Redraw Widget</summary>
@@ -104,12 +106,17 @@ public class ObjectListWidget : GLWidgetBase
 		}
 	}
 	
-	/// <summary>Loading Images need Gl context so this has to be called from DrawGl</summary>
+	/// <summary>Create object list</summary>
+	/// <remarks>Loading Images need Gl context so this has to be called from DrawGl</remarks>
 	private void LoadObjectImages()
 	{
 		if(objectsLoaded)
 			return;
-		
+
+		// Reinitialize
+		gameObjectTypes.Clear();
+		gameObjectSprites.Clear();
+
 		// the null object (arrow)
 		gameObjectTypes.Add(null);
 		gameObjectSprites.Add(CreateSprite("images/engine/editor/arrow.png"));
@@ -119,12 +126,24 @@ public class ObjectListWidget : GLWidgetBase
 				= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
 				continue;
+
+			// We load all objects if no level is loaded to avoid crash when accessing acessing level.
+			if (this.level != null) {
+				if ( (objectAttribute.Target == SupertuxObjectUsage.worldmapOnly) &&
+				     (level.TilesetFile != "images/worldmap.strf") ) {
+					continue;
+				} else if ( (objectAttribute.Target == SupertuxObjectUsage.levelOnly) &&
+				            (level.TilesetFile == "images/worldmap.strf") ) {
+					continue;
+				}
+			}
+
 			//this should give us all objects
 			gameObjectTypes.Add(type);
 			Sprite icon = CreateSprite(objectAttribute.IconSprite);
 			if( icon == null ) { //no sprite, no image, no can do.
 				Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
-			       + " from " +objectAttribute.IconSprite);
+				                  + " from " +objectAttribute.IconSprite);
 			}
 			gameObjectSprites.Add(icon);
 		}
@@ -162,6 +181,25 @@ public class ObjectListWidget : GLWidgetBase
 		return result;
 	}
 	
+	/// <summary>Called when a new level is loaded</summary>
+	private void OnLevelChanged(Level level)
+	{
+		if(this.level != null)
+			this.level.TilesetChanged -= OnTilesetChanged;
+		if(level != null)
+			level.TilesetChanged += OnTilesetChanged;
+		this.level = level;
+		OnTilesetChanged(level);
+	}
+
+	/// <summary>Called when tileset changes.</summary>
+	private void OnTilesetChanged(Level level)
+	{
+		// Force a reload of object list (so correct objects are loaded).
+		objectsLoaded = false;
+		QueueDraw();
+	}
+
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 1) {

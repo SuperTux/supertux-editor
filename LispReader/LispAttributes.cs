@@ -16,7 +16,7 @@ namespace LispReader
 	}
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
-					AllowMultiple=false)]
+	                AllowMultiple=false)]
 	public class LispCustomSerializerAttribute : Attribute
 	{
 		public Type Type;
@@ -28,7 +28,7 @@ namespace LispReader
 	}
 
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-					AllowMultiple=false)]
+	                AllowMultiple=false)]
 	public class LispChildAttribute : Attribute
 	{				
 		public bool Translatable;
