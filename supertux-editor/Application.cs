@@ -301,15 +301,15 @@ public class Application : IEditorApplication {
 		}
 	}
 
-	/* Create a new blank level*/
+	/// <summary>Create a new blank level</summary>
 	protected void OnNew(object o, EventArgs args)
 	{
 		if( modified ) {
 			MessageDialog md = new MessageDialog (MainWindow, 
-                                      DialogFlags.DestroyWithParent,
-                                   MessageType.Question, 
-                                      ButtonsType.YesNo, "There are unsaved changes.\nReally create a blank level?");
-     
+			                                      DialogFlags.DestroyWithParent,
+			                                      MessageType.Question,
+			                                      ButtonsType.YesNo, "There are unsaved changes.\nReally create a blank level?");
+
 			ResponseType result = (ResponseType)md.Run ();
 
 			if (result != ResponseType.Yes){
@@ -515,10 +515,10 @@ public class Application : IEditorApplication {
 		//Really Quit?
 		if( modified ) {
 			MessageDialog md = new MessageDialog (MainWindow, 
-                                      DialogFlags.DestroyWithParent,
-                                   MessageType.Question, 
-                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to quit?");
-     
+			                                      DialogFlags.DestroyWithParent,
+			                                      MessageType.Question, 
+			                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to quit?");
+
 			ResponseType result = (ResponseType)md.Run ();
 
 			if (result != ResponseType.Yes){
