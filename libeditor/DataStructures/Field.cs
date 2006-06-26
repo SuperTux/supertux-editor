@@ -133,22 +133,6 @@ namespace DataStructures
 			return Result;
 		}
 		
-		public override bool Equals(object obj) {
-			if (!(obj is Field<T>)) return false;
-			Field<T> other = (Field<T>)obj;
-			if (this.width != other.width) return false;
-			if (this.height != other.height) return false;
-			if (this.Elements.Count != other.Elements.Count) return false;
-			for (int i = 0; i < this.Elements.Count; i++) {
-				if (!this.Elements[i].Equals(other.Elements[i])) return false;
-			}
-			return true;
-		}
-
-		public override int GetHashCode() {
-			return width.GetHashCode() ^ height.GetHashCode() ^ Elements.GetHashCode();
-		}
-		
 		public bool InBounds(FieldPos pos) {
 			if (pos.X < 0) return false;
 			if (pos.Y < 0) return false;
@@ -156,7 +140,5 @@ namespace DataStructures
 			if (pos.Y >= Height) return false;
 			return true;
 		}
-
 	}
-
 }
