@@ -21,7 +21,7 @@ public class Application : IEditorApplication {
 		/// <summary>serialized level</summary>
 		public string snapshot;
 	}
-	/// <summary>Original MainWindow title, read from .glade ressource</summary>
+	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix; 
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
@@ -569,9 +569,7 @@ public class Application : IEditorApplication {
 		Undo();
 	}
 
-	/**
-	 * Called when "Edit" menu is opened
-	 */
+	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
 		undo1.Sensitive = (undoSnapshots.Count > 0);

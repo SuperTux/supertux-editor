@@ -138,7 +138,7 @@ public class BrushEditor : IEditor {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y] 
 						= Tilemap[(uint) SelectionP1.X + x,
-						  		  (uint) SelectionP1.Y + y];
+						          (uint) SelectionP1.Y + y];
 				}
 			}
 			brush.LearnPatterns(selection);

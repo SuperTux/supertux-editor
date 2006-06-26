@@ -42,6 +42,7 @@ public class Brush
 	/// <summary>
 	/// List of TileBlocks that constitute a valid pattern
 	/// </summary>
+	/// <seealso cref="TileBlock"/>
 	protected List<TileBlock> patterns = new List<TileBlock>();
 
 	/// <summary>

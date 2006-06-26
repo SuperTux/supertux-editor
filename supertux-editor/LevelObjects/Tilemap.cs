@@ -13,7 +13,7 @@ public class Tilemap : TileBlock, IGameObject {
 	public bool Solid = false;
 	[LispChild("speed")]
 	public float Speed = 1.0f;
-		
+	
 	public Tilemap() : base() {
 	}
 
