@@ -185,7 +185,7 @@ public class Application : IEditorApplication {
 
 	private static void InitSdl()
 	{
-		if(SDL.Init(SDL.INIT_EVERYTHING | SDL.INIT_NOPARACHUTE) < 0) {
+		if(SDL.Init( SDL.INIT_VIDEO | SDL.INIT_NOPARACHUTE ) < 0) {
 	 		throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
 		}
 	}
@@ -241,15 +241,6 @@ public class Application : IEditorApplication {
 		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;	
 		ToolObjectsProps.Visible = true;
-		ToolBrushProps.Visible = false;
-		SetEditor(new ObjectsEditor(this, CurrentSector));
-	}
-
-	protected void OnToolGObjects(object o, EventArgs args) {
-		PrintStatus("Tool: GObjects");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;	
-		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		SetEditor(new ObjectsEditor(this, CurrentSector));
 	}
@@ -550,17 +541,20 @@ public class Application : IEditorApplication {
 		string snapshot = sw.ToString();
 		UndoSnapshot us = new UndoSnapshot(actionTitle, snapshot);
 		undoSnapshots.Add(us);
-		while (undoSnapshots.Count > maxUndoSnapshots) undoSnapshots.RemoveAt(0);
+		while (undoSnapshots.Count > maxUndoSnapshots)
+			undoSnapshots.RemoveAt(0);
 	}
 
 	public void Undo() 
 	{
-		if (undoSnapshots.Count < 1) return;
+		if (undoSnapshots.Count < 1)
+			return;
 		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
 		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
 		StringReader sr = new StringReader(us.snapshot);
 		Level newLevel = (Level) serializer.Read(sr, "level-snapshot");
-		if(newLevel.Version < 2) throw new Exception("Old Level Format not supported");
+		if(newLevel.Version < 2)
+			throw new Exception("Old Level Format not supported");
 		ChangeCurrentLevel(newLevel);
 	}
 

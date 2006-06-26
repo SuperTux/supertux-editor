@@ -67,6 +67,7 @@ public class SectorRenderer : RenderView
 
 	public void SetTilemapColor(Tilemap tilemap, Color color)
 	{
+		System.Console.WriteLine("Set color of tilemap {0}", tilemap.GetHashCode());
 		ColorNode colorNode = (ColorNode) colors[tilemap];
 		colorNode.Color = color;
 		QueueDraw();
@@ -80,26 +81,25 @@ public class SectorRenderer : RenderView
 	
 	private void OnObjectAdded(Sector sector, IGameObject Object)
 	{
-		if(! (Object is IObject))
-			return;
+		if(Object is IObject) {
+			IObject iObject = (IObject) Object;
+			Node node = iObject.GetSceneGraphNode();
+			if(node != null)
+				objectsNode.AddChild(node);
+		}
 		
-		IObject iObject = (IObject) Object;
-		Node node = iObject.GetSceneGraphNode();
-		if(node != null)
-			objectsNode.AddChild(node);
+		Layer layer = (Layer) SceneGraphRoot;
 		
-		if(Object is Tilemap) {
-			Layer layer = (Layer) SceneGraphRoot;
-			
+		if(Object is Tilemap) {			
 			Tilemap tilemap = (Tilemap) Object;
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
 			layer.Add(tilemap.ZPos, colorNode);
+			System.Console.WriteLine("Adding tilemap color: {0}", Object.GetHashCode());
 			colors[tilemap] = colorNode;
 		}
 
 		if (Object is Background) {
-			Layer layer = (Layer) SceneGraphRoot;
 			Background background = (Background) Object;
 		
 			Node mynode = background.GetSceneGraphNode();
