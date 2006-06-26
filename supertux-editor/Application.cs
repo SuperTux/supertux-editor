@@ -9,7 +9,8 @@ using LispReader;
 using System.Collections.Generic;
 
 public class Application : IEditorApplication {
-
+	
+	private bool modified = false;
 	private struct UndoSnapshot {
 		public UndoSnapshot(string actionTitle, string snapshot) 
 		{
@@ -300,9 +301,23 @@ public class Application : IEditorApplication {
 		}
 	}
 
-	
+	/* Create a new blank level*/
 	protected void OnNew(object o, EventArgs args)
 	{
+		if( modified ) {
+			MessageDialog md = new MessageDialog (MainWindow, 
+                                      DialogFlags.DestroyWithParent,
+                                   MessageType.Question, 
+                                      ButtonsType.YesNo, "There are unsaved changes.\nReally create a blank level?");
+     
+			ResponseType result = (ResponseType)md.Run ();
+
+			if (result != ResponseType.Yes){
+				md.Destroy();
+				return;
+			}
+		}
+
 		try {
 			undoSnapshots.Clear();
 			Level level = LevelUtil.CreateLevel();
@@ -310,6 +325,9 @@ public class Application : IEditorApplication {
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new level", e);
 		}
+		fileName = null;
+		MainWindow.Title = MainWindowTitlePrefix;
+		modified = false;
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -337,6 +355,7 @@ public class Application : IEditorApplication {
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
+			modified = false;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -368,8 +387,9 @@ public class Application : IEditorApplication {
 			Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
 			fileName = fileChooser.Filename;
-			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		}
+		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
+		modified = false;
 		
 		try {
 			serializer.Write(fileName, level);
@@ -377,7 +397,7 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception("Couldn't save level", e);
 		}
 	}
-
+	
 	protected void OnQuit(object o, EventArgs e)
 	{
 		Close();
@@ -486,13 +506,26 @@ public class Application : IEditorApplication {
 	
 	private void OnDelete(object o, DeleteEventArgs args)
 	{
-		// TODO ask for save?
 		Close();
 		args.RetVal = true;
 	}
 	
 	private void Close()
 	{
+		//Really Quit?
+		if( modified ) {
+			MessageDialog md = new MessageDialog (MainWindow, 
+                                      DialogFlags.DestroyWithParent,
+                                   MessageType.Question, 
+                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to quit?");
+     
+			ResponseType result = (ResponseType)md.Run ();
+
+			if (result != ResponseType.Yes){
+				md.Destroy();
+				return;
+			}
+		}
 		Settings.Instance.Save();
 		MainWindow.Destroy();
 		Gtk.Application.Quit();
@@ -536,6 +569,10 @@ public class Application : IEditorApplication {
 
 	public void TakeUndoSnapshot(string actionTitle) 
 	{
+		if( !modified ){
+			MainWindow.Title += '*';
+			modified = true;
+		}
 		StringWriter sw = new StringWriter();
 		serializer.Write(sw, "level-snapshot", level);
 		string snapshot = sw.ToString();
