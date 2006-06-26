@@ -100,6 +100,17 @@ public class Brush
 	}
 
 	/// <summary>
+	/// Return the known pattern that has identical contents as the given TileBlock, or null if none is found
+	/// </summary>
+	/// <param name="tileBlock">tileBlock to search for</param>
+	public TileBlock FindPattern(TileBlock tileBlock) {
+		foreach (TileBlock pattern in patterns) {
+			if (pattern.EqualContents(tileBlock)) return pattern;
+		}
+		return null;
+	}
+
+	/// <summary>
 	/// Add the tiles of the given tileBlock as a valid pattern
 	/// </summary>
 	/// <param name="tileBlock">tileBlock that specifies the pattern to add</param>
@@ -107,7 +118,7 @@ public class Brush
 	/// <param name="startY">vertical offset (in tileBlock) of the pattern to add</param>
 	public void LearnPattern(TileBlock tileBlock, int startX, int startY) {
 		TileBlock tb = new TileBlock(tileBlock, startX, startY, width, height);
-		if (!patterns.Contains(tb)) patterns.Add(tb);
+		if (FindPattern(tb) == null) patterns.Add(tb);
 	}
 
 	/// <summary>
@@ -130,7 +141,8 @@ public class Brush
 	/// <param name="startY">vertical offset (in tileBlock) of the pattern to remove</param>
 	public void ForgetPattern(TileBlock tileBlock, int startX, int startY) {
 		TileBlock tb = new TileBlock(tileBlock, startX, startY, width, height);
-		if (patterns.Contains(tb)) patterns.Remove(tb);
+		TileBlock pattern = FindPattern(tb);
+		if (pattern != null) patterns.Remove(pattern);
 	}
 
 	/// <summary>
@@ -250,7 +262,7 @@ public class Brush
 				tb[0, 2] = int.Parse(v[6]);
 				tb[1, 2] = int.Parse(v[7]);
 				tb[2, 2] = int.Parse(v[8]);
-				if (!brush.patterns.Contains(tb)) brush.patterns.Add(tb);
+				if (brush.FindPattern(tb) == null) brush.patterns.Add(tb);
 			}
 		} finally {
 			trd.Close();

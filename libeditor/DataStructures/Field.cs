@@ -140,5 +140,18 @@ namespace DataStructures
 			if (pos.Y >= Height) return false;
 			return true;
 		}
+
+		public bool EqualContents(object obj) {
+			if (!(obj is Field<T>)) return false;
+			Field<T> other = (Field<T>)obj;
+			if (this.width != other.width) return false;
+			if (this.height != other.height) return false;
+			if (this.Elements.Count != other.Elements.Count) return false;
+			for (int i = 0; i < this.Elements.Count; i++) {
+				if (!this.Elements[i].Equals(other.Elements[i])) return false;
+			}
+			return true;
+		}
+
 	}
 }
