@@ -14,10 +14,12 @@ public class ResizeDialog
 	
 	private Sector sector;
 	
-	public ResizeDialog(Sector sector)
+	private IEditorApplication application;
+	
+	public ResizeDialog(Sector sector, IEditorApplication app)
 	{
 		this.sector = sector;
-		
+		application = app;
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 		
@@ -43,6 +45,7 @@ public class ResizeDialog
 		try {
 			uint newWidth = UInt32.Parse(WidthEntry.Text);
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
+			application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
 			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				tilemap.Resize(newWidth, newHeight, 0);				
 			}

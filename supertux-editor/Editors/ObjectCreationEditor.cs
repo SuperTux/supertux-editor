@@ -24,6 +24,7 @@ public class ObjectCreationEditor : IEditor
 	
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
+		application.TakeUndoSnapshot( "Created Object '" + objectType + "'" );
 		IGameObject gameObject = CreateObjectAt(pos);
 		
 		// switch back to object edit mode when shift was not pressed

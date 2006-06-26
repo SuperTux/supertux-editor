@@ -136,7 +136,7 @@ public class SectorSwitchNotebook : Notebook
 	private void OnResizeActivated(object o, EventArgs args)
 	{
 		try {
-			new ResizeDialog(sector);
+			new ResizeDialog(sector, application);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}

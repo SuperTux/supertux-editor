@@ -23,7 +23,7 @@ public class Application : IEditorApplication {
 		public string snapshot;
 	}
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
-	private string MainWindowTitlePrefix; 
+	private string MainWindowTitlePrefix;
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
 	
@@ -113,7 +113,7 @@ public class Application : IEditorApplication {
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
-
+		
 		// Manually set icons for Tools
 		ToolSelect.StockId = EditorStock.ToolSelect;
 		ToolTiles.StockId = EditorStock.ToolTiles;
@@ -566,9 +566,12 @@ public class Application : IEditorApplication {
 	{
 		propertiesView.SetObject(Object, title);
 	}
-
+	
+	/* Take a Snapshot before change. Describe change
+	   in actionTitle for undo information.	*/
 	public void TakeUndoSnapshot(string actionTitle) 
 	{
+		Console.WriteLine("TakeUndoSnapshot {0} ", actionTitle );
 		if( !modified ){
 			MainWindow.Title += '*';
 			modified = true;
@@ -593,6 +596,7 @@ public class Application : IEditorApplication {
 		if(newLevel.Version < 2)
 			throw new Exception("Old Level Format not supported");
 		ChangeCurrentLevel(newLevel);
+		PrintStatus("Undone: " + us.actionTitle );
 	}
 
 	public void OnUndo(object o, EventArgs args)
