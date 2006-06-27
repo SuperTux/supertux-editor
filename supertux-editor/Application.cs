@@ -7,6 +7,7 @@ using Sdl;
 using Drawing;
 using LispReader;
 using System.Collections.Generic;
+using DataStructures;
 
 public class Application : IEditorApplication {
 	
@@ -89,7 +90,7 @@ public class Application : IEditorApplication {
 	public void PrintStatus( string message )
 	{
 		sbMain.Remove( printStatusContextID, printStatusMessageID);
-        sbMain.Push( printStatusContextID, message );
+		sbMain.Push( printStatusContextID, message );
 	}
 	
 	private Application(string[] args) {
@@ -589,6 +590,10 @@ public class Application : IEditorApplication {
 	{
 		if (undoSnapshots.Count < 1)
 			return;
+		
+		float saveZoom = sectorSwitchNotebook.CurrentRenderer.GetZoom();
+		Vector saveTranslation = sectorSwitchNotebook.CurrentRenderer.GetTranslation();
+		
 		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
 		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
 		StringReader sr = new StringReader(us.snapshot);
@@ -596,6 +601,10 @@ public class Application : IEditorApplication {
 		if(newLevel.Version < 2)
 			throw new Exception("Old Level Format not supported");
 		ChangeCurrentLevel(newLevel);
+		if( sectorSwitchNotebook.CurrentRenderer != null ){
+			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
+			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
+		}
 		PrintStatus("Undone: " + us.actionTitle );
 	}
 

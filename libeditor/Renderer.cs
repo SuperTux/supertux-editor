@@ -158,6 +158,11 @@ public class RenderView : GLWidgetBase
 		QueueDraw(); 
 	}
 	
+	public float GetZoom()
+	{
+		return Zoom;	
+	}
+	
 	public void ZoomIn()
 	{
 		SetZoom( Zoom * (float) Math.Sqrt(2));
@@ -171,6 +176,18 @@ public class RenderView : GLWidgetBase
 	public void Home()
 	{
 		Translation *= 0;
+		QueueDraw(); 
+	}
+	
+	public void SetTranslation( Vector tr )
+	{
+		Translation = tr;
+		QueueDraw(); 
+	}
+	
+	public Vector GetTranslation()
+	{
+		return Translation;	
 	}
 	
 	private Vector MouseToWorld(Vector MousePos)
