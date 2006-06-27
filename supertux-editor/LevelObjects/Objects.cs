@@ -586,6 +586,12 @@ public class ScriptedObject : SimpleObject
 [SupertuxObject("wind", "images/engine/editor/wind.png", Target = SupertuxObjectUsage.levelOnly)]
 public class Wind : SimpleObjectArea
 {
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+
+	[LispChild("blowing", Optional = true, Default = true)]
+	public bool Blowing = true;
+
 	[LispChild("speed-x")]
 	public float SpeedX = 0;
 
