@@ -404,15 +404,16 @@ public class Application : IEditorApplication {
 		Close();
 	}
 
-	private bool hidden;
 	protected void OnAbout(object o, EventArgs e)
 	{
-		if(!hidden) {
-			sectorSwitchNotebook.HideAll();
-			sectorSwitchNotebook.ShowAll();
-		}
+		MessageDialog md = new MessageDialog( MainWindow, DialogFlags.DestroyWithParent,
+		                                      MessageType.Info, ButtonsType.Close,
+		                                      "Supertux Editor\n\n http://supertux.berlios.de/");
+		md.Run ();
+		md.Destroy();
 	}
 	
+	/* Run the current version of the level in Supertux */
 	protected void OnPlay(object o, EventArgs args)
 	{
 		if(level == null)
@@ -585,7 +586,8 @@ public class Application : IEditorApplication {
 		while (undoSnapshots.Count > maxUndoSnapshots)
 			undoSnapshots.RemoveAt(0);
 	}
-
+	
+	/* Revert level to last snapshot. */
 	public void Undo() 
 	{
 		if (undoSnapshots.Count < 1)
