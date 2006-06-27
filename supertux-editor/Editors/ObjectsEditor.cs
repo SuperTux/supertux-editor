@@ -274,13 +274,23 @@ public class ObjectsEditor : IEditor
 		activeObject = null;
 	}
 
+	/// <summary>
+	/// Returns unit to snap to, based on passed Modifier keys
+	/// </summary>
+	protected int SnapValue(ModifierType Modifiers)
+	{
+		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
+		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;
+		return 0;
+	}
+
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
 	{
 		if(dragging) {
 			dragging = false;
 			
 			if(pos != pressPoint) {
-				moveObject(pos, (Modifiers & ModifierType.ShiftMask) != 0);
+				moveObject(pos, SnapValue(Modifiers));
 			} else {
 				MakeActive(FindNext(pos));
 				Redraw();
@@ -291,17 +301,17 @@ public class ObjectsEditor : IEditor
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
 		if(dragging) {
-			moveObject(pos, (Modifiers & ModifierType.ShiftMask) != 0);
+			moveObject(pos, SnapValue(Modifiers));
 		}
 	}
 	
-	private void moveObject(Vector mousePos, bool snap)
+	private void moveObject(Vector mousePos, int snap)
 	{
 		Vector spos = new Vector(originalArea.Left, originalArea.Top);
 		spos += mousePos - pressPoint;
-		if(snap) {
-			spos = new Vector((float) ((int)spos.X / 32) * 32,
-			                  (float) ((int)spos.Y / 32) * 32);	
+		if (snap > 0) {
+			spos = new Vector((float) ((int)spos.X / snap) * snap,
+			                  (float) ((int)spos.Y / snap) * snap);	
 		}
 		
 		RectangleF newArea = new RectangleF(spos.X, spos.Y,
