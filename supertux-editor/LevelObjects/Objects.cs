@@ -379,6 +379,8 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	}
 	
 	public virtual void ChangeArea(RectangleF NewArea) {
+		Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X, NewArea.Top - Path.Nodes[0].Y);
+		Path.Move(translation);
 	}
 	
 	public virtual RectangleF Area {

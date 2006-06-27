@@ -37,6 +37,15 @@ public class Path
 	public Path()
 	{
 	}
+
+	public void Move(Vector offset)
+	{
+		foreach(Node node in Nodes) {
+			node.X += offset.X;
+			node.Y += offset.Y;
+		}
+	}
+
 }
 
 /// <summary>Implemented by objects that contain a path</summary>
