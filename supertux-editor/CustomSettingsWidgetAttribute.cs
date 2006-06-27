@@ -1,7 +1,7 @@
 using System;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-				AllowMultiple=false)]
+                AllowMultiple=false)]
 public class CustomSettingsWidgetAttribute : Attribute
 {
 	public Type Type;

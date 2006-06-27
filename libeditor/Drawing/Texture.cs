@@ -64,8 +64,8 @@ namespace Drawing
 				uint surface_format = SetupPixelFormat(surfacep);
 
 				gl.TexImage2D(gl.TEXTURE_2D, 0, (int) glformat,
-							  (int) width, (int) height, 0, surface_format,
-							  gl.UNSIGNED_BYTE, surface->pixels);
+				              (int) width, (int) height, 0, surface_format,
+				              gl.UNSIGNED_BYTE, surface->pixels);
 				GlUtil.Assert("creating texture (too big?)");
 
 				SetTextureParams();
@@ -89,8 +89,8 @@ namespace Drawing
 			try {
 				gl.BindTexture(gl.TEXTURE_2D, handle);
 				gl.TexImage2D(gl.TEXTURE_2D, 0, (int) glformat,
-							  (int) width, (int) height, 0,
-							  gl.RGBA, gl.UNSIGNED_BYTE, IntPtr.Zero);
+				              (int) width, (int) height, 0,
+				              gl.RGBA, gl.UNSIGNED_BYTE, IntPtr.Zero);
 				GlUtil.Assert("creating texture (too big?)");
 				SetTextureParams();
 			} catch(Exception e) {
@@ -130,8 +130,8 @@ namespace Drawing
 				(((byte*) surface->pixels) + surface_y * surface->pitch
 				 + format->BytesPerPixel * surface_x);
 			gl.TexSubImage2D(gl.TEXTURE_2D, 0, (int) texture_x, (int) texture_y,
-							 (int) width, (int) height, surface_format,
-							 gl.UNSIGNED_BYTE, pixeldata);
+			                 (int) width, (int) height, surface_format,
+			                 gl.UNSIGNED_BYTE, pixeldata);
 
 			GlUtil.Assert("Updating Texture Part");
 		}
@@ -177,7 +177,7 @@ namespace Drawing
 
 			gl.PixelStorei(gl.UNPACK_ALIGNMENT, 1);
 			gl.PixelStorei(gl.UNPACK_ROW_LENGTH,
-						   surface->pitch / format->BytesPerPixel);
+			               surface->pitch / format->BytesPerPixel);
 
 			return glformat;
 		}

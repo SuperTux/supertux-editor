@@ -40,7 +40,7 @@ public class EditScriptWidget : ICustomSettingsWidget
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-				AllowMultiple=false)]
+                AllowMultiple=false)]
 public class EditScriptSetting : CustomSettingsWidgetAttribute
 {
 	public EditScriptSetting() : base(typeof(EditScriptWidget))

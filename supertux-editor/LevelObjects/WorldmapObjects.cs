@@ -28,7 +28,7 @@ public abstract class WorldmapObject : SimpleObject
 			return;
 		
 		Sprite.Draw(new Vector(X*32 + 16, Y*32 + 16));
-	}	
+	}
 }
 
 [SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png", Target = SupertuxObjectUsage.worldmapOnly)]

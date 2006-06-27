@@ -74,5 +74,5 @@ public interface IPathObject {
 	Path Path {
 		get;
 		set;
-	}	
+	}
 }

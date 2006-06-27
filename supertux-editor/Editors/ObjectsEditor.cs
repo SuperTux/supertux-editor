@@ -44,7 +44,7 @@ public class ObjectsEditor : IEditor
 			gl.End();
 			
 			gl.Enable(gl.TEXTURE_2D);
-			gl.Color4f(1, 1, 1, 1);			
+			gl.Color4f(1, 1, 1, 1);
 		}
 		
 		public void UpdatePosition()
@@ -63,7 +63,7 @@ public class ObjectsEditor : IEditor
 				pos.X = Object.Area.Right + DISTANCE;
 			} else {
 				pos.X = (Object.Area.Left + Object.Area.Right) / 2f;
-			}			
+			}
 			area = new RectangleF(pos.X - SIZE/2f, pos.Y - SIZE/2f, SIZE, SIZE);			
 		}
 		

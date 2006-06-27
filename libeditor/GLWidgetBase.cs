@@ -39,7 +39,7 @@ public abstract class GLWidgetBase : GLArea
 
 	private static int[] attrlist = {
 		GLContextAttributes.Rgba,
- 		GLContextAttributes.RedSize, 1,
+		GLContextAttributes.RedSize, 1,
 		GLContextAttributes.GreenSize, 1,
 		GLContextAttributes.BlueSize, 1,
 		// not really needed but some opengl drivers are buggy and need this
@@ -103,7 +103,7 @@ public abstract class GLWidgetBase : GLArea
 		gl.MatrixMode(gl.PROJECTION);
 		gl.LoadIdentity();
 		gl.Ortho(0, Allocation.Width, Allocation.Height, 0,
-				-1.0f, 1.0f);
+		         -1.0f, 1.0f);
 		gl.MatrixMode(gl.MODELVIEW);
 		gl.LoadIdentity();
 

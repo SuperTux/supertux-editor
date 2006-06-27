@@ -255,9 +255,9 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 				bestNode = i;
 				bestDistance = distance;
 				pointOnEdge = projPoint;
-			}			
+			}
 		}
 		
 		return bestNode;
-	}	
+	}
 }

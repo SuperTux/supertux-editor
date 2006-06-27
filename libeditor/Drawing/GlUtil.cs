@@ -15,7 +15,7 @@ namespace Drawing
 			uint error = gl.GetError();
 			if(error != gl.NO_ERROR) {
 				throw new Exception("OpenGL error while '" + message + "': "
-						+ glu.ErrorString(error) + " (" + error + ")");
+				                    + glu.ErrorString(error) + " (" + error + ")");
 			}
 		}
 	}

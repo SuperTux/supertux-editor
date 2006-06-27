@@ -135,8 +135,8 @@ public class RenderView : GLWidgetBase
 		//Limit the Zoom to useful values;
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
-		} 
-		     
+		}
+		
 		Translation += realMousePos / Zoom - realMousePos / oldZoom;
 		
 		MousePos = MouseToWorld(realMousePos);
@@ -154,7 +154,7 @@ public class RenderView : GLWidgetBase
 		//Limit the Zoom to useful values;
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
-		} 					
+		}
 		QueueDraw(); 
 	}
 	

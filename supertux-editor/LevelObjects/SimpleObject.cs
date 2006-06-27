@@ -104,7 +104,7 @@ public abstract class SimpleObjectArea : SimpleObject
 		gl.End();
 			
 		gl.Enable(gl.TEXTURE_2D);
-		gl.Color4f(1, 1, 1, 1);			
+		gl.Color4f(1, 1, 1, 1);
 	}
 	
 	public override void ChangeArea(RectangleF Area) {

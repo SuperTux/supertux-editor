@@ -4,7 +4,7 @@ namespace LispReader
 {
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
-					AllowMultiple=false)]
+	                AllowMultiple=false)]
 	public class LispRootAttribute : Attribute
 	{
 		public string Name;
@@ -30,7 +30,7 @@ namespace LispReader
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=false)]
 	public class LispChildAttribute : Attribute
-	{				
+	{
 		public bool Translatable;
 		public bool Optional;
 		public object Default;
@@ -42,7 +42,7 @@ namespace LispReader
 	}
 
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-					AllowMultiple=true)]
+	                AllowMultiple=true)]
 	public class LispChildsAttribute : Attribute
 	{
 		public string Name;

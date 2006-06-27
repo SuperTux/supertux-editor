@@ -103,7 +103,7 @@ namespace LispReader
 						object child = serializer.Read(childList);
 						AddMethod.Invoke(objectList, new object[] { child } );
 					}
-				}			
+				}
 			}
 
 			if(result is ICustomLispSerializer) {
@@ -163,7 +163,7 @@ namespace LispReader
 						}
 					}
 				}
-			}		
+			}
 				
 			if(Object is ICustomLispSerializer) {
 				ICustomLispSerializer custom = (ICustomLispSerializer) Object;

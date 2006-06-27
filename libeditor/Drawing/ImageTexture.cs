@@ -25,12 +25,12 @@ namespace Drawing
 			IntPtr pixelbufferp;
 			if(BitConverter.IsLittleEndian) {
 				pixelbufferp = SDL.CreateRGBSurface(SDL.SWSURFACE,
-						(int) width, (int) height, 32,
-						0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
+				                                    (int) width, (int) height, 32,
+				                                    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
 			} else {
 				pixelbufferp = SDL.CreateRGBSurface(SDL.SWSURFACE,
-						(int) width, (int) height, 32,
-						0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+				                                    (int) width, (int) height, 32,
+				                                    0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
 			}
 			if(pixelbufferp == IntPtr.Zero)
 				throw new Exception("Couldn't create surface texture (out of memory?)");

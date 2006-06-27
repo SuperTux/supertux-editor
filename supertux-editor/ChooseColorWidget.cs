@@ -66,7 +66,7 @@ public class ChooseColorWidget : ICustomSettingsWidget
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-				AllowMultiple=false)]
+                AllowMultiple=false)]
 public class ChooseColorSetting : CustomSettingsWidgetAttribute
 {
 	public ChooseColorSetting() : base(typeof(ChooseColorWidget))

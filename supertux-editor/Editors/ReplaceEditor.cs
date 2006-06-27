@@ -93,8 +93,8 @@ public class ReplaceEditor : IEditor, IDisposable {
 		}
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-				|| MouseTilePos.X >= Tilemap.Width
-				|| MouseTilePos.Y >= Tilemap.Height)
+			   || MouseTilePos.X >= Tilemap.Width
+			   || MouseTilePos.Y >= Tilemap.Height)
 				return;
 			
 			SelectStartPos = MouseTilePos;
@@ -143,9 +143,12 @@ public class ReplaceEditor : IEditor, IDisposable {
 				return;
 
 			if(drawing &&
-					( (Modifiers & ModifierType.ShiftMask) != 0 ||
-				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
-				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
+			   ( (Modifiers & ModifierType.ShiftMask) != 0 ||
+			     ((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
+			      (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0
+			     )
+			   )
+			  ) {
 				LastDrawPos = MouseTilePos;
 				if ((selection.Width == 1) && (selection.Height == 1)) Replace(Tilemap[MouseTilePos], selection[0,0]);
 			}

@@ -25,7 +25,7 @@ namespace LispReader
 				
 				foreach(PropertyInfo property in type.GetProperties()) {
 					yield return new Property(property);
-				}			
+				}
 			}
 			
 			IEnumerator<FieldOrProperty> IEnumerable<FieldOrProperty>.GetEnumerator()
@@ -134,7 +134,7 @@ namespace LispReader
 			public override object[] GetCustomAttributes(Type attributeType)
 			{
 				return Attribute.GetCustomAttributes(property, attributeType);
-			}		
+			}
 		}
 
 	}

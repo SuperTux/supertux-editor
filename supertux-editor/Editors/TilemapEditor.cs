@@ -83,8 +83,8 @@ public class TilemapEditor : IEditor, IDisposable {
 		}
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-				|| MouseTilePos.X >= Tilemap.Width
-				|| MouseTilePos.Y >= Tilemap.Height)
+			   || MouseTilePos.X >= Tilemap.Width
+			   || MouseTilePos.Y >= Tilemap.Height)
 				return;
 			
 			SelectStartPos = MouseTilePos;
@@ -113,7 +113,7 @@ public class TilemapEditor : IEditor, IDisposable {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y] 
 						= Tilemap[(uint) SelectionP1.X + x,
-						  		  (uint) SelectionP1.Y + y];
+						          (uint) SelectionP1.Y + y];
 				}
 			}
 
@@ -133,9 +133,11 @@ public class TilemapEditor : IEditor, IDisposable {
 				return;
 
 			if(drawing &&
-					( (Modifiers & ModifierType.ShiftMask) != 0 ||
-				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
-				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
+			   ( (Modifiers & ModifierType.ShiftMask) != 0 ||
+			     ((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
+			      (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0)
+			   )
+			  ) {
 				LastDrawPos = MouseTilePos;
 				selection.ApplyToTilemap(MouseTilePos, Tilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 			}
