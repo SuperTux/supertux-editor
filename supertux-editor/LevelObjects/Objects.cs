@@ -249,7 +249,7 @@ public class Door : SimpleObject
 	
 	public Door() {
 		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
-		Sprite.Action = "normal";
+		Sprite.Action = "closed";
 	}
 }
 
