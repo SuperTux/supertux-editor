@@ -180,6 +180,16 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 		deleteItem.Sensitive = path.Nodes.Count > 1;
 		popupMenu.Append(deleteItem);
 		
+		MenuItem shiftLeftItem = new ImageMenuItem(Stock.GoBack, null);
+		shiftLeftItem.Activated += OnShiftLeft;
+		shiftLeftItem.Sensitive = path.Nodes.Count > 1;
+		popupMenu.Append(shiftLeftItem);
+		
+		MenuItem shiftRightItem = new ImageMenuItem(Stock.GoForward, null);
+		shiftRightItem.Activated += OnShiftRight;
+		shiftRightItem.Sensitive = path.Nodes.Count > 1;
+		popupMenu.Append(shiftRightItem);
+		
 		popupMenu.ShowAll();
 		popupMenu.Popup(); 
 	}
@@ -189,6 +199,18 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 		path.Nodes.Remove(selectedNode);
 		selectedNode = null;
 		dragging = false;
+		Redraw();
+	}
+
+	private void OnShiftLeft(object o, EventArgs args)
+	{
+		path.Shift(-1);
+		Redraw();
+	}
+	
+	private void OnShiftRight(object o, EventArgs args)
+	{
+		path.Shift(1);
 		Redraw();
 	}
 	

@@ -46,6 +46,27 @@ public class Path
 		}
 	}
 
+	/// <summary>
+	/// Rotates path nodes, e.g. from 0,1,2,3 to 1,2,3,0
+	/// </summary>
+	public void Shift(int delta) {
+		// make sure we have at least one node for shifting
+		if (Nodes.Count < 1) return;
+
+		// care for positive deltas
+		for (int i = 1; i <= delta; i++) {
+			Node node = Nodes[0];
+			Nodes.RemoveAt(0);
+			Nodes.Add(node);
+		}
+
+		// care for negative deltas
+		for (int i = -1; i >= delta; i--) {
+			Node node = Nodes[Nodes.Count-1];
+			Nodes.RemoveAt(Nodes.Count-1);
+			Nodes.Insert(0, node);
+		}
+	}
 }
 
 /// <summary>Implemented by objects that contain a path</summary>
