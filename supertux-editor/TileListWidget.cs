@@ -234,7 +234,9 @@ public class TileListWidget : GLWidgetBase {
 			Math.DivRem( tile2, TILES_PER_ROW, out endcolumn );
 			width = 1 + endcolumn - startcolumn;
 			height = 1 + (( tile3 - tile1 ) / TILES_PER_ROW );
-				
+			//sanity check
+			if( width < 1 || height < 1 )
+				return;
 			selection.Resize( (uint) width, (uint) height, 0);
 			for( int y = 0; y < height; y++ ) {
 				for( int x = 0; x < width; x++ ) { 
