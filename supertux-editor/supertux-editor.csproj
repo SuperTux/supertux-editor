@@ -19,6 +19,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -27,6 +29,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -38,34 +42,44 @@
   -->
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="Background.cs" />
-    <Compile Include="Camera.cs" />
+    <Compile Include="Editors\Brush.cs" />
+    <Compile Include="Editors\BrushEditor.cs" />
+    <Compile Include="Editors\CameraDrag.cs" />
+    <Compile Include="Editors\FillEditor.cs" />
+    <Compile Include="Editors\PathEditor.cs" />
+    <Compile Include="Editors\ReplaceEditor.cs" />
+    <Compile Include="LevelObjects\Background.cs" />
+    <Compile Include="LevelObjects\Camera.cs" />
     <Compile Include="ChooseColorWidget.cs" />
     <Compile Include="ChooseResourceWidget.cs" />
     <Compile Include="ColorSerializer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CustomSettingsWidgetAttribute.cs" />
     <Compile Include="EditorStock.cs" />
+    <Compile Include="Editors\ObjectCreationEditor.cs" />
+    <Compile Include="EditScriptWidget.cs" />
     <Compile Include="GameObjectListWidget.cs" />
     <Compile Include="ICustomSettingsWidget.cs" />
     <Compile Include="IEditorApplication.cs" />
     <Compile Include="IGameObject.cs" />
     <Compile Include="IObject.cs" />
     <Compile Include="LayerListWidget.cs" />
-    <Compile Include="Level.cs" />
+    <Compile Include="LevelObjects\Level.cs" />
     <Compile Include="LevelUtil.cs" />
     <Compile Include="ObjectListWidget.cs" />
-    <Compile Include="Objects.cs" />
-    <Compile Include="ObjectsEditor.cs" />
-    <Compile Include="Path.cs" />
+    <Compile Include="LevelObjects\Objects.cs" />
+    <Compile Include="Editors\ObjectsEditor.cs" />
+    <Compile Include="LevelObjects\Path.cs" />
     <Compile Include="ResizeDialog.cs" />
-    <Compile Include="Sector.cs" />
+    <Compile Include="ScriptEditor.cs" />
+    <Compile Include="LevelObjects\Sector.cs" />
     <Compile Include="SectorRenderer.cs" />
     <Compile Include="SectorSwitchNotebook.cs" />
     <Compile Include="Selection.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SettingsWindow.cs" />
-    <Compile Include="SimpleObject.cs" />
+    <Compile Include="SettingsDialog.cs" />
+    <Compile Include="PropertiesView.cs" />
+    <Compile Include="LevelObjects\SimpleObject.cs" />
     <Compile Include="Sprites\Sprite.cs" />
     <Compile Include="Sprites\SpriteData.cs" />
     <Compile Include="Sprites\SpriteManager.cs" />
@@ -74,21 +88,22 @@
     <Compile Include="TileGroup.cs" />
     <Compile Include="TileGroupSelector.cs" />
     <Compile Include="TileListWidget.cs" />
-    <Compile Include="Tilemap.cs" />
-    <Compile Include="TilemapEditor.cs" />
+    <Compile Include="LevelObjects\Tilemap.cs" />
+    <Compile Include="Editors\TilemapEditor.cs" />
     <Compile Include="TilemapNode.cs" />
     <Compile Include="Tileset.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="Util.cs" />
-    <Compile Include="WorldmapObjects.cs" />
+    <Compile Include="LevelObjects\WorldmapObjects.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -128,5 +143,15 @@
     <EmbeddedResource Include="resources\editor.glade">
       <LogicalName>editor.glade</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\modifier-move.png" />
+    <EmbeddedResource Include="resources\modifier-plus.png" />
+    <EmbeddedResource Include="resources\stock-tool-brush-24.png" />
+    <EmbeddedResource Include="resources\stock-tool-fill-24.png" />
+    <EmbeddedResource Include="resources\stock-tool-objects-24.png" />
+    <EmbeddedResource Include="resources\stock-tool-replace-24.png" />
+    <EmbeddedResource Include="resources\stock-tool-select-24.png" />
+    <EmbeddedResource Include="resources\stock-tool-tiles-24.png" />
   </ItemGroup>
 </Project>
