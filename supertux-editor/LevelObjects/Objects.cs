@@ -512,7 +512,7 @@ public sealed class WeakBlock : SimpleObject
 [SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class InfoBlock : SimpleObject
 {
-	[LispChild("message")]
+	[LispChild("message", Translatable = true)]
 	[EditScriptSetting]
 	public string Message = "";
 
