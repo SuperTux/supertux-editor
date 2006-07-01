@@ -4,7 +4,7 @@ using Lisp;
 using Resources;
 
 /// <summary>This class contains some convenience functions</summary>
-public class Util {
+public static class Util {
 	public static List Load(string Filename, string RootElement) {
 		return Load(ResourceManager.Instance.Get(Filename), Filename, RootElement);
 	}

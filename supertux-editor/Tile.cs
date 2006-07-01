@@ -19,13 +19,16 @@ public class Tile {
 		WATER     = 0x0010,
 		/// <summary>a tile that hurts the player if he touches it</summary>
 		SPIKE     = 0x0020,
-		/// <summary>Bonusbox, content is stored in <see cref="Data"/></summary>
+		/// <summary>Bonusbox, content is stored in <see cref="Data">data</see></summary>
 		FULLBOX   = 0x0040,
 		/// <summary>Tile is a coin</summary>
 		COIN      = 0x0080,
 		/// <summary>the level should be finished when touching a goaltile.</summary>
-		/// <remarks>if <see cref="Data"/> is 0 then the endsequence should be triggered, if <see cref="Data"/> is 1
-		/// then we can finish the level instantly.</remarks>
+		/// <remarks>
+		/// if <see cref="Data">data</see> is 0 then the endsequence should be 
+		/// triggered, if <see cref="Data">data</see> is 1 then we can finish 
+		/// the level instantly.
+		/// </remarks>
 		GOAL      = 0x0100,
 		/// <summary>slope tile</summary>
 		SLOPE     = 0x0200,

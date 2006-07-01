@@ -47,6 +47,9 @@ namespace DataStructures
 			}
 		}
 
+		/// <summary>
+		/// Width of array
+		/// </summary>
 		public uint Width
 		{
 			get
@@ -55,6 +58,9 @@ namespace DataStructures
 			}
 		}
 
+		/// <summary>
+		/// Height of array
+		/// </summary>
 		public uint Height
 		{
 			get

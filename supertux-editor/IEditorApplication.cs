@@ -1,3 +1,6 @@
+/// <summary>
+/// Interface to the editor application.
+/// </summary>
 public interface IEditorApplication
 {
 	void ChangeCurrentLevel(Level NewLevel);
@@ -14,8 +17,13 @@ public interface IEditorApplication
 	Sector CurrentSector {
 		get;
 	}
-
+	/// <summary>
+	/// Occurs when a new level is loaded.
+	/// </summary>
 	event LevelChangedEventHandler LevelChanged;
+	/// <summary>
+	/// Occurs when user changes sector in a level.
+	/// </summary>
 	event SectorChangedEventHandler SectorChanged;
 	event TilemapChangedEventHandler TilemapChanged;
 }

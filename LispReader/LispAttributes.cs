@@ -27,6 +27,9 @@ namespace LispReader
 		}
 	}
 
+	/// <summary>
+	/// Maps a field or property in a class to a lisp construct.
+	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=false)]
 	public class LispChildAttribute : Attribute
