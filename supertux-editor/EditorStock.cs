@@ -1,7 +1,7 @@
 using System;
 using Gtk;
 
-public class EditorStock
+public static class EditorStock
 {
 	static Gtk.IconFactory stock = new Gtk.IconFactory ();
 

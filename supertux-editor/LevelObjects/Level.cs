@@ -6,7 +6,7 @@ using LispReader;
 public delegate void TilesetChangedHandler(Level level);
 
 [LispRoot("supertux-level")]
-public class Level
+public sealed class Level
 {
 	[LispChild("version")]
 	public int Version = 2;

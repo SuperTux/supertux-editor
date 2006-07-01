@@ -1,6 +1,6 @@
 using System;
 
-public class LevelUtil
+public static class LevelUtil
 {
 	public static Level CreateLevel()
 	{
@@ -45,6 +45,8 @@ public class LevelUtil
 
 		Background background = new Background();
 		background.Image = "images/background/arctis.jpg";
+		background.ImageTop = "images/background/arctis_top.jpg";
+		background.ImageBottom = "images/background/arctis_bottom.jpg";
 		sector.Add(background);
 
 		return sector;

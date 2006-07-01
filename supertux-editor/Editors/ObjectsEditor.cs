@@ -8,7 +8,7 @@ using Gdk;
 
 public class ObjectsEditor : IEditor
 {	
-	private class ControlPoint : IObject, Node
+	private sealed class ControlPoint : IObject, Node
 	{
 		public enum AttachPoint {
 			TOP = 1,

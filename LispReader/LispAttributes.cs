@@ -5,7 +5,7 @@ namespace LispReader
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
 	                AllowMultiple=false)]
-	public class LispRootAttribute : Attribute
+	public sealed class LispRootAttribute : Attribute
 	{
 		public string Name;
 		
@@ -17,7 +17,7 @@ namespace LispReader
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
 	                AllowMultiple=false)]
-	public class LispCustomSerializerAttribute : Attribute
+	public sealed class LispCustomSerializerAttribute : Attribute
 	{
 		public Type Type;
 		
@@ -32,7 +32,7 @@ namespace LispReader
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=false)]
-	public class LispChildAttribute : Attribute
+	public sealed class LispChildAttribute : Attribute
 	{
 		public bool Translatable;
 		public bool Optional;
@@ -46,7 +46,7 @@ namespace LispReader
 
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=true)]
-	public class LispChildsAttribute : Attribute
+	public sealed class LispChildsAttribute : Attribute
 	{
 		public string Name;
 		public Type Type;

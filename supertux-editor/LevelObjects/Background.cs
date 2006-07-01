@@ -4,14 +4,14 @@ using Drawing;
 using SceneGraph;
 
 [SupertuxObject("background", "images/engine/editor/background.png")]
-public class Background : IGameObject, Node {
+public sealed class Background : IGameObject, Node {
 	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
 	[LispChild("y", Optional = true, Default = 0f)]
 	public float Y;
 
 	[LispChild("image-top", Optional = true, Default = "")]
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	public string ImageTop {
 		get {
 			return imageTop;
@@ -26,7 +26,7 @@ public class Background : IGameObject, Node {
 		}
 	}
 	private string imageTop;
-	protected Surface surfaceTop;
+	private Surface surfaceTop;
 
 	[LispChild("image")]
 	[ChooseResourceSetting]	
@@ -44,7 +44,7 @@ public class Background : IGameObject, Node {
 		}
 	}
 	private string image;
-	protected Surface surface;
+	private Surface surface;
 	
 	[LispChild("image-bottom", Optional = true, Default = "")]
 	[ChooseResourceSetting]	
@@ -62,14 +62,14 @@ public class Background : IGameObject, Node {
 		}
 	}
 	private string imageBottom;
-	protected Surface surfaceBottom;
+	private Surface surfaceBottom;
 	
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 
-	public virtual RectangleF Area {
+	public RectangleF Area {
 		get {
 			if(surface != null) {
 				return new RectangleF(X, Y, surface.Width, surface.Height);
@@ -79,13 +79,13 @@ public class Background : IGameObject, Node {
 		}
 	}
 
-	public virtual bool Resizable {
+	public bool Resizable {
 		get {
 			return false;
 		}
 	}
 
-	public virtual void ChangeArea(RectangleF NewArea) {
+	public void ChangeArea(RectangleF NewArea) {
 		X = NewArea.Left;
 		Y = NewArea.Top;
 	}
@@ -111,14 +111,14 @@ public class Background : IGameObject, Node {
 		}
 	}
 
-	public virtual Node GetSceneGraphNode() {
+	public Node GetSceneGraphNode() {
 		return this;
 	}
 
 }
 
 [SupertuxObject("gradient", "images/engine/editor/gradient.png")]
-public class Gradient : IGameObject {
+public sealed class Gradient : IGameObject {
 	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 	[ChooseColorSetting]

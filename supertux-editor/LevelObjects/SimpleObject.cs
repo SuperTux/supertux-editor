@@ -24,6 +24,9 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 		}
 	}
 
+	/// <summary>
+	/// If true object is resizable.
+	/// </summary>
 	public virtual bool Resizable {
 		get {
 			return false;
@@ -81,7 +84,10 @@ public abstract class SimpleObjectArea : SimpleObject
 		}
 	}
 	
-	public override bool Resizable {
+	/// <summary>
+	/// If true object is resizable.
+	/// </summary>
+	public sealed override bool Resizable {
 		get {
 			return true;
 		}
@@ -114,7 +120,7 @@ public abstract class SimpleObjectArea : SimpleObject
 		Height = Area.Height;
 	}
 	
-	public override Node GetSceneGraphNode() {
+	public sealed override Node GetSceneGraphNode() {
 		return this;
 	}
 }

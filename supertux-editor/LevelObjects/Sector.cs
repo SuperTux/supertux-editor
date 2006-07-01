@@ -10,7 +10,7 @@ public delegate void ObjectRemovedHandler(Sector sector, IGameObject Object);
 public delegate void SizeChangedHandler(Sector sector);
 
 [LispRootAttribute("sector")]
-public class Sector : ICustomLispSerializer {
+public sealed class Sector : ICustomLispSerializer {
 	[LispChild("name")]
 	public string Name = "";
 	[ChooseResourceSetting]

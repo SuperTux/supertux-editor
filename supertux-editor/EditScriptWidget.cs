@@ -2,7 +2,7 @@ using System;
 using LispReader;
 using Gtk;
 
-public class EditScriptWidget : ICustomSettingsWidget
+public sealed class EditScriptWidget : ICustomSettingsWidget
 {
 	public FieldOrProperty field;
 	public FieldOrProperty Field {
@@ -41,7 +41,7 @@ public class EditScriptWidget : ICustomSettingsWidget
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple=false)]
-public class EditScriptSetting : CustomSettingsWidgetAttribute
+public sealed class EditScriptSetting : CustomSettingsWidgetAttribute
 {
 	public EditScriptSetting() : base(typeof(EditScriptWidget))
 	{

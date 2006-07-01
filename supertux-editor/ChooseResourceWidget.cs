@@ -84,7 +84,7 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple=false)]
-public class ChooseResourceSetting : CustomSettingsWidgetAttribute
+public sealed class ChooseResourceSetting : CustomSettingsWidgetAttribute
 {
 	public ChooseResourceSetting() : base(typeof(ChooseResourceWidget))
 	{

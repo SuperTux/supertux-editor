@@ -31,8 +31,8 @@ public abstract class WorldmapObject : SimpleObject
 	}
 }
 
-[SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png", Target = SupertuxObjectUsage.worldmapOnly)]
-public class WorldmapSpawnpoint : WorldmapObject
+[SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
+public sealed class WorldmapSpawnpoint : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
@@ -43,8 +43,8 @@ public class WorldmapSpawnpoint : WorldmapObject
 	}
 }
 
-[SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
-public class WorldmapLevel : WorldmapObject
+[SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
+public sealed class WorldmapLevel : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
@@ -80,8 +80,8 @@ public class WorldmapLevel : WorldmapObject
 	}
 }
 
-[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
-public class SpecialTile : WorldmapObject
+[SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
+public sealed class SpecialTile : WorldmapObject
 {
 	[LispChild("teleport-to-x", Optional = true, Default = -1f)]
 	public float TeleportToX = -1f;
@@ -126,8 +126,8 @@ public class SpecialTile : WorldmapObject
 	}
 }
 
-[SupertuxObject("sprite-change", "images/engine/editor/spritechange.png", Target = SupertuxObjectUsage.worldmapOnly)]
-public class SpriteChange : WorldmapObject
+[SupertuxObject("sprite-change", "images/engine/editor/spritechange.png", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
+public sealed class SpriteChange : WorldmapObject
 {
 	[ChooseResourceSetting]	
 	[LispChild("sprite")]
@@ -164,8 +164,8 @@ public class SpriteChange : WorldmapObject
 	}
 }
 
-[SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectUsage.worldmapOnly)]
-public class Teleporter : WorldmapObject
+[SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
+public sealed class Teleporter : WorldmapObject
 {
 	[ChooseResourceSetting]	
 	[LispChild("sprite", Optional = true, Default = "")]
