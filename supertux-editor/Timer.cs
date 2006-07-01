@@ -1,6 +1,6 @@
 using Sdl;
 
-public class Timer {
+public static class Timer {
 	private static float Time = 0;
 	
 	public static float CurrentTime {
