@@ -5,7 +5,7 @@ using Sdl;
 namespace Sdl.Image
 {
 
-	public class IMG
+	public static class IMG
 	{
 		private const string SDLIMAGE_DLL = "sdl_image.dll";
 

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace OpenGlUtil
 {
-	public class glu
+	public static class glu
 	{
 		private const string GLU_DLL = "GLU.dll";
 

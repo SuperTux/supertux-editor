@@ -2,7 +2,7 @@ using System;
 
 namespace Gdk
 {
-	public class GLContextAttributes {
+	public static class GLContextAttributes {
 		public const int None = 0;
 		public const int BufferSize = 2;
 		public const int Level = 3;

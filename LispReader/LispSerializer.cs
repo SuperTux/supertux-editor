@@ -9,10 +9,11 @@ namespace LispReader
 {
 
 	/// <summary>This class allows serialization of .net Classes to/from lisp constructs.</summary>
+	/// <remarks>
 	/// <para>You just have to annotate the class to specify a mapping from fields/lists to
 	/// lisp structures.</para>
-	///
 	/// <para>The design is similar to <see cref="System.Xml.Serialization.XmlSerializer"/></para>
+	/// </remarks>
 	public class LispSerializer {
 		private Type RootType;
 		private static Dictionary<Type, ILispSerializer> typeSerializers

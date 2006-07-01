@@ -4,7 +4,7 @@ using System.IO;
 namespace Resources
 {
 
-	/// The default implementation of the ResourceManager
+	/// <summary>The default implementation of the ResourceManager</summary>
 	public class DefaultResourceManager : ResourceManager
 	{
 		private string DataDir;

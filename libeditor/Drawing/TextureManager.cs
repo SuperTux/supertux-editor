@@ -7,7 +7,7 @@ using Resources;
 namespace Drawing
 {
 
-	public class TextureManager
+	public static class TextureManager
 	{
 		private static Dictionary<string, ImageTexture> ImageTextures
 			= new Dictionary<string, ImageTexture>();

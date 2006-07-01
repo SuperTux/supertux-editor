@@ -5,7 +5,7 @@ using OpenGlUtil;
 namespace Drawing
 {
 
-	public class GlUtil
+	public static class GlUtil
 	{
 		/// <summary>set to false if there's no valid opengl context active</summary>
 		public static bool ContextValid;
