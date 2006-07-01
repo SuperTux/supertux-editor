@@ -312,9 +312,8 @@ public class Application : IEditorApplication {
 			                                      ButtonsType.YesNo, "There are unsaved changes.\nReally create a blank level?");
 
 			ResponseType result = (ResponseType)md.Run ();
-
+			md.Destroy();
 			if (result != ResponseType.Yes){
-				md.Destroy();
 				return;
 			}
 		}
@@ -522,9 +521,8 @@ public class Application : IEditorApplication {
 			                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to quit?");
 
 			ResponseType result = (ResponseType)md.Run ();
-
+			md.Destroy();
 			if (result != ResponseType.Yes){
-				md.Destroy();
 				return;
 			}
 		}
