@@ -143,15 +143,29 @@
     <EmbeddedResource Include="resources\editor.glade">
       <LogicalName>editor.glade</LogicalName>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="resources\modifier-move.png" />
-    <EmbeddedResource Include="resources\modifier-plus.png" />
-    <EmbeddedResource Include="resources\stock-tool-brush-24.png" />
-    <EmbeddedResource Include="resources\stock-tool-fill-24.png" />
-    <EmbeddedResource Include="resources\stock-tool-objects-24.png" />
-    <EmbeddedResource Include="resources\stock-tool-replace-24.png" />
-    <EmbeddedResource Include="resources\stock-tool-select-24.png" />
-    <EmbeddedResource Include="resources\stock-tool-tiles-24.png" />
+    <EmbeddedResource Include="resources\modifier-move.png">
+      <LogicalName>modifier-move.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\modifier-plus.png">
+      <LogicalName>modifier-plus.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-brush-24.png">
+      <LogicalName>stock-tool-brush-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-fill-24.png">
+      <LogicalName>stock-tool-fill-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-objects-24.png">
+      <LogicalName>stock-tool-objects-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-replace-24.png">
+      <LogicalName>stock-tool-replace-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-select-24.png">
+      <LogicalName>stock-tool-select-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-tiles-24.png">
+      <LogicalName>stock-tool-tiles-24.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
