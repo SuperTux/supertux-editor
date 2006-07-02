@@ -210,6 +210,8 @@ public sealed class Dispenser : SimpleObject
 	public string Badguy = "";
 	[LispChild("cycle")]
 	public float Cycle = 1;
+	[LispChild("launchdirection")]
+	public string LaunchDirection = "";	
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
