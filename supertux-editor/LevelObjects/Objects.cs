@@ -239,6 +239,15 @@ public sealed class StalactiteYeti : SimpleObject
 	}
 }
 
+[SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite")]
+public sealed class Spotlight : SimpleObject
+{
+	public Spotlight() {
+		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
+		Sprite.Action = "default";			
+	}
+}
+
 /// <summary>
 /// Base class for Doors and 
 /// </summary>
