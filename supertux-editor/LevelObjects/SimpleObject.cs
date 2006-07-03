@@ -68,7 +68,14 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	}
 }
 
-/// <summary>Base class for ara objects in levels</summary>
+/// <summary>Base class for objects with a direction. (Like most badguys)</summary>
+public abstract class SimpleDirObject : SimpleObject
+{
+	[LispChild("direction")]
+	public string Direction = "auto";
+}
+
+/// <summary>Base class for area objects in levels</summary>
 public abstract class SimpleObjectArea : SimpleObject
 {
 	[LispChild("width")]

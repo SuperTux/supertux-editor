@@ -34,7 +34,7 @@ public sealed class SupertuxObjectAttribute : Attribute
 }
 
 [SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class MrBomb : SimpleObject
+public sealed class MrBomb : SimpleDirObject
 {
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
@@ -43,7 +43,7 @@ public sealed class MrBomb : SimpleObject
 }
 
 [SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Snowball : SimpleObject
+public sealed class Snowball : SimpleDirObject
 {
 	public Snowball() {
 		Sprite = SpriteManager.Create("images/creatures/snowball/snowball.sprite");
@@ -61,7 +61,7 @@ public sealed class Stalactite : SimpleObject
 }
 
 [SupertuxObject("mriceblock", "images/creatures/mr_iceblock/mr_iceblock.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class MrIceBlock : SimpleObject
+public sealed class MrIceBlock : SimpleDirObject
 {
 	public MrIceBlock() {
 		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/mr_iceblock.sprite");
@@ -70,7 +70,7 @@ public sealed class MrIceBlock : SimpleObject
 }
 
 [SupertuxObject("bouncingsnowball", "images/creatures/bouncing_snowball/bouncing_snowball.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class BouncingSnowball : SimpleObject
+public sealed class BouncingSnowball : SimpleDirObject
 {
 	public BouncingSnowball() {
 		Sprite = SpriteManager.Create("images/creatures/bouncing_snowball/bouncing_snowball.sprite");
@@ -97,7 +97,7 @@ public sealed class Jumpy : SimpleObject
 }
 
 [SupertuxObject("spiky", "images/creatures/spiky/spiky.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Spiky : SimpleObject
+public sealed class Spiky : SimpleDirObject
 {
 	public Spiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/spiky.sprite");
@@ -106,7 +106,7 @@ public sealed class Spiky : SimpleObject
 }
 
 [SupertuxObject("sspiky", "images/creatures/spiky/sleepingspiky.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class SleepSpiky : SimpleObject
+public sealed class SleepSpiky : SimpleDirObject
 {
 	public SleepSpiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
@@ -150,7 +150,7 @@ public sealed class Fish : SimpleObject
 }
 
 [SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class MrTree : SimpleObject
+public sealed class MrTree : SimpleDirObject
 {
 	public MrTree() {
 		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
@@ -159,7 +159,7 @@ public sealed class MrTree : SimpleObject
 }
 
 [SupertuxObject("poisonivy", "images/creatures/poison_ivy/poison_ivy.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class PoisonIvy : SimpleObject
+public sealed class PoisonIvy : SimpleDirObject
 {
 	public PoisonIvy() {
 		Sprite = SpriteManager.Create("images/creatures/poison_ivy/poison_ivy.sprite");
@@ -168,7 +168,7 @@ public sealed class PoisonIvy : SimpleObject
 }
 
 [SupertuxObject("zeekling", "images/creatures/zeekling/zeekling.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Zeekling : SimpleObject
+public sealed class Zeekling : SimpleDirObject
 {
 	public Zeekling() {
 		Sprite = SpriteManager.Create("images/creatures/zeekling/zeekling.sprite");
@@ -177,7 +177,7 @@ public sealed class Zeekling : SimpleObject
 }
 
 [SupertuxObject("snail", "images/creatures/snail/snail.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Snail : SimpleObject
+public sealed class Snail : SimpleDirObject
 {
 	public Snail() {
 		Sprite = SpriteManager.Create("images/creatures/snail/snail.sprite");
@@ -204,14 +204,12 @@ public sealed class Kugelblitz : SimpleObject
 }
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Dispenser : SimpleObject
+public sealed class Dispenser : SimpleDirObject
 {
 	[LispChild("badguy")]
 	public string Badguy = "";
 	[LispChild("cycle")]
 	public float Cycle = 1;
-	[LispChild("launchdirection")]
-	public string LaunchDirection = "";	
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
@@ -421,7 +419,7 @@ public sealed class WilloWisp : SimpleObject
 }
 
 [SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class DartTrap : SimpleObject
+public sealed class DartTrap : SimpleDirObject
 {
 	[LispChild("initial-delay")]
 	public float initial_delay = 0;
