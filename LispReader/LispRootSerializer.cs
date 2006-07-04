@@ -54,6 +54,14 @@ namespace LispReader
 						} else {
 							field.SetValue(result, val);
 						}
+					} else if (field.Type.IsEnum) {
+						Enum val = null;
+						if (!props.Get(Name, ref val, field.Type)) {
+							if (!ChildAttrib.Optional)
+								Console.WriteLine("Field '" + Name + "' not in lisp");
+						} else {
+							field.SetValue(result, val);
+						}
 					} else if(field.Type == typeof(bool)) {
 						bool val = false;
 						if(!props.Get(Name, ref val)) {

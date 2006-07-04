@@ -81,6 +81,15 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
+			} else if(field.Type.IsEnum) {
+				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
+				comboBox.Name = field.Name;
+				object val = field.GetValue(Object);
+				if (val != null)
+					comboBox.Active = (int)val;
+				fieldTable[field.Name] = field;
+				comboBox.Changed += OnComboBoxChanged;
+				editWidgets.Add(comboBox);
 			}
 			
 		}
@@ -93,14 +102,14 @@ public class PropertiesView : ScrolledWindow
 			Widget widget = editWidgets[(int) i];
 			if(widget is CheckButton) {
 				table.Attach(widget, 0, 2, i, i+1,
-				                 AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+				             AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
 			} else {
 				Label label = new Label(widget.Name + ":");
 				label.SetAlignment(0, 1);
 				table.Attach(label, 0, 1, i, i+1,
-			    	            AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
+			    	         AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 				table.Attach(widget, 1, 2, i, i+1,
-				                 AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+				             AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
 			}
 		}
 		box.PackStart(table, true, true, 0);
@@ -157,5 +166,15 @@ public class PropertiesView : ScrolledWindow
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}			
+	}
+
+	private void OnComboBoxChanged(object o, EventArgs args) {
+		try {
+			ComboBox comboBox = (ComboBox)o;
+			FieldOrProperty field = fieldTable[comboBox.Name];
+			field.SetValue(Object, Enum.Parse(field.Type, comboBox.ActiveText));
+		} catch (Exception e) {
+			ErrorDialog.Exception(e);
+		}
 	}	
 }

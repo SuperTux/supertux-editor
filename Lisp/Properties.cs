@@ -104,6 +104,17 @@ public class Properties {
 		return true;
 	}
 
+	public bool Get(string Name, ref Enum Val, Type proptype) {
+		List list = Find(Name);
+		if (list == null)
+			return false;
+		if (!(list[1] is string))
+			return false;
+
+		Val = (Enum)Enum.Parse(proptype ,(string)list[1]);
+		return true;
+	}
+
 	public bool Get(string Name, ref List Val) {
 		List list = Find(Name);
 		if(list == null)
