@@ -72,10 +72,10 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 public abstract class SimpleDirObject : SimpleObject
 {
 	/// <remarks>
-	/// Can be: auto, left or right
+	/// Can be: auto, left or right. An empty string is same as auto.
 	/// </remarks>
 	[LispChild("direction", Optional = true, Default = "")]
-	public string Direction = "";
+	public string Direction = "auto";
 }
 
 /// <summary>Base class for area objects in levels</summary>
