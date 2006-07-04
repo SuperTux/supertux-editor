@@ -71,11 +71,25 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 /// <summary>Base class for objects with a direction. (Like most badguys)</summary>
 public abstract class SimpleDirObject : SimpleObject
 {
+	public enum Directions {
+		/// <summary>
+		/// Automatic.
+		/// </summary>
+		auto,
+		/// <summary>
+		/// Start out turend towards left side.
+		/// </summary>
+		left,
+		/// <summary>
+		/// Start out turend towards right side.
+		/// </summary>
+		right
+	}
 	/// <remarks>
 	/// Can be: auto, left or right. An empty string is same as auto.
 	/// </remarks>
-	[LispChild("direction", Optional = true, Default = "")]
-	public string Direction = "auto";
+	[LispChild("direction", Optional = true, Default = Directions.auto)]
+	public Directions Direction = Directions.auto;
 }
 
 /// <summary>Base class for area objects in levels</summary>

@@ -2,14 +2,22 @@ using LispReader;
 
 [SupertuxObject("camera", "images/engine/editor/camera.png")]
 public sealed class Camera : IGameObject, IPathObject {
+
 	public enum Modes {
+		/// <summary>
+		/// Normal scrolling of camera.
+		/// </summary>
 		normal,
+		/// <summary>
+		/// Follow the path <see cref="Path"/>.
+		/// </summary>
 		autoscroll,
+		/// <summary>
+		/// Manually control the camera by scripting. 
+		/// </summary>
 		manual
 	}
 
-	// we should support enums here...
-	/// <remarks>Can be: normal, autoscroll and manual</remarks>
 	[LispChild("mode")]
 	public Modes Mode = Modes.normal;
 	[LispChild("backscrolling", Optional = true, Default = true)]
