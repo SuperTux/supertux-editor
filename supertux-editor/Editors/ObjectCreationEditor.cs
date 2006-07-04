@@ -56,12 +56,12 @@ public class ObjectCreationEditor : IEditor
 		}
 		if(gameObject is IPathObject) {
 			Path path = ((IPathObject) gameObject).Path;
-			path.Nodes[0].Pos = pos;
+			if( path != null )
+				path.Nodes[0].Pos = pos;
 		}
 		
 		sector.Add(gameObject);
 		Redraw();
-
 		return gameObject;
 	}
 	
@@ -85,7 +85,6 @@ public class ObjectCreationEditor : IEditor
 			}
 			((Tilemap) Result).Resize( width, height, 0);
 		}
-		
 		return Result;
 	}	
 }

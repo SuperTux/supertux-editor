@@ -277,7 +277,7 @@ public sealed class Spotlight : SimpleObject
 }
 
 /// <summary>
-/// Base class for Doors and hatchs
+/// Base class for Door
 /// </summary>
 public abstract class DoorBase : SimpleObject
 {
@@ -294,16 +294,6 @@ public sealed class Door : DoorBase
 	public Door() {
 		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
 		Sprite.Action = "closed";
-	}
-}
-
-[SupertuxObject("hatch", "images/objects/hatch/hatch.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Hatch : DoorBase
-{
- 	public Hatch() {
-		Sprite = SpriteManager.Create("images/objects/hatch/hatch.sprite");
-		Sprite.Action = "normal";
 	}
 }
 
@@ -347,10 +337,23 @@ public sealed class Trampoline : SimpleObject
 	}
 }
 
-[SupertuxObject("firefly", "images/objects/firefly/firefly.sprite",
+[SupertuxObject("firefly", "images/engine/editor/resetpoint.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Firefly : SimpleObject
 {
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = null)]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
+		}
+	}
+	private string spriteFile = "";
 	public Firefly() {
 		Sprite = SpriteManager.Create("images/objects/firefly/firefly.sprite");
 		Sprite.Action = "normal";
@@ -363,6 +366,30 @@ public sealed class AngryStone : SimpleObject
 {
 	public AngryStone() {
 		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
+	}
+}
+
+[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Spidermite : SimpleObject
+{
+	public Spidermite() {
+		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
+	}
+}
+
+[SupertuxObject("plant", "images/creatures/plant/plant.sprite", Target = SupertuxObjectAttribute.Usage.None)]
+public sealed class Plant : SimpleObject
+{
+	public Plant() {
+		Sprite = SpriteManager.Create("images/creatures/plant/plant.sprite");
+	}
+}
+
+[SupertuxObject("nolok_01", "images/creatures/nolok/nolok.sprite", Target = SupertuxObjectAttribute.Usage.None)]
+public sealed class Nolok_01 : SimpleObject
+{
+	public Nolok_01() {
+		Sprite = SpriteManager.Create("images/creatures/nolok/nolok.sprite");
 	}
 }
 
