@@ -71,7 +71,7 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 /// <summary>Base class for objects with a direction. (Like most badguys)</summary>
 public abstract class SimpleDirObject : SimpleObject
 {
-	[LispChild("direction")]
+	[LispChild("direction", Optional = true, Default = "auto")]
 	public string Direction = "auto";
 }
 

@@ -249,7 +249,7 @@ public sealed class Spotlight : SimpleObject
 }
 
 /// <summary>
-/// Base class for Doors and 
+/// Base class for Doors and hatchs
 /// </summary>
 public abstract class DoorBase : SimpleObject
 {
