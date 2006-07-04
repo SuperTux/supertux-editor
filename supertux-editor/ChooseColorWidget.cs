@@ -38,9 +38,9 @@ public class ChooseColorWidget : ICustomSettingsWidget
 		
 		colorButton = new ColorButton();
 		Gdk.Color color = new Gdk.Color(
-		                                  (byte) (val.Red * 255f),
-		                                  (byte) (val.Green * 255f),
-		                                  (byte) (val.Blue * 255f));
+		                                (byte) (val.Red * 255f),
+		                                (byte) (val.Green * 255f),
+		                                (byte) (val.Blue * 255f));
 		/*
 		color.Red = (ushort) (val.Red * 65536f);
 		color.Green = (ushort) (val.Green * 65536f);

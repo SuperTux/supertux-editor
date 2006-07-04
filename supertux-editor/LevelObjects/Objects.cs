@@ -13,6 +13,8 @@ public sealed class SupertuxObjectAttribute : Attribute
 	public enum Usage {
 		/// <summary>Can be used anywhere. This is the default.</summary>
 		Any,
+		/// <summary>Should not be shown at all</summary>
+		None,
 		/// <summary>Can only be used on worldmaps.</summary>
 		WorldmapOnly,
 		/// <summary>Can only be used in "normal" levels.</summary>
