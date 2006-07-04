@@ -49,7 +49,7 @@ public sealed class Snowball : SimpleDirObject
 {
 	public Snowball() {
 		Sprite = SpriteManager.Create("images/creatures/snowball/snowball.sprite");
-		Sprite.Action = "left";l
+		Sprite.Action = "left";
 	}
 }
 
