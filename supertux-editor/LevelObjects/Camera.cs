@@ -3,6 +3,9 @@ using LispReader;
 [SupertuxObject("camera", "images/engine/editor/camera.png")]
 public sealed class Camera : IGameObject, IPathObject {
 
+	/// <summary>
+	/// Modes for <see cref="Camera"/>.
+	/// </summary>
 	public enum Modes {
 		/// <summary>
 		/// Normal scrolling of camera.

@@ -3,6 +3,7 @@ using OpenGl;
 using System;
 using Gdk;
 
+// TODO: More things should be moved into this class.
 /// <summary>
 /// Base class for all editors.
 /// </summary>
@@ -10,6 +11,7 @@ public abstract class EditorBase {
 	protected IEditorApplication application;
 }
 
+// TODO: More things should be moved into this class.
 /// <summary>
 /// Base class for editors editing objects.
 /// </summary>
@@ -17,7 +19,7 @@ public abstract class ObjectEditorBase : EditorBase {
 	protected Sector sector;
 }
 
-
+// TODO: More things should be moved into this class.
 /// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
