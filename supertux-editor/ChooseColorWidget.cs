@@ -4,6 +4,12 @@ using Gtk;
 using Gdk;
 using LispReader;
 
+/// <summary>
+/// Colour choosing widget for properties.
+/// </summary>
+/// <remarks>
+/// TODO: Add support to set alpha value too.
+/// </remarks>
 public class ChooseColorWidget : ICustomSettingsWidget
 {	
 	public FieldOrProperty field;

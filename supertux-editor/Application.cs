@@ -464,7 +464,7 @@ public class Application : IEditorApplication {
 			string brushFile = fileChooser.Filename;
 		
 			BrushEditor editor = new BrushEditor(this, layerList.CurrentTilemap,
-			                                        level.Tileset, brushFile);
+			                                     level.Tileset, brushFile);
 			SetEditor(editor);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
@@ -631,7 +631,7 @@ public class Application : IEditorApplication {
 			Gtk.Application.Run();
 		} catch(Exception e) {
 			if(app.level != null) {
-				Console.Error.WriteLine("Unxpected Exception... Emergency save to '/tmp/supertux-editor-emergency.stl'");
+				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}
 			throw e;

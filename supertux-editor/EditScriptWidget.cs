@@ -2,6 +2,10 @@ using System;
 using LispReader;
 using Gtk;
 
+/// <summary>
+/// A widget used to open a dialog box to 
+/// edit scripts in (and currently also other multi line strings).
+/// </summary>
 public sealed class EditScriptWidget : ICustomSettingsWidget
 {
 	public FieldOrProperty field;

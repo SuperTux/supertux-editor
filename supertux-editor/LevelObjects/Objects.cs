@@ -264,7 +264,8 @@ public sealed class StalactiteYeti : SimpleObject
 	}
 }
 
-[SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite")]
+[SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Spotlight : SimpleObject
 {
 	[LispChild("angle")]

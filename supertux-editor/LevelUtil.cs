@@ -13,10 +13,15 @@ public static class LevelUtil
 		return level;
 	}
 	
+	/// <summary>
+	/// Initialises a new sector with some default values. 
+	/// </summary>
+	/// <param name="Name">Name of new sector.</param>
+	/// <returns>The created sector.</returns>
 	public static Sector CreateSector(string Name)
 	{
 		Sector sector = new Sector();
-		sector.Name = "main";
+		sector.Name = Name;
 
 		Tilemap tilemap = new Tilemap();
 		tilemap.Resize(100, 35, 0);

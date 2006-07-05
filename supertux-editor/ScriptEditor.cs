@@ -4,6 +4,15 @@ using Gdk;
 using Glade;
 using LispReader;
 
+/// <summary>
+/// A dialogbox used to edit scripts and currently also other multi line strings.
+/// </summary>
+/// <remarks>
+/// If you change this to add syntax highlighting or other 
+/// features that are specialised for Squirrel please create another
+/// multi-line edit box that can be used in for 
+/// example <see cref="InfoBlock"/>.
+/// </remarks>
 public class ScriptEditor
 {
 	[Glade.Widget]

@@ -1,7 +1,7 @@
 namespace DataStructures
 {
 
-	public class Matrix
+	public sealed class Matrix
 	{
 		public float[] Elements;
 	}
