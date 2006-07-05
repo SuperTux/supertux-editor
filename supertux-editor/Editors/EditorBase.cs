@@ -4,9 +4,24 @@ using System;
 using Gdk;
 
 /// <summary>
+/// Base class for all editors.
+/// </summary>
+public abstract class EditorBase {
+	protected IEditorApplication application;
+}
+
+/// <summary>
+/// Base class for editors editing objects.
+/// </summary>
+public abstract class ObjectEditorBase : EditorBase {
+	protected Sector sector;
+}
+
+
+/// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
-public abstract class TileEditorBase {
+public abstract class TileEditorBase : EditorBase {
 	protected Selection selection;
 	protected bool drawing;
 	protected bool selecting;
@@ -16,7 +31,6 @@ public abstract class TileEditorBase {
 	protected FieldPos SelectionP1;
 	protected FieldPos SelectionP2;
 
-	protected IEditorApplication application;
 	protected Tilemap Tilemap;
 	protected Tileset Tileset;
 

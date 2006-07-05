@@ -3,10 +3,8 @@ using System;
 using System.Reflection;
 using Gdk;
 
-public class ObjectCreationEditor : IEditor
+public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 {
-	private IEditorApplication application;
-	private Sector sector;
 	private Type objectType;
 	public event RedrawEventHandler Redraw;	
 	

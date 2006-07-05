@@ -6,8 +6,8 @@ using SceneGraph;
 using Gtk;
 using Gdk;
 
-public class ObjectsEditor : IEditor
-{	
+public sealed class ObjectsEditor : ObjectEditorBase, IEditor
+{
 	private sealed class ControlPoint : IObject, Node
 	{
 		public enum AttachPoint {
@@ -103,8 +103,6 @@ public class ObjectsEditor : IEditor
 		}
 	}
 	
-	private IEditorApplication application;
-	private Sector sector;
 	private IObject activeObject;
 	private Vector pressPoint;
 	private RectangleF originalArea;
@@ -277,7 +275,7 @@ public class ObjectsEditor : IEditor
 	/// <summary>
 	/// Returns unit to snap to, based on passed Modifier keys
 	/// </summary>
-	protected int SnapValue(ModifierType Modifiers)
+	private int SnapValue(ModifierType Modifiers)
 	{
 		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
 		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;

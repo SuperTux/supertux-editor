@@ -8,8 +8,8 @@ using Gdk;
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
-public class BrushEditor : TileEditorBase, IEditor {
-	new private Selection selection = new Selection();
+public sealed class BrushEditor : TileEditorBase, IEditor {
+	private new Selection selection = new Selection();
 	private Brush brush;
 
 	public event RedrawEventHandler Redraw;
@@ -32,7 +32,7 @@ public class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	new public void Draw()
+	public new void Draw()
 	{
 		// when not selecting, draw white rectangle over affected tiles
 		if(!selecting) {

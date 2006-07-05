@@ -7,7 +7,7 @@ using SceneGraph;
 using DataStructures;
 using OpenGl;
 
-public class PathEditor : IEditor, IEditorCursorChange, IDisposable
+public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisposable
 {	
 	public event RedrawEventHandler Redraw;
 	public event CursorChangeHandler CursorChange;
@@ -19,7 +19,6 @@ public class PathEditor : IEditor, IEditorCursorChange, IDisposable
 	private Vector originalPos;
 	private ushort linepattern = 7;
 	private static bool killTimer;
-	private IEditorApplication application;
 	
 	public PathEditor(IEditorApplication application, Path path)
 	{

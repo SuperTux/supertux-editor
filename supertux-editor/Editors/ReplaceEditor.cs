@@ -3,7 +3,7 @@ using OpenGl;
 using System;
 using Gdk;
 
-public class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
+public sealed class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
 
 	public event RedrawEventHandler Redraw;
 

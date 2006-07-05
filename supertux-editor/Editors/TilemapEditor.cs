@@ -3,7 +3,7 @@ using OpenGl;
 using System;
 using Gdk;
 
-public class TilemapEditor : TileEditorBase, IEditor, IDisposable {
+public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 	public event RedrawEventHandler Redraw;
 
 	public TilemapEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
