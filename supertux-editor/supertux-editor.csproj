@@ -42,6 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="CustomSettingsWidget.cs" />
     <Compile Include="Editors\Brush.cs" />
     <Compile Include="Editors\BrushEditor.cs" />
     <Compile Include="Editors\CameraDrag.cs" />

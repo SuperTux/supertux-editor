@@ -2,7 +2,7 @@ using System;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple=false)]
-public class CustomSettingsWidgetAttribute : Attribute
+public abstract class CustomSettingsWidgetAttribute : Attribute
 {
 	public Type Type;
 	

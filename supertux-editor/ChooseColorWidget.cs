@@ -10,35 +10,15 @@ using LispReader;
 /// <remarks>
 /// TODO: Add support to set alpha value too.
 /// </remarks>
-public class ChooseColorWidget : ICustomSettingsWidget
+public sealed class ChooseColorWidget : CustomSettingsWidget
 {	
-	public FieldOrProperty field;
-	public FieldOrProperty Field {
-		get {
-			return field;
-		}
-		set {
-			field = value;
-		}
-	}
-	
-	public object _object;
-	public object Object {
-		get {
-			return _object;
-		}
-		set {
-			_object = value;
-		}
-	}
-	
 	private ColorButton colorButton;
 	
 	public ChooseColorWidget()
 	{
 	}
-	
-	public Widget Create()
+
+	public override Widget Create()
 	{
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		

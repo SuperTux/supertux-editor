@@ -4,31 +4,11 @@ using System.Reflection;
 using Gtk;
 using LispReader;
 
-public class ChooseResourceWidget : ICustomSettingsWidget
+public sealed class ChooseResourceWidget : CustomSettingsWidget
 {
-	public FieldOrProperty field;
-	public FieldOrProperty Field {
-		get {
-			return field;
-		}
-		set {
-			field = value;
-		}
-	}
-	
-	public object _object;
-	public object Object {
-		get {
-			return _object;
-		}
-		set {
-			_object = value;
-		}
-	}
-	
 	private Entry entry;
-	
-	public Widget Create()
+
+	public override Widget Create()
 	{
 		HBox box = new HBox();
 		entry = new Entry();

@@ -6,29 +6,9 @@ using Gtk;
 /// A widget used to open a dialog box to 
 /// edit scripts in (and currently also other multi line strings).
 /// </summary>
-public sealed class EditScriptWidget : ICustomSettingsWidget
+public sealed class EditScriptWidget : CustomSettingsWidget
 {
-	public FieldOrProperty field;
-	public FieldOrProperty Field {
-		get {
-			return field;
-		}
-		set {
-			field = value;
-		}
-	}
-	
-	public object _object;
-	public object Object {
-		get {
-			return _object;
-		}
-		set {
-			_object = value;
-		}
-	}
-	
-	public Widget Create()
+	public override Widget Create()
 	{
 		Button button = new Button("Edit Script");
 		button.Clicked += OnEdit;
