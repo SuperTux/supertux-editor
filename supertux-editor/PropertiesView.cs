@@ -6,11 +6,28 @@ using System.Reflection;
 using Gtk;
 using LispReader;
 
+
+/// <summary>
+/// Used to set a custom tooltip for a LispChild.
+/// </summary>
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
+								AllowMultiple = false)]
+public sealed class CustomTooltipAttribute : Attribute {
+	public string Tooltip;
+
+	public CustomTooltipAttribute(string tooltip) {
+		this.Tooltip = tooltip;
+	}
+}
+
+
+
 public class PropertiesView : ScrolledWindow
 {
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	private Label errorLabel;
+	Tooltips tooltips;
 	
 	private object CreateObject(Type Type) {
 		// create object
@@ -35,7 +52,8 @@ public class PropertiesView : ScrolledWindow
 	private void CreatePropertyWidgets(string title)
 	{
 		VBox box = new VBox();
-	
+		tooltips = new Tooltips();
+
 		Label titleLabel = new Label();
 		titleLabel.Xalign = 0;
 		titleLabel.Xpad = 12;
@@ -63,7 +81,10 @@ public class PropertiesView : ScrolledWindow
 				field.GetCustomAttribute(typeof(LispChildAttribute));
 			if(ChildAttrib == null)
 				continue;
-			
+
+			CustomTooltipAttribute customTooltip = (CustomTooltipAttribute)
+				field.GetCustomAttribute(typeof(CustomTooltipAttribute));
+
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {
 				Entry entry = new Entry();
@@ -74,6 +95,8 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
 				editWidgets.Add(entry);
+				if (customTooltip != null)
+					tooltips.SetTip(entry, customTooltip.Tooltip, customTooltip.Tooltip);
 			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
@@ -81,6 +104,8 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
+				if (customTooltip != null)
+					tooltips.SetTip(checkButton, customTooltip.Tooltip, customTooltip.Tooltip);
 			} else if(field.Type.IsEnum) {
 				// Create a combobox containing all the names of enum values.
 				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
@@ -95,6 +120,8 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				comboBox.Changed += OnComboBoxChanged;
 				editWidgets.Add(comboBox);
+				if (customTooltip != null)
+					tooltips.SetTip(comboBox, customTooltip.Tooltip, customTooltip.Tooltip);
 			}
 			
 		}

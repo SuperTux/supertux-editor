@@ -64,9 +64,10 @@ public class ChooseResourceWidget : ICustomSettingsWidget
 		
 		if(dialog.Filename.StartsWith(Settings.Instance.SupertuxData))
 			entry.Text = dialog.Filename.Substring(Settings.Instance.SupertuxData.Length,
-			                                          dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
+			                                       dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
 		else
 			entry.Text = System.IO.Path.GetFileName(dialog.Filename);
+			// Fixes backslashes on windows:
 			entry.Text = entry.Text.Replace("\\", "/"); 
 		dialog.Destroy();
 	}
