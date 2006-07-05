@@ -636,6 +636,8 @@ public sealed class Powerup : SimpleObject
 	public bool DisablePhysics;
 	
 	public Powerup() {
+		Sprite = SpriteManager.CreateFromImage("images/engine/editor/powerup.png");
+		Sprite.Action = "default";
 	}
 }
 
@@ -710,6 +712,8 @@ public sealed class AmbientSound : SimpleObjectArea
 	public float DistanceBias;
 	[LispChild("volume")]
 	public float Volume;
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
 	
 	public AmbientSound() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/ambientsound.png");
