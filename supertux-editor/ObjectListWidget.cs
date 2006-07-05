@@ -127,6 +127,9 @@ public class ObjectListWidget : GLWidgetBase
 			if(objectAttribute == null)
 				continue;
 
+			if (objectAttribute.Target == SupertuxObjectAttribute.Usage.None)
+				continue;
+
 			// We load all objects if no level is loaded to avoid crash 
 			// when accessing acessing the level object (as that is null 
 			// when no level is loaded).
@@ -136,8 +139,6 @@ public class ObjectListWidget : GLWidgetBase
 					continue;
 				} else if ( (objectAttribute.Target == SupertuxObjectAttribute.Usage.LevelOnly) &&
 				            (level.TilesetFile == "images/worldmap.strf") ) {
-					continue;
-				} else if (objectAttribute.Target == SupertuxObjectAttribute.Usage.None) {
 					continue;
 				}
 			}

@@ -120,6 +120,7 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				comboBox.Changed += OnComboBoxChanged;
 				editWidgets.Add(comboBox);
+				// FIXME: Why doesn't this work for the ComboBox?
 				if (customTooltip != null)
 					tooltips.SetTip(comboBox, customTooltip.Tooltip, customTooltip.Tooltip);
 			}

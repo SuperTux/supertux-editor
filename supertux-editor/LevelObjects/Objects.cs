@@ -20,15 +20,15 @@ internal static class ToolTipStrings {
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 public sealed class SupertuxObjectAttribute : Attribute
 {
-	/// <summary>Tells where the object can be used.</summary>
+	/// <summary>Tells when the object will be shown in the object list.</summary>
 	public enum Usage {
-		/// <summary>Can be used anywhere. This is the default.</summary>
+		/// <summary>Should only be shown everywhere. This is the default.</summary>
 		Any,
-		/// <summary>Should not be shown at all</summary>
+		/// <summary>Should not be shown at all.</summary>
 		None,
-		/// <summary>Can only be used on worldmaps.</summary>
+		/// <summary>Should only be shown for worldmaps.</summary>
 		WorldmapOnly,
-		/// <summary>Can only be used in "normal" levels.</summary>
+		/// <summary>Should only be shown for "normal" levels.</summary>
 		LevelOnly
 	}
 
@@ -45,6 +45,8 @@ public sealed class SupertuxObjectAttribute : Attribute
 		this.IconSprite = IconSprite;
 	}
 }
+
+#region Badguys
 
 [SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
@@ -135,19 +137,6 @@ public sealed class SleepSpiky : SimpleDirObject
 	public SleepSpiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
 		Sprite.Action = "sleeping-left";
-	}
-}
-
-[SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class SpawnPoint : SimpleObject
-{
-	[LispChild("name")]
-	public string Name;
-	
-	public SpawnPoint() {
-		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spawnpoint.png");
-		Sprite.Action = "default";
 	}
 }
 
@@ -294,6 +283,109 @@ public sealed class StalactiteYeti : SimpleObject
 	}
 }
 
+[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class AngryStone : SimpleObject
+{
+	public AngryStone() {
+		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
+	}
+}
+
+[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite", 
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Spidermite : SimpleObject
+{
+	public Spidermite() {
+		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
+	}
+}
+
+[SupertuxObject("plant", "images/creatures/plant/plant.sprite",
+                Target = SupertuxObjectAttribute.Usage.None)]
+public sealed class Plant : SimpleObject
+{
+	public Plant() {
+		Sprite = SpriteManager.Create("images/creatures/plant/plant.sprite");
+	}
+}
+
+[SupertuxObject("nolok_01", "images/creatures/nolok/nolok.sprite",
+                Target = SupertuxObjectAttribute.Usage.None)]
+public sealed class Nolok_01 : SimpleObject
+{
+	public Nolok_01() {
+		Sprite = SpriteManager.Create("images/creatures/nolok/nolok.sprite");
+	}
+}
+
+[SupertuxObject("willowisp",
+                "images/creatures/willowisp/willowisp.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class WilloWisp : SimpleObject
+{
+	[LispChild("sector")]
+	public string Sector = "";
+	[LispChild("spawnpoint")]
+	public string SpawnPoint = "";
+	
+	public WilloWisp() {
+		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
+		Sprite.Action = "idle";
+	}
+}
+
+[SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class DartTrap : SimpleDirObject
+{
+	[LispChild("initial-delay")]
+	public float initial_delay = 0;
+	[LispChild("fire-delay")]
+	public float fire_delay = 2;
+	[LispChild("ammo")]
+	public int ammo = -1;
+	
+	public DartTrap() {
+		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
+		Sprite.Action = "idle-left";
+	}
+}
+
+[SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class SkullyHop : SimpleObject
+{
+	public SkullyHop() {
+		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
+		Sprite.Action = "standing-left";
+	}
+}
+
+[SupertuxObject("igel", "images/creatures/igel/igel.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Igel : SimpleObject
+{
+	public Igel() {
+		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
+		Sprite.Action = "walking-left";
+	}
+}
+
+#endregion Badguys
+
+[SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class SpawnPoint : SimpleObject {
+	[LispChild("name")]
+	public string Name;
+
+	public SpawnPoint() {
+		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spawnpoint.png");
+		Sprite.Action = "default";
+	}
+}
+
 [SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Spotlight : SimpleObject
@@ -307,21 +399,15 @@ public sealed class Spotlight : SimpleObject
 	}
 }
 
-/// <summary>
-/// Base class for Door
-/// </summary>
-public abstract class DoorBase : SimpleObject
+[SupertuxObject("door", "images/objects/door/door.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Door : SimpleObject
 {
 	[LispChild("sector")]
 	public string Sector;
 	[LispChild("spawnpoint")]
 	public string Spawnpoint;
-}
 
-[SupertuxObject("door", "images/objects/door/door.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Door : DoorBase
-{
 	public Door() {
 		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
 		Sprite.Action = "closed";
@@ -391,38 +477,7 @@ public sealed class Firefly : SimpleObject
 	}
 }
 
-[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class AngryStone : SimpleObject
-{
-	public AngryStone() {
-		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
-	}
-}
-
-[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite", Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Spidermite : SimpleObject
-{
-	public Spidermite() {
-		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
-	}
-}
-
-[SupertuxObject("plant", "images/creatures/plant/plant.sprite", Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Plant : SimpleObject
-{
-	public Plant() {
-		Sprite = SpriteManager.Create("images/creatures/plant/plant.sprite");
-	}
-}
-
-[SupertuxObject("nolok_01", "images/creatures/nolok/nolok.sprite", Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Nolok_01 : SimpleObject
-{
-	public Nolok_01() {
-		Sprite = SpriteManager.Create("images/creatures/nolok/nolok.sprite");
-	}
-}
+#region Platforms
 
 /// <summary>Base class for platforms.</summary>
 public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
@@ -430,7 +485,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	[CustomTooltip("If the platform will be moving initaly.")]
+	[CustomTooltip("If enabled the platform will be moving initaly.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
 	[ChooseResourceSetting]
@@ -513,58 +568,7 @@ public sealed class HurtingPlatform : PlatformBase
 {
 }
 
-[SupertuxObject("willowisp",
-                "images/creatures/willowisp/willowisp.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class WilloWisp : SimpleObject
-{
-	[LispChild("sector")]
-	public string Sector = "";
-	[LispChild("spawnpoint")]
-	public string SpawnPoint = "";
-	
-	public WilloWisp() {
-		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
-		Sprite.Action = "idle";
-	}
-}
-
-[SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class DartTrap : SimpleDirObject
-{
-	[LispChild("initial-delay")]
-	public float initial_delay = 0;
-	[LispChild("fire-delay")]
-	public float fire_delay = 2;
-	[LispChild("ammo")]
-	public int ammo = -1;
-	
-	public DartTrap() {
-		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
-		Sprite.Action = "idle-left";
-	}
-}
-
-[SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class SkullyHop : SimpleObject
-{
-	public SkullyHop() {
-		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
-		Sprite.Action = "standing-left";
-	}
-}
-
-[SupertuxObject("igel", "images/creatures/igel/igel.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Igel : SimpleObject
-{
-	public Igel() {
-		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
-		Sprite.Action = "walking-left";
-	}
-}
+#endregion Platforms
 
 [SupertuxObject("rock", "images/objects/rock/rock.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
@@ -583,6 +587,7 @@ public sealed class Candle : SimpleObject
 	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
+	[CustomTooltip("If enabled the candle will be burning initaly.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
 
@@ -591,6 +596,8 @@ public sealed class Candle : SimpleObject
 		Sprite.Action = "on";
 	}
 }
+
+#region TileLike
 
 [SupertuxObject("unstable_tile",
                 "images/objects/unstable_tile/unstable_tile.sprite",
@@ -641,6 +648,8 @@ public sealed class InfoBlock : SimpleObject
 		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
 	}
 }
+
+#endregion TileLike
 
 [SupertuxObject("powerup", "images/engine/editor/powerup.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
@@ -710,6 +719,8 @@ public sealed class ScriptedObject : SimpleObject
 	}
 }
 
+#region AreaObjects
+
 [SupertuxObject("wind", "images/engine/editor/wind.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Wind : SimpleObjectArea
@@ -718,6 +729,7 @@ public sealed class Wind : SimpleObjectArea
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
+	[CustomTooltip("If enabled the wind will be blowing initaly.")]
 	[LispChild("blowing", Optional = true, Default = true)]
 	public bool Blowing = true;
 
@@ -795,6 +807,10 @@ public sealed class SecretArea : SimpleObjectArea
 	}
 }
 
+#endregion AreaObjects
+
+#region Particles
+
 [SupertuxObject("particles-rain", "images/engine/editor/rain.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class RainParticles : IGameObject
@@ -826,6 +842,8 @@ public sealed class CloudParticles : IGameObject
 	[LispChild("z-pos", Optional = true, Default = -200)]
 	public int ZPos = -200;
 }
+
+#endregion Particles
 
 [SupertuxObject("leveltime", "images/engine/editor/clock.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
