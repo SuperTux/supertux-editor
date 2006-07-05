@@ -240,9 +240,27 @@ public sealed class Kugelblitz : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Dispenser : SimpleDirObject
 {
-	[CustomTooltip("Type of badguy the dispenser will output.")]
+	/// <summary>
+	/// Type of enemy to create.
+	/// </summary>
+	public enum Badguys {
+		snowball,
+		bouncingsnowball,
+		mrbomb,
+		mriceblock,
+		snail,
+		mrrocket,
+		poisonivy,
+		skullyhop,
+		/// <summary>
+		/// Random enemies.
+		/// </summary>
+		random
+	}
+
+	[CustomTooltip("Type of badguy the dispenser will create.")]
 	[LispChild("badguy")]
-	public string Badguy = "";
+	public Badguys Badguy = Badguys.mrrocket;
 	[LispChild("cycle")]
 	public float Cycle = 1;
 

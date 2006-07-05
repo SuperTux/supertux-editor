@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-public class Settings {
+public sealed class Settings {
 	public string LastDirectoryName;
 	public string LastBrushDir;
 	public string SupertuxExe = "/usr/local/bin/supertux";
