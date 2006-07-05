@@ -45,6 +45,7 @@
     <Compile Include="Editors\Brush.cs" />
     <Compile Include="Editors\BrushEditor.cs" />
     <Compile Include="Editors\CameraDrag.cs" />
+    <Compile Include="Editors\EditorBase.cs" />
     <Compile Include="Editors\FillEditor.cs" />
     <Compile Include="Editors\PathEditor.cs" />
     <Compile Include="Editors\ReplaceEditor.cs" />
