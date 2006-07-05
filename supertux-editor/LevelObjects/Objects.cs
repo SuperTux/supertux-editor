@@ -4,6 +4,17 @@ using LispReader;
 using DataStructures;
 using SceneGraph;
 
+/// <summary>
+/// Used to make it simpler to change common tooltip strings.
+/// </summary>
+internal static class ToolTipStrings {
+	/// <summary>
+	/// For the "Name" attribute used for scripting. 
+	/// </summary>
+	internal const string ScriptingName = "Used to refer to the object from a script. If it isn't set the object can't be scripted.";
+}
+
+
 // TODO: Write better documentation.
 /// <summary>Attribute that marks a class as an object for use in levels/worldmaps.</summary>
 [AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
@@ -229,6 +240,7 @@ public sealed class Kugelblitz : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Dispenser : SimpleDirObject
 {
+	[CustomTooltip("Type of badguy the dispenser will output.")]
 	[LispChild("badguy")]
 	public string Badguy = "";
 	[LispChild("cycle")]
@@ -397,8 +409,10 @@ public sealed class Nolok_01 : SimpleObject
 /// <summary>Base class for platforms.</summary>
 public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
+	[CustomTooltip("If the platform will be moving initaly.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
 	[ChooseResourceSetting]
@@ -548,6 +562,7 @@ public sealed class Rock : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Candle : SimpleObject
 {
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 	[LispChild("burning", Optional = true, Default = true)]
@@ -646,6 +661,7 @@ public sealed class Powerup : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class ScriptedObject : SimpleObject
 {
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name")]
 	public string Name = "";
 	[ChooseResourceSetting]
@@ -680,6 +696,7 @@ public sealed class ScriptedObject : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Wind : SimpleObjectArea
 {
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
@@ -713,6 +730,7 @@ public sealed class AmbientSound : SimpleObjectArea
 	public float DistanceBias;
 	[LispChild("volume")]
 	public float Volume;
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 	
