@@ -432,7 +432,7 @@ public sealed class Switch : SimpleObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = "images/objects/switch/switch.sprite";
 
 	[LispChild("script")]
 	[EditScriptSetting]
@@ -500,7 +500,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 				Sprite = SpriteManager.Create(value);
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = "images/objects/flying_platform/flying_platform.sprite";
 	
 	private Sprite Sprite;
 	
