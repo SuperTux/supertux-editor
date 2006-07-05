@@ -104,6 +104,14 @@ public class Properties {
 		return true;
 	}
 
+	/// <summary>
+	/// Gets a string from somewhere unknown
+	/// (due to bad documentation in the rest of this class) into an Enum.
+	/// </summary>
+	/// <param name="Name">Name of attribute to find.</param>
+	/// <param name="Val">The <see cref="Enum"/> is returned in this.</param>
+	/// <param name="proptype">A <see cref="Type"/> of the Enum we want.</param>
+	/// <returns>False if we failed to get the value Name, otherwise true.</returns>
 	public bool Get(string Name, ref Enum Val, Type proptype) {
 		List list = Find(Name);
 		if (list == null)

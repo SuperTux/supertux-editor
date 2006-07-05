@@ -82,8 +82,13 @@ public class PropertiesView : ScrolledWindow
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
 			} else if(field.Type.IsEnum) {
+				// Create a combobox containing all the names of enum values.
 				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
+				// Set the name of the box.
 				comboBox.Name = field.Name;
+				// FIXME: This will break if:
+				//        1) the first enum isn't 0 and/or 
+				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
 				object val = field.GetValue(Object);
 				if (val != null)
 					comboBox.Active = (int)val;
@@ -172,6 +177,7 @@ public class PropertiesView : ScrolledWindow
 		try {
 			ComboBox comboBox = (ComboBox)o;
 			FieldOrProperty field = fieldTable[comboBox.Name];
+			// Parse the string back to enum.
 			field.SetValue(Object, Enum.Parse(field.Type, comboBox.ActiveText));
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
