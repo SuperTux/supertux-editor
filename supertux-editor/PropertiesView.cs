@@ -20,14 +20,12 @@ public sealed class CustomTooltipAttribute : Attribute {
 	}
 }
 
-
-
 public class PropertiesView : ScrolledWindow
 {
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	private Label errorLabel;
-	Tooltips tooltips;
+	internal Tooltips tooltips;
 	
 	private object CreateObject(Type Type) {
 		// create object
@@ -73,7 +71,7 @@ public class PropertiesView : ScrolledWindow
 				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(customType);
 				customWidget.Object = Object;
 				customWidget.Field = field;
-				editWidgets.Add(customWidget.Create());
+				editWidgets.Add(customWidget.Create(this));
 				continue;				
 			}
 			

@@ -18,7 +18,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 	{
 	}
 
-	public override Widget Create()
+	public override Widget Create(object caller)
 	{
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		
@@ -37,6 +37,10 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		colorButton.ColorSet += OnChooseColor;
 		
 		colorButton.Name = field.Name;
+
+		// Create a tooltip if we can.
+		CreateToolTip(caller, colorButton);
+
 		return colorButton;
 	}
 	

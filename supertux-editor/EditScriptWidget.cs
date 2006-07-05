@@ -8,12 +8,14 @@ using Gtk;
 /// </summary>
 public sealed class EditScriptWidget : CustomSettingsWidget
 {
-	public override Widget Create()
+	public override Widget Create(object caller)
 	{
 		Button button = new Button("Edit Script");
 		button.Clicked += OnEdit;
 		button.Name = field.Name;
-		
+
+		// Create a tooltip if we can.
+		CreateToolTip(caller, button);
 		return button;
 	}
 	

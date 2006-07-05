@@ -8,7 +8,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 {
 	private Entry entry;
 
-	public override Widget Create()
+	public override Widget Create(object caller)
 	{
 		HBox box = new HBox();
 		entry = new Entry();
@@ -24,6 +24,9 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 		chooseButton.Clicked += OnChoose;
 		
 		box.Name = field.Name;
+
+		CreateToolTip(caller, entry);
+
 		return box;
 	}
 	

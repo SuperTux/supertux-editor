@@ -618,7 +618,7 @@ public sealed class UnstableTile : SimpleObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = "images/objects/unstable_tile/unstable_tile.sprite";
 
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");

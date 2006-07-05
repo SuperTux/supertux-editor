@@ -13,6 +13,6 @@ public interface ICustomSettingsWidget
 		get;
 		set;
 	}
-	
-	Widget Create();
+
+	Widget Create(object caller);
 }

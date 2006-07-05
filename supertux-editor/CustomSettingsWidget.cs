@@ -28,6 +28,15 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget {
 		}
 	}
 
-	public abstract Widget Create();
+	public abstract Widget Create(object caller);
 
+	protected void CreateToolTip(object caller, Widget widget) {
+		// Create a tooltip if we can.
+		CustomTooltipAttribute customTooltip = (CustomTooltipAttribute)
+			field.GetCustomAttribute(typeof(CustomTooltipAttribute));
+		if ((customTooltip != null) && (caller.GetType() == typeof(PropertiesView))) {
+			PropertiesView propview = (PropertiesView)caller;
+			propview.tooltips.SetTip(widget, customTooltip.Tooltip, customTooltip.Tooltip);
+		}
+	}
 }
