@@ -52,6 +52,25 @@ public sealed class SupertuxObjectAttribute : Attribute
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrBomb : SimpleDirObject
 {
+ 	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = null)]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "")
+				try{ //TODO: find out why cherry's sprite causes problems. Particles?
+					Sprite = SpriteManager.Create(value);
+  					Sprite.Action = "left";
+				} catch {
+					Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
+					Sprite.Action = "right";
+				}
+		}
+	}
+	private string spriteFile = "";
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
 		Sprite.Action = "left";
