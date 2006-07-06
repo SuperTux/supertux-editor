@@ -105,6 +105,11 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					}
 				} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
 					node = new Path.Node();
+					//Snap?
+					if( application.SnapToGrid ) {
+						pos = new Vector((float) ((int)pos.X / 32) * 32,
+						                 (float) ((int)pos.Y / 32) * 32);
+					}
 					node.Pos = pos;
 					path.Nodes.Add(node);
 				} else if(selectedNode == path.Nodes[0]) {
@@ -141,7 +146,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		if(dragging) {
 			Vector spos = originalPos + (pos - pressPoint);
 			// snap to 32pixel?
-			if((Modifiers & ModifierType.ShiftMask) != 0) {
+			if((Modifiers & ModifierType.ShiftMask) != 0 || application.SnapToGrid ) {
 				spos = new Vector((float) ((int)spos.X / 32) * 32,
 				                  (float) ((int)spos.Y / 32) * 32);
 			}
