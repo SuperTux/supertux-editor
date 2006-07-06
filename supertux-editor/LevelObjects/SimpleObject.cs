@@ -128,8 +128,11 @@ public abstract class SimpleObjectArea : SimpleObject
 		float right = X + Width;
 		float top = Y;
 		float bottom = Y + Height;
-			
-		gl.Color4f(Color.Red, Color.Green, Color.Blue, Color.Alpha);
+		
+	    float[] current_color = new float[4];
+		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
+		//get current color, might be transparent
+		gl.Color4f(Color.Red, Color.Green, Color.Blue, current_color[3] * Color.Alpha);
 		gl.Disable(gl.TEXTURE_2D);
 		
 		gl.Begin(gl.QUADS);
@@ -140,7 +143,7 @@ public abstract class SimpleObjectArea : SimpleObject
 		gl.End();
 			
 		gl.Enable(gl.TEXTURE_2D);
-		gl.Color4f(1, 1, 1, 1);
+		gl.Color4fv( current_color );
 	}
 	
 	public override void ChangeArea(RectangleF Area) {
