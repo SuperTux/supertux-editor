@@ -273,12 +273,13 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	}
 
 	/// <summary>
-	/// Returns unit to snap to, based on passed Modifier keys
+	/// Returns unit to snap to, based on passed Modifier keys and application settings
 	/// </summary>
 	private int SnapValue(ModifierType Modifiers)
 	{
 		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
 		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;
+		if( application.SnapToGrid ) return 32;
 		return 0;
 	}
 

@@ -86,6 +86,13 @@ public class Application : IEditorApplication {
 		}
 	}
 	
+	public bool SnapToGrid {
+		get{
+			return snapToGrid;
+		}
+	}
+	private bool snapToGrid = true;
+	
 	/// <summary>Write message on main windows's statusbar</summary>
 	public void PrintStatus( string message )
 	{
@@ -402,7 +409,22 @@ public class Application : IEditorApplication {
 	{
 		Close();
 	}
-
+	
+	protected void OnSnap(object o, EventArgs e)
+	{
+		snapToGrid = !snapToGrid;
+		if( snapToGrid )
+			PrintStatus("Snap objects to grid.");
+		else
+			PrintStatus("Snap to grid deactivated.");
+	}
+	
+	protected void OnShowBackground(object o, EventArgs e)
+	{
+		Console.WriteLine("TODO: OnShowBackground not yet implemeted");
+		PrintStatus("Show/Hide Background not yet implemeted.");
+	}
+	
 	protected void OnAbout(object o, EventArgs e)
 	{
 		MessageDialog md = new MessageDialog( MainWindow, DialogFlags.DestroyWithParent,

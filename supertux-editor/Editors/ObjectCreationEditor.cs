@@ -45,6 +45,11 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 
 	private IGameObject CreateObjectAt(Vector pos)
 	{
+		if( application.SnapToGrid ){
+			int snap = 32;
+			pos = new Vector((float) ((int)pos.X / snap) * snap,
+			                 (float) ((int)pos.Y / snap) * snap);	
+		}	
 		IGameObject gameObject = (IGameObject) CreateObject();
 		if(gameObject is IObject) {
 			IObject obj = (IObject) gameObject;
