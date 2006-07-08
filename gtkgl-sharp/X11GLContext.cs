@@ -102,10 +102,14 @@ namespace Gdk
 				IntPtr glxshare = IntPtr.Zero;
 				if (share != null)
 					glxshare = share.glxcontext;
+				
+				// bool directRendering = true;
+				bool directRendering = false;
+				
 				glxcontext = glXCreateContext (xdisplay,
 					visualInfo,
 					glxshare,
-					true);
+					directRendering);
 				if (glxcontext == IntPtr.Zero)
 					throw new SystemException ("Failed to create glx-context.");
 			} finally {
