@@ -35,7 +35,7 @@ public class ColorSerializer : ILispSerializer
 		writer.Write(name, vals);
 	}
 	
-	private float GetFloat(object obj)
+	private static float GetFloat(object obj)
 	{
 		if(obj is int)
 			return (float) ((int) obj);

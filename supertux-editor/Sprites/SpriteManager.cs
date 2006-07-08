@@ -8,7 +8,7 @@ using Drawing;
 
 namespace Sprites {
 
-	public class SpriteManager  {
+	public static class SpriteManager  {
 		private static Dictionary<string, SpriteData> SpriteDatas 
 			= new Dictionary<string, SpriteData>();
 		

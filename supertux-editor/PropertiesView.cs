@@ -93,8 +93,7 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
 				editWidgets.Add(entry);
-				if (customTooltip != null)
-					tooltips.SetTip(entry, customTooltip.Tooltip, customTooltip.Tooltip);
+				AddTooltip(customTooltip, entry);
 			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
@@ -102,8 +101,7 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
-				if (customTooltip != null)
-					tooltips.SetTip(checkButton, customTooltip.Tooltip, customTooltip.Tooltip);
+				AddTooltip(customTooltip, checkButton);
 			} else if(field.Type.IsEnum) {
 				// Create a combobox containing all the names of enum values.
 				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
@@ -119,8 +117,7 @@ public class PropertiesView : ScrolledWindow
 				comboBox.Changed += OnComboBoxChanged;
 				editWidgets.Add(comboBox);
 				// FIXME: Why doesn't this work for the ComboBox?
-				if (customTooltip != null)
-					tooltips.SetTip(comboBox, customTooltip.Tooltip, customTooltip.Tooltip);
+				AddTooltip(customTooltip, comboBox);
 			}
 			
 		}
@@ -156,6 +153,16 @@ public class PropertiesView : ScrolledWindow
 		
 		Foreach(Remove);
 		AddWithViewport(box);
+	}
+
+	/// <summary>
+	/// Add a tooltip for a widget if a CustomTooltipAttribute is set.
+	/// </summary>
+	/// <param name="customTooltip">Attribute with tooltip</param>
+	/// <param name="widget">Widget to add tooltip to.</param>
+	private void AddTooltip(CustomTooltipAttribute customTooltip, Widget widget) {
+		if (customTooltip != null)
+			tooltips.SetTip(widget, customTooltip.Tooltip, customTooltip.Tooltip);
 	}
 	
 	private void OnEntryChanged(object o, EventArgs args)
