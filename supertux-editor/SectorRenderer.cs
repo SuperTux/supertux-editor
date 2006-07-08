@@ -8,7 +8,9 @@ public class SectorRenderer : RenderView
 {
 	private Hashtable colors = new Hashtable();
 	private ColorNode objectsColorNode;
+	private ColorNode backgroundColorNode;
 	private NodeWithChilds objectsNode;
+	private NodeWithChilds backgroundNode;
 	private SceneGraph.Rectangle sectorBBox;
 	private SceneGraph.Rectangle sectorFill;
 	private Level level;
@@ -18,11 +20,13 @@ public class SectorRenderer : RenderView
 		this.level = level;
 		Layer layer = new Layer();
 
+		backgroundNode = new NodeWithChilds();
+		backgroundColorNode = new ColorNode(backgroundNode, new Color(1f, 1f, 1f, 1f));
+		layer.Add(-900, backgroundColorNode);
 		foreach(Background background in sector.GetObjects(typeof(Background))) {
 			Node node = background.GetSceneGraphNode();
 			if(node == null) continue;
-			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
-			layer.Add(background.Layer, colorNode);
+			backgroundNode.AddChild(node);
 		}
 		
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
@@ -70,6 +74,12 @@ public class SectorRenderer : RenderView
 		System.Console.WriteLine("Set color of tilemap {0}", tilemap.GetHashCode());
 		ColorNode colorNode = (ColorNode) colors[tilemap];
 		colorNode.Color = color;
+		QueueDraw();
+	}
+
+	public void SetBackgroundColor(Color color)
+	{
+		backgroundColorNode.Color = color;
 		QueueDraw();
 	}
 	

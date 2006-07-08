@@ -69,6 +69,9 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Gtk.MenuItem undo1;
+	
+	[Glade.Widget] 
+	private Gtk.CheckMenuItem show_background1;
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -421,8 +424,11 @@ public class Application : IEditorApplication {
 	
 	protected void OnShowBackground(object o, EventArgs e)
 	{
-		Console.WriteLine("TODO: OnShowBackground not yet implemeted");
-		PrintStatus("Show/Hide Background not yet implemeted.");
+		if (show_background1.Active) {
+			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
+		} else {
+			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
+		}
 	}
 	
 	protected void OnAbout(object o, EventArgs e)
