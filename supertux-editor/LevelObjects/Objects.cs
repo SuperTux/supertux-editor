@@ -504,7 +504,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	[CustomTooltip("If enabled the platform will be moving initaly.")]
+	[CustomTooltip("If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
 	[ChooseResourceSetting]
@@ -606,7 +606,7 @@ public sealed class Candle : SimpleObject
 	[CustomTooltip(ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	[CustomTooltip("If enabled the candle will be burning initaly.")]
+	[CustomTooltip("If enabled the candle will be burning initially.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
 
@@ -748,7 +748,7 @@ public sealed class Wind : SimpleObjectArea
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
-	[CustomTooltip("If enabled the wind will be blowing initaly.")]
+	[CustomTooltip("If enabled the wind will be blowing initially.")]
 	[LispChild("blowing", Optional = true, Default = true)]
 	public bool Blowing = true;
 
@@ -868,6 +868,7 @@ public sealed class CloudParticles : IGameObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class LevelTime : IGameObject
 {
+	[CustomTooltip("Time in seconds")]
 	[LispChild("time")]
 	public float Time;
 }

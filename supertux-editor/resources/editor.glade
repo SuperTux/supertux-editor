@@ -43,7 +43,7 @@
 		<widget class="GtkMenu" id="menuitem1_menu">
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="neu1">
+		    <widget class="GtkImageMenuItem" id="New1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-new</property>
 		      <property name="use_stock">True</property>
@@ -52,7 +52,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="Öffnen1">
+		    <widget class="GtkImageMenuItem" id="Open1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-open</property>
 		      <property name="use_stock">True</property>
@@ -61,7 +61,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="speichern1">
+		    <widget class="GtkImageMenuItem" id="Save1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-save</property>
 		      <property name="use_stock">True</property>
@@ -70,7 +70,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="speichern_unter1">
+		    <widget class="GtkImageMenuItem" id="Save_as1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-save-as</property>
 		      <property name="use_stock">True</property>
@@ -1432,7 +1432,7 @@
 	  <child>
 	    <widget class="GtkFileChooserButton" id="dataDirChooser">
 	      <property name="visible">True</property>
-	      <property name="title" translatable="yes">Datei auswählen</property>
+	      <property name="title" translatable="yes">Select directory</property>
 	      <property name="action">GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER</property>
 	      <property name="local_only">True</property>
 	      <property name="show_hidden">False</property>
@@ -1451,7 +1451,7 @@
 	  <child>
 	    <widget class="GtkFileChooserButton" id="exeChooser">
 	      <property name="visible">True</property>
-	      <property name="title" translatable="yes">Datei auswählen</property>
+	      <property name="title" translatable="yes">Choose File</property>
 	      <property name="action">GTK_FILE_CHOOSER_ACTION_OPEN</property>
 	      <property name="local_only">True</property>
 	      <property name="show_hidden">False</property>

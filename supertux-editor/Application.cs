@@ -199,9 +199,9 @@ public class Application : IEditorApplication {
 		}
 	}
 
-	// === Begin: Tool Button Handlers === //
-	
 
+	#region Tool Button Handlers
+	
 	protected void OnMenuToolSelect(object o, EventArgs args) {
 		ToolSelect.Active = true;
 	}
@@ -283,9 +283,9 @@ public class Application : IEditorApplication {
 		SetEditor(new ReplaceEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
 	}
 
-	// === End: Tool Button Handlers === //
-	
-	
+	#endregion Tool Button Handlers
+
+
 	protected void OnHome(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			sectorSwitchNotebook.CurrentRenderer.Home();
