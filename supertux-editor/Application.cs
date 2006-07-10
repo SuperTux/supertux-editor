@@ -424,6 +424,10 @@ public class Application : IEditorApplication {
 	
 	protected void OnShowBackground(object o, EventArgs e)
 	{
+		if( CurrentRenderer == null ){
+			show_background1.Active = true;
+			return;
+		}
 		if (show_background1.Active) {
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
 		} else {
