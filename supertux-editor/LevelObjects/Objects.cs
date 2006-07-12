@@ -190,7 +190,17 @@ public sealed class MrTree : SimpleDirObject
 {
 	public MrTree() {
 		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
-		Sprite.Action = "large-left";
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("stumpy", "images/creatures/mr_tree/stumpy.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Stumpy : SimpleDirObject
+{
+	public Stumpy() {
+		Sprite = SpriteManager.Create("images/creatures/mr_tree/stumpy.sprite");
+		Sprite.Action = "left";
 	}
 }
 
