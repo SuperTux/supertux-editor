@@ -383,7 +383,7 @@ public sealed class DartTrap : SimpleDirObject
 
 [SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class SkullyHop : SimpleObject
+public sealed class SkullyHop : SimpleDirObject
 {
 	public SkullyHop() {
 		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
@@ -393,7 +393,7 @@ public sealed class SkullyHop : SimpleObject
 
 [SupertuxObject("igel", "images/creatures/igel/igel.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Igel : SimpleObject
+public sealed class Igel : SimpleDirObject
 {
 	public Igel() {
 		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
