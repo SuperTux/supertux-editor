@@ -882,3 +882,20 @@ public sealed class LevelTime : IGameObject
 	[LispChild("time")]
 	public float Time;
 }
+
+[SupertuxObject("thunderstorm", "images/engine/editor/thunderstorm.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Thunderstorm : IGameObject
+{
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+
+	[CustomTooltip("If enabled the thunderstorm will be running initially.")]
+	[LispChild("running", Optional = true, Default = true)]
+	public bool Running = true;
+
+	[CustomTooltip("Time between last lightning and next thunder")]
+	[LispChild("interval", Optional = true, Default = 10.0f)]
+	public float Interval;
+}
