@@ -896,6 +896,6 @@ public sealed class Thunderstorm : IGameObject
 	public bool Running = true;
 
 	[CustomTooltip("Time between last lightning and next thunder")]
-	[LispChild("interval", Optional = true, Default = 10.0f)]
-	public float Interval;
+	[LispChild("interval", Optional = true, Default = 10f)]
+	public float Interval = 10;
 }
