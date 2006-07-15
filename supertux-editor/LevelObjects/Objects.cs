@@ -477,21 +477,23 @@ public sealed class Switch : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
 {
- 	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = null)]
-	public string SpriteFile {
+	[CustomTooltip("If enabled Tux can carry the trampoline arround.")]
+	[LispChild("portable", Optional = true, Default = true)]
+	public bool Portable{
 		get {
-			return spriteFile;
+			return portable;
 		}
 		set {
-			spriteFile = value;
-			if(value != ""){
-				Sprite = SpriteManager.Create(value);
-  				Sprite.Action = "normal";
+			portable = value;
+			if( value == false ){
+		        Sprite = SpriteManager.Create("images/objects/trampoline/trampoline_fix.sprite");
+            } else {
+		        Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
 			}
+  			Sprite.Action = "normal";
 		}
 	}
-	private string spriteFile = "";
+    private bool portable = true;
 	public Trampoline() {
 		Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
 		Sprite.Action = "normal";
