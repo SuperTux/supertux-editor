@@ -47,7 +47,7 @@ public class ResizeDialog
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
 			application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
 			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-				tilemap.Resize(newWidth, newHeight, 0);				
+				tilemap.Resize(newWidth, newHeight, 0);
 			}
 			sector.EmitSizeChanged();
 		} catch(Exception e) {
@@ -59,6 +59,6 @@ public class ResizeDialog
 	
 	protected void OnCancel(object o, EventArgs args)
 	{
-		resizeDialog.Hide();	
-	}	
+		resizeDialog.Hide();
+	}
 }

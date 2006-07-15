@@ -37,7 +37,7 @@ public class Sprite : Node {
 		this.Data = Data;
 		CurrentAction = null;
 		if(Data.Actions.ContainsKey("default")) {
-			CurrentAction = Data.Actions["default"];    		
+			CurrentAction = Data.Actions["default"];
 		} else if(Data.Actions.Count > 0) {
 			IEnumerator<KeyValuePair<string, SpriteData.Action>> enumerator = Data.Actions.GetEnumerator();
 			enumerator.MoveNext();

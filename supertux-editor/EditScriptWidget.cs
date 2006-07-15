@@ -3,7 +3,7 @@ using LispReader;
 using Gtk;
 
 /// <summary>
-/// A widget used to open a dialog box to 
+/// A widget used to open a dialog box to
 /// edit scripts in (and currently also other multi line strings).
 /// </summary>
 public sealed class EditScriptWidget : CustomSettingsWidget
@@ -21,7 +21,7 @@ public sealed class EditScriptWidget : CustomSettingsWidget
 	
 	private void OnEdit(object sender, EventArgs args)
 	{
-		new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);		
+		new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);
 	}
 }
 

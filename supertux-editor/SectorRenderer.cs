@@ -49,7 +49,7 @@ public class SectorRenderer : RenderView
 		// draw border around sector...
 		sectorFill = new SceneGraph.Rectangle();
 		sectorFill.Fill = true;
-		ColorNode color = new ColorNode(sectorFill, new Drawing.Color(0.4f, 0.3f, 0.4f));		
+		ColorNode color = new ColorNode(sectorFill, new Drawing.Color(0.4f, 0.3f, 0.4f));
 		layer.Add(-10000, color);
 		
 		sectorBBox = new SceneGraph.Rectangle();
@@ -66,7 +66,7 @@ public class SectorRenderer : RenderView
 		sector.SizeChanged += OnSizeChanged;
 		
 		Drag.DestSet(this, DestDefaults.All, ObjectListWidget.DragTargetEntries, Gdk.DragAction.Default);
-		DragMotion += OnDragMotion;		
+		DragMotion += OnDragMotion;
 	}
 
 	public void SetTilemapColor(Tilemap tilemap, Color color)
@@ -100,7 +100,7 @@ public class SectorRenderer : RenderView
 		
 		Layer layer = (Layer) SceneGraphRoot;
 		
-		if(Object is Tilemap) {			
+		if(Object is Tilemap) {
 			Tilemap tilemap = (Tilemap) Object;
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
@@ -154,7 +154,7 @@ public class SectorRenderer : RenderView
 		
 		sectorBBox.Rect = new RectangleF(-1, -1,
 		                             width * Tileset.TILE_WIDTH + 1,
-		                             height * Tileset.TILE_HEIGHT + 1);		
+		                             height * Tileset.TILE_HEIGHT + 1);
 		sectorFill.Rect = new RectangleF(-1, -1,
 		                             width * Tileset.TILE_WIDTH + 1,
 		                             height * Tileset.TILE_HEIGHT + 1);

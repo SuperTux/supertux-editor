@@ -11,7 +11,7 @@ public class TilegroupSelector : ComboBox
 		this.tileList = tileList;
 		application.LevelChanged += OnLevelChanged;
 		
-		CellRendererText renderer = new CellRendererText(); 
+		CellRendererText renderer = new CellRendererText();
 		PackStart(renderer, false);
 		SetCellDataFunc(renderer, TextDataFunc);
 		
@@ -46,7 +46,7 @@ public class TilegroupSelector : ComboBox
 		Tilegroup group = (Tilegroup) Model.GetValue(iter, 0);
 		
 		textRenderer.Text = group.Name;
-	}	
+	}
 	
 	private void OnTileGroupChoosen(object o, EventArgs args)
 	{

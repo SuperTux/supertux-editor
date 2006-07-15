@@ -38,7 +38,7 @@ public class ObjectListWidget : GLWidgetBase
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
-		AddEvents((int) Gdk.EventMask.ScrollMask);	
+		AddEvents((int) Gdk.EventMask.ScrollMask);
 		
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    DragTargetEntries, DragAction.Default);
@@ -76,11 +76,11 @@ public class ObjectListWidget : GLWidgetBase
 				if( scalex < scaley ) {
 					scaley = scalex;
 				} else {
-					scalex = scaley;	
+					scalex = scaley;
 				}
 				
 				gl.Translatef(x, y, 0);
-				gl.Scalef( scalex, scaley, 1 );	
+				gl.Scalef( scalex, scaley, 1 );
 				objectSprite.Draw(objectSprite.Offset);
 				gl.PopMatrix();
 			}
@@ -93,7 +93,7 @@ public class ObjectListWidget : GLWidgetBase
 					gl.Vertex2f( x + TILE_WIDTH, y );
 					gl.Vertex2f( x + TILE_WIDTH, y + TILE_HEIGHT);
 					gl.Vertex2f( x, y + TILE_HEIGHT);
-				gl.End();				
+				gl.End();
 				gl.Enable(gl.TEXTURE_2D);
 				gl.Color4f(1, 1, 1, 1);
 			}
@@ -179,7 +179,7 @@ public class ObjectListWidget : GLWidgetBase
 			try{
 				result = SpriteManager.CreateFromImage(name);
 			} catch(Exception) {
-				result = null;	
+				result = null;
 			}
 		}
 		
@@ -209,11 +209,11 @@ public class ObjectListWidget : GLWidgetBase
 	{
 		if(args.Event.Button == 1) {
 			Vector MousePos = new Vector((float) args.Event.X,
-			                             (float) args.Event.Y);	
-			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT ); 
+			                             (float) args.Event.Y);
+			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 			int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 			if( column >= TILES_PER_ROW ){
-				return;	
+				return;
 			}
 			int selected = TILES_PER_ROW * row + column;
 			if( selected  < gameObjectTypes.Count ){
@@ -222,7 +222,7 @@ public class ObjectListWidget : GLWidgetBase
 					if( application.CurrentSector != null ) {
 						Type type = gameObjectTypes[selected];
 						if(type != null) {
-							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type); 
+							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type);
 							application.SetEditor(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
@@ -239,7 +239,7 @@ public class ObjectListWidget : GLWidgetBase
 	
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		Console.WriteLine("Dragstart");		
+		Console.WriteLine("Dragstart");
 	}
 	
 	private void OnScroll(object o, ScrollEventArgs args)

@@ -44,5 +44,5 @@ public class SettingsDialog
 	protected void OnClose(object o, EventArgs args)
 	{
 		settingsDialog.Hide();
-	}	
+	}
 }

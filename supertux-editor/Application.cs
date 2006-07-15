@@ -13,7 +13,7 @@ public class Application : IEditorApplication {
 	
 	private bool modified = false;
 	private struct UndoSnapshot {
-		public UndoSnapshot(string actionTitle, string snapshot) 
+		public UndoSnapshot(string actionTitle, string snapshot)
 		{
 			this.actionTitle = actionTitle;
 			this.snapshot = snapshot;
@@ -53,8 +53,8 @@ public class Application : IEditorApplication {
 	[Glade.Widget]
 	private Statusbar sbMain;
 	
-	private uint printStatusContextID; 
-	private uint printStatusMessageID; 
+	private uint printStatusContextID;
+	private uint printStatusMessageID;
 	
 	private FileChooserDialog fileChooser;
 
@@ -70,7 +70,7 @@ public class Application : IEditorApplication {
 	[Glade.Widget]
 	private Gtk.MenuItem undo1;
 	
-	[Glade.Widget] 
+	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
 
 	public event LevelChangedEventHandler LevelChanged;
@@ -158,7 +158,7 @@ public class Application : IEditorApplication {
 		tileList = new TileListWidget(this, selection);
 		TilegroupSelector selector = new TilegroupSelector(this, tileList);
 		
-		box.PackStart(selector, false, true, 0);				
+		box.PackStart(selector, false, true, 0);
 		box.PackStart(tileList, true, true, 0);
 		
 		return box;
@@ -241,7 +241,7 @@ public class Application : IEditorApplication {
 	protected void OnToolTiles(object o, EventArgs args) {
 		PrintStatus("Tool: Tiles");
 		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;	
+		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
@@ -251,7 +251,7 @@ public class Application : IEditorApplication {
 	protected void OnToolObjects(object o, EventArgs args) {
 		PrintStatus("Tool: Objects");
 		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;	
+		ToolTilesProps.Visible = false;
 		ToolObjectsProps.Visible = true;
 		ToolBrushProps.Visible = false;
 		SetEditor(new ObjectsEditor(this, CurrentSector));
@@ -260,7 +260,7 @@ public class Application : IEditorApplication {
 	protected void OnToolBrush(object o, EventArgs args) {
 		PrintStatus("Tool: Brush");
 		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;	
+		ToolTilesProps.Visible = false;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = true;
 		SetEditor(new ObjectsEditor(this, CurrentSector));
@@ -269,7 +269,7 @@ public class Application : IEditorApplication {
 	protected void OnToolFill(object o, EventArgs args) {
 		PrintStatus("Tool: Fill");
 		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;	
+		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
@@ -279,7 +279,7 @@ public class Application : IEditorApplication {
 	protected void OnToolReplace(object o, EventArgs args) {
 		PrintStatus("Tool: Replace");
 		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;	
+		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
@@ -342,7 +342,7 @@ public class Application : IEditorApplication {
 
 	protected void OnOpen(object o, EventArgs e)
 	{
-		fileChooser.Title = "Choose a Level";		
+		fileChooser.Title = "Choose a Level";
 		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		fileChooser.Action = FileChooserAction.Open;
 		int result = fileChooser.Run();
@@ -387,7 +387,7 @@ public class Application : IEditorApplication {
 			chooseName = true;
 
 		if(chooseName) {
-			fileChooser.Title = "Choose a Level";		
+			fileChooser.Title = "Choose a Level";
 			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 			fileChooser.Action = FileChooserAction.Save;
 			int result = fileChooser.Run();
@@ -444,7 +444,7 @@ public class Application : IEditorApplication {
 		md.Destroy();
 	}
 	
-	/* Run the current version of the level in Supertux */
+	/// <summary>Run the current version of the level in Supertux</summary>
 	protected void OnPlay(object o, EventArgs args)
 	{
 		if(level == null)
@@ -533,7 +533,7 @@ public class Application : IEditorApplication {
 			*/
 
 		} catch(Exception e) {
-			ErrorDialog.Exception(e);	
+			ErrorDialog.Exception(e);
 		}
 	}
 	
@@ -599,9 +599,11 @@ public class Application : IEditorApplication {
 		propertiesView.SetObject(Object, title);
 	}
 	
-	/* Take a Snapshot before change. Describe change
-	   in actionTitle for undo information.	*/
-	public void TakeUndoSnapshot(string actionTitle) 
+	/// <summary>
+	/// Take a Snapshot before change. Describe change
+	/// in actionTitle for undo information.
+	/// </summary>
+	public void TakeUndoSnapshot(string actionTitle)
 	{
 		Console.WriteLine("TakeUndoSnapshot {0} ", actionTitle );
 		if( !modified ){
@@ -617,8 +619,8 @@ public class Application : IEditorApplication {
 			undoSnapshots.RemoveAt(0);
 	}
 	
-	/* Revert level to last snapshot. */
-	public void Undo() 
+	/// <summary>Revert level to last snapshot.</summary>
+	public void Undo()
 	{
 		if (undoSnapshots.Count < 1)
 			return;

@@ -4,7 +4,7 @@ using LispReader;
 
 [LispRoot("tilegroup")]
 public class Tilegroup
-{	
+{
 	[LispChild("name")]
 	public string Name;
 	[LispChild("tiles")]

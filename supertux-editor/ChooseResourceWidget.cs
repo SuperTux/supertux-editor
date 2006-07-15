@@ -51,7 +51,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 		else
 			entry.Text = System.IO.Path.GetFileName(dialog.Filename);
 			// Fixes backslashes on windows:
-			entry.Text = entry.Text.Replace("\\", "/"); 
+			entry.Text = entry.Text.Replace("\\", "/");
 		dialog.Destroy();
 	}
 

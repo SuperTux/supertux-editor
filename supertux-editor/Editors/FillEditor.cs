@@ -60,7 +60,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			
 			SelectStartPos = MouseTilePos;
 			selecting = true;
-			UpdateSelection();	
+			UpdateSelection();
 			Redraw();
 		}
 	}
@@ -82,7 +82,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			selection.Resize(NewWidth, NewHeight, 0);
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
-					selection[x, y] 
+					selection[x, y]
 						= Tilemap[(uint) SelectionP1.X + x,
 						          (uint) SelectionP1.Y + y];
 				}

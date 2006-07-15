@@ -8,7 +8,7 @@ public abstract class CustomSettingsWidgetAttribute : Attribute
 	
 	public CustomSettingsWidgetAttribute(Type type)
 	{
-		this.Type = type;	
+		this.Type = type;
 	}
 }
 

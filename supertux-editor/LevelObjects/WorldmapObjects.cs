@@ -52,7 +52,7 @@ public sealed class WorldmapLevel : WorldmapObject
 	public string ExtroFilename = "";
 	[LispChild("quit-worldmap", Optional = true, Default = false)]
 	public bool QuitWorldmap = false;
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
 		get {
@@ -98,7 +98,7 @@ public sealed class SpecialTile : WorldmapObject
 	public string Script = "";
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
 	public string ApplyToDirection = "";
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
 		get {
@@ -129,7 +129,7 @@ public sealed class SpecialTile : WorldmapObject
 [SupertuxObject("sprite-change", "images/engine/editor/spritechange.png", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class SpriteChange : WorldmapObject
 {
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
 		get {
@@ -167,7 +167,7 @@ public sealed class SpriteChange : WorldmapObject
 [SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class Teleporter : WorldmapObject
 {
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
 		get {

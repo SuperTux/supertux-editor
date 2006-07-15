@@ -66,7 +66,7 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	}
 	
 	public object Clone() {
-		return MemberwiseClone();	
+		return MemberwiseClone();
 	}
 }
 

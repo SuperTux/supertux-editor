@@ -53,7 +53,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			if((attachPoint & AttachPoint.TOP) != 0) {
 				pos.Y = Object.Area.Top - DISTANCE;
 			} else if((attachPoint & AttachPoint.BOTTOM) != 0) {
-				pos.Y = Object.Area.Bottom + DISTANCE;	
+				pos.Y = Object.Area.Bottom + DISTANCE;
 			} else {
 				pos.Y = (Object.Area.Top + Object.Area.Bottom) / 2f;
 			}
@@ -64,7 +64,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			} else {
 				pos.X = (Object.Area.Left + Object.Area.Right) / 2f;
 			}
-			area = new RectangleF(pos.X - SIZE/2f, pos.Y - SIZE/2f, SIZE, SIZE);			
+			area = new RectangleF(pos.X - SIZE/2f, pos.Y - SIZE/2f, SIZE, SIZE);
 		}
 		
 		public void ChangeArea(RectangleF Area)
@@ -75,7 +75,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			if((attachPoint & AttachPoint.TOP) != 0) {
 				newArea.Top = Area.Top + adjust;
 			} else if((attachPoint & AttachPoint.BOTTOM) != 0) {
-				newArea.Bottom = Area.Bottom - adjust;	
+				newArea.Bottom = Area.Bottom - adjust;
 			}
 			if((attachPoint & AttachPoint.LEFT) != 0) {
 				newArea.Left = Area.Left + adjust;
@@ -94,7 +94,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		
 		public RectangleF Area {
 			get {
-				return area;	
+				return area;
 			}
 		}
 		
@@ -190,7 +190,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		
 		if(! (activeObject is ControlPoint)) {
 			if(activeObject != null)
-				application.EditProperties(activeObject, activeObject.GetType().Name);			
+				application.EditProperties(activeObject, activeObject.GetType().Name);
 			controlPoints.Clear();
 		}
 		
@@ -210,7 +210,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			controlPoints.Add(new ControlPoint(activeObject,
 			                                   ControlPoint.AttachPoint.BOTTOM));
 			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));					
+			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
 		}
 		application.PrintStatus( "ObjectsEditor:MakeActive(" + activeObject + ")" );
 	}
@@ -238,7 +238,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		popupMenu.Append(deleteItem);
 		
 		popupMenu.ShowAll();
-		popupMenu.Popup(); 
+		popupMenu.Popup();
 	}
 	
 	private void OnClone(object o, EventArgs args)
@@ -310,7 +310,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
 			spos = new Vector((float) ((int)spos.X / snap) * snap,
-			                  (float) ((int)spos.Y / snap) * snap);	
+			                  (float) ((int)spos.Y / snap) * snap);
 		}
 		
 		RectangleF newArea = new RectangleF(spos.X, spos.Y,

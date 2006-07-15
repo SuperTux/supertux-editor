@@ -29,7 +29,7 @@ public sealed class Background : IGameObject, Node {
 	private Surface surfaceTop;
 
 	[LispChild("image")]
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	public string Image {
 		get {
 			return image;
@@ -47,7 +47,7 @@ public sealed class Background : IGameObject, Node {
 	private Surface surface;
 	
 	[LispChild("image-bottom", Optional = true, Default = "")]
-	[ChooseResourceSetting]	
+	[ChooseResourceSetting]
 	public string ImageBottom {
 		get {
 			return imageBottom;
@@ -90,7 +90,7 @@ public sealed class Background : IGameObject, Node {
 		Y = NewArea.Top;
 	}
 
-	public void Draw() 
+	public void Draw()
 	{
 		if (surface == null) return;
 

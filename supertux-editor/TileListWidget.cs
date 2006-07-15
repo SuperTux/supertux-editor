@@ -44,7 +44,7 @@ public class TileListWidget : GLWidgetBase {
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.ButtonReleaseMask);
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
-		AddEvents((int) Gdk.EventMask.ScrollMask);	
+		AddEvents((int) Gdk.EventMask.ScrollMask);
 
 		application.LevelChanged += OnLevelChanged;
 	}
@@ -101,8 +101,8 @@ public class TileListWidget : GLWidgetBase {
 	
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 		
-		int starttile = (int) -Translation.Y / (ROW_HEIGHT) 
-						* TILES_PER_ROW;
+		int starttile = (int) -Translation.Y / (ROW_HEIGHT)
+		                * TILES_PER_ROW;
 		Vector pos = new Vector(0,
 				(starttile / TILES_PER_ROW) * (ROW_HEIGHT));
 		float maxwidth = (TILE_WIDTH + SPACING_X) * TILES_PER_ROW;
@@ -169,7 +169,7 @@ public class TileListWidget : GLWidgetBase {
 	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
 	{
 		//Select all tile in rectangle by dragging right mouse button
-		if(args.Event.Button == 3) { 
+		if(args.Event.Button == 3) {
 			if(tilegroup == null)
 				return;
 			
@@ -181,7 +181,7 @@ public class TileListWidget : GLWidgetBase {
 		}
 	}
 	
-	/* Test if tile is selected */
+	/// <summary>Test if tile is selected</summary>
 	private bool IsSelected( int tile ){
 		for( int y = 0; y < selection.Height; y++ ){
 			for ( int x = 0; x < selection.Width; x++ ){
@@ -206,8 +206,8 @@ public class TileListWidget : GLWidgetBase {
 			}
 			
 			if( pos1.Y < pos2.Y ){
-				upperLeft.Y = pos1.Y; 
-				lowerRight.Y = pos2.Y; 
+				upperLeft.Y = pos1.Y;
+				lowerRight.Y = pos2.Y;
 			} else {
 				upperLeft.Y = pos2.Y;
 				lowerRight.Y = pos1.Y;
@@ -225,12 +225,12 @@ public class TileListWidget : GLWidgetBase {
 			
 			//That's how much Tiles?
 			/*
-					1 x x
+			        1 x x
 			        x x x
-			        3 x 2 
+			        3 x 2
 			*/
 			
-			Math.DivRem( tile1, TILES_PER_ROW, out startcolumn );  
+			Math.DivRem( tile1, TILES_PER_ROW, out startcolumn );
 			Math.DivRem( tile2, TILES_PER_ROW, out endcolumn );
 			width = 1 + endcolumn - startcolumn;
 			height = 1 + (( tile3 - tile1 ) / TILES_PER_ROW );
@@ -239,7 +239,7 @@ public class TileListWidget : GLWidgetBase {
 				return;
 			selection.Resize( (uint) width, (uint) height, 0);
 			for( int y = 0; y < height; y++ ) {
-				for( int x = 0; x < width; x++ ) { 
+				for( int x = 0; x < width; x++ ) {
 					selection[ x, y] = tilegroup.Tiles[ tile1 + x + TILES_PER_ROW * y ];
 				}
 			}
@@ -257,7 +257,7 @@ public class TileListWidget : GLWidgetBase {
 		int newtile = PosToTile(MousePos);
 		if(newtile != hovertile) {
 			if( multiselectInProgress ){
-				MultiSelect( MousePos, StartPos );	
+				MultiSelect( MousePos, StartPos );
 			} else {
 				QueueDraw();
 			}

@@ -37,7 +37,7 @@ internal class SpriteData {
 			Props.PrintUnusedWarnings();
 			
 			foreach(string ImageFile in ImageFileNames) {
-				Surface surface = new Surface(BaseDir + "/" + ImageFile); 
+				Surface surface = new Surface(BaseDir + "/" + ImageFile);
 				Width = Math.Max(Width, surface.Width);
 				Height = Math.Max(Height, surface.Height);
 				Frames.Add(surface);
@@ -59,7 +59,7 @@ internal class SpriteData {
 		}
 	}
 	
-	public Dictionary<string, Action> Actions = new Dictionary<string, Action>();    
+	public Dictionary<string, Action> Actions = new Dictionary<string, Action>();
 	
 	public SpriteData(List Data, string BaseDir) {
 		LispIterator iter = new LispIterator(Data);
@@ -77,7 +77,7 @@ internal class SpriteData {
 		Action Action = new Action("default", Surface);
 		Action.Offset = offset;
 		Actions.Add(Action.Name, Action);
-	}	
+	}
 }
 
 }

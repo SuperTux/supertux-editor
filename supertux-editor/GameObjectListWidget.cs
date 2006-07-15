@@ -47,8 +47,8 @@ public class GameObjectListWidget : IconView
 			if(! (Object is IObject) && !(Object is Tilemap))
 				store.AppendValues(Object.GetType().Name, Object);
 		}
-		Model = store;	
-	}	
+		Model = store;
+	}
 	
 	[GLib.ConnectBefore]
 		private void OnButtonPressed(object o, ButtonPressEventArgs args)

@@ -11,7 +11,7 @@ using LispReader;
 /// TODO: Add support to set alpha value too.
 /// </remarks>
 public sealed class ChooseColorWidget : CustomSettingsWidget
-{	
+{
 	private ColorButton colorButton;
 	
 	public ChooseColorWidget()
@@ -52,7 +52,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		col.Green = ((float) colorButton.Color.Green) / 65536f;
 		col.Alpha = 1.0f;
 		field.SetValue(Object, col);
-	}	
+	}
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,

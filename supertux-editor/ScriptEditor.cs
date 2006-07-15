@@ -58,7 +58,7 @@ public class ScriptEditor
 	
 	protected void OnCancel(object o, EventArgs args)
 	{
-		scriptDialog.Hide();	
-	}	
+		scriptDialog.Hide();
+	}
 	
 }

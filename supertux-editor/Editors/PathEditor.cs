@@ -1,5 +1,5 @@
 using System;
-using System.Timers; 
+using System.Timers;
 using System.Collections.Generic;
 using Gtk;
 using Gdk;
@@ -8,7 +8,7 @@ using DataStructures;
 using OpenGl;
 
 public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisposable
-{	
+{
 	public event RedrawEventHandler Redraw;
 	public event CursorChangeHandler CursorChange;
 	private Path path;
@@ -84,9 +84,9 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			}
 		}
 		
-		gl.End();			
+		gl.End();
 		gl.Enable(gl.TEXTURE_2D);
-		gl.Color4f(1, 1, 1, 1);			
+		gl.Color4f(1, 1, 1, 1);
 	}
 	
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
@@ -120,7 +120,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			}
 			
 			if(node != selectedNode) {
-				selectedNode = node;			
+				selectedNode = node;
 				Redraw();
 			}
 			
@@ -132,7 +132,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			}
 			
 		} else if(button == 3) {
-			PopupMenu(button);			
+			PopupMenu(button);
 		}
 	}
 	
@@ -151,7 +151,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				                  (float) ((int)spos.Y / 32) * 32);
 			}
 			if(selectedNode.Pos != spos) {
-				selectedNode.Pos = spos; 
+				selectedNode.Pos = spos;
 				Redraw();
 			}
 		} else {
@@ -195,7 +195,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		popupMenu.Append(shiftRightItem);
 		
 		popupMenu.ShowAll();
-		popupMenu.Popup(); 
+		popupMenu.Popup();
 	}
 	
 	private void OnDelete(object o, EventArgs args)

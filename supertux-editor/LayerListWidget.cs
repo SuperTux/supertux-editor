@@ -94,7 +94,7 @@ public class LayerListWidget : TreeView {
 		}
 		store.AppendValues(nullObject);
 		visibility[nullObject] = 1.0f;
-		Model = store;		
+		Model = store;
 	}
 
 	private void OnTilemapChanged(Tilemap Tilemap)
@@ -197,7 +197,7 @@ public class LayerListWidget : TreeView {
 			}
 			
 			application.CurrentRenderer.SetTilemapColor(currentTilemap,
-		                                                new Color(1, 1, 1, newvis));
+			                                            new Color(1, 1, 1, newvis));
 			visibility[currentTilemap] = newvis;
 			QueueDraw();
 		} else {

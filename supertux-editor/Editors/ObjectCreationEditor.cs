@@ -6,7 +6,7 @@ using Gdk;
 public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 {
 	private Type objectType;
-	public event RedrawEventHandler Redraw;	
+	public event RedrawEventHandler Redraw;
 	
 	public ObjectCreationEditor(IEditorApplication application, Sector sector, Type objectType)
 	{
@@ -48,8 +48,8 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		if( application.SnapToGrid ){
 			int snap = 32;
 			pos = new Vector((float) ((int)pos.X / snap) * snap,
-			                 (float) ((int)pos.Y / snap) * snap);	
-		}	
+			                 (float) ((int)pos.Y / snap) * snap);
+		}
 		IGameObject gameObject = (IGameObject) CreateObject();
 		if(gameObject is IObject) {
 			IObject obj = (IObject) gameObject;
@@ -89,5 +89,5 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 			((Tilemap) Result).Resize( width, height, 0);
 		}
 		return Result;
-	}	
+	}
 }

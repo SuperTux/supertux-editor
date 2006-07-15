@@ -72,7 +72,7 @@ public class SectorSwitchNotebook : Notebook
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 3) {
-			popupMenu();	
+			popupMenu();
 		}
 	}
 	

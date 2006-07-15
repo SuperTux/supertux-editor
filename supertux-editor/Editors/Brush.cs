@@ -270,7 +270,7 @@ public class Brush
 		}
 
 		return brush;
-	}	
+	}
 
 }
 

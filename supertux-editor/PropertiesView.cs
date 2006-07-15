@@ -11,7 +11,7 @@ using LispReader;
 /// Used to set a custom tooltip for a LispChild.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-								AllowMultiple = false)]
+                AllowMultiple = false)]
 public sealed class CustomTooltipAttribute : Attribute {
 	public string Tooltip;
 
@@ -72,7 +72,7 @@ public class PropertiesView : ScrolledWindow
 				customWidget.Object = Object;
 				customWidget.Field = field;
 				editWidgets.Add(customWidget.Create(this));
-				continue;				
+				continue;
 			}
 			
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
@@ -203,7 +203,7 @@ public class PropertiesView : ScrolledWindow
 			field.SetValue(Object, checkButton.Active);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
-		}			
+		}
 	}
 
 	private void OnComboBoxChanged(object o, EventArgs args) {
@@ -215,5 +215,5 @@ public class PropertiesView : ScrolledWindow
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
-	}	
+	}
 }
