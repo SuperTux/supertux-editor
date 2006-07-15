@@ -477,6 +477,21 @@ public sealed class Switch : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
 {
+ 	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = null)]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != ""){
+				Sprite = SpriteManager.Create(value);
+  				Sprite.Action = "normal";
+			}
+		}
+	}
+	private string spriteFile = "";
 	public Trampoline() {
 		Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
 		Sprite.Action = "normal";
