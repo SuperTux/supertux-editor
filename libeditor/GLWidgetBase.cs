@@ -79,7 +79,7 @@ public abstract class GLWidgetBase : GLArea
 
 		SwapBuffers();
 
-		//GlUtil.ContextValid = false;
+		GlUtil.ContextValid = false;
 	}
 
 	private void OnConfigure(object o, ConfigureEventArgs args)
@@ -109,7 +109,7 @@ public abstract class GLWidgetBase : GLArea
 
 		GlUtil.Assert("After setting opengl transforms");
 
-		//GlUtil.ContextValid = false;
+		GlUtil.ContextValid = false;
 	}
 
 	protected abstract void DrawGl();
