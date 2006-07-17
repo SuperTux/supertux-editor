@@ -518,7 +518,7 @@ public sealed class Firefly : SimpleObject
 	}
 	private string spriteFile = "";
 	public Firefly() {
-		Sprite = SpriteManager.Create("images/objects/firefly/firefly.sprite");
+		Sprite = SpriteManager.Create("images/objects/resetpoints/default-resetpoint.sprite");
 		Sprite.Action = "normal";
 	}
 }
