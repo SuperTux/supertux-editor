@@ -9,8 +9,14 @@ using System.Collections.Generic;
 public class Tilemap : TileBlock, IGameObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;
+
 	[LispChild("solid")]
 	public bool Solid = false;
+
+	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+
 	[LispChild("speed")]
 	public float Speed = 1.0f;
 	
