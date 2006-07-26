@@ -848,6 +848,9 @@ public sealed class ScriptTrigger : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SecretArea : SimpleObjectArea
 {
+	[LispChild("fade-tilemap", Optional = true, Default = "")]
+	public string FadeTilemap = "";
+
 	public SecretArea() {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);
 	}
