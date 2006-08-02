@@ -122,6 +122,21 @@ public class SectorRenderer : RenderView
 	
 	private void OnObjectRemoved(Sector sector, IGameObject Object)
 	{
+		//handle tilemaps
+		if( Object is Tilemap ){
+			Tilemap tm = (Tilemap) Object;
+			tm.Resize( 0, 0, 0);
+			QueueDraw();
+			return;
+		}
+		//handle backgrounds
+		if( Object is Background ){
+			Background bg = (Background) Object;
+			bg.Image = "";
+			QueueDraw();
+			return;	
+		}
+		
 		if(! (Object is IObject))
 			return;
 		
@@ -129,10 +144,6 @@ public class SectorRenderer : RenderView
 		Node node = iObject.GetSceneGraphNode();
 		if(node != null)
 			objectsNode.RemoveChild(node);
-		
-		// TODO handle tilemaps
-		
-		// TODO handle backgrounds
 	}
 	
 	private void OnDragMotion(object o, DragMotionArgs args)
