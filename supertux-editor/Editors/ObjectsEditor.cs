@@ -268,8 +268,10 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	{
 		if(activeObject == null)
 			return;
+		application.TakeUndoSnapshot("Delete Object " + activeObject);
 		sector.Remove((IGameObject) activeObject);
 		activeObject = null;
+		Redraw();
 	}
 
 	/// <summary>

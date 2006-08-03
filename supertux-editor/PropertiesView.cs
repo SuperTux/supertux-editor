@@ -174,7 +174,7 @@ public class PropertiesView : ScrolledWindow
 				field.SetValue(Object, entry.Text);
 			} else if(field.Type == typeof(float)) {
 				float parsed = Single.Parse(entry.Text);
-				if(parsed.ToString() != entry.Text)
+				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
 			} else if(field.Type == typeof(int)) {

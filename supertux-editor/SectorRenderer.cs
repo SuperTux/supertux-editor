@@ -137,9 +137,10 @@ public class SectorRenderer : RenderView
 			return;	
 		}
 		
-		if(! (Object is IObject))
+		if(! (Object is IObject)){
+			System.Console.WriteLine("SectorRenderer:OnObjectRemoved unhandled object " + Object);
 			return;
-		
+		}
 		IObject iObject = (IObject) Object;
 		Node node = iObject.GetSceneGraphNode();
 		if(node != null)
