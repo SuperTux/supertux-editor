@@ -473,6 +473,20 @@ public sealed class Switch : SimpleObject
 	}
 }
 
+[SupertuxObject("pushbutton", "images/objects/pushbutton/pushbutton.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class PushButton : SimpleObject
+{
+	[LispChild("script")]
+	[EditScriptSetting]
+	public string Script = "";
+
+	public PushButton() {
+		Sprite = SpriteManager.Create("images/objects/pushbutton/pushbutton.sprite");
+		Sprite.Action = "off";
+	}
+}
+
 [SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
