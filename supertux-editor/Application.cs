@@ -137,12 +137,38 @@ public class Application : IEditorApplication {
 		OnToolSelect(null, null);
 		
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
-		if(Settings.Instance.LastDirectoryName != null)
-			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+		if(Settings.Instance.LastDirectoryName == null){
+			if( Settings.Instance.SupertuxData != null ){
+				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData;
+			} else {
+				Settings.Instance.LastDirectoryName = Environment.ExpandEnvironmentVariables("%HOME%");
+			}
+		}
+		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 		fileChooser.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
 		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
-
+		Gtk.FileFilter filter = new Gtk.FileFilter();
+		filter.Name = "Supertux Levels and Worldmaps";
+		filter.AddPattern("*.stl");
+		filter.AddPattern("*.stwm");
+		fileChooser.AddFilter( filter );
+		Gtk.FileFilter levelfilter = new Gtk.FileFilter();
+		levelfilter.Name = "Supertux Levels";
+		levelfilter.AddPattern("*.stl");
+		fileChooser.AddFilter( levelfilter );
+		Gtk.FileFilter worldmapfilter = new Gtk.FileFilter();
+		worldmapfilter.Name = "Supertux Worldmaps";
+		worldmapfilter.AddPattern("*.stwm");
+		fileChooser.AddFilter( worldmapfilter );
+		Gtk.FileFilter all = new Gtk.FileFilter();
+		all.Name = "All Files";
+		all.AddPattern("*");
+		fileChooser.AddFilter( all );
+		if( Settings.Instance.SupertuxData != null ){
+			fileChooser.AddShortcutFolder( Settings.Instance.SupertuxData );
+		}
+		                        
 		if(args.Length > 0) {
 			Load(args[0]);
 		}
@@ -343,8 +369,8 @@ public class Application : IEditorApplication {
 	protected void OnOpen(object o, EventArgs e)
 	{
 		fileChooser.Title = "Choose a Level";
-		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		fileChooser.Action = FileChooserAction.Open;
+		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		int result = fileChooser.Run();
 		fileChooser.Hide();
 		if(result != (int) ResponseType.Ok)
@@ -387,9 +413,9 @@ public class Application : IEditorApplication {
 			chooseName = true;
 
 		if(chooseName) {
-			fileChooser.Title = "Choose a Level";
-			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+			fileChooser.Title = "Select file to save Level";
 			fileChooser.Action = FileChooserAction.Save;
+			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
@@ -485,8 +511,8 @@ public class Application : IEditorApplication {
 				throw new Exception("No tilemap selected");
 			
 			fileChooser.Title = "Choose a Brush";
-			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			fileChooser.Action = FileChooserAction.Open;
+			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
@@ -512,8 +538,8 @@ public class Application : IEditorApplication {
 			BrushEditor brushEditor = (BrushEditor) editor;
 			
 			fileChooser.Title = "Choose a Brush";
-			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			fileChooser.Action = FileChooserAction.Save;
+			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
