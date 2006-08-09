@@ -108,7 +108,7 @@ public class PropertiesView : ScrolledWindow
 				// Set the name of the box.
 				comboBox.Name = field.Name;
 				// FIXME: This will break if:
-				//        1) the first enum isn't 0 and/or 
+				//        1) the first enum isn't 0 and/or
 				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
 				object val = field.GetValue(Object);
 				if (val != null)
@@ -135,7 +135,7 @@ public class PropertiesView : ScrolledWindow
 				Label label = new Label(widget.Name + ":");
 				label.SetAlignment(0, 1);
 				table.Attach(label, 0, 1, i, i+1,
-			    	         AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
+				             AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
 				table.Attach(widget, 1, 2, i, i+1,
 				             AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
 			}

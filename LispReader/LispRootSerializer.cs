@@ -120,7 +120,7 @@ namespace LispReader
 				custom.FinishRead();
 			}
 
-			return result;		
+			return result;
 		}
 		
 		public void Write(Writer writer, string name, object Object)
@@ -130,7 +130,7 @@ namespace LispReader
 			foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 				LispChildAttribute ChildAttrib = (LispChildAttribute)
 					field.GetCustomAttribute(typeof(LispChildAttribute));
-				if(ChildAttrib != null) {		
+				if(ChildAttrib != null) {
 					object Value = field.GetValue(Object);
 					if(Value != null) {
 						if(ChildAttrib.Translatable) {
@@ -143,8 +143,15 @@ namespace LispReader
 							if(serializer != null) {
 								serializer.Write(writer, ChildAttrib.Name, Value);
 							} else {
-								if(!ChildAttrib.Optional || !Value.Equals(ChildAttrib.Default))
+								if(ChildAttrib.Optional && childType.IsEnum) {
+									// If it is an enum we need to convert ChildAttrib.Default
+									// to an enum as ChildAttrib.Default is an Int32 by some (unknown) reason.
+									Enum Defval = (Enum)Enum.ToObject(childType, ChildAttrib.Default);
+									if (!Value.Equals(Defval))
+										writer.Write(ChildAttrib.Name, Value);
+								} else if(!ChildAttrib.Optional || !Value.Equals(ChildAttrib.Default)) {
 									writer.Write(ChildAttrib.Name, Value);
+								}
 							}
 						}
 					} else {
