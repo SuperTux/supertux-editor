@@ -19,7 +19,19 @@ public class Tilemap : TileBlock, IGameObject {
 
 	[LispChild("speed")]
 	public float Speed = 1.0f;
-	
+
+	//TODO: Make this work
+	private Path path;
+	[LispChild("path", Optional = true, Default = null)]
+	public Path Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
+
 	public Tilemap() : base() {
 	}
 
