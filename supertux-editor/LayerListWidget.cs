@@ -168,7 +168,15 @@ public class LayerListWidget : TreeView {
 	private void ShowPopupMenu()
 	{
 		Menu popupMenu = new Menu();
-		
+
+		MenuItem editPathItem = new MenuItem("Edit Path");
+		editPathItem.Activated += OnEditPath;
+		popupMenu.Append(editPathItem);
+
+		MenuItem deletePathItem = new MenuItem("Delete Path");
+		deletePathItem.Activated += OnDeletePath;
+		popupMenu.Append(deletePathItem);
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
@@ -176,7 +184,26 @@ public class LayerListWidget : TreeView {
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
-	
+
+	private void OnEditPath(object o, EventArgs args)
+	{
+		IPathObject pathObject = (IPathObject) currentTilemap;
+		if (pathObject.Path == null) {
+			pathObject.Path = new Path();
+			pathObject.Path.Nodes.Add(new Path.Node());
+		}
+		application.SetEditor(new PathEditor(application, pathObject.Path));
+	}
+
+	private void OnDeletePath(object o, EventArgs args)
+	{
+		IPathObject pathObject = (IPathObject) currentTilemap;
+		if (pathObject.Path != null) {
+			pathObject.Path = null;
+			//application.SetEditor(null);
+		}
+	}
+
 	private void OnDelete(object o, EventArgs args)
 	{
 		if(currentTilemap == null)

@@ -6,7 +6,7 @@ using LispReader;
 using System.Collections.Generic;
 
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png")]
-public class Tilemap : TileBlock, IGameObject {
+public class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;
 
@@ -20,7 +20,6 @@ public class Tilemap : TileBlock, IGameObject {
 	[LispChild("speed")]
 	public float Speed = 1.0f;
 
-	//TODO: Make this work
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
 	public Path Path {
