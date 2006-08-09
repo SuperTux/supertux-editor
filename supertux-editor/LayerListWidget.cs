@@ -17,12 +17,13 @@ public class LayerListWidget : TreeView {
 		{
 			Mode = CellRendererMode.Editable;
 		}
-				
-		public override CellEditable StartEditing(Gdk.Event evnt, Widget widget,
-		                                            string path,
-		                                            Gdk.Rectangle background_area,
-		                                            Gdk.Rectangle cell_area,
-		                                            CellRendererState flags) {
+
+		public override CellEditable StartEditing(Gdk.Event evnt,
+		                                          Widget widget,
+		                                          string path,
+		                                          Gdk.Rectangle background_area,
+		                                          Gdk.Rectangle cell_area,
+		                                          CellRendererState flags) {
 			if(VisibilityChanged != null)
 				VisibilityChanged(this, null);
 			return base.StartEditing(evnt, widget, path, background_area, cell_area, flags);
@@ -41,7 +42,7 @@ public class LayerListWidget : TreeView {
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
 		visibilityRenderer.VisibilityChanged += OnVisibilityChange;
 		TreeViewColumn visibilityColumn = new TreeViewColumn("Visibility",
-		                                                       visibilityRenderer);
+		                                                     visibilityRenderer);
 		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);
 		AppendColumn(visibilityColumn);
 		
@@ -103,7 +104,7 @@ public class LayerListWidget : TreeView {
 	}
 	
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
-	                                 TreeModel Model, TreeIter Iter)
+	                                TreeModel Model, TreeIter Iter)
 	{
 		CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
 		
@@ -119,7 +120,7 @@ public class LayerListWidget : TreeView {
 	}
 
 	private void TextDataFunc(TreeViewColumn Column, CellRenderer Renderer,
-				             TreeModel Model, TreeIter Iter)
+	                          TreeModel Model, TreeIter Iter)
 	{
 		object o = Model.GetValue(Iter, 0);
 		
@@ -160,11 +161,12 @@ public class LayerListWidget : TreeView {
 			application.ChangeCurrentTilemap(currentTilemap);
 		}
 		
-		if(args.Event.Button == 3) {
+		if((args.Event.Button == 3) && (obj is Tilemap)) {
 			ShowPopupMenu();
 		}
 	}
 
+	//TODO: Check so this isn't the "Objects" layer.
 	private void ShowPopupMenu()
 	{
 		Menu popupMenu = new Menu();

@@ -443,6 +443,8 @@ public sealed class Door : SimpleObject
 	}
 }
 
+#region Switches
+
 [SupertuxObject("switch", "images/objects/switch/switch.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Switch : SimpleObject
@@ -487,6 +489,8 @@ public sealed class PushButton : SimpleObject
 	}
 }
 
+#endregion Switches
+
 [SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
@@ -500,14 +504,14 @@ public sealed class Trampoline : SimpleObject
 		set {
 			portable = value;
 			if( value == false ){
-		        Sprite = SpriteManager.Create("images/objects/trampoline/trampoline_fix.sprite");
-            } else {
-		        Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
+				Sprite = SpriteManager.Create("images/objects/trampoline/trampoline_fix.sprite");
+			} else {
+				Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
 			}
-  			Sprite.Action = "normal";
+			Sprite.Action = "normal";
 		}
 	}
-    private bool portable = true;
+	private bool portable = true;
 	public Trampoline() {
 		Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
 		Sprite.Action = "normal";
