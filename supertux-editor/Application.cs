@@ -146,7 +146,7 @@ public class Application : IEditorApplication {
 		}
 		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
-		fileChooser.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
+		fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
 		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
 		Gtk.FileFilter filter = new Gtk.FileFilter();
 		filter.Name = "Supertux Levels and Worldmaps";

@@ -22,6 +22,12 @@ public sealed class Sector : ICustomLispSerializer {
 	[EditScriptSetting]
 	public string InitScript = "";
 
+	//[ChooseColorSetting]
+	//[LispChild("ambient-light", Optional = true, Default = new Drawing.Color( 1f, 1f, 1f ) )]
+	[ChooseColorSetting]
+	[LispChild("ambient-light", Optional = true )]
+	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
+			
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
 	
 	public event ObjectAddedHandler ObjectAdded;
