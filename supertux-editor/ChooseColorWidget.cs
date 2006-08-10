@@ -26,7 +26,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		
 		colorButton = new ColorButton();
-		
+		Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);		
 		// Get if we should use alpha
 		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
 			field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
@@ -43,10 +43,10 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		color.Green = (ushort) (val.Green * 65536f);
 		color.Blue = (ushort) (val.Blue * 65536f);
 		*/
-		colorButton.Color = color;
+
 		if (useAlpha)
-			colorButton.Alpha = (ushort) (val.Alpha * 65536f);
-		
+			colorButton.Alpha = (ushort) (val.Alpha * 65535f);
+		colorButton.Color = color;		
 		colorButton.ColorSet += OnChooseColor;
 		
 		colorButton.Name = field.Name;
@@ -60,12 +60,12 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 	private void OnChooseColor(object sender, EventArgs args)
 	{
 		Drawing.Color col = new Drawing.Color();
-		col.Red = ((float) colorButton.Color.Red) / 65536f;
-		col.Blue = ((float) colorButton.Color.Blue) / 65536f;
-		col.Green = ((float) colorButton.Color.Green) / 65536f;
+		col.Red = ((float) colorButton.Color.Red) / 65535f;
+		col.Blue = ((float) colorButton.Color.Blue) / 65535f;
+		col.Green = ((float) colorButton.Color.Green) / 65535f;
 		col.Alpha = 1f;
 		if (useAlpha)
-			col.Alpha = ((float) colorButton.Alpha) / 65536f;
+			col.Alpha = ((float) colorButton.Alpha) / 65535f;
 		field.SetValue(Object, col);
 	}
 }
