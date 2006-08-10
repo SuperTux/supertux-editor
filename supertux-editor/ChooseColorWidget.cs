@@ -13,7 +13,10 @@ using LispReader;
 public sealed class ChooseColorWidget : CustomSettingsWidget
 {
 	private ColorButton colorButton;
-	
+
+	/// <summary>Should we let the user set the alpha?</summary>
+	private bool useAlpha;
+
 	public ChooseColorWidget()
 	{
 	}
@@ -23,7 +26,14 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		
 		colorButton = new ColorButton();
-		//colorButton.UseAlpha = true; //alpha for everything?
+		
+		// Get if we should use alpha
+		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
+			field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
+		useAlpha = chooseColorSetting.UseAlpha;
+
+		if (useAlpha)
+			colorButton.UseAlpha = true;
 		Gdk.Color color = new Gdk.Color(
 		                                (byte) (val.Red * 255f),
 		                                (byte) (val.Green * 255f),
@@ -34,7 +44,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		color.Blue = (ushort) (val.Blue * 65536f);
 		*/
 		colorButton.Color = color;
-		//colorButton.Alpha = (ushort) (val.Alpha * 65536f);
+		if (useAlpha)
+			colorButton.Alpha = (ushort) (val.Alpha * 65536f);
 		
 		colorButton.ColorSet += OnChooseColor;
 		
@@ -53,16 +64,20 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		col.Blue = ((float) colorButton.Color.Blue) / 65536f;
 		col.Green = ((float) colorButton.Color.Green) / 65536f;
 		col.Alpha = 1f;
-		//col.Alpha = ((float) colorButton.Alpha) / 65536f;
+		if (useAlpha)
+			col.Alpha = ((float) colorButton.Alpha) / 65536f;
 		field.SetValue(Object, col);
 	}
 }
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple=false)]
-public sealed class ChooseColorSetting : CustomSettingsWidgetAttribute
+public sealed class ChooseColorSettingAttribute : CustomSettingsWidgetAttribute
 {
-	public ChooseColorSetting() : base(typeof(ChooseColorWidget))
+	/// <summary>Should we let the user set the alpha?</summary>
+	public bool UseAlpha = false;
+
+	public ChooseColorSettingAttribute() : base(typeof(ChooseColorWidget))
 	{
 	}
 }

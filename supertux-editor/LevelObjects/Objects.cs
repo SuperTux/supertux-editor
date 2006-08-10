@@ -422,7 +422,7 @@ public sealed class Spotlight : SimpleObject
 	[LispChild("angle")]
 	public float Angle;
 	
-	[ChooseColorSetting]
+	[ChooseColorSetting(UseAlpha = true)]
 	[LispChild("color", Optional = true )]
 	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
 	
