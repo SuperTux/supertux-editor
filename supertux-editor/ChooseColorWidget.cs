@@ -23,6 +23,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		
 		colorButton = new ColorButton();
+		//colorButton.UseAlpha = true; //alpha for everything?
 		Gdk.Color color = new Gdk.Color(
 		                                (byte) (val.Red * 255f),
 		                                (byte) (val.Green * 255f),
@@ -33,6 +34,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		color.Blue = (ushort) (val.Blue * 65536f);
 		*/
 		colorButton.Color = color;
+		//colorButton.Alpha = (ushort) (val.Alpha * 65536f);
 		
 		colorButton.ColorSet += OnChooseColor;
 		
@@ -50,7 +52,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		col.Red = ((float) colorButton.Color.Red) / 65536f;
 		col.Blue = ((float) colorButton.Color.Blue) / 65536f;
 		col.Green = ((float) colorButton.Color.Green) / 65536f;
-		col.Alpha = 1.0f;
+		col.Alpha = 1f;
+		//col.Alpha = ((float) colorButton.Alpha) / 65536f;
 		field.SetValue(Object, col);
 	}
 }
