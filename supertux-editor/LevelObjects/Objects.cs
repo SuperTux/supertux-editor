@@ -421,7 +421,11 @@ public sealed class Spotlight : SimpleObject
 {
 	[LispChild("angle")]
 	public float Angle;
-
+	
+	[ChooseColorSetting]
+	[LispChild("color", Optional = true )]
+	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
+	
 	public Spotlight() {
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
