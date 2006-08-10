@@ -72,7 +72,10 @@ public class Application : IEditorApplication {
 	
 	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
-
+	
+	[Glade.Widget]
+	private Gtk.ToggleToolButton ttbShowBackground;
+	
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
 	public event TilemapChangedEventHandler TilemapChanged;
@@ -452,11 +455,30 @@ public class Application : IEditorApplication {
 	{
 		if( CurrentRenderer == null ){
 			show_background1.Active = true;
+			ttbShowBackground.Active = true;
 			return;
 		}
 		if (show_background1.Active) {
+			ttbShowBackground.Active = true;
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
 		} else {
+			ttbShowBackground.Active = false;
+			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
+		}
+	}
+	
+	protected void OnShowBackgroundButton(object o, EventArgs e)
+	{
+		if( CurrentRenderer == null ){
+			show_background1.Active = true;
+			ttbShowBackground.Active = true;
+			return;
+		}
+		if (ttbShowBackground.Active) {
+			show_background1.Active = true;
+			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
+		} else {
+			show_background1.Active = false;
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 		}
 	}
