@@ -13,7 +13,7 @@ using LispReader;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple = false)]
 public sealed class PropertyPropertiesAttribute : Attribute {
-	public string Tooltip;
+	public string Tooltip = "";
 
 	public PropertyPropertiesAttribute() {
 	}
@@ -79,7 +79,7 @@ public class PropertiesView : ScrolledWindow
 			if(ChildAttrib == null)
 				continue;
 
-			PropertyPropertiesAttribute customTooltip = (PropertyPropertiesAttribute)
+			PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 				field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
 
 			if(field.Type == typeof(string) || field.Type == typeof(float)
@@ -92,7 +92,7 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
 				editWidgets.Add(entry);
-				AddTooltip(customTooltip, entry);
+				AddTooltip(propertyProperties, entry);
 			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
@@ -100,7 +100,7 @@ public class PropertiesView : ScrolledWindow
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
-				AddTooltip(customTooltip, checkButton);
+				AddTooltip(propertyProperties, checkButton);
 			} else if(field.Type.IsEnum) {
 				// Create a combobox containing all the names of enum values.
 				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
@@ -116,7 +116,7 @@ public class PropertiesView : ScrolledWindow
 				comboBox.Changed += OnComboBoxChanged;
 				editWidgets.Add(comboBox);
 				// FIXME: Why doesn't this work for the ComboBox?
-				AddTooltip(customTooltip, comboBox);
+				AddTooltip(propertyProperties, comboBox);
 			}
 			
 		}
@@ -157,11 +157,11 @@ public class PropertiesView : ScrolledWindow
 	/// <summary>
 	/// Add a tooltip for a widget if a PropertyPropertiesAttribute is set.
 	/// </summary>
-	/// <param name="customTooltip">Attribute with tooltip</param>
+	/// <param name="propertyProperties">Attribute with tooltip</param>
 	/// <param name="widget">Widget to add tooltip to.</param>
-	private void AddTooltip(PropertyPropertiesAttribute customTooltip, Widget widget) {
-		if (customTooltip != null)
-			tooltips.SetTip(widget, customTooltip.Tooltip, customTooltip.Tooltip);
+	private void AddTooltip(PropertyPropertiesAttribute propertyProperties, Widget widget) {
+		if ((propertyProperties != null) && (propertyProperties.Tooltip != ""))
+			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
 	
 	private void OnEntryChanged(object o, EventArgs args)

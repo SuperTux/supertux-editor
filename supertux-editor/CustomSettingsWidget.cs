@@ -32,11 +32,11 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget {
 
 	protected void CreateToolTip(object caller, Widget widget) {
 		// Create a tooltip if we can.
-		PropertyPropertiesAttribute customTooltip = (PropertyPropertiesAttribute)
+		PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 			field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
-		if ((customTooltip != null) && (caller.GetType() == typeof(PropertiesView))) {
+		if ((propertyProperties != null) && (caller.GetType() == typeof(PropertiesView))) {
 			PropertiesView propview = (PropertiesView)caller;
-			propview.tooltips.SetTip(widget, customTooltip.Tooltip, customTooltip.Tooltip);
+			propview.tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 		}
 	}
 }
