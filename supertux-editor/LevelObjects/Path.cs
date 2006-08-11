@@ -34,15 +34,15 @@ public class Path
 	
 	public class Node
 	{
-		[CustomTooltip("X position of node")]
+		[PropertyProperties(Tooltip = "X position of node")]
 		[LispChild("x")]
 		public float X;
-		[CustomTooltip("Y position of node")]
+		[PropertyProperties(Tooltip = "Y position of node")]
 		[LispChild("y")]
 		public float Y;
 
 		// TODO: Is this tooltip vaild for other path modes than circular?
-		[CustomTooltip("Seconds it will take to go to the node after this one.")]
+		[PropertyProperties(Tooltip = "Seconds it will take to go to the node after this one.")]
 		[LispChild("time", Optional = true, Default = 1f)]
 		public float Time = 1f;
 		

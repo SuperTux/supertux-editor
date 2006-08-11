@@ -12,11 +12,10 @@ using LispReader;
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple = false)]
-public sealed class CustomTooltipAttribute : Attribute {
+public sealed class PropertyPropertiesAttribute : Attribute {
 	public string Tooltip;
 
-	public CustomTooltipAttribute(string tooltip) {
-		this.Tooltip = tooltip;
+	public PropertyPropertiesAttribute() {
 	}
 }
 
@@ -80,8 +79,8 @@ public class PropertiesView : ScrolledWindow
 			if(ChildAttrib == null)
 				continue;
 
-			CustomTooltipAttribute customTooltip = (CustomTooltipAttribute)
-				field.GetCustomAttribute(typeof(CustomTooltipAttribute));
+			PropertyPropertiesAttribute customTooltip = (PropertyPropertiesAttribute)
+				field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
 
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {
@@ -156,11 +155,11 @@ public class PropertiesView : ScrolledWindow
 	}
 
 	/// <summary>
-	/// Add a tooltip for a widget if a CustomTooltipAttribute is set.
+	/// Add a tooltip for a widget if a PropertyPropertiesAttribute is set.
 	/// </summary>
 	/// <param name="customTooltip">Attribute with tooltip</param>
 	/// <param name="widget">Widget to add tooltip to.</param>
-	private void AddTooltip(CustomTooltipAttribute customTooltip, Widget widget) {
+	private void AddTooltip(PropertyPropertiesAttribute customTooltip, Widget widget) {
 		if (customTooltip != null)
 			tooltips.SetTip(widget, customTooltip.Tooltip, customTooltip.Tooltip);
 	}

@@ -276,7 +276,7 @@ public sealed class Dispenser : SimpleDirObject
 		random
 	}
 
-	[CustomTooltip("Type of badguy the dispenser will create.")]
+	[PropertyProperties(Tooltip = "Type of badguy the dispenser will create.")]
 	[LispChild("badguy")]
 	public Badguys Badguy = Badguys.mrrocket;
 	[LispChild("cycle")]
@@ -499,7 +499,7 @@ public sealed class PushButton : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
 {
-	[CustomTooltip("If enabled Tux can carry the trampoline arround.")]
+	[PropertyProperties(Tooltip = "If enabled Tux can carry the trampoline arround.")]
 	[LispChild("portable", Optional = true, Default = true)]
 	public bool Portable{
 		get {
@@ -550,10 +550,10 @@ public sealed class Firefly : SimpleObject
 /// <summary>Base class for platforms.</summary>
 public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	[CustomTooltip("If enabled the platform will be moving initially.")]
+	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
 	[ChooseResourceSetting]
@@ -652,10 +652,10 @@ public sealed class Rock : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Candle : SimpleObject
 {
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	[CustomTooltip("If enabled the candle will be burning initially.")]
+	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
 
@@ -756,7 +756,7 @@ public sealed class Powerup : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class ScriptedObject : SimpleObject
 {
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name")]
 	public string Name = "";
 	[ChooseResourceSetting]
@@ -793,11 +793,11 @@ public sealed class ScriptedObject : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Wind : SimpleObjectArea
 {
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
-	[CustomTooltip("If enabled the wind will be blowing initially.")]
+	[PropertyProperties(Tooltip = "If enabled the wind will be blowing initially.")]
 	[LispChild("blowing", Optional = true, Default = true)]
 	public bool Blowing = true;
 
@@ -828,7 +828,7 @@ public sealed class AmbientSound : SimpleObjectArea
 	public float DistanceBias;
 	[LispChild("volume")]
 	public float Volume;
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 	
@@ -920,7 +920,7 @@ public sealed class CloudParticles : IGameObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class LevelTime : IGameObject
 {
-	[CustomTooltip("Time in seconds")]
+	[PropertyProperties(Tooltip = "Time in seconds")]
 	[LispChild("time")]
 	public float Time;
 }
@@ -929,15 +929,15 @@ public sealed class LevelTime : IGameObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Thunderstorm : IGameObject
 {
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
-	[CustomTooltip("If enabled the thunderstorm will be running initially.")]
+	[PropertyProperties(Tooltip = "If enabled the thunderstorm will be running initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
 
-	[CustomTooltip("Time between last lightning and next thunder")]
+	[PropertyProperties(Tooltip = "Time between last lightning and next thunder")]
 	[LispChild("interval", Optional = true, Default = 10f)]
 	public float Interval = 10;
 }

@@ -9,10 +9,10 @@ using SceneGraph;
 
 /// <summary>Base class for objects in levels</summary>
 public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
-	[CustomTooltip("X position of object")]
+	[PropertyProperties(Tooltip = "X position of object")]
 	[LispChild("x")]
 	public float X;
-	[CustomTooltip("Y position of object")]
+	[PropertyProperties(Tooltip = "Y position of object")]
 	[LispChild("y")]
 	public float Y;
 
@@ -91,7 +91,7 @@ public abstract class SimpleDirObject : SimpleObject
 	/// <summary>
 	/// Direction the badguy will be facing initaly.
 	/// </summary>
-	[CustomTooltip("Direction the badguy will be facing initaly.")]
+	[PropertyProperties(Tooltip = "Direction the badguy will be facing initaly.")]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
 	public Directions Direction = Directions.auto;
 }
@@ -99,10 +99,10 @@ public abstract class SimpleDirObject : SimpleObject
 /// <summary>Base class for area objects in levels</summary>
 public abstract class SimpleObjectArea : SimpleObject
 {
-	[CustomTooltip("How wide the object is.")]
+	[PropertyProperties(Tooltip = "How wide the object is.")]
 	[LispChild("width")]
 	public float Width = 32;
-	[CustomTooltip("How high the object is.")]
+	[PropertyProperties(Tooltip = "How high the object is.")]
 	[LispChild("height")]
 	public float Height = 32;
 	

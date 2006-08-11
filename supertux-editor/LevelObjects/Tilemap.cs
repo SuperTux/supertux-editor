@@ -13,7 +13,7 @@ public class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("solid")]
 	public bool Solid = false;
 
-	[CustomTooltip(ToolTipStrings.ScriptingName)]
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
