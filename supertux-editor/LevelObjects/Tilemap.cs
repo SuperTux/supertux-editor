@@ -31,6 +31,23 @@ public class Tilemap : TileBlock, IGameObject, IPathObject {
 		}
 	}
 
+	public enum DrawTargets {
+		/// <summary>
+		/// Normal tilemap.
+		/// </summary>
+		normal,
+		/// <summary>
+		/// Used for lightmap.
+		/// </summary>
+		lightmap
+	}
+
+	/// <summary>
+	/// Target for tilemap.
+	/// </summary>
+	[LispChild("draw-target", Optional = true, Default = DrawTargets.normal)]
+	public DrawTargets DrawTarget = DrawTargets.normal;
+
 	public Tilemap() : base() {
 	}
 

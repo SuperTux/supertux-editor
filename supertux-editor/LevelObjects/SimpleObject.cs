@@ -89,7 +89,7 @@ public abstract class SimpleDirObject : SimpleObject
 	}
 
 	/// <summary>
-	/// Direction the badguy will be facing initaly. 
+	/// Direction the badguy will be facing initaly.
 	/// </summary>
 	[CustomTooltip("Direction the badguy will be facing initaly.")]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
