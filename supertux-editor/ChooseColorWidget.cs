@@ -26,7 +26,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
 		
 		colorButton = new ColorButton();
-		Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);		
+		//Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);		
 		// Get if we should use alpha
 		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
 			field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
@@ -34,15 +34,11 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 
 		if (useAlpha)
 			colorButton.UseAlpha = true;
-		Gdk.Color color = new Gdk.Color(
-		                                (byte) (val.Red * 255f),
-		                                (byte) (val.Green * 255f),
-		                                (byte) (val.Blue * 255f));
-		/*
-		color.Red = (ushort) (val.Red * 65536f);
-		color.Green = (ushort) (val.Green * 65536f);
-		color.Blue = (ushort) (val.Blue * 65536f);
-		*/
+		Gdk.Color color = new Gdk.Color();
+		color.Red = (ushort) (val.Red * 65535f);
+		color.Green = (ushort) (val.Green * 65535f);
+		color.Blue = (ushort) (val.Blue * 65535f);
+		
 
 		if (useAlpha)
 			colorButton.Alpha = (ushort) (val.Alpha * 65535f);
@@ -67,6 +63,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		if (useAlpha)
 			col.Alpha = ((float) colorButton.Alpha) / 65535f;
 		field.SetValue(Object, col);
+		//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);		
+		//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);		
 	}
 }
 
