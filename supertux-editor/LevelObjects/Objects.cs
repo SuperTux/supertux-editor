@@ -415,6 +415,29 @@ public sealed class SpawnPoint : SimpleObject {
 	}
 }
 
+[SupertuxObject("firefly", "images/engine/editor/resetpoint.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Firefly : SimpleObject
+{
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = null)]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(value != "")
+				Sprite = SpriteManager.Create(value);
+		}
+	}
+	private string spriteFile = "";
+	public Firefly() {
+		Sprite = SpriteManager.Create("images/objects/resetpoints/default-resetpoint.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
 [SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Spotlight : SimpleObject
@@ -495,6 +518,7 @@ public sealed class PushButton : SimpleObject
 
 #endregion Switches
 
+#region Portables
 [SupertuxObject("trampoline", "images/objects/trampoline/trampoline.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
@@ -522,28 +546,17 @@ public sealed class Trampoline : SimpleObject
 	}
 }
 
-[SupertuxObject("firefly", "images/engine/editor/resetpoint.png",
+[SupertuxObject("rock", "images/objects/rock/rock.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Firefly : SimpleObject
+public sealed class Rock : SimpleObject
 {
-	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = null)]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			spriteFile = value;
-			if(value != "")
-				Sprite = SpriteManager.Create(value);
-		}
-	}
-	private string spriteFile = "";
-	public Firefly() {
-		Sprite = SpriteManager.Create("images/objects/resetpoints/default-resetpoint.sprite");
+	public Rock() {
+		Sprite = SpriteManager.Create("images/objects/rock/rock.sprite");
 		Sprite.Action = "normal";
 	}
 }
+
+#endregion Portables
 
 #region Platforms
 
@@ -638,15 +651,6 @@ public sealed class HurtingPlatform : PlatformBase
 
 #endregion Platforms
 
-[SupertuxObject("rock", "images/objects/rock/rock.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Rock : SimpleObject
-{
-	public Rock() {
-		Sprite = SpriteManager.Create("images/objects/rock/rock.sprite");
-		Sprite.Action = "normal";
-	}
-}
 
 [SupertuxObject("candle", "images/objects/candle/candle.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
@@ -714,6 +718,22 @@ public sealed class InfoBlock : SimpleObject
 
 	public InfoBlock() {
 		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
+	}
+}
+
+//TODO: This need a better image for the obejct list
+[SupertuxObject("magicblock", "images/objects/magicblock/magicblock.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class MagicBlock : SimpleObject
+{
+	[ChooseColorSetting]
+	[LispChild("color")]
+	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
+
+	public MagicBlock() {
+		//TODO: This need a better image or maybe show them in what color they are in?
+		Sprite = SpriteManager.Create("images/objects/magicblock/magicblock.sprite");
+		Sprite.Action = "normal";
 	}
 }
 

@@ -36,7 +36,7 @@ public abstract class TileEditorBase : EditorBase {
 	protected Tilemap Tilemap;
 	protected Tileset Tileset;
 
-	public void Draw() {
+	public virtual void Draw() {
 		if (!selecting) {
 			gl.Color4f(1, 1, 1, 0.7f);
 			Vector pos = new Vector(MouseTilePos.X * 32f, MouseTilePos.Y * 32f);
