@@ -3,6 +3,7 @@ using System;
 using LispReader;
 using DataStructures;
 using SceneGraph;
+using OpenGl;
 
 /// <summary>
 /// Used to make it simpler to change common tooltip strings.
@@ -453,6 +454,86 @@ public sealed class Spotlight : SimpleObject
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
 	}
+	public override void Draw() {
+		//draw sprite
+		if(Sprite == null)
+			return;
+		
+		Sprite.Draw(new Vector(X, Y));
+		//draw a color rectangle
+		float left = X + 8;
+		float right = X + 24;
+		float top = Y + 8;
+		float bottom = Y + 24;
+		
+	    float[] current_color = new float[4];
+		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
+		//get current color, might be transparent
+		gl.Color4f(color.Red, color.Green, color.Blue, color.Alpha*current_color[3]);
+		gl.Disable(gl.TEXTURE_2D);
+		
+		gl.Begin(gl.QUADS);
+		gl.Vertex2f(left, top);
+		gl.Vertex2f(right, top);
+		gl.Vertex2f(right, bottom);
+		gl.Vertex2f(left, bottom);
+		gl.End();
+			
+		gl.Enable(gl.TEXTURE_2D);
+		gl.Color4fv( current_color );
+	}	
+}
+
+[SupertuxObject("magicblock", "images/objects/magicblock/magicblock.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class MagicBlock : SimpleObject
+{
+	[ChooseColorSetting]
+	[LispChild("color")]
+	public Drawing.Color MagicColor {
+		get {
+			return magiccolor;
+		}
+		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum 
+			magiccolor.Red = (value.Red >= 0.5f?1f:0);
+			magiccolor.Green = (value.Green >= 0.5f?1f:0);
+			magiccolor.Blue = (value.Blue >= 0.5f?1f:0);
+		}
+	}
+	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
+	
+	public override void Draw() {
+		//draw sprite
+		if(Sprite == null)
+			return;
+		
+		Sprite.Draw(new Vector(X, Y));
+		//draw a color rectangle
+		float left = X + 8;
+		float right = X + 24;
+		float top = Y + 8;
+		float bottom = Y + 24;
+		
+	    float[] current_color = new float[4];
+		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
+		//get current color, might be transparent
+		gl.Color4f(magiccolor.Red, magiccolor.Green, magiccolor.Blue, current_color[3]);
+		gl.Disable(gl.TEXTURE_2D);
+		
+		gl.Begin(gl.QUADS);
+		gl.Vertex2f(left, top);
+		gl.Vertex2f(right, top);
+		gl.Vertex2f(right, bottom);
+		gl.Vertex2f(left, bottom);
+		gl.End();
+			
+		gl.Enable(gl.TEXTURE_2D);
+		gl.Color4fv( current_color );
+	}	
+	public MagicBlock() {
+		Sprite = SpriteManager.Create("images/objects/magicblock/magicblock.sprite");
+		Sprite.Action = "normal";
+	}
 }
 
 [SupertuxObject("door", "images/objects/door/door.sprite",
@@ -718,22 +799,6 @@ public sealed class InfoBlock : SimpleObject
 
 	public InfoBlock() {
 		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
-	}
-}
-
-//TODO: This need a better image for the obejct list
-[SupertuxObject("magicblock", "images/objects/magicblock/magicblock.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class MagicBlock : SimpleObject
-{
-	[ChooseColorSetting]
-	[LispChild("color")]
-	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
-
-	public MagicBlock() {
-		//TODO: This need a better image or maybe show them in what color they are in?
-		Sprite = SpriteManager.Create("images/objects/magicblock/magicblock.sprite");
-		Sprite.Action = "normal";
 	}
 }
 
