@@ -451,7 +451,7 @@ public sealed class Firefly : SimpleObject
 
 [SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Spotlight : SimpleObject
+public sealed class Spotlight : SimpleColorObject
 {
 	[LispChild("angle")]
 	public float Angle;
@@ -471,32 +471,13 @@ public sealed class Spotlight : SimpleObject
 		
 		Sprite.Draw(new Vector(X, Y));
 		//draw a color rectangle
-		float left = X + 8;
-		float right = X + 24;
-		float top = Y + 8;
-		float bottom = Y + 24;
-		
-	    float[] current_color = new float[4];
-		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
-		//get current color, might be transparent
-		gl.Color4f(color.Red, color.Green, color.Blue, color.Alpha*current_color[3]);
-		gl.Disable(gl.TEXTURE_2D);
-		
-		gl.Begin(gl.QUADS);
-		gl.Vertex2f(left, top);
-		gl.Vertex2f(right, top);
-		gl.Vertex2f(right, bottom);
-		gl.Vertex2f(left, bottom);
-		gl.End();
-			
-		gl.Enable(gl.TEXTURE_2D);
-		gl.Color4fv( current_color );
-	}	
+		DrawColor(color);
+	}
 }
 
 [SupertuxObject("magicblock", "images/objects/magicblock/magicblock.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class MagicBlock : SimpleObject
+public sealed class MagicBlock : SimpleColorObject
 {
 	[ChooseColorSetting]
 	[LispChild("color")]
@@ -504,7 +485,7 @@ public sealed class MagicBlock : SimpleObject
 		get {
 			return magiccolor;
 		}
-		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum 
+		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum
 			magiccolor.Red = (value.Red >= 0.5f?1f:0);
 			magiccolor.Green = (value.Green >= 0.5f?1f:0);
 			magiccolor.Blue = (value.Blue >= 0.5f?1f:0);
@@ -519,27 +500,8 @@ public sealed class MagicBlock : SimpleObject
 		
 		Sprite.Draw(new Vector(X, Y));
 		//draw a color rectangle
-		float left = X + 8;
-		float right = X + 24;
-		float top = Y + 8;
-		float bottom = Y + 24;
-		
-	    float[] current_color = new float[4];
-		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
-		//get current color, might be transparent
-		gl.Color4f(magiccolor.Red, magiccolor.Green, magiccolor.Blue, current_color[3]);
-		gl.Disable(gl.TEXTURE_2D);
-		
-		gl.Begin(gl.QUADS);
-		gl.Vertex2f(left, top);
-		gl.Vertex2f(right, top);
-		gl.Vertex2f(right, bottom);
-		gl.Vertex2f(left, bottom);
-		gl.End();
-			
-		gl.Enable(gl.TEXTURE_2D);
-		gl.Color4fv( current_color );
-	}	
+		DrawColor(magiccolor);
+	}
 	public MagicBlock() {
 		Sprite = SpriteManager.Create("images/objects/magicblock/magicblock.sprite");
 		Sprite.Action = "normal";

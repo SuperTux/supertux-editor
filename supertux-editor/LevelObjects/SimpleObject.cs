@@ -70,6 +70,36 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	}
 }
 
+
+/// <summary>Base class for objects that draw a color box.</summary>
+public abstract class SimpleColorObject : SimpleObject
+{
+	public virtual void DrawColor(Drawing.Color color) {
+		//draw a color rectangle
+		float left = X + 8;
+		float right = X + 24;
+		float top = Y + 8;
+		float bottom = Y + 24;
+		
+		float[] current_color = new float[4];
+		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
+		//get current color, might be transparent
+		gl.Color4f(color.Red, color.Green, color.Blue, color.Alpha*current_color[3]);
+		gl.Disable(gl.TEXTURE_2D);
+		
+		gl.Begin(gl.QUADS);
+		gl.Vertex2f(left, top);
+		gl.Vertex2f(right, top);
+		gl.Vertex2f(right, bottom);
+		gl.Vertex2f(left, bottom);
+		gl.End();
+		
+		gl.Enable(gl.TEXTURE_2D);
+		gl.Color4fv( current_color );
+	}
+}
+
+
 /// <summary>Base class for objects with a direction. (Like most badguys)</summary>
 public abstract class SimpleDirObject : SimpleObject
 {
