@@ -52,6 +52,8 @@ public sealed class WorldmapLevel : WorldmapObject
 	public string ExtroFilename = "";
 	[LispChild("quit-worldmap", Optional = true, Default = false)]
 	public bool QuitWorldmap = false;
+	[LispChild("auto-play", Optional = true, Default = false)]
+	public bool AutoPlay = false;
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
