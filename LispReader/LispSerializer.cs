@@ -90,7 +90,7 @@ namespace LispReader
 			return ReadType(RootType, List);
 		}
 
-		private object ReadType(Type type, List list)
+		private static object ReadType(Type type, List list)
 		{
 			ILispSerializer serializer = GetSerializer(type);
 			if(serializer == null)
@@ -99,7 +99,7 @@ namespace LispReader
 			return serializer.Read(list);
 		}		
 
-		private void WriteType(Writer writer, Type type, string name, object Object)
+		private static void WriteType(Writer writer, Type type, string name, object Object)
 		{
 			ILispSerializer serializer = GetSerializer(type);
 			if(serializer == null)

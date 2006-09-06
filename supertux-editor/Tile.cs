@@ -87,7 +87,7 @@ public class Tile {
 		}
 	}
 
-	private Surface LoadSurface(string BaseDir, ImageResource Resource) {
+	private static Surface LoadSurface(string BaseDir, ImageResource Resource) {
 		if(Resource.w > 0) {
 			return new Surface(BaseDir + "/" + Resource.Filename,
 			                   Resource.x, Resource.y,

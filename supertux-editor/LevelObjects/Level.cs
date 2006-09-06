@@ -26,7 +26,7 @@ public sealed class Level
 			return tilesetFile;
 		}
 		set {
-			if(value == null && value == "")
+			if(String.IsNullOrEmpty(value))
 				return;
 			tilesetFile = value;
 			Tileset = new Tileset(value);

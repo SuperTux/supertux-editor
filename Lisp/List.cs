@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Text;
 
 namespace Lisp
 {
@@ -38,12 +39,12 @@ public class List : IEnumerable {
 	}
 
 	public override string ToString() {
-		string result = "(";
+		StringBuilder result = new StringBuilder("(");
 		foreach(object item in entries) {
-			result += item.ToString() + " ";
+			result.Append(item.ToString() + " ");
 		}
-		result += ")";
-		return result;
+		result.Append(")");
+		return result.ToString();
 	}
 }
 

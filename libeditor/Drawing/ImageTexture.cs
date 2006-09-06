@@ -48,7 +48,7 @@ namespace Drawing
 			ImageHeight = (float) surface->h;
 		}
 
-		private uint NextPowerOfTwo(uint val)
+		private static uint NextPowerOfTwo(uint val)
 		{
 			uint result = 1;
 			while(result < val)

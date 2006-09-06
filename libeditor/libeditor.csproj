@@ -41,6 +41,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DataStructures\Field.cs" />
     <Compile Include="DataStructures\FieldPos.cs" />
     <Compile Include="DataStructures\Matrix.cs" />

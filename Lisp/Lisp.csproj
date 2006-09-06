@@ -39,6 +39,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Lexer.cs" />
     <Compile Include="LispIterator.cs" />
     <Compile Include="List.cs" />

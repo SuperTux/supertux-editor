@@ -42,6 +42,7 @@
   -->
   <ItemGroup>
     <Compile Include="Application.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="CustomSettingsWidget.cs" />
     <Compile Include="Editors\Brush.cs" />
     <Compile Include="Editors\BrushEditor.cs" />
@@ -110,10 +111,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Dock\Dock.csproj">
-      <Project>{25EDC925-F941-4DF1-9824-52F03F819757}</Project>
-      <Name>Dock</Name>
-    </ProjectReference>
     <ProjectReference Include="..\gtkgl-sharp\gtkgl-sharp.csproj">
       <Project>{BA787F0F-DD07-45A1-B4D8-6F643ADE289C}</Project>
       <Name>gtkgl</Name>

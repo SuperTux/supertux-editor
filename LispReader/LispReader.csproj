@@ -39,6 +39,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="FieldOrProperty.cs" />
     <Compile Include="ICustomLispSerializer.cs" />
     <Compile Include="LispAttributes.cs" />

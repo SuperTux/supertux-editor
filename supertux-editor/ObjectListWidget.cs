@@ -156,7 +156,7 @@ public class ObjectListWidget : GLWidgetBase
 		objectsLoaded = true;
 	}
 	
-	private Sprite CreateSprite(string name)
+	private static Sprite CreateSprite(string name)
 	{
 		Sprite result = null;
 		

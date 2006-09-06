@@ -26,7 +26,7 @@ public class PropertiesView : ScrolledWindow
 	private Label errorLabel;
 	internal Tooltips tooltips;
 	
-	private object CreateObject(Type Type) {
+	private static object CreateObject(Type Type) {
 		// create object
 		ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
 		if(Constructor == null)
@@ -160,7 +160,7 @@ public class PropertiesView : ScrolledWindow
 	/// <param name="propertyProperties">Attribute with tooltip</param>
 	/// <param name="widget">Widget to add tooltip to.</param>
 	private void AddTooltip(PropertyPropertiesAttribute propertyProperties, Widget widget) {
-		if ((propertyProperties != null) && (propertyProperties.Tooltip != ""))
+		if ((propertyProperties != null) && (propertyProperties.Tooltip.Length != 0))
 			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
 	

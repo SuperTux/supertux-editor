@@ -1,3 +1,4 @@
+using System;
 using DataStructures;
 using LispReader;
 using Drawing;
@@ -18,7 +19,7 @@ public sealed class Background : IGameObject, Node {
 		}
 		set {
 			imageTop = value;
-			if (imageTop == "") {
+			if (String.IsNullOrEmpty(imageTop)) {
 				surfaceTop = null;
 				return;
 			}
@@ -36,7 +37,7 @@ public sealed class Background : IGameObject, Node {
 		}
 		set {
 			image = value;
-			if (image == "") {
+			if (String.IsNullOrEmpty(image)) {
 				surface = null;
 				return;
 			}
@@ -54,7 +55,7 @@ public sealed class Background : IGameObject, Node {
 		}
 		set {
 			imageBottom = value;
-			if (imageBottom == "") {
+			if (String.IsNullOrEmpty(imageBottom)) {
 				surfaceBottom = null;
 				return;
 			}

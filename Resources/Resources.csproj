@@ -39,6 +39,7 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="DefaultResourceManager.cs" />
     <Compile Include="ResourceManager.cs" />
   </ItemGroup>

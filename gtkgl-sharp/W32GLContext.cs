@@ -35,6 +35,7 @@ namespace Gdk
 {
 	using System;
 	using System.Runtime.InteropServices;
+	using System.Security;
 
 	internal class W32GLContext : GLContext
 	{
@@ -101,34 +102,38 @@ namespace Gdk
 
 		public const string GL_DLL = "opengl32.dll";
 
-		[DllImport("libgdk-win32-2.0-0.dll")]
+		[DllImport("libgdk-win32-2.0-0.dll"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr gdk_win32_drawable_get_handle(IntPtr d);
 
-		[DllImport("user32")]
+		[DllImport("user32"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr GetDC(IntPtr hwnd);
 
-		[DllImport("gdi32")]
+		[DllImport("gdi32"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern int ChoosePixelFormat(IntPtr hdc, IntPtr /*PIXELFORMATDESCRIPTOR*/ pfd);
 
-		[DllImport("gdi32")]
+		[DllImport("gdi32"), SuppressUnmanagedCodeSecurityAttribute]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		static extern bool SetPixelFormat(IntPtr hdc, int iPixelFormat, IntPtr /*PIXELFORMATDESCRIPTOR*/ pfd);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr wglCreateContext(IntPtr hdc);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		static extern bool wglMakeCurrent(IntPtr hdc, IntPtr hglrc);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		static extern bool wglDeleteContext(IntPtr hglrc);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
+		[return: MarshalAs(UnmanagedType.Bool)]
 		static extern bool wglShareLists(IntPtr context1, IntPtr context2);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr wglSwapBuffers(IntPtr hdc);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern void glFlush();
 
 		IntPtr deviceContext;

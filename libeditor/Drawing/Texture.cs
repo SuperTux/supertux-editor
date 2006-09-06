@@ -136,7 +136,7 @@ namespace Drawing
 			GlUtil.Assert("Updating Texture Part");
 		}
 
-		private void SetTextureParams()
+		private static void SetTextureParams()
 		{
 			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -161,7 +161,7 @@ namespace Drawing
 			this.handle = handles[0];
 		}
 
-		private bool IsPowerOf2(uint val)
+		private static bool IsPowerOf2(uint val)
 		{
 			return (val & (val - 1)) == 0;
 		}

@@ -127,7 +127,7 @@ public class LayerListWidget : TreeView {
 		CellRendererText TextRenderer = (CellRendererText) Renderer;
 		if(o is Tilemap) {
 			Tilemap Tilemap = (Tilemap) o;
-			if( Tilemap.Name == "" ){
+			if (Tilemap.Name.Length == 0) {
 				TextRenderer.Text = "Tilemap (" + Tilemap.ZPos + ")";
 			} else {
 				TextRenderer.Text = Tilemap.Name + " (" + Tilemap.ZPos + ")";
@@ -210,7 +210,7 @@ public class LayerListWidget : TreeView {
 	{
 		if(currentTilemap == null)
 			return;
-		if( currentTilemap.Name == "" ){
+		if(String.IsNullOrEmpty(currentTilemap.Name)){
 			application.TakeUndoSnapshot("Delete Tilemap (" + currentTilemap.ZPos + ")");
 		} else {
 			application.TakeUndoSnapshot("Delete Tilemap " + currentTilemap.Name + " (" + currentTilemap.ZPos + ")");
