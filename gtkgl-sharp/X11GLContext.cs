@@ -35,27 +35,28 @@ namespace Gdk
 {
 	using System;
 	using System.Runtime.InteropServices;
+	using System.Security;
 
 	internal class X11GLContext : GLContext
 	{
 		private const string GL_DLL = "GL";
-		
-		[DllImport(GL_DLL)]
+
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern bool glXMakeCurrent (IntPtr display,
 			int drawableID,
 			IntPtr glxcontext);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern void glXSwapBuffers (IntPtr display,
 			int drawableID);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr glXCreateContext (IntPtr display,
 			IntPtr visualInfo,
 			IntPtr shareList,
 			bool direct);
 
-		[DllImport(GL_DLL)]
+		[DllImport(GL_DLL), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr glXChooseVisual (IntPtr display,
 			int screen,
 			int[] attribList);
@@ -66,16 +67,16 @@ namespace Gdk
 		                                       IntPtr context);
 		*/
 
-		[DllImport("X11")]
+		[DllImport("X11"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern void XFree (IntPtr reference);
 
-		[DllImport("gdk-x11-2.0")]
+		[DllImport("gdk-x11-2.0"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern IntPtr gdk_x11_get_default_xdisplay();
 
-		[DllImport("gdk-x11-2.0")]
+		[DllImport("gdk-x11-2.0"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern int gdk_x11_drawable_get_xid(IntPtr drawable);
 
-		[DllImport("gdk-x11-2.0")]
+		[DllImport("gdk-x11-2.0"), SuppressUnmanagedCodeSecurityAttribute]
 		static extern int gdk_x11_get_default_screen();
 
 		IntPtr xdisplay;

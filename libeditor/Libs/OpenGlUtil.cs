@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using System.Security;
 
 namespace OpenGlUtil
 {
@@ -7,7 +8,7 @@ namespace OpenGlUtil
 	{
 		private const string GLU_DLL = "GLU.dll";
 
-		[DllImport(GLU_DLL, EntryPoint = "gluErrorString")]
+		[DllImport(GLU_DLL, EntryPoint = "gluErrorString"), SuppressUnmanagedCodeSecurityAttribute]
 		private static extern IntPtr _ErrorString(uint error);
 
 		public static string ErrorString(uint error)
