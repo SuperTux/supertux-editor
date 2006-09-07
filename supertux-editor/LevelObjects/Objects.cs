@@ -61,10 +61,10 @@ public sealed class MrBomb : SimpleDirObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
-				try{ //TODO: find out why cherry's sprite causes problems. Particles?
+			if (!String.IsNullOrEmpty(value))
+				try { //TODO: find out why cherry's sprite causes problems. Particles?
 					Sprite = SpriteManager.Create(value);
-  					Sprite.Action = "left";
+  				Sprite.Action = "left";
 				} catch {
 					Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
 					Sprite.Action = "right";
@@ -438,7 +438,7 @@ public sealed class Firefly : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
+			if(!String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
 		}
 	}
@@ -537,7 +537,7 @@ public sealed class Switch : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				Sprite = SpriteManager.Create(value);
 				Sprite.Action = "off";
 			}
@@ -630,7 +630,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
+			if(! String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
 		}
 	}
@@ -737,7 +737,7 @@ public sealed class UnstableTile : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				Sprite = SpriteManager.Create(value);
 				Sprite.Action = "normal";
 			}
@@ -789,7 +789,7 @@ public sealed class Powerup : SimpleObject
 		set {
 			spriteFile = value;
 			try {
-				if(value != "")
+				if (!String.IsNullOrEmpty(value))
 					Sprite = SpriteManager.Create(value);
 			} catch(Exception e) {
 				ErrorDialog.Exception(e);
@@ -824,7 +824,7 @@ public sealed class ScriptedObject : SimpleObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "")
+			if (!String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
 		}
 	}

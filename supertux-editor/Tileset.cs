@@ -156,7 +156,7 @@ public class Tileset {
 
 	/// <summary>Parse a tile (from a tile block in the tileset file)</summary>
 	/// <exception cref="System.Exception">Thrown when a tile has no ID</exception>
-	private void ParseTile(Tile Tile, List Data) {
+	private static void ParseTile(Tile Tile, List Data) {
 		Properties Props = new Properties(Data);
 
 		if(!Props.Get("id", ref Tile.Id))
@@ -210,7 +210,7 @@ public class Tileset {
 			Tile.Attributes |= Tile.Attribute.SLOPE | Tile.Attribute.SOLID;
 	}
 
-	private List<Tile.ImageResource> ParseTileImages(List list) {
+	private static List<Tile.ImageResource> ParseTileImages(List list) {
 		List<Tile.ImageResource> result = new List<Tile.ImageResource>();
 
 		for(int i = 1; i < list.Length; ++i) {

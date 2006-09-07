@@ -62,7 +62,7 @@ public sealed class WorldmapLevel : WorldmapObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				try {
 					Sprite = SpriteManager.Create(value);
 					Sprite.Action = "solved";
@@ -108,7 +108,7 @@ public sealed class SpecialTile : WorldmapObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				try {
 					Sprite = SpriteManager.Create(value);
 				} catch(Exception e) {
@@ -139,7 +139,7 @@ public sealed class SpriteChange : WorldmapObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				try {
 					Sprite = SpriteManager.Create(value);
 				} catch(Exception e) {
@@ -177,7 +177,7 @@ public sealed class Teleporter : WorldmapObject
 		}
 		set {
 			spriteFile = value;
-			if(value != "") {
+			if (!String.IsNullOrEmpty(value)) {
 				try {
 					Sprite = SpriteManager.Create(value);
 				} catch(Exception e) {

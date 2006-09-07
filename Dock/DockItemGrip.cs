@@ -87,7 +87,7 @@ namespace Gdl
 		public DockItemGrip (DockItem item) : this ()
 		{
 			if (item == null)
-				throw new ArgumentNullException ("A valid DockItem must be given");
+				throw new ArgumentNullException ("item", "A valid DockItem must be given");
 			Item = item;
 		}
 		

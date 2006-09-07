@@ -22,8 +22,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("MonoDevelop.Dock")]
 [assembly: AssemblyDescription("Docking widget for Gtk#")]
@@ -37,3 +39,5 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
 
+[assembly: ComVisibleAttribute(false)]
+[assembly: CLSCompliant(false)]

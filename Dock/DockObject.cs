@@ -210,7 +210,7 @@ namespace Gdl
 				SetPropertyValue (att.Name, att.Value, true);
 		}
 
-		string GetXmlName (Type t)
+		static string GetXmlName (Type t)
 		{
 			switch (t.ToString ()) {
 				case "Gdl.Dock":
