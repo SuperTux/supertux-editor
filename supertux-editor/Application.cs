@@ -344,18 +344,8 @@ public class Application : IEditorApplication {
 	/// <summary>Create a new blank level</summary>
 	protected void OnNew(object o, EventArgs args)
 	{
-		if( modified ) {
-			MessageDialog md = new MessageDialog (MainWindow, 
-			                                      DialogFlags.DestroyWithParent,
-			                                      MessageType.Question,
-			                                      ButtonsType.YesNo, "There are unsaved changes.\nReally create a blank level?");
-
-			ResponseType result = (ResponseType)md.Run ();
-			md.Destroy();
-			if (result != ResponseType.Yes){
-				return;
-			}
-		}
+		if (!ChangeConfirm("create a blank level"))
+			return;
 
 		try {
 			undoSnapshots.Clear();
@@ -367,10 +357,14 @@ public class Application : IEditorApplication {
 		fileName = null;
 		MainWindow.Title = MainWindowTitlePrefix;
 		modified = false;
+		OnToolSelect(this, null);
+		ToolSelect.Active = true;
 	}
 
 	protected void OnOpen(object o, EventArgs e)
 	{
+		if (!ChangeConfirm("load a new level"))
+			return;
 		fileChooser.Title = "Choose a Level";
 		fileChooser.Action = FileChooserAction.Open;
 		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
@@ -395,6 +389,8 @@ public class Application : IEditorApplication {
 			this.fileName = fileName;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 			modified = false;
+			OnToolSelect(this, null);
+			ToolSelect.Active = true;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -590,22 +586,33 @@ public class Application : IEditorApplication {
 		Close();
 		args.RetVal = true;
 	}
-	
-	private void Close()
-	{
-		//Really Quit?
+
+	/// <summary>
+	/// Ask if realy continue if unsaved changes.
+	/// </summary>
+	/// <param name="act">What we would do ("quit", "close", "open another file" or such)</param>
+	/// <returns>True if continue otherwise false</returns>
+	private bool ChangeConfirm(string act) {
 		if( modified ) {
 			MessageDialog md = new MessageDialog (MainWindow, 
 			                                      DialogFlags.DestroyWithParent,
 			                                      MessageType.Question, 
-			                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to quit?");
+			                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to " + act + "?");
 
 			ResponseType result = (ResponseType)md.Run ();
 			md.Destroy();
 			if (result != ResponseType.Yes){
-				return;
+				return false;
 			}
 		}
+		return true;
+	}
+
+	private void Close()
+	{
+		//Really Quit?
+		if (!ChangeConfirm("quit"))
+			return;
 		Settings.Instance.Save();
 		MainWindow.Destroy();
 		Gtk.Application.Quit();
