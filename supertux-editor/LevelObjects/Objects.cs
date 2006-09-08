@@ -412,6 +412,26 @@ public sealed class Igel : SimpleDirObject
 	}
 }
 
+[SupertuxObject("toad", "images/creatures/toad/toad.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Toad : SimpleDirObject
+{
+	public Toad() {
+		Sprite = SpriteManager.Create("images/creatures/toad/toad.sprite");
+		Sprite.Action = "idle-left";
+	}
+}
+
+[SupertuxObject("mole", "images/creatures/mole/mole.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Mole : SimpleDirObject
+{
+	public Mole() {
+		Sprite = SpriteManager.Create("images/creatures/mole/mole.sprite");
+		Sprite.Action = "idle";
+	}
+}
+
 #endregion Badguys
 
 [SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png",
