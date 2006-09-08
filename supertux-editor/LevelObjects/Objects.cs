@@ -364,7 +364,7 @@ public sealed class Nolok_01 : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class WilloWisp : SimpleObject
 {
-	[LispChild("sector")]
+	[LispChild("sector"), ChooseSector()]
 	public string Sector = "";
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = "";
@@ -532,7 +532,7 @@ public sealed class MagicBlock : SimpleColorObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Door : SimpleObject
 {
-	[LispChild("sector")]
+	[LispChild("sector"), ChooseSector()]
 	public string Sector;
 	[LispChild("spawnpoint")]
 	public string Spawnpoint;

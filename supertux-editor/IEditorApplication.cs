@@ -21,6 +21,11 @@ public interface IEditorApplication
 	Sector CurrentSector {
 		get;
 	}
+
+	Level CurrentLevel {
+		get;
+	}
+
 	/// <summary>
 	/// Occurs when a new level is loaded.
 	/// </summary>

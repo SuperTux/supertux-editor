@@ -91,7 +91,14 @@ public class Application : IEditorApplication {
 			return sector;
 		}
 	}
+
+	public Level CurrentLevel {
+		get {
+			return level;
+		}
+	}
 	
+
 	public bool SnapToGrid {
 		get{
 			return snapToGrid;
@@ -218,7 +225,7 @@ public class Application : IEditorApplication {
 			return layerList;
 		}
 		if(func_name == "PropertiesView") {
-			propertiesView = new PropertiesView();
+			propertiesView = new PropertiesView(this);
 			return propertiesView;
 		}
 		throw new Exception("No Custom Widget Handler named \""+func_name+"\" exists");
@@ -693,6 +700,8 @@ public class Application : IEditorApplication {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
 			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
+			OnToolSelect(this, null);
+			ToolSelect.Active = true;
 		}
 		PrintStatus("Undone: " + us.actionTitle );
 	}

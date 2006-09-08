@@ -21,10 +21,15 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 
 public class PropertiesView : ScrolledWindow
 {
+	internal IEditorApplication application;
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
 	private Label errorLabel;
 	internal Tooltips tooltips;
+
+	public PropertiesView(IEditorApplication application) {
+		this.application = application;
+	}
 	
 	private static object CreateObject(Type Type) {
 		// create object

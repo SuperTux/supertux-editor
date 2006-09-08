@@ -4,7 +4,7 @@ using DataStructures;
 using System.Collections;
 using Gtk;
 
-public class SectorRenderer : RenderView
+public sealed class SectorRenderer : RenderView
 {
 	private Hashtable colors = new Hashtable();
 	private ColorNode objectsColorNode;
@@ -165,10 +165,10 @@ public class SectorRenderer : RenderView
 		}
 		
 		sectorBBox.Rect = new RectangleF(-1, -1,
-		                             width * Tileset.TILE_WIDTH + 1,
-		                             height * Tileset.TILE_HEIGHT + 1);
+		                                 width * Tileset.TILE_WIDTH + 1,
+		                                 height * Tileset.TILE_HEIGHT + 1);
 		sectorFill.Rect = new RectangleF(-1, -1,
-		                             width * Tileset.TILE_WIDTH + 1,
-		                             height * Tileset.TILE_HEIGHT + 1);
+		                                 width * Tileset.TILE_WIDTH + 1,
+		                                 height * Tileset.TILE_HEIGHT + 1);
 	}
 }
