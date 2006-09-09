@@ -95,6 +95,7 @@ public class GameObjectListWidget : IconView
 		if(currentObject == null)
 			return;
 		
+		application.TakeUndoSnapshot("Object deleted");
 		sector.Remove(currentObject);
 		UpdateList();
 	}

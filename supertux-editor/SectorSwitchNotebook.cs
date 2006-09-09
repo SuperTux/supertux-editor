@@ -128,6 +128,10 @@ public class SectorSwitchNotebook : Notebook
 	
 	private void OnDeleteActivated(object o, EventArgs args)
 	{
+		//HACK: Don't remove first sector. It will cause weird bugs elsewhere.
+		if (level.Sectors.IndexOf(sector) == 0)
+			return;
+		application.TakeUndoSnapshot("Removed sector");
 		level.Sectors.Remove(sector);
 		ClearTabList();
 		CreateTabList();
@@ -145,8 +149,9 @@ public class SectorSwitchNotebook : Notebook
 	private void OnCreateNew(object o, EventArgs args)
 	{
 		try {
+			application.TakeUndoSnapshot("Added sector");
 			Sector sector = LevelUtil.CreateSector("NewSector");
-		
+			
 			level.Sectors.Add(sector);
 			ClearTabList();
 			CreateTabList();

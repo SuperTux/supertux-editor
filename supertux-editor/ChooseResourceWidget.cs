@@ -50,8 +50,8 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 			                                       dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
 		else
 			entry.Text = System.IO.Path.GetFileName(dialog.Filename);
-			// Fixes backslashes on windows:
-			entry.Text = entry.Text.Replace("\\", "/");
+		// Fixes backslashes on windows:
+		entry.Text = entry.Text.Replace("\\", "/");
 		dialog.Destroy();
 	}
 
