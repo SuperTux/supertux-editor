@@ -364,8 +364,6 @@ public class Application : IEditorApplication {
 		fileName = null;
 		MainWindow.Title = MainWindowTitlePrefix;
 		modified = false;
-		OnToolSelect(this, null);
-		ToolSelect.Active = true;
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -396,8 +394,6 @@ public class Application : IEditorApplication {
 			this.fileName = fileName;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 			modified = false;
-			OnToolSelect(this, null);
-			ToolSelect.Active = true;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -630,6 +626,8 @@ public class Application : IEditorApplication {
 		level = newLevel;
 		LevelChanged(level);
 		ChangeCurrentSector(level.Sectors[0]);
+		OnToolSelect(this, null);
+		ToolSelect.Active = true;
 	}
 
 	public void ChangeCurrentSector(Sector newSector)
@@ -700,8 +698,6 @@ public class Application : IEditorApplication {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
 			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
-			OnToolSelect(this, null);
-			ToolSelect.Active = true;
 		}
 		PrintStatus("Undone: " + us.actionTitle );
 	}

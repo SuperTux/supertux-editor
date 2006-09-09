@@ -6,7 +6,7 @@ using System.Collections;
 namespace Lisp
 {
 
-public class Parser {
+public sealed class Parser {
 	private Lexer Lexer;
 	private Lexer.Token Token;
 	

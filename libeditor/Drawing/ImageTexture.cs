@@ -5,7 +5,7 @@ using OpenGl;
 namespace Drawing
 {
 
-	public class ImageTexture : Texture
+	public sealed class ImageTexture : Texture
 	{
 		public float ImageWidth;
 		public float ImageHeight;

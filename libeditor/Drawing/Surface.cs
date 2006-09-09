@@ -13,7 +13,7 @@ namespace Drawing
 	/// Several surface may share a single texture (but can still have different
 	/// texture coordinates)
 	/// </summary>
-	public class Surface : IDisposable, ICloneable
+	public sealed class Surface : IDisposable, ICloneable
 	{
 		private float width;
 		/// <summary>get surface width in pixels</summary>

@@ -6,7 +6,7 @@ using LispReader;
 using System.Collections.Generic;
 
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png")]
-public class Tilemap : TileBlock, IGameObject, IPathObject {
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;
 

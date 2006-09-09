@@ -5,7 +5,7 @@ using Lisp;
 using LispReader;
 using Resources;
 
-public class Tileset {
+public sealed class Tileset {
 	private List<Tile> tiles = new List<Tile>();
 	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
 	private string baseDir;

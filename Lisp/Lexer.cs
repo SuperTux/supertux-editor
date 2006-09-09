@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Lisp {
 
-public class Lexer {
+public sealed class Lexer {
 	private TextReader stream;
 	private char[] buffer;
 	private char c;
@@ -99,7 +99,7 @@ public class Lexer {
 						return Token.FALSE;
 
 					throw new Exception("Unknown constant '" 
-							+ TokenString + "'");
+					                    + TokenString + "'");
 				default:
 					if(Char.IsDigit(c) || c == '-') {
 						bool have_nondigits = false;

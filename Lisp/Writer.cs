@@ -6,7 +6,7 @@ using System.Globalization;
 namespace Lisp
 {
 
-public class Writer {
+public sealed class Writer {
 	private TextWriter stream;
 	private int IndentDepth;
 	private Stack lists = new Stack();
@@ -89,8 +89,7 @@ public class Writer {
 	}
 
 	private void indent() {
-		for(int i = 0; i < IndentDepth; ++i)
-			stream.Write(" ");
+			stream.Write(new String(' ', IndentDepth));
 	}
 }
 

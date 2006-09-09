@@ -5,7 +5,7 @@ using Drawing;
 using Lisp;
 using System;
 
-public class Tile {
+public sealed class Tile {
 	public enum Attribute {
 		/// <summary>solid tile that is indestructable by Tux</summary>
 		SOLID     = 0x0001,
