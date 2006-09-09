@@ -18,7 +18,7 @@ public class SettingsDialog
 		gxml.Autoconnect(this);
 		
 		if(settingsDialog == null || dataDirChooser == null || exeChooser == null)
-			throw new Exception("Couldn't load resize Dialog");
+			throw new Exception("Couldn't load settings Dialog");
 		
 		dataDirChooser.SelectFilename(Settings.Instance.SupertuxData);
 		exeChooser.SelectFilename(Settings.Instance.SupertuxExe);

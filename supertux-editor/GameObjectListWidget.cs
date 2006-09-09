@@ -77,6 +77,11 @@ public class GameObjectListWidget : IconView
 		editPathItem.Sensitive = currentObject is IPathObject;
 		popupMenu.Append(editPathItem);
 
+		MenuItem deletePathItem = new MenuItem("Delete Path");
+		deletePathItem.Activated += OnDeletePath;
+		deletePathItem.Sensitive = currentObject is IPathObject;
+		popupMenu.Append(deletePathItem);
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
@@ -98,9 +103,22 @@ public class GameObjectListWidget : IconView
 	{
 		if(! (currentObject is IPathObject))
 			return;
-		
-		IPathObject pathObject = (IPathObject) currentObject;
+		IPathObject pathObject = (IPathObject)currentObject;
+		if (pathObject.Path == null) {
+			pathObject.Path = new Path();
+			pathObject.Path.Nodes.Add(new Path.Node());
+		}
 		application.SetEditor(new PathEditor(application, pathObject.Path));
 	}
-		
+
+	private void OnDeletePath(object o, EventArgs args) {
+		if (!(currentObject is IPathObject))
+			return;
+		IPathObject pathObject = (IPathObject)currentObject;
+		if (pathObject.Path != null) {
+			pathObject.Path = null;
+			//application.SetEditor(null);
+		}
+	}
+
 }
