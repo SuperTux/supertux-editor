@@ -128,8 +128,12 @@ public class SectorSwitchNotebook : Notebook
 	
 	private void OnDeleteActivated(object o, EventArgs args)
 	{
-		//HACK: Don't remove first sector. It will cause weird bugs elsewhere.
-		if (level.Sectors.IndexOf(sector) == 0)
+		// Don't remove sector if it is the only one.
+		if (level.Sectors.Count == 1)
+			return;
+		//HACK: Don't remove first sector if we got two sector.
+		//      It will cause weird bugs elsewhere.
+		if ((level.Sectors.IndexOf(sector) == 0) && (level.Sectors.Count == 2))
 			return;
 		application.TakeUndoSnapshot("Removed sector");
 		level.Sectors.Remove(sector);
