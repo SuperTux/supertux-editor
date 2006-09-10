@@ -127,7 +127,7 @@ public class Application : IEditorApplication {
 		
 		//initialize statur bar for PrintStatus()
 		printStatusContextID = sbMain.GetContextId("PrintStatus");
-	    printStatusMessageID = sbMain.Push( printStatusContextID, "Welcome to Supertux-Editor.");
+		printStatusMessageID = sbMain.Push( printStatusContextID, "Welcome to Supertux-Editor.");
 			
 		MainWindow.DeleteEvent += OnDelete;
 
@@ -632,10 +632,15 @@ public class Application : IEditorApplication {
 
 	public void ChangeCurrentLevel(Level newLevel)
 	{
+		// Fix bug if loading worldmap while having a selection
+		// in a "normal" level (or the other way round):
+		selection.Resize(0, 0, 0);
+		selection.FireChangedEvent();
+
 		level = newLevel;
 		LevelChanged(level);
 		ChangeCurrentSector(level.Sectors[0]);
-		OnToolSelect(this, null);
+		OnToolSelect(null, null);
 		ToolSelect.Active = true;
 	}
 
@@ -730,8 +735,11 @@ public class Application : IEditorApplication {
 		Gtk.Application.Init();
 
 		Application app = new Application(args);
+#if !DEBUG
 		try {
+#endif
 			Gtk.Application.Run();
+#if !DEBUG
 		} catch(Exception e) {
 			if(app.level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
@@ -739,7 +747,7 @@ public class Application : IEditorApplication {
 			}
 			throw e;
 		}
-		
+#endif
 		Settings.Instance.Save();
 
 		SDL.Quit();
