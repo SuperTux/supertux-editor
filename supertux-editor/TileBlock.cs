@@ -75,17 +75,17 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 	public void CustomLispWrite(Writer Writer) {
 		Writer.Write("width", Width);
 		Writer.Write("height", Height);
-		List<string> lines = new List<string> ((int)Height);
-		StringBuilder sb;
+		Writer.WriteVerbatimLine("(tiles");
 		for (uint y = 0; y < Height; ++y) {
-			sb = new StringBuilder((int)Width * 3);
+			StringBuilder line = new StringBuilder();
 			for (uint x = 0; x < Width; ++x) {
-				int TileId = this[x, y];
-				sb.Append(" " + TileId.ToString());
+				if(x != 0)
+					line.Append(" ");
+				line.Append(this[x, y]);
 			}
-			lines.Add(sb.ToString());
+			Writer.WriteVerbatimLine(line.ToString());
 		}
-		Writer.WriteRaw("tiles", lines);
+		Writer.WriteVerbatimLine(")");
 	}
 
 	public void FinishRead() {
