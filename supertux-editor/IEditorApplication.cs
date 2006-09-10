@@ -8,7 +8,7 @@ public interface IEditorApplication
 	void ChangeCurrentTilemap(Tilemap Tilemap);
 	void SetEditor(IEditor editor);
 	void EditProperties(object Object, string title);
-	void PrintStatus( string message );
+	void PrintStatus(string message);
 	void TakeUndoSnapshot(string actionTitle);
 	
 	bool SnapToGrid{

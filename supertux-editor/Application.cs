@@ -735,11 +735,11 @@ public class Application : IEditorApplication {
 		Gtk.Application.Init();
 
 		Application app = new Application(args);
-#if !DEBUG
+#if !INSANEDEBUG
 		try {
 #endif
 			Gtk.Application.Run();
-#if !DEBUG
+#if !INSANEDEBUG
 		} catch(Exception e) {
 			if(app.level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");

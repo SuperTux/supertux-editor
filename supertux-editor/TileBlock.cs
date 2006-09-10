@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using DataStructures;
 using Lisp;
 using LispReader;
@@ -74,7 +75,17 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 	public void CustomLispWrite(Writer Writer) {
 		Writer.Write("width", Width);
 		Writer.Write("height", Height);
-		Writer.Write("tiles", GetContentsArray());
+		List<string> lines = new List<string> ((int)Height);
+		StringBuilder sb;
+		for (uint y = 0; y < Height; ++y) {
+			sb = new StringBuilder((int)Width * 3);
+			for (uint x = 0; x < Width; ++x) {
+				int TileId = this[x, y];
+				sb.Append(" " + TileId.ToString());
+			}
+			lines.Add(sb.ToString());
+		}
+		Writer.WriteRaw("tiles", lines);
 	}
 
 	public void FinishRead() {

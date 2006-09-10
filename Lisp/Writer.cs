@@ -64,6 +64,22 @@ public sealed class Writer {
 		stream.WriteLine(")");
 	}
 
+	/// <summary>
+	/// Writes a string as it is (no quotes, no escaping).
+	/// </summary>
+	/// <param name="name">Name of item</param>
+	/// <param name="rawdata">The raw data, one line per item in the IEnumerable.</param>
+	public void WriteRaw(string name,
+	                     System.Collections.Generic.IEnumerable<string> rawdata) {
+		indent();
+		stream.Write("(" + name + " ");
+		foreach (string str in rawdata) {
+			stream.WriteLine(str);
+			indent();
+		}
+		stream.WriteLine(")");
+	}
+
 	public void WriteTranslatable(string Name, string value) {
 		indent();
 		stream.WriteLine("(" + Name + " (_ \"" + value + "\"))");
