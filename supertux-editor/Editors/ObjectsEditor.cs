@@ -163,6 +163,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		
 		IObject firstObject = null;
 		bool foundLastActive = false;
+		// Cycle through the objects which share a point
 		foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
 			if(Object.Area.Contains(pos)) {
 				if(firstObject == null)

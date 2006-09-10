@@ -141,31 +141,19 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 	private void UpdateSelection()
 	{
 		if(MouseTilePos.X < SelectStartPos.X) {
-			if(MouseTilePos.X < 0)
-				SelectionP1.X = 0;
-			else
-				SelectionP1.X = MouseTilePos.X;
+			SelectionP1.X = Math.Max(0, MouseTilePos.X);
 			SelectionP2.X = SelectStartPos.X;
 		} else {
 			SelectionP1.X = SelectStartPos.X;
-			if(MouseTilePos.X >= Tilemap.Width)
-				SelectionP2.X = (int) Tilemap.Width - 1;
-			else
-				SelectionP2.X = MouseTilePos.X;
+			SelectionP2.X = Math.Min(MouseTilePos.X, (int)Tilemap.Width - 1);
 		}
 
 		if(MouseTilePos.Y < SelectStartPos.Y) {
-			if(MouseTilePos.Y < 0)
-				SelectionP1.Y = 0;
-			else
-				SelectionP1.Y = MouseTilePos.Y;
+			SelectionP1.Y = Math.Max(0, MouseTilePos.Y);
 			SelectionP2.Y = SelectStartPos.Y;
 		} else {
 			SelectionP1.Y = SelectStartPos.Y;
-			if(MouseTilePos.Y >= Tilemap.Height)
-				SelectionP2.Y = (int) Tilemap.Height - 1;
-			else
-				SelectionP2.Y = MouseTilePos.Y;
+			SelectionP2.Y = Math.Min(MouseTilePos.Y, (int)Tilemap.Height - 1);
 		}
 	}
 	
