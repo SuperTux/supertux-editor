@@ -129,13 +129,18 @@ public class SectorSwitchNotebook : Notebook
 	private void OnDeleteActivated(object o, EventArgs args)
 	{
 		// Don't remove sector if it is the only one.
-		if (level.Sectors.Count == 1)
+		if (level.Sectors.Count == 1){
+			application.PrintStatus("A level has to have at least one sector.");
 			return;
+        }
 		//HACK: Don't remove first sector if we got two sector.
 		//      It will cause weird bugs elsewhere.
-		if ((level.Sectors.IndexOf(sector) == 0) && (level.Sectors.Count == 2))
+		if ((level.Sectors.IndexOf(sector) == 0) && (level.Sectors.Count == 2)){
+			application.PrintStatus("Bug: Removing first sector does not work if there are exactly two sectors.");
 			return;
+        }
 		application.TakeUndoSnapshot("Removed sector");
+		application.PrintStatus("Sector '"+ sector.Name + "' removed.");
 		level.Sectors.Remove(sector);
 		ClearTabList();
 		CreateTabList();
