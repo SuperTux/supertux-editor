@@ -25,14 +25,10 @@ public class Application : IEditorApplication {
 	}
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix;
+
+	#region Glade
 	[Glade.Widget]
 	private Gtk.Window MainWindow = null;
-	
-	private TileListWidget tileList;
-	private LayerListWidget layerList;
-	private SectorSwitchNotebook sectorSwitchNotebook;
-	private PropertiesView propertiesView;
-	private Selection selection;
 
 	[Glade.Widget]
 	private Widget ToolSelectProps;
@@ -52,20 +48,6 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Statusbar sbMain;
-	
-	private uint printStatusContextID;
-	private uint printStatusMessageID;
-	
-	private FileChooserDialog fileChooser;
-
-	
-	private Level level;
-	private Sector sector;
-	private	LispSerializer serializer = new LispSerializer(typeof(Level));
-	private string fileName;
-
-	private const int maxUndoSnapshots = 10;
-	private List<UndoSnapshot> undoSnapshots = new List<UndoSnapshot>();
 
 	[Glade.Widget]
 	private Gtk.MenuItem undo1;
@@ -75,7 +57,27 @@ public class Application : IEditorApplication {
 	
 	[Glade.Widget]
 	private Gtk.ToggleToolButton ttbShowBackground;
+	#endregion Glade
+
+	private TileListWidget tileList;
+	private LayerListWidget layerList;
+	private SectorSwitchNotebook sectorSwitchNotebook;
+	private PropertiesView propertiesView;
+	private Selection selection;
+
+	private uint printStatusContextID;
+	private uint printStatusMessageID;
 	
+	private FileChooserDialog fileChooser;
+
+	private Level level;
+	private Sector sector;
+	private	LispSerializer serializer = new LispSerializer(typeof(Level));
+	private string fileName;
+
+	private const int maxUndoSnapshots = 10;
+	private List<UndoSnapshot> undoSnapshots = new List<UndoSnapshot>();
+
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
 	public event TilemapChangedEventHandler TilemapChanged;
@@ -115,20 +117,20 @@ public class Application : IEditorApplication {
 	
 	private Application(string[] args) {
 		selection = new Selection();
-		
+
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
 		Glade.XML gxml = new Glade.XML("editor.glade", "MainWindow");
 		gxml.Autoconnect(this);
-	
-		if(MainWindow == null)
+
+		if (MainWindow == null)
 			throw new Exception("Couldn't resolve all widgets");
 
 		Tileset.LoadEditorImages = true;
-		
+
 		//initialize statur bar for PrintStatus()
 		printStatusContextID = sbMain.GetContextId("PrintStatus");
-		printStatusMessageID = sbMain.Push( printStatusContextID, "Welcome to Supertux-Editor.");
-			
+		printStatusMessageID = sbMain.Push(printStatusContextID, "Welcome to Supertux-Editor.");
+
 		MainWindow.DeleteEvent += OnDelete;
 
 		MainWindow.SetSizeRequest(900, 675);
@@ -178,8 +180,8 @@ public class Application : IEditorApplication {
 		if( Settings.Instance.SupertuxData != null ){
 			fileChooser.AddShortcutFolder( Settings.Instance.SupertuxData );
 		}
-		                        
-		if(args.Length > 0) {
+		
+		if (args.Length > 0) {
 			Load(args[0]);
 		}
 		
@@ -648,6 +650,12 @@ public class Application : IEditorApplication {
 	{
 		this.sector = newSector;
 		SectorChanged(level, newSector);
+		if (CurrentRenderer != null) { 
+			if (show_background1.Active)
+				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
+			else
+				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
+		}
 	}
 
 	public void ChangeCurrentTilemap(Tilemap tilemap)
