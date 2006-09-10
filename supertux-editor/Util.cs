@@ -19,12 +19,11 @@ public static class Util {
 
 			List Result = null;
 			if(!RootP.Get(RootElement, ref Result))
-				throw new Exception("'" + Source + "' is not a " + RootElement + " file");
+				throw new LispException("'" + Source + "' is not a " + RootElement + " file");
 
 			return Result;
 		} catch(Exception e) {
-			throw new Exception("Problem parsing '" + Source + "': " 
-			                    + e.Message, e);
+			throw new LispException("Problem parsing '" + Source + "': " + e.Message, e);
 		}
 	}
 }

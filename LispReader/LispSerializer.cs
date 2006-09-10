@@ -44,7 +44,7 @@ namespace LispReader
 			LispRootAttribute rootAttrib = (LispRootAttribute)
 				Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
 			if(rootAttrib == null)
-				throw new Exception("Type needs to have LispRoot attribute");
+				throw new LispException("Type needs to have LispRoot attribute");
 
 			Writer Writer = new Writer(TextWriter);
 			Write(Writer, rootAttrib.Name, Object);
@@ -70,7 +70,7 @@ namespace LispReader
 			LispRootAttribute RootAttrib = (LispRootAttribute)
 				Attribute.GetCustomAttribute(RootType, typeof(LispRootAttribute));
 			if(RootAttrib == null)
-				throw new Exception("Type needs to have LispRoot attribute");
+				throw new LispException("Type needs to have LispRoot attribute");
 
 			Lexer Lexer = new Lexer(Reader);
 			Parser Parser = new Parser(Lexer);
@@ -80,7 +80,7 @@ namespace LispReader
 
 			List List = null;
 			if(!RootP.Get(RootAttrib.Name, ref List))
-				throw new Exception("'" + Source + "' is not a " + RootAttrib.Name + " file");
+				throw new LispException("'" + Source + "' is not a " + RootAttrib.Name + " file");
 			
 			return ReadType(RootType, List);
 		}
@@ -113,7 +113,7 @@ namespace LispReader
 			// create object
 			ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
 			if(Constructor == null)
-				throw new Exception("Type '" + Type + "' has no public constructor without arguments");
+				throw new LispException("Type '" + Type + "' has no public constructor without arguments");
 			object Result = Constructor.Invoke(new object[] {});
 
 			return Result;

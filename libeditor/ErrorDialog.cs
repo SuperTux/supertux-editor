@@ -69,6 +69,31 @@ public class ErrorDialog : IDisposable
 		dialog.Show();
 	}
 
+	/// <summary>
+	/// Show error dialog for non-exceptions.
+	/// </summary>
+	/// <param name="message">Error message to show</param>
+	public static void ShowError(string message) {
+		ErrorDialog dialog = new ErrorDialog(null);
+		dialog.dialog.Title = "Supertux-Editor Error";
+		dialog.Message = message;
+		dialog.Show();
+	}
+
+	/// <summary>
+	/// Show error dialog for non-exceptions.
+	/// </summary>
+	/// <param name="message">Error message to show</param>
+	/// <param name="details">Message to put under "details".</param>
+	public static void ShowError(string message, string details) {
+		ErrorDialog dialog = new ErrorDialog(null);
+		dialog.dialog.Title = "Supertux-Editor Error";
+		dialog.Message = message;
+		dialog.AddDetails(details, true);
+		dialog.Show();
+	}
+
+
 	public ErrorDialog(Window parent)
 	{
 		new Glade.XML(null, "errordialog.glade", "ErrorDialog", null).Autoconnect(this);

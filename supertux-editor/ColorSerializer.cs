@@ -9,7 +9,7 @@ public class ColorSerializer : ILispSerializer
 	public object Read(List list)
 	{
 		if(list.Length < 4 || list.Length > 5)
-			throw new Exception("Lisp list must have 4 or 5 entries for color");
+			throw new LispException("Lisp list must have 4 or 5 entries for color");
 		
 		Color result = new Color();
 		result.Red = GetFloat(list[1]);

@@ -118,16 +118,16 @@ public sealed class Tileset {
 		props.Get("height", ref height);
 		props.Get("image", ref image);
 		if(width == 0 || height == 0)
-			throw new Exception("Width and Height of tiles block must be > 0");
+			throw new ApplicationException("Width and Height of tiles block must be > 0");
 
 		List<int> ids = new List<int> ();
 		List<uint> attributes = new List<uint> ();
 		props.GetIntList("ids", ids);
 		props.GetUIntList("attributes", attributes);
 		if(ids.Count != width * height)
-			throw new Exception("Must have width*height ids in tiles block");
+			throw new ApplicationException("Must have width*height ids in tiles block");
 		if(attributes.Count != width * height)
-			throw new Exception("Must have width*height attributes in tiles block");
+			throw new ApplicationException("Must have width*height attributes in tiles block");
 		
 		int id = 0;
 		for(int y = 0; y < height; ++y) {
@@ -160,7 +160,7 @@ public sealed class Tileset {
 		Properties Props = new Properties(Data);
 
 		if(!Props.Get("id", ref Tile.Id))
-			throw new Exception("Tile has no ID");
+			throw new ApplicationException("Tile has no ID");
 
 		List images = null;
 		Props.Get("images", ref images);

@@ -11,7 +11,7 @@ public sealed class Lexer {
 	int bufpos;
 	int buflen;
 
-	public class EOFException : Exception {
+	public class EOFException : LispException {
 	};
 		
 	public enum Token {
@@ -98,8 +98,8 @@ public sealed class Lexer {
 					if(TokenString == "f")
 						return Token.FALSE;
 
-					throw new Exception("Unknown constant '" 
-					                    + TokenString + "'");
+					throw new LispException("Unknown constant '" 
+					                        + TokenString + "'");
 				default:
 					if(Char.IsDigit(c) || c == '-') {
 						bool have_nondigits = false;
@@ -136,7 +136,7 @@ public sealed class Lexer {
 						return Token.SYMBOL;
 					}
 			}
-		} catch(EOFException ) {
+		} catch (EOFException) {
 			return Token.EOF;
 		}
 	}

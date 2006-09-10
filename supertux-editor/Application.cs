@@ -388,8 +388,11 @@ public class Application : IEditorApplication {
 		try {
 			undoSnapshots.Clear();
 			Level newLevel = (Level) serializer.Read(fileName);
-			if(newLevel.Version < 2)
-				throw new Exception("Old Level Format not supported");
+			if (newLevel.Version < 2) {
+				ErrorDialog.ShowError("Couldn't load level: Old Level Format not supported",
+				                      "Supertux-Editor does not support Supertux-0.1.x levels");
+				return;
+			}
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
@@ -528,8 +531,11 @@ public class Application : IEditorApplication {
 	protected void OnBrushLoad(object o, EventArgs args)
 	{
 		try {
-			if(layerList.CurrentTilemap == null)
-				throw new Exception("No tilemap selected");
+			if (layerList.CurrentTilemap == null) {
+				ErrorDialog.ShowError("Brush: No tilemap selected",
+				                      "You have to select a tilemap before you load a brush");
+				return;
+			}
 			
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Open;
@@ -554,8 +560,11 @@ public class Application : IEditorApplication {
 	{
 		try {
 			IEditor editor = sectorSwitchNotebook.CurrentRenderer.Editor;
-			if(! (editor is BrushEditor))
-				throw new Exception("No brush editor active");
+			if(! (editor is BrushEditor)) {
+				ErrorDialog.ShowError("No brush editor active",
+				                      "You need to open a brush before you can save changes to it");
+				return;
+			}
 			BrushEditor brushEditor = (BrushEditor) editor;
 			
 			fileChooser.Title = "Choose a Brush";

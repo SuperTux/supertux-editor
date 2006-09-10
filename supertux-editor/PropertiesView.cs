@@ -187,7 +187,7 @@ public class PropertiesView : ScrolledWindow
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
 			} else {
-				throw new Exception("Not implemented yet");
+				throw new ApplicationException("Not implemented yet");
 			}
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;

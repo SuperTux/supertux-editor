@@ -28,11 +28,10 @@ public sealed class Writer {
 
 	public void EndList(string name) {
 		if(lists.Count == 0)
-			throw new Exception("Trying to close list while none is open");
+			throw new LispException("Trying to close list while none is open");
 		string back = (string) lists.Pop();
 		if(name != back)
-			throw new Exception(
-					String.Format("Trying to close {0} which is not open", name));
+			throw new LispException(String.Format("Trying to close {0} which is not open", name));
 
 		IndentDepth -= 2;
 		indent();

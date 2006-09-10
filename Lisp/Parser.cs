@@ -94,8 +94,8 @@ public sealed class Parser {
 	}
 
 	private void ParseError(string Message) {
-		throw new Exception("Parse error in line "
-				+ Lexer.LineNumber + ": " + Message);
+		throw new LispException("Parse error in line "
+		                        + Lexer.LineNumber + ": " + Message);
 	}
 }
 

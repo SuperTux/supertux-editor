@@ -81,7 +81,7 @@ namespace LispReader
 					} else {
 						ILispSerializer serializer = LispSerializer.GetSerializer(field.Type);
 						if(serializer == null)
-							throw new Exception("Type " + field.Type + " not supported for serialization");
+							throw new LispException("Type " + field.Type + " not supported for serialization");
 						
 						List val = null;
 						if(!props.Get(Name, ref val)) {
@@ -101,7 +101,7 @@ namespace LispReader
 					MethodInfo AddMethod = ListType.GetMethod(
 							"Add", new Type[] { childsAttrib.ListType }, null);
 					if(AddMethod == null)
-						throw new Exception("No Add method found for field " + field.Name);
+						throw new LispException("No Add method found for field " + field.Name);
 					
 					ILispSerializer serializer = LispSerializer.GetSerializer(childsAttrib.Type);
 					if(serializer == null)
@@ -164,7 +164,7 @@ namespace LispReader
 					if(childsAttrib != null) {
 						object list = field.GetValue(Object);
 						if(! (list is IEnumerable))
-							throw new Exception("Field '" + field.Name + "' is not IEnumerable");
+							throw new LispException("Field '" + field.Name + "' is not IEnumerable");
 						
 						ILispSerializer serializer = LispSerializer.GetSerializer(childsAttrib.Type);
 						if(serializer == null)
@@ -193,7 +193,7 @@ namespace LispReader
 			// create object
 			ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
 			if(Constructor == null)
-				throw new Exception("Type '" + Type + "' has no public constructor without arguments");
+				throw new LispException("Type '" + Type + "' has no public constructor without arguments");
 			object Result = Constructor.Invoke(new object[] {});
 
 			return Result;
