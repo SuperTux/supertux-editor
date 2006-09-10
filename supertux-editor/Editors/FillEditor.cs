@@ -22,6 +22,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		Tilemap = newTilemap;
 	}
 
+	private void FloodFill(FieldPos pos, int new_tile) {
+		if (Tilemap[pos] != new_tile)
+			FloodFillAt(pos, Tilemap[pos], new_tile);
+	}
+
 	private void FloodFillAt(FieldPos pos, int oldId, int newId) {
 		if (!Tilemap.InBounds(pos)) return;
 		if (Tilemap[pos] != oldId) return;
@@ -42,11 +47,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		if (Tilemap == null) return;
 
 		UpdateMouseTilePos(MousePos);
-	
-		if(button == 1) {
+
+		if (button == 1) {
 			if ((selection.Width == 1) && (selection.Height == 1)) {
 				application.TakeUndoSnapshot("Fill Tool");
-				FloodFillAt(MouseTilePos, Tilemap[MouseTilePos], selection[0,0]);
+				FloodFill(MouseTilePos, selection[0, 0]);
 			}
 			LastDrawPos = MouseTilePos;
 			drawing = true;
@@ -103,12 +108,16 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			if(selection.Width == 0 || selection.Height == 0)
 				return;
 
-			if(drawing &&
-					( (Modifiers & ModifierType.ShiftMask) != 0 ||
-				((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
-				 (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0))) {
+			if (drawing &&
+			    ((Modifiers & ModifierType.ShiftMask) != 0 ||
+			     ((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
+			      (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0
+			     )
+			    )
+			   ) {
 				LastDrawPos = MouseTilePos;
-				if ((selection.Width == 1) && (selection.Height == 1)) FloodFillAt(MouseTilePos, Tilemap[MouseTilePos], selection[0,0]);
+				if ((selection.Width == 1) && (selection.Height == 1))
+					FloodFill(MouseTilePos, selection[0, 0]);
 			}
 			if(selecting)
 				UpdateSelection();
