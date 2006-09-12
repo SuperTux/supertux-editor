@@ -610,8 +610,10 @@ public class Application : IEditorApplication {
 		if( modified ) {
 			MessageDialog md = new MessageDialog (MainWindow, 
 			                                      DialogFlags.DestroyWithParent,
-			                                      MessageType.Question, 
-			                                      ButtonsType.YesNo, "There are unsaved changes.\nAre you sure you want to " + act + "?");
+			                                      MessageType.Warning, 
+			                                      ButtonsType.None, "Continue without saving changes?\n\nIf you " + act + " without saving, changes since the last save will be discarded.");
+			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
 
 			ResponseType result = (ResponseType)md.Run ();
 			md.Destroy();
