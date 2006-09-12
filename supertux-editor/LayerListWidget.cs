@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Gtk;
 using GLib;
@@ -166,7 +167,6 @@ public class LayerListWidget : TreeView {
 		}
 	}
 
-	//TODO: Check so this isn't the "Objects" layer.
 	private void ShowPopupMenu()
 	{
 		Menu popupMenu = new Menu();
@@ -210,6 +210,11 @@ public class LayerListWidget : TreeView {
 	{
 		if(currentTilemap == null)
 			return;
+
+		// Don't remove last tilemap, that cause bugs.
+		if (sector.GetObjects(typeof(Tilemap)).Count == 1)
+			return;
+
 		if(String.IsNullOrEmpty(currentTilemap.Name)){
 			application.TakeUndoSnapshot("Delete Tilemap (" + currentTilemap.ZPos + ")");
 		} else {

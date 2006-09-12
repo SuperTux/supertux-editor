@@ -34,7 +34,7 @@ public sealed class Sector : ICustomLispSerializer {
 	public event ObjectRemovedHandler ObjectRemoved;
 	public event SizeChangedHandler SizeChanged;
 
-	private class DynamicList : IEnumerable {
+	private class DynamicList : IEnumerable, ICollection {
 		public Sector Sector;
 		public Type ObjectsType;
 
@@ -44,8 +44,62 @@ public sealed class Sector : ICustomLispSerializer {
 					yield return obj;
 			}
 		}
+
+		// Just needed to implement the ICollection.
+		bool ICollection.IsSynchronized {
+			get {
+				return false;
+			}
+		}
+
+		// Just needed to implement the ICollection.
+		object ICollection.SyncRoot {
+			get {
+				return this;
+			}
+		}
+
+		// Untested, just needed to implement the ICollection.
+		void ICollection.CopyTo(Array array, int index) {
+			if (array == null)
+				throw new ArgumentNullException("array");
+			if (index < 0)
+				throw new ArgumentOutOfRangeException("index");
+			if (array.Rank != 1)
+				throw new ArgumentException("array", "Array rank must be 1");
+			if (index >= array.Length)
+				throw new ArgumentException("index", "index is greater than the length of array");
+			if (array is IGameObject[]) {
+				if (array.Length - index < this.Count)
+					throw new ArgumentException("array", "Array is too short.");
+				int i = index;
+				IGameObject[] GameObjectArray = (IGameObject[])array;
+				foreach (IGameObject obj in Sector.GameObjects) {
+					if (ObjectsType.IsInstanceOfType(obj)) {
+						GameObjectArray[i] = obj;
+						i++;
+					}
+				}
+			} else {
+				throw new ArgumentException("array", "Unsupported type");
+			}
+		}
+
+		public int Count {
+			get {
+				int i = 0;
+				foreach(IGameObject obj in Sector.GameObjects) {
+					if (ObjectsType.IsInstanceOfType(obj))
+						i++;
+				}
+				return i;
+			}
+		}
+
+
 	}
-	public IEnumerable GetObjects(Type ObjectsType) {
+
+	public ICollection GetObjects(Type ObjectsType) {
 		DynamicList Result = new DynamicList();
 		Result.Sector = this;
 		Result.ObjectsType = ObjectsType;

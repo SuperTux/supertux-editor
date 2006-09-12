@@ -7,9 +7,6 @@ using LispReader;
 /// <summary>
 /// Colour choosing widget for properties.
 /// </summary>
-/// <remarks>
-/// TODO: Add support to set alpha value too.
-/// </remarks>
 public sealed class ChooseColorWidget : CustomSettingsWidget
 {
 	private ColorButton colorButton;
