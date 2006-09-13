@@ -173,6 +173,10 @@ public class Application : IEditorApplication {
 		worldmapfilter.Name = "Supertux Worldmaps";
 		worldmapfilter.AddPattern("*.stwm");
 		fileChooser.AddFilter( worldmapfilter );
+		Gtk.FileFilter brushfilter = new Gtk.FileFilter();
+		brushfilter.Name = "Supertux-Editor Brushs";
+		brushfilter.AddPattern("*.csv");
+		fileChooser.AddFilter(brushfilter);
 		Gtk.FileFilter all = new Gtk.FileFilter();
 		all.Name = "All Files";
 		all.AddPattern("*");

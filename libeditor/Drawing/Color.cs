@@ -28,6 +28,26 @@ namespace Drawing
 			this.Blue = Blue;
 			this.Alpha = 1.0f;
 		}
+
+		public static bool operator ==(Color c1, Color c2) {
+			return c1.Red == c2.Red && c1.Green == c2.Green && c1.Blue == c2.Blue && c1.Alpha == c2.Alpha;
+		}
+
+		public static bool operator !=(Color c1, Color c2) {
+			return c1.Red != c2.Red || c1.Green != c2.Green || c1.Blue != c2.Blue || c1.Alpha != c2.Alpha;
+		}
+
+		public override bool Equals(object obj) {
+			if (!(obj is Color))
+				return false;
+			Color color = (Color)obj;
+			return this == color;
+		}
+
+		public override int GetHashCode() {
+			return base.GetHashCode();
+		}
+
 	}
 
 }

@@ -62,6 +62,26 @@ namespace DataStructures
 		{
 			return v.X >= Left && v.X < Right && v.Y >= Top && v.Y < Bottom;
 		}
+
+		public static bool operator ==(RectangleF r1, RectangleF r2) {
+			return r1.Left == r2.Left && r1.Top == r2.Top && r1.Right == r2.Right && r1.Bottom == r2.Bottom;
+		}
+
+		public static bool operator !=(RectangleF r1, RectangleF r2) {
+			return r1.Left != r2.Left || r1.Top != r2.Top || r1.Right != r2.Right || r1.Bottom != r2.Bottom;
+		}
+
+		public override bool Equals(object obj) {
+			if (!(obj is RectangleF))
+				return false;
+			RectangleF rect = (RectangleF)obj;
+			return this == rect;
+		}
+
+		public override int GetHashCode() {
+			return base.GetHashCode();
+		}
+
 	}
 
 }

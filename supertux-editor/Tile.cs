@@ -54,6 +54,26 @@ public sealed class Tile {
 	public struct ImageResource {
 		public string Filename;
 		public int x, y, w, h;
+
+		public static bool operator ==(ImageResource i1, ImageResource i2) {
+			return i1.Filename == i2.Filename && i1.x == i2.x && i1.y == i2.y && i1.w == i2.w && i1.h == i2.h;
+		}
+
+		public static bool operator !=(ImageResource i1, ImageResource i2) {
+			return i1.Filename != i2.Filename || i1.x != i2.x || i1.y != i2.y || i1.w != i2.w || i1.h != i2.h;
+		}
+
+		public override bool Equals(object obj) {
+			if (!(obj is ImageResource))
+				return false;
+			ImageResource res = (ImageResource)obj;
+			return this == res;
+		}
+
+		public override int GetHashCode() {
+			return base.GetHashCode();
+		}
+
 	}
 	
 	public List<ImageResource> Images;
