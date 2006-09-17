@@ -528,6 +528,39 @@ public sealed class MagicBlock : SimpleColorObject
 	}
 }
 
+[SupertuxObject("lantern", "images/objects/lantern/lantern.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Lantern : SimpleColorObject
+{
+	[ChooseColorSetting]
+	[LispChild("color")]
+	public Drawing.Color LightColor {
+		get {
+			return lightcolor;
+		}
+		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum
+			lightcolor.Red = (value.Red >= 0.5f?1f:0);
+			lightcolor.Green = (value.Green >= 0.5f?1f:0);
+			lightcolor.Blue = (value.Blue >= 0.5f?1f:0);
+		}
+	}
+	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
+	
+	public override void Draw() {
+		//draw sprite
+		if(Sprite == null)
+			return;
+		
+		Sprite.Draw(new Vector(X, Y));
+		//draw a color rectangle
+		DrawColor(lightcolor);
+	}
+	public Lantern() {
+		Sprite = SpriteManager.Create("images/objects/lantern/lantern.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
 [SupertuxObject("door", "images/objects/door/door.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Door : SimpleObject
