@@ -10,7 +10,7 @@ public sealed class Writer {
 	private TextWriter stream;
 	private int IndentDepth;
 	private Stack lists = new Stack();
-	
+
 	public Writer(TextWriter stream) {
 		this.stream = stream;
 	}
@@ -76,7 +76,7 @@ public sealed class Writer {
 			stream.Write(val.ToString());
 		} else if(val is float || val is double) {
 			string num = String.Format(CultureInfo.InvariantCulture, "{0:G}", val);
-			stream.Write(num);    
+			stream.Write(num);
 		} else {
 			stream.Write("\"" + val.ToString() + "\"");
 		}
@@ -93,4 +93,3 @@ public sealed class Writer {
 }
 
 }
-

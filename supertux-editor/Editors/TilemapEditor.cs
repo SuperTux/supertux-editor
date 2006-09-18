@@ -29,7 +29,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
 	{
 		if (Tilemap == null) return;
-	
+
 		UpdateMouseTilePos(MousePos);
 
 		if(button == 1) {
@@ -44,7 +44,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			   || MouseTilePos.X >= Tilemap.Width
 			   || MouseTilePos.Y >= Tilemap.Height)
 				return;
-			
+
 			SelectStartPos = MouseTilePos;
 			selecting = true;
 			UpdateSelection();
@@ -57,7 +57,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 		if (Tilemap == null) return;
 
 		UpdateMouseTilePos(MousePos);
-		
+
 		if(button == 1) {
 			drawing = false;
 		}
@@ -148,7 +148,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 				SelectionP2.Y = MouseTilePos.Y;
 		}
 	}
-	
+
 	private void OnSelectionChanged() {
 		Redraw();
 	}

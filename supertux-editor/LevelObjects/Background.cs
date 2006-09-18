@@ -46,7 +46,7 @@ public sealed class Background : IGameObject, Node {
 	}
 	private string image;
 	private Surface surface;
-	
+
 	[LispChild("image-bottom", Optional = true, Default = "")]
 	[ChooseResourceSetting]
 	public string ImageBottom {
@@ -64,7 +64,7 @@ public sealed class Background : IGameObject, Node {
 	}
 	private string imageBottom;
 	private Surface surfaceBottom;
-	
+
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 	[LispChild("layer", Optional = true, Default = -200)]

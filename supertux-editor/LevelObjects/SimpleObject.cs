@@ -34,7 +34,7 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 			return false;
 		}
 	}
-	
+
 	private Sprite sprite;
 	protected Sprite Sprite {
 		get {
@@ -57,14 +57,14 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	public virtual void Draw() {
 		if(Sprite == null)
 			return;
-		
+
 		Sprite.Draw(new Vector(X, Y));
 	}
-	
+
 	public virtual Node GetSceneGraphNode() {
 		return this;
 	}
-	
+
 	public object Clone() {
 		return MemberwiseClone();
 	}
@@ -80,20 +80,20 @@ public abstract class SimpleColorObject : SimpleObject
 		float right = X + 24;
 		float top = Y + 8;
 		float bottom = Y + 24;
-		
+
 		float[] current_color = new float[4];
 		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
 		//get current color, might be transparent
 		gl.Color4f(color.Red, color.Green, color.Blue, color.Alpha*current_color[3]);
 		gl.Disable(gl.TEXTURE_2D);
-		
+
 		gl.Begin(gl.QUADS);
 		gl.Vertex2f(left, top);
 		gl.Vertex2f(right, top);
 		gl.Vertex2f(right, bottom);
 		gl.Vertex2f(left, bottom);
 		gl.End();
-		
+
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4fv( current_color );
 	}
@@ -135,15 +135,15 @@ public abstract class SimpleObjectArea : SimpleObject
 	[PropertyProperties(Tooltip = "How high the object is.")]
 	[LispChild("height")]
 	public float Height = 32;
-	
+
 	protected Drawing.Color Color;
-	
+
 	public override RectangleF Area {
 		get {
 			return new RectangleF(X, Y, Width, Height);
 		}
 	}
-	
+
 	/// <summary>
 	/// If true object is resizable.
 	/// </summary>
@@ -152,37 +152,37 @@ public abstract class SimpleObjectArea : SimpleObject
 			return true;
 		}
 	}
-	
+
 	public override void Draw() {
 		float left = X;
 		float right = X + Width;
 		float top = Y;
 		float bottom = Y + Height;
-		
-	    float[] current_color = new float[4];
+
+		float[] current_color = new float[4];
 		gl.GetFloatv( gl.CURRENT_COLOR, current_color );
 		//get current color, might be transparent
 		gl.Color4f(Color.Red, Color.Green, Color.Blue, current_color[3] * Color.Alpha);
 		gl.Disable(gl.TEXTURE_2D);
-		
+
 		gl.Begin(gl.QUADS);
 		gl.Vertex2f(left, top);
 		gl.Vertex2f(right, top);
 		gl.Vertex2f(right, bottom);
 		gl.Vertex2f(left, bottom);
 		gl.End();
-			
+
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4fv( current_color );
 	}
-	
+
 	public override void ChangeArea(RectangleF Area) {
 		X = Area.Left;
 		Y = Area.Top;
 		Width = Area.Width;
 		Height = Area.Height;
 	}
-	
+
 	public sealed override Node GetSceneGraphNode() {
 		return this;
 	}

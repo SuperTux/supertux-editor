@@ -10,7 +10,7 @@ public class ColorSerializer : ILispSerializer
 	{
 		if(list.Length < 4 || list.Length > 5)
 			throw new LispException("Lisp list must have 4 or 5 entries for color");
-		
+
 		Color result = new Color();
 		result.Red = GetFloat(list[1]);
 		result.Green = GetFloat(list[2]);
@@ -19,10 +19,10 @@ public class ColorSerializer : ILispSerializer
 			result.Alpha = GetFloat(list[4]);
 		else
 			result.Alpha = 1.0f;
-		
+
 		return result;
 	}
-	
+
 	public void Write(Writer writer, string name, object Object)
 	{
 		Color color = (Color) Object;
@@ -31,15 +31,15 @@ public class ColorSerializer : ILispSerializer
 			vals = new float[] { color.Red, color.Green, color.Blue, color.Alpha };
 		else
 			vals = new float[] { color.Red, color.Green, color.Blue };
-		
+
 		writer.Write(name, vals);
 	}
-	
+
 	private static float GetFloat(object obj)
 	{
 		if(obj is int)
 			return (float) ((int) obj);
-		
+
 		return (float) obj;
 	}
 }

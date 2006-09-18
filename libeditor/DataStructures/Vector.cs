@@ -13,12 +13,12 @@ namespace DataStructures
 			this.X = X;
 			this.Y = Y;
 		}
-		
+
 		public float Norm()
 		{
 			return (float) Math.Sqrt(X*X + Y*Y);
 		}
-		
+
 		public Vector Unit()
 		{
 			return this / Norm();

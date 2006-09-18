@@ -29,7 +29,7 @@ public sealed class Settings {
 			if(reader != null)
 				reader.Close();
 		}
-		
+
 		if(!Instance.SupertuxData.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString()))
 			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
 			Console.WriteLine("Supertux is run as: " + Instance.SupertuxExe);
@@ -58,4 +58,3 @@ public sealed class Settings {
 		}
 	}
 }
-

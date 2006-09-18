@@ -23,7 +23,7 @@ public class LispIterator {
 	}
 
 	public bool MoveNext() {
-		List list; 
+		List list;
 		do {
 			if(Pos >= IterList.Length)
 				return false;
@@ -36,10 +36,10 @@ public class LispIterator {
 
 			break;
 		} while(true);
-	
+
 		ChildKey = ((Symbol) list[0]).Name;
 		ChildList = list;
-		
+
 		return true;
 	}
 }

@@ -7,7 +7,7 @@ public class Symbol {
 			return name;
 		}
 	}
-	
+
 	public Symbol(string Name) {
 		this.name = Name;
 	}

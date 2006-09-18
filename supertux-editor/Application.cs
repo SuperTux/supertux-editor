@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using DataStructures;
 
 public class Application : IEditorApplication {
-	
+
 	private bool modified = false;
 	private struct UndoSnapshot {
 		public UndoSnapshot(string actionTitle, string snapshot)
@@ -51,10 +51,10 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Gtk.MenuItem undo1;
-	
+
 	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
-	
+
 	[Glade.Widget]
 	private Gtk.ToggleToolButton ttbShowBackground;
 	#endregion Glade
@@ -67,7 +67,7 @@ public class Application : IEditorApplication {
 
 	private uint printStatusContextID;
 	private uint printStatusMessageID;
-	
+
 	private FileChooserDialog fileChooser;
 
 	private Level level;
@@ -81,13 +81,13 @@ public class Application : IEditorApplication {
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
 	public event TilemapChangedEventHandler TilemapChanged;
-	
+
 	public SectorRenderer CurrentRenderer {
 		get {
 			return sectorSwitchNotebook.CurrentRenderer;
 		}
 	}
-	
+
 	public Sector CurrentSector {
 		get {
 			return sector;
@@ -99,7 +99,7 @@ public class Application : IEditorApplication {
 			return level;
 		}
 	}
-	
+
 
 	public bool SnapToGrid {
 		get{
@@ -107,14 +107,14 @@ public class Application : IEditorApplication {
 		}
 	}
 	private bool snapToGrid = true;
-	
+
 	/// <summary>Write message on main windows's statusbar</summary>
 	public void PrintStatus( string message )
 	{
 		sbMain.Remove( printStatusContextID, printStatusMessageID);
 		sbMain.Push( printStatusContextID, message );
 	}
-	
+
 	private Application(string[] args) {
 		selection = new Selection();
 
@@ -136,7 +136,7 @@ public class Application : IEditorApplication {
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
 		MainWindow.ShowAll();
-		
+
 		// Manually set icons for Tools
 		ToolSelect.StockId = EditorStock.ToolSelect;
 		ToolTiles.StockId = EditorStock.ToolTiles;
@@ -147,7 +147,7 @@ public class Application : IEditorApplication {
 
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
-		
+
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName == null){
 			if( Settings.Instance.SupertuxData != null ){
@@ -184,28 +184,28 @@ public class Application : IEditorApplication {
 		if( Settings.Instance.SupertuxData != null ){
 			fileChooser.AddShortcutFolder( Settings.Instance.SupertuxData );
 		}
-		
+
 		if (args.Length > 0) {
 			Load(args[0]);
 		}
-		
+
 		PrintStatus("Welcome to Supertux-Editor.");
 	}
-	
+
 	private Widget CreateTileList()
 	{
 		VBox box = new VBox();
 		box.Homogeneous = false;
-		
+
 		tileList = new TileListWidget(this, selection);
 		TilegroupSelector selector = new TilegroupSelector(this, tileList);
-		
+
 		box.PackStart(selector, false, true, 0);
 		box.PackStart(tileList, true, true, 0);
-		
+
 		return box;
 	}
-	
+
 	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
 	{
 		if(func_name == "TileList") {
@@ -240,17 +240,17 @@ public class Application : IEditorApplication {
 	private static void InitSdl()
 	{
 		if(SDL.Init( SDL.INIT_VIDEO | SDL.INIT_NOPARACHUTE ) < 0) {
-	 		throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
+			throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
 		}
 	}
 
 
 	#region Tool Button Handlers
-	
+
 	protected void OnMenuToolSelect(object o, EventArgs args) {
 		ToolSelect.Active = true;
 	}
-	
+
 	protected void OnMenuToolTiles(object o, EventArgs args) {
 		ToolTiles.Active = true;
 	}
@@ -336,13 +336,13 @@ public class Application : IEditorApplication {
 			sectorSwitchNotebook.CurrentRenderer.Home();
 		}
 	}
-	
+
 	protected void OnNormalSize(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			sectorSwitchNotebook.CurrentRenderer.SetZoom( 1 );
 		}
 	}
-	
+
 	protected void OnZoomIn(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			sectorSwitchNotebook.CurrentRenderer.ZoomIn();
@@ -383,7 +383,7 @@ public class Application : IEditorApplication {
 		fileChooser.Hide();
 		if(result != (int) ResponseType.Ok)
 			return;
-	
+
 		Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 		Settings.Instance.Save();
 		Load(fileChooser.Filename);
@@ -437,19 +437,19 @@ public class Application : IEditorApplication {
 		}
 		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		modified = false;
-		
+
 		try {
 			serializer.Write(fileName, level);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't save level", e);
 		}
 	}
-	
+
 	protected void OnQuit(object o, EventArgs e)
 	{
 		Close();
 	}
-	
+
 	protected void OnSnap(object o, EventArgs e)
 	{
 		snapToGrid = !snapToGrid;
@@ -458,7 +458,7 @@ public class Application : IEditorApplication {
 		else
 			PrintStatus("Snap to grid deactivated.");
 	}
-	
+
 	protected void OnShowBackground(object o, EventArgs e)
 	{
 		if( CurrentRenderer == null ){
@@ -474,7 +474,7 @@ public class Application : IEditorApplication {
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 		}
 	}
-	
+
 	protected void OnShowBackgroundButton(object o, EventArgs e)
 	{
 		if( CurrentRenderer == null ){
@@ -490,7 +490,7 @@ public class Application : IEditorApplication {
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 		}
 	}
-	
+
 	protected void OnAbout(object o, EventArgs e)
 	{
 		MessageDialog md = new MessageDialog( MainWindow, DialogFlags.DestroyWithParent,
@@ -499,16 +499,16 @@ public class Application : IEditorApplication {
 		md.Run ();
 		md.Destroy();
 	}
-	
+
 	/// <summary>Run the current version of the level in Supertux</summary>
 	protected void OnPlay(object o, EventArgs args)
 	{
 		if(level == null)
 			return;
-		
+
 		try {
 			string tempName = System.IO.Path.GetTempPath();
-			
+
 			if(level.TilesetFile == "images/worldmap.strf")
 				tempName += "/supertux-editor.tmp.stwm";
 			else
@@ -520,20 +520,20 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception("Couldn't start supertux", e);
 		}
 	}
-	
+
 	protected void OnLevelProperties(object o, EventArgs args)
 	{
 		if(level == null)
 			return;
-		
+
 		EditProperties(level, "Level");
 	}
-	
+
 	protected void OnSettings(object o, EventArgs args)
 	{
 		new SettingsDialog();
 	}
-	
+
 	protected void OnBrushLoad(object o, EventArgs args)
 	{
 		try {
@@ -542,7 +542,7 @@ public class Application : IEditorApplication {
 				                      "You have to select a tilemap before you load a brush");
 				return;
 			}
-			
+
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Open;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
@@ -553,7 +553,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
-		
+
 			BrushEditor editor = new BrushEditor(this, layerList.CurrentTilemap,
 			                                     level.Tileset, brushFile);
 			SetEditor(editor);
@@ -561,7 +561,7 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	protected void OnBrushSaveAs(object o, EventArgs args)
 	{
 		try {
@@ -572,7 +572,7 @@ public class Application : IEditorApplication {
 				return;
 			}
 			BrushEditor brushEditor = (BrushEditor) editor;
-			
+
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
@@ -583,7 +583,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
-			
+
 			brushEditor.Brush.saveToFile(brushFile);
 			/*
 			try {
@@ -598,7 +598,7 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	private void OnDelete(object o, DeleteEventArgs args)
 	{
 		Close();
@@ -612,9 +612,9 @@ public class Application : IEditorApplication {
 	/// <returns>True if continue otherwise false</returns>
 	private bool ChangeConfirm(string act) {
 		if( modified ) {
-			MessageDialog md = new MessageDialog (MainWindow, 
+			MessageDialog md = new MessageDialog (MainWindow,
 			                                      DialogFlags.DestroyWithParent,
-			                                      MessageType.Warning, 
+			                                      MessageType.Warning,
 			                                      ButtonsType.None, "Continue without saving changes?\n\nIf you " + act + " without saving, changes since the last save will be discarded.");
 			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
@@ -656,7 +656,7 @@ public class Application : IEditorApplication {
 	{
 		this.sector = newSector;
 		SectorChanged(level, newSector);
-		if (CurrentRenderer != null) { 
+		if (CurrentRenderer != null) {
 			if (show_background1.Active)
 				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
 			else
@@ -668,7 +668,7 @@ public class Application : IEditorApplication {
 	{
 		TilemapChanged(tilemap);
 	}
-	
+
 	public void SetEditor(IEditor editor)
 	{
 		if (sectorSwitchNotebook == null) return;
@@ -681,12 +681,12 @@ public class Application : IEditorApplication {
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 		sectorSwitchNotebook.CurrentRenderer.QueueDraw();
 	}
-	
+
 	public void EditProperties(object Object, string title)
 	{
 		propertiesView.SetObject(Object, title);
 	}
-	
+
 	/// <summary>
 	/// Take a Snapshot before change. Describe change
 	/// in actionTitle for undo information.
@@ -706,16 +706,16 @@ public class Application : IEditorApplication {
 		while (undoSnapshots.Count > maxUndoSnapshots)
 			undoSnapshots.RemoveAt(0);
 	}
-	
+
 	/// <summary>Revert level to last snapshot.</summary>
 	public void Undo()
 	{
 		if (undoSnapshots.Count < 1)
 			return;
-		
+
 		float saveZoom = sectorSwitchNotebook.CurrentRenderer.GetZoom();
 		Vector saveTranslation = sectorSwitchNotebook.CurrentRenderer.GetTranslation();
-		
+
 		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
 		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
 		StringReader sr = new StringReader(us.snapshot);
@@ -745,7 +745,7 @@ public class Application : IEditorApplication {
 	{
 		LispSerializer.SetupSerializers(typeof(Application).Assembly);
 		InitSdl();
-		
+
 		Gtk.Application.Init();
 
 		Application app = new Application(args);

@@ -9,37 +9,37 @@ public class GameObjectListWidget : IconView
 	private IGameObject currentObject;
 	private IEditorApplication application;
 	private Sector sector;
-	
+
 	public GameObjectListWidget(IEditorApplication application)
 	{
 		this.application = application;
 		ButtonPressEvent += OnButtonPressed;
-	
+
 		TextColumn = COL_NAME;
 
 		application.SectorChanged += OnSectorChanged;
 	}
-	
+
 	private void OnSectorChanged(Level level, Sector sector)
 	{
 		sector.ObjectAdded -= ObjectsChanged;
 		sector.ObjectRemoved -= ObjectsChanged;
-		
+
 		this.sector = sector;
-		
+
 		sector.ObjectAdded += ObjectsChanged;
 		sector.ObjectAdded += ObjectsChanged;
 		UpdateList();
 	}
-	
+
 	private void ObjectsChanged(Sector sector, IGameObject Object)
 	{
 		if((Object is IObject) || (Object is Tilemap))
 			return;
-		
+
 		UpdateList();
 	}
-	
+
 	private void UpdateList()
 	{
 		ListStore store = new ListStore(typeof(string), typeof(System.Object));
@@ -49,20 +49,20 @@ public class GameObjectListWidget : IconView
 		}
 		Model = store;
 	}
-	
+
 	[GLib.ConnectBefore]
 		private void OnButtonPressed(object o, ButtonPressEventArgs args)
 		{
 			TreePath path = GetPathAtPos((int) args.Event.X, (int) args.Event.Y);
 			if (path == null) return;
-	
+
 			TreeIter iter;
 			if(!Model.GetIter(out iter, path))
 				return;
-			
+
 			currentObject = (IGameObject) Model.GetValue(iter, COL_OBJECT);
 			application.EditProperties(currentObject, currentObject.GetType().Name);
-			
+
 			if(args.Event.Button == 3) {
 				ShowPopupMenu();
 			}
@@ -89,12 +89,12 @@ public class GameObjectListWidget : IconView
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
-	
+
 	private void OnDelete(object o, EventArgs args)
 	{
 		if(currentObject == null)
 			return;
-		
+
 		application.TakeUndoSnapshot("Object deleted");
 		sector.Remove(currentObject);
 		UpdateList();

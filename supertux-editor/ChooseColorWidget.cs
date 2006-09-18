@@ -21,9 +21,9 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 	public override Widget Create(object caller)
 	{
 		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
-		
+
 		colorButton = new ColorButton();
-		//Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);		
+		//Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);
 		// Get if we should use alpha
 		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
 			field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
@@ -35,13 +35,13 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		color.Red = (ushort) (val.Red * 65535f);
 		color.Green = (ushort) (val.Green * 65535f);
 		color.Blue = (ushort) (val.Blue * 65535f);
-		
+
 
 		if (useAlpha)
 			colorButton.Alpha = (ushort) (val.Alpha * 65535f);
-		colorButton.Color = color;		
+		colorButton.Color = color;
 		colorButton.ColorSet += OnChooseColor;
-		
+
 		colorButton.Name = field.Name;
 
 		// Create a tooltip if we can.
@@ -49,7 +49,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 
 		return colorButton;
 	}
-	
+
 	private void OnChooseColor(object sender, EventArgs args)
 	{
 		Drawing.Color col = new Drawing.Color();
@@ -60,8 +60,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		if (useAlpha)
 			col.Alpha = ((float) colorButton.Alpha) / 65535f;
 		field.SetValue(Object, col);
-		//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);		
-		//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);		
+		//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);
+		//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);
 	}
 }
 

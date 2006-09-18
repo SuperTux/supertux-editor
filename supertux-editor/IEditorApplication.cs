@@ -10,11 +10,11 @@ public interface IEditorApplication
 	void EditProperties(object Object, string title);
 	void PrintStatus(string message);
 	void TakeUndoSnapshot(string actionTitle);
-	
+
 	bool SnapToGrid{
 		get;
 	}
-	
+
 	SectorRenderer CurrentRenderer {
 		get;
 	}

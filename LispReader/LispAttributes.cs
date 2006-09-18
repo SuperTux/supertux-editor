@@ -8,7 +8,7 @@ namespace LispReader
 	public sealed class LispRootAttribute : Attribute
 	{
 		public string Name;
-		
+
 		public LispRootAttribute(string name)
 		{
 			this.Name = name;
@@ -20,7 +20,7 @@ namespace LispReader
 	public sealed class LispCustomSerializerAttribute : Attribute
 	{
 		public Type Type;
-		
+
 		public LispCustomSerializerAttribute(Type type)
 		{
 			this.Type = type;

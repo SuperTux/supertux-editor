@@ -138,7 +138,7 @@ namespace DataStructures
 			List<T> Result = new List<T>(Elements);
 			return Result;
 		}
-		
+
 		public bool InBounds(FieldPos pos) {
 			if (pos.X < 0) return false;
 			if (pos.Y < 0) return false;

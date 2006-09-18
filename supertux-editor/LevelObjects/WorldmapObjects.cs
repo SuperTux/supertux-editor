@@ -8,7 +8,7 @@ public abstract class WorldmapObject : SimpleObject
 	public WorldmapObject()
 	{
 	}
-	
+
 	public override RectangleF Area {
 		get {
 			return new RectangleF(X*32 + 16 - Sprite.Offset.X,
@@ -17,16 +17,16 @@ public abstract class WorldmapObject : SimpleObject
 			                      Sprite.Height);
 		}
 	}
-	
+
 	public override void ChangeArea(RectangleF NewArea) {
 		X = ((int) (NewArea.Left - 16 + Sprite.Offset.X)) / 32;
 		Y = ((int) (NewArea.Top - 16 + Sprite.Offset.Y)) / 32;
 	}
-	
+
 	public override void Draw() {
 		if(Sprite == null)
 			return;
-		
+
 		Sprite.Draw(new Vector(X*32 + 16, Y*32 + 16));
 	}
 }
@@ -36,7 +36,7 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
-	
+
 	public WorldmapSpawnpoint()
 	{
 		Sprite = SpriteManager.CreateFromImage("images/worldmap/common/tux.png", new Vector(16, 16));
@@ -74,7 +74,7 @@ public sealed class WorldmapLevel : WorldmapObject
 		}
 	}
 	private string spriteFile = "";
-	
+
 	public WorldmapLevel()
 	{
 		Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
@@ -121,7 +121,7 @@ public sealed class SpecialTile : WorldmapObject
 		}
 	}
 	private string spriteFile = "";
-	
+
 	public SpecialTile()
 	{
 		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
@@ -160,7 +160,7 @@ public sealed class SpriteChange : WorldmapObject
 	public bool InitialStayAction = false;
 	[LispChild("stay-group", Optional = true, Default = "")]
 	public string StayGroup;
-	
+
 	public SpriteChange() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spritechange.png", new Vector(16, 16));
 	}
@@ -208,5 +208,3 @@ public sealed class Teleporter : WorldmapObject
 		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
 	}
 }
-
-

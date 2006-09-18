@@ -41,7 +41,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 			return;
 		if(pos.Y >= Tilemap.Height)
 			return;
-		
+
 		uint StartX = (uint) Math.Max(0, -pos.X);
 		uint StartY = (uint) Math.Max(0, -pos.Y);
 		uint W = Math.Min((uint) (Tilemap.Width - pos.X), Width);
@@ -53,7 +53,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 			}
 		}
 	}
-	
+
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
 		ApplyToTilemap(pos, Tilemap, true);
 	}
@@ -64,7 +64,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 		Props.Get("width", ref Width);
 		Props.Get("height", ref Height);
 		if(Width == 0 || Height == 0) throw new LispException("Width or Height of TileBlock invalid");
-		
+
 		List<int> Tiles = new List<int>();
 		Props.GetIntList("tiles", Tiles);
 		if(Tiles.Count != (int) (Width * Height)) throw new LispException("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);

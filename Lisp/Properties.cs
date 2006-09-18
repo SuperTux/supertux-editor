@@ -7,7 +7,7 @@ namespace Lisp
 
 public class Properties {
 	private Hashtable Props = new Hashtable();
-	
+
 	public Properties(List List) {
 		for(int i = 0; i < List.Length; ++i) {
 			object o = List[i];
@@ -38,7 +38,7 @@ public class Properties {
 		ArrayList AList = (ArrayList) Props[Name];
 		if(AList == null)
 			return null;
-		
+
 		return (List) AList[0];
 	}
 
@@ -62,7 +62,7 @@ public class Properties {
 		int v = (int) list[1];
 		if(v < 0)
 			return false;
-		
+
 		Val = (uint) v;
 		return true;
 	}
@@ -160,7 +160,7 @@ public class Properties {
 			AList.Add((int) list[i]);
 		}
 		return true;
-	}	
+	}
 
 	public IList GetList(string ChildType) {
 		ArrayList AList = (ArrayList) Props[ChildType];

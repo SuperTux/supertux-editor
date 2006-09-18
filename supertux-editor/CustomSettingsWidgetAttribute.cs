@@ -5,7 +5,7 @@ using System;
 public abstract class CustomSettingsWidgetAttribute : Attribute
 {
 	public Type Type;
-	
+
 	public CustomSettingsWidgetAttribute(Type type)
 	{
 		this.Type = type;

@@ -28,10 +28,10 @@ public class Path
 	/// Can be: oneshot, pingpong and circular
 	[LispChild("mode", Optional = true, Default = Modes.circular)]
 	public Modes Mode = Modes.circular;
-	
+
 	[LispChilds(Name = "node", Type = typeof(Node), ListType = typeof(Node))]
 	public List<Node> Nodes = new List<Node>();
-	
+
 	public class Node
 	{
 		[PropertyProperties(Tooltip = "X position of node")]
@@ -45,7 +45,7 @@ public class Path
 		[PropertyProperties(Tooltip = "Seconds it will take to go to the node after this one.")]
 		[LispChild("time", Optional = true, Default = 1f)]
 		public float Time = 1f;
-		
+
 		public Vector Pos {
 			get {
 				return new Vector(X, Y);
@@ -56,7 +56,7 @@ public class Path
 			}
 		}
 	}
-	
+
 	public Path()
 	{
 	}

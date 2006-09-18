@@ -18,12 +18,12 @@ namespace LispReader
 		private Type RootType;
 		private static Dictionary<Type, ILispSerializer> typeSerializers
 			= new Dictionary<Type, ILispSerializer>();
-		
+
 		static LispSerializer()
 		{
 			SetupSerializers(typeof(LispSerializer).Assembly);
 		}
-		
+
 		public LispSerializer(Type RootType)
 		{
 			this.RootType = RootType;
@@ -81,7 +81,7 @@ namespace LispReader
 			List List = null;
 			if(!RootP.Get(RootAttrib.Name, ref List))
 				throw new LispException("'" + Source + "' is not a " + RootAttrib.Name + " file");
-			
+
 			return ReadType(RootType, List);
 		}
 
@@ -95,16 +95,16 @@ namespace LispReader
 			ILispSerializer serializer = GetSerializer(type);
 			if(serializer == null)
 				serializer = CreateRootSerializer(type);
-			
+
 			return serializer.Read(list);
-		}		
+		}
 
 		private static void WriteType(Writer writer, Type type, string name, object Object)
 		{
 			ILispSerializer serializer = GetSerializer(type);
 			if(serializer == null)
 				serializer = CreateRootSerializer(type);
-			
+
 			serializer.Write(writer, name, Object);
 		}
 
@@ -118,35 +118,35 @@ namespace LispReader
 
 			return Result;
 		}
-		
+
 		public static ILispSerializer GetSerializer(Type type)
 		{
 			ILispSerializer result;
 			typeSerializers.TryGetValue(type, out result);
 			return result;
 		}
-		
+
 		public static void SetupSerializers(Assembly assembly)
 		{
 			foreach(Type type in assembly.GetTypes()) {
 				ScanType(type);
 			}
 		}
-		
+
 		public static void ScanType(Type type)
 		{
 			foreach(Type nestedType in type.GetNestedTypes())
 				ScanType(nestedType);
-			
+
 			LispCustomSerializerAttribute customSerializer =
-			 	(LispCustomSerializerAttribute)
-			 	Attribute.GetCustomAttribute(type, typeof(LispCustomSerializerAttribute));
+				(LispCustomSerializerAttribute)
+				Attribute.GetCustomAttribute(type, typeof(LispCustomSerializerAttribute));
 			if(customSerializer != null) {
 				object instance = CreateObject(type);
 				typeSerializers.Add(customSerializer.Type, (ILispSerializer) instance);
 				return;
 			}
-			
+
 			LispRootAttribute rootAttrib = (LispRootAttribute)
 				Attribute.GetCustomAttribute(type, typeof(LispRootAttribute));
 			if(rootAttrib != null) {
@@ -155,12 +155,12 @@ namespace LispReader
 				return;
 			}
 		}
-		
+
 		internal static ILispSerializer CreateRootSerializer(Type type)
 		{
 			LispRootSerializer serializer = new LispRootSerializer(type);
 			typeSerializers.Add(type, serializer);
-			
+
 			return serializer;
 		}
 	}

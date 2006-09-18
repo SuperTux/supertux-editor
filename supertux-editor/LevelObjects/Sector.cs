@@ -27,9 +27,9 @@ public sealed class Sector : ICustomLispSerializer {
 	[ChooseColorSetting]
 	[LispChild("ambient-light", Optional = true )]
 	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
-			
+
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
-	
+
 	public event ObjectAddedHandler ObjectAdded;
 	public event ObjectRemovedHandler ObjectRemoved;
 	public event SizeChangedHandler SizeChanged;
@@ -108,7 +108,7 @@ public sealed class Sector : ICustomLispSerializer {
 	public IEnumerable<IGameObject> GetObjects() {
 		return GameObjects;
 	}
-	
+
 	public void Add(IGameObject Object)
 	{
 		GameObjects.Add(Object);
@@ -119,7 +119,7 @@ public sealed class Sector : ICustomLispSerializer {
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	public void Remove(IGameObject Object)
 	{
 		GameObjects.Remove(Object);
@@ -130,20 +130,20 @@ public sealed class Sector : ICustomLispSerializer {
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	public void EmitSizeChanged()
 	{
 		if(SizeChanged != null)
 			SizeChanged(this);
 	}
-	
+
 	public void CustomLispRead(Properties props) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
 			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
 				continue;
-			
+
 			LispSerializer serializer = new LispSerializer(type);
 			foreach(List list in props.GetList(objectAttribute.Name)) {
 				IGameObject Object = (IGameObject) serializer.Read(list);
@@ -151,14 +151,14 @@ public sealed class Sector : ICustomLispSerializer {
 			}
 		}
 	}
-	
+
 	public void CustomLispWrite(Writer Writer) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
 				Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
 				continue;
-			
+
 			string name = objectAttribute.Name;
 			LispSerializer serializer = new LispSerializer(type);
 			foreach(object Object in GetObjects(type)) {
@@ -166,7 +166,7 @@ public sealed class Sector : ICustomLispSerializer {
 			}
 		}
 	}
-	
+
 	public void FinishRead() {
 	}
 }

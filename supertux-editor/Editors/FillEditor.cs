@@ -62,7 +62,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 				|| MouseTilePos.X >= Tilemap.Width
 				|| MouseTilePos.Y >= Tilemap.Height)
 				return;
-			
+
 			SelectStartPos = MouseTilePos;
 			selecting = true;
 			UpdateSelection();
@@ -75,7 +75,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		if (Tilemap == null) return;
 
 		UpdateMouseTilePos(MousePos);
-	
+
 		if(button == 1) {
 			drawing = false;
 		}
@@ -156,7 +156,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			SelectionP2.Y = Math.Min(MouseTilePos.Y, (int)Tilemap.Height - 1);
 		}
 	}
-	
+
 	private void OnSelectionChanged() {
 		Redraw();
 	}

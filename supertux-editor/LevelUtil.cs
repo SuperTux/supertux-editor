@@ -12,9 +12,9 @@ public static class LevelUtil
 
 		return level;
 	}
-	
+
 	/// <summary>
-	/// Initialises a new sector with some default values. 
+	/// Initialises a new sector with some default values.
 	/// </summary>
 	/// <param name="Name">Name of new sector.</param>
 	/// <returns>The created sector.</returns>

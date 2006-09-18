@@ -5,12 +5,12 @@ using System;
 public class TilemapNode : Node {
 	private Field<int> Field;
 	private Tileset Tileset;
-		
+
 	public TilemapNode(Field<int> Field, Tileset Tileset) {
 		this.Field = Field;
 		this.Tileset = Tileset;
 	}
-	
+
 	public void Draw() {
 	// TODO: calculate really visible rectangle
 		uint start_x = 0;

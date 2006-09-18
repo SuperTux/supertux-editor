@@ -11,7 +11,7 @@ public class LayerListWidget : TreeView {
 	private Tilemap currentTilemap;
 	private Sector sector;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
-	
+
 	private class VisibilityRenderer : CellRendererPixbuf
 	{
 		public VisibilityRenderer()
@@ -29,37 +29,37 @@ public class LayerListWidget : TreeView {
 				VisibilityChanged(this, null);
 			return base.StartEditing(evnt, widget, path, background_area, cell_area, flags);
 		}
-		
+
 		public delegate void VisibilityChangedHandler(object o, EventArgs args);
-		
+
 		public event VisibilityChangedHandler VisibilityChanged;
 	}
-	
+
 	public LayerListWidget(IEditorApplication application)
 	{
 		this.application = application;
 		ButtonPressEvent += OnButtonPressed;
-		
+
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
 		visibilityRenderer.VisibilityChanged += OnVisibilityChange;
 		TreeViewColumn visibilityColumn = new TreeViewColumn("Visibility",
 		                                                     visibilityRenderer);
 		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);
 		AppendColumn(visibilityColumn);
-		
+
 		CellRendererText TextRenderer = new CellRendererText();
 		TreeViewColumn TypeColumn = new TreeViewColumn();
 		TypeColumn.PackStart(TextRenderer, true);
 		TypeColumn.SetCellDataFunc(TextRenderer, TextDataFunc);
 		TypeColumn.Title = "Type";
 		AppendColumn(TypeColumn);
-		
+
 		HeadersVisible = false;
 
 		application.SectorChanged += OnSectorChanged;
 		application.TilemapChanged += OnTilemapChanged;
 	}
-	
+
 	public Tilemap CurrentTilemap {
 		get {
 			return currentTilemap;
@@ -70,22 +70,22 @@ public class LayerListWidget : TreeView {
 	{
 		sector.ObjectAdded -= ObjectsChanged;
 		sector.ObjectRemoved -= ObjectsChanged;
-		
+
 		this.sector = sector;
-		
+
 		sector.ObjectAdded += ObjectsChanged;
 		sector.ObjectAdded += ObjectsChanged;
 		UpdateList();
 	}
-	
+
 	private void ObjectsChanged(Sector sector, IGameObject Object)
 	{
 		if(! (Object is Tilemap))
 			return;
-		
+
 		UpdateList();
 	}
-	
+
 	private void UpdateList()
 	{
 		visibility.Clear();
@@ -103,12 +103,12 @@ public class LayerListWidget : TreeView {
 	{
 		Console.WriteLine("LayerListWidget.cs OnTilemapChanged: Not implemented");
 	}
-	
+
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
 	                                TreeModel Model, TreeIter Iter)
 	{
 		CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
-		
+
 		object o = Model.GetValue(Iter, 0);
 		float vis = visibility[o];
 		if(vis <= 0) {
@@ -124,7 +124,7 @@ public class LayerListWidget : TreeView {
 	                          TreeModel Model, TreeIter Iter)
 	{
 		object o = Model.GetValue(Iter, 0);
-		
+
 		CellRendererText TextRenderer = (CellRendererText) Renderer;
 		if(o is Tilemap) {
 			Tilemap Tilemap = (Tilemap) o;
@@ -144,11 +144,11 @@ public class LayerListWidget : TreeView {
 		TreePath path;
 		if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
 			return;
-		
+
 		TreeIter iter;
 		if(!Model.GetIter(out iter, path))
 			return;
-		
+
 		object obj = Model.GetValue(iter, 0);
 		if(obj is Tilemap) {
 			if(obj != currentTilemap) {
@@ -161,7 +161,7 @@ public class LayerListWidget : TreeView {
 	// TODO: clear properties window?
 			application.ChangeCurrentTilemap(currentTilemap);
 		}
-		
+
 		if((args.Event.Button == 3) && (obj is Tilemap)) {
 			ShowPopupMenu();
 		}
@@ -224,7 +224,7 @@ public class LayerListWidget : TreeView {
 		currentTilemap = null;
 		UpdateList();
 	}
-	
+
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
 		if(currentTilemap != null) {
@@ -237,7 +237,7 @@ public class LayerListWidget : TreeView {
 			} else {
 				newvis = 1.0f;
 			}
-			
+
 			application.CurrentRenderer.SetTilemapColor(currentTilemap,
 			                                            new Color(1, 1, 1, newvis));
 			visibility[currentTilemap] = newvis;
@@ -252,7 +252,7 @@ public class LayerListWidget : TreeView {
 			} else {
 				newvis = 1.0f;
 			}
-			
+
 			application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
 			visibility[nullObject] = newvis;
 			QueueDraw();

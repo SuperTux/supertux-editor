@@ -9,7 +9,7 @@ public class Tilegroup
 	public string Name;
 	[LispChild("tiles")]
 	public List<int> Tiles = new List<int>();
-	
+
 	public Tilegroup()
 	{
 	}

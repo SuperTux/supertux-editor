@@ -18,7 +18,7 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 		foreach(Sector sector in propview.application.CurrentLevel.Sectors) {
 			sectorNames.Add(sector.Name);
 		}
-		
+
 		// Populate a combo box with the sector names
 		comboBox = new ComboBox(sectorNames.ToArray());
 

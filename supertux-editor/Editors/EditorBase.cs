@@ -63,5 +63,4 @@ public abstract class TileEditorBase : EditorBase {
 			gl.Color4f(1, 1, 1, 1);
 		}
 	}
-
 }

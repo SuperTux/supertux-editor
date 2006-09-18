@@ -6,19 +6,19 @@ using Lisp;
 
 namespace LispReader
 {
-	
+
 	/// <summary>Serializes and Deserializes an object based on reflection.</summary>
 	/// <remarks>If someone is looking for a chalenge: Speed could be improved heavily
 	/// by creating CIL at runtime...</remarks>
 	public class LispRootSerializer : ILispSerializer
 	{
 		private Type type;
-		
+
 		public LispRootSerializer(Type type)
 		{
 			this.type = type;
 		}
-		
+
 		public object Read(List list)
 		{
 			object result = CreateObject(type);
@@ -33,7 +33,7 @@ namespace LispReader
 					if(field.Type == typeof(int)) {
 						int val = 0;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)	
+							if(!ChildAttrib.Optional)
 								Console.WriteLine("Field '" + Name + "' not in lisp");
 						} else {
 							field.SetValue(result, val);
@@ -49,7 +49,7 @@ namespace LispReader
 					} else if(field.Type == typeof(float)) {
 						float val = 0;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)	
+							if(!ChildAttrib.Optional)
 								Console.WriteLine("Field '" + Name + "' not in lisp");
 						} else {
 							field.SetValue(result, val);
@@ -73,7 +73,7 @@ namespace LispReader
 					} else if(field.Type == typeof(List<int>)) {
 						List<int> val = new List<int>();
 						if(!props.GetIntList(Name, val)) {
-							if(!ChildAttrib.Optional)	
+							if(!ChildAttrib.Optional)
 								Console.WriteLine("Field '" + Name + "' not in lisp");
 						} else {
 							field.SetValue(result, val);
@@ -82,7 +82,7 @@ namespace LispReader
 						ILispSerializer serializer = LispSerializer.GetSerializer(field.Type);
 						if(serializer == null)
 							throw new LispException("Type " + field.Type + " not supported for serialization");
-						
+
 						List val = null;
 						if(!props.Get(Name, ref val)) {
 							if(!ChildAttrib.Optional)
@@ -93,7 +93,7 @@ namespace LispReader
 						}
 					}
 				}
-				
+
 				foreach(LispChildsAttribute childsAttrib in
 						field.GetCustomAttributes(typeof(LispChildsAttribute))) {
 					object objectList = field.GetValue(result);
@@ -102,7 +102,7 @@ namespace LispReader
 							"Add", new Type[] { childsAttrib.ListType }, null);
 					if(AddMethod == null)
 						throw new LispException("No Add method found for field " + field.Name);
-					
+
 					ILispSerializer serializer = LispSerializer.GetSerializer(childsAttrib.Type);
 					if(serializer == null)
 						serializer = LispSerializer.CreateRootSerializer(childsAttrib.Type);
@@ -122,11 +122,11 @@ namespace LispReader
 
 			return result;
 		}
-		
+
 		public void Write(Writer writer, string name, object Object)
 		{
 			writer.StartList(name);
-			
+
 			foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 				LispChildAttribute ChildAttrib = (LispChildAttribute)
 					field.GetCustomAttribute(typeof(LispChildAttribute));
@@ -138,7 +138,7 @@ namespace LispReader
 								writer.WriteTranslatable(ChildAttrib.Name, Value.ToString());
 						} else {
 							Type childType = field.Type;
-							
+
 							ILispSerializer serializer = LispSerializer.GetSerializer(childType);
 							if(serializer != null) {
 								serializer.Write(writer, ChildAttrib.Name, Value);
@@ -165,11 +165,11 @@ namespace LispReader
 						object list = field.GetValue(Object);
 						if(! (list is IEnumerable))
 							throw new LispException("Field '" + field.Name + "' is not IEnumerable");
-						
+
 						ILispSerializer serializer = LispSerializer.GetSerializer(childsAttrib.Type);
 						if(serializer == null)
 							serializer = LispSerializer.CreateRootSerializer(childsAttrib.Type);
-						
+
 						IEnumerable enumerable = (IEnumerable) list;
 						foreach(object childObject in enumerable) {
 							if(childsAttrib.Type.IsAssignableFrom(childObject.GetType())) {
@@ -179,15 +179,15 @@ namespace LispReader
 					}
 				}
 			}
-				
+
 			if(Object is ICustomLispSerializer) {
 				ICustomLispSerializer custom = (ICustomLispSerializer) Object;
 				custom.CustomLispWrite(writer);
 			}
-			
+
 			writer.EndList(name);
 		}
-		
+
 		private static object CreateObject(Type Type)
 		{
 			// create object

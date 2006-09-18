@@ -30,7 +30,7 @@ public class PropertiesView : ScrolledWindow
 	public PropertiesView(IEditorApplication application) {
 		this.application = application;
 	}
-	
+
 	private static object CreateObject(Type Type) {
 		// create object
 		ConstructorInfo Constructor = Type.GetConstructor(Type.EmptyTypes);
@@ -40,7 +40,7 @@ public class PropertiesView : ScrolledWindow
 
 		return Result;
 	}
-	
+
 	public void SetObject(object Object, string title)
 	{
 		this.Object = Object;
@@ -50,7 +50,7 @@ public class PropertiesView : ScrolledWindow
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	private void CreatePropertyWidgets(string title)
 	{
 		VBox box = new VBox();
@@ -62,7 +62,7 @@ public class PropertiesView : ScrolledWindow
 		titleLabel.Ypad = 6;
 		titleLabel.Markup = "<b>" + title + "</b>";
 		box.PackStart(titleLabel, true, false, 0);
-	
+
 		// iterate over all fields and properties
 		Type type = Object.GetType();
 		fieldTable.Clear();
@@ -78,7 +78,7 @@ public class PropertiesView : ScrolledWindow
 				editWidgets.Add(customWidget.Create(this));
 				continue;
 			}
-			
+
 			LispChildAttribute ChildAttrib = (LispChildAttribute)
 				field.GetCustomAttribute(typeof(LispChildAttribute));
 			if(ChildAttrib == null)
@@ -123,9 +123,9 @@ public class PropertiesView : ScrolledWindow
 				// FIXME: Why doesn't this work for the ComboBox?
 				AddTooltip(propertyProperties, comboBox);
 			}
-			
+
 		}
-		
+
 		Table table = new Table((uint) editWidgets.Count, 2, false);
 		table.ColumnSpacing = 6;
 		table.RowSpacing = 6;
@@ -145,16 +145,16 @@ public class PropertiesView : ScrolledWindow
 			}
 		}
 		box.PackStart(table, true, true, 0);
-		
+
 		// TODO add a (!) image in front of the label (and hide/show it depending
 		// if there was an error)
 		errorLabel = new Label("");
 		errorLabel.Xalign = 0;
 		errorLabel.Xpad = 12;
 		box.PackStart(errorLabel, true, false, 0);
-		
+
 		box.ShowAll();
-		
+
 		Foreach(Remove);
 		AddWithViewport(box);
 	}
@@ -168,7 +168,7 @@ public class PropertiesView : ScrolledWindow
 		if ((propertyProperties != null) && (propertyProperties.Tooltip.Length != 0))
 			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
-	
+
 	private void OnEntryChanged(object o, EventArgs args)
 	{
 		try {
@@ -198,7 +198,7 @@ public class PropertiesView : ScrolledWindow
 		}
 		errorLabel.Text = "";
 	}
-	
+
 	private void OnCheckButtonToggled(object o, EventArgs args)
 	{
 		try {

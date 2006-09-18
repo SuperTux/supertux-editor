@@ -9,11 +9,11 @@ namespace Lisp
 public sealed class Parser {
 	private Lexer Lexer;
 	private Lexer.Token Token;
-	
+
 	public Parser(Lexer Lexer) {
 		this.Lexer = Lexer;
 	}
-	
+
 	public List Parse() {
 		Token = Lexer.GetNextToken();
 		if(Token != Lexer.Token.OPEN_PAREN)
@@ -37,7 +37,7 @@ public sealed class Parser {
 				case Lexer.Token.OPEN_PAREN:
 					Token = Lexer.GetNextToken();
 
-					if(Token == Lexer.Token.SYMBOL 
+					if(Token == Lexer.Token.SYMBOL
 							&& Lexer.TokenString == "_") {
 						Token = Lexer.GetNextToken();
 						if(Token != Lexer.Token.STRING)
@@ -55,7 +55,7 @@ public sealed class Parser {
 					if(Token != Lexer.Token.CLOSE_PAREN)
 						ParseError("Expected ')' token, got " + Token);
 					break;
-					
+
 				case Lexer.Token.SYMBOL:
 					Entries.Add(new Symbol(Lexer.TokenString));
 					break;

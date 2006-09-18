@@ -13,7 +13,7 @@ public sealed class Lexer {
 
 	public class EOFException : LispException {
 	};
-		
+
 	public enum Token {
 		EOF,
 		OPEN_PAREN,
@@ -98,7 +98,7 @@ public sealed class Lexer {
 					if(TokenString == "f")
 						return Token.FALSE;
 
-					throw new LispException("Unknown constant '" 
+					throw new LispException("Unknown constant '"
 					                        + TokenString + "'");
 				default:
 					if(Char.IsDigit(c) || c == '-') {
@@ -118,7 +118,7 @@ public sealed class Lexer {
 							NextChar();
 						} while(!Char.IsWhiteSpace(c) && c != '\"' && c != '('
 						        && c != ')' && c != ';');
-						
+
 						if(have_nondigits || !have_digits
 						   || have_floating_point > 1)
 							return Token.SYMBOL;
@@ -132,7 +132,7 @@ public sealed class Lexer {
 							NextChar();
 						} while(!Char.IsWhiteSpace(c) && c != '\"' && c != '('
 						        && c != ')' && c != ';');
-						
+
 						return Token.SYMBOL;
 					}
 			}

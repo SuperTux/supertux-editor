@@ -15,28 +15,28 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 		string val = (string) field.GetValue(Object);
 		if(val != null)
 			entry.Text = val;
-		
+
 		entry.Changed += OnEntryChanged;
 		box.PackStart(entry, true, true, 0);
-		
+
 		Button chooseButton = new Button("...");
 		box.PackStart(chooseButton, false, false, 0);
 		chooseButton.Clicked += OnChoose;
-		
+
 		box.Name = field.Name;
 
 		CreateToolTip(caller, entry);
 
 		return box;
 	}
-	
+
 	private void OnChoose(object o, EventArgs args)
 	{
 		FileChooserDialog dialog = new FileChooserDialog("Choose resource", null, FileChooserAction.Open, new object[] {});
 		dialog.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 		dialog.AddButton(Gtk.Stock.Open, Gtk.ResponseType.Ok);
 		dialog.DefaultResponse = Gtk.ResponseType.Ok;
-		
+
 		dialog.Action = FileChooserAction.Open;
 		dialog.SetFilename(Settings.Instance.SupertuxData + entry.Text);
 		int result = dialog.Run();
@@ -44,7 +44,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 			dialog.Destroy();
 			return;
 		}
-		
+
 		if(dialog.Filename.StartsWith(Settings.Instance.SupertuxData))
 			entry.Text = dialog.Filename.Substring(Settings.Instance.SupertuxData.Length,
 			                                       dialog.Filename.Length - Settings.Instance.SupertuxData.Length);

@@ -10,7 +10,7 @@ public sealed class Tileset {
 	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
 	private string baseDir;
 	public static bool LoadEditorImages;
-	
+
 	public IDictionary<string, Tilegroup> Tilegroups {
 		get {
 			return tilegroups;
@@ -51,7 +51,7 @@ public sealed class Tileset {
 				Console.WriteLine(e.StackTrace);
 			}
 		}
-		
+
 		// construct a tilegroup with all tiles
 		Tilegroup allGroup = new Tilegroup();
 			allGroup.Name = "All";
@@ -60,7 +60,7 @@ public sealed class Tileset {
 					allGroup.Tiles.Add(tile.Id);
 			}
 			tilegroups.Add(allGroup.Name, allGroup);
-		
+
 		LispSerializer serializer = new LispSerializer(typeof(Tilegroup));
 		foreach(List list in TilesP.GetList("tilegroup")) {
 			try {
@@ -128,12 +128,12 @@ public sealed class Tileset {
 			throw new ApplicationException("Must have width*height ids in tiles block");
 		if(attributes.Count != width * height)
 			throw new ApplicationException("Must have width*height attributes in tiles block");
-		
+
 		int id = 0;
 		for(int y = 0; y < height; ++y) {
 			for(int x = 0; x < width; ++x) {
 				Tile tile = new Tile();
-				
+
 				Tile.ImageResource res = new Tile.ImageResource();
 				res.Filename = image;
 				res.x = x * TILE_WIDTH;
@@ -166,7 +166,7 @@ public sealed class Tileset {
 		Props.Get("images", ref images);
 		if(images != null)
 			Tile.Images = ParseTileImages(images);
-		
+
 		List editorImages = null;
 		Props.Get("editor-images", ref editorImages);
 		if(editorImages != null) {
@@ -251,4 +251,3 @@ public sealed class Tileset {
 		return result;
 	}
 }
-

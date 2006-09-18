@@ -25,8 +25,8 @@ public sealed class Tile {
 		COIN      = 0x0080,
 		/// <summary>the level should be finished when touching a goaltile.</summary>
 		/// <remarks>
-		/// if <see cref="Data">data</see> is 0 then the endsequence should be 
-		/// triggered, if <see cref="Data">data</see> is 1 then we can finish 
+		/// if <see cref="Data">data</see> is 0 then the endsequence should be
+		/// triggered, if <see cref="Data">data</see> is 1 then we can finish
 		/// the level instantly.
 		/// </remarks>
 		GOAL      = 0x0100,
@@ -75,7 +75,7 @@ public sealed class Tile {
 		}
 
 	}
-	
+
 	public List<ImageResource> Images;
 	private List<Surface> Surfaces;
 	public List<ImageResource> EditorImages;
@@ -83,7 +83,7 @@ public sealed class Tile {
 
 	public Tile() {
 	}
-	
+
 	public bool HasAttribute(Attribute Attrib) {
 		return (Attributes & Attrib) != 0;
 	}
@@ -91,7 +91,7 @@ public sealed class Tile {
 	public void LoadSurfaces(string BaseDir, bool Editor) {
 		if(Surfaces != null)
 			return;
-		
+
 		if(Images != null) {
 			Surfaces = new List<Surface>();
 			foreach(ImageResource Resource in Images) {
@@ -130,4 +130,3 @@ public sealed class Tile {
 		Draw(pos);
 	}
 }
-

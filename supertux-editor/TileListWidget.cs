@@ -24,7 +24,7 @@ public class TileListWidget : GLWidgetBase {
 	private int hovertile = -1;
 	private Vector StartPos;
 	private bool multiselectInProgress = false;
-	
+
 	private IEditorApplication application;
 
 	public TileListWidget(IEditorApplication application, Selection selection)
@@ -32,15 +32,15 @@ public class TileListWidget : GLWidgetBase {
 		this.selection = selection;
 		selection.Changed += OnSelectionChanged;
 		this.application = application;
-		
+
 		Tileset.LoadEditorImages = true;
 		SetSizeRequest((TILE_WIDTH + SPACING_X) * TILES_PER_ROW, -1);
-		
+
 		ButtonPressEvent += OnButtonPress;
 		ButtonReleaseEvent += OnButtonRelease;
 		MotionNotifyEvent += OnMotionNotify;
 		ScrollEvent += OnScroll;
-		
+
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.ButtonReleaseMask);
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
@@ -48,7 +48,7 @@ public class TileListWidget : GLWidgetBase {
 
 		application.LevelChanged += OnLevelChanged;
 	}
-	
+
 	public void ChangeTilegroup(Tilegroup tilegroup)
 	{
 		this.tilegroup = tilegroup;
@@ -64,19 +64,19 @@ public class TileListWidget : GLWidgetBase {
 			this.level.TilesetChanged -= OnTilesetChanged;
 		if(level != null)
 			level.TilesetChanged += OnTilesetChanged;
-		
+
 		this.level = level;
 		OnTilesetChanged(level);
 	}
-	
+
 	private void OnTilesetChanged(Level level)
 	{
 		tileset = level.Tileset;
 		Translation = new Vector(0, 0);
 		Zoom = 1.0f;
-		
+
 		tilegroup = tileset.Tilegroups["All"];
-			
+
 		QueueDraw();
 	}
 
@@ -90,7 +90,7 @@ public class TileListWidget : GLWidgetBase {
 			application.PrintStatus( "TileListWidget: No tile selected tile." );
 		} else {
 			application.PrintStatus( "TileListWidget: [" + selection.Width
-			                           + "x" + selection.Height + "] tiles selected." );
+			                         + "x" + selection.Height + "] tiles selected." );
 		}
 	}
 
@@ -98,13 +98,13 @@ public class TileListWidget : GLWidgetBase {
 	{
 		if(tileset == null)
 			return;
-	
+
 		gl.Clear(gl.COLOR_BUFFER_BIT);
-		
+
 		int starttile = (int) -Translation.Y / (ROW_HEIGHT)
 		                * TILES_PER_ROW;
 		Vector pos = new Vector(0,
-				(starttile / TILES_PER_ROW) * (ROW_HEIGHT));
+		                        (starttile / TILES_PER_ROW) * (ROW_HEIGHT));
 		float maxwidth = (TILE_WIDTH + SPACING_X) * TILES_PER_ROW;
 		List<int> tiles = tilegroup.Tiles;
 		for(int i = starttile; i < tiles.Count; i++) {
@@ -145,22 +145,22 @@ public class TileListWidget : GLWidgetBase {
 				return;
 
 			Vector MousePos = new Vector((float) args.Event.X,
-	    								 (float) args.Event.Y);
+			                             (float) args.Event.Y);
 			int tile = PosToTile(MousePos);
 			if(tile < 0)
 				return;
-			
+
 			selection.Resize(1, 1, 0);
 			selection[0, 0] = tilegroup.Tiles[tile];
 			selection.FireChangedEvent();
 			QueueDraw();
 		}
-		
+
 		if(args.Event.Button == 3) {
 			if(tilegroup == null)
 				return;
 			StartPos = new Vector((float) args.Event.X,
-			                         (float) args.Event.Y);
+			                      (float) args.Event.Y);
 			application.PrintStatus( "selecting..." );
 			multiselectInProgress = true;
 		}
@@ -172,20 +172,20 @@ public class TileListWidget : GLWidgetBase {
 		if(args.Event.Button == 3) {
 			if(tilegroup == null)
 				return;
-			
+
 			application.PrintStatus( "selecting done" );
 			Vector MousePos = new Vector((float) args.Event.X,
-			                                (float) args.Event.Y);
+			                             (float) args.Event.Y);
 			MultiSelect( MousePos, StartPos );
 			multiselectInProgress = false;
 		}
 	}
-	
+
 	/// <summary>Test if tile is selected</summary>
 	private bool IsSelected( int tile ){
 		for( int y = 0; y < selection.Height; y++ ){
 			for ( int x = 0; x < selection.Width; x++ ){
-       			if ( tile == selection[x, y]) {
+				if ( tile == selection[x, y]) {
 					return true;
 				}
 			}
@@ -204,7 +204,7 @@ public class TileListWidget : GLWidgetBase {
 				upperLeft.X = pos2.X;
 				lowerRight.X = pos1.X;
 			}
-			
+
 			if( pos1.Y < pos2.Y ){
 				upperLeft.Y = pos1.Y;
 				lowerRight.Y = pos2.Y;
@@ -214,22 +214,22 @@ public class TileListWidget : GLWidgetBase {
 			}
 			lowerLeft.X = upperLeft.X;
 			lowerLeft.Y = lowerRight.Y;
-			
+
 			int tile1 = PosToTile(upperLeft);
 			int tile2 = PosToTile(lowerRight);
 			int tile3 = PosToTile(lowerLeft);
 			if(tile1 < 0 || tile2 < 0 || tile3 < 0 )
 				return;
-		
+
 			int startcolumn, endcolumn, width, height;
-			
+
 			//That's how much Tiles?
 			/*
 			        1 x x
 			        x x x
 			        3 x 2
 			*/
-			
+
 			Math.DivRem( tile1, TILES_PER_ROW, out startcolumn );
 			Math.DivRem( tile2, TILES_PER_ROW, out endcolumn );
 			width = 1 + endcolumn - startcolumn;
@@ -246,14 +246,14 @@ public class TileListWidget : GLWidgetBase {
 			selection.FireChangedEvent();
 			QueueDraw();
 	}
-	
+
 	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
 	{
 		if(tilegroup == null)
 			return;
 
 		Vector MousePos = new Vector((float) args.Event.X,
-									 (float) args.Event.Y);
+		                             (float) args.Event.Y);
 		int newtile = PosToTile(MousePos);
 		if(newtile != hovertile) {
 			if( multiselectInProgress ){
@@ -282,7 +282,7 @@ public class TileListWidget : GLWidgetBase {
 	private void OnScroll(object o, ScrollEventArgs args)
 	{
 		if(args.Event.Direction == ScrollDirection.Up &&
-				Translation.Y <= (float) -ROW_HEIGHT) {
+		   Translation.Y <= (float) -ROW_HEIGHT) {
 			Translation = Translation + new Vector(0, ROW_HEIGHT);
 			args.RetVal = true;
 		} else if(args.Event.Direction == ScrollDirection.Down) {
@@ -291,4 +291,3 @@ public class TileListWidget : GLWidgetBase {
 		}
 	}
 }
-

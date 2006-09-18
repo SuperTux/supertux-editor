@@ -19,7 +19,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	private Vector originalPos;
 	private ushort linepattern = 7;
 	private static bool killTimer;
-	
+
 	public PathEditor(IEditorApplication application, Path path)
 	{
 		this.application = application;
@@ -27,22 +27,22 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		killTimer = false;
 		GLib.Timeout.Add(100, Animate);
 	}
-	
+
 	private bool Animate()
 	{
 		if(killTimer)
 			return false;
-		
+
 		linepattern = (ushort) ((linepattern >> 15) | (linepattern << 1));
 		Redraw();
 		return true;
 	}
-	
+
 	public void Dispose()
 	{
 		killTimer = true;
 	}
-	
+
 	public void Draw()
 	{
 		// draw path edges
@@ -50,7 +50,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		gl.Disable(gl.TEXTURE_2D);
 		gl.Enable(gl.LINE_STIPPLE);
 		gl.LineStipple(1, linepattern);
-		
+
 		gl.Begin(gl.LINE_STRIP);
 		foreach(Path.Node node in path.Nodes) {
 			gl.Vertex2f(node.X, node.Y);
@@ -59,22 +59,22 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		gl.Disable(gl.LINE_STIPPLE);
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4f(1, 1, 1, 1);
-		
+
 		// draw path nodes
 		gl.Color4f(1, 0, 0, 0.4f);
 		gl.Disable(gl.TEXTURE_2D);
 		gl.Begin(gl.QUADS);
-		
+
 		foreach(Path.Node node in path.Nodes) {
 			if(node == selectedNode) {
 				gl.Color4f(1, 1, 1, 0.7f);
 			}
-			
+
 			float left = node.X - NODE_SIZE;
 			float right = node.X + NODE_SIZE;
 			float top = node.Y - NODE_SIZE;
 			float bottom = node.Y + NODE_SIZE;
-			
+
 			gl.Vertex2f(left, top);
 			gl.Vertex2f(right, top);
 			gl.Vertex2f(right, bottom);
@@ -83,17 +83,17 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				gl.Color4f(1, 0, 0, 0.4f);
 			}
 		}
-		
+
 		gl.End();
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4f(1, 1, 1, 1);
 	}
-	
+
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
 		if(button == 1) {
 			Path.Node node = FindNodeAt(pos);
-			
+
 			if(node == null) {
 				if((Modifiers & ModifierType.ControlMask) != 0) {
 					Vector pointOnEdge = new Vector(0, 0);
@@ -118,29 +118,29 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					path.Nodes.Insert(0, node);
 				}
 			}
-			
+
 			if(node != selectedNode) {
 				selectedNode = node;
 				Redraw();
 			}
-			
+
 			if(selectedNode != null) {
 				application.EditProperties(selectedNode, "Path Node");
 				dragging = true;
 				pressPoint = pos;
 				originalPos = selectedNode.Pos;
 			}
-			
+
 		} else if(button == 3) {
 			PopupMenu(button);
 		}
 	}
-	
+
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
 	{
 		dragging = false;
 	}
-	
+
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
 		if(dragging) {
@@ -162,7 +162,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				Cursor cursor = new Cursor();
 				Pixmap pixmap = new Pixmap(GetType().Assembly.GetManifestResourceAsStream("modifier-move.png"));
 				*/
-				
+
 				CursorChange(new Cursor(CursorType.Tcross));
 			} else if((Modifiers & ModifierType.ControlMask) != 0 && FindPath(pos, ref dummy) >= 0) {
 				CursorChange(new Cursor(CursorType.Boat));
@@ -171,33 +171,33 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			}
 		}
 	}
-	
+
 	private void PopupMenu(int button)
 	{
 		if(selectedNode == null)
 			return;
-		
+
 		Menu popupMenu = new Menu();
-		
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		deleteItem.Sensitive = path.Nodes.Count > 1;
 		popupMenu.Append(deleteItem);
-		
+
 		MenuItem shiftLeftItem = new ImageMenuItem(Stock.GoBack, null);
 		shiftLeftItem.Activated += OnShiftLeft;
 		shiftLeftItem.Sensitive = path.Nodes.Count > 1;
 		popupMenu.Append(shiftLeftItem);
-		
+
 		MenuItem shiftRightItem = new ImageMenuItem(Stock.GoForward, null);
 		shiftRightItem.Activated += OnShiftRight;
 		shiftRightItem.Sensitive = path.Nodes.Count > 1;
 		popupMenu.Append(shiftRightItem);
-		
+
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
-	
+
 	private void OnDelete(object o, EventArgs args)
 	{
 		path.Nodes.Remove(selectedNode);
@@ -211,26 +211,26 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		path.Shift(-1);
 		Redraw();
 	}
-	
+
 	private void OnShiftRight(object o, EventArgs args)
 	{
 		path.Shift(1);
 		Redraw();
 	}
-	
+
 	/// <summary>Returns the first node found at position <paramref name="pos"/></summary>
 	private Path.Node FindNodeAt(Vector pos)
 	{
 		foreach(Path.Node node in path.Nodes) {
 			if(pos.X >= node.X - NODE_SIZE && pos.X <= node.X + NODE_SIZE
-			      && pos.Y >= node.Y - NODE_SIZE && pos.Y <= node.Y + NODE_SIZE) {
+			   && pos.Y >= node.Y - NODE_SIZE && pos.Y <= node.Y + NODE_SIZE) {
 				return node;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/// <summary>
 	/// Checks all edges between nodes, if the distance of pos towards such an
 	/// edge is smaller than 10, then return the number of the first node in that
@@ -240,11 +240,11 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	{
 		int bestNode = -1;
 		float bestDistance = 10;
-		
+
 		for(int i = 0; i < path.Nodes.Count - 1; ++i) {
 			Path.Node n0 = path.Nodes[i];
 			Path.Node n1 = path.Nodes[i+1];
-			
+
 			Vector n0_n1 = n1.Pos - n0.Pos;
 			float edgeLen = n0_n1.Norm();
 			Vector dir = n0_n1 / edgeLen;
@@ -252,7 +252,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			if(s <= 0 || s >= edgeLen) {
 				continue;
 			}
-			
+
 			Vector projPoint = n0.Pos + dir * s;
 			float distance = (projPoint - pos).Norm();
 			if(distance < bestDistance) {
@@ -261,7 +261,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				pointOnEdge = projPoint;
 			}
 		}
-		
+
 		return bestNode;
 	}
 }

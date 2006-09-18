@@ -7,24 +7,24 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 {
 	private Type objectType;
 	public event RedrawEventHandler Redraw;
-	
+
 	public ObjectCreationEditor(IEditorApplication application, Sector sector, Type objectType)
 	{
 		this.application = application;
 		this.sector = sector;
 		this.objectType = objectType;
 	}
-	
+
 	public void Draw()
 	{
 		// TODO draw image of the object to create
 	}
-	
+
 	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
 	{
 		application.TakeUndoSnapshot( "Created Object '" + objectType + "'" );
 		IGameObject gameObject = CreateObjectAt(pos);
-		
+
 		// switch back to object edit mode when shift was not pressed
 		if((Modifiers & ModifierType.ShiftMask) == 0) {
 			ObjectsEditor editor = new ObjectsEditor(application, application.CurrentSector);
@@ -62,12 +62,12 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 			if( path != null )
 				path.Nodes[0].Pos = pos;
 		}
-		
+
 		sector.Add(gameObject);
 		Redraw();
 		return gameObject;
 	}
-	
+
 	private object CreateObject()
 	{
 		// create object
@@ -75,7 +75,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		if(Constructor == null)
 			throw new Exception("Type '" + objectType + "' has no public constructor without arguments");
 		object Result = Constructor.Invoke(new object[] {});
-		
+
 		//some Objects need special treatment
 		if( Result is Tilemap ){
 			uint width = 0;

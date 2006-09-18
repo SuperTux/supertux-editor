@@ -10,7 +10,7 @@ using OpenGl;
 /// </summary>
 internal static class ToolTipStrings {
 	/// <summary>
-	/// For the "Name" attribute used for scripting. 
+	/// For the "Name" attribute used for scripting.
 	/// </summary>
 	internal const string ScriptingName = "Used to refer to the object from a script. If it isn't set the object can't be scripted.";
 }
@@ -53,7 +53,7 @@ public sealed class SupertuxObjectAttribute : Attribute
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrBomb : SimpleDirObject
 {
- 	[ChooseResourceSetting]
+	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = null)]
 	public string SpriteFile {
 		get {
@@ -64,7 +64,7 @@ public sealed class MrBomb : SimpleDirObject
 			if (!String.IsNullOrEmpty(value))
 				try { //TODO: find out why cherry's sprite causes problems. Particles?
 					Sprite = SpriteManager.Create(value);
-  				Sprite.Action = "left";
+					Sprite.Action = "left";
 				} catch {
 					Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
 					Sprite.Action = "right";
@@ -332,7 +332,7 @@ public sealed class AngryStone : SimpleObject
 	}
 }
 
-[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite", 
+[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Spidermite : SimpleObject
 {
@@ -368,7 +368,7 @@ public sealed class WilloWisp : SimpleObject
 	public string Sector = "";
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = "";
-	
+
 	public WilloWisp() {
 		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
 		Sprite.Action = "idle";
@@ -385,7 +385,7 @@ public sealed class DartTrap : SimpleDirObject
 	public float fire_delay = 2;
 	[LispChild("ammo")]
 	public int ammo = -1;
-	
+
 	public DartTrap() {
 		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
 		Sprite.Action = "idle-left";
@@ -475,11 +475,11 @@ public sealed class Spotlight : SimpleColorObject
 {
 	[LispChild("angle")]
 	public float Angle;
-	
+
 	[ChooseColorSetting(UseAlpha = true)]
 	[LispChild("color", Optional = true )]
 	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
-	
+
 	public Spotlight() {
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
@@ -488,7 +488,7 @@ public sealed class Spotlight : SimpleColorObject
 		//draw sprite
 		if(Sprite == null)
 			return;
-		
+
 		Sprite.Draw(new Vector(X, Y));
 		//draw a color rectangle
 		DrawColor(color);
@@ -512,12 +512,12 @@ public sealed class MagicBlock : SimpleColorObject
 		}
 	}
 	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
-	
+
 	public override void Draw() {
 		//draw sprite
 		if(Sprite == null)
 			return;
-		
+
 		Sprite.Draw(new Vector(X, Y));
 		//draw a color rectangle
 		DrawColor(magiccolor);
@@ -545,12 +545,12 @@ public sealed class Lantern : SimpleColorObject
 		}
 	}
 	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
-	
+
 	public override void Draw() {
 		//draw sprite
 		if(Sprite == null)
 			return;
-		
+
 		Sprite.Draw(new Vector(X, Y));
 		//draw a color rectangle
 		DrawColor(lightcolor);
@@ -688,9 +688,9 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		}
 	}
 	private string spriteFile = "images/objects/flying_platform/flying_platform.sprite";
-	
+
 	private Sprite Sprite;
-	
+
 	private Path path;
 	[LispChild("path")]
 	public Path Path {
@@ -701,7 +701,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 			path = value;
 		}
 	}
-	
+
 	public virtual bool Resizable {
 		get {
 			return false;
@@ -714,27 +714,27 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		path = new Path();
 		path.Nodes.Add(new Path.Node());
 	}
-	
+
 	public void Draw()
 	{
 		Sprite.Draw(Path.Nodes[0].Pos);
 	}
-	
+
 	public virtual Node GetSceneGraphNode() {
 		return this;
 	}
-	
+
 	public virtual void ChangeArea(RectangleF NewArea) {
 		Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X,
 		                                NewArea.Top - Path.Nodes[0].Y);
 		Path.Move(translation);
 	}
-	
+
 	public virtual RectangleF Area {
 		get {
 			float x = Path.Nodes[0].X;
 			float y = Path.Nodes[0].Y;
-			
+
 			return new RectangleF(x - Sprite.Offset.X, y - Sprite.Offset.Y,
 			                      Sprite.Width, Sprite.Height);
 		}
@@ -855,7 +855,7 @@ public sealed class Powerup : SimpleObject
 	public string Script = "";
 	[LispChild("disable-physics", Optional = true, Default = false)]
 	public bool DisablePhysics;
-	
+
 	public Powerup() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/powerup.png");
 		Sprite.Action = "default";
@@ -890,7 +890,7 @@ public sealed class ScriptedObject : SimpleObject
 	public bool PhysicEnabled = false;
 	[LispChild("solid")]
 	public bool Solid = false;
-	
+
 	public ScriptedObject() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/scriptedobject.png");
 		Sprite.Action = "default";
@@ -941,7 +941,7 @@ public sealed class AmbientSound : SimpleObjectArea
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
-	
+
 	public AmbientSound() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/ambientsound.png");
 		Sprite.Action = "default";

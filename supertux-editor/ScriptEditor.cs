@@ -8,9 +8,9 @@ using LispReader;
 /// A dialogbox used to edit scripts and currently also other multi line strings.
 /// </summary>
 /// <remarks>
-/// If you change this to add syntax highlighting or other 
+/// If you change this to add syntax highlighting or other
 /// features that are specialised for Squirrel please create another
-/// multi-line edit box that can be used in for 
+/// multi-line edit box that can be used in for
 /// example <see cref="InfoBlock"/>.
 /// </remarks>
 public class ScriptEditor
@@ -22,22 +22,22 @@ public class ScriptEditor
 
 	private FieldOrProperty field;
 	private object object_;
-	
+
 	public ScriptEditor(string title, FieldOrProperty field, object object_)
 	{
 		this.field = field;
 		this.object_ = object_;
-	
+
 		Glade.XML gxml = new Glade.XML("editor.glade", "scriptDialog");
 		gxml.Autoconnect(this);
-		
+
 		if(scriptDialog == null || scriptEditor == null)
 			throw new Exception("Couldn't load ScriptEditor dialog");
-		
+
 		/*
 		window = new Window("Supertux - ScriptEditor - " + title);
 		window.SetSizeRequest(640, 500);
-		*/		
+		*/
 
 		object val = field.GetValue(object_);
 		scriptEditor.Buffer.Text = val != null ? val.ToString() : "";
@@ -52,13 +52,13 @@ public class ScriptEditor
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
-		
+
 		scriptDialog.Hide();
 	}
-	
+
 	protected void OnCancel(object o, EventArgs args)
 	{
 		scriptDialog.Hide();
 	}
-	
+
 }

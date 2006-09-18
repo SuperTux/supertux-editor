@@ -18,7 +18,7 @@ public sealed class EditScriptWidget : CustomSettingsWidget
 		CreateToolTip(caller, button);
 		return button;
 	}
-	
+
 	private void OnEdit(object sender, EventArgs args)
 	{
 		new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);

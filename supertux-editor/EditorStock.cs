@@ -13,7 +13,7 @@ public static class EditorStock
 	public static string ToolBrush = "ToolBrush";
 	public static string ToolFill = "ToolFill";
 	public static string ToolReplace = "ToolReplace";
-	
+
 	static EditorStock ()
 	{
 		AddIcon (Eye, Gtk.IconSize.Menu, "stock-eye-12.png");
@@ -24,14 +24,14 @@ public static class EditorStock
 		AddIcon (ToolBrush, Gtk.IconSize.LargeToolbar, "stock-tool-brush-24.png");
 		AddIcon (ToolFill, Gtk.IconSize.LargeToolbar, "stock-tool-fill-24.png");
 		AddIcon (ToolReplace, Gtk.IconSize.LargeToolbar, "stock-tool-replace-24.png");
-		
+
 		stock.AddDefault ();
 	}
-	
+
 	static void AddIcon (string stockid, Gtk.IconSize iconSize, string resource)
 	{
 		Gtk.IconSet iconset = stock.Lookup (stockid);
-		
+
 		if (iconset == null) {
 			iconset = new Gtk.IconSet ();
 			Gdk.Pixbuf img = Gdk.Pixbuf.LoadFromResource (resource);

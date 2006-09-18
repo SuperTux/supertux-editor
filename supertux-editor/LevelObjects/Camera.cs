@@ -16,7 +16,7 @@ public sealed class Camera : IGameObject, IPathObject {
 		/// </summary>
 		autoscroll,
 		/// <summary>
-		/// Manually control the camera by scripting. 
+		/// Manually control the camera by scripting.
 		/// </summary>
 		manual
 	}

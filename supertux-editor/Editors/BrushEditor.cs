@@ -100,7 +100,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 				|| MouseTilePos.X >= Tilemap.Width
 				|| MouseTilePos.Y >= Tilemap.Height)
 				return;
-			
+
 			SelectStartPos = MouseTilePos;
 			selecting = true;
 			UpdateSelection();
@@ -111,7 +111,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
 	{
 		UpdateMouseTilePos(MousePos);
-	
+
 		// left mouse button means apply brush
 		if(button == 1) {
 			drawing = false;
@@ -199,7 +199,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 				SelectionP2.Y = MouseTilePos.Y;
 		}
 	}
-	
+
 	private void OnSelectionChanged() {
 		Redraw();
 	}

@@ -1,5 +1,5 @@
 //  $Id$
-// 
+//
 //  Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@
 //  but WITHOUT ANY WARRANTY; without even the implied warranty of
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
-// 
+//
 //  You should have received a copy of the GNU General Public License
 //  along with this program; if not, write to the Free Software
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
@@ -27,7 +27,7 @@ using LispReader;
 /// <summary>
 /// Smoothes Tilemaps by changing tiles to one of several stored valid patterns
 /// </summary>
-public class Brush 
+public class Brush
 {
 	/// <summary>
 	/// width (in Tiles) of this Brush
@@ -146,7 +146,7 @@ public class Brush
 	}
 
 	/// <summary>
-	/// Return a measure of how similar fields t1 and t2 are. 
+	/// Return a measure of how similar fields t1 and t2 are.
 	/// </summary>
 	protected float calculateSimilarity(TileBlock t1, TileBlock t2) {
 		float sim = 0;
@@ -273,4 +273,3 @@ public class Brush
 	}
 
 }
-

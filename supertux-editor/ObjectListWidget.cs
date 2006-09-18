@@ -16,7 +16,7 @@ public class ObjectListWidget : GLWidgetBase
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
 	private const int TILES_PER_ROW = 4;
 	private const int NONE = -1;
-	
+
 	private bool objectsLoaded;
 	private List<Type> gameObjectTypes = new List<Type>();
 	private List<Sprite> gameObjectSprites = new List<Sprite>();
@@ -24,22 +24,22 @@ public class ObjectListWidget : GLWidgetBase
 	private int FirstRow = 0;
 	private IEditorApplication application;
 	private Level level;
-	
-    public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
-    	new TargetEntry("GameObject", TargetFlags.App, 0)
-    };
-	
+
+	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
+		new TargetEntry("GameObject", TargetFlags.App, 0)
+	};
+
 	public ObjectListWidget(IEditorApplication application)
 	{
 		this.application = application;
-		
+
 		SetSizeRequest( COLUMN_WIDTH * TILES_PER_ROW, -1);
-		
+
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);
-		
+
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    DragTargetEntries, DragAction.Default);
 
@@ -47,12 +47,12 @@ public class ObjectListWidget : GLWidgetBase
 		ScrollEvent += OnScroll;
 		application.LevelChanged += OnLevelChanged;
 	}
-	
+
 	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{
 		LoadObjectImages();
-		
+
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 		int x = 0;
 		int y = 0;
@@ -78,7 +78,7 @@ public class ObjectListWidget : GLWidgetBase
 				} else {
 					scalex = scaley;
 				}
-				
+
 				gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );
 				objectSprite.Draw(objectSprite.Offset);
@@ -97,7 +97,7 @@ public class ObjectListWidget : GLWidgetBase
 				gl.Enable(gl.TEXTURE_2D);
 				gl.Color4f(1, 1, 1, 1);
 			}
-	
+
 			x += COLUMN_WIDTH;
 			if( x >= TILES_PER_ROW * COLUMN_WIDTH ) {
 				x = 0;
@@ -105,7 +105,7 @@ public class ObjectListWidget : GLWidgetBase
 			}
 		}
 	}
-	
+
 	/// <summary>Create object list</summary>
 	/// <remarks>Loading Images need Gl context so this has to be called from DrawGl</remarks>
 	private void LoadObjectImages()
@@ -120,7 +120,7 @@ public class ObjectListWidget : GLWidgetBase
 		// the null object (arrow)
 		gameObjectTypes.Add(null);
 		gameObjectSprites.Add(CreateSprite("images/engine/editor/arrow.png"));
-		
+
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
 				= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
@@ -130,8 +130,8 @@ public class ObjectListWidget : GLWidgetBase
 			if (objectAttribute.Target == SupertuxObjectAttribute.Usage.None)
 				continue;
 
-			// We load all objects if no level is loaded to avoid crash 
-			// when accessing acessing the level object (as that is null 
+			// We load all objects if no level is loaded to avoid crash
+			// when accessing acessing the level object (as that is null
 			// when no level is loaded).
 			if (this.level != null) {
 				if ( (objectAttribute.Target == SupertuxObjectAttribute.Usage.WorldmapOnly) &&
@@ -155,17 +155,17 @@ public class ObjectListWidget : GLWidgetBase
 
 		objectsLoaded = true;
 	}
-	
+
 	private static Sprite CreateSprite(string name)
 	{
 		Sprite result = null;
-		
+
 		//might be a sprite
 		try{
 			result = SpriteManager.Create(name);
 		} catch {
 		}
-		
+
 		if( result != null ){ //Try to find a nice action.
 			try { result.Action = "left"; }
 			catch { try { result.Action = "normal"; }
@@ -182,10 +182,10 @@ public class ObjectListWidget : GLWidgetBase
 				result = null;
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/// <summary>Called when a new level is loaded</summary>
 	private void OnLevelChanged(Level level)
 	{
@@ -236,12 +236,12 @@ public class ObjectListWidget : GLWidgetBase
 			}
 		}
 	}
-	
+
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
 		Console.WriteLine("Dragstart");
 	}
-	
+
 	private void OnScroll(object o, ScrollEventArgs args)
 	{
 		if(args.Event.Direction == ScrollDirection.Up && FirstRow > 0 ) {

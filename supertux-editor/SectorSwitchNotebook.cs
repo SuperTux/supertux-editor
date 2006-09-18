@@ -38,7 +38,7 @@ public class SectorSwitchNotebook : Notebook
 		if(num < 0)
 			return;
 		this.sector = newSector;
-		
+
 		if(num != CurrentPage) {
 			CurrentPage = num;
 		}
@@ -58,7 +58,7 @@ public class SectorSwitchNotebook : Notebook
 			Renderer.ShowAll();
 			AppendPage(Renderer, new Label(sector.Name));
 		}
-		
+
 		if(this.sector == null && level.Sectors.Count > 0)
 			this.sector = level.Sectors[0];
 	}
@@ -68,18 +68,18 @@ public class SectorSwitchNotebook : Notebook
 		Sector NewSector = level.Sectors[(int) args.PageNum];
 		SectorChanged(NewSector);
 	}
-	
+
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 3) {
 			popupMenu();
 		}
 	}
-	
+
 	private void popupMenu()
 	{
 		Menu popupMenu = new Menu();
-		
+
 		foreach(Sector sector in level.Sectors) {
 			MenuItem item = new MenuItem(sector.Name);
 			item.Name = sector.Name;
@@ -87,27 +87,27 @@ public class SectorSwitchNotebook : Notebook
 			popupMenu.Add(item);
 		}
 		popupMenu.Add(new SeparatorMenuItem());
-		
+
 		MenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
 		propertiesItem.Activated += OnPropertiesActivated;
 		popupMenu.Add(propertiesItem);
-		
+
 		MenuItem resizeItem = new MenuItem("Resize");
 		resizeItem.Activated += OnResizeActivated;
 		popupMenu.Add(resizeItem);
-		
+
 		MenuItem createNewItem = new ImageMenuItem(Stock.New, null);
 		createNewItem.Activated += OnCreateNew;
 		popupMenu.Add(createNewItem);
-		
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDeleteActivated;
 		popupMenu.Add(deleteItem);
-		
+
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
-	
+
 	private void OnSectorItemActivated(object o, EventArgs args)
 	{
 		MenuItem item = (MenuItem) o;
@@ -117,35 +117,35 @@ public class SectorSwitchNotebook : Notebook
 				return;
 			}
 		}
-		
+
 		Console.WriteLine("Sector '" + item.Name + "' not found?!?");
 	}
-	
+
 	private void OnPropertiesActivated(object o, EventArgs args)
 	{
 		application.EditProperties(sector, "Sector");
 	}
-	
+
 	private void OnDeleteActivated(object o, EventArgs args)
 	{
 		// Don't remove sector if it is the only one.
 		if (level.Sectors.Count == 1){
 			application.PrintStatus("A level has to have at least one sector.");
 			return;
-        }
+		}
 		//HACK: Don't remove first sector if we got two sector.
 		//      It will cause weird bugs elsewhere.
 		if ((level.Sectors.IndexOf(sector) == 0) && (level.Sectors.Count == 2)){
 			application.PrintStatus("Bug: Removing first sector does not work if there are exactly two sectors.");
 			return;
-        }
+		}
 		application.TakeUndoSnapshot("Removed sector");
 		application.PrintStatus("Sector '"+ sector.Name + "' removed.");
 		level.Sectors.Remove(sector);
 		ClearTabList();
 		CreateTabList();
 	}
-	
+
 	private void OnResizeActivated(object o, EventArgs args)
 	{
 		try {
@@ -154,13 +154,13 @@ public class SectorSwitchNotebook : Notebook
 			ErrorDialog.Exception(e);
 		}
 	}
-	
+
 	private void OnCreateNew(object o, EventArgs args)
 	{
 		try {
 			application.TakeUndoSnapshot("Added sector");
 			Sector sector = LevelUtil.CreateSector("NewSector");
-			
+
 			level.Sectors.Add(sector);
 			ClearTabList();
 			CreateTabList();
@@ -170,4 +170,3 @@ public class SectorSwitchNotebook : Notebook
 		}
 	}
 }
-
