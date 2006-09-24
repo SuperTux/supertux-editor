@@ -642,9 +642,10 @@ public class Application : IEditorApplication {
 	{
 		// Fix bug if loading worldmap while having a selection
 		// in a "normal" level (or the other way round):
-		selection.Resize(0, 0, 0);
-		selection.FireChangedEvent();
-
+		if(level != null && !level.TilesetFile.Equals(newLevel.TilesetFile)){
+			selection.Resize(0, 0, 0);
+			selection.FireChangedEvent();
+		}
 		level = newLevel;
 		LevelChanged(level);
 		ChangeCurrentSector(level.Sectors[0]);
