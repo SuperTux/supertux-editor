@@ -505,7 +505,7 @@ public sealed class MagicBlock : SimpleColorObject
 		get {
 			return magiccolor;
 		}
-		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum
+		set { //Limit color to 8 useful values (white red green blue yellow violet cyan black)
 			magiccolor.Red = (value.Red >= 0.5f?1f:0);
 			magiccolor.Green = (value.Green >= 0.5f?1f:0);
 			magiccolor.Blue = (value.Blue >= 0.5f?1f:0);
@@ -538,7 +538,7 @@ public sealed class Lantern : SimpleColorObject
 		get {
 			return lightcolor;
 		}
-		set { //TODO:only 7 useful values (white red green blue yellow violet cyan), better use enum
+		set { ////Limit color to 8 useful values (white red green blue yellow violet cyan black)
 			lightcolor.Red = (value.Red >= 0.5f?1f:0);
 			lightcolor.Green = (value.Green >= 0.5f?1f:0);
 			lightcolor.Blue = (value.Blue >= 0.5f?1f:0);
