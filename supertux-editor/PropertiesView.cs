@@ -92,7 +92,7 @@ public class PropertiesView : ScrolledWindow
 			PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 				field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
 
-			if (propertyProperties.Hidden)
+			if ((propertyProperties != null) && (propertyProperties.Hidden))
 				continue;
 
 			if(field.Type == typeof(string) || field.Type == typeof(float)
