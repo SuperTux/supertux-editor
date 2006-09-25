@@ -15,6 +15,11 @@ using LispReader;
 public sealed class PropertyPropertiesAttribute : Attribute {
 	public string Tooltip = "";
 
+	/// <summary>
+	/// If true this object is hidden from the <see cref="PropertiesView"/>.
+	/// </summary>
+	public bool Hidden = false;
+
 	public PropertyPropertiesAttribute() {
 	}
 }
@@ -86,6 +91,9 @@ public class PropertiesView : ScrolledWindow
 
 			PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 				field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
+
+			if (propertyProperties.Hidden)
+				continue;
 
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {
