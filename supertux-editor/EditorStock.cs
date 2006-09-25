@@ -19,12 +19,18 @@ public static class EditorStock
 		AddIcon (Eye, Gtk.IconSize.Menu, "stock-eye-12.png");
 		AddIcon (EyeHalf, Gtk.IconSize.Menu, "stock-eye-half-12.png");
 
-		AddIcon(ToolSelect, Gtk.IconSize.SmallToolbar, "stock-tool-select-24.png");
-		AddIcon(ToolTiles, Gtk.IconSize.SmallToolbar, "stock-tool-tiles-24.png");
-		AddIcon(ToolObjects, Gtk.IconSize.SmallToolbar, "stock-tool-objects-24.png");
-		AddIcon(ToolBrush, Gtk.IconSize.SmallToolbar, "stock-tool-brush-24.png");
-		AddIcon(ToolFill, Gtk.IconSize.SmallToolbar, "stock-tool-fill-24.png");
-		AddIcon(ToolReplace, Gtk.IconSize.SmallToolbar, "stock-tool-replace-24.png");
+		// HACK: This is needed to make tool icons show up on Windows, no idea why.
+#if WINDOWS
+		Gtk.IconSize ToolBarIconSize = Gtk.IconSize.SmallToolbar;
+#else
+		Gtk.IconSize ToolBarIconSize = Gtk.IconSize.LargeToolbar;
+#endif
+		AddIcon(ToolSelect, ToolBarIconSize, "stock-tool-select-24.png");
+		AddIcon(ToolTiles, ToolBarIconSize, "stock-tool-tiles-24.png");
+		AddIcon(ToolObjects, ToolBarIconSize, "stock-tool-objects-24.png");
+		AddIcon(ToolBrush, ToolBarIconSize, "stock-tool-brush-24.png");
+		AddIcon(ToolFill, ToolBarIconSize, "stock-tool-fill-24.png");
+		AddIcon(ToolReplace, ToolBarIconSize, "stock-tool-replace-24.png");
 
 		stock.AddDefault ();
 	}
