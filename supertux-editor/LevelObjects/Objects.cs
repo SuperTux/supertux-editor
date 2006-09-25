@@ -245,26 +245,6 @@ public sealed class Snail : SimpleDirObject
 	}
 }
 
-[SupertuxObject("totem", "images/creatures/totem/totem.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Totem : SimpleObject
-{
-	public Totem() {
-		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
-		Sprite.Action = "walking-left";
-	}
-}
-
-[SupertuxObject("kugelblitz", "images/creatures/kugelblitz/kugelblitz.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Kugelblitz : SimpleObject
-{
-	public Kugelblitz() {
-		Sprite = SpriteManager.Create("images/creatures/kugelblitz/kugelblitz.sprite");
-		Sprite.Action = "falling";
-	}
-}
-
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Dispenser : SimpleDirObject
@@ -320,42 +300,6 @@ public sealed class StalactiteYeti : SimpleObject
 	public StalactiteYeti() {
 		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
 		Sprite.Action = "normal";
-	}
-}
-
-[SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class AngryStone : SimpleObject
-{
-	public AngryStone() {
-		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
-	}
-}
-
-[SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Spidermite : SimpleObject
-{
-	public Spidermite() {
-		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
-	}
-}
-
-[SupertuxObject("plant", "images/creatures/plant/plant.sprite",
-                Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Plant : SimpleObject
-{
-	public Plant() {
-		Sprite = SpriteManager.Create("images/creatures/plant/plant.sprite");
-	}
-}
-
-[SupertuxObject("nolok_01", "images/creatures/nolok/nolok.sprite",
-                Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Nolok_01 : SimpleObject
-{
-	public Nolok_01() {
-		Sprite = SpriteManager.Create("images/creatures/nolok/nolok.sprite");
 	}
 }
 
