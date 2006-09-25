@@ -18,12 +18,13 @@ public static class EditorStock
 	{
 		AddIcon (Eye, Gtk.IconSize.Menu, "stock-eye-12.png");
 		AddIcon (EyeHalf, Gtk.IconSize.Menu, "stock-eye-half-12.png");
-		AddIcon (ToolSelect, Gtk.IconSize.LargeToolbar, "stock-tool-select-24.png");
-		AddIcon (ToolTiles, Gtk.IconSize.LargeToolbar, "stock-tool-tiles-24.png");
-		AddIcon (ToolObjects, Gtk.IconSize.LargeToolbar, "stock-tool-objects-24.png");
-		AddIcon (ToolBrush, Gtk.IconSize.LargeToolbar, "stock-tool-brush-24.png");
-		AddIcon (ToolFill, Gtk.IconSize.LargeToolbar, "stock-tool-fill-24.png");
-		AddIcon (ToolReplace, Gtk.IconSize.LargeToolbar, "stock-tool-replace-24.png");
+
+		AddIcon(ToolSelect, Gtk.IconSize.SmallToolbar, "stock-tool-select-24.png");
+		AddIcon(ToolTiles, Gtk.IconSize.SmallToolbar, "stock-tool-tiles-24.png");
+		AddIcon(ToolObjects, Gtk.IconSize.SmallToolbar, "stock-tool-objects-24.png");
+		AddIcon(ToolBrush, Gtk.IconSize.SmallToolbar, "stock-tool-brush-24.png");
+		AddIcon(ToolFill, Gtk.IconSize.SmallToolbar, "stock-tool-fill-24.png");
+		AddIcon(ToolReplace, Gtk.IconSize.SmallToolbar, "stock-tool-replace-24.png");
 
 		stock.AddDefault ();
 	}
