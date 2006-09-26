@@ -10,6 +10,7 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;
 
+	[PropertyProperties(Tooltip = "If selected Tux will interact with tiles in this tilemap.")]
 	[LispChild("solid")]
 	public bool Solid = false;
 

@@ -65,7 +65,7 @@ public sealed class Parser {
 					break;
 
 				case Lexer.Token.INTEGER:
-					int ival = Int32.Parse(Lexer.TokenString);
+					int ival = Int32.Parse(Lexer.TokenString, NumberStyles.Integer, NumberFormatInfo.InvariantInfo);
 					Entries.Add(ival);
 					break;
 

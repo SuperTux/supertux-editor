@@ -14,6 +14,7 @@ public sealed class Sector : ICustomLispSerializer {
 	[LispChild("name")]
 	public string Name = "";
 	[ChooseResourceSetting]
+	[PropertyProperties(Tooltip = "Background music to use for the sector.")]
 	[LispChild("music", Optional = true, Default = "")]
 	public string Music = "";
 	[LispChild("gravity", Optional = true, Default = 10f)]
