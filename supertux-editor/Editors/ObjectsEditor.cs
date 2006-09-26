@@ -107,6 +107,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	private Vector pressPoint;
 	private RectangleF originalArea;
 	private bool dragging;
+	// Used to make sure we just do undo snapshot when moving.
+	private bool moveStarted;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
 
 	public event RedrawEventHandler Redraw;
@@ -247,6 +249,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		if(activeObject == null)
 			return;
 
+		application.TakeUndoSnapshot("Clone Object " + activeObject);
+
 		try {
 			object newObject = ((ICloneable) activeObject).Clone();
 			IGameObject gameObject = (IGameObject) newObject;
@@ -292,6 +296,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			dragging = false;
 
 			if(pos != pressPoint) {
+				moveStarted = false;
 				moveObject(pos, SnapValue(Modifiers));
 			} else {
 				MakeActive(FindNext(pos));
@@ -303,6 +308,10 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
 		if(dragging) {
+			if (!moveStarted) {
+				application.TakeUndoSnapshot("Moved Object " + activeObject);
+				moveStarted = true;
+			}
 			moveObject(pos, SnapValue(Modifiers));
 		}
 	}
