@@ -15,6 +15,8 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	private Path.Node selectedNode;
 	private const float NODE_SIZE = 10;
 	private bool dragging;
+	// Used to make sure we just do undo snapshot when moving.
+	private bool moveStarted;
 	private Vector pressPoint;
 	private Vector originalPos;
 	private ushort linepattern = 7;
@@ -99,11 +101,13 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					Vector pointOnEdge = new Vector(0, 0);
 					int addNode = FindPath(pos, ref pointOnEdge);
 					if(addNode >= 0) {
+						application.TakeUndoSnapshot("Added Path node");
 						node = new Path.Node();
 						node.Pos = pointOnEdge;
 						path.Nodes.Insert(addNode+1, node);
 					}
 				} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
+					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
 					//Snap?
 					if( application.SnapToGrid ) {
@@ -113,6 +117,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					node.Pos = pos;
 					path.Nodes.Add(node);
 				} else if(selectedNode == path.Nodes[0]) {
+					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
 					node.Pos = pos;
 					path.Nodes.Insert(0, node);
@@ -139,11 +144,16 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
 	{
 		dragging = false;
+		moveStarted = false;
 	}
 
 	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
 	{
 		if(dragging) {
+			if (!moveStarted) {
+				application.TakeUndoSnapshot("Moved Path Node");
+				moveStarted = true;
+			}
 			Vector spos = originalPos + (pos - pressPoint);
 			// snap to 32pixel?
 			if((Modifiers & ModifierType.ShiftMask) != 0 || application.SnapToGrid ) {
@@ -200,6 +210,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnDelete(object o, EventArgs args)
 	{
+		application.TakeUndoSnapshot("Deleted Path node");
 		path.Nodes.Remove(selectedNode);
 		selectedNode = null;
 		dragging = false;
