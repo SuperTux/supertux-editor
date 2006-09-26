@@ -182,7 +182,11 @@ public class Application : IEditorApplication {
 		all.AddPattern("*");
 		fileChooser.AddFilter( all );
 		if( Settings.Instance.SupertuxData != null ){
-			fileChooser.AddShortcutFolder( Settings.Instance.SupertuxData );
+			try {
+				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData);
+			} catch (Exception e) {
+				Console.WriteLine("Warning: Couldn't add supertux data directory to File Chooser: " + e.Message);
+			}
 		}
 
 		if (args.Length > 0) {
@@ -760,7 +764,7 @@ public class Application : IEditorApplication {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}
-			throw e;
+			throw;
 		}
 #endif
 		Settings.Instance.Save();
