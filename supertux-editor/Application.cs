@@ -662,6 +662,11 @@ public class Application : IEditorApplication {
 				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
 			else
 				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
+			// If there is no tool activated for this sector yet reset it to the Select tool.
+			if (CurrentRenderer.Editor == null) {
+				OnToolSelect(null, null);
+				ToolSelect.Active = true;
+			}
 		}
 	}
 
