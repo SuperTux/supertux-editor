@@ -49,9 +49,9 @@ public static class LevelUtil
 		sector.Add(camera);
 
 		Background background = new Background();
-		background.Image = "images/background/arctis.jpg";
-		background.ImageTop = "images/background/arctis_top.jpg";
-		background.ImageBottom = "images/background/arctis_bottom.jpg";
+		background.Image = "images/background/BlueRock_Forest/blue-middle.jpg";
+		background.ImageTop = "images/background/BlueRock_Forest/blue-top.jpg";
+		background.ImageBottom = "images/background/BlueRock_Forest/blue-bottom.jpg";
 		sector.Add(background);
 
 		return sector;
