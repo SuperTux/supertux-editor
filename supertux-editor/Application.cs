@@ -510,6 +510,11 @@ public class Application : IEditorApplication {
 		if(level == null)
 			return;
 
+		if (!File.Exists(Settings.Instance.SupertuxExe)){
+			ErrorDialog.ShowError("The SuperTux binary does not seem to exist.\n" +
+			                      "Please set the correct location of it in the settings.");
+			return;
+		}
 		try {
 			string tempName = System.IO.Path.GetTempPath();
 
