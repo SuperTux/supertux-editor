@@ -93,10 +93,34 @@ public class LayerListWidget : TreeView {
 		foreach(Tilemap Tilemap in sector.GetObjects(typeof(Tilemap))) {
 			store.AppendValues(Tilemap);
 			visibility[Tilemap] = 1.0f;
+
+			// if no tilemap is yet selected, select the first solid one
+			if ((currentTilemap == null) && (Tilemap.Solid)) {
+				currentTilemap = Tilemap;
+				application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
+				application.ChangeCurrentTilemap(currentTilemap);
+			}
+
 		}
 		store.AppendValues(nullObject);
 		visibility[nullObject] = 1.0f;
 		Model = store;
+
+		// Visibly select current Tilemap
+		if (currentTilemap != null) {
+			TreePath path = TreePath.NewFirst();
+			TreeIter iter;
+			while (Model.GetIter(out iter, path)) {
+				object obj = Model.GetValue(iter, 0);
+				if(obj == currentTilemap) {
+					HasFocus = true;
+					ActivateRow(path, GetColumn(0));
+					SetCursor(path, GetColumn(0), false);
+				}
+				path.Next();
+			}
+		}
+
 	}
 
 	private void OnTilemapChanged(Tilemap Tilemap)
