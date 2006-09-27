@@ -148,6 +148,9 @@ public class Application : IEditorApplication {
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
 
+		// Manually set icon for Background toggle button
+		ttbShowBackground.StockId = EditorStock.Background;
+
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName == null){
 			if( Settings.Instance.SupertuxData != null ){

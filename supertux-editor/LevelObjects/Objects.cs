@@ -364,7 +364,7 @@ public sealed class Nolok_01 : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class WilloWisp : SimpleObject
 {
-	[LispChild("sector"), ChooseSector()]
+	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector = "";
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = "";
@@ -565,7 +565,7 @@ public sealed class Lantern : SimpleColorObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Door : SimpleObject
 {
-	[LispChild("sector"), ChooseSector()]
+	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector;
 	[LispChild("spawnpoint")]
 	public string Spawnpoint;
@@ -980,6 +980,7 @@ public sealed class ScriptTrigger : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SecretArea : SimpleObjectArea
 {
+	[PropertyProperties(Tooltip = "Fade the tilemap with this name when the player finds the secret area. Optional.")]
 	[LispChild("fade-tilemap", Optional = true, Default = "")]
 	public string FadeTilemap = "";
 
