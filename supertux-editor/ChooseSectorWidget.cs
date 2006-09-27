@@ -50,8 +50,8 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 								AllowMultiple = false)]
-public sealed class ChooseSectorAttribute : CustomSettingsWidgetAttribute {
-	public ChooseSectorAttribute()
+public sealed class ChooseSectorSettingAttribute : CustomSettingsWidgetAttribute {
+	public ChooseSectorSettingAttribute()
 		: base(typeof(ChooseSectorWidget)) {
 	}
 }
