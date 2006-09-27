@@ -167,5 +167,8 @@
     <EmbeddedResource Include="resources\stock-tool-tiles-24.png">
       <LogicalName>stock-tool-tiles-24.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-background-24.png">
+      <LogicalName>stock-background-24.png</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

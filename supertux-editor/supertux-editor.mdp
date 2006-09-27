@@ -84,6 +84,7 @@
     <File name="./resources/stock-tool-replace-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-tool-select-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-tool-tiles-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/stock-background-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./CustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/EditorBase.cs" subtype="Code" buildaction="Compile" />
     <File name="./ChooseSectorWidget.cs" subtype="Code" buildaction="Compile" />
