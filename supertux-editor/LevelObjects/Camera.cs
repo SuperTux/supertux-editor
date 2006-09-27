@@ -1,3 +1,4 @@
+//  $Id$
 using LispReader;
 
 [SupertuxObject("camera", "images/engine/editor/camera.png")]

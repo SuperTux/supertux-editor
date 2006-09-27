@@ -1,3 +1,4 @@
+//  $Id$
 using System;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,

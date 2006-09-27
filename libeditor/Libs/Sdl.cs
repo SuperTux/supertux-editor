@@ -1,3 +1,4 @@
+//  $Id$
 /* WARNING: Automatically generated file */
 using System;
 using System.Runtime.InteropServices;

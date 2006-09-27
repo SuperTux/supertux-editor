@@ -1,3 +1,4 @@
+//  $Id$
 using System;
 using Sprites;
 using DataStructures;

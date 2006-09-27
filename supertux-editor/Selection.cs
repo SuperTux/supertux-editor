@@ -1,3 +1,4 @@
+//  $Id$
 
 public sealed class Selection : TileBlock {
 	public delegate void ChangedEventHandler();
