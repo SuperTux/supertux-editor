@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 
-[assembly: AssemblyVersion("0.2")]
+[assembly: AssemblyVersion("0.3.0")]
 [assembly: AssemblyTitle("supertux-editor")]
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliant(false)]

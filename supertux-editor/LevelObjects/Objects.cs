@@ -55,7 +55,7 @@ public sealed class SupertuxObjectAttribute : Attribute
 public sealed class MrBomb : SimpleDirObject
 {
 	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = null)]
+	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
 		get {
 			return spriteFile;
