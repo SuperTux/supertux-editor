@@ -203,6 +203,10 @@ public class LayerListWidget : TreeView {
 		deletePathItem.Activated += OnDeletePath;
 		popupMenu.Append(deletePathItem);
 
+		MenuItem CheckIDsItem = new MenuItem("Check tile IDs");
+		CheckIDsItem.Activated += OnCheckIDs;
+		popupMenu.Append(CheckIDsItem);
+
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
@@ -248,6 +252,30 @@ public class LayerListWidget : TreeView {
 		currentTilemap = null;
 		UpdateList();
 	}
+
+	private void OnCheckIDs(object o, EventArgs args) {
+		if (currentTilemap == null)
+			return;
+
+		List<int> invalidtiles = QACheck.CheckIds(currentTilemap, application.CurrentLevel.Tileset);
+		MessageType msgtype;
+		System.Text.StringBuilder sb = new System.Text.StringBuilder();
+		if (invalidtiles.Count == 0) {
+			msgtype = MessageType.Info;
+			sb.Append("All tile ids are valid");
+		} else {
+			msgtype = MessageType.Warning;
+			sb.Append("This tilemap contains tiles with these non existant IDs:");
+			foreach (int id in invalidtiles) {
+				sb.Append(" " + id.ToString());
+			}
+		}
+		MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent,
+		                                     msgtype, ButtonsType.Close, sb.ToString());
+		md.Run();
+		md.Destroy();
+	}
+
 
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
