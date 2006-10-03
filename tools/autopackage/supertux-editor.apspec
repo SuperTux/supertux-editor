@@ -22,7 +22,7 @@
 #
 
 [Meta]
-RootName: @supertux.berlios.de/supertux:$SOFTWAREVERSION
+RootName: @supertux.berlios.de/supertux-editor:$SOFTWAREVERSION
 DisplayName: SuperTux Platform Game - Level Editor
 ShortName: supertux-editor
 Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
