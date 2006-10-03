@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gtk;
 
 public class SectorSwitchNotebook : Notebook
@@ -104,6 +105,10 @@ public class SectorSwitchNotebook : Notebook
 		deleteItem.Activated += OnDeleteActivated;
 		popupMenu.Add(deleteItem);
 
+		MenuItem CheckIDsItem = new MenuItem("Check all tilemaps for bad tile IDs");
+		CheckIDsItem.Activated += OnCheckIDs;
+		popupMenu.Append(CheckIDsItem);
+
 		popupMenu.ShowAll();
 		popupMenu.Popup();
 	}
@@ -153,6 +158,39 @@ public class SectorSwitchNotebook : Notebook
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
+	}
+
+	private void OnCheckIDs(object o, EventArgs args) {
+
+		System.Text.StringBuilder sb = new System.Text.StringBuilder("These tilemaps have bad ids:");
+		List<int> invalidtiles;
+		// Any bad found yet?
+		bool bad = false;
+		foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
+			invalidtiles = QACheck.CheckIds(tilemap, application.CurrentLevel.Tileset);
+			if (invalidtiles.Count != 0) {
+				bad = true;
+				if (String.IsNullOrEmpty(tilemap.Name))
+					sb.Append("\nTilemap (" + tilemap.ZPos + ")");
+				else
+					sb.Append("\n" + tilemap.Name + " (" + tilemap.ZPos + ")");
+			}
+		}
+
+
+		MessageType msgtype;
+		string message;
+		if (! bad) {
+			msgtype = MessageType.Info;
+			message = "No invalid tile ids in any tilemap.";
+		} else {
+			msgtype = MessageType.Warning;
+			message = sb.ToString();
+		}
+		MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent,
+		                                     msgtype, ButtonsType.Close, message);
+		md.Run();
+		md.Destroy();
 	}
 
 	private void OnCreateNew(object o, EventArgs args)
