@@ -1,0 +1,27 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Encoding=UTF-8
+Name=SuperTux - Level Editor
+Name[en]=SuperTux - Level Editor
+Name[de]=SuperTux - Level Editor
+Name[cs]=SuperTux - Level Editor
+Name[nn]=SuperTux - Level Editor
+Name[sv]=SuperTux - Level Editor
+GenericName=A Platform Game
+GenericName[en]=A Platform Game
+GenericName[de]=Ein Jump&Run Spiel
+GenericName[cs]=Plošinová hra
+GenericName[nn]=Plattformspel
+GenericName[sv]=Ett plattformsspel
+Comment=A classic 2D platform game
+Comment[en]=A classic 2D platform game
+Comment[de]=Ein von Super Mario inspiriertes Pinguin Jump&Run Spiel
+Comment[cs]=Plošinovka inspirovaná SuperMariem s tučňákem Tuxem v hlavní roli
+Comment[nn]=Eit klassisk todimensjonalt plattformspel.
+Comment[sv]=Ett klassiskt tvådimensionellt plattformsspel
+Icon=supertux-editor.png
+Exec=supertux-editor
+Terminal=false
+StartupNotify=false
+Categories=Application;Game;ArcadeGame;

@@ -1,0 +1,107 @@
+# -*-shell-script-*-
+# Autopackage spec file
+
+#
+# Copyright (C) 2006 Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+# Mono-Specific tests and bootstrap script adapted from gnome-rdp autopackage,
+# Copyright (C) 2006 Balazs Varkonyi <vbali@linuxforge.hu>
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+#
+
+[Meta]
+RootName: @supertux.berlios.de/supertux:$SOFTWAREVERSION
+DisplayName: SuperTux Platform Game - Level Editor
+ShortName: supertux-editor
+Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
+Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games. This is the level editor.
+SoftwareVersion: 0.3.0
+PackageVersion: 1
+AutopackageTarget: 1.0
+
+[Description]
+SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games.
+
+Run and jump through multiple worlds, fighting off enemies by jumping
+on them or bumping them from below.  Grabbing power-ups and other stuff
+on the way.
+
+This is the level editor.
+
+[BuildPrepare]
+jam
+mkdir -p $build_root/bin
+cp supertux-editor.exe $build_root/bin
+mkdir -p $build_root/share/supertux-editor
+cp gtkgl-sharp.dll libeditor.dll Lisp.dll LispReader.dll Resources.dll $build_root/share/supertux-editor
+cp gtkgl-sharp.dll.config libeditor.dll.config $build_root/share/supertux-editor
+mkdir -p $build_root/share/pixmaps
+cp supertux-editor.png supertux-editor.xpm $build_root/share/pixmaps
+mkdir -p $build_root/share/applications
+cp supertux-editor.desktop $build_root/share/applications
+
+
+[BuildUnprepare]
+unprepareBuild
+
+
+[Imports]
+echo '*' | import
+
+
+[Prepare]
+
+outputTest "Mono .NET Runtime"
+REQUIRED_MONO_VERSION="1.1.13"
+MONO_VERSION=`mono -V | grep "version" | sed 's/.* \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/g'`
+compareVersions $REQUIRED_MONO_VERSION $MONO_VERSION
+if [ $? -gt 0 ]; then
+	outputTestFail
+	outputFail "at least Mono .NET Runtime $REQUIRED_MONO_VERSION required"
+	false
+else
+	outputTestPass
+fi
+
+outputTest "Gtk#"
+REQUIRED_GTKSHARP_VERSION="2.8.0"
+pkg-config --atleast-version=2.8.0 gtk-sharp-2.0
+if [ $? -gt 0 ]; then
+	outputFail "at least Gtk# $REQUIRED_GTKSHARP_VERSION required"
+	outputTestFail
+	false
+else
+	outputTestPass
+fi
+
+require '@opengl.org/opengl' 1.2
+
+
+[Install]
+installExe bin/*
+installData share/supertux-editor
+installIcon share/pixmaps/supertux-editor.png
+installIcon share/pixmaps/supertux-editor.xpm
+installDesktop "Games" share/applications/supertux-editor.desktop
+createBootstrapScript "$PREFIX/bin/supertux-editor.exe" "$PREFIX/bin/supertux-editor" "export MONO_PATH=\"$PREFIX/share/supertux-editor\""
+removeLine "$PREFIX/bin/supertux-editor" "exec \"$PREFIX/bin/supertux-editor.exe\" \"\$@\""
+addLine "$PREFIX/bin/supertux-editor" "exec mono \"$PREFIX/bin/supertux-editor.exe\" \"\$@\""
+chmod a+x "$PREFIX/bin/supertux-editor"
+
+
+[Uninstall]
+uninstallFromLog
+
