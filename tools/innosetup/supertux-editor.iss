@@ -10,16 +10,19 @@ AppSupportURL=http://supertux.berlios.de
 AppUpdatesURL=http://supertux.berlios.de
 DefaultDirName={pf}\SuperTux-Editor
 DefaultGroupName=SuperTux Editor
-AllowNoIcons=yes
+AllowNoIcons=true
 VersionInfoVersion=0.3.0
 AppVersion=0.3.0
 LicenseFile=COPYING.txt
 OutputBaseFilename=SuperTux-Editor 0.3.0 Setup
 Compression=lzma/ultra
 SolidCompression=true
-MinVersion=0,5.0.2195
 AppID={{5D880A65-B01D-4BE4-AC53-A2D21FE4BEF2}
 ShowLanguageDialog=yes
+DisableStartupPrompt=true
+SetupIconFile=supertux-editor.ico
+UninstallDisplayIcon={app}\supertux-editor.ico
+
 
 [Languages]
 Name: english; MessagesFile: compiler:Default.isl
@@ -31,7 +34,7 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Source: C:\msys\1.0\build\editor-bin\trunk\supertux-editor.exe; DestDir: {app}; Flags: ignoreversion
 Source: *.dll; DestDir: {app}; Flags: ignoreversion
 Source: data\*.*; DestDir: {app}\data\; Flags: ignoreversion recursesubdirs
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\SuperTux Editor; Filename: {app}\supertux-editor.exe
@@ -39,3 +42,63 @@ Name: {userdesktop}\SuperTux Editor; Filename: {app}\supertux-editor.exe; Tasks:
 
 [Run]
 Filename: {app}\supertux-editor.exe; Description: {cm:LaunchProgram,SuperTux Editor}; Flags: nowait postinstall skipifsilent
+
+[Code]
+function GetPathInstalled( AppID: String ): String;
+var
+	sPrevPath: String;
+begin
+	sPrevPath := '';
+	if not RegQueryStringValue(HKLM,
+	                           'Software\Microsoft\Windows\CurrentVersion\Uninstall\'+AppID+'_is1',
+	                           'Inno Setup: App Path', sPrevpath) then
+		RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\'+AppID+'_is1' ,
+		                    'Inno Setup: App Path', sPrevpath);
+
+  Result := sPrevPath;
+end;
+
+const
+	SuperTuxID = '{4BEF4147-E17A-4848-BDC4-60A0AAC70F2A}';
+
+var
+	SuperTuxPath: String;
+
+function InitializeSetup(): Boolean;
+var
+	ErrorCode: Integer;
+	NetFrameWorkInstalled : Boolean;
+	Result1 : Boolean;
+begin
+	// Check that .NET 2.0 is installed
+	NetFrameWorkInstalled := RegKeyExists(HKLM,'SOFTWARE\Microsoft\.NETFramework\policy\v2.0');
+	if NetFrameWorkInstalled = true then
+	begin
+		Result := true;
+	end;
+	if NetFrameWorkInstalled = false then
+	begin
+		Result1 := MsgBox('SuperTux Editor requires the .NET 2.0 Framework. Please download and install the .NET 2.0 Framework and run this setup again. Do you want to download the framwork now?',
+		                  mbConfirmation, MB_YESNO) = idYes;
+		if Result1 = false then
+		begin
+			Result := false;
+		end
+		else
+		begin
+			Result := false;
+			ShellExec('open', 'http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe','','',SW_SHOWNORMAL,ewNoWait,ErrorCode);
+		end;
+	end;
+	//TODO: Check for GTK#
+
+	// Check that SuperTux is installed
+	SuperTuxPath := GetPathInstalled(SuperTuxID);
+	if (Length(SuperTuxPath) = 0) then
+	begin
+		MsgBox('SuperTux Editor requires SuperTux 0.3 to be installed. Please install SuperTux 0.3 and then run this setup again.',
+		       mbError, MB_OK);
+		Result := false;
+	end;
+
+end;
