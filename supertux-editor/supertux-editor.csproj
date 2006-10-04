@@ -10,6 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>supertux_editor</RootNamespace>
     <AssemblyName>supertux-editor</AssemblyName>
+    <ApplicationIcon>resources\supertux-editor.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -171,5 +172,8 @@
     <EmbeddedResource Include="resources\stock-background-24.png">
       <LogicalName>stock-background-24.png</LogicalName>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="resources\supertux-editor.ico" />
   </ItemGroup>
 </Project>
