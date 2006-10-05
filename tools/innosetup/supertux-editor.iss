@@ -31,7 +31,7 @@ Name: english; MessagesFile: compiler:Default.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: C:\msys\1.0\build\editor-bin\trunk\supertux-editor.exe; DestDir: {app}; Flags: ignoreversion
+Source: supertux-editor.exe; DestDir: {app}; Flags: ignoreversion nocompression
 Source: *.dll; DestDir: {app}; Flags: ignoreversion
 Source: data\*.*; DestDir: {app}\data\; Flags: ignoreversion recursesubdirs
 Source: supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
