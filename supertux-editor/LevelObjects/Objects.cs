@@ -290,7 +290,7 @@ public sealed class Yeti : SimpleObject
 
 	public Yeti() {
 		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "stand-left";
 	}
 }
 
@@ -396,7 +396,7 @@ public sealed class SpawnPoint : SimpleObject {
 public sealed class Firefly : SimpleObject
 {
 	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = null)]
+	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
 		get {
 			return spriteFile;
