@@ -31,7 +31,7 @@ Name: english; MessagesFile: compiler:Default.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: supertux-editor.exe; DestDir: {app}; Flags: ignoreversion nocompression
+Source: supertux-editor.exe; DestDir: {app}; Flags: ignoreversion
 Source: *.dll; DestDir: {app}; Flags: ignoreversion
 Source: data\*.*; DestDir: {app}\data\; Flags: ignoreversion recursesubdirs
 Source: supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
@@ -69,8 +69,9 @@ var
 function InitializeSetup(): Boolean;
 var
 	ErrorCode: Integer;
-	NetFrameWorkInstalled : Boolean;
-	Result1 : Boolean;
+	NetFrameWorkInstalled: Boolean;
+	ResultNET: Boolean;
+	ResultSuperTux: Boolean;
 begin
 	// Check that .NET 2.0 is installed
 	NetFrameWorkInstalled := RegKeyExists(HKLM,'SOFTWARE\Microsoft\.NETFramework\policy\v2.0');
@@ -80,9 +81,9 @@ begin
 	end;
 	if NetFrameWorkInstalled = false then
 	begin
-		Result1 := MsgBox('SuperTux Editor requires the .NET 2.0 Framework. Please download and install the .NET 2.0 Framework and run this setup again. Do you want to download the framwork now?',
-		                  mbConfirmation, MB_YESNO) = idYes;
-		if Result1 = false then
+		ResultNET := MsgBox('SuperTux Editor requires the .NET 2.0 Framework. Please download and install the .NET 2.0 Framework and run this setup again. Do you want to download the framwork now?',
+		                    mbConfirmation, MB_YESNO) = idYes;
+		if ResultNET = false then
 		begin
 			Result := false;
 		end
@@ -98,9 +99,11 @@ begin
 	SuperTuxPath := GetPathInstalled(SuperTuxID);
 	if (Length(SuperTuxPath) = 0) then
 	begin
-		MsgBox('SuperTux Editor requires SuperTux 0.3 to be installed. Please install SuperTux 0.3 and then run this setup again.',
-		       mbError, MB_OK);
-		Result := false;
+		ResultSuperTux := MsgBox('SuperTux Editor requires SuperTux 0.3 to be installed. Are you sure you want to continue without installing SuperTux-0.3?',
+		                         mbConfirmation, MB_YESNO) = idYes;
+		if ResultSuperTux = false then
+			Result := false;
 	end;
 
 end;
+
