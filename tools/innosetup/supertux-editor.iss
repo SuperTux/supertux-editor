@@ -21,7 +21,6 @@ AppID={{5D880A65-B01D-4BE4-AC53-A2D21FE4BEF2}
 ShowLanguageDialog=yes
 DisableStartupPrompt=true
 SetupIconFile=supertux-editor.ico
-UninstallDisplayIcon={app}\supertux-editor.ico
 
 
 [Languages]
@@ -106,4 +105,3 @@ begin
 	end;
 
 end;
-

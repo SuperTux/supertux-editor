@@ -39,6 +39,17 @@ public sealed class Settings {
 	}
 
 	public Settings() {
+		// Get default values from the register on Windows.
+		// Values read here will be overwritten by the settings file if it exist.
+#if WINDOWS
+		string SupertuxDir = (string)Microsoft.Win32.Registry.GetValue(
+			"HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{4BEF4147-E17A-4848-BDC4-60A0AAC70F2A}_is1",
+			"Inno Setup: App Path", null);
+		if (SupertuxDir == null)
+			SupertuxDir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\SuperTux-0.3";
+		SupertuxExe = SupertuxDir + "\\SuperTux.exe";
+		SupertuxData = SupertuxDir + "\\data\\";
+#endif
 	}
 
 	public void Save() {
