@@ -35,6 +35,8 @@ Source: C:\msys\1.0\build\editor-bin\trunk\supertux-editor.exe; DestDir: {app}; 
 Source: *.dll; DestDir: {app}; Flags: ignoreversion
 Source: data\*.*; DestDir: {app}\data\; Flags: ignoreversion recursesubdirs
 Source: supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
+Source: COPYING.txt; DestDir: {app}; Flags: ignoreversion
+Source: *.pdb; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
 Name: {group}\SuperTux Editor; Filename: {app}\supertux-editor.exe
