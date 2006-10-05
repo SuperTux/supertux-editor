@@ -1,4 +1,4 @@
-; $Id: supertux-editor.iss 4383 2006-10-05 13:28:05Z anmaster $
+; $Id$
 ;
 ; Before running this setup:
 ;  * Copy *.dll and *.pdb and *.exe from the Release bin dir (except Dock.dll and Dock.pdb) to the setup dir.
