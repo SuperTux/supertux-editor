@@ -3,7 +3,6 @@
 ; Before running this setup:
 ;  * Copy *.dll and *.pdb and *.exe from the Release bin dir (except Dock.dll and Dock.pdb) to the setup dir.
 ;      (Make sure to include SDL.dll and SDL_image.dll too!)
-;  * Copy supertux-editor/resources/supertux-editor.ico to the setup dir.
 ;  * Use svn export to create the data dir
 ;  * Create a file called COPYING.txt that contains the GPL2
 
