@@ -374,10 +374,10 @@
 		<widget class="GtkMenu" id="menuitem4_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="info1">
+		    <widget class="GtkImageMenuItem" id="info1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Info</property>
-		      <property name="use_underline">True</property>
+		      <property name="label">gtk-about</property>
+		      <property name="use_stock">True</property>
 		      <signal name="activate" handler="OnAbout"/>
 		    </widget>
 		  </child>
@@ -471,7 +471,7 @@
 	    <packing>
 	      <property name="expand">False</property>
 	      <property name="homogeneous">True</property>
-	    </packing>	
+	    </packing>
 	  </child>
 
 	  <child>

@@ -501,11 +501,38 @@ public class Application : IEditorApplication {
 
 	protected void OnAbout(object o, EventArgs e)
 	{
-		MessageDialog md = new MessageDialog( MainWindow, DialogFlags.DestroyWithParent,
-		                                      MessageType.Info, ButtonsType.Close,
-		                                      "Supertux Editor\n\n http://supertux.berlios.de/");
-		md.Run ();
-		md.Destroy();
+		string[] authors = new string[]{
+			"Matthias \"MatzeB\" Braun",
+			"",
+			"Wolfgang Becker",
+			"Christoph Sommer",
+			"Arvid \"AnMaster\" Norlander",
+		};
+
+		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
+		dialog.Name = "SuperTux Editor";
+		dialog.Version = Constants.PACKAGE_VERSION;
+		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
+		dialog.Authors = authors;
+		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
+		dialog.License = 
+			"This program is free software; you can redistribute it and/or modify\n" +
+			"it under the terms of the GNU General Public License as published by\n" +
+			"the Free Software Foundation; either version 2 of the License, or\n" +
+			"(at your option) any later version.\n" +
+			"\n" +
+			"This program is distributed in the hope that it will be useful,\n" +
+			"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
+			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
+			"GNU General Public License for more details.\n" +
+			"\n" +
+			"You should have received a copy of the GNU General Public License\n" +
+			"along with this program; if not, write to the Free Software Foundation, Inc.,\n" +
+			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n";
+		dialog.Website = "http://supertux.berlios.de/";
+		dialog.WebsiteLabel = "SuperTux on the Web";
+		dialog.ShowAll();
+
 	}
 
 	/// <summary>Run the current version of the level in Supertux</summary>
