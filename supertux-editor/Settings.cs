@@ -15,8 +15,8 @@ public sealed class Settings {
 	private static string SettingsFile;
 
 	static Settings() {
-		SettingsFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-		SettingsFile += "/" + Constants.PACKAGE_NAME + "/settings.xml";
+		String SettingsPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), Constants.PACKAGE_NAME);
+		SettingsFile = System.IO.Path.Combine(SettingsPath, "settings.xml");
 
 		StreamReader reader = null;
 		try {
