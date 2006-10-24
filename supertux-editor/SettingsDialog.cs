@@ -9,48 +9,76 @@ public class SettingsDialog
 	[Glade.Widget]
 	private Dialog settingsDialog;
 	[Glade.Widget]
-	private FileChooserButton dataDirChooser;
+	private Entry entryDataDir;
 	[Glade.Widget]
-	private FileChooserButton exeChooser;
+	private Entry entryExe;
 
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
 	/// </summary>
 	private bool Changed = false;
 
-	public SettingsDialog()
+	public SettingsDialog(bool modal)
 	{
 		Glade.XML gxml = new Glade.XML("editor.glade", "settingsDialog");
 		gxml.Autoconnect(this);
 
-		if(settingsDialog == null || dataDirChooser == null || exeChooser == null)
+		if(settingsDialog == null || entryDataDir == null || entryExe == null)
 			throw new Exception("Couldn't load settings Dialog");
 
-		dataDirChooser.SelectFilename(Settings.Instance.SupertuxData);
-		exeChooser.SelectFilename(Settings.Instance.SupertuxExe);
+		entryDataDir.Text = Settings.Instance.SupertuxData;
+		entryExe.Text = Settings.Instance.SupertuxExe;
 
-		dataDirChooser.SelectionChanged += OnDataDirChanged;
-		exeChooser.SelectionChanged += OnExeChanged;
+		Changed = false;
 
-		settingsDialog.ShowAll();
+		if (!modal) {
+			settingsDialog.ShowAll();
+		} else {
+			settingsDialog.Run();
+			settingsDialog.Destroy();
+		}
 	}
 
-	protected void OnDataDirChanged(object o, EventArgs args)
+	protected void OnEntryDataDirChanged(object o, EventArgs args)
 	{
-		if (Settings.Instance.SupertuxData.TrimEnd(System.IO.Path.DirectorySeparatorChar) != dataDirChooser.Filename)
+		if (Settings.Instance.SupertuxData.TrimEnd(System.IO.Path.DirectorySeparatorChar) != entryDataDir.Text)
 			Changed = true;
-		Settings.Instance.SupertuxData = dataDirChooser.Filename;
+		Settings.Instance.SupertuxData = entryDataDir.Text;
 		Settings.Instance.Save();
 	}
 
-	protected void OnExeChanged(object o, EventArgs args)
+	protected void OnEntryExeChanged(object o, EventArgs args)
 	{
-		if (exeChooser.Filename == null)
+		if (entryExe.Text == null)
 			return;
-		if (Settings.Instance.SupertuxExe != exeChooser.Filename)
+		if (Settings.Instance.SupertuxExe != entryExe.Text)
 			Changed = true;
-		Settings.Instance.SupertuxExe = exeChooser.Filename;
+		Settings.Instance.SupertuxExe = entryExe.Text;
 		Settings.Instance.Save();
+	}
+
+	protected void OnBtnDataDirBrowseClicked(object o, EventArgs args)
+	{
+		FileChooserDialog fileChooser = new FileChooserDialog("Locate SuperTux Data Directory", settingsDialog, FileChooserAction.SelectFolder, new object[] {});
+		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+		fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
+		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
+		if (fileChooser.Run() == (int)ResponseType.Ok) {
+			entryDataDir.Text = fileChooser.Filename;
+		}
+		fileChooser.Destroy();
+	}
+
+	protected void OnBtnExeBrowseClicked(object o, EventArgs args)
+	{
+		FileChooserDialog fileChooser = new FileChooserDialog("Locate SuperTux Executable", settingsDialog, FileChooserAction.Open, new object[] {});
+		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+		fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
+		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
+		if (fileChooser.Run() == (int)ResponseType.Ok) {
+			entryExe.Text = fileChooser.Filename;
+		}
+		fileChooser.Destroy();
 	}
 
 	protected void OnClose(object o, EventArgs args)

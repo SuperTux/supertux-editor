@@ -571,7 +571,7 @@ public class Application : IEditorApplication {
 
 	protected void OnSettings(object o, EventArgs args)
 	{
-		new SettingsDialog();
+		new SettingsDialog(false);
 	}
 
 	protected void OnBrushLoad(object o, EventArgs args)
