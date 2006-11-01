@@ -36,6 +36,8 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
+	[LispChild("auto-dir", Optional = true, Default = "none")]
+	public string AutoDir = "none";
 
 	public WorldmapSpawnpoint()
 	{
