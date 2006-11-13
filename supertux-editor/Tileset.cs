@@ -184,8 +184,10 @@ public sealed class Tileset {
 			Tile.Attributes |= Tile.Attribute.ICE;
 		if(Props.Get("water", ref val) && val)
 			Tile.Attributes |= Tile.Attribute.WATER;
-		if(Props.Get("spike", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.SPIKE;
+		if(Props.Get("hurts", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.HURTS;
+		if (Props.Get("fire", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.FIRE;
 		if(Props.Get("fullbox", ref val) && val)
 			Tile.Attributes |= Tile.Attribute.FULLBOX;
 		if(Props.Get("coin", ref val) && val)
