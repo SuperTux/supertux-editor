@@ -52,7 +52,7 @@ Source: InstallerMaker\monoLaunchW.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\supertux-editor\resources\supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
-Name: {group}\SuperTux Editor; Filename: {app}\monoLaunchW.exe; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0; Tasks: 
+Name: {group}\SuperTux Editor; Filename: {app}\monoLaunchW.exe; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0; Tasks:
 Name: {group}\{cm:UninstallProgram,SuperTux Editor}; Filename: {uninstallexe}
 Name: {userdesktop}\SuperTux Editor; Filename: {app}\monoLaunchW.exe; Tasks: desktopicon; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0
 
@@ -83,22 +83,22 @@ end;
 
 Function GetMonoBasePath(strParam1 : string): string;
 var
-    strMonoBaseDir: String;
-    bRc: Boolean;
-    strDefaultCLR: String;
+	strMonoBaseDir: String;
+	bRc: Boolean;
+	strDefaultCLR: String;
 begin
-    // Get current CLR version
-    bRc := RegQueryStringValue(HKLM, 'SOFTWARE\Novell\Mono', 'DefaultCLR', strDefaultCLR);
-    If bRc = true Then
-    begin
+	// Get current CLR version
+	bRc := RegQueryStringValue(HKLM, 'SOFTWARE\Novell\Mono', 'DefaultCLR', strDefaultCLR);
+	If bRc = true Then
+	begin
 		// Get the registry value
 		bRc := RegQueryStringValue(HKLM, 'SOFTWARE\Novell\Mono\' + strDefaultCLR, 'SdkInstallRoot', strMonoBaseDir);
-    end;
+	end;
 
-    If bRc = true Then
-    begin
+	If bRc = true Then
+	begin
 		Result := strMonoBaseDir;
-    end;
+	end;
 end;
 
 // Checks to see if Mono Runtime is Installed
@@ -107,13 +107,13 @@ var
 	strMonoBasePath: String;
 	nLen: LongInt;
 begin
-    Result := true;
-    strMonoBasePath:= GetMonoBasePath('');
-    nLen := Length(strMonoBasePath);
-    IF nLen < 1 then
-    begin
+	Result := true;
+	strMonoBasePath:= GetMonoBasePath('');
+	nLen := Length(strMonoBasePath);
+	IF nLen < 1 then
+	begin
 		Result := false;
-    end;
+	end;
 end;
 
 // Checks to see if Mono is Installed
@@ -122,13 +122,13 @@ var
 	strMonoBasePath: String;
 	nLen: LongInt;
 begin
-    Result := true;
-    strMonoBasePath:= GetMonoBasePath('');
-    nLen := Length(strMonoBasePath);
-    IF nLen < 1 then
-    begin
+	Result := true;
+	strMonoBasePath:= GetMonoBasePath('');
+	nLen := Length(strMonoBasePath);
+	IF nLen < 1 then
+	begin
 		Result := false;
-    end;
+	end;
 end;
 
 Function IsNet1dot1RunInstalled() : Boolean;
@@ -213,8 +213,8 @@ end;
 
 Function InitializeSetup : Boolean;
 var
-    ErrorCode: Integer;
-   	SuperTuxPath: String;
+	ErrorCode: Integer;
+	SuperTuxPath: String;
 begin
 	// Check requirements before Installation
 	If IsCurrentlyInstalled() = true Then
