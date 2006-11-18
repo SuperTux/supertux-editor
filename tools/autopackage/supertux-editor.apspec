@@ -87,7 +87,7 @@ else
 	outputTestPass
 fi
 
-require "@supertux.berlios.de/supertux" 0.3
+recommend "@supertux.berlios.de/supertux" 0.3
 
 require '@opengl.org/opengl' 1.2
 
