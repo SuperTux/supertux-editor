@@ -71,7 +71,7 @@ begin
 		RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\'+AppID+'_is1' ,
 		                    'Inno Setup: App Path', sPrevpath);
 
-  Result := sPrevPath;
+	Result := sPrevPath;
 end;
 
 const
