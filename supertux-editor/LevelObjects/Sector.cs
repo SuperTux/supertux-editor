@@ -155,8 +155,22 @@ public sealed class Sector : ICustomLispSerializer {
 		}
 	}
 
+	private static int CompareTypeNames(Type x, Type y) {
+		if ((x == null) && (y == null)) return 0;
+		if ((x != null) && (y == null)) return 1;
+		if ((x == null) && (y != null)) return -1;
+		return x.Name.CompareTo(y.Name);
+		//SupertuxObjectAttribute oax = (SupertuxObjectAttribute)Attribute.GetCustomAttribute(x, typeof(SupertuxObjectAttribute));
+		//if (oax == null) return x.Name.CompareTo(y.Name);
+		//SupertuxObjectAttribute oay = (SupertuxObjectAttribute)Attribute.GetCustomAttribute(y, typeof(SupertuxObjectAttribute));
+		//if (oay == null) return x.Name.CompareTo(y.Name);
+		//return oax.Name.CompareTo(oay.Name);
+	}
+
 	public void CustomLispWrite(Writer Writer) {
-		foreach(Type type in this.GetType().Assembly.GetTypes()) {
+		System.Collections.Generic.List<Type> types = new System.Collections.Generic.List<Type>(this.GetType().Assembly.GetTypes());
+		types.Sort(CompareTypeNames);
+		foreach(Type type in types) {
 			SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
 				Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
 			if(objectAttribute == null)
