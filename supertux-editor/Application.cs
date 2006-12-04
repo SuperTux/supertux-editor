@@ -800,7 +800,7 @@ public class Application : IEditorApplication {
 #endif
 			Gtk.Application.Run();
 #if !INSANEDEBUG
-		} catch(Exception e) {
+		} catch(Exception) {
 			if(app.level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
