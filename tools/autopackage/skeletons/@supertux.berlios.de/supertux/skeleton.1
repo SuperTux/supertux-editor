@@ -10,7 +10,7 @@ The interface version follows the software version in this library.
 This skeleton can detect 1.0
 
 [Test]
-OUTPUT=$(supertux --version)
+OUTPUT=$(supertux --version || ~/.local/bin/supertux --version)
 VERSIONLINE=$(grepBeginsWith "$OUTPUT" "supertux ")
 VERSION=${VERSIONLINE/supertux /}
 INTERFACE_VERSIONS=$(getMajor $VERSION).$(getMinor $VERSION)

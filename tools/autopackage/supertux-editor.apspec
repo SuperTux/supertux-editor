@@ -52,6 +52,8 @@ mkdir -p $build_root/share/pixmaps
 cp supertux-editor.png supertux-editor.xpm $build_root/share/pixmaps
 mkdir -p $build_root/share/applications
 cp supertux-editor.desktop $build_root/share/applications
+mkdir -p $build_root/share/supertux-editor/data/brushes
+cp data/brushes/* $build_root/share/supertux-editor/data/brushes
 
 
 [BuildUnprepare]
