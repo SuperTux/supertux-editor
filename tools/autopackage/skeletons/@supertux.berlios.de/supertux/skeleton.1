@@ -1,0 +1,16 @@
+[Meta]
+RootName: @supertux.berlios.de/supertux
+DisplayName: SuperTux
+ShortName: supertux
+Skeleton-Author: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
+Skeleton-Version: 1
+
+[Notes]
+The interface version follows the software version in this library.
+This skeleton can detect 1.0
+
+[Test]
+OUTPUT=$(supertux --version || ~/.local/bin/supertux --version)
+VERSIONLINE=$(grepBeginsWith "$OUTPUT" "supertux ")
+VERSION=${VERSIONLINE/supertux /}
+INTERFACE_VERSIONS=$(getMajor $VERSION).$(getMinor $VERSION)

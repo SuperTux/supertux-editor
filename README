@@ -1,0 +1,36 @@
+This is an unstable release of the SuperTux Milestone 2 editor. Do not
+expect everything to work smoothly and save often...
+
+For more information browse to:
+
+http://supertux.berlios.de/wiki/index.php/Editor_FAQ
+http://supertux.berlios.de/wiki/index.php/Building_SuperTux#Compiling_the_editor
+
+
+== Prerequisites ==
+
+ * SuperTux version 0.3.0 or higher
+ * OpenGL driver and environment
+ * mono 1.1.13 or newer
+ * gtk-sharp 2.8 or newer
+
+
+== Building ==
+
+Type
+	jam
+
+
+== Running ==
+
+You can start the editor by typing
+	mono supertux-editor.exe
+Remember to set your SuperTux paths in the editor options!
+ 
+
+== Known Problems ==
+
+The open source ATI drivers seem to have problems with multiple viewports 
+and shared textures.
+
+
