@@ -9,6 +9,7 @@ public delegate void TilesetChangedHandler(Level level);
 [LispRoot("supertux-level")]
 public sealed class Level
 {
+	[PropertyProperties(Hidden = true)]
 	[LispChild("version")]
 	public int Version = 2;
 	[PropertyProperties(Tooltip = "Name of this level.")]

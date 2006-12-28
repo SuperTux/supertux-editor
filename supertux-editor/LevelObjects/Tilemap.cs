@@ -19,8 +19,11 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("name", Optional = true, Default = "")]
 	public string Name = "";
 
-	[LispChild("speed")]
+	[LispChild("speed", Optional = true, Default = 1.0f)]
 	public float Speed = 1.0f;
+
+	[LispChild("speed-y", Optional = true, Default = 1.0f)]
+	public float SpeedY = 1.0f;
 
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
