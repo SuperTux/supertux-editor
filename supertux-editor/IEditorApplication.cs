@@ -1,3 +1,4 @@
+//  $Id$
 /// <summary>
 /// Interface to the editor application.
 /// </summary>

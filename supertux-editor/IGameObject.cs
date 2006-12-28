@@ -1,2 +1,3 @@
+//  $Id$
 public interface IGameObject {
 }

@@ -1,4 +1,6 @@
 /*
+ * $Id$
+ *
  * GtkGL# - OpenGL Graphics Library for the Gtk# Toolkit
  *
  * Copyright (c) 2002-2003 The Olympum Group, http://www.olympum.com/
