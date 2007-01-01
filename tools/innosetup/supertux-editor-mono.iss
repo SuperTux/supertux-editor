@@ -9,7 +9,6 @@
 #define MyAppName "SuperTux Editor"
 #define MyAppVer "0.3.0"
 #define MyAppVerName "SuperTux Editor 0.3.0"
-#define MyAppMajVerName "SuperTux Editor 0.3"
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.berlios.de"
 #define MyAppBaseName "supertux-editor"
@@ -21,12 +20,13 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppMajVerName}
-DefaultGroupName=SuperTux
+DefaultDirName={pf}\{#MyAppVerName}
+DefaultGroupName=SuperTux 0.3.0
 AllowNoIcons=true
 VersionInfoVersion={#MyAppVer}
 AppVersion={#MyAppVer}
 LicenseFile=..\..\COPYING
+InfoAfterFile=..\..\README
 OutputBaseFilename={#MyAppBaseName}-{#MyAppVer}-mono-setup
 Compression=Lzma
 SolidCompression=true
@@ -40,6 +40,8 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 
 [Files]
 Source: ..\..\{#MyAppBaseName}.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\..\COPYING; DestDir: {app}; Flags: ignoreversion
+Source: ..\..\README; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\gtkgl-sharp.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\libeditor.dll; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\Lisp.dll; DestDir: {app}; Flags: ignoreversion
@@ -52,9 +54,9 @@ Source: InstallerMaker\monoLaunchW.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\supertux-editor\resources\supertux-editor.ico; DestDir: {app}; Flags: ignoreversion
 
 [Icons]
-Name: {group}\SuperTux Editor; Filename: {app}\monoLaunchW.exe; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0; Tasks:
-Name: {group}\{cm:UninstallProgram,SuperTux Editor}; Filename: {uninstallexe}
-Name: {userdesktop}\SuperTux Editor; Filename: {app}\monoLaunchW.exe; Tasks: desktopicon; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0
+Name: {group}\{#MyAppVerName}; Filename: {app}\monoLaunchW.exe; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0; Tasks: 
+Name: {group}\{cm:UninstallProgram,{#MyAppVerName}}; Filename: {uninstallexe}
+Name: {userdesktop}\{#MyAppVerName}; Filename: {app}\monoLaunchW.exe; Tasks: desktopicon; Parameters: {code:QuoteMainExe|supertux-editor.exe}; WorkingDir: {app}; IconFilename: {app}\supertux-editor.ico; IconIndex: 0
 
 [Code]
 // This checks if another app that installed using Inno Setup is already installed.
