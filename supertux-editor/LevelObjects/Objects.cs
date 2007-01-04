@@ -304,10 +304,6 @@ public sealed class Dispenser : SimpleDirObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Yeti : SimpleObject
 {
-	[LispChild("dead-script")]
-	[EditScriptSetting]
-	public String DeadScript = "";
-
 	public Yeti() {
 		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
 		Sprite.Action = "stand-left";

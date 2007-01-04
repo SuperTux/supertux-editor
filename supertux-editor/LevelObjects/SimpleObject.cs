@@ -125,6 +125,10 @@ public abstract class SimpleDirObject : SimpleObject
 	[PropertyProperties(Tooltip = "Direction the badguy will be facing initaly.")]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
 	public Directions Direction = Directions.auto;
+
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = "";
 }
 
 /// <summary>Base class for area objects in levels</summary>
