@@ -29,6 +29,10 @@ public class Sprite : Node {
 
 	public Vector Offset {
 		get {
+			// HACK: Handle hitbox offset, I don't think this breaks
+			// anything else but I'm not 100% sure
+			if ((CurrentAction.Hitbox.Top != 0) || (CurrentAction.Hitbox.Left != 0))
+				return CurrentAction.Offset + new Vector(CurrentAction.Hitbox.Left, CurrentAction.Hitbox.Top);
 			return CurrentAction.Offset;
 		}
 	}
@@ -106,6 +110,8 @@ public class Sprite : Node {
 		}
 		int AnimationFrame = ((int) AnimationTime) % CurrentAction.Frames.Count;
 		Surface Surface = CurrentAction.Frames[AnimationFrame];
+		if ((CurrentAction.Hitbox.Top != 0) || (CurrentAction.Hitbox.Left != 0))
+			pos = pos - new Vector(CurrentAction.Hitbox.Left, CurrentAction.Hitbox.Top);
 		Surface.Draw(pos - CurrentAction.Offset);
 	}
 }

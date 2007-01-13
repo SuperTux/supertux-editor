@@ -16,6 +16,7 @@ internal class SpriteData {
 		public Vector Offset = new Vector();
 		public float Width;
 		public float Height;
+		public RectangleF Hitbox;
 
 		public Action(string Name, Surface Surface) {
 			this.Name = Name;
@@ -32,6 +33,11 @@ internal class SpriteData {
 			Props.Get("fps", ref Speed);
 			Props.Get("x-offset", ref Offset.X);
 			Props.Get("y-offset", ref Offset.Y);
+			if(Props.Exists("hitbox")) {
+				List<float> hitbox = new List<float>();
+				Props.GetFloatList("hitbox", hitbox);
+				Hitbox = new RectangleF(hitbox[0], hitbox[1], hitbox[2], hitbox[3]);
+			}
 			List<string> ImageFileNames = new List<string>();
 			Props.GetStringList("images", ImageFileNames);
 

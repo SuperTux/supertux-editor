@@ -43,6 +43,16 @@ public class Properties {
 		return (List) AList[0];
 	}
 
+	/// <summary>Checks if element exists</summary>
+	/// <param name="Name">Name of element to find.</param>
+	/// <returns>False if element doesn't exist, otherwise true.</returns>
+	public bool Exists(string Name) {
+		List list = Find(Name);
+		if (list == null)
+			return false;
+		return true;
+	}
+
 	public bool Get(string Name, ref int Val) {
 		List list = Find(Name);
 		if(list == null)
@@ -159,6 +169,22 @@ public class Properties {
 			return false;
 		for(int i = 1; i < list.Length; ++i) {
 			AList.Add((int) list[i]);
+		}
+		return true;
+	}
+
+	public bool GetFloatList(string Name, List<float> AList) {
+		List list = Find(Name);
+		if(list == null)
+			return false;
+		for(int i = 1; i < list.Length; ++i) {
+			if( list[i] is float) {
+				AList.Add((float) list[i]);
+			} else if(list[1] is int) {
+				AList.Add((float) ((int) list[i]));
+			} else {
+				return false;
+			}
 		}
 		return true;
 	}
