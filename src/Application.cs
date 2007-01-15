@@ -88,7 +88,7 @@ public class Application {
 
     public void Run() {
         WorldmapSector Sector = new WorldmapSector("worldmap.stwm");
-         
+
         bool running = true;
         float frames = 0;
         uint frameticks = SDL.GetTicks();
@@ -107,14 +107,14 @@ public class Application {
                         break;
                 }
             }
-		
+
             Sector.Draw();
             SDL.GL_SwapBuffers();
-            
+
             //SDL.Delay(10);
 			Timer.Update(.01f);
             Sector.Update(.01f);
-            
+
             frames++;
             uint ticks = SDL.GetTicks();
             if(ticks - frameticks > 1000) {

@@ -17,7 +17,7 @@ public class Tux : GameObject {
 	}
 
 	public override void Update(float ElapsedTime) {
-		
+
 	}
 }
 

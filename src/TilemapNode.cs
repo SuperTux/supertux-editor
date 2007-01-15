@@ -5,7 +5,7 @@ using System;
 public class TilemapNode : Node {
     private Field<uint> Field;
 	private Tileset Tileset;
-    
+
     public TilemapNode(Field<uint> Field, Tileset Tileset) {
         this.Field = Field;
 		this.Tileset = Tileset;

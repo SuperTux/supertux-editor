@@ -665,7 +665,7 @@ namespace Sdl {
 	public class SDL {
 
             private const string SDL_DLL = "SDL.dll";
-    
+
 		public const uint AUDIO_S16 = 0x8010;
 		public const uint AUDIO_S16LSB = 0x8010;
 		public const uint AUDIO_S16MSB = 0x9010;
@@ -1166,10 +1166,10 @@ namespace Sdl {
 
                 [DllImport(SDL_DLL, EntryPoint="SDL_WM_SetIcon")]
                 public static extern void WM_SetIcon(IntPtr icon, IntPtr mask);
-    
+
                 public static string GetError() {
                     return Marshal.PtrToStringAuto(_GetError());
                 }
-    
+
 	}
 }

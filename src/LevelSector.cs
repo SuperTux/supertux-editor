@@ -8,15 +8,15 @@ public class Sector : SectorBase {
         = new Dictionary<string, SpawnPoint>();
     private Level Level;
     public Tilemap Solids;
-    
+
     public void Parse(Level Level, List list) {
         this.Level = Level;
-        
+
         Properties props = new Properties(list);
         props.Get("name", ref Name);
         props.Get("music", ref Music);
         props.Get("gravity", ref Gravity);
-        
+
         LispIterator iter = new LispIterator(list);
         while(iter.MoveNext()) {
             switch(iter.Key) {
@@ -50,5 +50,5 @@ public class Sector : SectorBase {
         }
 
         return null;
-    }                
+    }
 }

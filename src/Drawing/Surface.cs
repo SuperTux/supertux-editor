@@ -20,7 +20,7 @@ public class Surface : IDisposable, ICloneable {
             return width;
         }
     }
-    
+
     private float height;
     /** get surface height in pixels */
     public float Height {
@@ -28,7 +28,7 @@ public class Surface : IDisposable, ICloneable {
             return height;
         }
     }
-    
+
     private ImageTexture texture;
     /** Get OpenGL Texture */
     public Texture Texture {
@@ -36,12 +36,12 @@ public class Surface : IDisposable, ICloneable {
             return texture;
         }
     }
-    
-    public float Left;	
+
+    public float Left;
     public float Right;
     public float Top;
     public float Bottom;
-    
+
 	/**
 	 * Construct a new Surface from the given image resource
 	 */
@@ -69,20 +69,20 @@ public class Surface : IDisposable, ICloneable {
 		Right = (x+w) / texture.Width;
 		Bottom = (y+h) / texture.Height;
 	}
-	
+
 	public Surface(Surface other) {
 		texture = other.texture;
 		texture.Ref();
-		
+
 		width = other.width;
 		height = other.height;
-		
+
 		Left = other.Left;
 		Top = other.Top;
 		Right = other.Right;
 		Bottom = other.Bottom;
 	}
-	
+
 	public object Clone() {
 		return new Surface(this);
 	}
@@ -91,10 +91,10 @@ public class Surface : IDisposable, ICloneable {
 		texture.UnRef();
 		texture = null;
 	}
-	
+
     public void Draw(Vector pos) {
         gl.BindTexture(gl.TEXTURE_2D, texture.Handle);
-        
+
         gl.Begin(gl.QUADS);
         gl.TexCoord2f(Left, Top);
         gl.Vertex2f(pos.X, pos.Y);

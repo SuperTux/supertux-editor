@@ -6,7 +6,7 @@ CSFLAGS ?= -debug ;
 rule AntLR {
     local sources = [ SearchSource $(>) ] ;
     local target = $(<:G=antlr) ;
-    
+
     MakeLocate $(target) : $(SUBDIR) ;
     antlr $(target) : $(sources) ;
     Depends $(target) : $(sources) ;
@@ -40,7 +40,7 @@ rule CSharp {
     local sources = [ SearchSource $(>) ] ;
     local resources = [ SearchSource $(3) ] ;
     local target = $(<) ;
-    
+
     MakeLocate $(target) : $(SUBDIR) ;
     MonoCSharp $(target) : $(sources) ;
     CSFLAGS on $(target) = $(CSFLAGS) ;
@@ -69,7 +69,7 @@ rule Nemerle {
         TARGET on $(target) = library ;
     } else if $(<:S) = .exe {
         TARGET on $(target) = exe ;
-    }                                      
+    }
     NFLAGS on $(target) = $(NFLAGS) ;
     RESOURCES on $(target) = $(resources) ;
     Depends $(target) : $(sources) ;

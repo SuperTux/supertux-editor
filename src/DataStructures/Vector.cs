@@ -15,17 +15,17 @@ namespace DataStructures
 	    {
 	        return new Vector(v1.X + v2.X, v1.Y + v2.Y);
 	    }
-	    
+
 	    public static Vector operator -(Vector v1, Vector v2)
 	    {
 	        return new Vector(v1.X - v2.X, v1.Y - v2.Y);
 	    }
-	    
+
 	    public static Vector operator -(Vector v)
 	    {
 	    	return new Vector(-v.X, -v.Y);
 	    }
-	    
+
 		/// cross product
 		public static Vector operator *(Vector v1, float s)
 		{

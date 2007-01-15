@@ -53,7 +53,7 @@ public class Tileset {
 			return null;
 
         Tile.LoadSurfaces(BaseDir, LoadEditorImages);
-        
+
         return Tile;
     }
 
@@ -83,12 +83,12 @@ public class Tileset {
 			throw new Exception("Must have width*height ids in tiles block");
 		if(attributes.Count != width * height)
 			throw new Exception("Must have width*height attributes in tiles block");
-		
+
 		int id = 0;
 		for(int y = 0; y < height; ++y) {
 			for(int x = 0; x < width; ++x) {
 				Tile tile = new Tile();
-				
+
 				Tile.ImageResource res = new Tile.ImageResource();
 				res.Filename = image;
 				res.x = x * TILE_WIDTH;
@@ -108,11 +108,11 @@ public class Tileset {
 			}
 		}
 	}
-	
+
 
     private void ParseTile(Tile Tile, List Data) {
         Properties Props = new Properties(Data);
-        
+
         if(!Props.Get("id", ref Tile.Id))
             throw new Exception("Tile has no ID");
 
@@ -120,7 +120,7 @@ public class Tileset {
 		Props.Get("images", ref Images);
 		if(Images != null)
 			Tile.Images = ParseTileImages(Images);
-		
+
 		List EditorImages = null;
 		Props.Get("editor-images", ref EditorImages);
 		if(EditorImages != null) {

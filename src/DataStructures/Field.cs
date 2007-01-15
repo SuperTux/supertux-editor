@@ -11,7 +11,7 @@ namespace DataStructures
 	    private List<T> Elements = new List<T>();
 	    private uint width;
 	    private uint height;
-	    
+
 	    public Field()
 	    {
 	    }
@@ -49,7 +49,7 @@ namespace DataStructures
 	            Elements[(int) (Y * width + X)] = value;
 	        }
 	    }
-		
+
 		public T this[int X, int Y] {
 	        get {
 	            return Elements[Y * (int) width + X];
@@ -58,7 +58,7 @@ namespace DataStructures
 	            Elements[Y * (int) width + X] = value;
 	        }
 	    }
-	    
+
 	    public T this[FieldPos Pos] {
 	        get {
 	            return this[(uint) Pos.X, (uint) Pos.Y];
@@ -79,7 +79,7 @@ namespace DataStructures
 	            Elements.Add(val);
 	        }
 		}
-				
+
 		public void Resize(uint NewWidth, uint NewHeight, T FillValue)
 		{
 	        List<T> NewElements = new List<T>();

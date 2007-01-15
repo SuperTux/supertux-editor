@@ -11,7 +11,7 @@ public class Tilemap : GameObject {
 
     public Tilemap(Tileset Tileset, Lisp.List Data) {
         this.Tileset = Tileset;
-        
+
         Properties Props = new Properties(Data);
         uint Width = 0;
         uint Height = 0;
@@ -19,7 +19,7 @@ public class Tilemap : GameObject {
         Props.Get("height", ref Height);
         if(Width == 0 || Height == 0)
             throw new Exception("Width or Height of Tilemap invalid");
-        
+
         List<uint> Tiles = new List<uint>();
         Props.GetUIntList("tiles", Tiles);
         if(Tiles.Count != (int) (Width * Height))
@@ -56,7 +56,7 @@ public class Tilemap : GameObject {
             Field[Pos] = value;
         }
     }
-    
+
     public Tile GetTile(FieldPos Pos) {
         return Tileset.Get(this[Pos]);
     }

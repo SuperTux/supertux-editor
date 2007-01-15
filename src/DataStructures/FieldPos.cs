@@ -3,7 +3,7 @@ namespace DataStructures {
     public struct FieldPos {
         public int X;
         public int Y;
-        
+
         public FieldPos(int X, int Y)
         {
             this.X = X;

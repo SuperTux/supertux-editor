@@ -2,7 +2,7 @@ using DataStructures;
 
 public class Font {
     public float Height;
-    
+
     public Font(string File, uint Width, uint Height, uint ShadowSize) {
 
     }

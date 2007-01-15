@@ -13,25 +13,25 @@ public class Sprite : Node {
     private SpriteData.Action CurrentAction;
     private SpriteData.Action _NextAction;
     private float ActionTimeOffset;
-	
+
 	public float Width {
 		get {
 			return CurrentAction.Width;
 		}
 	}
-	
+
 	public float Height {
 		get {
 			return CurrentAction.Height;
 		}
 	}
-	
+
 	public Vector Offset {
 		get {
 			return CurrentAction.Offset;
 		}
 	}
-    
+
     internal Sprite(SpriteData Data)
     {
         this.Data = Data;
@@ -42,7 +42,7 @@ public class Sprite : Node {
     		CurrentAction = enumerator.Current.Value;
     	}
     }
-    
+
     public string Action {
         set {
             SpriteData.Action NewAction = Data.Actions[value];
@@ -50,7 +50,7 @@ public class Sprite : Node {
                 throw new Exception("No action with Name '" + value + "' defined");
 			if(NewAction == CurrentAction)
 				return;
-			
+
             CurrentAction = NewAction;
             ActionTimeOffset = Timer.CurrentTime;
         }
@@ -76,23 +76,23 @@ public class Sprite : Node {
             return _NextAction.Name;
         }
     }
-    
+
     public ICollection Actions {
         get {
             return Data.Actions.Keys;
         }
     }
-    
+
     public virtual void Draw()
     {
     	Draw(new Vector(0, 0));
     }
-    
+
     public virtual void Draw(Vector pos)
     {
 		if(CurrentAction == null || CurrentAction.Frames.Count == 0)
 			return;
-		
+
         float AnimationTime = (Timer.CurrentTime - ActionTimeOffset) * CurrentAction.Speed;
         if(_NextAction != null && AnimationTime > (float) CurrentAction.Frames.Count) {
             AnimationTime -= CurrentAction.Frames.Count;
@@ -106,5 +106,5 @@ public class Sprite : Node {
         Surface.Draw(pos - CurrentAction.Offset);
     }
 }
-    
+
 }

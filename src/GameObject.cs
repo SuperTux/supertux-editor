@@ -13,11 +13,11 @@ public abstract class GameObject {
      * and gives the object the possibility to register own graphics
      */
     public virtual void SetupGraphics(Layer Layer) {
-    } 
+    }
 
     public virtual void RemoveGraphics(Layer Layer) {
     }
-    
+
     /**
      * This function is called once per frame
      */

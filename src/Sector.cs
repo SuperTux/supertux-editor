@@ -15,7 +15,7 @@ public class SectorBase {
         Object.SetupGraphics(Layer);
         Objects.Add(Object);
     }
-    
+
     protected virtual void RemoveObject(GameObject Object) {
         Object.RemoveGraphics(Layer);
         Objects.Remove(Object);
@@ -32,7 +32,7 @@ public class SectorBase {
     public virtual void Draw() {
         Layer.Draw();
     }
-    
+
     public virtual void Update(float ElapsedTime) {
         foreach(GameObject Object in Objects) {
             Object.Update(ElapsedTime);

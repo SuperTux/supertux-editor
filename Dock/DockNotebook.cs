@@ -34,14 +34,14 @@ namespace Gdl
 		{
 			public DockPlacement position;
 			public object data;
-			
+
 			public DockInfo (DockPlacement position, object data)
 			{
 				this.position = position;
 				this.data = data;
 			}
 		}
-		
+
 		private DockInfo dockInfo;
 
 		protected DockNotebook (IntPtr raw) : base (raw) { }
@@ -55,7 +55,7 @@ namespace Gdl
 			                    "widget_class \"*.GtkNotebook.Gdl_DockItem\" " +
 			                    "style : gtk \"gdl-dock-notebook-default\"\n");
 		}
-		
+
 		public DockNotebook ()
 		{
 			Child = new Notebook ();
@@ -69,7 +69,7 @@ namespace Gdl
 			Child.Show ();
 			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 		}
-		
+
 		protected void SwitchPageHandler (object o, SwitchPageArgs e)
 		{
 			// FIXME: port this if we do a DockTabLabel
@@ -86,7 +86,7 @@ namespace Gdl
 				Child = null;
 			}
 		}
-		
+
 		protected override void OnAdded (Widget widget)
 		{
 			if (widget == null || !(widget is DockItem))
@@ -94,7 +94,7 @@ namespace Gdl
 
 			Dock ((DockObject)widget, DockPlacement.Center, null);
 		}
-		
+
 		protected override void ForAll (bool includeInternals, Callback cb)
 		{
 			if (includeInternals) {
@@ -130,7 +130,7 @@ namespace Gdl
 						label = new Label (requestorItem.LongName);
 						requestorItem.TabLabel = label;
 					}
-					
+
 					int tabPosition = -1;
 					if (data is Int32)
 						tabPosition = Convert.ToInt32 (data);
@@ -141,7 +141,7 @@ namespace Gdl
 				base.OnDocked (requestor, position, data);
 			}
 		}
-		
+
 		public override void SetOrientation (Orientation orientation)
 		{
 			if (Child != null && Child is Notebook) {
@@ -152,7 +152,7 @@ namespace Gdl
 			}
 			base.SetOrientation (orientation);
 		}
-		
+
 		public override bool OnChildPlacement (DockObject child, ref DockPlacement position)
 		{
 			DockPlacement pos = DockPlacement.None;
@@ -170,23 +170,23 @@ namespace Gdl
 			}
 			return false;
 		}
-		
+
 		public override void OnPresent (DockObject child)
 		{
 			Notebook nb = Child as Notebook;
-			
+
 			int i = nb.PageNum (child);
 			if (i >= 0)
 				nb.CurrentPage = i;
 
 			base.OnPresent (child);
 		}
-		
+
 		public override bool OnReorder (DockObject requestor, DockPlacement position, object other_data)
 		{
 			bool handled = false;
 			int current_position, new_pos = -1;
-			
+
 			if (Child != null && position == DockPlacement.Center) {
 				current_position = ((Notebook)Child).PageNum (requestor);
 				if (current_position >= 0) {
@@ -198,18 +198,18 @@ namespace Gdl
 			}
 			return handled;
 		}
-		
+
 		public override bool IsCompound {
 			get { return true; }
 		}
-		
+
 		[After]
 		[Export]
 		public int Page {
 			get { return ((Notebook)Child).CurrentPage; }
 			set { ((Notebook)Child).CurrentPage = value; }
 		}
-		
+
 		public override bool HasGrip {
 			get { return false; }
 		}

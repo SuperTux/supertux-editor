@@ -44,7 +44,7 @@ public class ImageTexture : Texture {
         ImageWidth = (float) surface->w;
         ImageHeight = (float) surface->h;
 	}
-	
+
     private uint NextPowerOfTwo(uint val) {
         uint result = 1;
         while(result < val)

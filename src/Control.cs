@@ -5,9 +5,9 @@ public enum Control {
     RIGHT,
     JUMP,
     SPECIAL,
-    
+
     PAUSE,
     MENU,
-    
+
     CONTROLCOUNT
 }

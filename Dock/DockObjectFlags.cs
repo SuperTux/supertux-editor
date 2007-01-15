@@ -36,6 +36,6 @@ namespace Gdl
 		InDrag = 1 << 4,
 		InPreDrag = 1 << 5,
 		Iconified = 1 << 6,
-		UserAction = 1 << 7 
+		UserAction = 1 << 7
 	}
 }

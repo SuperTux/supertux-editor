@@ -55,7 +55,7 @@ public class Tile {
 		public string Filename;
 		public int x, y, w, h;
 	}
-	
+
     public List<ImageResource> Images;
     private List<Surface> Surfaces;
     public List<ImageResource> EditorImages;
@@ -63,7 +63,7 @@ public class Tile {
 
     public Tile() {
     }
-    
+
     public bool HasAttribute(Attribute Attrib) {
         return (Attributes & Attrib) != 0;
     }

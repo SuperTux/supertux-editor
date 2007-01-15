@@ -23,7 +23,7 @@ public class Util {
 
 			return Result;
 		} catch(Exception e) {
-			throw new Exception("Problem parsing '" + Source + "': " 
+			throw new Exception("Problem parsing '" + Source + "': "
 					+ e.Message, e);
 		}
     }

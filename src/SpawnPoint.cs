@@ -8,7 +8,7 @@ public class SpawnPoint {
 
     public void Parse(List Data) {
         Properties Props = new Properties(Data);
-        
+
         if(!Props.Get("name", ref Name))
             throw new Exception("SpawnPoint has no Name");
         Props.Get("x", ref Pos.X);

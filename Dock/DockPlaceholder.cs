@@ -36,7 +36,7 @@ namespace Gdl
 		private Stack placementStack;
 
 		protected DockPlaceholder (IntPtr raw) : base (raw) { }
-		
+
 		public DockPlaceholder (string name, DockObject obj,
 					DockPlacement position, bool sticky)
 		{
@@ -62,10 +62,10 @@ namespace Gdl
 				DoExcursion ();
 			}
 		}
-		
+
 		public DockPlaceholder (DockObject obj, bool sticky) :
 			this (obj.Name, obj, DockPlacement.None, sticky) { }
-		
+
 		public DockObject Host {
 			get {
 				return host;
@@ -75,7 +75,7 @@ namespace Gdl
 				EmitPropertyEvent ("Host");
 			}
 		}
-		
+
 		[After]
 		[Export]
 		public DockPlacement NextPlacement {
@@ -84,7 +84,7 @@ namespace Gdl
 					return (DockPlacement) placementStack.Pop ();
 				return DockPlacement.Center;
 			}
-			set { 
+			set {
 				if (placementStack == null)
 					placementStack = new Stack ();
 				placementStack.Push (value);
@@ -107,7 +107,7 @@ namespace Gdl
 				OnDetached (false);
 			base.OnDestroyed ();
 		}
-		
+
 		protected override void OnAdded (Widget widget)
 		{
 			if (!(widget is DockItem))
@@ -115,7 +115,7 @@ namespace Gdl
 
 			Dock ((DockItem)widget, NextPlacement, null);
 		}
-		
+
 		public override void OnDetached (bool recursive)
 		{
 			// disconnect handlers
@@ -126,12 +126,12 @@ namespace Gdl
 
 			DockObjectFlags &= ~(DockObjectFlags.Attached);
 		}
-		
+
 		public override void OnReduce ()
 		{
 			// placeholders are not reduced
 		}
-		
+
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
 			if (host != null) {
@@ -146,12 +146,12 @@ namespace Gdl
 				Master.Controller.Dock (requestor, DockPlacement.Floating, null);
 			}
 		}
-		
+
 		public override void OnPresent (DockObject child)
 		{
 			// do nothing
 		}
-		
+
 		/*
 		* Tries to shrink the placement stack by examining the host's
 		* children and see if any of them matches the placement which is at
@@ -168,7 +168,7 @@ namespace Gdl
 					if (item == null)
 						continue;
 					pos = stack_pos;
-					
+
 					host.ChildPlacement (item, ref pos);
 					if (pos == stack_pos) {
 						// remove the stack position
@@ -178,7 +178,7 @@ namespace Gdl
 
 						// connect to the new host
 						ConnectHost (item);
-						
+
 						// recurse ...
 						if (!item.InReflow)
 							DoExcursion ();
@@ -187,7 +187,7 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		private void DisconnectHost ()
 		{
 			if (host == null)
@@ -198,7 +198,7 @@ namespace Gdl
 
 			host = null;
 		}
-		
+
 		private void ConnectHost (DockObject newHost)
 		{
 			if (host != null)
@@ -209,27 +209,27 @@ namespace Gdl
 			host.Detached += new DetachedHandler (OnHostDetached);
 			host.Docked += new DockedHandler (OnHostDocked);
 		}
-		
+
 		public void Attach (DockObject objekt)
 		{
 			if (objekt == null)
 				return;
-			
+
 			// object binding
 			if (!IsBound)
 				Bind(objekt.Master);
-			
+
 			if (objekt.Master != Master)
 				return;
-			
+
 			Freeze ();
-			
+
 			// detach from previous host first
 			if (host != null)
 				Detach (false);
-			
+
 			ConnectHost (objekt);
-			
+
 			DockObjectFlags |= DockObjectFlags.Attached;
 			Thaw ();
 		}

@@ -177,7 +177,7 @@ namespace Gdl
 					return true;
 				}
 				else {
-					doc = null;	
+					doc = null;
 				}
 			}
 
@@ -195,7 +195,7 @@ namespace Gdl
 			XmlNode node = FindLayout (name);
 			if (node == null)
 				node = FindLayout (null);
-			
+
 			if (node == null)
 				return false;
 
@@ -520,7 +520,7 @@ namespace Gdl
 						if (master.Controller != obj && master.Controller.Visible)
 							obj.Show ();
 					}
-					
+
 					// call reduce just in case child is missing
 					if (obj.IsCompound)
 						obj.Reduce ();
@@ -619,7 +619,7 @@ namespace Gdl
 		void OnLayoutChanged (object sender, EventArgs a)
 		{
 			if (loading) return;
-			
+
 			UpdateItemsModel ();
 
 			if (!idleSavePending) {

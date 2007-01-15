@@ -13,7 +13,7 @@ public class Level {
             return _tileSet;
         }
     }
-    
+
     public void Load(string Filename) {
         List levelLisp = Util.Load(Filename, "supertux-level");
 
@@ -38,8 +38,8 @@ public class Level {
                 default:
                     Console.WriteLine("Ignoring unknown tag '" + iter.Key + "' in level");
                     break;
-            }   
-        }        
+            }
+        }
     }
 
     public void Save(TextReader reader) {

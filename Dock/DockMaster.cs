@@ -50,14 +50,14 @@ namespace Gdl
 		// else locked = -1
 		private Hashtable lockedItems = new Hashtable ();
 		private Hashtable unlockedItems = new Hashtable ();
-		
+
 		public event EventHandler LayoutChanged;
 		internal event EventHandler NotifyLocked;
 
-		public DockMaster () 
+		public DockMaster ()
 		{
 		}
-		
+
 		public string DefaultTitle {
 			get {
 				return defaultTitle;
@@ -66,7 +66,7 @@ namespace Gdl
 				defaultTitle = value;
 			}
 		}
-		
+
 		public int DockNumber {
 			get {
 				return dockNumber;
@@ -75,13 +75,13 @@ namespace Gdl
 				dockNumber = value;
 			}
 		}
-		
+
 		public ICollection DockObjects {
 			get {
 				return dockObjects.Values;
 			}
 		}
-		
+
 		// 1  = all the dock items bound to the master are locked
 		// 0  = all the dock items bound to the master are unlocked
 		// -1 = inconsistent
@@ -95,7 +95,7 @@ namespace Gdl
 				EmitNotifyLocked ();
 			}
 		}
-		
+
 		public ArrayList TopLevelDocks {
 			get {
 				return toplevelDocks;
@@ -113,7 +113,7 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		public void LockUnlock (bool locked)
 		{
 			foreach (Dock dock in toplevelDocks) {
@@ -129,7 +129,7 @@ namespace Gdl
 					ForeachLockUnlock (i, locked);
 			}
 		}
-		
+
 		public void Add (DockObject obj)
 		{
 			if (obj == null)
@@ -146,24 +146,24 @@ namespace Gdl
 				else
 					dockObjects.Add (obj.Name, obj);
 			}
-			
+
 			if (obj is Dock) {
 				/* if this is the first toplevel we are adding, name it controller */
 				if (toplevelDocks.Count == 0)
 					controller = obj;
-				
+
 				/* add dock to the toplevel list */
 				if (((Dock)obj).Floating)
 					toplevelDocks.Insert (0, obj);
 				else
 					toplevelDocks.Add (obj);
-				
+
 				/* we are interested in the dock request this toplevel
 				 * receives to update the layout */
 				obj.Docked += new DockedHandler (OnItemDocked);
 			} else if (obj is DockItem) {
 				DockItem item = obj as DockItem;
-				
+
 				/* we need to connect the item's events */
 				item.Detached += new DetachedHandler (OnItemDetached);
 				item.Docked += new DockedHandler (OnItemDocked);
@@ -182,12 +182,12 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		public void Remove (DockObject obj)
 		{
 			if (obj == null)
 				return;
-	
+
 			// remove from locked/unlocked hashes and property change if that's the case
 			if (obj is DockItem && ((DockItem)obj).HasGrip) {
 				int locked = Locked;
@@ -202,7 +202,7 @@ namespace Gdl
 						EmitNotifyLocked ();
 				}
 			}
-			
+
 			if (obj is Dock) {
 				toplevelDocks.Remove (obj);
 				obj.Docked -= new DockedHandler (OnItemDocked);
@@ -231,7 +231,7 @@ namespace Gdl
 					}
 				}
 			}
-			
+
 			// disconnect the signals
 			if (obj is DockItem) {
 				DockItem item = obj as DockItem;
@@ -242,24 +242,24 @@ namespace Gdl
 				item.DockItemDragEnd -= new DockItemDragEndHandler (OnDragEnd);
 				item.PropertyChanged -= new PropertyChangedHandler (OnItemPropertyChanged);
 			}
-			
+
 			// remove the object from the hash if it is there
 			if (obj.Name != null && dockObjects.Contains (obj.Name))
 				dockObjects.Remove (obj.Name);
-			
+
 			/* post a layout_changed emission if the item is not automatic
 			 * (since it should be removed from the items model) */
 			if (!obj.IsAutomatic)
 				EmitLayoutChangedEvent ();
 		}
-		
+
 		public DockObject GetObject (string name)
 		{
 			if (name == null)
 				return null;
 			return (DockObject)dockObjects[name];
 		}
-		
+
 		public DockObject Controller {
 			get { return controller; }
 			set {
@@ -276,20 +276,20 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		internal void EmitLayoutChangedEvent ()
 		{
 			if (LayoutChanged != null)
 				LayoutChanged (this, EventArgs.Empty);
 		}
-		
+
 		private void OnItemDetached (object o, DetachedArgs args)
 		{
 			DockItem obj = o as DockItem;
 			if (!obj.InReflow && !obj.IsAutomatic)
 				EmitLayoutChangedEvent ();
 		}
-		
+
 		private void OnItemDocked (object o, DockedArgs args)
 		{
 			DockItem requestor = args.Requestor as DockItem;
@@ -300,7 +300,7 @@ namespace Gdl
 			if (!requestor.InReflow && !requestor.IsAutomatic)
 				EmitLayoutChangedEvent ();
 		}
-		
+
 		private void OnItemPropertyChanged (object o, string name)
 		{
 			DockItem item = o as DockItem;
@@ -332,7 +332,7 @@ namespace Gdl
 				return 0;
 			else
 				return -1;
-		}		
+		}
 
 		private void OnDragBegin (DockItem item)
 		{
@@ -346,18 +346,18 @@ namespace Gdl
 			rectDrawn = false;
 			rectOwner = null;
 		}
-		
+
 		private void OnDragEnd (DockItem item, bool cancelled)
 		{
 			if (item != request.Applicant)  {
 				Console.WriteLine ("Dragged item is not the same as the one we started with");
 				return;
 			}
-			
+
 			/* Erase previously drawn rectangle */
 			if (rectDrawn)
 				XorRect ();
-			
+
 			/* cancel conditions */
 			if (cancelled || request.Applicant == request.Target)
 				return;
@@ -366,10 +366,10 @@ namespace Gdl
 			request.Target.Dock (request.Applicant,
 					     request.Position,
 					     request.Extra);
-			
+
 			EmitLayoutChangedEvent ();
 		}
-		
+
 		private void OnDragMotion (DockItem item, int rootX, int rootY)
 		{
 			Dock dock = null;
@@ -382,7 +382,7 @@ namespace Gdl
 				Console.WriteLine ("Dragged item is not the same as the one we started with");
 				return;
 			}
-			
+
 			/* first look under the pointer */
 			Gdk.Window window = Gdk.Window.AtPointer (out winX, out winY);
 			if (window != null && window.UserData != IntPtr.Zero) {
@@ -392,10 +392,10 @@ namespace Gdl
 				while (widget != null && (!(widget is Dock) ||
 				       (widget is DockObject && ((DockObject)widget).Master != this)))
 						widget = widget.Parent;
-				
+
 				if (widget != null) {
 					int winW, winH, depth;
-					
+
 					/* verify that the pointer is still in that dock
 					   (the user could have moved it) */
 					widget.GdkWindow.GetGeometry (out winX, out winY,
@@ -407,7 +407,7 @@ namespace Gdl
 						dock = widget as Dock;
 				}
 			}
-			
+
 			if (dock != null) {
 				/* translate root coordinates into dock object coordinates
 				   (i.e. widget coordinates) */
@@ -433,7 +433,7 @@ namespace Gdl
 
 			if (!mayDock) {
 				dock = null;
-				
+
 				myRequest.Target = Dock.GetTopLevel (item);
 				myRequest.Position = DockPlacement.Floating;
 				Requisition preferredSize = item.PreferredSize;
@@ -441,7 +441,7 @@ namespace Gdl
 				myRequest.Height = preferredSize.Height;
 				myRequest.X = rootX - item.DragOffX;
 				myRequest.Y = rootY - item.DragOffY;
-				
+
 				Gdk.Rectangle rect = new Gdk.Rectangle (myRequest.X,
 									myRequest.Y,
 									myRequest.Width,
@@ -450,22 +450,22 @@ namespace Gdl
 				// setup extra docking information
 				myRequest.Extra = rect;
 			}
-			
+
 			if (!(myRequest.X == request.X &&
 			      myRequest.Y == request.Y &&
 			      myRequest.Width == request.Width &&
 			      myRequest.Height == request.Height &&
 			      dock == rectOwner)) {
-			      
+
 				/* erase the previous rectangle */
 				if (rectDrawn)
 					XorRect ();
 			}
-			
+
 			// set the new values
 			request = myRequest;
 			rectOwner = dock;
-			
+
 			/* draw the previous rectangle */
 			if (!rectDrawn)
 				XorRect ();
@@ -483,9 +483,9 @@ namespace Gdl
 				rectOwner.XorRect (rect);
 				return;
 			}
-			
+
 			Gdk.Window window = Gdk.Global.DefaultRootWindow;
-			
+
 			if (rootXorGC == null) {
 				Gdk.GCValues values = new Gdk.GCValues ();
 				values.Function = Gdk.Function.Invert;
@@ -495,16 +495,16 @@ namespace Gdl
 				rootXorGC.SetValues (values, Gdk.GCValuesMask.Function |
 						     Gdk.GCValuesMask.Subwindow);
 			}
-			
+
 			rootXorGC.SetLineAttributes (1, Gdk.LineStyle.OnOffDash,
 						     Gdk.CapStyle.NotLast,
 						     Gdk.JoinStyle.Bevel);
 
 			rootXorGC.SetDashes (1, new sbyte[] {1, 1}, 2);
-			
+
 			window.DrawRectangle (rootXorGC, false, request.X, request.Y,
 					      request.Width, request.Height);
-			
+
 			rootXorGC.SetDashes (0, new sbyte[] {1, 1}, 2);
 
 			window.DrawRectangle (rootXorGC, false, request.X + 1,

@@ -12,7 +12,7 @@ public class Texture : IDisposable {
             return handle;
         }
     }
-    
+
     private uint width;
     public uint Width {
         get {
@@ -90,7 +90,7 @@ public class Texture : IDisposable {
 
     public unsafe void Dispose() {
         if(handle == 0)
-            return;            
+            return;
 
         uint[] handles = { handle };
 

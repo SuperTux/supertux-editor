@@ -8,13 +8,13 @@ public class WorldmapSector : SectorBase {
     public Tilemap Solids;
     public WorldmapTux Player;
     private Tileset Tileset = new Tileset("tilesets/worldmap/worldmap.strf");
-    private Dictionary<string, WorldmapSpawnPoint> SpawnPoints 
+    private Dictionary<string, WorldmapSpawnPoint> SpawnPoints
         = new Dictionary<string, WorldmapSpawnPoint>();
     private Field<List<WorldmapObject> > ObjectGrid;
-    
+
     public WorldmapSector(string Filename) {
         List WorldMapL = Util.Load(Filename, "supertux-worldmap");
-        
+
         LispIterator iter = new LispIterator(WorldMapL);
         while(iter.MoveNext()) {
             switch(iter.Key) {
@@ -64,15 +64,15 @@ public class WorldmapSector : SectorBase {
 
         return null;
     }
-    
+
     public void Spawn(string SpawnPoint) {
         WorldmapSpawnPoint Point = SpawnPoints[SpawnPoint];
         Player.Spawn(Point.Pos);
     }
-    
+
     public override void Update(float ElapsedTime) {
         base.Update(ElapsedTime);
-        
+
         // check for collisions
         if(ObjectGrid[Player.TilemapPos] != null) {
             foreach(WorldmapObject Object in ObjectGrid[Player.TilemapPos]) {
@@ -80,21 +80,21 @@ public class WorldmapSector : SectorBase {
             }
         }
     }
-    
+
     public void HandleCollision(WorldmapTux Player, WorldmapObject Object) {
         Object.Touch(Player, true);
     }
-    
+
     public IEnumerable<WorldmapObject> GetObjectsAt(FieldPos Pos) {
         List<WorldmapObject> List = ObjectGrid[Pos];
         if(List == null)
             return new List<WorldmapObject> (0);
         return List;
     }
-    
+
     public override void AddObject(GameObject Object) {
         base.AddObject(Object);
-        
+
         if(Object is WorldmapObject) {
             WorldmapObject WObject = (WorldmapObject) Object;
             if(ObjectGrid[WObject.Pos] == null)
@@ -102,10 +102,10 @@ public class WorldmapSector : SectorBase {
             ObjectGrid[WObject.Pos].Add(WObject);
         }
     }
-    
+
     protected override void RemoveObject(GameObject Object) {
         base.RemoveObject(Object);
-        
+
         if(Object is WorldmapObject) {
             WorldmapObject WObject = (WorldmapObject) Object;
             ObjectGrid[WObject.Pos].Remove(WObject);

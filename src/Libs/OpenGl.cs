@@ -8,7 +8,7 @@ namespace OpenGl {
 	public class gl {
 
         private const string GL_DLL = "GL.dll";
-    
+
 		public const uint _2_BYTES = 0x1407;
 		public const uint _2D = 0x0600;
 		public const uint _3_BYTES = 0x1408;

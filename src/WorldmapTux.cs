@@ -11,7 +11,7 @@ public class WorldmapTux : GameObject {
     public enum Direction {
         NORTH = 0, EAST, SOUTH, WEST, STOP
     }
-	
+
     private FieldPos _Pos;
     public FieldPos TilemapPos {
         set {
@@ -26,7 +26,7 @@ public class WorldmapTux : GameObject {
             return _Pos;
         }
     }
-    
+
     public Vector Pos {
         get {
             return Sprite.Pos;
@@ -41,21 +41,21 @@ public class WorldmapTux : GameObject {
 	private Controller Controller;
 	//private List<WorldmapObject> TouchedObjects = new List<WorldmapObject>();
 	private const float SPEED = 64.0f;
-	
+
 	public WorldmapTux(WorldmapSector Sector)
 	{
 	    this.Sector = Sector;
 	    Controller = Application.Controller;
 	    Sprite = SpriteManager.Create("worldmap/common/tux.sprite");
 	}
-	
+
 	public override void SetupGraphics(Layer Layer) {
 	    Layer.Add(10f, Sprite);
 	}
-	
+
 	public override void Update(float ElapsedTime) {
 	    CheckController();
-	    
+
 	    if(MovementDirection != Direction.STOP) {
 	        Vector Movement = GetMovement();
 	        float LastDelta = MovementDelta;
@@ -71,7 +71,7 @@ public class WorldmapTux : GameObject {
 	        Sprite.Pos = new Vector(TilemapPos.X * 32, TilemapPos.Y * 32) + Movement * MovementDelta;
 	    }
 	}
-	
+
 	private void CheckController() {
 	    if(Controller.IsDown(Control.UP) && !Controller.IsDown(Control.DOWN)) {
 	        if(MovementDirection == Direction.SOUTH
@@ -86,7 +86,7 @@ public class WorldmapTux : GameObject {
 	            MovementDirection = Direction.SOUTH;
 	            MovementDelta = -MovementDelta;
 	        }
-	    }	    
+	    }
 	    if(Controller.IsDown(Control.LEFT) && !Controller.IsDown(Control.RIGHT)) {
 	        if(MovementDirection == Direction.EAST
 	           || MovementDirection == Direction.STOP) {
@@ -107,7 +107,7 @@ public class WorldmapTux : GameObject {
 	        }
 	    }
 	}
-	
+
 	private Vector GetMovement() {
 	    switch(MovementDirection) {
 	        case Direction.NORTH:
@@ -119,10 +119,10 @@ public class WorldmapTux : GameObject {
 	        case Direction.EAST:
 	            return new Vector(1.0f, 0f);
 	    }
-	    
+
 	    return new Vector(0f, 0f);
 	}
-	
+
 	private void AdvanceTilemapPos() {
 	    switch(MovementDirection) {
 	        case Direction.NORTH:
@@ -139,7 +139,7 @@ public class WorldmapTux : GameObject {
 	            break;
 	    }
 	}
-	
+
 	private void CheckNextTile() {
 	    FromDirection = (Direction) ((((int) MovementDirection) + 2) % 4);
 	    Tile NextTile = Sector.Solids.GetTile(_Pos);
@@ -152,19 +152,19 @@ public class WorldmapTux : GameObject {
 	            break;
 	        }
 	    }
-	    
+
 	    foreach(WorldmapObject Object in Sector.GetObjectsAt(_Pos)) {
 	        if(Object is WorldmapLevel)
 	            MovementDirection = Direction.STOP;
 	    }
-	    
+
 	    if(NextTile.HasAttribute(Tile.Attribute.WORLDMAP_STOP))
 	        MovementDirection = Direction.STOP;
-	    
+
 	    if(MovementDirection == Direction.STOP)
 	        MovementDelta = 0f;
 	}
-	
+
 	private bool IsDirectionSupported(Tile Tile, Direction Dir) {
 	    switch(Dir) {
 	        case Direction.NORTH:
@@ -176,10 +176,10 @@ public class WorldmapTux : GameObject {
 	        case Direction.EAST:
 	            return (Tile.Attributes & Tile.Attribute.WORLDMAP_EAST) != 0;
 	    }
-	    
+
 	    return false;
 	}
-	
+
 	public void Spawn(FieldPos TilemapPos) {
 	    this.TilemapPos = TilemapPos;
 	}
