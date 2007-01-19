@@ -36,6 +36,7 @@ public sealed class SupertuxObjectAttribute : Attribute
 
 	public string Name;
 	public string IconSprite;
+	public string ObjectListAction;
 	/// <summary>A <see cref="Usage"/> enum describing where the object can be used.</summary>
 	public Usage Target;
 
@@ -152,7 +153,8 @@ public sealed class Spiky : SimpleDirObject
 }
 
 [SupertuxObject("sspiky", "images/creatures/spiky/sleepingspiky.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "sleeping-left")]
 public sealed class SleepSpiky : SimpleDirObject
 {
 	public SleepSpiky() {

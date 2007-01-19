@@ -118,9 +118,9 @@ public class ObjectListWidget : GLWidgetBase
 		gameObjectTypes.Clear();
 		gameObjectSprites.Clear();
 
-		// the null object (arrow)
+		// The null object (arrow)
 		gameObjectTypes.Add(null);
-		gameObjectSprites.Add(CreateSprite("images/engine/editor/arrow.png"));
+		gameObjectSprites.Add(CreateSprite("images/engine/editor/arrow.png", null));
 
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
@@ -132,7 +132,7 @@ public class ObjectListWidget : GLWidgetBase
 				continue;
 
 			// We load all objects if no level is loaded to avoid crash
-			// when accessing acessing the level object (as that is null
+			// when accessing the level object (as that is null
 			// when no level is loaded).
 			if (this.level != null) {
 				if ( (objectAttribute.Target == SupertuxObjectAttribute.Usage.WorldmapOnly) &&
@@ -144,9 +144,9 @@ public class ObjectListWidget : GLWidgetBase
 				}
 			}
 
-			//this should give us all objects
+			// This should give us all objects
 			gameObjectTypes.Add(type);
-			Sprite icon = CreateSprite(objectAttribute.IconSprite);
+			Sprite icon = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
 			if( icon == null ) { //no sprite, no image, no can do.
 				Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
 				                  + " from " +objectAttribute.IconSprite);
@@ -157,18 +157,21 @@ public class ObjectListWidget : GLWidgetBase
 		objectsLoaded = true;
 	}
 
-	private static Sprite CreateSprite(string name)
+	private static Sprite CreateSprite(string name, string action)
 	{
 		Sprite result = null;
 
-		//might be a sprite
+		// Might be a sprite
 		try{
 			result = SpriteManager.Create(name);
 		} catch {
 		}
 
-		if( result != null ){ //Try to find a nice action.
-			try { result.Action = "left"; }
+		if( result != null ){ // Try to find a nice action.
+			// Check if we were passed an action to use and if not set it to left.
+			if (String.IsNullOrEmpty(action))
+				action = "left";
+			try { result.Action = action; }
 			catch { try { result.Action = "normal"; }
 				catch { try { result.Action = "default"; }
 					catch {
@@ -176,7 +179,7 @@ public class ObjectListWidget : GLWidgetBase
 					}
 				}
 			}
-		} else { //not a sprite so it has to be an Image.
+		} else { // Not a sprite so it has to be an Image.
 			try{
 				result = SpriteManager.CreateFromImage(name);
 			} catch(Exception) {
