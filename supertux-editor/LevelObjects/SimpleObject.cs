@@ -119,12 +119,44 @@ public abstract class SimpleDirObject : SimpleObject
 		right
 	}
 
+	// Override to change sprite on direction change.
+	protected virtual void DirectionChanged () {
+		string oldaction = Sprite.Action;
+		if (direction == Directions.right) {
+			try { Sprite.Action = "right"; }
+			catch { try { Sprite.Action = "walking-right"; }
+				catch {
+					Console.WriteLine("SimpleDirObject: No action found for object.");
+					Sprite.Action = oldaction;
+				}
+			}
+		} else {
+			try { Sprite.Action = "left"; }
+			catch { try { Sprite.Action = "walking-left"; }
+				catch {
+					Console.WriteLine("SimpleDirObject: No action found for object.");
+					Sprite.Action = oldaction;
+				}
+			}
+		}
+	}
+
+	protected Directions direction = Directions.auto;
+
 	/// <summary>
 	/// Direction the badguy will be facing initaly.
 	/// </summary>
 	[PropertyProperties(Tooltip = "Direction the badguy will be facing initaly.")]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
-	public Directions Direction = Directions.auto;
+	public Directions Direction {
+		get {
+			return direction;
+		}
+		set {
+			direction = value;
+			DirectionChanged();
+		}
+	}
 
 	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]

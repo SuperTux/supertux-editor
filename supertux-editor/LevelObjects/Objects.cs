@@ -133,7 +133,8 @@ public sealed class FlyingSnowball : SimpleObject
 }
 
 [SupertuxObject("jumpy", "images/creatures/jumpy/jumpy.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "left-up")]
 public sealed class Jumpy : SimpleObject
 {
 	public Jumpy() {
@@ -157,6 +158,10 @@ public sealed class Spiky : SimpleDirObject
                 ObjectListAction = "sleeping-left")]
 public sealed class SleepSpiky : SimpleDirObject
 {
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "sleeping-right" : "sleeping-left";
+	}
+
 	public SleepSpiky() {
 		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
 		Sprite.Action = "sleeping-left";
@@ -249,7 +254,8 @@ public sealed class Snail : SimpleDirObject
 }
 
 [SupertuxObject("totem", "images/creatures/totem/totem.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "walking-left")]
 public sealed class Totem : SimpleObject
 {
 	public Totem() {
@@ -259,7 +265,8 @@ public sealed class Totem : SimpleObject
 }
 
 [SupertuxObject("kugelblitz", "images/creatures/kugelblitz/kugelblitz.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "falling")]
 public sealed class Kugelblitz : SimpleObject
 {
 	public Kugelblitz() {
@@ -269,7 +276,8 @@ public sealed class Kugelblitz : SimpleObject
 }
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "working-left")]
 public sealed class Dispenser : SimpleDirObject
 {
 	/// <summary>
@@ -290,9 +298,29 @@ public sealed class Dispenser : SimpleDirObject
 		random
 	}
 
+	private Badguys badguy = Badguys.mrrocket;
+
 	[PropertyProperties(Tooltip = "Type of badguy the dispenser will create.")]
 	[LispChild("badguy")]
-	public Badguys Badguy = Badguys.mrrocket;
+	public Badguys Badguy {
+		get {
+			return badguy;
+		}
+		set {
+			badguy = value;
+			if (value == Badguys.mrrocket)
+				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+			else
+				Sprite.Action = "dropper";
+		}
+	}
+
+	protected override void DirectionChanged() {
+		if (badguy == Badguys.mrrocket) {
+			Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+		}
+	}
+
 	[LispChild("cycle")]
 	public float Cycle = 1;
 
@@ -303,7 +331,8 @@ public sealed class Dispenser : SimpleDirObject
 }
 
 [SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "stand-left")]
 public sealed class Yeti : SimpleObject
 {
 	public Yeti() {
@@ -323,11 +352,13 @@ public sealed class StalactiteYeti : SimpleObject
 }
 
 [SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle")]
 public sealed class AngryStone : SimpleObject
 {
 	public AngryStone() {
 		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
+		Sprite.Action = "idle";
 	}
 }
 
@@ -337,6 +368,7 @@ public sealed class Spidermite : SimpleObject
 {
 	public Spidermite() {
 		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
+		Sprite.Action = "left";
 	}
 }
 
@@ -360,7 +392,8 @@ public sealed class Nolok_01 : SimpleObject
 
 [SupertuxObject("willowisp",
                 "images/creatures/willowisp/willowisp.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle")]
 public sealed class WilloWisp : SimpleObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
@@ -375,7 +408,8 @@ public sealed class WilloWisp : SimpleObject
 }
 
 [SupertuxObject("darttrap", "images/creatures/darttrap/darttrap.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle-left")]
 public sealed class DartTrap : SimpleDirObject
 {
 	[LispChild("initial-delay")]
@@ -385,6 +419,10 @@ public sealed class DartTrap : SimpleDirObject
 	[LispChild("ammo")]
 	public int ammo = -1;
 
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
+	}
+
 	public DartTrap() {
 		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
 		Sprite.Action = "idle-left";
@@ -392,9 +430,14 @@ public sealed class DartTrap : SimpleDirObject
 }
 
 [SupertuxObject("skullyhop", "images/creatures/skullyhop/skullyhop.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "standing-left")]
 public sealed class SkullyHop : SimpleDirObject
 {
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "standing-right" : "standing-left";
+	}
+
 	public SkullyHop() {
 		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
 		Sprite.Action = "standing-left";
@@ -402,7 +445,8 @@ public sealed class SkullyHop : SimpleDirObject
 }
 
 [SupertuxObject("igel", "images/creatures/igel/igel.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "walking-left")]
 public sealed class Igel : SimpleDirObject
 {
 	public Igel() {
@@ -412,9 +456,14 @@ public sealed class Igel : SimpleDirObject
 }
 
 [SupertuxObject("toad", "images/creatures/toad/toad.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction ="idle-left")]
 public sealed class Toad : SimpleDirObject
 {
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
+	}
+
 	public Toad() {
 		Sprite = SpriteManager.Create("images/creatures/toad/toad.sprite");
 		Sprite.Action = "idle-left";
@@ -422,8 +471,9 @@ public sealed class Toad : SimpleDirObject
 }
 
 [SupertuxObject("mole", "images/creatures/mole/mole.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Mole : SimpleDirObject
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle")]
+public sealed class Mole : SimpleObject
 {
 	public Mole() {
 		Sprite = SpriteManager.Create("images/creatures/mole/mole.sprite");
@@ -433,6 +483,7 @@ public sealed class Mole : SimpleDirObject
 
 #endregion Badguys
 
+#region SpawnAndDoors
 [SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SpawnPoint : SimpleObject {
@@ -467,6 +518,25 @@ public sealed class Firefly : SimpleObject
 		Sprite.Action = "normal";
 	}
 }
+
+[SupertuxObject("door", "images/objects/door/door.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "closed")]
+public sealed class Door : SimpleObject
+{
+	[LispChild("sector"), ChooseSectorSetting()]
+	public string Sector;
+	[LispChild("spawnpoint")]
+	public string Spawnpoint;
+
+	public Door() {
+		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
+		Sprite.Action = "closed";
+	}
+}
+#endregion SpawnAndDoors
+
+#region Light
 
 [SupertuxObject("spotlight", "images/objects/spotlight/spotlight_base.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
@@ -560,24 +630,29 @@ public sealed class Lantern : SimpleColorObject
 	}
 }
 
-[SupertuxObject("door", "images/objects/door/door.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Door : SimpleObject
+[SupertuxObject("candle", "images/objects/candle/candle.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "on")]
+public sealed class Candle : SimpleObject
 {
-	[LispChild("sector"), ChooseSectorSetting()]
-	public string Sector;
-	[LispChild("spawnpoint")]
-	public string Spawnpoint;
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = "";
+	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
+	[LispChild("burning", Optional = true, Default = true)]
+	public bool Burning = true;
 
-	public Door() {
-		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
-		Sprite.Action = "closed";
+	public Candle() {
+		Sprite = SpriteManager.Create("images/objects/candle/candle.sprite");
+		Sprite.Action = "on";
 	}
 }
 
+#endregion Light
+
 #region Switches
 
-[SupertuxObject("switch", "images/objects/switch/switch.sprite",
+[SupertuxObject("switch", "images/objects/switch/switch-0.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Switch : SimpleObject
 {
@@ -608,7 +683,8 @@ public sealed class Switch : SimpleObject
 }
 
 [SupertuxObject("pushbutton", "images/objects/pushbutton/pushbutton.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "off")]
 public sealed class PushButton : SimpleObject
 {
 	[LispChild("script")]
@@ -755,24 +831,6 @@ public sealed class HurtingPlatform : PlatformBase
 }
 
 #endregion Platforms
-
-
-[SupertuxObject("candle", "images/objects/candle/candle.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Candle : SimpleObject
-{
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
-	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
-	[LispChild("burning", Optional = true, Default = true)]
-	public bool Burning = true;
-
-	public Candle() {
-		Sprite = SpriteManager.Create("images/objects/candle/candle.sprite");
-		Sprite.Action = "on";
-	}
-}
 
 #region TileLike
 

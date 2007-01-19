@@ -175,7 +175,7 @@ public class ObjectListWidget : GLWidgetBase
 			catch { try { result.Action = "normal"; }
 				catch { try { result.Action = "default"; }
 					catch {
-						// Console.WriteLine("ObjectListWidget: No action selected for " + objectAttribute.Name );
+						Console.WriteLine("ObjectListWidget: No action selected for " + name );
 					}
 				}
 			}
