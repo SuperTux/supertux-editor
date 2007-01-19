@@ -27,16 +27,15 @@ internal class SpriteData {
 
 		public Action(List Data, string BaseDir, SpriteData spriteData) {
 			Properties Props = new Properties(Data);
-
 			if(!Props.Get("name", ref Name))
 				throw new Exception("Action without name specified");
 			Props.Get("fps", ref Speed);
-			Props.Get("x-offset", ref Offset.X);
-			Props.Get("y-offset", ref Offset.Y);
 			if(Props.Exists("hitbox")) {
 				List<float> hitbox = new List<float>();
 				Props.GetFloatList("hitbox", hitbox);
 				Hitbox = new RectangleF(hitbox[0], hitbox[1], hitbox[2], hitbox[3]);
+				Offset.X = Hitbox.Left;
+				Offset.Y = Hitbox.Top;
 			}
 			List<string> ImageFileNames = new List<string>();
 			Props.GetStringList("images", ImageFileNames);
