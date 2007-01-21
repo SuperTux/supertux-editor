@@ -6,6 +6,10 @@ using OpenGl;
 namespace SceneGraph
 {
 
+	/// <summary>
+	/// Scene Graph nodes which draws a 2 dimensional rectangle (without
+	/// textures, just plain color, filled or not filled)
+	/// </summary>
 	public sealed class Rectangle : Node
 	{
 		public RectangleF Rect;

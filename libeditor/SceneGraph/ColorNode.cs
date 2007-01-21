@@ -6,6 +6,11 @@ using Drawing;
 namespace SceneGraph
 {
 
+	/// <summary>
+	/// Scene graph node that changes the drawing color. Note that you can make
+	/// stuff (half-)transparent by changing the alpha value of the drawing
+	/// color.
+	/// </summary>
 	public sealed class ColorNode : Node
 	{
 		public Color Color;
