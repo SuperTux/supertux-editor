@@ -58,7 +58,6 @@
     <Compile Include="ErrorDialog.cs" />
     <Compile Include="GLWidgetBase.cs" />
     <Compile Include="IEditor.cs" />
-    <Compile Include="Libs\FreeType.cs" />
     <Compile Include="Libs\OpenGl.cs" />
     <Compile Include="Libs\OpenGlUtil.cs" />
     <Compile Include="Libs\Sdl.cs" />
