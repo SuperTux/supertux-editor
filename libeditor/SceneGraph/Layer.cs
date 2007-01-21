@@ -6,6 +6,11 @@ using System.Collections;
 namespace SceneGraph
 {
 
+	/// <summary>
+	/// A scene graph node which organizes it's childs in layers
+	/// You can put a child in a layer. The layers are drawn in ascending order
+	/// ("You can place stuff in foreground and background layers")
+	/// </summary>
 	public sealed class Layer : Node
 	{
 		private SortedList Layers = new SortedList();
