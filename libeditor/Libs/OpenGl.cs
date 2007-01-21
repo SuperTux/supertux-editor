@@ -7,7 +7,7 @@ using System.Security;
 
 namespace OpenGl
 {
-	public class gl
+	public static class gl
 	{
 
 		private const string GL_DLL = "opengl32.dll";

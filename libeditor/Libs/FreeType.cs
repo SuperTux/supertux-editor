@@ -416,7 +416,7 @@ namespace FreeType
 		KERNING_UNSCALED,
 	}
 
-	public class FT
+	public static class FT
 	{
 
 		private const string FT_DLL = "freetype.dll";

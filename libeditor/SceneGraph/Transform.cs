@@ -6,7 +6,7 @@ using OpenGl;
 namespace SceneGraph
 {
 
-	public class Transform : NodeWithChilds
+	public sealed class Transform : NodeWithChilds
 	{
 		public Matrix Matrix;
 

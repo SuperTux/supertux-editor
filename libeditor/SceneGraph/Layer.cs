@@ -6,7 +6,7 @@ using System.Collections;
 namespace SceneGraph
 {
 
-	public class Layer : Node
+	public sealed class Layer : Node
 	{
 		private SortedList Layers = new SortedList();
 

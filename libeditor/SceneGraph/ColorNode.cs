@@ -6,7 +6,7 @@ using Drawing;
 namespace SceneGraph
 {
 
-	public class ColorNode : Node
+	public sealed class ColorNode : Node
 	{
 		public Color Color;
 		public Node Child;

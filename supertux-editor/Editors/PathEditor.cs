@@ -16,7 +16,9 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	private Path.Node selectedNode;
 	private const float NODE_SIZE = 10;
 	private bool dragging;
-	// Used to make sure we just do undo snapshot when moving.
+	/// <summary>
+	/// Used to make sure we just do one undo snapshot when moving.
+	/// </summary>
 	private bool moveStarted;
 	private Vector pressPoint;
 	private Vector originalPos;

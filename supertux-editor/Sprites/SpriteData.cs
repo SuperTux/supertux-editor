@@ -59,6 +59,8 @@ internal class SpriteData {
 			if(Props.Exists("hitbox")) {
 				List<float> hitbox = new List<float>();
 				Props.GetFloatList("hitbox", hitbox);
+				if (hitbox.Count != 4)
+					throw new Exception("hitbox must specify exactly 4 coordinates");
 				Hitbox = new RectangleF(hitbox[0], hitbox[1], hitbox[2], hitbox[3]);
 				Offset.X = Hitbox.Left;
 				Offset.Y = Hitbox.Top;

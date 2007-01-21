@@ -15,13 +15,13 @@ public class Properties {
 			if(i == 0 && o is Symbol)
 				continue;
 
-			if(! (o is List))
-				throw new Exception("Child of properties lisp is not a list");
-			List ChildList = (List) o;
+			List ChildList = o as List;
+			if(o == null)
+				throw new LispException("Child of properties lisp is not a list");
 			if(ChildList.Length > 0) {
-				if(! (ChildList[0] is Symbol))
-					throw new Exception("property has no symbol as name");
-				Symbol name = (Symbol) ChildList[0];
+				Symbol name = ChildList[0] as Symbol;
+				if(name == null)
+					throw new LispException("property has no symbol as name");
 
 				object old = Props[name.Name];
 				if(old == null) {

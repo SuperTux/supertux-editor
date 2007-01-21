@@ -37,7 +37,7 @@ namespace Gdk
 	using System.Runtime.InteropServices;
 	using System.Security;
 
-	internal class W32GLContext : GLContext
+	internal sealed class W32GLContext : GLContext
 	{
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
 		internal struct PIXELFORMATDESCRIPTOR

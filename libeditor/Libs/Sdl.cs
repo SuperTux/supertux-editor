@@ -709,7 +709,7 @@ namespace Sdl
 		GETEVENT,
 	}
 
-	public class SDL
+	public static class SDL
 	{
 
 		private const string SDL_DLL = "sdl.dll";
@@ -1212,7 +1212,7 @@ namespace Sdl
 		public static extern void Quit();
 
 
-		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_SetIcon")]
+		[DllImport(SDL_DLL, EntryPoint = "SDL_WM_SetIcon"), SuppressUnmanagedCodeSecurity]
 		public static extern void WM_SetIcon(IntPtr icon, IntPtr mask);
 
 		public static string GetError()

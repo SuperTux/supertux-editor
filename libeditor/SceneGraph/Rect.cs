@@ -6,7 +6,7 @@ using OpenGl;
 namespace SceneGraph
 {
 
-	public class Rectangle : Node
+	public sealed class Rectangle : Node
 	{
 		public RectangleF Rect;
 		public bool Fill;
