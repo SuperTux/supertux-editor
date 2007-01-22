@@ -6,7 +6,9 @@ using System.Collections.Generic;
 
 namespace LispReader
 {
-	//TODO: Someone should try to understand what this is for and document it
+	// TODO: Someone should try to understand what this is for and document it
+	// It is probably some kind of simplifier of accessing property and field
+	// metadata.
 	public abstract class FieldOrProperty
 	{
 		private class FieldOrPropertyLister : IEnumerable<FieldOrProperty>

@@ -15,7 +15,16 @@ namespace LispReader
 			this.Name = name;
 		}
 	}
-
+	
+	/// <summary>
+	///		Marks a class or struct as a seralizer
+	///		for <see cref="LispCustomSerializerAttribute.Type"/>
+	/// </summary>
+	/// <remarks>
+	///		The class marked with this must implement
+	///		<see cref="Lisp.ILispSerializer"/>.
+	/// </remarks>
+	/// <seealso cref="Lisp.ILispSerializer"/>
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct,
 	                AllowMultiple=false)]
 	public sealed class LispCustomSerializerAttribute : Attribute
@@ -29,7 +38,7 @@ namespace LispReader
 	}
 
 	/// <summary>
-	/// Maps a field or property in a class to a lisp construct.
+	///		Maps a field or property in a class to a lisp construct.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=false)]
@@ -45,6 +54,10 @@ namespace LispReader
 		}
 	}
 
+	// *NOTE*: This is guesswork, please confirm that it is correct.
+	// Marks a field or property as being a list(?) that can contain
+	// classes marked with LispRootAttribute? (See Level.Sectors and
+	// Sector for example.)
 	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
 	                AllowMultiple=true)]
 	public sealed class LispChildsAttribute : Attribute
