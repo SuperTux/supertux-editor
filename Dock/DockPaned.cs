@@ -38,7 +38,7 @@ namespace Gdl
 		public DockPaned () : this (Orientation.Horizontal)
 		{
 			// loading a layout from xml may need to change orientation later
-			this.PropertyChanged += new PropertyChangedHandler (OnPropertyChanged); 
+			this.PropertyChanged += new PropertyChangedHandler (OnPropertyChanged);
 		}
 
 		public DockPaned (Orientation orientation)
@@ -47,15 +47,15 @@ namespace Gdl
 			DockObjectFlags &= ~(DockObjectFlags.Automatic);
 			CreateChild ();
 		}
-		
+
 		public override bool HasGrip {
 			get { return false; }
 		}
-		
+
 		public override bool IsCompound {
 			get { return true; }
 		}
-		
+
 		[After]
 		[Export]
 		public int Position {
@@ -71,22 +71,22 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		private void CreateChild ()
 		{
 			if (Child != null)
 				Child.Unparent ();
-			
+
 			/* create the container paned */
 			if (this.Orientation == Orientation.Horizontal)
 				Child = new HPaned ();
 			else
 				Child = new VPaned ();
-			
+
 			Child.AddNotification ("position", new GLib.NotifyHandler (OnNotifyPosition));
 			Child.ButtonReleaseEvent += new ButtonReleaseEventHandler (OnButtonReleased);
 			Child.KeyPressEvent += new KeyPressEventHandler (OnKeyPressed);
-												
+
 			Child.Parent = this;
 			Child.Show ();
 		}
@@ -95,20 +95,20 @@ namespace Gdl
 		{
 			if (Child == null)
 				return;
-		
+
 			Paned paned = Child as Paned;
 			if (paned.Child1 != null && paned.Child2 != null)
 				return;
-			
+
 			DockItem item = widget as DockItem;
-			DockPlacement pos = DockPlacement.None;			
+			DockPlacement pos = DockPlacement.None;
 			if (paned.Child1 == null)
 				pos = (Orientation == Orientation.Horizontal ?
 				       DockPlacement.Left : DockPlacement.Top);
 			else
 				pos = (Orientation == Orientation.Horizontal ?
 				       DockPlacement.Right : DockPlacement.Bottom);
-			
+
 			if (pos != DockPlacement.None)
 				Dock (item, pos, null);
 		}
@@ -144,8 +144,8 @@ namespace Gdl
 				Child.Unparent ();
 				Child = null;
 			}
-		}	
-	
+		}
+
 		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (include_internals) {
@@ -156,15 +156,15 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
 			if (Child == null)
 				return;
-		
+
 			Paned paned = (Paned)Child;
 			bool done = false;
-			
+
 			/* see if we can dock the item in our paned */
 			switch (Orientation) {
 			case Orientation.Horizontal:
@@ -186,7 +186,7 @@ namespace Gdl
 				}
 				break;
 			}
-			
+
 			if (!done) {
 				/* this will create another paned and reparent us there */
 				base.OnDocked (requestor, position, data);
@@ -195,13 +195,13 @@ namespace Gdl
 				requestor.DockObjectFlags |= DockObjectFlags.Attached;
 			}
 		}
-		
+
 		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			bool mayDock = false;
 
 			/* we get (x,y) in our allocation coordinates system */
-			
+
 			/* Get item's allocation. */
 			Gdk.Rectangle alloc = Allocation;
 			int bw = (int)BorderWidth;
@@ -209,19 +209,19 @@ namespace Gdl
 			/* Get coordinates relative to our window. */
 			int relX = x - alloc.X;
 			int relY = y - alloc.Y;
-			
+
 			/* Check if coordinates are inside the widget. */
 			if (relX > 0 && relX < alloc.Width &&
 			    relY > 0 && relY < alloc.Height) {
 			    	int divider = -1;
-			    
+
 				/* It's inside our area. */
 				mayDock = true;
 
 				/* these are for calculating the extra docking parameter */
 				Requisition other = ((DockItem)request.Applicant).PreferredSize;
 				Requisition my = PreferredSize;
-				
+
 				/* Set docking indicator rectangle to the Dock size. */
 				request.X = bw;
 				request.Y = bw;
@@ -258,12 +258,12 @@ namespace Gdl
 							break;
 						}
 					}
-					
+
 					if (!mayDock) {
 						/* the pointer is on the handle, so snap
 						   to top/bottom or left/right */
 						mayDock = true;
-						
+
 						if (Orientation == Orientation.Horizontal) {
 							if (relY < alloc.Height / 2) {
 								request.Position = DockPlacement.Top;
@@ -289,11 +289,11 @@ namespace Gdl
 						}
 					}
 				}
-				
+
 				if (divider >= 0 && request.Position != DockPlacement.Center)
 					request.Extra = divider;
 
-				if (mayDock) {				
+				if (mayDock) {
 					/* adjust returned coordinates so they are
 					   relative to our allocation */
 					request.X += alloc.X;

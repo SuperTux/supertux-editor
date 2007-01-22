@@ -61,7 +61,7 @@ namespace Gdl
 			this.width = width;
 			this.height = height;
 			this.floating = floating;
-			
+
 			SetFlag (WidgetFlags.NoWindow);
 			if (original != null)
 				Bind (original.Master);
@@ -81,13 +81,13 @@ namespace Gdl
 				wnd.WindowPosition = WindowPosition.Mouse;
 				wnd.SetDefaultSize (width, height);
 				wnd.TypeHint = Gdk.WindowTypeHint.Normal;
-				
+
 				/* metacity ignores this */
 				wnd.Move (floatX, floatY);
 
 				/* connect to the configure event so we can track down window geometry */
 				wnd.ConfigureEvent += new ConfigureEventHandler (OnFloatingConfigure);
-				
+
 				/* set the title */
 				SetWindowTitle ();
 
@@ -100,14 +100,14 @@ namespace Gdl
 						}
 					}
 				}
-				
+
 				wnd.Add (this);
 				wnd.DeleteEvent += new DeleteEventHandler (OnFloatingDelete);
 			}
 
 			DockObjectFlags |= DockObjectFlags.Attached;
 		}
-		
+
 		[Export]
 		public bool Floating {
 			get {
@@ -129,7 +129,7 @@ namespace Gdl
 					((Window)window).Resize (width, height);
 			}
 		}
-		
+
 		[Export]
 		public int FloatY {
 			get {
@@ -141,7 +141,7 @@ namespace Gdl
 					((Window)window).Resize (width, height);
 			}
 		}
-		
+
 		[Export]
 		public int Height {
 			get {
@@ -153,7 +153,7 @@ namespace Gdl
 					((Window)window).Resize (width, height);
 			}
 		}
-		
+
 		private bool IsController {
 			get {
 				if (Master == null)
@@ -167,7 +167,7 @@ namespace Gdl
 				return Master.DockObjects;
 			}
 		}
-		
+
 		public DockObject Root {
 			get {
 				return root;
@@ -176,7 +176,7 @@ namespace Gdl
 				root = value;
 			}
 		}
-		
+
 		public string Title {
 			get {
 				return title;
@@ -185,7 +185,7 @@ namespace Gdl
 				title = value;
 			}
 		}
-		
+
 		[Export]
 		public int Width {
 			get { return width; }
@@ -207,11 +207,11 @@ namespace Gdl
 			requisition.Width += 2 * (int)BorderWidth;
 			requisition.Height += 2 * (int)BorderWidth;
 		}
-		
+
 		protected override void OnSizeAllocated (Gdk.Rectangle allocation)
 		{
 			base.OnSizeAllocated (allocation);
-		
+
 			// reduce allocation by border width
 			int bw = (int)BorderWidth;
 			allocation.X += bw;
@@ -222,7 +222,7 @@ namespace Gdl
 			if (root != null && root.Visible)
 				root.SizeAllocate (allocation);
 		}
-		
+
 		protected override void OnMapped ()
 		{
 			base.OnMapped ();
@@ -230,7 +230,7 @@ namespace Gdl
 			if (root != null && root.Visible && !root.IsMapped)
 				root.Map ();
 		}
-		
+
 		protected override void OnUnmapped ()
 		{
 			base.OnUnmapped ();
@@ -241,7 +241,7 @@ namespace Gdl
 			if (window != null)
 				window.Unmap ();
 		}
-		
+
 		protected override void OnShown ()
 		{
 			base.OnShown ();
@@ -258,11 +258,11 @@ namespace Gdl
 				}
 			}
 		}
-		
+
 		protected override void OnHidden ()
 		{
 			base.OnHidden ();
-			
+
 			if (floating && window != null)
 				window.Hide ();
 
@@ -290,13 +290,13 @@ namespace Gdl
 
 			base.OnDestroyed ();
 		}
-		
+
 		protected override void OnAdded (Widget widget)
 		{
 			DockItem child = widget as DockItem;
 			AddItem (child, DockPlacement.Top);
 		}
-		
+
 		protected override void OnRemoved (Widget widget)
 		{
 			bool wasVisible = widget.Visible;
@@ -310,13 +310,13 @@ namespace Gdl
 					QueueResize ();
 			}
 		}
-		
+
 		protected override void ForAll (bool include_internals, Callback cb)
 		{
 			if (root != null)
 				cb (root);
 		}
-		
+
 		public override void OnDetached (bool recursive)
 		{
 			if (recursive && root != null)
@@ -324,7 +324,7 @@ namespace Gdl
 
 			DockObjectFlags &= ~(DockObjectFlags.Attached);
 		}
-		
+
 		public override void OnReduce ()
 		{
 			if (root != null)
@@ -339,13 +339,13 @@ namespace Gdl
 					((Container)Parent).Remove (this);
 			}
 		}
-		
+
 		public override bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			bool mayDock = false;
-		
+
 			/* we get (x,y) in our allocation coordinates system */
-			
+
 			/* Get dock size. */
 			Gdk.Rectangle alloc = Allocation;
 			int bw = (int)BorderWidth;
@@ -357,7 +357,7 @@ namespace Gdl
 			/* Check if coordinates are in GdlDock widget. */
 			if (relX > 0 && relX < alloc.Width &&
 			    relY > 0 && relY < alloc.Height) {
-			    
+
 				/* It's inside our area. */
 				mayDock = true;
 
@@ -366,7 +366,7 @@ namespace Gdl
 				request.Y = alloc.Y + bw;
 				request.Width = alloc.Width - 2 * bw;
 				request.Height = alloc.Height - 2 * bw;
-				
+
 				/* If Dock has no root item yet, set the dock
 				   itself as possible target. */
 				if (root == null) {
@@ -374,7 +374,7 @@ namespace Gdl
 					request.Target = this;
 				} else {
 					request.Target = root;
-					
+
 					/* See if it's in the BorderWidth band. */
 					if (relX < bw) {
 						request.Position = DockPlacement.Left;
@@ -398,10 +398,10 @@ namespace Gdl
 					}
 				}
 			}
-			
+
 			return mayDock;
 		}
-		
+
 		public override void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
 			/* only dock items allowed at this time */
@@ -417,7 +417,7 @@ namespace Gdl
 					width = rect.Width;
 					height = rect.Height;
 				}
-				
+
 				AddFloatingItem ((DockItem)requestor, x, y, width, height);
 			} else if (root != null) {
 				/* This is somewhat a special case since we know
@@ -430,27 +430,27 @@ namespace Gdl
 				root.DockObjectFlags |= DockObjectFlags.Attached;
 				root.Parent = this;
 				((DockItem)root).ShowGrip ();
-				
+
 				/* Realize the item (create its corresponding GdkWindow)
 			           when the Dock has been realized. */
 				if (IsRealized)
 					root.Realize ();
-				
+
 				/* Map the widget if it's visible and the parent is
 			           visible and has been mapped. This is done to make
 			           sure that the GdkWindow is visible. */
 				if (Visible && root.Visible) {
 					if (IsMapped)
 						root.Map ();
-					
+
 					/* Make the widget resize. */
 					root.QueueResize ();
 				}
-				
+
 				SetWindowTitle ();
 			}
 		}
-		
+
 		public override bool OnReorder (DockObject requestor, DockPlacement position, object data)
 		{
 			if (Floating && position == DockPlacement.Floating && root == requestor) {
@@ -463,7 +463,7 @@ namespace Gdl
 
 			return false;
 		}
-		
+
 		public override bool OnChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			if (root == child) {
@@ -472,16 +472,16 @@ namespace Gdl
 					placement = DockPlacement.Top;
 				return true;
 			}
-				
+
 			return false;
 		}
-		
+
 		public override void OnPresent (DockObject child)
 		{
 			if (Floating && window != null && window is Window)
 				((Window)window).Present ();
 		}
-		
+
 		public void AddItem (DockItem item, DockPlacement placement)
 		{
 			if (item == null)
@@ -492,21 +492,21 @@ namespace Gdl
 			else
 				Dock (item, placement, null);
 		}
-		
+
 		public void AddFloatingItem (DockItem item, int x, int y, int width, int height)
 		{
 			Dock dock = new Dock (this, true, x, y, width, height);
-			
+
 			if (Visible) {
 				dock.Show ();
 				if (IsMapped)
 					dock.Map ();
 				dock.QueueResize ();
 			}
-			
+
 			dock.AddItem (item, DockPlacement.Top);
 		}
-		
+
 		public DockItem GetItemByName (string name)
 		{
 			if (name == null)
@@ -518,7 +518,7 @@ namespace Gdl
 			else
 				return null;
 		}
-		
+
 		public DockPlaceholder GetPlaceholderByName (string name)
 		{
 			if (name == null)
@@ -530,7 +530,7 @@ namespace Gdl
 			else
 				return null;
 		}
-		
+
 		public static Dock GetTopLevel (DockObject obj)
 		{
 			DockObject parent = obj;
@@ -539,7 +539,7 @@ namespace Gdl
 
 			return parent != null ? (Dock)parent : null;
 		}
-		
+
 		public void XorRect (Gdk.Rectangle rect)
 		{
 			if (xorGC == null) {
@@ -559,7 +559,7 @@ namespace Gdl
 						 Gdk.CapStyle.NotLast,
 						 Gdk.JoinStyle.Bevel);
 			xorGC.SetDashes (1, new sbyte[] { 1, 1}, 2);
-			
+
 			GdkWindow.DrawRectangle (xorGC, false, rect.X, rect.Y,
 						 rect.Width, rect.Height);
 
@@ -569,26 +569,26 @@ namespace Gdl
 						 rect.Y + 1, rect.Width - 2,
 						 rect.Height - 2);
 		}
-		
+
 		private void SetWindowTitle ()
 		{
 			if (window == null)
 				return;
-		
+
 			if (!autoTitle && LongName != null)
 				title = LongName;
 			else if (Master != null)
 				title = Master.DefaultTitle;
-			
+
 			if (title == null && root != null)
 				title = root.LongName;
-			
+
 			if (title == null) {
 				autoTitle = true;
 				title = "Dock " + Master.DockNumber++;
 				LongName = title;
 			}
-			
+
 			((Window)window).Title = title;
 		}
 

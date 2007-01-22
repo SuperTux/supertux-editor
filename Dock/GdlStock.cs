@@ -40,20 +40,20 @@ namespace Gdl
 		public static string MenuRight {
 			 get { return "gdl-menu-right"; }
 		}
-		
+
 		static GdlStock ()
 		{
 			AddIcon ("gdl-close", "stock-close-12.png");
 			AddIcon ("gdl-menu-left", "stock-menu-left-12.png");
 			AddIcon ("gdl-menu-right", "stock-menu-right-12.png");
-			
+
 			stock.AddDefault ();
 		}
-		
+
 		static void AddIcon (string stockid, string resource)
 		{
 			Gtk.IconSet iconset = stock.Lookup (stockid);
-			
+
 			if (iconset == null) {
 				iconset = new Gtk.IconSet ();
 				Gdk.Pixbuf img = Gdk.Pixbuf.LoadFromResource (resource);

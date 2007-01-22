@@ -35,11 +35,11 @@ namespace Gdl
 		private DockPlacement position;
 		private int x, y, width, height;
 		private object extra;
-		
+
 		public DockRequest ()
 		{
 		}
-		
+
 		public DockRequest (DockRequest copy)
 		{
 			applicant = copy.Applicant;
@@ -49,20 +49,20 @@ namespace Gdl
 			width = copy.Width;
 			height = copy.Height;
 			position = copy.Position;
-			
+
 			extra = copy.Extra;
 		}
-		
+
 		public DockObject Applicant {
 			get { return applicant; }
 			set { applicant = value; }
 		}
-		
+
 		public DockObject Target {
 			get { return target; }
 			set { target = value; }
 		}
-		
+
 		public DockPlacement Position {
 			get { return position; }
 			set { position = value; }
@@ -76,7 +76,7 @@ namespace Gdl
 				x = value;
 			}
 		}
-		
+
 		public int Y {
 			get {
 				return y;
@@ -85,7 +85,7 @@ namespace Gdl
 				y = value;
 			}
 		}
-		
+
 		public int Width {
 			get {
 				return width;
@@ -94,7 +94,7 @@ namespace Gdl
 				width = value;
 			}
 		}
-		
+
 		public int Height {
 			get {
 				return height;
@@ -103,7 +103,7 @@ namespace Gdl
 				height = value;
 			}
 		}
-						
+
 		public object Extra {
 			get { return extra; }
 			set { extra = value; }

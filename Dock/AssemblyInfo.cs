@@ -2,7 +2,7 @@
  * Copyright (C) 2004 Todd Berman <tberman@off.net>
  * Copyright (C) 2004 Jeroen Zwartepoorte <jeroen@xs4all.nl>
  * Copyright (C) 2005 John Luke <john.luke@gmail.com>
- * 
+ *
  * based on work by:
  * Copyright (C) 2002 Gustavo Giráldez <gustavo.giraldez@gmx.net>
  *

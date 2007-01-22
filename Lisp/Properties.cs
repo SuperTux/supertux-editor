@@ -15,13 +15,13 @@ public class Properties {
 			if(i == 0 && o is Symbol)
 				continue;
 
-			if(! (o is List))
-				throw new Exception("Child of properties lisp is not a list");
-			List ChildList = (List) o;
+			List ChildList = o as List;
+			if(o == null)
+				throw new LispException("Child of properties lisp is not a list");
 			if(ChildList.Length > 0) {
-				if(! (ChildList[0] is Symbol))
-					throw new Exception("property has no symbol as name");
-				Symbol name = (Symbol) ChildList[0];
+				Symbol name = ChildList[0] as Symbol;
+				if(name == null)
+					throw new LispException("property has no symbol as name");
 
 				object old = Props[name.Name];
 				if(old == null) {
@@ -41,6 +41,16 @@ public class Properties {
 			return null;
 
 		return (List) AList[0];
+	}
+
+	/// <summary>Checks if element exists</summary>
+	/// <param name="Name">Name of element to find.</param>
+	/// <returns>False if element doesn't exist, otherwise true.</returns>
+	public bool Exists(string Name) {
+		List list = Find(Name);
+		if (list == null)
+			return false;
+		return true;
 	}
 
 	public bool Get(string Name, ref int Val) {
@@ -159,6 +169,22 @@ public class Properties {
 			return false;
 		for(int i = 1; i < list.Length; ++i) {
 			AList.Add((int) list[i]);
+		}
+		return true;
+	}
+
+	public bool GetFloatList(string Name, List<float> AList) {
+		List list = Find(Name);
+		if(list == null)
+			return false;
+		for(int i = 1; i < list.Length; ++i) {
+			if( list[i] is float) {
+				AList.Add((float) list[i]);
+			} else if(list[1] is int) {
+				AList.Add((float) ((int) list[i]));
+			} else {
+				return false;
+			}
 		}
 		return true;
 	}

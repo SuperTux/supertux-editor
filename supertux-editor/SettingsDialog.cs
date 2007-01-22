@@ -16,7 +16,7 @@ public class SettingsDialog
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
 	/// </summary>
-	private bool Changed = false;
+	private bool Changed;
 
 	public SettingsDialog(bool modal)
 	{

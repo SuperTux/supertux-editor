@@ -168,8 +168,8 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void CustomLispWrite(Writer Writer) {
-		System.Collections.Generic.List<Type> types = new System.Collections.Generic.List<Type>(this.GetType().Assembly.GetTypes());
-		types.Sort(CompareTypeNames);
+		Type[] types = this.GetType().Assembly.GetTypes();
+		Array.Sort(types, CompareTypeNames);
 		foreach(Type type in types) {
 			SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
 				Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));

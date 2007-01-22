@@ -4,6 +4,10 @@ using System.Collections.Generic;
 namespace SceneGraph
 {
 
+	/// <summary>
+	/// A base class that allows constructing scene graph nodes that have
+	/// several childs
+	/// </summary>
 	public class NodeWithChilds : Node
 	{
 		private List<Node> Childs = new List<Node>();

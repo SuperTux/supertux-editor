@@ -32,7 +32,6 @@
     <File name="./Drawing/Surface.cs" subtype="Code" buildaction="Compile" />
     <File name="./Drawing/Texture.cs" subtype="Code" buildaction="Compile" />
     <File name="./Drawing/TextureManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Libs/FreeType.cs" subtype="Code" buildaction="Compile" />
     <File name="./Libs/GLX.cs" subtype="Code" buildaction="Compile" />
     <File name="./Libs/OpenGl.cs" subtype="Code" buildaction="Compile" />
     <File name="./Libs/OpenGlUtil.cs" subtype="Code" buildaction="Compile" />

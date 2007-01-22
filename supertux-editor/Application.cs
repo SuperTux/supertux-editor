@@ -515,7 +515,7 @@ public class Application : IEditorApplication {
 		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
 		dialog.Authors = authors;
 		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
-		dialog.License = 
+		dialog.License =
 			"This program is free software; you can redistribute it and/or modify\n" +
 			"it under the terms of the GNU General Public License as published by\n" +
 			"the Free Software Foundation; either version 2 of the License, or\n" +
@@ -800,9 +800,10 @@ public class Application : IEditorApplication {
 #endif
 			Gtk.Application.Run();
 #if !INSANEDEBUG
-		} catch(Exception) {
+		} catch(Exception e) {
 			if(app.level != null) {
 				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
+				Console.Error.WriteLine(e.Message);
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}
 			throw;

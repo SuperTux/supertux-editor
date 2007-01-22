@@ -6,7 +6,12 @@ using OpenGl;
 namespace SceneGraph
 {
 
-	public class Transform : NodeWithChilds
+	/// <summary>
+	/// A scene graph node which applies a transform to the current opengl
+	/// transform (the matrix will be multiplied with the currently active
+	/// tranform)
+	/// </summary>
+	public sealed class Transform : NodeWithChilds
 	{
 		public Matrix Matrix;
 

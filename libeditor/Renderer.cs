@@ -18,7 +18,7 @@ public class RenderView : GLWidgetBase
 
 	private IEditor editor;
 	public IEditor Editor {
-		set	{
+		set {
 			if(this.editor != null) {
 				this.editor.Redraw -= QueueDraw;
 				if(this.editor is IEditorCursorChange)

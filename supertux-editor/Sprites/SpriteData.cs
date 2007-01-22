@@ -7,15 +7,42 @@ using DataStructures;
 
 namespace Sprites
 {
-
+/// <summary>
+/// Stores the "static" data (images, size and so on) for sprites.
+/// </summary>
 internal class SpriteData {
+	/// <summary>
+	/// An action, and it's images and other data.
+	/// </summary>
 	public class Action {
 		public string Name;
+		/// <summary>
+		/// A list of <see cref="Surface"/> objects for the 
+		/// images in the action.
+		/// </summary>
 		public List<Surface> Frames = new List<Surface>();
 		public float Speed = 1.0f;
+		/// <summary>
+		/// Offset for coordinates that should be used in level file compared 
+		/// to coordinates for image. Calculated from <see cref="Hitbox"/>
+		/// </summary>
 		public Vector Offset = new Vector();
+		/// <summary>
+		/// The width of the widest of the images that this action consists of.
+		/// </summary>
 		public float Width;
+		/// <summary>
+		/// The height of the highest of the images that this action consists of.
+		/// </summary>
 		public float Height;
+		/// <summary>
+		/// The hitbox (if any) for this action.
+		/// </summary>
+		/// <remarks>
+		/// The game uses float for this so we do as well, no sprite
+		/// currently use anything but integers for this though.
+		/// </remarks>
+		public RectangleF Hitbox;
 
 		public Action(string Name, Surface Surface) {
 			this.Name = Name;
@@ -26,12 +53,18 @@ internal class SpriteData {
 
 		public Action(List Data, string BaseDir, SpriteData spriteData) {
 			Properties Props = new Properties(Data);
-
 			if(!Props.Get("name", ref Name))
 				throw new Exception("Action without name specified");
 			Props.Get("fps", ref Speed);
-			Props.Get("x-offset", ref Offset.X);
-			Props.Get("y-offset", ref Offset.Y);
+			if(Props.Exists("hitbox")) {
+				List<float> hitbox = new List<float>();
+				Props.GetFloatList("hitbox", hitbox);
+				if (hitbox.Count != 4)
+					throw new Exception("hitbox must specify exactly 4 coordinates");
+				Hitbox = new RectangleF(hitbox[0], hitbox[1], hitbox[2], hitbox[3]);
+				Offset.X = Hitbox.Left;
+				Offset.Y = Hitbox.Top;
+			}
 			List<string> ImageFileNames = new List<string>();
 			Props.GetStringList("images", ImageFileNames);
 

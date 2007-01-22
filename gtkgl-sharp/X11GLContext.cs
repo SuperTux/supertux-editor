@@ -37,7 +37,7 @@ namespace Gdk
 	using System.Runtime.InteropServices;
 	using System.Security;
 
-	internal class X11GLContext : GLContext
+	internal sealed class X11GLContext : GLContext
 	{
 		private const string GL_DLL = "GL";
 

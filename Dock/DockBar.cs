@@ -35,20 +35,20 @@ namespace Gdl
 		DockMaster master;
 		ArrayList items;
 		Tooltips tooltips;
-		
+
 		public DockBar (Dock dock)
 		{
 			items = new ArrayList ();
 			tooltips = new Tooltips ();
 			Master = dock.Master;
 		}
-		
-		public DockMaster Master 
+
+		public DockMaster Master
 		{
 			get { return master; }
 			set { this.Attach (value); }
 		}
-		
+
 		public void AddItem (DockItem item)
 		{
 			// check if already there
@@ -61,14 +61,14 @@ namespace Gdl
 
 			// create a button for the item
 			DockBarButton button = new DockBarButton (item);
-			this.PackStart (button, false, false, 0);						
+			this.PackStart (button, false, false, 0);
 			tooltips.SetTip (button, item.LongName, item.LongName);
 			item.DockBar = this;
 			item.DockBarButton = button;
 			button.Clicked += new EventHandler (OnDockButtonClicked);
 			this.ShowAll ();
 		}
-		
+
 		public void Attach (DockMaster master)
 		{
 			if (master == null)
@@ -93,7 +93,7 @@ namespace Gdl
 
 			base.Destroy ();
 		}
-		
+
 		public void RemoveItem (DockItem item)
 		{
 			// we can only remove if it is there
@@ -106,7 +106,7 @@ namespace Gdl
 				Console.WriteLine ("WARNING: {0} has not been added to the dockbar", item.Name);
 			}
 		}
-		
+
 		void UpdateDockItems ()
 		{
 			if (master == null)
@@ -126,12 +126,12 @@ namespace Gdl
 					this.AddItem (item);
 			}
 		}
-		
+
 		void OnLayoutChanged (object o, EventArgs args)
 		{
 			UpdateDockItems ();
 		}
-		
+
 		void OnDockButtonClicked (object o, EventArgs args)
 		{
 			DockItem item = ((DockBarButton) o).DockItem;

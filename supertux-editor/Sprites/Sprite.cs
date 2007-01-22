@@ -9,6 +9,14 @@ using System.Collections.Generic;
 namespace Sprites
 {
 
+/// <summary>
+/// A sprite and it's current state.
+/// </summary>
+/// <remarks>
+/// The actual images and other non changing data for the sprite is 
+/// stored in a <see cref="SpriteData"/> object that is shared between
+/// sprites of the same spritefile/imagefile.
+/// </remarks>
 public class Sprite : Node {
 	private SpriteData Data;
 	private SpriteData.Action CurrentAction;
@@ -27,6 +35,11 @@ public class Sprite : Node {
 		}
 	}
 
+	/// <summary>
+	/// Offset for coordinates that should be used in level file compared 
+	/// to coordinates for image. Calculated from the hitbox of the current
+	/// action.
+	/// </summary>
 	public Vector Offset {
 		get {
 			return CurrentAction.Offset;

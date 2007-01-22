@@ -33,7 +33,7 @@ namespace Gdl
 	public delegate void PropertyChangedHandler (object o, string name);
 
 	public class DockObject : Container
-	{	
+	{
 		private DockObjectFlags flags = DockObjectFlags.Automatic;
 		private int freezeCount = 0;
 		private DockMaster master;
@@ -45,14 +45,14 @@ namespace Gdl
 		private PropertyInfo[] publicProps;
 		Hashtable afterProps;
 		Hashtable beforeProps;
-		
+
 		public event DetachedHandler Detached;
 		public event DockedHandler Docked;
 		public event PropertyChangedHandler PropertyChanged;
 
 		protected DockObject (IntPtr raw) : base (raw) { }
 		protected DockObject () : base () { }
-		
+
 		public DockObjectFlags DockObjectFlags {
 			get {
 				return flags;
@@ -62,49 +62,49 @@ namespace Gdl
 				EmitPropertyEvent ("DockObjectFlags");
 			}
 		}
-		
+
 		public bool InDetach {
 			get {
 				return ((flags & DockObjectFlags.InDetach) != 0);
 			}
 		}
-		
+
 		public bool InReflow {
 			get {
 				return ((flags & DockObjectFlags.InReflow) != 0);
 			}
 		}
-		
+
 		public bool IsAttached {
 			get {
 				return ((flags & DockObjectFlags.Attached) != 0);
 			}
 		}
-		
+
 		public bool IsAutomatic {
 			get {
 				return ((flags & DockObjectFlags.Automatic) != 0);
 			}
 		}
-		
+
 		public bool IsBound {
 			get {
 				return master != null;
 			}
 		}
-		
+
 		public virtual bool IsCompound {
 			get {
 				return true;
 			}
 		}
-		
+
 		public bool IsFrozen {
 			get {
 				return freezeCount > 0;
 			}
 		}
-		
+
 		public string LongName {
 			get {
 				return longName;
@@ -114,7 +114,7 @@ namespace Gdl
 				EmitPropertyEvent ("LongName");
 			}
 		}
-		
+
 		public DockMaster Master {
 			get {
 				return master;
@@ -127,7 +127,7 @@ namespace Gdl
 				EmitPropertyEvent ("Master");
 			}
 		}
-		
+
 		[Export]
 		public new string Name {
 			get {
@@ -138,7 +138,7 @@ namespace Gdl
 				EmitPropertyEvent ("Name");
 			}
 		}
-		
+
 		public DockObject ParentObject {
 			get {
 				Widget parent = Parent;
@@ -179,7 +179,7 @@ namespace Gdl
 						beforeProps [pp.Name.ToLower ()] = pp;
 				}
 			}
-			
+
 			property = property.ToLower ();
 			PropertyInfo p = after ? (PropertyInfo) afterProps [property] : (PropertyInfo) beforeProps [property];
 			if (p != null)
@@ -271,7 +271,7 @@ namespace Gdl
 
 			base.OnDestroyed ();
 		}
-		
+
 		protected override void OnShown ()
 		{
 			if (IsCompound)
@@ -280,7 +280,7 @@ namespace Gdl
 
 			base.OnShown ();
 		}
-		
+
 		protected override void OnHidden ()
 		{
 			if (IsCompound)
@@ -289,7 +289,7 @@ namespace Gdl
 
 			base.OnHidden ();
 		}
-		
+
 		public virtual void OnDetached (bool recursive)
 		{
 			/* detach children */
@@ -298,7 +298,7 @@ namespace Gdl
 					child.Detach (recursive);
 				}
 			}
-			
+
 			/* detach the object itself */
 			flags &= ~(DockObjectFlags.Attached);
 			DockObject parent = ParentObject;
@@ -308,12 +308,12 @@ namespace Gdl
 			if (parent != null)
 				parent.Reduce ();
 		}
-		
+
 		public virtual void OnReduce ()
 		{
 			if (!IsCompound)
 				return;
-				
+
 			DockObject parent = ParentObject;
 			Widget[] children = Children;
 			if (children.Length <= 1) {
@@ -331,7 +331,7 @@ namespace Gdl
 						parent.Add (child);
 					child.flags &= ~(DockObjectFlags.InReflow);
 				}
-				
+
 				reducePending = false;
 
 				Thaw ();
@@ -339,47 +339,47 @@ namespace Gdl
 					parent.Thaw ();
 			}
 		}
-		
+
 		public virtual bool OnDockRequest (int x, int y, ref DockRequest request)
 		{
 			return false;
 		}
-		
+
 		public virtual void OnDocked (DockObject requestor, DockPlacement position, object data)
 		{
 		}
-		
+
 		public virtual bool OnReorder (DockObject child, DockPlacement new_position, object data)
 		{
 			return false;
 		}
-		
+
 		public virtual void OnPresent (DockObject child)
 		{
-			Show ();			
+			Show ();
 		}
-		
+
 		public virtual bool OnChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			return false;
 		}
-		
+
 		public bool ChildPlacement (DockObject child, ref DockPlacement placement)
 		{
 			if (!IsCompound)
 				return false;
-			
+
 			return OnChildPlacement (child, ref placement);
 		}
-		
+
 		public void Detach (bool recursive)
 		{
 			if (!IsAttached)
 				return;
-				
+
 			/* freeze the object to avoid reducing while detaching children */
 			Freeze ();
-			
+
 			DockObjectFlags |= DockObjectFlags.InDetach;
 			OnDetached (recursive);
 			DetachedHandler handler = Detached;
@@ -387,14 +387,14 @@ namespace Gdl
 				handler (this, new DetachedArgs (recursive));
 			DockObjectFlags &= ~(DockObjectFlags.InDetach);
 
-			Thaw ();		
+			Thaw ();
 		}
-		
+
 		public void Dock (DockObject requestor, DockPlacement position, object data)
 		{
 			if (requestor == null || requestor == this)
 				return;
-				
+
 			if (master == null) {
 				Console.WriteLine ("Dock operation requested in a non-bound object {0}.", this);
 				Console.WriteLine ("This might break.");
@@ -434,16 +434,16 @@ namespace Gdl
 					handler (this, args);
 				}
 			}
-			
+
 			Thaw ();
 		}
-		
+
 		public void Present (DockObject child)
 		{
 			if (ParentObject != null)
 				/* chain the call to our parent */
 				ParentObject.Present (this);
-			
+
 			OnPresent (child);
 		}
 
@@ -454,14 +454,14 @@ namespace Gdl
 				return;
 			}
 
-			OnReduce ();		
+			OnReduce ();
 		}
 
 		public void Freeze ()
 		{
 			freezeCount++;
 		}
-		
+
 		public void Thaw ()
 		{
 			if (freezeCount < 0) {
@@ -476,7 +476,7 @@ namespace Gdl
 				Reduce ();
 			}
 		}
-		
+
 		public void Bind (DockMaster master)
 		{
 			if (master == null) {
@@ -492,12 +492,12 @@ namespace Gdl
 				Console.WriteLine ("Attempt to bind an already bound object");
 				return;
 			}
-			
+
 			master.Add (this);
 			this.master = master;
 			EmitPropertyEvent ("Master");
 		}
-		
+
 		public void Unbind ()
 		{
 			if (IsAttached)
@@ -510,7 +510,7 @@ namespace Gdl
 				EmitPropertyEvent ("Master");
 			}
 		}
-		
+
 		protected void EmitPropertyEvent (string name)
 		{
 			// Make a local assignment of the handler here to prevent

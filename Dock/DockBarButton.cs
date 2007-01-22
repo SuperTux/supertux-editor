@@ -39,7 +39,7 @@ namespace Gdl
 			this.Add (new Image (item.StockId, IconSize.SmallToolbar));
 		}
 
-		public DockItem DockItem 
+		public DockItem DockItem
 		{
 			get { return item; }
 		}

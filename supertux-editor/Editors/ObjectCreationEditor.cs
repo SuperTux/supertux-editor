@@ -71,13 +71,13 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 
 	private object CreateObject()
 	{
-		// create object
+		// Create object
 		ConstructorInfo Constructor = objectType.GetConstructor(Type.EmptyTypes);
 		if(Constructor == null)
 			throw new Exception("Type '" + objectType + "' has no public constructor without arguments");
 		object Result = Constructor.Invoke(new object[] {});
 
-		//some Objects need special treatment
+		// Some Objects need special treatment
 		if( Result is Tilemap ){
 			uint width = 0;
 			uint height = 0;
