@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LispReader
 {
-
+	//TODO: Someone should try to understand what this is for and document it
 	public abstract class FieldOrProperty
 	{
 		private class FieldOrPropertyLister : IEnumerable<FieldOrProperty>
