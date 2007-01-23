@@ -46,7 +46,6 @@
     <Compile Include="DataStructures\FieldPos.cs" />
     <Compile Include="DataStructures\Matrix.cs" />
     <Compile Include="DataStructures\RectangleF.cs" />
-    <Compile Include="DataStructures\SizeF.cs" />
     <Compile Include="DataStructures\Vector.cs" />
     <Compile Include="Drawing\Color.cs" />
     <Compile Include="Drawing\GlUtil.cs" />
