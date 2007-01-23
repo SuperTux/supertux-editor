@@ -24,7 +24,6 @@
     <File name="./DataStructures/RectangleF.cs" subtype="Code" buildaction="Compile" />
     <File name="./DataStructures/SizeF.cs" subtype="Code" buildaction="Compile" />
     <File name="./DataStructures/Vector.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Drawing/Font.cs" subtype="Code" buildaction="Compile" />
     <File name="./Drawing/GlUtil.cs" subtype="Code" buildaction="Compile" />
     <File name="./Drawing/ImageTexture.cs" subtype="Code" buildaction="Compile" />
     <File name="./Drawing/Surface.cs" subtype="Code" buildaction="Compile" />

@@ -49,7 +49,6 @@
     <Compile Include="DataStructures\SizeF.cs" />
     <Compile Include="DataStructures\Vector.cs" />
     <Compile Include="Drawing\Color.cs" />
-    <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\GlUtil.cs" />
     <Compile Include="Drawing\ImageTexture.cs" />
     <Compile Include="Drawing\Surface.cs" />
