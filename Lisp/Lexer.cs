@@ -4,7 +4,10 @@ using System.Text;
 using System.IO;
 
 namespace Lisp {
-
+/// <summary>
+/// Lisp lexer
+/// </summary>
+/// <seealso cref="Parser"/>
 public sealed class Lexer {
 	private TextReader stream;
 	private char[] buffer;

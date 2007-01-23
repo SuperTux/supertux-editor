@@ -70,6 +70,14 @@ public sealed class SectorRenderer : RenderView
 		DragMotion += OnDragMotion;
 	}
 
+	/// <summary>
+	///		Change color of a tilemap. Useful to hide tilemaps (but they are still drawn that way...)
+	/// </summary>
+	/// <remarks>
+	///		Used to hide tilemaps in <see cref="LayerListWidget.OnVisibilityChange"/>.
+	/// </remarks>
+	/// <param name="tilemap">The tilemap to change color of.</param>
+	/// <param name="color">The new color.</param>
 	public void SetTilemapColor(Tilemap tilemap, Color color)
 	{
 		System.Console.WriteLine("Set color of tilemap {0}", tilemap.GetHashCode());

@@ -6,7 +6,10 @@ using System.Collections;
 
 namespace Lisp
 {
-
+/// <summary>
+/// Lisp parser
+/// </summary>
+/// <seealso cref="Lexer"/>
 public sealed class Parser {
 	private Lexer Lexer;
 	private Lexer.Token Token;
