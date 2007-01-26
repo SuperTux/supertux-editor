@@ -26,13 +26,13 @@ namespace SceneGraph
 			this.Color = Color;
 		}
 
-		public void Draw()
+		public void Draw(Gdk.Rectangle cliprect)
 		{
 			if(Child == null)
 				return;
 
 			gl.Color4f(Color.Red, Color.Green, Color.Blue, Color.Alpha);
-			Child.Draw();
+			Child.Draw(cliprect);
 			gl.Color4f(0, 0, 0, 1f);
 		}
 	}

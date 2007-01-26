@@ -48,7 +48,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		killTimer = true;
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		// draw path edges
 		gl.Color4f(1, 0, 0, 0.7f);

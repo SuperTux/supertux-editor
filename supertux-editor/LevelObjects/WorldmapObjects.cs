@@ -24,7 +24,7 @@ public abstract class WorldmapObject : SimpleObject
 		Y = ((int) (NewArea.Top - 16 + Sprite.Offset.Y)) / 32;
 	}
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
 

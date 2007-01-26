@@ -277,7 +277,6 @@ public class LayerListWidget : TreeView {
 		md.Destroy();
 	}
 
-
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
 		if(currentTilemap != null) {

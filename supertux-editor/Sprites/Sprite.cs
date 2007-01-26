@@ -99,7 +99,7 @@ public class Sprite : Node {
 		}
 	}
 
-	public virtual void Draw()
+	public virtual void Draw(Gdk.Rectangle cliprect)
 	{
 		Draw(new Vector(0, 0));
 	}

@@ -92,7 +92,7 @@ public sealed class Background : IGameObject, Node {
 		Y = NewArea.Top;
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		if (surface == null) return;
 

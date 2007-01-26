@@ -31,7 +31,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			this.attachPoint = attachPoint;
 		}
 
-		public void Draw()
+		public void Draw(Gdk.Rectangle cliprect)
 		{
 			UpdatePosition();
 			gl.Color4f(0, 0, 1, 0.7f);
@@ -120,7 +120,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		this.sector = sector;
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		if(activeObject != null) {
 			IObject obj = activeObject;
@@ -128,11 +128,11 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 				obj = ((ControlPoint) obj).Object;
 
 			gl.Color4f(1, 0, 0, 0.7f);
-			obj.GetSceneGraphNode().Draw();
+			obj.GetSceneGraphNode().Draw(cliprect);
 			gl.Color4f(1, 1, 1, 1);
 		}
 		foreach(ControlPoint point in controlPoints) {
-			point.Draw();
+			point.Draw(cliprect);
 		}
 	}
 

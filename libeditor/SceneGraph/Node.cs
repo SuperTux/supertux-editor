@@ -12,7 +12,7 @@ namespace SceneGraph
 	/// </remarks>
 	public interface Node
 	{
-		void Draw();
+		void Draw(Gdk.Rectangle cliprect);
 	}
 
 }

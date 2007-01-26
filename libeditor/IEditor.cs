@@ -5,7 +5,11 @@ using Gtk;
 
 public interface IEditor
 {
-	void Draw();
+	/// <summary>
+	/// Draw it
+	/// </summary>
+	/// <param name="cliprect"></param>
+	void Draw(Gdk.Rectangle cliprect);
 	void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers);
 	void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers);
 	void OnMouseMotion(Vector pos, ModifierType Modifiers);

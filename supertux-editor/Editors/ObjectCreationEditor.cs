@@ -16,7 +16,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		this.objectType = objectType;
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		// TODO draw image of the object to create
 	}

@@ -33,7 +33,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public new void Draw()
+	public new void Draw(Gdk.Rectangle cliprect)
 	{
 		// when not selecting, draw white rectangle over affected tiles
 		if(!selecting) {

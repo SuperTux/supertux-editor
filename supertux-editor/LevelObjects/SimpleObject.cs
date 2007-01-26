@@ -55,7 +55,7 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 		}
 	}
 
-	public virtual void Draw() {
+	public virtual void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
 
@@ -190,7 +190,7 @@ public abstract class SimpleObjectArea : SimpleObject
 		}
 	}
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
 		float left = X;
 		float right = X + Width;
 		float top = Y;

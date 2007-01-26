@@ -553,7 +553,7 @@ public sealed class Spotlight : SimpleColorObject
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
 	}
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
 		//draw sprite
 		if(Sprite == null)
 			return;
@@ -582,7 +582,7 @@ public sealed class MagicBlock : SimpleColorObject
 	}
 	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
 		//draw sprite
 		if(Sprite == null)
 			return;
@@ -615,7 +615,7 @@ public sealed class Lantern : SimpleColorObject
 	}
 	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
 		//draw sprite
 		if(Sprite == null)
 			return;
@@ -790,7 +790,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		path.Nodes.Add(new Path.Node());
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		Sprite.Draw(Path.Nodes[0].Pos);
 	}
