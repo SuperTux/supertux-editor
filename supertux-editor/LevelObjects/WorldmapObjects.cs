@@ -25,6 +25,8 @@ public abstract class WorldmapObject : SimpleObject
 	}
 
 	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
 		if(Sprite == null)
 			return;
 

@@ -554,12 +554,14 @@ public sealed class Spotlight : SimpleColorObject
 		Sprite.Action = "default";
 	}
 	public override void Draw(Gdk.Rectangle cliprect) {
-		//draw sprite
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(color);
 	}
 }
@@ -583,12 +585,14 @@ public sealed class MagicBlock : SimpleColorObject
 	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
 
 	public override void Draw(Gdk.Rectangle cliprect) {
-		//draw sprite
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(magiccolor);
 	}
 	public MagicBlock() {
@@ -616,12 +620,14 @@ public sealed class Lantern : SimpleColorObject
 	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
 
 	public override void Draw(Gdk.Rectangle cliprect) {
-		//draw sprite
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(lightcolor);
 	}
 	public Lantern() {
@@ -792,6 +798,8 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
 		Sprite.Draw(Path.Nodes[0].Pos);
 	}
 
