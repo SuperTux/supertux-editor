@@ -58,8 +58,8 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	public virtual void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
-
-		Sprite.Draw(new Vector(X, Y));
+		if (cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			Sprite.Draw(new Vector(X, Y));
 	}
 
 	public virtual Node GetSceneGraphNode() {

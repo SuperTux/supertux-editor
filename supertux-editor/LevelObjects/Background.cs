@@ -100,15 +100,24 @@ public sealed class Background : IGameObject, Node {
 		Surface st = (surfaceTop != null)?(surfaceTop):(surface);
 		Surface sb = (surfaceBottom != null)?(surfaceBottom):(surface);
 
-		// TODO only draw visible tiles
+		// TODO only draw tiles inside level and do draw all inside level
 
 		for (int tileX = -10; tileX <= 10; tileX++) {
 			for (int tileY = -10; tileY <= 0; tileY++) {
-				st.Draw(new Vector(X + st.Width * tileX, Y - st.Height + st.Height * tileY));
+				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + st.Width * tileX),
+				                                              (int) (Y - st.Height + st.Height * tileY),
+				                                              (int) st.Width, (int) st.Height)))
+					st.Draw(new Vector(X + st.Width * tileX, Y - st.Height + st.Height * tileY));
 			}
-			sm.Draw(new Vector(X + sm.Width * tileX, Y));
+			if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sm.Width * tileX),
+			                                              (int) (Y),
+			                                              (int) sm.Width, (int) sm.Height)))
+				sm.Draw(new Vector(X + sm.Width * tileX, Y));
 			for (int tileY = 0; tileY <= 10; tileY++) {
-				sb.Draw(new Vector(X + sb.Width * tileX, Y + surface.Height + sb.Height * tileY));
+				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sb.Width * tileX),
+				                                              (int) (Y + surface.Height + sb.Height * tileY),
+				                                              (int) sb.Width, (int) sb.Height)))
+					sb.Draw(new Vector(X + sb.Width * tileX, Y + surface.Height + sb.Height * tileY));
 			}
 		}
 	}
