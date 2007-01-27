@@ -6,7 +6,7 @@ using System;
 /// <summary>
 ///	A SceneGraph Node which draws a tilemap
 /// </summary>
-public class TilemapNode : Node {
+public sealed class TilemapNode : Node {
 	private Field<int> Field;
 	private Tileset Tileset;
 

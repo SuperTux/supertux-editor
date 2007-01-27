@@ -191,6 +191,8 @@ public abstract class SimpleObjectArea : SimpleObject
 	}
 
 	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith(new Gdk.Rectangle((int) X, (int) Y, (int) Width, (int) Height)))
+			return;
 		float left = X;
 		float right = X + Width;
 		float top = Y;
