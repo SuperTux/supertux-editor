@@ -191,6 +191,11 @@ public class RenderView : GLWidgetBase
 		return Translation;
 	}
 
+	/// <summary>
+	///		Returns a <see cref="Gdk.Rectangle"/> for the currently
+	///		visible area in world coordinates.
+	/// </summary>
+	/// <returns>A <see cref="Gdk.Rectangle"/>.</returns>
 	public Gdk.Rectangle GetClipRect() {
 		return new Gdk.Rectangle((int)-Translation.X, (int)-Translation.Y,
 														 (int)(Allocation.Width / Zoom), (int)(Allocation.Height / Zoom));
