@@ -1,4 +1,6 @@
 /*
+ * $Id$
+ *
  * Copyright (C) 2005 John Luke <john.luke@gmail.com>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -26,4 +28,3 @@ namespace Gdl
 	{
 	}
 }
-

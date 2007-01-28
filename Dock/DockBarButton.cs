@@ -1,4 +1,6 @@
 /*
+ * $Id$
+ *
  * Copyright (C) 2005 John Luke <john.luke@gmail.com>
  *
  * based on work by:
@@ -45,4 +47,3 @@ namespace Gdl
 		}
 	}
 }
-

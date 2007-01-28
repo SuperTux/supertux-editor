@@ -1,3 +1,4 @@
+// $Id$
 using System;
 
 namespace Gdl
@@ -14,4 +15,3 @@ namespace Gdl
 		Floating,
 	}
 }
-

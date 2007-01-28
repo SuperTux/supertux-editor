@@ -26,7 +26,7 @@ namespace Lisp
 		/// </summary>
 		/// <remarks>
 		///		There are no examples what this should be used for (all are empty
-		///		in the classes that implement this interface) but it is always 
+		///		in the classes that implement this interface) but it is always
 		///		called after <see cref="CustomLispRead"/> by the
 		///		<see cref="LispReader.LispRootSerializer"/>.
 		/// </remarks>
@@ -58,7 +58,7 @@ namespace Lisp
 		///		Seralizes <paramref name="Object"/> using <paramref name="writer"/>
 		/// </summary>
 		/// <param name="writer">
-		///		A <see cref="Writer"/> that <paramref name="Object"/> should be 
+		///		A <see cref="Writer"/> that <paramref name="Object"/> should be
 		///		seralized to.</param>
 		/// <param name="name">
 		///		Name that should be used for the seralized lisp tree.

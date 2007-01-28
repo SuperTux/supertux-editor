@@ -15,7 +15,7 @@ namespace LispReader
 			this.Name = name;
 		}
 	}
-	
+
 	/// <summary>
 	///		Marks a class or struct as a seralizer
 	///		for <see cref="LispCustomSerializerAttribute.Type"/>

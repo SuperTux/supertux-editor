@@ -187,4 +187,3 @@ public sealed class Sector : ICustomLispSerializer {
 	public void FinishRead() {
 	}
 }
-

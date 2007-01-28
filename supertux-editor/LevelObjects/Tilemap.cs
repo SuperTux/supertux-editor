@@ -57,4 +57,3 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	}
 
 }
-

@@ -55,8 +55,8 @@ public sealed class Writer {
 
 	/// <summary>
 	/// Write an object <paramref name="value"/> to
-	/// the stream under the name 
-	/// <paramref name="name"/>. 
+	/// the stream under the name
+	/// <paramref name="name"/>.
 	/// </summary>
 	/// <param name="name">The name to write value to in lisp.</param>
 	/// <param name="value">The object to write</param>

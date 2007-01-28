@@ -30,7 +30,7 @@ namespace SceneGraph
 		{
 			if(Child == null)
 				return;
-			
+
 			// TODO: Skip drawing at all if Color.Alpha == 0?
 			gl.Color4f(Color.Red, Color.Green, Color.Blue, Color.Alpha);
 			Child.Draw(cliprect);

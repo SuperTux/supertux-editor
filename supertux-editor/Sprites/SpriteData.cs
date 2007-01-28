@@ -17,13 +17,13 @@ internal class SpriteData {
 	public class Action {
 		public string Name;
 		/// <summary>
-		/// A list of <see cref="Surface"/> objects for the 
+		/// A list of <see cref="Surface"/> objects for the
 		/// images in the action.
 		/// </summary>
 		public List<Surface> Frames = new List<Surface>();
 		public float Speed = 1.0f;
 		/// <summary>
-		/// Offset for coordinates that should be used in level file compared 
+		/// Offset for coordinates that should be used in level file compared
 		/// to coordinates for image. Calculated from <see cref="Hitbox"/>
 		/// </summary>
 		public Vector Offset = new Vector();

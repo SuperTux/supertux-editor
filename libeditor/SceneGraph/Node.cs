@@ -13,7 +13,7 @@ namespace SceneGraph
 	public interface Node
 	{
 		/// <summary>
-		///		When called should draw the node 
+		///		When called should draw the node
 		/// </summary>
 		/// <param name="cliprect">
 		///		The area that is visible in the <see cref="RenderView"/>
