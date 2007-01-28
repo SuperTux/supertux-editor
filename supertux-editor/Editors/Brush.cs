@@ -262,8 +262,10 @@ public class Brush
 		FileStream fs = new FileStream(fname, FileMode.Create);
 		TextWriter tw = new StreamWriter(fs);
 
+		patterns.Sort();
+
 		foreach (TileBlock m1 in patterns) {
-			tw.WriteLine("" + m1[0, 0] + "," + m1[1, 0] + "," + m1[2, 0] + "," + m1[0, 1] + "," + m1[1, 1] + "," + m1[2, 1] + "," + m1[0, 2] + "," + m1[1, 2] + "," + m1[2, 2] + "");
+			tw.WriteLine(m1[0, 0] + "," + m1[1, 0] + "," + m1[2, 0] + "," + m1[0, 1] + "," + m1[1, 1] + "," + m1[2, 1] + "," + m1[0, 2] + "," + m1[1, 2] + "," + m1[2, 2]);
 		}
 
 		tw.Close();

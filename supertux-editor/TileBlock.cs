@@ -7,7 +7,7 @@ using LispReader;
 using System.Collections.Generic;
 
 [LispRoot("tileblock")]
-public class TileBlock : Field<int>, ICustomLispSerializer {
+public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	public int TileListFirstTile = -1;
 	public int TileListW, TileListH;
 
@@ -91,5 +91,46 @@ public class TileBlock : Field<int>, ICustomLispSerializer {
 
 	public void FinishRead() {
 	}
+
+	#region IComparable Members
+	/// <summary>
+	///		Compares the current instance with another object of the same type.
+	/// </summary>
+	/// <remarks>
+	///		Only reliable to keep lists of <see cref="TileBlock"/> sorted,
+	///		it may or may not be a logical sorting but that wasn't the goal either.
+	/// </remarks>
+	/// <param name="obj">An object to compare with this instance. </param>
+	/// <returns>
+	///		A 32-bit signed integer that indicates the relative order of the
+	///		objects being compared. For meanings of the meaning of these values see
+	///		<see cref="IComparable.CompareTo"/>.
+	/// </returns>
+	/// <seealso cref="IComparable.CompareTo"/>
+	int IComparable.CompareTo(object obj) {
+		if (obj == null) return 1;
+		if (obj is TileBlock) {
+			TileBlock tileblock = (TileBlock) obj;
+			for (int i = 0; i < Math.Min(this.Elements.Count, tileblock.Elements.Count); i++) {
+				if (this.Elements[i] == tileblock.Elements[i])
+					continue;
+				if (this.Elements[i] > tileblock.Elements[i])
+					return 1;
+				else
+					return -1;
+			}
+			// Same data up to the last index of the smallest one at least.
+			if (this.Elements.Count == tileblock.Elements.Count)
+				return 0;
+			if (this.Elements.Count > tileblock.Elements.Count)
+				return 1;
+			else
+				return -1;
+		}
+
+		throw new ArgumentException("object is not a TileBlock");
+	}
+
+	#endregion
 
 }

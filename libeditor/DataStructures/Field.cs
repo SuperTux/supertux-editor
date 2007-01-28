@@ -8,7 +8,7 @@ namespace DataStructures
 	/// <summary>This class represents a dynamic 2-dimensional array</summary>
 	public class Field<T>
 	{
-		private List<T> Elements = new List<T>();
+		protected List<T> Elements = new List<T>();
 		private uint width;
 		private uint height;
 
