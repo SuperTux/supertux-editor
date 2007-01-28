@@ -223,6 +223,39 @@ public class Brush
 		}
 	}
 
+	/// <summary>
+	/// Find the best pattern to use when changing tiles around the given position to one of the stored patterns.
+	/// </summary>
+	/// <param name="pos">The (center) position at the <paramref name="tilemap"/> to look at.</param>
+	/// <param name="tilemap">The tilemap to look at.</param>
+	/// <returns>A tileblock that will replace the area.</returns>
+	public TileBlock FindBestPattern(FieldPos pos, Tilemap tilemap) {
+		// find upper-left corner of where to apply brush
+		int px = pos.X - (int) (width / 2);
+		int py = pos.Y - (int) (height / 2);
+
+		// make sure we are in bounds of the tilemap
+		if (px < 0) return null;
+		if (py < 0) return null;
+		if (px + width > tilemap.Width) return null;
+		if (py + width > tilemap.Height) return null;
+
+		// store subset of tilemap where brush will be applied as a reference pattern
+		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
+
+		// find the stored pattern that matches this reference pattern best
+		float bestSimilarity = 0;
+		TileBlock bestPattern = null;
+		foreach (TileBlock pattern in patterns) {
+			float sim = calculateSimilarity(pattern, tb);
+			if (sim > bestSimilarity) {
+				bestSimilarity = sim;
+				bestPattern = pattern;
+			}
+		}
+		return bestPattern;
+	}
+
 	// FIXME: untested
 	// TODO: change file syntax from CSV to Lisp
 	public void saveToFile(string fname) {

@@ -13,6 +13,16 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	private new Selection selection = new Selection();
 	private Brush brush;
 
+	/// <summary>
+	/// Contains position where last preview was generated.
+	/// </summary>
+	private FieldPos LastPreviewPos;
+	/// <summary>
+	/// A cache of the preview of changing the current "active" area
+	/// </summary>
+	private TileBlock LastPreview;
+
+
 	public event RedrawEventHandler Redraw;
 
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
@@ -21,6 +31,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		selection.Changed += OnSelectionChanged;
 		this.application = application;
 		this.Tilemap = Tilemap;
+		this.Tileset = Tileset;
 		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
 
@@ -33,18 +44,37 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
+	/// <summary>
+	/// Updates the LastPreview if the current mouse position has changed.
+	/// </summary>
+	private void UpdatePreview() {
+		if (LastPreviewPos != MouseTilePos) {
+			LastPreview = brush.FindBestPattern(MouseTilePos, Tilemap);
+			LastPreviewPos = MouseTilePos;
+		}
+	}
+
 	public new void Draw(Gdk.Rectangle cliprect)
 	{
 		// when not selecting, draw white rectangle over affected tiles
 		if(!selecting) {
 
-			// calculate rectangle to color
+			// Calculate rectangle to color
 			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * 32f;
 			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * 32f;
 			float w = brush.Width * 32f;
 			float h = brush.Height * 32f;
 
-			// draw rectangle
+			// Draw a preview if we can.
+			UpdatePreview();
+			if ((LastPreview != null) && (px > 0) && (py > 0)) {
+				gl.Color4f(1, 1, 1, 0.7f);
+				Vector pos = new Vector(px, py);
+				LastPreview.Draw(pos, Tileset);
+				gl.Color4f(1, 1, 1, 1);
+			}
+
+			// Draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
@@ -55,7 +85,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			gl.End();
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
-
 		}
 
 		// when selecting, draw blue rectangle over selected area
