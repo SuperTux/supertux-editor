@@ -32,7 +32,7 @@ public sealed class SectorRenderer : RenderView
 
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			Node node = new TilemapNode(tilemap, level.Tileset);
-			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
+			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
 			layer.Add(tilemap.ZPos, colorNode);
 			colors[tilemap] = colorNode;
 		}
