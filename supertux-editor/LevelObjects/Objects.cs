@@ -341,7 +341,7 @@ public sealed class Yeti : SimpleObject
 	}
 }
 
-[SupertuxObject("stalactite_yeti", "images/engine/editor/stalactite_yeti.png",
+[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class StalactiteYeti : SimpleObject
 {
