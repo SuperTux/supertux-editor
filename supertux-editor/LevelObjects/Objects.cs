@@ -335,6 +335,11 @@ public sealed class Dispenser : SimpleDirObject
                 ObjectListAction = "stand-left")]
 public sealed class Yeti : SimpleObject
 {
+
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = "";
+
 	public Yeti() {
 		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
 		Sprite.Action = "stand-left";
