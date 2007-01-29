@@ -446,6 +446,8 @@ public class Application : IEditorApplication {
 		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		modified = false;
 
+		QACheck.ReplaceDepercatedTiles(level);
+
 		try {
 			serializer.Write(fileName, level);
 		} catch(Exception e) {
