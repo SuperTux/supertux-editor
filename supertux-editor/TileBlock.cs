@@ -109,8 +109,8 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	/// <seealso cref="IComparable.CompareTo"/>
 	int IComparable.CompareTo(object obj) {
 		if (obj == null) return 1;
-		if (obj is TileBlock) {
-			TileBlock tileblock = (TileBlock) obj;
+		TileBlock tileblock = obj as TileBlock;
+		if (tileblock != null) {
 			for (int i = 0; i < Math.Min(this.Elements.Count, tileblock.Elements.Count); i++) {
 				if (this.Elements[i] == tileblock.Elements[i])
 					continue;
