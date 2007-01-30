@@ -21,7 +21,10 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	/// A cache of the preview of changing the current "active" area
 	/// </summary>
 	private TileBlock LastPreview;
-
+	/// <summary>
+	/// Stores if the last preview would be a change or not.
+	/// </summary>
+	private bool LastPreviewIsChange;
 
 	public event RedrawEventHandler Redraw;
 
@@ -49,14 +52,14 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	/// </summary>
 	private void UpdatePreview() {
 		if (LastPreviewPos != MouseTilePos) {
-			LastPreview = brush.FindBestPattern(MouseTilePos, Tilemap);
+			LastPreviewIsChange = brush.FindBestPattern(MouseTilePos, Tilemap, ref LastPreview);
 			LastPreviewPos = MouseTilePos;
 		}
 	}
 
 	public new void Draw(Gdk.Rectangle cliprect)
 	{
-		// when not selecting, draw white rectangle over affected tiles
+		// When not selecting, draw white rectangle over affected tiles
 		if(!selecting) {
 
 			// Calculate rectangle to color
@@ -64,15 +67,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * 32f;
 			float w = brush.Width * 32f;
 			float h = brush.Height * 32f;
-
-			// Draw a preview if we can.
-			UpdatePreview();
-			if ((LastPreview != null) && (px > 0) && (py > 0)) {
-				gl.Color4f(1, 1, 1, 0.7f);
-				Vector pos = new Vector(px, py);
-				LastPreview.Draw(pos, Tileset);
-				gl.Color4f(1, 1, 1, 1);
-			}
 
 			// Draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);
@@ -84,19 +78,45 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			gl.Vertex2f(px, py+h);
 			gl.End();
 			gl.Enable(gl.TEXTURE_2D);
+
+			// Draw a preview if we can.
+			UpdatePreview();
+			if ((LastPreview != null) && (px > 0) && (py > 0)) {
+				gl.Color4f(1, 1, 1, 0.7f);
+				Vector pos = new Vector(px, py);
+				LastPreview.Draw(pos, Tileset);
+			}
+
+			// Draw a red rectangle around if the preview is a change
+			if (LastPreviewIsChange) {
+				gl.Color4f(1, 0, 0, 1);
+				gl.Disable(gl.TEXTURE_2D);
+				gl.PolygonMode(gl.FRONT_AND_BACK, gl.LINE);
+
+				gl.Begin(gl.QUADS);
+				gl.Vertex2f(px, py);
+				gl.Vertex2f(px+w, py);
+				gl.Vertex2f(px+w, py+h);
+				gl.Vertex2f(px, py+h);
+				gl.End();
+
+				gl.PolygonMode(gl.FRONT_AND_BACK, gl.FILL);
+				gl.Enable(gl.TEXTURE_2D);
+
+			}
 			gl.Color4f(1, 1, 1, 1);
 		}
 
-		// when selecting, draw blue rectangle over selected area
+		// When selecting, draw blue rectangle over selected area
 		if(selecting) {
 
-			// calculate rectangle to color
+			// Calculate rectangle to color
 			float left = SelectionP1.X * 32f;
 			float top = SelectionP1.Y * 32f;
 			float right = SelectionP2.X * 32f + 32f;
 			float bottom = SelectionP2.Y * 32f + 32f;
 
-			// draw rectangle
+			// Draw rectangle
 			gl.Color4f(0, 0, 1, 0.7f);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
