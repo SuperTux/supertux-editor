@@ -225,8 +225,9 @@ public class ObjectListWidget : GLWidgetBase
 					SelectedObjectNr = selected;
 					if( application.CurrentSector != null ) {
 						Type type = gameObjectTypes[selected];
+						Sprite Icon = gameObjectSprites[selected];
 						if(type != null) {
-							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type);
+							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type, Icon);
 							application.SetEditor(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {

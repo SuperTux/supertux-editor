@@ -28,14 +28,18 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 
 	public event RedrawEventHandler Redraw;
 
-	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
-	{
+	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile) {
 		selection = new Selection();
 		selection.Changed += OnSelectionChanged;
 		this.application = application;
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
+		application.TilemapChanged += OnTilemapChanged;
 		brush = Brush.loadFromFile(brushFile, Tileset);
+	}
+
+	public void OnTilemapChanged(Tilemap newTilemap) {
+		Tilemap = newTilemap;
 	}
 
 	/// <summary>
@@ -204,19 +208,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			}
 			Redraw();
 		}
-	}
-
-	private bool UpdateMouseTilePos(Vector MousePos)
-	{
-		FieldPos NewMouseTilePos = new FieldPos(
-				(int) (MousePos.X) / 32,
-				(int) (MousePos.Y) / 32);
-		if(NewMouseTilePos != MouseTilePos) {
-			MouseTilePos = NewMouseTilePos;
-			return true;
-		}
-
-		return false;
 	}
 
 	private void UpdateSelection()

@@ -37,6 +37,17 @@ public abstract class TileEditorBase : EditorBase {
 	protected Tilemap Tilemap;
 	protected Tileset Tileset;
 
+	protected bool UpdateMouseTilePos(Vector MousePos) {
+		FieldPos NewMouseTilePos = new FieldPos((int) (MousePos.X) / 32, (int) (MousePos.Y) / 32);
+		if (NewMouseTilePos != MouseTilePos) {
+			MouseTilePos = NewMouseTilePos;
+			return true;
+		}
+
+		return false;
+	}
+
+
 	public virtual void Draw(Gdk.Rectangle cliprect) {
 		if (!selecting) {
 			gl.Color4f(1, 1, 1, 0.7f);
@@ -64,4 +75,5 @@ public abstract class TileEditorBase : EditorBase {
 			gl.Color4f(1, 1, 1, 1);
 		}
 	}
+
 }

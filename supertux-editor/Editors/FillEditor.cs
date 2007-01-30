@@ -126,19 +126,6 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		}
 	}
 
-	private bool UpdateMouseTilePos(Vector MousePos)
-	{
-		FieldPos NewMouseTilePos = new FieldPos(
-				(int) (MousePos.X) / 32,
-				(int) (MousePos.Y) / 32);
-		if(NewMouseTilePos != MouseTilePos) {
-			MouseTilePos = NewMouseTilePos;
-			return true;
-		}
-
-		return false;
-	}
-
 	private void UpdateSelection()
 	{
 		if(MouseTilePos.X < SelectStartPos.X) {

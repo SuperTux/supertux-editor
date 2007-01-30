@@ -3,28 +3,48 @@ using DataStructures;
 using System;
 using System.Reflection;
 using Gdk;
+using OpenGl;
+using Sprites;
 
 public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 {
 	private Type objectType;
+	// Sprite for this object.
+	private Sprite Icon;
+	// Position of the mouse
+	private Vector MousePos;
 	public event RedrawEventHandler Redraw;
 
-	public ObjectCreationEditor(IEditorApplication application, Sector sector, Type objectType)
-	{
+	public ObjectCreationEditor(IEditorApplication application,
+	                            Sector sector, Type objectType, Sprite Icon) {
 		this.application = application;
 		this.sector = sector;
 		this.objectType = objectType;
+		this.Icon = Icon;
 	}
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
-		// TODO draw image of the object to create
+		Vector pos;
+		if( application.SnapToGrid ){
+			int snap = 32;
+			pos = new Vector((float) ((int)MousePos.X / snap) * snap,
+			                 (float) ((int)MousePos.Y / snap) * snap);
+		} else {
+			pos = MousePos;
+		}
+		if (Icon != null) {
+			gl.Color4f(1, 0, 0, 0.7f);
+			//TODO: Make it correct for hitbox coordinates...
+			Icon.Draw(pos);
+			gl.Color4f(1, 1, 1, 1);
+		}
 	}
 
-	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
 	{
 		application.TakeUndoSnapshot( "Created Object '" + objectType + "'" );
-		IGameObject gameObject = CreateObjectAt(pos);
+		IGameObject gameObject = CreateObjectAt(MousePos);
 
 		// switch back to object edit mode when shift was not pressed
 		if((Modifiers & ModifierType.ShiftMask) == 0) {
@@ -34,14 +54,20 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 			}
 			application.SetEditor(editor);
 		}
+		if (UpdateMousePos(MousePos))
+			Redraw();
 	}
 
-	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
 	{
+		if (UpdateMousePos(MousePos))
+			Redraw();
 	}
 
-	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
 	{
+		if (UpdateMousePos(MousePos))
+			Redraw();
 	}
 
 	private IGameObject CreateObjectAt(Vector pos)
@@ -67,6 +93,15 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		sector.Add(gameObject);
 		Redraw();
 		return gameObject;
+	}
+
+	private bool UpdateMousePos(Vector MousePos) {
+		if (this.MousePos != MousePos) {
+			this.MousePos = MousePos;
+			return true;
+		}
+
+		return false;
 	}
 
 	private object CreateObject()
