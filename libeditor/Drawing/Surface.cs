@@ -59,8 +59,8 @@ namespace Drawing
 			width = texture.ImageWidth;
 			height = texture.ImageHeight;
 
-			Left = 0.5f / width;
-			Top = 0.5f / height;
+			Left = 0;
+			Top = 0;
 			Right = texture.UVRight;
 			Bottom = texture.UVBottom;
 		}
@@ -73,10 +73,10 @@ namespace Drawing
 			width = w;
 			height = h;
 
-			Left = (x+0.5f) / texture.Width;
-			Top = (y+0.5f) / texture.Height;
-			Right = (x + w - 0.5f) / texture.Width;
-			Bottom = (y + h - 0.5f) / texture.Height;
+			Left = x / texture.Width;
+			Top = y / texture.Height;
+			Right = (x + w) / texture.Width;
+			Bottom = (y + h) / texture.Height;
 		}
 
 		public Surface(Surface other)

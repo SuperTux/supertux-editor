@@ -61,7 +61,7 @@ namespace Drawing
 		{
 			get
 			{
-				return (ImageWidth - 0.5f) / (float) Width;
+				return ImageWidth / (float) Width;
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace Drawing
 		{
 			get
 			{
-				return (ImageHeight - 0.5f) / (float) Height;
+				return ImageHeight / (float) Height;
 			}
 		}
 
