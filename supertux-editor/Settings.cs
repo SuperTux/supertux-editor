@@ -23,12 +23,12 @@ public sealed class Settings {
 
 		StreamReader reader = null;
 		try {
-			LogManager.WriteLine(LogLevel.INFO, "Using configfile: " + SettingsFile);
+			LogManager.Log(LogLevel.Info, "Using configfile: " + SettingsFile);
 			reader = new StreamReader(SettingsFile);
 			Instance = (Settings) settingsSerializer.Deserialize(reader);
 		} catch(Exception e) {
-			LogManager.WriteLine(LogLevel.ERROR, "Couldn't load configfile: " + e.Message);
-			LogManager.WriteLine(LogLevel.INFO, "Creating new config from scratch");
+			LogManager.Log(LogLevel.Error, "Couldn't load configfile: " + e.Message);
+			LogManager.Log(LogLevel.Info, "Creating new config from scratch");
 			Instance = new Settings();
 		} finally {
 			if(reader != null)
@@ -39,12 +39,12 @@ public sealed class Settings {
 			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
 		}
 
-		LogManager.WriteLine(LogLevel.INFO, "Supertux is run as: " + Instance.SupertuxExe);
-		LogManager.WriteLine(LogLevel.INFO, "Data files are in: " + Instance.SupertuxData);
+		LogManager.Log(LogLevel.Info, "Supertux is run as: " + Instance.SupertuxExe);
+		LogManager.Log(LogLevel.Info, "Data files are in: " + Instance.SupertuxData);
 
 		// If data path does not exist, prompt user to change it before we try continue initializing
 		if (!new DirectoryInfo(System.IO.Path.GetDirectoryName(Instance.SupertuxData)).Exists) {
-			LogManager.WriteLine(LogLevel.ERROR, "Data path does not exist.");
+			LogManager.Log(LogLevel.Error, "Data path does not exist.");
 			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.None, "The current data path, \"" + Instance.SupertuxData + "\", does not exist.\n\nEdit the settings to set a valid data path.");
 			md.AddButton(Gtk.Stock.No, ResponseType.No);
 			md.AddButton(Gtk.Stock.Edit, ResponseType.Yes);
@@ -77,14 +77,14 @@ public sealed class Settings {
 			string dir = System.IO.Path.GetDirectoryName(SettingsFile);
 			DirectoryInfo d = new DirectoryInfo(dir);
 			if(!d.Exists) {
-				LogManager.WriteLine(LogLevel.INFO, "Settings path \"" + dir + "\" does not exist. Trying to create.");
+				LogManager.Log(LogLevel.Info, "Settings path \"" + dir + "\" does not exist. Trying to create.");
 				d.Create();
 			}
 
 			writer = new StreamWriter(SettingsFile);
 			settingsSerializer.Serialize(writer, Instance);
 		} catch(Exception e) {
-			LogManager.WriteLine(LogLevel.ERROR, "Couldn't write configfile: " + e.Message);
+			LogManager.Log(LogLevel.Error, "Couldn't write configfile: " + e.Message);
 		} finally {
 			if(writer != null)
 				writer.Close();

@@ -189,7 +189,7 @@ public class Application : IEditorApplication {
 			try {
 				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData);
 			} catch (Exception e) {
-				LogManager.WriteLine(LogLevel.WARNING, "Couldn't add supertux data directory to File Chooser: " + e.Message);
+				LogManager.Log(LogLevel.Warning, "Couldn't add supertux data directory to File Chooser: " + e.Message);
 			}
 		}
 
@@ -741,7 +741,7 @@ public class Application : IEditorApplication {
 	/// </summary>
 	public void TakeUndoSnapshot(string actionTitle)
 	{
-		LogManager.WriteLine(LogLevel.DEBUG, "TakeUndoSnapshot {0} ", actionTitle);
+		LogManager.Log(LogLevel.Debug, "TakeUndoSnapshot {0} ", actionTitle);
 		if( !modified ){
 			MainWindow.Title += '*';
 			modified = true;

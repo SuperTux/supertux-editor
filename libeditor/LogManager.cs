@@ -24,35 +24,80 @@ using System;
 /// </summary>
 /// <seealso cref="LogManager"/>
 public enum LogLevel {
-	/// <summary>Debug messages for developers.</summary>
-	DEBUG,
+	/// <summary>
+	/// Debug messages for developers.
+	/// </summary>
+	Debug,
 	/// <summary>
 	/// Warnings/Errors for developers, they should fix the issue.
 	/// These <strong>should</strong> never show up in a release.
 	/// </summary>
-	DEBUGWARNING,
-	INFO,
-	WARNING,
-	ERROR,
+	DebugWarning,
+	Info,
+	Warning,
+	Error,
 	/// <summary>
 	/// The world will end (or at least this part of it), maybe with
 	/// emergency save of level, maybe not.
 	/// </summary>
-	FATAL
+	Fatal
 }
 
 public static class LogManager {
 
-	public static void WriteLine(LogLevel loglevel, string message) {
-		if (loglevel == LogLevel.FATAL || loglevel == LogLevel.ERROR)
-			Console.Error.WriteLine(loglevel.ToString() + ": " + message);
-		Console.WriteLine(loglevel.ToString() + ": " + message);
+	/// <summary>
+	/// Returns string to use as prefix for <paramref name="loglevel"/>
+	/// </summary>
+	/// <param name="loglevel">The loglevel</param>
+	/// <returns>The prefix to use in the format of "XXX: ".</returns>
+	private static string GetLevelString(LogLevel loglevel) {
+		switch (loglevel) {
+			case LogLevel.Debug:
+				return "DEBUG: ";
+			case LogLevel.DebugWarning:
+				return "DEBUGWARN: ";
+			case LogLevel.Info:
+				return "INFO:  ";
+			case LogLevel.Warning:
+				return "WARN:  ";
+			case LogLevel.Error:
+				return "ERROR: ";
+			case LogLevel.Fatal:
+				return "FATAL: ";
+			default:
+				return loglevel.ToString();
+		}
 	}
 
-	public static void WriteLine(LogLevel loglevel, string message, object arg0) {
-		if (loglevel == LogLevel.FATAL || loglevel == LogLevel.ERROR)
+	/// <summary>
+	/// Log a message with <paramref name="loglevel"/>
+	/// </summary>
+	/// <remarks>
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and 
+	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
+	/// </remarks>
+	/// <param name="loglevel">The log level of this message.</param>
+	/// <param name="message">The message to log</param>
+	public static void Log(LogLevel loglevel, string message) {
+		if (loglevel == LogLevel.Fatal || loglevel == LogLevel.Error)
+			Console.Error.WriteLine(loglevel.ToString() + ": " + message);
+		Console.WriteLine(GetLevelString(loglevel) + message);
+	}
+
+	/// <summary>
+	/// Log a message with <paramref name="loglevel"/>
+	/// </summary>
+	/// <remarks>
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and 
+	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
+	/// </remarks>
+	/// <param name="loglevel">The log level of this message.</param>
+	/// <param name="message">A format string.</param>
+	/// <param name="arg0">First object for format string</param>
+	public static void Log(LogLevel loglevel, string message, object arg0) {
+		if (loglevel == LogLevel.Fatal || loglevel == LogLevel.Error)
 			Console.Error.WriteLine(loglevel.ToString() + ": " + message, arg0);
-		Console.WriteLine(loglevel.ToString() + ": " + message, arg0);
+		Console.WriteLine(GetLevelString(loglevel) + message, arg0);
 	}
 
 }

@@ -124,7 +124,7 @@ public class SectorSwitchNotebook : Notebook
 			}
 		}
 
-		LogManager.WriteLine(LogLevel.ERROR, "Sector '" + item.Name + "' not found?!?");
+		LogManager.Log(LogLevel.Error, "Sector '" + item.Name + "' not found?!?");
 	}
 
 	private void OnPropertiesActivated(object o, EventArgs args)
