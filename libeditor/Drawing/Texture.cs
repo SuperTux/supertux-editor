@@ -151,7 +151,7 @@ namespace Drawing
 		private unsafe void CreateTexture()
 		{
 			if(!GlUtil.ContextValid) {
-				Console.WriteLine("Warning: No opengl context active when creating textures");
+				LogManager.Log(LogLevel.Warning, "No opengl context active when creating textures");
 			}
 			uint[] handles = new uint[1];
 			gl.GenTextures(1, handles);
