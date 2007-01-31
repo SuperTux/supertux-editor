@@ -1,7 +1,7 @@
 CSC ?= gmcs ;
 NCC ?= ncc.exe ;
 LOCATE_TARGETS ?= $(TOP) ;
-CSFLAGS ?= -debug ;
+CSFLAGS ?= -debug -warn:4 -nowarn:1591 ;
 
 rule AntLR {
     local sources = [ SearchSource $(>) ] ;
@@ -86,7 +86,7 @@ rule LinkWith {
 }
 
 actions MonoCSharp bind RESOURCES {
-    $(CSC) $(CSFLAGS) -out:$(<) -target:$(TARGET) -r:$(LIBS) -resource:$(RESOURCES) $(>)
+    $(CSC) $(CSFLAGS) -out:$(<) -doc:$(<).xml -target:$(TARGET) -r:$(LIBS) -resource:$(RESOURCES) $(>)
 }
 
 actions Ncc bind RESOURCES {

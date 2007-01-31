@@ -140,7 +140,7 @@ public sealed class Sector : ICustomLispSerializer {
 			SizeChanged(this);
 	}
 
-	public void CustomLispRead(Properties props) {
+	public void CustomLispRead(Properties Props) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
 			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
@@ -148,7 +148,7 @@ public sealed class Sector : ICustomLispSerializer {
 				continue;
 
 			LispSerializer serializer = new LispSerializer(type);
-			foreach(List list in props.GetList(objectAttribute.Name)) {
+			foreach(List list in Props.GetList(objectAttribute.Name)) {
 				IGameObject Object = (IGameObject) serializer.Read(list);
 				GameObjects.Add(Object);
 			}

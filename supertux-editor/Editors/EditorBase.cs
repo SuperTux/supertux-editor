@@ -18,6 +18,17 @@ public abstract class EditorBase {
 /// </summary>
 public abstract class ObjectEditorBase : EditorBase {
 	protected Sector sector;
+
+	/// <summary>
+	/// Returns unit to snap to, based on passed Modifier keys and application settings
+	/// </summary>
+	protected int SnapValue(ModifierType Modifiers) {
+		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
+		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;
+		if (application.SnapToGrid) return 32;
+		return 0;
+	}
+
 }
 
 // TODO: More things should be moved into this class.

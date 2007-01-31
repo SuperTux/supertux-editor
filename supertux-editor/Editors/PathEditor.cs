@@ -94,15 +94,15 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		gl.Color4f(1, 1, 1, 1);
 	}
 
-	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if(button == 1) {
-			Path.Node node = FindNodeAt(pos);
+			Path.Node node = FindNodeAt(mousePos);
 
 			if(node == null) {
 				if((Modifiers & ModifierType.ControlMask) != 0) {
 					Vector pointOnEdge = new Vector(0, 0);
-					int addNode = FindPath(pos, ref pointOnEdge);
+					int addNode = FindPath(mousePos, ref pointOnEdge);
 					if(addNode >= 0) {
 						application.TakeUndoSnapshot("Added Path node");
 						node = new Path.Node();
@@ -114,15 +114,15 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					node = new Path.Node();
 					//Snap?
 					if( application.SnapToGrid ) {
-						pos = new Vector((float) ((int)pos.X / 32) * 32,
-						                 (float) ((int)pos.Y / 32) * 32);
+						mousePos = new Vector((float) ((int)mousePos.X / 32) * 32,
+						                      (float) ((int)mousePos.Y / 32) * 32);
 					}
-					node.Pos = pos;
+					node.Pos = mousePos;
 					path.Nodes.Add(node);
 				} else if(selectedNode == path.Nodes[0]) {
 					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
-					node.Pos = pos;
+					node.Pos = mousePos;
 					path.Nodes.Insert(0, node);
 				}
 			}
@@ -135,7 +135,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			if(selectedNode != null) {
 				application.EditProperties(selectedNode, "Path Node");
 				dragging = true;
-				pressPoint = pos;
+				pressPoint = mousePos;
 				originalPos = selectedNode.Pos;
 			}
 
@@ -144,20 +144,20 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		}
 	}
 
-	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		dragging = false;
 		moveStarted = false;
 	}
 
-	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
 			if (!moveStarted) {
 				application.TakeUndoSnapshot("Moved Path Node");
 				moveStarted = true;
 			}
-			Vector spos = originalPos + (pos - pressPoint);
+			Vector spos = originalPos + (mousePos - pressPoint);
 			// snap to 32pixel?
 			if((Modifiers & ModifierType.ShiftMask) != 0 || application.SnapToGrid ) {
 				spos = new Vector((float) ((int)spos.X / 32) * 32,
@@ -168,7 +168,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				Redraw();
 			}
 		} else {
-			Path.Node node = FindNodeAt(pos);
+			Path.Node node = FindNodeAt(mousePos);
 			Vector dummy = new Vector(0, 0);
 			if(node != null) {
 				/*
@@ -177,7 +177,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				*/
 
 				CursorChange(new Cursor(CursorType.Tcross));
-			} else if((Modifiers & ModifierType.ControlMask) != 0 && FindPath(pos, ref dummy) >= 0) {
+			} else if ((Modifiers & ModifierType.ControlMask) != 0 && FindPath(mousePos, ref dummy) >= 0) {
 				CursorChange(new Cursor(CursorType.Boat));
 			} else {
 				CursorChange(new Cursor(CursorType.Arrow));

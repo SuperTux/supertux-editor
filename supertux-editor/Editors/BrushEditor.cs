@@ -135,9 +135,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		// left mouse button means apply brush
 		if(button == 1) {
@@ -162,9 +162,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		// left mouse button means apply brush
 		if(button == 1) {
@@ -194,9 +194,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		Redraw();
 	}
 
-	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
-		if(UpdateMouseTilePos(MousePos)) {
+		if (UpdateMouseTilePos(mousePos)) {
 			if (drawing) {
 				if (LastDrawPos != MouseTilePos) {
 					LastDrawPos = MouseTilePos;

@@ -136,15 +136,15 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		}
 	}
 
-	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if(button == 1 || button == 3) {
-			if(activeObject == null || !activeObject.Area.Contains(pos)) {
-				MakeActive(FindNext(pos));
+			if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+				MakeActive(FindNext(mousePos));
 			}
 
 			if(activeObject != null && button == 1) {
-				pressPoint = pos;
+				pressPoint = mousePos;
 				originalArea = activeObject.Area;
 				dragging = true;
 			}
@@ -280,40 +280,29 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		Redraw();
 	}
 
-	/// <summary>
-	/// Returns unit to snap to, based on passed Modifier keys and application settings
-	/// </summary>
-	private int SnapValue(ModifierType Modifiers)
-	{
-		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
-		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;
-		if( application.SnapToGrid ) return 32;
-		return 0;
-	}
-
-	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if(dragging) {
 			dragging = false;
 
-			if(pos != pressPoint) {
+			if (mousePos != pressPoint) {
 				moveStarted = false;
-				moveObject(pos, SnapValue(Modifiers));
+				moveObject(mousePos, SnapValue(Modifiers));
 			} else {
-				MakeActive(FindNext(pos));
+				MakeActive(FindNext(mousePos));
 				Redraw();
 			}
 		}
 	}
 
-	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
 			if (!moveStarted) {
 				application.TakeUndoSnapshot("Moved Object " + activeObject);
 				moveStarted = true;
 			}
-			moveObject(pos, SnapValue(Modifiers));
+			moveObject(mousePos, SnapValue(Modifiers));
 		}
 	}
 

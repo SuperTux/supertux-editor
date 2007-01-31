@@ -215,11 +215,11 @@ public abstract class SimpleObjectArea : SimpleObject
 		gl.Color4fv( current_color );
 	}
 
-	public override void ChangeArea(RectangleF Area) {
-		X = Area.Left;
-		Y = Area.Top;
-		Width = Area.Width;
-		Height = Area.Height;
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left;
+		Y = NewArea.Top;
+		Width = NewArea.Width;
+		Height = NewArea.Height;
 	}
 
 	public sealed override Node GetSceneGraphNode() {

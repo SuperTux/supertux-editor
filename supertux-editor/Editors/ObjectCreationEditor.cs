@@ -41,7 +41,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		}
 	}
 
-	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		application.TakeUndoSnapshot( "Created Object '" + objectType + "'" );
 		IGameObject gameObject = CreateObjectAt(MousePos);
@@ -54,19 +54,19 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 			}
 			application.SetEditor(editor);
 		}
-		if (UpdateMousePos(MousePos))
+		if (UpdateMousePos(mousePos))
 			Redraw();
 	}
 
-	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if (UpdateMousePos(MousePos))
+		if (UpdateMousePos(mousePos))
 			Redraw();
 	}
 
-	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
-		if (UpdateMousePos(MousePos))
+		if (UpdateMousePos(mousePos))
 			Redraw();
 	}
 

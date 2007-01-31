@@ -36,15 +36,10 @@ namespace Lisp
 
 	/// <summary>
 	///		Implement this interface to handle the seralizing of some other
-	///		class in a special way.
+	///		class or struct in a special way.
 	/// </summary>
-	/// <remarks>
-	///		Useful to make it possible to seralize some class that you can't
-	///		change to implement <see cref="ICustomLispSerializer"/> (like a
-	///		class in the .NET Framework).
-	///	</remarks>
 	/// <seealso cref="ICustomLispSerializer"/>
-	///	<seealso cref="LispReader.LispCustomSerializerAttribute"/>
+	/// <seealso cref="LispReader.LispCustomSerializerAttribute"/>
 	public interface ILispSerializer {
 		/// <summary>
 		///		Creates an instance from the seralized object in

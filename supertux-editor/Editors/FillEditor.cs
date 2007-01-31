@@ -43,11 +43,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		selection.Changed -= OnSelectionChanged;
 	}
 
-	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if (Tilemap == null) return;
 
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		if (button == 1) {
 			if ((selection.Width == 1) && (selection.Height == 1)) {
@@ -71,11 +71,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		}
 	}
 
-	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if (Tilemap == null) return;
 
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		if(button == 1) {
 			drawing = false;
@@ -101,11 +101,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		Redraw();
 	}
 
-	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if (Tilemap == null) return;
 
-		if(UpdateMouseTilePos(MousePos)) {
+		if (UpdateMouseTilePos(mousePos)) {
 			if(selection.Width == 0 || selection.Height == 0)
 				return;
 
