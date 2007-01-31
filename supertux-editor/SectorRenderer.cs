@@ -80,7 +80,7 @@ public sealed class SectorRenderer : RenderView
 	/// <param name="color">The new color.</param>
 	public void SetTilemapColor(Tilemap tilemap, Color color)
 	{
-		System.Console.WriteLine("Set color of tilemap {0}", tilemap.GetHashCode());
+		LogManager.Log(LogLevel.Debug, "Set color of tilemap {0}", tilemap.GetHashCode());
 		ColorNode colorNode = (ColorNode) colors[tilemap];
 		colorNode.Color = color;
 		QueueDraw();
@@ -114,7 +114,7 @@ public sealed class SectorRenderer : RenderView
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
 			layer.Add(tilemap.ZPos, colorNode);
-			System.Console.WriteLine("Adding tilemap color: {0}", Object.GetHashCode());
+			LogManager.Log(LogLevel.Debug, "Adding tilemap color: {0}", Object.GetHashCode());
 			colors[tilemap] = colorNode;
 		}
 
@@ -147,7 +147,7 @@ public sealed class SectorRenderer : RenderView
 		}
 
 		if(! (Object is IObject)){
-			System.Console.WriteLine("SectorRenderer:OnObjectRemoved unhandled object " + Object);
+			LogManager.Log(LogLevel.Error, "SectorRenderer:OnObjectRemoved unhandled object " + Object);
 			return;
 		}
 		IObject iObject = (IObject) Object;
@@ -158,7 +158,7 @@ public sealed class SectorRenderer : RenderView
 
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
-		System.Console.WriteLine("Motion: " + args.X + " - " + args.Y);
+		LogManager.Log(LogLevel.Debug, "Motion: " + args.X + " - " + args.Y);
 		//Console.WriteLine("Blup: " + args.Context
 	}
 

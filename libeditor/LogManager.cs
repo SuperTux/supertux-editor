@@ -73,7 +73,7 @@ public static class LogManager {
 	/// Log a message with <paramref name="loglevel"/>
 	/// </summary>
 	/// <remarks>
-	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and 
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and
 	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
 	/// </remarks>
 	/// <param name="loglevel">The log level of this message.</param>
@@ -88,16 +88,34 @@ public static class LogManager {
 	/// Log a message with <paramref name="loglevel"/>
 	/// </summary>
 	/// <remarks>
-	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and 
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and
 	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
 	/// </remarks>
 	/// <param name="loglevel">The log level of this message.</param>
-	/// <param name="message">A format string.</param>
+	/// <param name="format">A format string.</param>
 	/// <param name="arg0">First object for format string</param>
-	public static void Log(LogLevel loglevel, string message, object arg0) {
+	public static void Log(LogLevel loglevel, string format, object arg0) {
 		if (loglevel == LogLevel.Fatal || loglevel == LogLevel.Error)
-			Console.Error.WriteLine(loglevel.ToString() + ": " + message, arg0);
-		Console.WriteLine(GetLevelString(loglevel) + message, arg0);
+			Console.Error.WriteLine(loglevel.ToString() + ": " + format, arg0);
+		Console.WriteLine(GetLevelString(loglevel) + format, arg0);
 	}
+
+	/// <summary>
+	/// Log a message with <paramref name="loglevel"/>
+	/// </summary>
+	/// <remarks>
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and
+	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
+	/// </remarks>
+	/// <param name="loglevel">The log level of this message.</param>
+	/// <param name="format">A format string.</param>
+	/// <param name="arg0">First object for format string</param>
+	/// <param name="arg1">Second object for format string</param>
+	public static void Log(LogLevel loglevel, string format, object arg0, object arg1) {
+		if (loglevel == LogLevel.Fatal || loglevel == LogLevel.Error)
+			Console.Error.WriteLine(loglevel.ToString() + ": " + format, arg0, arg1);
+		Console.WriteLine(GetLevelString(loglevel) + format, arg0, arg1);
+	}
+
 
 }

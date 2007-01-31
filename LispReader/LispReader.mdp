@@ -23,6 +23,7 @@
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Lisp" />
+    <ProjectReference type="Project" localcopy="True" refto="libeditor" />
   </References>
   <DeploymentInformation strategy="File">
     <excludeFiles />

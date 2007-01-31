@@ -61,7 +61,7 @@ public static class QACheck
 				int TileId = tiles[x, y];
 				if (LevelReplaceMap.ContainsKey(TileId)) {
 					tiles[x, y] = LevelReplaceMap[TileId];
-					Console.WriteLine("INFO: Replaced deprecated tile {0} with {1}", TileId, LevelReplaceMap[TileId]);
+					LogManager.Log(LogLevel.Info, "Replaced deprecated tile {0} with {1}", TileId, LevelReplaceMap[TileId]);
 				}
 			}
 		}

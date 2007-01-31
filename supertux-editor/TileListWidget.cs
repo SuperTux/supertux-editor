@@ -271,7 +271,7 @@ public class TileListWidget : GLWidgetBase {
 		int tile = (int) (pos.Y - Translation.Y) / ROW_HEIGHT * TILES_PER_ROW
 			+ (int) (pos.X - Translation.X) / COLUMN_WIDTH;
 		if(tile < 0) {
-			LogManager.Log(LogLevel.Warning, "Warning: PosToTile < 0?!?");
+			LogManager.Log(LogLevel.Warning, "PosToTile < 0?!?");
 			return -1;
 		}
 		if(tile >= tilegroup.Tiles.Count)

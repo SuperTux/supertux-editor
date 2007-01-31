@@ -4,7 +4,7 @@ CSharp gtkgl-sharp.dll : [ Wildcard gtkgl-sharp : *.cs ] ;
 CSFLAGS on gtkgl-sharp.dll += -unsafe -pkg:gtk-sharp-2.0 ;
 CSharp Lisp.dll : [ Wildcard Lisp : *.cs ] ;
 CSharp LispReader.dll : [ Wildcard LispReader : *.cs ] ;
-LinkWith LispReader.dll : Lisp.dll ;
+LinkWith LispReader.dll : Lisp.dll libeditor.dll ;
 CSharp Resources.dll : [ Wildcard Resources : *.cs ] ;
 
 # DIRS = src src/Drawing src/DataStructures src/Libs src/SceneGraph src/Sprites ;
