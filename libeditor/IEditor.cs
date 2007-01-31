@@ -8,7 +8,11 @@ public interface IEditor
 	/// <summary>
 	/// Draw it
 	/// </summary>
-	/// <param name="cliprect"></param>
+	/// <param name="cliprect">
+	/// The area that is visible in the <see cref="RenderView"/>
+	/// we are drawing to. Check with this to see if you can skip
+	/// drawing.
+	/// </param>
 	void Draw(Gdk.Rectangle cliprect);
 	void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers);
 	void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers);

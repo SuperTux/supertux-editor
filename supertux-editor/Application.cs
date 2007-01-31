@@ -128,7 +128,7 @@ public class Application : IEditorApplication {
 
 		Tileset.LoadEditorImages = true;
 
-		//initialize statur bar for PrintStatus()
+		// Initialize statur bar for PrintStatus()
 		printStatusContextID = sbMain.GetContextId("PrintStatus");
 		printStatusMessageID = sbMain.Push(printStatusContextID, "Welcome to Supertux-Editor.");
 

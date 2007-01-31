@@ -9,18 +9,9 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 	public event RedrawEventHandler Redraw;
 
 	public FillEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
-	{
-		this.application = application;
-		this.Tilemap = Tilemap;
-		this.Tileset = Tileset;
+		: base(application, Tilemap, Tileset) {
 		this.selection = selection;
-		application.TilemapChanged += OnTilemapChanged;
 		selection.Changed += OnSelectionChanged;
-	}
-
-	public void OnTilemapChanged(Tilemap newTilemap)
-	{
-		Tilemap = newTilemap;
 	}
 
 	private void FloodFill(FieldPos pos, int new_tile) {
@@ -123,25 +114,6 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			if(selecting)
 				UpdateSelection();
 			Redraw();
-		}
-	}
-
-	private void UpdateSelection()
-	{
-		if(MouseTilePos.X < SelectStartPos.X) {
-			SelectionP1.X = Math.Max(0, MouseTilePos.X);
-			SelectionP2.X = SelectStartPos.X;
-		} else {
-			SelectionP1.X = SelectStartPos.X;
-			SelectionP2.X = Math.Min(MouseTilePos.X, (int)Tilemap.Width - 1);
-		}
-
-		if(MouseTilePos.Y < SelectStartPos.Y) {
-			SelectionP1.Y = Math.Max(0, MouseTilePos.Y);
-			SelectionP2.Y = SelectStartPos.Y;
-		} else {
-			SelectionP1.Y = SelectStartPos.Y;
-			SelectionP2.Y = Math.Min(MouseTilePos.Y, (int)Tilemap.Height - 1);
 		}
 	}
 

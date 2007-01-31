@@ -31,7 +31,7 @@ using System;
 using Gtk;
 using Glade;
 
-public class ErrorDialog : IDisposable
+public sealed class ErrorDialog : IDisposable
 {
 	[Glade.Widget("ErrorDialog")]
 	Dialog dialog = null;

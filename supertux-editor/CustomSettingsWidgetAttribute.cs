@@ -1,13 +1,14 @@
 //  $Id$
 using System;
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-                AllowMultiple=false)]
+/// <summary>
+/// Base class for custom settings widgets.
+/// </summary>
 public abstract class CustomSettingsWidgetAttribute : Attribute
 {
 	public Type Type;
 
-	public CustomSettingsWidgetAttribute(Type type)
+	protected CustomSettingsWidgetAttribute(Type type)
 	{
 		this.Type = type;
 	}
