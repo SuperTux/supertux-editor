@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="LogManager.cs" />
     <Compile Include="QACheck.cs" />
     <Compile Include="ChooseSectorWidget.cs" />
     <Compile Include="CustomSettingsWidget.cs" />
