@@ -804,7 +804,7 @@ public class Application : IEditorApplication {
 #if !INSANEDEBUG
 		} catch(Exception e) {
 			if(app.level != null) {
-				LogManager.WriteLine(LogLevel.FATAL, "Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
+				LogManager.Log(LogLevel.Fatal, "Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
 				Console.Error.WriteLine(e.Message);
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}
