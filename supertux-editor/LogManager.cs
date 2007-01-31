@@ -24,10 +24,20 @@ using System;
 /// </summary>
 /// <seealso cref="LogManager"/>
 public enum LogLevel {
+	/// <summary>Debug messages for developers.</summary>
 	DEBUG,
+	/// <summary>
+	/// Warnings/Errors for developers, they should fix the issue.
+	/// These <strong>should</strong> never show up in a release.
+	/// </summary>
+	DEBUGWARNING,
 	INFO,
 	WARNING,
 	ERROR,
+	/// <summary>
+	/// The world will end (or at least this part of it), maybe with
+	/// emergency save of level, maybe not.
+	/// </summary>
 	FATAL
 }
 

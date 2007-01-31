@@ -112,7 +112,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 				} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
 					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
-					//Snap?
+					// Snap?
 					if( application.SnapToGrid ) {
 						mousePos = new Vector((float) ((int)mousePos.X / 32) * 32,
 						                      (float) ((int)mousePos.Y / 32) * 32);

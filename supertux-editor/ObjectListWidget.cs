@@ -175,7 +175,7 @@ public class ObjectListWidget : GLWidgetBase
 			catch { try { result.Action = "normal"; }
 				catch { try { result.Action = "default"; }
 					catch {
-						LogManager.WriteLine(LogLevel.DEBUG, "ObjectListWidget: No action selected for " + name );
+						LogManager.WriteLine(LogLevel.DEBUGWARNING, "ObjectListWidget: No action selected for " + name);
 					}
 				}
 			}
@@ -244,7 +244,7 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		Console.WriteLine("Dragstart");
+		LogManager.WriteLine(LogLevel.DEBUG, "Dragstart");
 	}
 
 	private void OnScroll(object o, ScrollEventArgs args)

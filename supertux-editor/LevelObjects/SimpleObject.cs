@@ -126,7 +126,7 @@ public abstract class SimpleDirObject : SimpleObject
 			try { Sprite.Action = "right"; }
 			catch { try { Sprite.Action = "walking-right"; }
 				catch {
-					Console.WriteLine("SimpleDirObject: No action found for object.");
+					LogManager.WriteLine(LogLevel.WARNING, "SimpleDirObject: No action found for object.");
 					Sprite.Action = oldaction;
 				}
 			}
@@ -134,7 +134,7 @@ public abstract class SimpleDirObject : SimpleObject
 			try { Sprite.Action = "left"; }
 			catch { try { Sprite.Action = "walking-left"; }
 				catch {
-					Console.WriteLine("SimpleDirObject: No action found for object.");
+					LogManager.WriteLine(LogLevel.WARNING, "SimpleDirObject: No action found for object.");
 					Sprite.Action = oldaction;
 				}
 			}

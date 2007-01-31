@@ -216,7 +216,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			controlPoints.Add(new ControlPoint(activeObject,
 			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
 		}
-		application.PrintStatus( "ObjectsEditor:MakeActive(" + activeObject + ")" );
+		application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 	}
 
 	private void PopupMenu(int button)

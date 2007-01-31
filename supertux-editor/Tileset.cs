@@ -39,7 +39,7 @@ public sealed class Tileset {
 					tiles.Add(null);
 				tiles[tile.Id] = tile;
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse a Tile: " + e.Message);
+				LogManager.WriteLine(LogLevel.ERROR, "Couldn't parse a Tile: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -48,7 +48,7 @@ public sealed class Tileset {
 			try {
 				ParseTiles(list);
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse a tiles: " + e.Message);
+				LogManager.WriteLine(LogLevel.ERROR, "Couldn't parse a tiles: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -68,7 +68,7 @@ public sealed class Tileset {
 				Tilegroup group = (Tilegroup) serializer.Read(list);
 				for(int i = 0; i < group.Tiles.Count; ) {
 					if(!IsValid(group.Tiles[i])) {
-						Console.WriteLine("Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
+						LogManager.WriteLine(LogLevel.DEBUGWARNING, "Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
 						group.Tiles.RemoveAt(i);
 						continue;
 					}
@@ -76,7 +76,7 @@ public sealed class Tileset {
 				}
 				tilegroups.Add(group.Name, group);
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
+				LogManager.WriteLine(LogLevel.ERROR, "Couldn't parse tilegroup: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -223,21 +223,21 @@ public sealed class Tileset {
 				result.Add(resource);
 			} else {
 				if(!(list[i] is List)) {
-					Console.WriteLine("Unexpected data in images part: " + list[i]);
+					LogManager.WriteLine(LogLevel.WARNING, "Unexpected data in images part: " + list[i]);
 					continue;
 				}
 				List region = (List) list[i];
 				if(!(region[0] is Symbol)) {
-					Console.WriteLine("Expected symbol in sublist of images");
+					LogManager.WriteLine(LogLevel.WARNING, "Expected symbol in sublist of images");
 					continue;
 				}
 				Symbol symbol = (Symbol) region[0];
 				if(symbol.Name != "region") {
-					Console.WriteLine("Non-supported image type '" + symbol.Name + "'");
+					LogManager.WriteLine(LogLevel.WARNING, "Non-supported image type '" + symbol.Name + "'");
 					continue;
 				}
 				if(region.Length != 6) {
-					Console.WriteLine("region list has to contain 6 elemetns");
+					LogManager.WriteLine(LogLevel.WARNING, "region list has to contain 6 elements");
 					continue;
 				}
 

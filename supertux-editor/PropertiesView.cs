@@ -196,7 +196,9 @@ public class PropertiesView : ScrolledWindow
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
 			} else {
-				throw new ApplicationException("Not implemented yet");
+				throw new ApplicationException(
+					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
+					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
 			}
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;
