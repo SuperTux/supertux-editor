@@ -189,7 +189,7 @@ public class Application : IEditorApplication {
 			try {
 				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData);
 			} catch (Exception e) {
-				Console.WriteLine("Warning: Couldn't add supertux data directory to File Chooser: " + e.Message);
+				LogManager.WriteLine(LogLevel.WARNING, "Couldn't add supertux data directory to File Chooser: " + e.Message);
 			}
 		}
 
@@ -508,7 +508,7 @@ public class Application : IEditorApplication {
 			"",
 			"Wolfgang Becker",
 			"Christoph Sommer",
-			"Arvid \"AnMaster\" Norlander",
+			"Arvid Norlander",
 		};
 
 		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
@@ -741,7 +741,7 @@ public class Application : IEditorApplication {
 	/// </summary>
 	public void TakeUndoSnapshot(string actionTitle)
 	{
-		Console.WriteLine("TakeUndoSnapshot {0} ", actionTitle );
+		LogManager.WriteLine(LogLevel.DEBUG, "TakeUndoSnapshot {0} ", actionTitle);
 		if( !modified ){
 			MainWindow.Title += '*';
 			modified = true;
@@ -804,7 +804,7 @@ public class Application : IEditorApplication {
 #if !INSANEDEBUG
 		} catch(Exception e) {
 			if(app.level != null) {
-				Console.Error.WriteLine("Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
+				LogManager.WriteLine(LogLevel.FATAL, "Unxpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
 				Console.Error.WriteLine(e.Message);
 				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
 			}

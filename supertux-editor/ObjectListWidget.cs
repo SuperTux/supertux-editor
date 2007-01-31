@@ -148,8 +148,8 @@ public class ObjectListWidget : GLWidgetBase
 			gameObjectTypes.Add(type);
 			Sprite icon = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
 			if( icon == null ) { //no sprite, no image, no can do.
-				Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
-				                  + " from " +objectAttribute.IconSprite);
+				LogManager.WriteLine(LogLevel.WARNING, "ObjectListWidget: Can't create an icon for " + objectAttribute.Name
+				                     + " from " +objectAttribute.IconSprite);
 			}
 			gameObjectSprites.Add(icon);
 		}
@@ -175,7 +175,7 @@ public class ObjectListWidget : GLWidgetBase
 			catch { try { result.Action = "normal"; }
 				catch { try { result.Action = "default"; }
 					catch {
-						Console.WriteLine("ObjectListWidget: No action selected for " + name );
+						LogManager.WriteLine(LogLevel.DEBUG, "ObjectListWidget: No action selected for " + name );
 					}
 				}
 			}

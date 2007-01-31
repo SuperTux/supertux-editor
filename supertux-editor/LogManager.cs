@@ -24,17 +24,25 @@ using System;
 /// </summary>
 /// <seealso cref="LogManager"/>
 public enum LogLevel {
-	Debug,
-	Info,
-	Warning,
-	Error,
-	Fatal
+	DEBUG,
+	INFO,
+	WARNING,
+	ERROR,
+	FATAL
 }
 
 public static class LogManager {
 
-	public static void WriteLine(LogLevel level, string message) {
-		Console.WriteLine(level.ToString() + message);
+	public static void WriteLine(LogLevel loglevel, string message) {
+		if (loglevel == LogLevel.FATAL || loglevel == LogLevel.ERROR)
+			Console.Error.WriteLine(loglevel.ToString() + ": " + message);
+		Console.WriteLine(loglevel.ToString() + ": " + message);
+	}
+
+	public static void WriteLine(LogLevel loglevel, string message, object arg0) {
+		if (loglevel == LogLevel.FATAL || loglevel == LogLevel.ERROR)
+			Console.Error.WriteLine(loglevel.ToString() + ": " + message, arg0);
+		Console.WriteLine(loglevel.ToString() + ": " + message, arg0);
 	}
 
 }
