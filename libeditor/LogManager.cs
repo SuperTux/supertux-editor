@@ -1,6 +1,6 @@
 // $Id$
 //
-//  Copyright (C) 2006 Arvid Norlander <anmaster AT berlios DOT de>
+//  Copyright (C) 2007 Arvid Norlander <anmaster AT berlios DOT de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
