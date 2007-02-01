@@ -51,7 +51,7 @@ public sealed class Parser {
 
 						Token = Lexer.GetNextToken();
 						if(Token != Lexer.Token.CLOSE_PAREN)
-							ParseError("Expected ')' after '(_ \"\"' squence");
+							ParseError("Expected ')' after '(_ \"\"' sequence");
 						break;
 					}
 
