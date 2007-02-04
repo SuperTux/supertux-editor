@@ -29,7 +29,12 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 			for(uint x = 0; x < Width; ++x) {
 				int TileId = this[x, y];
 				Tile Tile = Tileset.Get(TileId);
-				Tile.DrawEditor(CurrentPos);
+				if (Tile != null)
+					Tile.DrawEditor(CurrentPos);
+				else
+					LogManager.Log(LogLevel.Warning,
+					               "Tile {0} is null?! The tile with id {0} at {1},{2} is probably invalid.",
+					               TileId, x, y);
 				CurrentPos.X += Tileset.TILE_HEIGHT;
 			}
 			CurrentPos.X = Pos.X;

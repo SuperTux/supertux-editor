@@ -117,5 +117,21 @@ public static class LogManager {
 		Console.WriteLine(GetLevelString(loglevel) + format, arg0, arg1);
 	}
 
+	/// <summary>
+	/// Log a message with <paramref name="loglevel"/>
+	/// </summary>
+	/// <remarks>
+	/// Currently this logs to STDERR for <see cref="LogLevel.Error"/> and
+	/// <see cref="LogLevel.Fatal"/> and other levels to STDOUT.
+	/// </remarks>
+	/// <param name="loglevel">The log level of this message.</param>
+	/// <param name="format">A format string.</param>
+	/// <param name="args">Array of object for format string</param>
+	public static void Log(LogLevel loglevel, string format, params object[] args) {
+		if (loglevel == LogLevel.Fatal || loglevel == LogLevel.Error)
+			Console.Error.WriteLine(loglevel.ToString() + ": " + format, args);
+		Console.WriteLine(GetLevelString(loglevel) + format, args);
+	}
+
 
 }

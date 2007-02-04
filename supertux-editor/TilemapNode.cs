@@ -27,6 +27,10 @@ public sealed class TilemapNode : Node {
 				Tile Tile = Tileset.Get(TileId);
 				if (Tile != null)
 					Tile.DrawEditor(new Vector(x * 32, y * 32));
+				else
+					LogManager.Log(LogLevel.Warning,
+					               "Tile {0} is null?! The tile with id {0} at {1},{2} is probably invalid.",
+					               TileId, x, y);
 			}
 		}
 	}
