@@ -45,7 +45,7 @@ public sealed class Settings {
 		// If data path does not exist, prompt user to change it before we try continue initializing
 		if (!new DirectoryInfo(System.IO.Path.GetDirectoryName(Instance.SupertuxData)).Exists) {
 			LogManager.Log(LogLevel.Error, "Data path does not exist.");
-			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.None, "The current data path, \"" + Instance.SupertuxData + "\", does not exist.\n\nEdit the settings to set a valid data path.");
+			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.None, "The current data path, \"" + Instance.SupertuxData + "\", does not exist." + Environment.NewLine + Environment.NewLine + "Edit the settings to set a valid data path.");
 			md.AddButton(Gtk.Stock.No, ResponseType.No);
 			md.AddButton(Gtk.Stock.Edit, ResponseType.Yes);
 			if (md.Run() == (int)ResponseType.Yes) {

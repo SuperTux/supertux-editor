@@ -1,4 +1,5 @@
 //  $Id$
+using System;
 using SceneGraph;
 using Drawing;
 using DataStructures;
@@ -141,7 +142,7 @@ public sealed class SectorRenderer : RenderView
 		//handle backgrounds
 		if( Object is Background ){
 			Background bg = (Background) Object;
-			bg.Image = "";
+			bg.Image = String.Empty;
 			QueueDraw();
 			return;
 		}

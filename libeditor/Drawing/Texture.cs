@@ -73,7 +73,7 @@ namespace Drawing
 			} catch(Exception e) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
-				throw e;
+				throw;
 			}
 		}
 
@@ -97,7 +97,7 @@ namespace Drawing
 			} catch(Exception e) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
-				throw e;
+				throw;
 			}
 		}
 

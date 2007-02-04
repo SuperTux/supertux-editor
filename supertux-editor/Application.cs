@@ -518,19 +518,19 @@ public class Application : IEditorApplication {
 		dialog.Authors = authors;
 		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
 		dialog.License =
-			"This program is free software; you can redistribute it and/or modify\n" +
-			"it under the terms of the GNU General Public License as published by\n" +
-			"the Free Software Foundation; either version 2 of the License, or\n" +
-			"(at your option) any later version.\n" +
-			"\n" +
-			"This program is distributed in the hope that it will be useful,\n" +
-			"but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
-			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n" +
-			"GNU General Public License for more details.\n" +
-			"\n" +
-			"You should have received a copy of the GNU General Public License\n" +
-			"along with this program; if not, write to the Free Software Foundation, Inc.,\n" +
-			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA\n";
+			"This program is free software; you can redistribute it and/or modify" + Environment.NewLine +
+			"it under the terms of the GNU General Public License as published by" + Environment.NewLine +
+			"the Free Software Foundation; either version 2 of the License, or" + Environment.NewLine +
+			"(at your option) any later version." + Environment.NewLine +
+			Environment.NewLine +
+			"This program is distributed in the hope that it will be useful," + Environment.NewLine +
+			"but WITHOUT ANY WARRANTY; without even the implied warranty of" + Environment.NewLine +
+			"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the" + Environment.NewLine +
+			"GNU General Public License for more details." + Environment.NewLine +
+			Environment.NewLine +
+			"You should have received a copy of the GNU General Public License" + Environment.NewLine +
+			"along with this program; if not, write to the Free Software Foundation, Inc.," + Environment.NewLine +
+			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA" + Environment.NewLine;
 		dialog.Website = "http://supertux.berlios.de/";
 		dialog.WebsiteLabel = "SuperTux on the Web";
 		dialog.ShowAll();
@@ -544,7 +544,7 @@ public class Application : IEditorApplication {
 			return;
 
 		if (!File.Exists(Settings.Instance.SupertuxExe)){
-			ErrorDialog.ShowError("The SuperTux binary does not seem to exist.\n" +
+			ErrorDialog.ShowError("The SuperTux binary does not seem to exist." + Environment.NewLine +
 			                      "Please set the correct location of it in the settings.");
 			return;
 		}
@@ -657,7 +657,7 @@ public class Application : IEditorApplication {
 			MessageDialog md = new MessageDialog (MainWindow,
 			                                      DialogFlags.DestroyWithParent,
 			                                      MessageType.Warning,
-			                                      ButtonsType.None, "Continue without saving changes?\n\nIf you " + act + " without saving, changes since the last save will be discarded.");
+			                                      ButtonsType.None, "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
 			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
 

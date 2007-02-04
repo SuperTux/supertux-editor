@@ -72,7 +72,7 @@ public class Sprite : Node {
 		}
 		get {
 			if(CurrentAction == null)
-				return "";
+				return String.Empty;
 			return CurrentAction.Name;
 		}
 	}
@@ -88,7 +88,7 @@ public class Sprite : Node {
 		}
 		get {
 			if(_NextAction == null)
-				return "";
+				return String.Empty;
 			return _NextAction.Name;
 		}
 	}

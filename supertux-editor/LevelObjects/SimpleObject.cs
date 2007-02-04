@@ -160,7 +160,7 @@ public abstract class SimpleDirObject : SimpleObject
 
 	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
-	public String DeadScript = "";
+	public String DeadScript = String.Empty;
 }
 
 /// <summary>Base class for area objects in levels</summary>

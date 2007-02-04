@@ -114,7 +114,7 @@ public sealed class Tileset {
 
 		int width = 0;
 		int height = 0;
-		string image = "";
+		string image = String.Empty;
 		props.Get("width", ref width);
 		props.Get("height", ref height);
 		props.Get("image", ref image);

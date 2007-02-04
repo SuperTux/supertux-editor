@@ -14,7 +14,7 @@ using LispReader;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple = false)]
 public sealed class PropertyPropertiesAttribute : Attribute {
-	public string Tooltip = "";
+	public string Tooltip = String.Empty;
 
 	/// <summary>
 	/// If true this object is hidden from the <see cref="PropertiesView"/>.
@@ -157,7 +157,7 @@ public class PropertiesView : ScrolledWindow
 
 		// TODO add a (!) image in front of the label (and hide/show it depending
 		// if there was an error)
-		errorLabel = new Label("");
+		errorLabel = new Label(String.Empty);
 		errorLabel.Xalign = 0;
 		errorLabel.Xpad = 12;
 		box.PackStart(errorLabel, true, false, 0);
@@ -207,7 +207,7 @@ public class PropertiesView : ScrolledWindow
 			ErrorDialog.Exception(e);
 			return;
 		}
-		errorLabel.Text = "";
+		errorLabel.Text = String.Empty;
 	}
 
 	private void OnCheckButtonToggled(object o, EventArgs args)

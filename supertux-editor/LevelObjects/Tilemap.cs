@@ -17,7 +17,7 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 
 	[LispChild("speed", Optional = true, Default = 1.0f)]
 	public float Speed = 1.0f;
