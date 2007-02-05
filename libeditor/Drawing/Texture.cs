@@ -167,7 +167,7 @@ namespace Drawing
 			return (val & (val - 1)) == 0;
 		}
 
-		private unsafe uint SetupPixelFormat(IntPtr surfacep)
+		private static unsafe uint SetupPixelFormat(IntPtr surfacep)
 		{
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			PixelFormat* format = (PixelFormat*) surface->format;
