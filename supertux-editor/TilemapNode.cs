@@ -21,16 +21,17 @@ public sealed class TilemapNode : Node {
 		//HACK: Coudln't find any "inrange" or such
 		uint end_x = (uint) Math.Max(0, Math.Min(Field.Width, (cliprect.X + cliprect.Width) / 32 + 1));
 		uint end_y = (uint) Math.Max(0, Math.Min(Field.Height, (cliprect.Y + cliprect.Height) / 32 + 1));
+		int TileId;
+		Tile Tile;
 		for (uint y = start_y; y < end_y; ++y) {
 			for (uint x = start_x; x < end_x; ++x) {
-				int TileId = Field[x, y];
-				Tile Tile = Tileset.Get(TileId);
+				Tile = Tileset.Get(Field[x, y]);
 				if (Tile != null)
 					Tile.DrawEditor(new Vector(x * 32, y * 32));
 				else
 					LogManager.Log(LogLevel.Warning,
 					               "Tile {0} is null?! The tile with id {0} at {1},{2} is probably invalid.",
-					               TileId, x, y);
+					               Field[x, y], x, y);
 			}
 		}
 	}
