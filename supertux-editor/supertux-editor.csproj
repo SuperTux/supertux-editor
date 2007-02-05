@@ -60,7 +60,7 @@
     <Compile Include="PropertyEditors\ChooseResourceWidget.cs" />
     <Compile Include="ColorSerializer.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="CustomSettingsWidgetAttribute.cs" />
+    <Compile Include="PropertyEditors\CustomSettingsWidgetAttribute.cs" />
     <Compile Include="EditorStock.cs" />
     <Compile Include="Editors\ObjectCreationEditor.cs" />
     <Compile Include="PropertyEditors\EditScriptWidget.cs" />
