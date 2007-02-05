@@ -41,9 +41,7 @@ namespace DataStructures
 			if (startY + height > Other.Height) throw new ArgumentOutOfRangeException("startY");
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					int tx = x + startX;
-					int ty = y + startY;
-					Elements.Add(Other[tx, ty]);
+					Elements.Add(Other[x + startX, y + startY]);
 				}
 			}
 		}

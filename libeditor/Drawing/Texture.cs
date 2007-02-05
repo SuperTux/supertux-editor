@@ -70,7 +70,7 @@ namespace Drawing
 				GlUtil.Assert("creating texture (too big?)");
 
 				SetTextureParams();
-			} catch(Exception e) {
+			} catch(Exception) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
 				throw;
@@ -94,7 +94,7 @@ namespace Drawing
 				              gl.RGBA, gl.UNSIGNED_BYTE, IntPtr.Zero);
 				GlUtil.Assert("creating texture (too big?)");
 				SetTextureParams();
-			} catch(Exception e) {
+			} catch(Exception) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
 				throw;
