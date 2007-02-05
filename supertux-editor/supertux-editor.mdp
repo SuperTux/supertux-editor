@@ -22,7 +22,7 @@
     <File name="./LayerListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorRenderer.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorSwitchNotebook.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Selection.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/Selection.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tiles/Tile.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tiles/TileBlock.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileListWidget.cs" subtype="Code" buildaction="Compile" />
@@ -40,13 +40,13 @@
     <File name="./resources/stock-eye-half-12.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./EditorStock.cs" subtype="Code" buildaction="Compile" />
     <File name="./GameObjectListWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ICustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ChooseResourceWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./CustomSettingsWidgetAttribute.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/ICustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/ChooseResourceWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/CustomSettingsWidgetAttribute.cs" subtype="Code" buildaction="Compile" />
     <File name="./ObjectListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./LevelUtil.cs" subtype="Code" buildaction="Compile" />
     <File name="./ColorSerializer.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ChooseColorWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/ChooseColorWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./ResizeDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileGroupSelector.cs" subtype="Code" buildaction="Compile" />
     <File name="./Tiles/Tilegroup.cs" subtype="Code" buildaction="Compile" />
@@ -56,8 +56,8 @@
     <File name="./Editors/ObjectsEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/CameraDrag.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/ObjectCreationEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ScriptEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="./EditScriptWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/ScriptEditor.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/EditScriptWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./SettingsDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/PathEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="./LevelObjects" subtype="Directory" buildaction="Compile" />
@@ -83,9 +83,9 @@
     <File name="./resources/stock-tool-select-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-tool-tiles-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-background-24.png" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="./CustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/CustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/EditorBase.cs" subtype="Code" buildaction="Compile" />
-    <File name="./ChooseSectorWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./PropertyEditors/ChooseSectorWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./QACheck.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
