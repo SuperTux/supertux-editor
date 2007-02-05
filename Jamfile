@@ -31,6 +31,7 @@ CSFLAGS on libeditor.dll += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 ;
 CSharp supertux-editor.exe
     :   [ Wildcard supertux-editor : *.cs ]
         [ Wildcard supertux-editor/Sprites : *.cs ]
+        [ Wildcard supertux-editor/Tiles : *.cs ]
         [ Wildcard supertux-editor/Editors : *.cs ]
         [ Wildcard supertux-editor/LevelObjects : *.cs ]
     :   [ Wildcard supertux-editor/resources : *.glade *.png ]

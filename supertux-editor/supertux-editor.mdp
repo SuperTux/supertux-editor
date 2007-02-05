@@ -23,11 +23,11 @@
     <File name="./SectorRenderer.cs" subtype="Code" buildaction="Compile" />
     <File name="./SectorSwitchNotebook.cs" subtype="Code" buildaction="Compile" />
     <File name="./Selection.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Tile.cs" subtype="Code" buildaction="Compile" />
-    <File name="./TileBlock.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/Tile.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/TileBlock.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileListWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="./TilemapNode.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Tileset.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/TilemapNode.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/Tileset.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sprites/Sprite.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sprites/SpriteData.cs" subtype="Code" buildaction="Compile" />
     <File name="./Sprites/SpriteManager.cs" subtype="Code" buildaction="Compile" />
@@ -49,7 +49,7 @@
     <File name="./ChooseColorWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./ResizeDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./TileGroupSelector.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Tilegroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Tiles/Tilegroup.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors" subtype="Directory" buildaction="Compile" />
     <File name="./Editors/Brush.cs" subtype="Code" buildaction="Compile" />
     <File name="./Editors/TilemapEditor.cs" subtype="Code" buildaction="Compile" />
