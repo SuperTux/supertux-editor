@@ -21,7 +21,6 @@ public sealed class TilemapNode : Node {
 		//HACK: Coudln't find any "inrange" or such
 		uint end_x = (uint) Math.Max(0, Math.Min(Field.Width, (cliprect.X + cliprect.Width) / 32 + 1));
 		uint end_y = (uint) Math.Max(0, Math.Min(Field.Height, (cliprect.Y + cliprect.Height) / 32 + 1));
-		int TileId;
 		Tile Tile;
 		for (uint y = start_y; y < end_y; ++y) {
 			for (uint x = start_x; x < end_x; ++x) {
