@@ -53,7 +53,7 @@ rule CSharp {
     Depends $(target) : $(sources) $(resources) ;
     Depends all : $(target) ;
 
-    Clean clean : $(target) ;
+    Clean clean : $(target) $(target).xml $(target).mdb ;
     Clean clean$(<) : $(target) ;
 }
 
