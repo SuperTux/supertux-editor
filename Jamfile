@@ -4,7 +4,7 @@ CSharp gtkgl-sharp.dll : [ Wildcard gtkgl-sharp : *.cs ] ;
 CSFLAGS on gtkgl-sharp.dll += -unsafe -pkg:gtk-sharp-2.0 ;
 CSharp Lisp.dll : [ Wildcard Lisp : *.cs ] ;
 CSharp LispReader.dll : [ Wildcard LispReader : *.cs ] ;
-LinkWith LispReader.dll : Lisp.dll ;
+LinkWith LispReader.dll : Lisp.dll libeditor.dll ;
 CSharp Resources.dll : [ Wildcard Resources : *.cs ] ;
 
 # DIRS = src src/Drawing src/DataStructures src/Libs src/SceneGraph src/Sprites ;
@@ -31,7 +31,9 @@ CSFLAGS on libeditor.dll += -unsafe -pkg:gtk-sharp-2.0 -pkg:glade-sharp-2.0 ;
 CSharp supertux-editor.exe
     :   [ Wildcard supertux-editor : *.cs ]
         [ Wildcard supertux-editor/Sprites : *.cs ]
+        [ Wildcard supertux-editor/Tiles : *.cs ]
         [ Wildcard supertux-editor/Editors : *.cs ]
+        [ Wildcard supertux-editor/PropertyEditors : *.cs ]
         [ Wildcard supertux-editor/LevelObjects : *.cs ]
     :   [ Wildcard supertux-editor/resources : *.glade *.png ]
 ;

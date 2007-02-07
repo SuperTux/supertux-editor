@@ -1,7 +1,7 @@
 //  $Id$
 namespace Lisp {
 
-public class Symbol {
+public sealed class Symbol {
 	private string name;
 	public string Name {
 		get {

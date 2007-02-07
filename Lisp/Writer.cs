@@ -16,10 +16,19 @@ public sealed class Writer {
 		this.stream = stream;
 	}
 
+	/// <summary>
+	/// Writes a comment to the stream.
+	/// </summary>
+	/// <param name="comment">Contents of the comment</param>
 	public void WriteComment(string comment) {
 		stream.WriteLine("; " + comment);
 	}
 
+	/// <summary>
+	/// Starts a new lisp tree.
+	/// </summary>
+	/// <param name="name">The name of the lisp tree.</param>
+	/// <seealso cref="EndList"/>
 	public void StartList(string name) {
 		indent();
 		stream.WriteLine("(" + name);
@@ -27,6 +36,11 @@ public sealed class Writer {
 		lists.Push(name);
 	}
 
+	/// <summary>
+	/// Ends a lisptree opened with <see cref="StartList"/>.
+	/// </summary>
+	/// <param name="name">The name of the lisp tree.</param>
+	/// <seealso cref="StartList"/>
 	public void EndList(string name) {
 		if(lists.Count == 0)
 			throw new LispException("Trying to close list while none is open");
@@ -39,6 +53,18 @@ public sealed class Writer {
 		stream.WriteLine(")");
 	}
 
+	/// <summary>
+	/// Write an object <paramref name="value"/> to
+	/// the stream under the name
+	/// <paramref name="name"/>.
+	/// </summary>
+	/// <param name="name">The name to write value to in lisp.</param>
+	/// <param name="value">The object to write</param>
+	/// <remarks>
+	///		This function can write
+	///		strings, lists that implements <see cref="IEnumerable"/>,
+	///		and for anything else it will call <see cref="WriteValue"/>.
+	///	</remarks>
 	public void Write(string name, object value) {
 		indent();
 		stream.Write("(" + name);
@@ -65,11 +91,45 @@ public sealed class Writer {
 		stream.WriteLine(")");
 	}
 
+	/// <summary>
+	/// Writes a string and marks it as translatable
+	/// (for use with gettext?).
+	/// </summary>
+	/// <param name="Name">The name of the element to write.</param>
+	/// <param name="value">The value of it.</param>
 	public void WriteTranslatable(string Name, string value) {
 		indent();
 		stream.WriteLine("(" + Name + " (_ \"" + value + "\"))");
 	}
 
+	/// <summary>
+	/// Processes and writes a value <paramref name="val"/>.
+	/// </summary>
+	/// <remarks>
+	///		If <paramref name="val"/> is a
+	///		<list type="table">
+	///			<listheader>
+	///				<term>Type</term>
+	///				<description>What will be written</description>
+	///			</listheader>
+	///			<item>
+	///				<term><see cref="Boolean"/></term>
+	///				<description>#t or #f will be written.</description>
+	///			</item>
+	///			<item>
+	///				<term><see cref="Single"/> or <see cref="Double"/></term>
+	///				<description>
+	///					The floating point number will be formated with
+	///					<see cref="CultureInfo.InvariantCulture"/>
+	///				</description>
+	///			</item>
+	///			<item>
+	///				<term>Other</term>
+	///				<description>Call ToString() of <paramref name="val"/></description>
+	///			</item>
+	///		</list>
+	/// </remarks>
+	/// <param name="val">The value to write</param>
 	private void WriteValue(object val) {
 		if(val is bool) {
 			stream.Write( ((bool) val) == true ? "#t" : "#f");
@@ -83,11 +143,19 @@ public sealed class Writer {
 		}
 	}
 
+	/// <summary>
+	/// Indents and write the string passed in <paramref name="line"/>
+	/// without any processing of it.
+	/// </summary>
+	/// <param name="line">The line to write.</param>
 	public void WriteVerbatimLine(string line) {
 		indent();
 		stream.WriteLine(line);
 	}
 
+	/// <summary>
+	/// Add spaces to indent to <see cref="IndentDepth"/>.
+	/// </summary>
 	private void indent() {
 			stream.Write(new String(' ', IndentDepth));
 	}

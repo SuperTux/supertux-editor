@@ -13,12 +13,13 @@
       <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
-  <DeploymentInformation strategy="File">
-    <excludeFiles />
-  </DeploymentInformation>
+  <DeployTargets />
   <Contents>
     <File name="./DefaultResourceManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./ResourceManager.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References />
+  <DeploymentInformation strategy="File">
+    <excludeFiles />
+  </DeploymentInformation>
 </Project>

@@ -47,6 +47,10 @@
     <Compile Include="LispSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libeditor\libeditor.csproj">
+      <Project>{FD0B9E66-17B4-495E-B099-439507637A6C}</Project>
+      <Name>libeditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lisp\Lisp.csproj">
       <Project>{9EC3C894-3BEA-419C-ABE1-634B86AE7C0C}</Project>
       <Name>Lisp</Name>

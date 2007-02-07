@@ -42,14 +42,13 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="LogManager.cs" />
     <Compile Include="DataStructures\Field.cs" />
     <Compile Include="DataStructures\FieldPos.cs" />
     <Compile Include="DataStructures\Matrix.cs" />
     <Compile Include="DataStructures\RectangleF.cs" />
-    <Compile Include="DataStructures\SizeF.cs" />
     <Compile Include="DataStructures\Vector.cs" />
     <Compile Include="Drawing\Color.cs" />
-    <Compile Include="Drawing\Font.cs" />
     <Compile Include="Drawing\GlUtil.cs" />
     <Compile Include="Drawing\ImageTexture.cs" />
     <Compile Include="Drawing\Surface.cs" />

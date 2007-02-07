@@ -6,7 +6,10 @@ using System.Collections;
 
 namespace Lisp
 {
-
+/// <summary>
+/// Lisp parser
+/// </summary>
+/// <seealso cref="Lexer"/>
 public sealed class Parser {
 	private Lexer Lexer;
 	private Lexer.Token Token;
@@ -48,7 +51,7 @@ public sealed class Parser {
 
 						Token = Lexer.GetNextToken();
 						if(Token != Lexer.Token.CLOSE_PAREN)
-							ParseError("Expected ')' after '(_ \"\"' squence");
+							ParseError("Expected ')' after '(_ \"\"' sequence");
 						break;
 					}
 

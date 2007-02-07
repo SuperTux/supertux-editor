@@ -2,7 +2,7 @@
 namespace Lisp
 {
 
-public class LispIterator {
+public sealed class LispIterator {
 	private List IterList;
 	private int Pos;
 	private string ChildKey;
