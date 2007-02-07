@@ -220,4 +220,3 @@ public abstract class SimpleObjectArea : SimpleObject
 		return this;
 	}
 }
-

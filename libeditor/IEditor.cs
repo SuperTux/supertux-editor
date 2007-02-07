@@ -19,4 +19,3 @@ public interface IEditorCursorChange
 	event CursorChangeHandler CursorChange;
 }
 public delegate void CursorChangeHandler(Cursor cursor);
-

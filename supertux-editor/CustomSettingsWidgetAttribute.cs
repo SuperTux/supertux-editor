@@ -12,5 +12,3 @@ public abstract class CustomSettingsWidgetAttribute : Attribute
 		this.Type = type;
 	}
 }
-
-
