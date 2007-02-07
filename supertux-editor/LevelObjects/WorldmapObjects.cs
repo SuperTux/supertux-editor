@@ -24,7 +24,9 @@ public abstract class WorldmapObject : SimpleObject
 		Y = ((int) (NewArea.Top - 16 + Sprite.Offset.Y)) / 32;
 	}
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
 		if(Sprite == null)
 			return;
 
@@ -52,7 +54,7 @@ public sealed class WorldmapLevel : WorldmapObject
 	[LispChild("name")]
 	public string Name;
 	[LispChild("extro-filename", Optional = true, Default = "")]
-	public string ExtroFilename = "";
+	public string ExtroFilename = String.Empty;
 	[LispChild("quit-worldmap", Optional = true, Default = false)]
 	public bool QuitWorldmap = false;
 	[LispChild("auto-play", Optional = true, Default = false)]
@@ -76,7 +78,7 @@ public sealed class WorldmapLevel : WorldmapObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 
 	public WorldmapLevel()
 	{
@@ -93,16 +95,16 @@ public sealed class SpecialTile : WorldmapObject
 	[LispChild("teleport-to-y", Optional = true, Default = -1f)]
 	public float TeleportToY = -1f;
 	[LispChild("map-message", Optional = true, Default = "", Translatable = true)]
-	public string Message = "";
+	public string Message = String.Empty;
 	[LispChild("invisible-tile", Optional = true, Default = false)]
 	public bool invisible;
 	[LispChild("passive-message", Optional = true, Default = false)]
 	public bool PassiveMessage;
 	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
-	public string Script = "";
+	public string Script = String.Empty;
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
-	public string ApplyToDirection = "";
+	public string ApplyToDirection = String.Empty;
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -123,7 +125,7 @@ public sealed class SpecialTile : WorldmapObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 
 	public SpecialTile()
 	{
@@ -154,7 +156,7 @@ public sealed class SpriteChange : WorldmapObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 	[LispChild("change-on-touch")]
 	public bool ChangeOnTouch;
 	[LispChild("stay-action")]
@@ -192,19 +194,19 @@ public sealed class Teleporter : WorldmapObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 
 	[LispChild("worldmap", Optional = true, Default = "")]
-	public string Worldmap = "";
+	public string Worldmap = String.Empty;
 
 	[LispChild("spawnpoint", Optional = true, Default = "")]
-	public string Spawnpoint = "";
+	public string Spawnpoint = String.Empty;
 
 	[LispChild("automatic", Optional = true, Default = false)]
 	public bool Automatic;
 
 	[LispChild("message", Optional = true, Default = "", Translatable = true)]
-	public string Message = "";
+	public string Message = String.Empty;
 
 	public Teleporter()
 	{

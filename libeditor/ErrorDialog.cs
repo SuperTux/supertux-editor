@@ -31,7 +31,7 @@ using System;
 using Gtk;
 using Glade;
 
-public class ErrorDialog : IDisposable
+public sealed class ErrorDialog : IDisposable
 {
 	[Glade.Widget("ErrorDialog")]
 	Dialog dialog = null;
@@ -58,11 +58,11 @@ public class ErrorDialog : IDisposable
 
 		dialog.Message = Mess + ": " + e.Message;
 		do {
-			dialog.AddDetails("\"" + e.Message + "\"\n", false);
+			dialog.AddDetails("\"" + e.Message + "\"" + Environment.NewLine, false);
 			dialog.AddDetails(e.StackTrace, false);
 
 			if(e.InnerException != null) {
-				dialog.AddDetails("\n\n--Caused by--\n\n", false);
+				dialog.AddDetails(Environment.NewLine + Environment.NewLine + "--Caused by--" + Environment.NewLine + Environment.NewLine, false);
 			}
 			e = e.InnerException;
 		} while(e != null);

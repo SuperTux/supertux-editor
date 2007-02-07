@@ -64,7 +64,7 @@ public abstract class GLWidgetBase : GLArea
 	private void OnExposed(object o, ExposeEventArgs args)
 	{
 		if(!MakeCurrent()) {
-			Console.WriteLine("Make Current - OnExposed failed");
+			LogManager.Log(LogLevel.Warning, "Make Current - OnExposed failed");
 			return;
 		}
 
@@ -86,7 +86,7 @@ public abstract class GLWidgetBase : GLArea
 	private void OnConfigure(object o, ConfigureEventArgs args)
 	{
 		if(!MakeCurrent()) {
-			Console.WriteLine("Warning: MakeCurrent() - OnConfigure failed");
+			LogManager.Log(LogLevel.Warning, "MakeCurrent() - OnConfigure failed");
 			return;
 		}
 

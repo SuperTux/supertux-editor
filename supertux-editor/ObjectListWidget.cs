@@ -148,8 +148,8 @@ public class ObjectListWidget : GLWidgetBase
 			gameObjectTypes.Add(type);
 			Sprite icon = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
 			if( icon == null ) { //no sprite, no image, no can do.
-				Console.WriteLine("ObjectListWidget: Can't create an icon for " + objectAttribute.Name
-				                  + " from " +objectAttribute.IconSprite);
+				LogManager.Log(LogLevel.Warning, "ObjectListWidget: Can't create an icon for " + objectAttribute.Name
+				                     + " from " +objectAttribute.IconSprite);
 			}
 			gameObjectSprites.Add(icon);
 		}
@@ -175,7 +175,7 @@ public class ObjectListWidget : GLWidgetBase
 			catch { try { result.Action = "normal"; }
 				catch { try { result.Action = "default"; }
 					catch {
-						Console.WriteLine("ObjectListWidget: No action selected for " + name );
+						LogManager.Log(LogLevel.DebugWarning, "ObjectListWidget: No action selected for " + name);
 					}
 				}
 			}
@@ -225,8 +225,9 @@ public class ObjectListWidget : GLWidgetBase
 					SelectedObjectNr = selected;
 					if( application.CurrentSector != null ) {
 						Type type = gameObjectTypes[selected];
+						Sprite Icon = gameObjectSprites[selected];
 						if(type != null) {
-							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type);
+							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type, Icon);
 							application.SetEditor(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
@@ -243,7 +244,7 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		Console.WriteLine("Dragstart");
+		LogManager.Log(LogLevel.Debug, "Dragstart");
 	}
 
 	private void OnScroll(object o, ScrollEventArgs args)

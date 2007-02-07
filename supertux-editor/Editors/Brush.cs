@@ -223,14 +223,54 @@ public class Brush
 		}
 	}
 
+	/// <summary>
+	/// Find the best pattern to use when changing tiles around the given position to one of the stored patterns.
+	/// </summary>
+	/// <param name="pos">The (center) position at the <paramref name="tilemap"/> to look at.</param>
+	/// <param name="tilemap">The tilemap to look at.</param>
+	/// <param name="bestPattern">A tileblock that will replace the area.</param>
+	/// <returns>
+	/// True if <paramref name="bestPattern"/> is diffrent from the calculated
+	/// pattern in <paramref name="tilemap"/>, otherwise false.
+	/// </returns>
+	public bool FindBestPattern(FieldPos pos, Tilemap tilemap, ref TileBlock bestPattern) {
+		// find upper-left corner of where to apply brush
+		int px = pos.X - (int) (width / 2);
+		int py = pos.Y - (int) (height / 2);
+
+		// Make sure we are in bounds of the tilemap, and don't throw an Exception, this
+		// is user input that haven't been checked.
+		if (px < 0) return false;
+		if (py < 0) return false;
+		if (px + width > tilemap.Width) return false;
+		if (py + width > tilemap.Height) return false;
+
+		// store subset of tilemap where brush will be applied as a reference pattern
+		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
+
+		// find the stored pattern that matches this reference pattern best
+		float bestSimilarity = 0;
+		bestPattern = null;
+		foreach (TileBlock pattern in patterns) {
+			float sim = calculateSimilarity(pattern, tb);
+			if (sim > bestSimilarity) {
+				bestSimilarity = sim;
+				bestPattern = pattern;
+			}
+		}
+		return ! ((bestPattern == null) || (bestPattern.EqualContents(tb)));
+	}
+
 	// FIXME: untested
 	// TODO: change file syntax from CSV to Lisp
 	public void saveToFile(string fname) {
 		FileStream fs = new FileStream(fname, FileMode.Create);
 		TextWriter tw = new StreamWriter(fs);
 
+		patterns.Sort();
+
 		foreach (TileBlock m1 in patterns) {
-			tw.WriteLine("" + m1[0, 0] + "," + m1[1, 0] + "," + m1[2, 0] + "," + m1[0, 1] + "," + m1[1, 1] + "," + m1[2, 1] + "," + m1[0, 2] + "," + m1[1, 2] + "," + m1[2, 2] + "");
+			tw.WriteLine(m1[0, 0] + "," + m1[1, 0] + "," + m1[2, 0] + "," + m1[0, 1] + "," + m1[1, 1] + "," + m1[2, 1] + "," + m1[0, 2] + "," + m1[1, 2] + "," + m1[2, 2]);
 		}
 
 		tw.Close();

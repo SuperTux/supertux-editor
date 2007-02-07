@@ -56,10 +56,10 @@ public class RenderView : GLWidgetBase
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 
 		if(SceneGraphRoot != null)
-			SceneGraphRoot.Draw();
+			SceneGraphRoot.Draw(GetClipRect());
 
 		if(!dragging && Editor != null)
-			Editor.Draw();
+			Editor.Draw(GetClipRect());
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
@@ -152,7 +152,7 @@ public class RenderView : GLWidgetBase
 		float oldZoom = Zoom;
 		Zoom = newZoom;
 
-		//Limit the Zoom to useful values;
+		// Limit the Zoom to useful values;
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
 		}
@@ -189,6 +189,16 @@ public class RenderView : GLWidgetBase
 	public Vector GetTranslation()
 	{
 		return Translation;
+	}
+
+	/// <summary>
+	///		Returns a <see cref="Gdk.Rectangle"/> for the currently
+	///		visible area in world coordinates.
+	/// </summary>
+	/// <returns>A <see cref="Gdk.Rectangle"/>.</returns>
+	public Gdk.Rectangle GetClipRect() {
+		return new Gdk.Rectangle((int)-Translation.X, (int)-Translation.Y,
+														 (int)(Allocation.Width / Zoom), (int)(Allocation.Height / Zoom));
 	}
 
 	private Vector MouseToWorld(Vector MousePos)

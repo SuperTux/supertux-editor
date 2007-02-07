@@ -14,10 +14,10 @@ public sealed class Level
 	public int Version = 2;
 	[PropertyProperties(Tooltip = "Name of this level.")]
 	[LispChild("name", Translatable = true)]
-	public string Name = "";
+	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "Author of this level.")]
 	[LispChild("author")]
-	public string Author = "";
+	public string Author = String.Empty;
 
 	private string tilesetFile = "images/tiles.strf";
 	public Tileset Tileset = new Tileset("images/tiles.strf");

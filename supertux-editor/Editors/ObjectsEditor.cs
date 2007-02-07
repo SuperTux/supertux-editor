@@ -31,7 +31,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			this.attachPoint = attachPoint;
 		}
 
-		public void Draw()
+		public void Draw(Gdk.Rectangle cliprect)
 		{
 			UpdatePosition();
 			gl.Color4f(0, 0, 1, 0.7f);
@@ -120,7 +120,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		this.sector = sector;
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
 		if(activeObject != null) {
 			IObject obj = activeObject;
@@ -128,23 +128,23 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 				obj = ((ControlPoint) obj).Object;
 
 			gl.Color4f(1, 0, 0, 0.7f);
-			obj.GetSceneGraphNode().Draw();
+			obj.GetSceneGraphNode().Draw(cliprect);
 			gl.Color4f(1, 1, 1, 1);
 		}
 		foreach(ControlPoint point in controlPoints) {
-			point.Draw();
+			point.Draw(cliprect);
 		}
 	}
 
-	public void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if(button == 1 || button == 3) {
-			if(activeObject == null || !activeObject.Area.Contains(pos)) {
-				MakeActive(FindNext(pos));
+			if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+				MakeActive(FindNext(mousePos));
 			}
 
 			if(activeObject != null && button == 1) {
-				pressPoint = pos;
+				pressPoint = mousePos;
 				originalArea = activeObject.Area;
 				dragging = true;
 			}
@@ -216,7 +216,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			controlPoints.Add(new ControlPoint(activeObject,
 			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
 		}
-		application.PrintStatus( "ObjectsEditor:MakeActive(" + activeObject + ")" );
+		application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 	}
 
 	private void PopupMenu(int button)
@@ -280,40 +280,29 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		Redraw();
 	}
 
-	/// <summary>
-	/// Returns unit to snap to, based on passed Modifier keys and application settings
-	/// </summary>
-	private int SnapValue(ModifierType Modifiers)
-	{
-		if ((Modifiers & ModifierType.ShiftMask) != 0) return 32;
-		if ((Modifiers & ModifierType.ControlMask) != 0) return 16;
-		if( application.SnapToGrid ) return 32;
-		return 0;
-	}
-
-	public void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if(dragging) {
 			dragging = false;
 
-			if(pos != pressPoint) {
+			if (mousePos != pressPoint) {
 				moveStarted = false;
-				moveObject(pos, SnapValue(Modifiers));
+				moveObject(mousePos, SnapValue(Modifiers));
 			} else {
-				MakeActive(FindNext(pos));
+				MakeActive(FindNext(mousePos));
 				Redraw();
 			}
 		}
 	}
 
-	public void OnMouseMotion(Vector pos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
 			if (!moveStarted) {
 				application.TakeUndoSnapshot("Moved Object " + activeObject);
 				moveStarted = true;
 			}
-			moveObject(pos, SnapValue(Modifiers));
+			moveObject(mousePos, SnapValue(Modifiers));
 		}
 	}
 

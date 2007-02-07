@@ -13,17 +13,17 @@ public delegate void SizeChangedHandler(Sector sector);
 [LispRootAttribute("sector")]
 public sealed class Sector : ICustomLispSerializer {
 	[LispChild("name")]
-	public string Name = "";
+	public string Name = String.Empty;
 	[ChooseResourceSetting]
 	[PropertyProperties(Tooltip = "Background music to use for the sector.")]
 	[LispChild("music", Optional = true, Default = "")]
-	public string Music = "";
+	public string Music = String.Empty;
 	[PropertyProperties(Tooltip = "Gravity in sector, currently broken(?)")]
 	[LispChild("gravity", Optional = true, Default = 10f)]
 	public float Gravity = 10f;
 	[LispChild("init-script", Optional = true, Default = "")]
 	[EditScriptSetting]
-	public string InitScript = "";
+	public string InitScript = String.Empty;
 
 	//[ChooseColorSetting]
 	//[LispChild("ambient-light", Optional = true, Default = new Drawing.Color( 1f, 1f, 1f ) )]
@@ -140,7 +140,7 @@ public sealed class Sector : ICustomLispSerializer {
 			SizeChanged(this);
 	}
 
-	public void CustomLispRead(Properties props) {
+	public void CustomLispRead(Properties Props) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
 			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
@@ -148,7 +148,7 @@ public sealed class Sector : ICustomLispSerializer {
 				continue;
 
 			LispSerializer serializer = new LispSerializer(type);
-			foreach(List list in props.GetList(objectAttribute.Name)) {
+			foreach(List list in Props.GetList(objectAttribute.Name)) {
 				IGameObject Object = (IGameObject) serializer.Read(list);
 				GameObjects.Add(Object);
 			}

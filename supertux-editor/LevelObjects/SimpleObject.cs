@@ -55,11 +55,11 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 		}
 	}
 
-	public virtual void Draw() {
+	public virtual void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
-
-		Sprite.Draw(new Vector(X, Y));
+		if (cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			Sprite.Draw(new Vector(X, Y));
 	}
 
 	public virtual Node GetSceneGraphNode() {
@@ -126,7 +126,7 @@ public abstract class SimpleDirObject : SimpleObject
 			try { Sprite.Action = "right"; }
 			catch { try { Sprite.Action = "walking-right"; }
 				catch {
-					Console.WriteLine("SimpleDirObject: No action found for object.");
+					LogManager.Log(LogLevel.Warning, "SimpleDirObject: No action found for object.");
 					Sprite.Action = oldaction;
 				}
 			}
@@ -134,7 +134,7 @@ public abstract class SimpleDirObject : SimpleObject
 			try { Sprite.Action = "left"; }
 			catch { try { Sprite.Action = "walking-left"; }
 				catch {
-					Console.WriteLine("SimpleDirObject: No action found for object.");
+					LogManager.Log(LogLevel.Warning, "SimpleDirObject: No action found for object.");
 					Sprite.Action = oldaction;
 				}
 			}
@@ -186,7 +186,9 @@ public abstract class SimpleObjectArea : SimpleObject
 		}
 	}
 
-	public override void Draw() {
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith(new Gdk.Rectangle((int) X, (int) Y, (int) Width, (int) Height)))
+			return;
 		float left = X;
 		float right = X + Width;
 		float top = Y;
@@ -209,11 +211,11 @@ public abstract class SimpleObjectArea : SimpleObject
 		gl.Color4fv( current_color );
 	}
 
-	public override void ChangeArea(RectangleF Area) {
-		X = Area.Left;
-		Y = Area.Top;
-		Width = Area.Width;
-		Height = Area.Height;
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left;
+		Y = NewArea.Top;
+		Width = NewArea.Width;
+		Height = NewArea.Height;
 	}
 
 	public sealed override Node GetSceneGraphNode() {

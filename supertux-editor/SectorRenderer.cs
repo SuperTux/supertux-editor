@@ -1,4 +1,5 @@
 //  $Id$
+using System;
 using SceneGraph;
 using Drawing;
 using DataStructures;
@@ -32,7 +33,7 @@ public sealed class SectorRenderer : RenderView
 
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			Node node = new TilemapNode(tilemap, level.Tileset);
-			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f));
+			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
 			layer.Add(tilemap.ZPos, colorNode);
 			colors[tilemap] = colorNode;
 		}
@@ -70,9 +71,17 @@ public sealed class SectorRenderer : RenderView
 		DragMotion += OnDragMotion;
 	}
 
+	/// <summary>
+	///		Change color of a tilemap. Useful to hide tilemaps (but they are still drawn that way...)
+	/// </summary>
+	/// <remarks>
+	///		Used to hide tilemaps in <see cref="LayerListWidget.OnVisibilityChange"/>.
+	/// </remarks>
+	/// <param name="tilemap">The tilemap to change color of.</param>
+	/// <param name="color">The new color.</param>
 	public void SetTilemapColor(Tilemap tilemap, Color color)
 	{
-		System.Console.WriteLine("Set color of tilemap {0}", tilemap.GetHashCode());
+		LogManager.Log(LogLevel.Debug, "Set color of tilemap {0}", tilemap.GetHashCode());
 		ColorNode colorNode = (ColorNode) colors[tilemap];
 		colorNode.Color = color;
 		QueueDraw();
@@ -106,7 +115,7 @@ public sealed class SectorRenderer : RenderView
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
 			layer.Add(tilemap.ZPos, colorNode);
-			System.Console.WriteLine("Adding tilemap color: {0}", Object.GetHashCode());
+			LogManager.Log(LogLevel.Debug, "Adding tilemap color: {0}", Object.GetHashCode());
 			colors[tilemap] = colorNode;
 		}
 
@@ -133,13 +142,13 @@ public sealed class SectorRenderer : RenderView
 		//handle backgrounds
 		if( Object is Background ){
 			Background bg = (Background) Object;
-			bg.Image = "";
+			bg.Image = String.Empty;
 			QueueDraw();
 			return;
 		}
 
 		if(! (Object is IObject)){
-			System.Console.WriteLine("SectorRenderer:OnObjectRemoved unhandled object " + Object);
+			LogManager.Log(LogLevel.Error, "SectorRenderer:OnObjectRemoved unhandled object " + Object);
 			return;
 		}
 		IObject iObject = (IObject) Object;
@@ -150,7 +159,7 @@ public sealed class SectorRenderer : RenderView
 
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
-		System.Console.WriteLine("Motion: " + args.X + " - " + args.Y);
+		LogManager.Log(LogLevel.Debug, "Motion: " + args.X + " - " + args.Y);
 		//Console.WriteLine("Blup: " + args.Context
 	}
 

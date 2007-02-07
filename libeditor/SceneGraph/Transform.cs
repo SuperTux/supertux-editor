@@ -15,12 +15,12 @@ namespace SceneGraph
 	{
 		public Matrix Matrix;
 
-		public override unsafe void Draw()
+		public override unsafe void Draw(Gdk.Rectangle cliprect)
 		{
 			gl.PushMatrix();
 			gl.MultMatrixf(Matrix.Elements);
 
-			DrawChilds();
+			DrawChilds(cliprect);
 
 			gl.PopMatrix();
 		}

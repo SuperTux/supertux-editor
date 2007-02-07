@@ -19,7 +19,7 @@ namespace SceneGraph
 		{
 		}
 
-		public void Draw()
+		public void Draw(Gdk.Rectangle cliprect)
 		{
 			gl.Disable(gl.TEXTURE_2D);
 			gl.PolygonMode(gl.FRONT_AND_BACK, Fill ? gl.FILL : gl.LINE);

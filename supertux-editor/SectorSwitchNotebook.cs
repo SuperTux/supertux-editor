@@ -124,7 +124,7 @@ public class SectorSwitchNotebook : Notebook
 			}
 		}
 
-		Console.WriteLine("Sector '" + item.Name + "' not found?!?");
+		LogManager.Log(LogLevel.Error, "Sector '" + item.Name + "' not found?!?");
 	}
 
 	private void OnPropertiesActivated(object o, EventArgs args)
@@ -172,9 +172,9 @@ public class SectorSwitchNotebook : Notebook
 			if (invalidtiles.Count != 0) {
 				bad = true;
 				if (String.IsNullOrEmpty(tilemap.Name))
-					sb.Append("\nTilemap (" + tilemap.ZPos + ")");
+					sb.Append(Environment.NewLine + "Tilemap (" + tilemap.ZPos + ")");
 				else
-					sb.Append("\n" + tilemap.Name + " (" + tilemap.ZPos + ")");
+					sb.Append(Environment.NewLine + tilemap.Name + " (" + tilemap.ZPos + ")");
 			}
 		}
 

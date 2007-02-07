@@ -8,7 +8,7 @@ namespace DataStructures
 	/// <summary>This class represents a dynamic 2-dimensional array</summary>
 	public class Field<T>
 	{
-		private List<T> Elements = new List<T>();
+		protected List<T> Elements = new List<T>();
 		private uint width;
 		private uint height;
 
@@ -41,9 +41,7 @@ namespace DataStructures
 			if (startY + height > Other.Height) throw new ArgumentOutOfRangeException("startY");
 			for (int y = 0; y < height; y++) {
 				for (int x = 0; x < width; x++) {
-					int tx = x + startX;
-					int ty = y + startY;
-					Elements.Add(Other[tx, ty]);
+					Elements.Add(Other[x + startX, y + startY]);
 				}
 			}
 		}

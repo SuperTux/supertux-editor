@@ -36,12 +36,12 @@ namespace SceneGraph
 			Layers.Clear();
 		}
 
-		public void Draw()
+		public void Draw(Gdk.Rectangle cliprect)
 		{
 			foreach(DictionaryEntry Entry in Layers) {
 				List<Node> List = (List<Node>) Entry.Value;
 				foreach(Node Child in List) {
-					Child.Draw();
+					Child.Draw(cliprect);
 				}
 			}
 		}

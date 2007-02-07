@@ -66,11 +66,11 @@ namespace DataStructures
 			return v1.X != v2.X || v1.Y != v2.Y;
 		}
 
-		public override bool Equals(object other)
+		public override bool Equals(object obj)
 		{
-			if(!(other is Vector))
+			if (!(obj is Vector))
 				return false;
-			Vector ov = (Vector) other;
+			Vector ov = (Vector) obj;
 			return this == ov;
 		}
 

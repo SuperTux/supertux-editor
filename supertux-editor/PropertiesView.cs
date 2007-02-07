@@ -14,7 +14,7 @@ using LispReader;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple = false)]
 public sealed class PropertyPropertiesAttribute : Attribute {
-	public string Tooltip = "";
+	public string Tooltip = String.Empty;
 
 	/// <summary>
 	/// If true this object is hidden from the <see cref="PropertiesView"/>.
@@ -157,7 +157,7 @@ public class PropertiesView : ScrolledWindow
 
 		// TODO add a (!) image in front of the label (and hide/show it depending
 		// if there was an error)
-		errorLabel = new Label("");
+		errorLabel = new Label(String.Empty);
 		errorLabel.Xalign = 0;
 		errorLabel.Xpad = 12;
 		box.PackStart(errorLabel, true, false, 0);
@@ -196,7 +196,9 @@ public class PropertiesView : ScrolledWindow
 					entry.Text = parsed.ToString();
 				field.SetValue(Object, parsed);
 			} else {
-				throw new ApplicationException("Not implemented yet");
+				throw new ApplicationException(
+					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
+					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
 			}
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;
@@ -205,7 +207,7 @@ public class PropertiesView : ScrolledWindow
 			ErrorDialog.Exception(e);
 			return;
 		}
-		errorLabel.Text = "";
+		errorLabel.Text = String.Empty;
 	}
 
 	private void OnCheckButtonToggled(object o, EventArgs args)

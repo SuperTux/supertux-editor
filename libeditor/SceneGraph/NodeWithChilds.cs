@@ -12,10 +12,10 @@ namespace SceneGraph
 	{
 		private List<Node> Childs = new List<Node>();
 
-		protected void DrawChilds()
+		protected void DrawChilds(Gdk.Rectangle cliprect)
 		{
 			foreach(Node Child in Childs) {
-				Child.Draw();
+				Child.Draw(cliprect);
 			}
 		}
 
@@ -29,9 +29,9 @@ namespace SceneGraph
 			Childs.Remove(Child);
 		}
 
-		public virtual void Draw()
+		public virtual void Draw(Gdk.Rectangle cliprect)
 		{
-			DrawChilds();
+			DrawChilds(cliprect);
 		}
 	}
 

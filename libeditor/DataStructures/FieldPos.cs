@@ -23,11 +23,11 @@ namespace DataStructures
 			return p1.X != p2.X || p1.Y != p2.Y;
 		}
 
-		public override bool Equals(object other)
+		public override bool Equals(object obj)
 		{
-			if(!(other is FieldPos))
+			if (!(obj is FieldPos))
 				return false;
-			FieldPos pos = (FieldPos) other;
+			FieldPos pos = (FieldPos) obj;
 			return this == pos;
 		}
 

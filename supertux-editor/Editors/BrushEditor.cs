@@ -13,14 +13,25 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	private new Selection selection = new Selection();
 	private Brush brush;
 
+	/// <summary>
+	/// Contains position where last preview was generated.
+	/// </summary>
+	private FieldPos LastPreviewPos;
+	/// <summary>
+	/// A cache of the preview of changing the current "active" area
+	/// </summary>
+	private TileBlock LastPreview;
+	/// <summary>
+	/// Stores if the last preview would be a change or not.
+	/// </summary>
+	private bool LastPreviewIsChange;
+
 	public event RedrawEventHandler Redraw;
 
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
-	{
+		: base(application, Tilemap, Tileset) {
 		selection = new Selection();
 		selection.Changed += OnSelectionChanged;
-		this.application = application;
-		this.Tilemap = Tilemap;
 		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
 
@@ -33,18 +44,28 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public new void Draw()
+	/// <summary>
+	/// Updates the LastPreview if the current mouse position has changed.
+	/// </summary>
+	private void UpdatePreview() {
+		if (LastPreviewPos != MouseTilePos) {
+			LastPreviewIsChange = brush.FindBestPattern(MouseTilePos, Tilemap, ref LastPreview);
+			LastPreviewPos = MouseTilePos;
+		}
+	}
+
+	public new void Draw(Gdk.Rectangle cliprect)
 	{
-		// when not selecting, draw white rectangle over affected tiles
+		// When not selecting, draw white rectangle over affected tiles
 		if(!selecting) {
 
-			// calculate rectangle to color
+			// Calculate rectangle to color
 			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * 32f;
 			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * 32f;
 			float w = brush.Width * 32f;
 			float h = brush.Height * 32f;
 
-			// draw rectangle
+			// Draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
@@ -54,20 +75,45 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			gl.Vertex2f(px, py+h);
 			gl.End();
 			gl.Enable(gl.TEXTURE_2D);
-			gl.Color4f(1, 1, 1, 1);
 
+			// Draw a preview if we can.
+			UpdatePreview();
+			if ((LastPreview != null) && (px > 0) && (py > 0)) {
+				gl.Color4f(1, 1, 1, 0.7f);
+				Vector pos = new Vector(px, py);
+				LastPreview.Draw(pos, Tileset);
+			}
+
+			// Draw a red rectangle around if the preview is a change
+			if (LastPreviewIsChange) {
+				gl.Color4f(1, 0, 0, 1);
+				gl.Disable(gl.TEXTURE_2D);
+				gl.PolygonMode(gl.FRONT_AND_BACK, gl.LINE);
+
+				gl.Begin(gl.QUADS);
+				gl.Vertex2f(px, py);
+				gl.Vertex2f(px+w, py);
+				gl.Vertex2f(px+w, py+h);
+				gl.Vertex2f(px, py+h);
+				gl.End();
+
+				gl.PolygonMode(gl.FRONT_AND_BACK, gl.FILL);
+				gl.Enable(gl.TEXTURE_2D);
+
+			}
+			gl.Color4f(1, 1, 1, 1);
 		}
 
-		// when selecting, draw blue rectangle over selected area
+		// When selecting, draw blue rectangle over selected area
 		if(selecting) {
 
-			// calculate rectangle to color
+			// Calculate rectangle to color
 			float left = SelectionP1.X * 32f;
 			float top = SelectionP1.Y * 32f;
 			float right = SelectionP2.X * 32f + 32f;
 			float bottom = SelectionP2.Y * 32f + 32f;
 
-			// draw rectangle
+			// Draw rectangle
 			gl.Color4f(0, 0, 1, 0.7f);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.Begin(gl.QUADS);
@@ -82,9 +128,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public void OnMouseButtonPress(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		// left mouse button means apply brush
 		if(button == 1) {
@@ -109,9 +155,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public void OnMouseButtonRelease(Vector MousePos, int button, ModifierType Modifiers)
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		UpdateMouseTilePos(MousePos);
+		UpdateMouseTilePos(mousePos);
 
 		// left mouse button means apply brush
 		if(button == 1) {
@@ -141,9 +187,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		Redraw();
 	}
 
-	public void OnMouseMotion(Vector MousePos, ModifierType Modifiers)
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
-		if(UpdateMouseTilePos(MousePos)) {
+		if (UpdateMouseTilePos(mousePos)) {
 			if (drawing) {
 				if (LastDrawPos != MouseTilePos) {
 					LastDrawPos = MouseTilePos;
@@ -154,50 +200,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 				UpdateSelection();
 			}
 			Redraw();
-		}
-	}
-
-	private bool UpdateMouseTilePos(Vector MousePos)
-	{
-		FieldPos NewMouseTilePos = new FieldPos(
-				(int) (MousePos.X) / 32,
-				(int) (MousePos.Y) / 32);
-		if(NewMouseTilePos != MouseTilePos) {
-			MouseTilePos = NewMouseTilePos;
-			return true;
-		}
-
-		return false;
-	}
-
-	private void UpdateSelection()
-	{
-		if(MouseTilePos.X < SelectStartPos.X) {
-			if(MouseTilePos.X < 0)
-				SelectionP1.X = 0;
-			else
-				SelectionP1.X = MouseTilePos.X;
-			SelectionP2.X = SelectStartPos.X;
-		} else {
-			SelectionP1.X = SelectStartPos.X;
-			if(MouseTilePos.X >= Tilemap.Width)
-				SelectionP2.X = (int) Tilemap.Width - 1;
-			else
-				SelectionP2.X = MouseTilePos.X;
-		}
-
-		if(MouseTilePos.Y < SelectStartPos.Y) {
-			if(MouseTilePos.Y < 0)
-				SelectionP1.Y = 0;
-			else
-				SelectionP1.Y = MouseTilePos.Y;
-			SelectionP2.Y = SelectStartPos.Y;
-		} else {
-			SelectionP1.Y = SelectStartPos.Y;
-			if(MouseTilePos.Y >= Tilemap.Height)
-				SelectionP2.Y = (int) Tilemap.Height - 1;
-			else
-				SelectionP2.Y = MouseTilePos.Y;
 		}
 	}
 

@@ -5,10 +5,18 @@ using Gtk;
 
 public interface IEditor
 {
-	void Draw();
-	void OnMouseButtonPress(Vector pos, int button, ModifierType Modifiers);
-	void OnMouseButtonRelease(Vector pos, int button, ModifierType Modifiers);
-	void OnMouseMotion(Vector pos, ModifierType Modifiers);
+	/// <summary>
+	/// Draw it
+	/// </summary>
+	/// <param name="cliprect">
+	/// The area that is visible in the <see cref="RenderView"/>
+	/// we are drawing to. Check with this to see if you can skip
+	/// drawing.
+	/// </param>
+	void Draw(Gdk.Rectangle cliprect);
+	void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers);
+	void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers);
+	void OnMouseMotion(Vector mousePos, ModifierType Modifiers);
 
 	event RedrawEventHandler Redraw;
 }

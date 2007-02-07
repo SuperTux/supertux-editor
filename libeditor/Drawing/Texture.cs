@@ -70,10 +70,10 @@ namespace Drawing
 				GlUtil.Assert("creating texture (too big?)");
 
 				SetTextureParams();
-			} catch(Exception e) {
+			} catch(Exception) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
-				throw e;
+				throw;
 			}
 		}
 
@@ -94,10 +94,10 @@ namespace Drawing
 				              gl.RGBA, gl.UNSIGNED_BYTE, IntPtr.Zero);
 				GlUtil.Assert("creating texture (too big?)");
 				SetTextureParams();
-			} catch(Exception e) {
+			} catch(Exception) {
 				uint[] handles = { handle };
 				gl.DeleteTextures(1, handles);
-				throw e;
+				throw;
 			}
 		}
 
@@ -151,7 +151,7 @@ namespace Drawing
 		private unsafe void CreateTexture()
 		{
 			if(!GlUtil.ContextValid) {
-				Console.WriteLine("Warning: No opengl context active when creating textures");
+				LogManager.Log(LogLevel.Warning, "No opengl context active when creating textures");
 			}
 			uint[] handles = new uint[1];
 			gl.GenTextures(1, handles);
@@ -167,7 +167,7 @@ namespace Drawing
 			return (val & (val - 1)) == 0;
 		}
 
-		private unsafe uint SetupPixelFormat(IntPtr surfacep)
+		private static unsafe uint SetupPixelFormat(IntPtr surfacep)
 		{
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			PixelFormat* format = (PixelFormat*) surface->format;

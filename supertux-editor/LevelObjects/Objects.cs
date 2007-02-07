@@ -73,7 +73,7 @@ public sealed class MrBomb : SimpleDirObject
 				}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
 		Sprite.Action = "left";
@@ -315,7 +315,7 @@ public sealed class Yeti : SimpleObject
 {
 	[LispChild("dead-script")]
 	[EditScriptSetting]
-	public String DeadScript = "";
+	public String DeadScript = String.Empty;
 
 	public Yeti() {
 		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
@@ -323,7 +323,7 @@ public sealed class Yeti : SimpleObject
 	}
 }
 
-[SupertuxObject("stalactite_yeti", "images/engine/editor/stalactite_yeti.png",
+[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class StalactiteYeti : SimpleObject
 {
@@ -340,9 +340,9 @@ public sealed class StalactiteYeti : SimpleObject
 public sealed class WilloWisp : SimpleObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
-	public string Sector = "";
+	public string Sector = String.Empty;
 	[LispChild("spawnpoint")]
-	public string SpawnPoint = "";
+	public string SpawnPoint = String.Empty;
 
 	public WilloWisp() {
 		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
@@ -455,7 +455,7 @@ public sealed class Firefly : SimpleObject
 				Sprite = SpriteManager.Create(value);
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 	public Firefly() {
 		Sprite = SpriteManager.Create("images/objects/resetpoints/default-resetpoint.sprite");
 		Sprite.Action = "normal";
@@ -496,13 +496,15 @@ public sealed class Spotlight : SimpleColorObject
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
 	}
-	public override void Draw() {
-		//draw sprite
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(color);
 	}
 }
@@ -525,13 +527,15 @@ public sealed class MagicBlock : SimpleColorObject
 	}
 	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
 
-	public override void Draw() {
-		//draw sprite
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(magiccolor);
 	}
 	public MagicBlock() {
@@ -558,13 +562,15 @@ public sealed class Lantern : SimpleColorObject
 	}
 	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
 
-	public override void Draw() {
-		//draw sprite
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
 		if(Sprite == null)
 			return;
 
 		Sprite.Draw(new Vector(X, Y));
-		//draw a color rectangle
+		// Draw a color rectangle
 		DrawColor(lightcolor);
 	}
 	public Lantern() {
@@ -580,7 +586,7 @@ public sealed class Candle : SimpleObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
@@ -617,7 +623,7 @@ public sealed class Switch : SimpleObject
 
 	[LispChild("script")]
 	[EditScriptSetting]
-	public string Script = "";
+	public string Script = String.Empty;
 
 	public Switch() {
 		Sprite = SpriteManager.Create("images/objects/switch/switch.sprite");
@@ -632,7 +638,7 @@ public sealed class PushButton : SimpleObject
 {
 	[LispChild("script")]
 	[EditScriptSetting]
-	public string Script = "";
+	public string Script = String.Empty;
 
 	public PushButton() {
 		Sprite = SpriteManager.Create("images/objects/pushbutton/pushbutton.sprite");
@@ -689,7 +695,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
@@ -733,8 +739,10 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		path.Nodes.Add(new Path.Node());
 	}
 
-	public void Draw()
+	public void Draw(Gdk.Rectangle cliprect)
 	{
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
 		Sprite.Draw(Path.Nodes[0].Pos);
 	}
 
@@ -820,7 +828,7 @@ public sealed class InfoBlock : SimpleObject
 {
 	[LispChild("message", Translatable = true)]
 	[EditScriptSetting]
-	public string Message = "";
+	public string Message = String.Empty;
 
 	public InfoBlock() {
 		Sprite = SpriteManager.Create("images/objects/bonus_block/infoblock.sprite");
@@ -849,10 +857,10 @@ public sealed class Powerup : SimpleObject
 			}
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
-	public string Script = "";
+	public string Script = String.Empty;
 	[LispChild("disable-physics", Optional = true, Default = false)]
 	public bool DisablePhysics;
 
@@ -868,7 +876,7 @@ public sealed class ScriptedObject : SimpleObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name")]
-	public string Name = "";
+	public string Name = String.Empty;
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -881,7 +889,7 @@ public sealed class ScriptedObject : SimpleObject
 				Sprite = SpriteManager.Create(value);
 		}
 	}
-	private string spriteFile = "";
+	private string spriteFile = String.Empty;
 	[LispChild("z-pos", Optional = true, Default = -10)]
 	public int ZPos = -10;
 	[LispChild("visible")]
@@ -905,7 +913,7 @@ public sealed class Wind : SimpleObjectArea
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 
 	[PropertyProperties(Tooltip = "If enabled the wind will be blowing initially.")]
 	[LispChild("blowing", Optional = true, Default = true)]
@@ -931,7 +939,7 @@ public sealed class AmbientSound : SimpleObjectArea
 {
 	[LispChild("sample")]
 	[ChooseResourceSetting]
-	public string Sample = "";
+	public string Sample = String.Empty;
 	[LispChild("distance_factor")]
 	public float DistanceFactor;
 	[LispChild("distance_bias")]
@@ -940,7 +948,7 @@ public sealed class AmbientSound : SimpleObjectArea
 	public float Volume;
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 
 	public AmbientSound() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/ambientsound.png");
@@ -954,7 +962,7 @@ public sealed class AmbientSound : SimpleObjectArea
 public sealed class SequenceTrigger : SimpleObjectArea
 {
 	[LispChild("sequence")]
-	public string Sequence = "";
+	public string Sequence = String.Empty;
 
 	public SequenceTrigger() {
 		Color = new Drawing.Color(.8f, 0, 0, 0.8f);
@@ -967,7 +975,7 @@ public sealed class ScriptTrigger : SimpleObjectArea
 {
 	[LispChild("script")]
 	[EditScriptSetting]
-	public string Script = "";
+	public string Script = String.Empty;
 	[LispChild("button")]
 	public bool IsButton;
 
@@ -982,7 +990,7 @@ public sealed class SecretArea : SimpleObjectArea
 {
 	[PropertyProperties(Tooltip = "Fade the tilemap with this name when the player finds the secret area. Optional.")]
 	[LispChild("fade-tilemap", Optional = true, Default = "")]
-	public string FadeTilemap = "";
+	public string FadeTilemap = String.Empty;
 
 	public SecretArea() {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);
@@ -1042,7 +1050,7 @@ public sealed class Thunderstorm : IGameObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = "";
+	public string Name = String.Empty;
 
 	[PropertyProperties(Tooltip = "If enabled the thunderstorm will be running initially.")]
 	[LispChild("running", Optional = true, Default = true)]

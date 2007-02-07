@@ -126,7 +126,7 @@ public class LayerListWidget : TreeView {
 
 	private void OnTilemapChanged(Tilemap Tilemap)
 	{
-		Console.WriteLine("LayerListWidget.cs OnTilemapChanged: Not implemented");
+		LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnTilemapChanged: Not implemented");
 	}
 
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
@@ -276,7 +276,6 @@ public class LayerListWidget : TreeView {
 		md.Run();
 		md.Destroy();
 	}
-
 
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
