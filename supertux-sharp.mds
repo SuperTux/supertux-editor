@@ -17,6 +17,7 @@
       <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
     </Configuration>
   </Configurations>
+  <DeployTargets />
   <StartMode startupentry="supertux-editor" single="True">
     <Execute type="None" entry="Resources" />
     <Execute type="None" entry="Lisp" />

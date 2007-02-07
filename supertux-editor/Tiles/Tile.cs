@@ -14,25 +14,29 @@ public sealed class Tile {
 		UNISOLID  = 0x0002,
 		/// <summary>a brick that can be destroyed by jumping under it</summary>
 		BRICK     = 0x0004,
-		/// <summary>an ice brick that makes tux sliding more than usual</summary>
-		ICE       = 0x0008,
-		/// <summary>a water tile in which tux starts to swim</summary>
-		WATER     = 0x0010,
-		/// <summary>a tile that hurts the player if he touches it</summary>
-		SPIKE     = 0x0020,
-		/// <summary>Bonusbox, content is stored in <see cref="Data">data</see></summary>
-		FULLBOX   = 0x0040,
-		/// <summary>Tile is a coin</summary>
-		COIN      = 0x0080,
 		/// <summary>the level should be finished when touching a goaltile.</summary>
 		/// <remarks>
 		/// if <see cref="Data">data</see> is 0 then the endsequence should be
 		/// triggered, if <see cref="Data">data</see> is 1 then we can finish
 		/// the level instantly.
 		/// </remarks>
-		GOAL      = 0x0100,
+		GOAL      = 0x0008,
 		/// <summary>slope tile</summary>
-		SLOPE     = 0x0200,
+		SLOPE     = 0x0010,
+		/// <summary>Bonusbox, content is stored in <see cref="Data">data</see></summary>
+		FULLBOX   = 0x0020,
+		/// <summary>Tile is a coin</summary>
+		COIN      = 0x0040,
+
+		/// <summary>an ice brick that makes tux sliding more than usual</summary>
+		ICE       = 0x0100,
+		/// <summary>a water tile in which tux starts to swim</summary>
+		WATER     = 0x0200,
+		/// <summary>a tile that hurts the player if he touches it</summary>
+		HURTS     = 0x0400,
+		/// <summary>for lava: WATER, HURTS, FIRE</summary>
+		FIRE      = 0x0800,
+
 
 		// worldmap flags
 		WORLDMAP_NORTH = 0x0001,

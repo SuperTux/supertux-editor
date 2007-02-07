@@ -41,7 +41,7 @@ public class ScriptEditor
 		*/
 
 		object val = field.GetValue(object_);
-		scriptEditor.Buffer.Text = val != null ? val.ToString() : "";
+		scriptEditor.Buffer.Text = val != null ? val.ToString() : String.Empty;
 
 		scriptDialog.ShowAll();
 	}

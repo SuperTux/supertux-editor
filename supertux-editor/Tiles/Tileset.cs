@@ -39,7 +39,7 @@ public sealed class Tileset {
 					tiles.Add(null);
 				tiles[tile.Id] = tile;
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse a Tile: " + e.Message);
+				LogManager.Log(LogLevel.Error, "Couldn't parse a Tile: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -48,7 +48,7 @@ public sealed class Tileset {
 			try {
 				ParseTiles(list);
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse a tiles: " + e.Message);
+				LogManager.Log(LogLevel.Error, "Couldn't parse a tiles: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -68,7 +68,7 @@ public sealed class Tileset {
 				Tilegroup group = (Tilegroup) serializer.Read(list);
 				for(int i = 0; i < group.Tiles.Count; ) {
 					if(!IsValid(group.Tiles[i])) {
-						Console.WriteLine("Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
+						LogManager.Log(LogLevel.DebugWarning, "Tilegroup " + group.Name + " contains invalid TileID " + group.Tiles[i]);
 						group.Tiles.RemoveAt(i);
 						continue;
 					}
@@ -76,7 +76,7 @@ public sealed class Tileset {
 				}
 				tilegroups.Add(group.Name, group);
 			} catch(Exception e) {
-				Console.WriteLine("Couldn't parse tilegroup: " + e.Message);
+				LogManager.Log(LogLevel.Error, "Couldn't parse tilegroup: " + e.Message);
 				Console.WriteLine(e.StackTrace);
 			}
 		}
@@ -114,7 +114,7 @@ public sealed class Tileset {
 
 		int width = 0;
 		int height = 0;
-		string image = "";
+		string image = String.Empty;
 		props.Get("width", ref width);
 		props.Get("height", ref height);
 		props.Get("image", ref image);
@@ -185,8 +185,10 @@ public sealed class Tileset {
 			Tile.Attributes |= Tile.Attribute.ICE;
 		if(Props.Get("water", ref val) && val)
 			Tile.Attributes |= Tile.Attribute.WATER;
-		if(Props.Get("spike", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.SPIKE;
+		if(Props.Get("hurts", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.HURTS;
+		if (Props.Get("fire", ref val) && val)
+			Tile.Attributes |= Tile.Attribute.FIRE;
 		if(Props.Get("fullbox", ref val) && val)
 			Tile.Attributes |= Tile.Attribute.FULLBOX;
 		if(Props.Get("coin", ref val) && val)
@@ -221,21 +223,21 @@ public sealed class Tileset {
 				result.Add(resource);
 			} else {
 				if(!(list[i] is List)) {
-					Console.WriteLine("Unexpected data in images part: " + list[i]);
+					LogManager.Log(LogLevel.Warning, "Unexpected data in images part: " + list[i]);
 					continue;
 				}
 				List region = (List) list[i];
 				if(!(region[0] is Symbol)) {
-					Console.WriteLine("Expected symbol in sublist of images");
+					LogManager.Log(LogLevel.Warning, "Expected symbol in sublist of images");
 					continue;
 				}
 				Symbol symbol = (Symbol) region[0];
 				if(symbol.Name != "region") {
-					Console.WriteLine("Non-supported image type '" + symbol.Name + "'");
+					LogManager.Log(LogLevel.Warning, "Non-supported image type '" + symbol.Name + "'");
 					continue;
 				}
 				if(region.Length != 6) {
-					Console.WriteLine("region list has to contain 6 elemetns");
+					LogManager.Log(LogLevel.Warning, "region list has to contain 6 elements");
 					continue;
 				}
 
