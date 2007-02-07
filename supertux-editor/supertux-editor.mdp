@@ -38,6 +38,7 @@
     <File name="./resources/editor.glade" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-eye-12.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./resources/stock-eye-half-12.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./resources/supertux-editor.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./EditorStock.cs" subtype="Code" buildaction="Compile" />
     <File name="./GameObjectListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="./PropertyEditors/ICustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />

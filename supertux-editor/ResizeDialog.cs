@@ -37,7 +37,7 @@ public class ResizeDialog
 		}
 		WidthEntry.Text = width.ToString();
 		HeightEntry.Text = height.ToString();
-
+		resizeDialog.Icon = EditorStock.WindowIcon;
 		resizeDialog.ShowAll();
 	}
 

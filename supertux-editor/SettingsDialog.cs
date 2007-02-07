@@ -30,7 +30,7 @@ public class SettingsDialog
 		entryExe.Text = Settings.Instance.SupertuxExe;
 
 		Changed = false;
-
+		settingsDialog.Icon = EditorStock.WindowIcon;
 		if (!modal) {
 			settingsDialog.ShowAll();
 		} else {
