@@ -12,7 +12,7 @@
 #define MyAppVerName "SuperTux Editor 0.4.0"
 #define MyAppMajVerName "SuperTux Editor 0.4"
 #define MyAppPublisher "SuperTux Development Team"
-#define MyAppURL "http://supertux.berlios.de"
+#define MyAppURL "http://supertux.lethargik.org"
 #define MyAppBaseName "supertux-editor"
 
 [Setup]

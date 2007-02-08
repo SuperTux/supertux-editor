@@ -3,8 +3,8 @@ expect everything to work smoothly and save often...
 
 For more information browse to:
 
-http://supertux.berlios.de/wiki/index.php/Editor_FAQ
-http://supertux.berlios.de/wiki/index.php/Building_SuperTux#Compiling_the_editor
+http://supertux.lethargik.org/wiki/Editor_FAQ
+http://supertux.lethargik.org/wiki/Building_SuperTux#Compiling_the_editor
 
 
 == Prerequisites ==
@@ -26,7 +26,7 @@ Type
 You can start the editor by typing
 	mono supertux-editor.exe
 Remember to set your SuperTux paths in the editor options!
- 
+
 
 == Known Problems ==
 
