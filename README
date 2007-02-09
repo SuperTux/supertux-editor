@@ -11,7 +11,9 @@ http://supertux.lethargik.org/wiki/Building_SuperTux#Compiling_the_editor
 
  * SuperTux version 0.3.0 or higher
  * OpenGL driver and environment
- * mono 1.1.13 or newer
+ * mono 1.2.2.1 or newer
+   (1.1.13 or newer may work but if it doesn't, don't blame us just 
+    upgrade to 1.2.2.1 or newer)
  * gtk-sharp 2.8 or newer
 
 
@@ -25,6 +27,11 @@ Type
 
 You can start the editor by typing
 	mono supertux-editor.exe
+
+To run with debugging info (that is the only way to get a usable
+backtrace for a bug report in case of a crash):
+	mono --debug supertux-editor.exe
+
 Remember to set your SuperTux paths in the editor options!
 
 
