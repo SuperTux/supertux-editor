@@ -30,7 +30,7 @@ Remember to set your SuperTux paths in the editor options!
 
 == Known Problems ==
 
-The open source ATI drivers seem to have problems with multiple viewports 
+The open source ATI drivers seem to have problems with multiple viewports
 and shared textures.
 
 
