@@ -8,7 +8,7 @@ using Resources;
 
 public sealed class Tileset {
 	private List<Tile> tiles = new List<Tile>();
-	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
+	private SortedDictionary<string, Tilegroup> tilegroups = new SortedDictionary<string, Tilegroup>();
 	private string baseDir;
 	public static bool LoadEditorImages;
 
