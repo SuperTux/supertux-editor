@@ -311,6 +311,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		Vector spos = new Vector(originalArea.Left, originalArea.Top);
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
+			// TODO: Get this right for area objects, they currently snap to the
+			//       handle instead of the actual object...
 			spos = new Vector((float) ((int)spos.X / snap) * snap,
 			                  (float) ((int)spos.Y / snap) * snap);
 		}
