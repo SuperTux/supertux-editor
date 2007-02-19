@@ -1059,6 +1059,17 @@ public sealed class SecretArea : SimpleObjectArea
 	}
 }
 
+// TODO: This image isn't good for this, make one that fit with the
+//       other areas.
+[SupertuxObject("climbable",  "images/tiles/forest/ladder.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Climbable : SimpleObjectArea
+{
+	public Climbable() {
+		Color = new Drawing.Color(.8f, .8f, 0, 0.8f);
+	}
+}
+
 #endregion AreaObjects
 
 #region Particles
