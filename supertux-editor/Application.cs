@@ -659,13 +659,18 @@ public class Application : IEditorApplication {
 			MessageDialog md = new MessageDialog (MainWindow,
 			                                      DialogFlags.DestroyWithParent,
 			                                      MessageType.Warning,
-			                                      ButtonsType.None, "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
+			                                      ButtonsType.None,
+			                                      "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
 			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+			md.AddButton("Save and close", Gtk.ResponseType.Accept);
 			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
 
 			ResponseType result = (ResponseType)md.Run ();
 			md.Destroy();
-			if (result != ResponseType.Yes){
+			if (result == ResponseType.Accept) {
+				Save(false);
+				return true;
+			} else if (result != ResponseType.Yes) {
 				return false;
 			}
 		}
