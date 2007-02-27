@@ -177,7 +177,7 @@ namespace Drawing
 			else if(format->BytesPerPixel == 4)
 				glformat = gl.RGBA;
 			else
-				throw new Exception("Surface format not supported (only 24 and 32BPP modes supported at the moment");
+				throw new Exception("Surface format not supported (only 24 and 32BPP modes supported at the moment)");
 
 			gl.PixelStorei(gl.UNPACK_ALIGNMENT, 1);
 			gl.PixelStorei(gl.UNPACK_ROW_LENGTH,
