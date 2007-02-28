@@ -9,6 +9,7 @@ using Drawing;
 using LispReader;
 using System.Collections.Generic;
 using DataStructures;
+using Undo;
 
 public class Application : IEditorApplication {
 
@@ -52,6 +53,9 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Gtk.MenuItem undo1;
+
+	[Glade.Widget]
+	private Gtk.MenuItem redo1;
 
 	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
@@ -401,7 +405,8 @@ public class Application : IEditorApplication {
 	private void Load(string fileName)
 	{
 		try {
-			undoSnapshots.Clear();
+			//undoSnapshots.Clear();
+			UndoManager.Clear();
 			Level newLevel = (Level) serializer.Read(fileName);
 			if (newLevel.Version < 2) {
 				ErrorDialog.ShowError("Couldn't load level: Old Level Format not supported",
@@ -748,7 +753,7 @@ public class Application : IEditorApplication {
 	/// </summary>
 	public void TakeUndoSnapshot(string actionTitle)
 	{
-		LogManager.Log(LogLevel.Debug, "TakeUndoSnapshot {0} ", actionTitle);
+		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot {0} ", actionTitle);
 		if( !modified ){
 			MainWindow.Title += '*';
 			modified = true;
@@ -765,24 +770,19 @@ public class Application : IEditorApplication {
 	/// <summary>Revert level to last snapshot.</summary>
 	public void Undo()
 	{
-		if (undoSnapshots.Count < 1)
+		if (UndoManager.UndoCount < 1)
 			return;
+		string us = UndoManager.UndoTitle;
+		UndoManager.Undo();
+		PrintStatus("Undone: " + us );
+	}
 
-		float saveZoom = sectorSwitchNotebook.CurrentRenderer.GetZoom();
-		Vector saveTranslation = sectorSwitchNotebook.CurrentRenderer.GetTranslation();
-
-		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
-		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
-		StringReader sr = new StringReader(us.snapshot);
-		Level newLevel = (Level) serializer.Read(sr, "level-snapshot");
-		if(newLevel.Version < 2)
-			throw new Exception("Old Level Format not supported");
-		ChangeCurrentLevel(newLevel);
-		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
-			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
-		}
-		PrintStatus("Undone: " + us.actionTitle );
+	public void Redo() {
+		if (UndoManager.RedoCount < 1)
+			return;
+		string us = UndoManager.RedoTitle;
+		UndoManager.Redo();
+		PrintStatus("Undone: " + us);
 	}
 
 	public void OnUndo(object o, EventArgs args)
@@ -790,10 +790,15 @@ public class Application : IEditorApplication {
 		Undo();
 	}
 
+	public void OnRedo(object o, EventArgs args) {
+		Redo();
+	}
+
 	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
-		undo1.Sensitive = (undoSnapshots.Count > 0);
+		undo1.Sensitive = (UndoManager.UndoCount > 0);
+		redo1.Sensitive = (UndoManager.RedoCount > 0);
 	}
 
 	public static void Main(string[] args)

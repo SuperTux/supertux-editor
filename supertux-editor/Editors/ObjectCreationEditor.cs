@@ -43,7 +43,6 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		application.TakeUndoSnapshot( "Created Object '" + objectType + "'" );
 		IGameObject gameObject = CreateObjectAt(MousePos);
 
 		// switch back to object edit mode when shift was not pressed
@@ -90,7 +89,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 				path.Nodes[0].Pos = pos;
 		}
 
-		sector.Add(gameObject);
+		sector.Add(gameObject, objectType.ToString());
 		Redraw();
 		return gameObject;
 	}
