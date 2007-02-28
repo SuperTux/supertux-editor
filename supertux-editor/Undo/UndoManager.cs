@@ -83,7 +83,7 @@ namespace Undo {
 		// TODO: Handle empty stack in a good way.
 		public static void Redo() {
 			Command command = RedoStack.Pop();
-			command.Undo();
+			command.Do();
 			UndoStack.Push(command);
 			if (OnRedo != null)
 				OnRedo(command);

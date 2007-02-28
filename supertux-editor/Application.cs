@@ -772,7 +772,7 @@ public class Application : IEditorApplication {
 			return;
 		string us = UndoManager.RedoTitle;
 		UndoManager.Redo();
-		PrintStatus("Undone: " + us);
+		PrintStatus("Redone: " + us);
 	}
 
 	public void OnUndo(object o, EventArgs args)
