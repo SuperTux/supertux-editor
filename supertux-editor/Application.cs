@@ -40,10 +40,10 @@ public class Application : IEditorApplication {
 	private Statusbar sbMain;
 
 	[Glade.Widget]
-	private Gtk.MenuItem undo1;
+	private Gtk.MenuItem MenuItemUndo;
 
 	[Glade.Widget]
-	private Gtk.MenuItem redo1;
+	private Gtk.MenuItem MenuItemRedo;
 
 	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
@@ -125,6 +125,7 @@ public class Application : IEditorApplication {
 
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
+		UpdateTitlebar();
 		MainWindow.Icon = EditorStock.WindowIcon;
 		MainWindow.ShowAll();
 
@@ -370,7 +371,7 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception("Couldn't create new level", e);
 		}
 		fileName = null;
-		MainWindow.Title = MainWindowTitlePrefix;
+		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
 	}
 
@@ -404,7 +405,7 @@ public class Application : IEditorApplication {
 			}
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
-			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
+			UpdateTitlebar();
 			UndoManager.MarkAsSaved();
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
@@ -438,7 +439,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			fileName = fileChooser.Filename;
 		}
-		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
+		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
 
 		QACheck.ReplaceDepercatedTiles(level);
@@ -745,16 +746,21 @@ public class Application : IEditorApplication {
 		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot (\"{0}\") does nothing now", actionTitle);
 	}
 
+	private void UpdateTitlebar() {
+		string s = fileName != null ? fileName : "[No Name]";
+		if (UndoManager.IsDirty) {
+			MainWindow.Title = MainWindowTitlePrefix + " - " + s + "*";
+		} else {
+			MainWindow.Title = MainWindowTitlePrefix + " - " + s;
+		}
+	}
+
 	/// <summary>
 	/// Yes it is used for undo, redo and all of it, as we only need one.
 	/// </summary>
 	/// <param name="command"></param>
 	private void OnUndoManager(Command command) {
-		if (UndoManager.IsDirty) {
-			MainWindow.Title += '*';
-		} else {
-			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
-		}
+		UpdateTitlebar();
 	}
 
 	/// <summary>Revert level to last snapshot.</summary>
@@ -787,8 +793,15 @@ public class Application : IEditorApplication {
 	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
-		undo1.Sensitive = (UndoManager.UndoCount > 0);
-		redo1.Sensitive = (UndoManager.RedoCount > 0);
+		string undoLabel = "Undo";
+		MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
+		if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
+		foreach (Label l in MenuItemUndo.Children) l.Text = undoLabel;
+
+		string redoLabel = "Redo";
+		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
+		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
+		foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
 	}
 
 	public static void Main(string[] args)

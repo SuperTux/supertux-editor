@@ -145,7 +145,7 @@
 		<widget class="GtkMenu" id="edit1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="undo1">
+		    <widget class="GtkMenuItem" id="MenuItemUndo">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">_Undo</property>
 		      <property name="use_underline">True</property>
@@ -155,7 +155,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="redo1">
+		    <widget class="GtkMenuItem" id="MenuItemRedo">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">_Redo</property>
 		      <property name="use_underline">True</property>
