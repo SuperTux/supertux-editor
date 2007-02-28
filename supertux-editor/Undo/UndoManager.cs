@@ -20,8 +20,16 @@ using System;
 using System.Collections.Generic;
 
 namespace Undo {
+
+	/// <summary>
+	/// Delegate for undo, redo and AddCommand.
+	/// </summary>
+	/// <param name="command">The command that has just been processed</param>
+	public delegate void UndoHandler(Command command);
+
 	// TODO: modified flag.
 	public static class UndoManager {
+		private static IEditorApplication application;
 		/// <summary>
 		/// Commands that can be undone are here
 		/// </summary>
@@ -68,6 +76,8 @@ namespace Undo {
 			Command command = UndoStack.Pop();
 			command.Undo();
 			RedoStack.Push(command);
+			if (OnUndo != null)
+				OnUndo(command);
 		}
 
 		// TODO: Handle empty stack in a good way.
@@ -75,6 +85,8 @@ namespace Undo {
 			Command command = RedoStack.Pop();
 			command.Undo();
 			UndoStack.Push(command);
+			if (OnRedo != null)
+				OnRedo(command);
 		}
 
 		/// <summary>
@@ -90,6 +102,9 @@ namespace Undo {
 		public static void AddCommand(Command command) {
 			UndoStack.Push(command);
 			RedoStack.Clear();
+			LogManager.Log(LogLevel.Debug, "UndoManager.AddCommand({0})", command.Title);
+			if (OnAddCommand != null)
+				OnAddCommand(command);
 		}
 
 		/// <summary>
@@ -100,5 +115,26 @@ namespace Undo {
 			UndoStack.Clear();
 		}
 
+		private static Command savedCommand;
+
+		public static void MarkAsSaved() {
+			if (UndoStack.Count < 1) {
+				LogManager.Log(LogLevel.Debug, "UndoManager.MarkAsSaved() called when UndoStack was empty.");
+				return;
+			}
+			savedCommand = UndoStack.Peek();
+			LogManager.Log(LogLevel.Debug, "UndoManager.MarkAsSaved()");
+		}
+
+		public static bool IsDirty {
+			get {
+				if (UndoStack.Count < 1) return false;
+				return savedCommand != UndoStack.Peek();
+			}
+		}
+
+		public static event UndoHandler OnUndo;
+		public static event UndoHandler OnRedo;
+		public static event UndoHandler OnAddCommand;
 	}
 }
