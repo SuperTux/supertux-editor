@@ -36,7 +36,7 @@ namespace Undo {
 		/// Execute the command.
 		/// </summary>
 		/// <remarks>
-		/// Must only be called after undo has be called 
+		/// Must only be called after undo has be called
 		/// or before either undo or do has been called.
 		/// </remarks>
 		public abstract void Do();

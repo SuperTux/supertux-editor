@@ -1,7 +1,7 @@
 // This file contains objectcommand classes used in several places.
 
 namespace Undo {
-	
+
 	public abstract class ObjectCommand : Command {
 		/// <summary>
 		/// The object this action was on
@@ -19,7 +19,7 @@ namespace Undo {
 		}
 	}
 
-	// TODO: Avoid code duplication from ObjectsEditor+ObjectRemoveCommand
+	// TODO: Avoid code duplication from ObjectRemoveCommand
 	// FIXME: Undoing this doesn't work, why?
 	internal sealed class ObjectAddCommand : ObjectCommand {
 		public override void Do() {
@@ -35,7 +35,7 @@ namespace Undo {
 	}
 
 	// TODO: Possible mem leak with objects hanging around forever?
-	// TODO: Avoid code duplication from 
+	// TODO: Avoid code duplication from ObjectAddCommand
 	// FIXME: Redoing this doesn't work, why?
 	internal sealed class ObjectRemoveCommand : ObjectCommand {
 		public override void Do() {

@@ -146,12 +146,12 @@ public sealed class Tileset {
 					tile.Images.Add(res);
 					tile.Id = ids[id];
 					tile.Attributes = (Tile.Attribute) attributes[id];
-					
+
 					while(tiles.Count <= tile.Id)
 						tiles.Add(null);
 
 					tiles[tile.Id] = tile;
-					
+
 					id++;
 				}
 			}

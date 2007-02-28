@@ -82,7 +82,7 @@ namespace Undo {
 		/// Also clears the redo stack.
 		/// </summary>
 		/// <remarks>
-		/// The command is not run here. The reason is making 
+		/// The command is not run here. The reason is making
 		/// it simpler to add support to existing editors. They
 		/// will have to run it before calling this.
 		/// </remarks>
