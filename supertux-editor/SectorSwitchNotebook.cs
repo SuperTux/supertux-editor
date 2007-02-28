@@ -14,7 +14,17 @@ public class SectorSwitchNotebook : Notebook
 
 	public SectorRenderer CurrentRenderer {
 		get {
-			return (SectorRenderer) CurrentPageWidget;
+			try {
+				ScrollBarRenderView scrollview = (ScrollBarRenderView) CurrentPageWidget;
+				if(scrollview == null)
+					return null;
+			
+				return (SectorRenderer) scrollview.Renderer;
+			} catch(Exception e) {
+				Console.WriteLine("Except: " + e.Message);
+				return null;
+			}
+			
 		}
 	}
 
@@ -57,8 +67,9 @@ public class SectorSwitchNotebook : Notebook
 	{
 		foreach(Sector sector in level.Sectors) {
 			SectorRenderer Renderer = new SectorRenderer(level, sector);
-			Renderer.ShowAll();
-			AppendPage(Renderer, new Label(sector.Name));
+			ScrollBarRenderView scrollbarview = new ScrollBarRenderView(Renderer);
+			scrollbarview.ShowAll();
+			AppendPage(scrollbarview, new Label(sector.Name));
 		}
 
 		if(this.sector == null && level.Sectors.Count > 0)

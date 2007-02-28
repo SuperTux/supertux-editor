@@ -109,9 +109,8 @@ public class RenderView : GLWidgetBase
 			MousePos = MouseToWorld(pos);
 
 			if(dragging) {
-				Translation = dragStartTranslation
-					+ (pos - dragStartMouse) / Zoom;
-				QueueDraw();
+				SetTranslation(dragStartTranslation	+
+				               (pos - dragStartMouse) / Zoom);
 			} else if(Editor != null) {
 				Editor.OnMouseMotion(MousePos, args.Event.State);
 			}
@@ -137,8 +136,9 @@ public class RenderView : GLWidgetBase
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
 		}
-
-		Translation += realMousePos / Zoom - realMousePos / oldZoom;
+		
+		SetTranslation(Translation
+		                 + realMousePos / Zoom - realMousePos / oldZoom);
 
 		MousePos = MouseToWorld(realMousePos);
 		if(Editor != null) {
@@ -146,8 +146,20 @@ public class RenderView : GLWidgetBase
 		}
 		args.RetVal = true;
 	}
+	
+	private void UpdateAdjustments()
+	{
+		if(hadjustment != null) {
+			hadjustment.SetBounds(minx, maxx, 32/Zoom, 256/Zoom, Allocation.Width/Zoom);
+			hadjustment.ClampPage(-Translation.X, -Translation.X + (Allocation.Width/Zoom)); 			
+		}
+		if(vadjustment != null) {
+			vadjustment.SetBounds(miny, maxy, 32/Zoom, 256/Zoom, Allocation.Height/Zoom);
+			vadjustment.ClampPage(-Translation.Y, -Translation.Y + (Allocation.Height/Zoom));
+		}		
+	}
 
-	public void SetZoom( float newZoom )
+	public void SetZoom(float newZoom)
 	{
 		float oldZoom = Zoom;
 		Zoom = newZoom;
@@ -156,6 +168,8 @@ public class RenderView : GLWidgetBase
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
 		}
+		
+		UpdateAdjustments();
 		QueueDraw();
 	}
 
@@ -174,15 +188,11 @@ public class RenderView : GLWidgetBase
 		SetZoom( Zoom / (float) Math.Sqrt(2));
 	}
 
-	public void Home()
-	{
-		Translation *= 0;
-		QueueDraw();
-	}
-
-	public void SetTranslation( Vector tr )
+	public void SetTranslation(Vector tr)
 	{
 		Translation = tr;
+		
+		UpdateAdjustments();
 		QueueDraw();
 	}
 
@@ -197,8 +207,9 @@ public class RenderView : GLWidgetBase
 	/// </summary>
 	/// <returns>A <see cref="Gdk.Rectangle"/>.</returns>
 	public Gdk.Rectangle GetClipRect() {
-		return new Gdk.Rectangle((int)-Translation.X, (int)-Translation.Y,
-														 (int)(Allocation.Width / Zoom), (int)(Allocation.Height / Zoom));
+		return new Gdk.Rectangle(
+		           (int)-Translation.X, (int)-Translation.Y,
+		           (int)(Allocation.Width / Zoom), (int)(Allocation.Height / Zoom));
 	}
 
 	private Vector MouseToWorld(Vector MousePos)
@@ -210,4 +221,36 @@ public class RenderView : GLWidgetBase
 	{
 		GdkWindow.Cursor = cursor;
 	}
+	
+	/**
+	 * Add gtk adjustments for vertical and horizontal scrolling
+	 * (This is used for scrollbars)
+	 */
+	public void SetAdjustments(Adjustment hadjustment, Adjustment vadjustment)
+	{
+		this.vadjustment = vadjustment;
+		this.hadjustment = hadjustment;
+		if(vadjustment != null) {
+			vadjustment.ValueChanged += OnVAdjustmentChanged;
+		}
+		if(hadjustment != null) {
+			hadjustment.ValueChanged += OnHAdjustmentChanged;
+		}
+		UpdateAdjustments();
+	}
+		
+	private void OnHAdjustmentChanged(object sender, EventArgs e)
+	{
+		SetTranslation(new Vector((float) -hadjustment.Value, Translation.Y)); 		
+	}
+	
+	private void OnVAdjustmentChanged(object sender, EventArgs e)
+	{
+		SetTranslation(new Vector(Translation.X, (float) -vadjustment.Value)); 		
+	}
+	
+	private Adjustment vadjustment;
+	private Adjustment hadjustment;
+	protected float minx = -1000, maxx = 1000;
+	protected float miny = -1000, maxy = 1000;
 }

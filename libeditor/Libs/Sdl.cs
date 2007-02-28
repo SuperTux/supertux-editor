@@ -187,6 +187,8 @@ namespace Sdl
 		public uint UnusedBits3;
 		public uint video_mem;
 		public IntPtr /*PixelFormat*/ vfmt;
+		public int current_w;
+		public int current_h;
 	}
 
 	[StructLayout(LayoutKind.Sequential)]

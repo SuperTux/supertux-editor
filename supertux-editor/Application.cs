@@ -342,7 +342,7 @@ public class Application : IEditorApplication {
 
 	protected void OnHome(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.Home();
+			sectorSwitchNotebook.CurrentRenderer.SetTranslation(new Vector(0, 0));
 		}
 	}
 
@@ -535,8 +535,8 @@ public class Application : IEditorApplication {
 			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA" + Environment.NewLine;
 		dialog.Website = "http://supertux.lethargik.org/";
 		dialog.WebsiteLabel = "SuperTux on the Web";
-		dialog.ShowAll();
-
+		dialog.Run();
+		dialog.Destroy();
 	}
 
 	/// <summary>Run the current version of the level in Supertux</summary>
