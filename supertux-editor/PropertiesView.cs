@@ -187,7 +187,7 @@ public class PropertiesView : ScrolledWindow
 			FieldOrProperty field = fieldTable[entry.Name];
 			PropertyChangeCommand command;
 			if(field.Type == typeof(string)) {
-				if (field.GetValue(Object) == entry.Text) return;
+				if ((string)field.GetValue(Object) == entry.Text) return;
 				command = new PropertyChangeCommand(
 					"Changed value of " + field.Name,
 					field,
