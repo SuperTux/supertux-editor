@@ -229,7 +229,7 @@ public class PropertiesView : ScrolledWindow
 		}
 		errorLabel.Text = String.Empty;
 	}
-	
+
 	private void OnEntryChanged(object o, EventArgs args)
 	{
 		try {

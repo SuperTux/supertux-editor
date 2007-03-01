@@ -43,7 +43,7 @@ public class ResizeDialog
 	{
 		try {
 			uint newWidth = UInt32.Parse(WidthEntry.Text);
-			uint newHeight = UInt32.Parse(HeightEntry.Text);	
+			uint newHeight = UInt32.Parse(HeightEntry.Text);
 			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
 			SectorSizeChangeCommand command = new SectorSizeChangeCommand(
 				"Sector resized to " + newWidth + "x" + newHeight,

@@ -157,7 +157,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	internal StateData SaveState() {
 		return new StateData(Width, Height, Elements);
 	}
-	
+
 	/// <summary>
 	/// Data for undoing
 	/// </summary>
@@ -166,6 +166,6 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 		width = state.width;
 		height = state.height;
 		Elements = new List<int>(state.Elements);
-	}	
+	}
 
 }
