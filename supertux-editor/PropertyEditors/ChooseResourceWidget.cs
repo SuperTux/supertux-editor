@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using Gtk;
 using LispReader;
+using Undo;
 
 public sealed class ChooseResourceWidget : CustomSettingsWidget
 {
@@ -60,7 +61,13 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 	{
 		try {
 			Entry entry = (Entry) o;
-			field.SetValue(_object, entry.Text);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				_object,
+				entry.Text);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
