@@ -27,6 +27,7 @@ namespace Undo {
 		}
 	}
 
+
 	internal sealed class SectorSizeChangeCommand : SectorCommand {
 		private struct TilemapData {
 			public TileBlock.StateData OldState;
@@ -56,13 +57,38 @@ namespace Undo {
 			sector.EmitSizeChanged();
 		}
 
-		public SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
+		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
 			: base(title, sector) {
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
 			}
+		}
+	}
+
+	public delegate void SectorsAddRemoveHandler();
+
+	public sealed class SectorAddCommand : SectorCommand {
+		private Level level;
+
+		public event SectorsAddRemoveHandler OnSectorAddRemove;
+
+		public override void Do() {
+			level.Sectors.Add(sector);
+			if (OnSectorAddRemove != null)
+				OnSectorAddRemove();
+		}
+
+		public override void Undo() {
+			level.Sectors.Remove(sector);
+			if (OnSectorAddRemove != null)
+				OnSectorAddRemove();
+		}
+
+		public SectorAddCommand(string title, Sector sector, Level level)
+			: base(title, sector) {
+			this.level = level;
 		}
 	}
 
