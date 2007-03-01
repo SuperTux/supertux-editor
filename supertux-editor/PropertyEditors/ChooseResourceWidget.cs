@@ -9,6 +9,9 @@ using Undo;
 public sealed class ChooseResourceWidget : CustomSettingsWidget
 {
 	private Entry entry;
+	// HACK: Workaround for entry.Text = path.Replace("\\", "/"); resulting in
+	// OnEntryChanged being called twice
+	private bool isChoose;
 
 	public override Widget Create(object caller)
 	{
@@ -52,24 +55,35 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget
 			                                       dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
 		else
 			path = System.IO.Path.GetFileName(dialog.Filename);
+		isChoose = true;
 		// Fixes backslashes on windows:
 		entry.Text = path.Replace("\\", "/");
+		isChoose = false;
+		PropertyChangeCommand command = new PropertyChangeCommand(
+			"Changed value of " + field.Name,
+			field,
+			_object,
+			entry.Text);
+		command.Do();
+		UndoManager.AddCommand(command);
 		dialog.Destroy();
 	}
 
 	private void OnEntryChanged(object o, EventArgs arg)
 	{
-		try {
-			Entry entry = (Entry) o;
-			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				_object,
-				entry.Text);
-			command.Do();
-			UndoManager.AddCommand(command);
-		} catch(Exception e) {
-			ErrorDialog.Exception(e);
+		if (!isChoose) {
+			try {
+				Entry entry = (Entry) o;
+				PropertyChangeCommand command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					_object,
+					entry.Text);
+				command.Do();
+				UndoManager.AddCommand(command);
+			} catch (Exception e) {
+				ErrorDialog.Exception(e);
+			}
 		}
 	}
 }
