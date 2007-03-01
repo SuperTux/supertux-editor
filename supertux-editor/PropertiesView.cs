@@ -106,6 +106,7 @@ public class PropertiesView : ScrolledWindow
 					entry.Text = val.ToString();
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
+				entry.FocusOutEvent += OnEntryChangeDone;
 				editWidgets.Add(entry);
 				AddTooltip(propertyProperties, entry);
 			} else if(field.Type == typeof(bool)) {
@@ -179,13 +180,14 @@ public class PropertiesView : ScrolledWindow
 			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
 
-	private void OnEntryChanged(object o, EventArgs args)
+	private void OnEntryChangeDone(object o, FocusOutEventArgs args)
 	{
 		try {
 			Entry entry = (Entry) o;
 			FieldOrProperty field = fieldTable[entry.Name];
 			PropertyChangeCommand command;
 			if(field.Type == typeof(string)) {
+				if (field.GetValue(Object) == entry.Text) return;
 				command = new PropertyChangeCommand(
 					"Changed value of " + field.Name,
 					field,
@@ -195,6 +197,7 @@ public class PropertiesView : ScrolledWindow
 				float parsed = Single.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
 					entry.Text = parsed.ToString();
+				if ((float)field.GetValue(Object) == parsed) return;
 				command = new PropertyChangeCommand(
 					"Changed value of " + field.Name,
 					field,
@@ -204,6 +207,7 @@ public class PropertiesView : ScrolledWindow
 				int parsed = Int32.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text)
 					entry.Text = parsed.ToString();
+				if ((int)field.GetValue(Object) == parsed) return;
 				command = new PropertyChangeCommand(
 					"Changed value of " + field.Name,
 					field,
@@ -211,11 +215,41 @@ public class PropertiesView : ScrolledWindow
 					parsed);
 			} else {
 				throw new ApplicationException(
-					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
+					"PropertiesView.OnEntryChangeDone, \""  + field.Type.FullName + "\" is not implemented yet. " +
 					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
 			}
 			command.Do();
 			UndoManager.AddCommand(command);
+		} catch(FormatException fe) {
+			errorLabel.Text = fe.Message;
+			return;
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+			return;
+		}
+		errorLabel.Text = String.Empty;
+	}
+	
+	private void OnEntryChanged(object o, EventArgs args)
+	{
+		try {
+			Entry entry = (Entry) o;
+			FieldOrProperty field = fieldTable[entry.Name];
+			if(field.Type == typeof(string)) {
+				return;
+			} else if(field.Type == typeof(float)) {
+				float parsed = Single.Parse(entry.Text);
+				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
+					entry.Text = parsed.ToString();
+			} else if(field.Type == typeof(int)) {
+				int parsed = Int32.Parse(entry.Text);
+				if(parsed.ToString() != entry.Text)
+					entry.Text = parsed.ToString();
+			} else {
+				throw new ApplicationException(
+					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
+					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
+			}
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;
 			return;

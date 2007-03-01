@@ -16,12 +16,9 @@ public class ResizeDialog
 
 	private Sector sector;
 
-	private IEditorApplication application;
-
-	public ResizeDialog(Sector sector, IEditorApplication app)
+	public ResizeDialog(Sector sector)
 	{
 		this.sector = sector;
-		application = app;
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 
