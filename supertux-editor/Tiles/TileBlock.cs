@@ -138,4 +138,34 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 
 	#endregion
 
+	internal struct StateData {
+		public List<int> Elements;
+		public uint width;
+		public uint height;
+		public StateData(uint width, uint height, List<int> Elements) {
+			this.width = width;
+			this.height = height;
+			// This we need to clone.
+			this.Elements = new List<int>(Elements);
+		}
+	}
+
+	/// <summary>
+	/// Data for undoing
+	/// </summary>
+	/// <returns>Data for undoing</returns>
+	internal StateData SaveState() {
+		return new StateData(Width, Height, Elements);
+	}
+	
+	/// <summary>
+	/// Data for undoing
+	/// </summary>
+	/// <returns>Data for undoing</returns>
+	internal void RestoreState(StateData state) {
+		width = state.width;
+		height = state.height;
+		Elements = new List<int>(state.Elements);
+	}	
+
 }
