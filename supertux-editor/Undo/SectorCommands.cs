@@ -69,27 +69,55 @@ namespace Undo {
 
 	public delegate void SectorsAddRemoveHandler();
 
-	public sealed class SectorAddCommand : SectorCommand {
-		private Level level;
 
+	public abstract class SectorAddRemoveCommand : SectorCommand {
+		protected Level level;
 		public event SectorsAddRemoveHandler OnSectorAddRemove;
 
 		public override void Do() {
-			level.Sectors.Add(sector);
 			if (OnSectorAddRemove != null)
 				OnSectorAddRemove();
 		}
 
 		public override void Undo() {
-			level.Sectors.Remove(sector);
 			if (OnSectorAddRemove != null)
 				OnSectorAddRemove();
 		}
 
-		public SectorAddCommand(string title, Sector sector, Level level)
+		protected SectorAddRemoveCommand(string title, Sector sector, Level level)
 			: base(title, sector) {
 			this.level = level;
 		}
+
 	}
+
+	public sealed class SectorAddCommand : SectorAddRemoveCommand {
+		public override void Do() {
+			level.Sectors.Add(sector);
+			base.Do();
+		}
+
+		public override void Undo() {
+			level.Sectors.Remove(sector);
+			base.Undo();
+		}
+
+		public SectorAddCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
+	}
+
+	public sealed class SectorRemoveCommand : SectorAddRemoveCommand {
+		public override void Do() {
+			level.Sectors.Remove(sector);
+			base.Do();
+		}
+
+		public override void Undo() {
+			level.Sectors.Add(sector);
+			base.Undo();
+		}
+
+		public SectorRemoveCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
+	}
+
 
 }

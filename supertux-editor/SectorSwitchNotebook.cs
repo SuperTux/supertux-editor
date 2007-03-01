@@ -148,9 +148,13 @@ public class SectorSwitchNotebook : Notebook
 		}
 		application.TakeUndoSnapshot("Removed sector");
 		application.PrintStatus("Sector '"+ sector.Name + "' removed.");
-		level.Sectors.Remove(sector);
-		ClearTabList();
-		CreateTabList();
+		SectorRemoveCommand command = new SectorRemoveCommand(
+			"Removed sector",
+			sector,
+			level);
+		command.OnSectorAddRemove += OnSectorUpdate;
+		command.Do();
+		UndoManager.AddCommand(command);
 	}
 
 	private void OnResizeActivated(object o, EventArgs args)
@@ -207,7 +211,6 @@ public class SectorSwitchNotebook : Notebook
 	private void OnCreateNew(object o, EventArgs args)
 	{
 		try {
-			application.TakeUndoSnapshot("Added sector");
 			Sector sector = LevelUtil.CreateSector("NewSector");
 			SectorAddCommand command = new SectorAddCommand(
 				"Added sector",
