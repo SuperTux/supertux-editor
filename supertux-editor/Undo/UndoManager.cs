@@ -28,7 +28,6 @@ namespace Undo {
 	public delegate void UndoHandler(Command command);
 
 	public static class UndoManager {
-		private static IEditorApplication application;
 		/// <summary>
 		/// Commands that can be undone are here
 		/// </summary>

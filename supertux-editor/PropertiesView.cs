@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Gtk;
 using LispReader;
+using Undo;
 
 
 /// <summary>
@@ -183,23 +184,38 @@ public class PropertiesView : ScrolledWindow
 		try {
 			Entry entry = (Entry) o;
 			FieldOrProperty field = fieldTable[entry.Name];
+			PropertyChangeCommand command;
 			if(field.Type == typeof(string)) {
-				field.SetValue(Object, entry.Text);
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					entry.Text);
 			} else if(field.Type == typeof(float)) {
 				float parsed = Single.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
 					entry.Text = parsed.ToString();
-				field.SetValue(Object, parsed);
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					parsed);
 			} else if(field.Type == typeof(int)) {
 				int parsed = Int32.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text)
 					entry.Text = parsed.ToString();
-				field.SetValue(Object, parsed);
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					parsed);
 			} else {
 				throw new ApplicationException(
 					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
 					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
 			}
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(FormatException fe) {
 			errorLabel.Text = fe.Message;
 			return;
@@ -215,7 +231,13 @@ public class PropertiesView : ScrolledWindow
 		try {
 			CheckButton checkButton = (CheckButton) o;
 			FieldOrProperty field = fieldTable[checkButton.Name];
-			field.SetValue(Object, checkButton.Active);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				Object,
+				checkButton.Active);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -226,7 +248,13 @@ public class PropertiesView : ScrolledWindow
 			ComboBox comboBox = (ComboBox)o;
 			FieldOrProperty field = fieldTable[comboBox.Name];
 			// Parse the string back to enum.
-			field.SetValue(Object, Enum.Parse(field.Type, comboBox.ActiveText));
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				Object,
+				Enum.Parse(field.Type, comboBox.ActiveText));
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
