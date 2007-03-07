@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Gtk;
+using Undo;
 
 public class SectorSwitchNotebook : Notebook
 {
@@ -158,15 +159,19 @@ public class SectorSwitchNotebook : Notebook
 		}
 		application.TakeUndoSnapshot("Removed sector");
 		application.PrintStatus("Sector '"+ sector.Name + "' removed.");
-		level.Sectors.Remove(sector);
-		ClearTabList();
-		CreateTabList();
+		SectorRemoveCommand command = new SectorRemoveCommand(
+			"Removed sector",
+			sector,
+			level);
+		command.OnSectorAddRemove += OnSectorUpdate;
+		command.Do();
+		UndoManager.AddCommand(command);
 	}
 
 	private void OnResizeActivated(object o, EventArgs args)
 	{
 		try {
-			new ResizeDialog(sector, application);
+			new ResizeDialog(sector);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -205,15 +210,26 @@ public class SectorSwitchNotebook : Notebook
 		md.Destroy();
 	}
 
+	/// <summary>
+	/// Used from sector commands that add/remove sectors to force an update of our 
+	/// tablist and any other stuff we have to do.
+	/// </summary>
+	private void OnSectorUpdate() {
+		ClearTabList();
+		CreateTabList();
+	}
+
 	private void OnCreateNew(object o, EventArgs args)
 	{
 		try {
-			application.TakeUndoSnapshot("Added sector");
 			Sector sector = LevelUtil.CreateSector("NewSector");
-
-			level.Sectors.Add(sector);
-			ClearTabList();
-			CreateTabList();
+			SectorAddCommand command = new SectorAddCommand(
+				"Added sector",
+				sector,
+				level);
+			command.OnSectorAddRemove += OnSectorUpdate;
+			command.Do();
+			UndoManager.AddCommand(command);
 			OnSectorChanged(level, sector);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new sector", e);

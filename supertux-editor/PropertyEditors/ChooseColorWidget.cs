@@ -4,6 +4,7 @@ using Drawing;
 using Gtk;
 using Gdk;
 using LispReader;
+using Undo;
 
 /// <summary>
 /// Colour choosing widget for properties.
@@ -60,7 +61,13 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		col.Alpha = 1f;
 		if (useAlpha)
 			col.Alpha = ((float) colorButton.Alpha) / 65535f;
-		field.SetValue(Object, col);
+		PropertyChangeCommand command = new PropertyChangeCommand(
+			"Changed value of " + field.Name,
+			field,
+			Object,
+			col);
+		command.Do();
+		UndoManager.AddCommand(command);
 		//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);
 		//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);
 	}

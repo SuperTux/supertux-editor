@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using Gtk;
 using LispReader;
+using Undo;
 
 public sealed class ChooseSectorWidget : CustomSettingsWidget {
 	private ComboBox comboBox;
@@ -59,7 +60,13 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 	private void OnComboBoxChanged(object o, EventArgs args) {
 		try {
 			ComboBox comboBox = (ComboBox)o;
-			field.SetValue(_object, comboBox.ActiveText);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				_object,
+				comboBox.ActiveText);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}

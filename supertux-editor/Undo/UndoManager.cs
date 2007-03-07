@@ -27,16 +27,16 @@ namespace Undo {
 	/// <param name="command">The command that has just been processed</param>
 	public delegate void UndoHandler(Command command);
 
-	// TODO: modified flag.
 	public static class UndoManager {
-		private static IEditorApplication application;
 		/// <summary>
 		/// Commands that can be undone are here
 		/// </summary>
+		// TODO: Replace with something size-limited
 		private static Stack<Command> UndoStack = new Stack<Command>();
 		/// <summary>
 		/// Commands that can be redone are here
 		/// </summary>
+		// TODO: Replace with something size-limited
 		private static Stack<Command> RedoStack = new Stack<Command>();
 
 		/// <summary>
