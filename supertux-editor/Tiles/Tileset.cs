@@ -151,8 +151,8 @@ public sealed class Tileset {
 						tiles.Add(null);
 
 					tiles[tile.Id] = tile;
-
 				}
+
 				id++;
 			}
 		}

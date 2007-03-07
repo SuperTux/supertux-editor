@@ -9,21 +9,10 @@ using Drawing;
 using LispReader;
 using System.Collections.Generic;
 using DataStructures;
+using Undo;
 
 public class Application : IEditorApplication {
 
-	private bool modified = false;
-	private struct UndoSnapshot {
-		public UndoSnapshot(string actionTitle, string snapshot)
-		{
-			this.actionTitle = actionTitle;
-			this.snapshot = snapshot;
-		}
-		/// <summary>title of action that triggered the snapshot, e.g. "Sector resize"</summary>
-		public string actionTitle;
-		/// <summary>serialized level</summary>
-		public string snapshot;
-	}
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix;
 
@@ -54,6 +43,9 @@ public class Application : IEditorApplication {
 	private Gtk.MenuItem undo1;
 
 	[Glade.Widget]
+	private Gtk.MenuItem redo1;
+
+	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1;
 
 	[Glade.Widget]
@@ -75,9 +67,6 @@ public class Application : IEditorApplication {
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
 	private string fileName;
-
-	private const int maxUndoSnapshots = 10;
-	private List<UndoSnapshot> undoSnapshots = new List<UndoSnapshot>();
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -197,6 +186,10 @@ public class Application : IEditorApplication {
 		if (args.Length > 0) {
 			Load(args[0]);
 		}
+
+		UndoManager.OnAddCommand += OnUndoManager;
+		UndoManager.OnRedo += OnUndoManager;
+		UndoManager.OnUndo += OnUndoManager;
 
 		PrintStatus("Welcome to Supertux-Editor.");
 	}
@@ -370,7 +363,7 @@ public class Application : IEditorApplication {
 			return;
 
 		try {
-			undoSnapshots.Clear();
+			UndoManager.Clear();
 			Level level = LevelUtil.CreateLevel();
 			ChangeCurrentLevel(level);
 		} catch(Exception e) {
@@ -378,7 +371,7 @@ public class Application : IEditorApplication {
 		}
 		fileName = null;
 		MainWindow.Title = MainWindowTitlePrefix;
-		modified = false;
+		UndoManager.MarkAsSaved();
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -401,7 +394,8 @@ public class Application : IEditorApplication {
 	private void Load(string fileName)
 	{
 		try {
-			undoSnapshots.Clear();
+			//undoSnapshots.Clear();
+			UndoManager.Clear();
 			Level newLevel = (Level) serializer.Read(fileName);
 			if (newLevel.Version < 2) {
 				ErrorDialog.ShowError("Couldn't load level: Old Level Format not supported",
@@ -411,7 +405,7 @@ public class Application : IEditorApplication {
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
 			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
-			modified = false;
+			UndoManager.MarkAsSaved();
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -445,7 +439,7 @@ public class Application : IEditorApplication {
 			fileName = fileChooser.Filename;
 		}
 		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
-		modified = false;
+		UndoManager.MarkAsSaved();
 
 		QACheck.ReplaceDepercatedTiles(level);
 
@@ -655,7 +649,7 @@ public class Application : IEditorApplication {
 	/// <param name="act">What we would do ("quit", "close", "open another file" or such)</param>
 	/// <returns>True if continue otherwise false</returns>
 	private bool ChangeConfirm(string act) {
-		if( modified ) {
+		if( UndoManager.IsDirty ) {
 			MessageDialog md = new MessageDialog (MainWindow,
 			                                      DialogFlags.DestroyWithParent,
 			                                      MessageType.Warning,
@@ -748,41 +742,37 @@ public class Application : IEditorApplication {
 	/// </summary>
 	public void TakeUndoSnapshot(string actionTitle)
 	{
-		LogManager.Log(LogLevel.Debug, "TakeUndoSnapshot {0} ", actionTitle);
-		if( !modified ){
+		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot (\"{0}\") does nothing now", actionTitle);
+	}
+
+	/// <summary>
+	/// Yes it is used for undo, redo and all of it, as we only need one.
+	/// </summary>
+	/// <param name="command"></param>
+	private void OnUndoManager(Command command) {
+		if (UndoManager.IsDirty) {
 			MainWindow.Title += '*';
-			modified = true;
+		} else {
+			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
 		}
-		StringWriter sw = new StringWriter();
-		serializer.Write(sw, "level-snapshot", level);
-		string snapshot = sw.ToString();
-		UndoSnapshot us = new UndoSnapshot(actionTitle, snapshot);
-		undoSnapshots.Add(us);
-		while (undoSnapshots.Count > maxUndoSnapshots)
-			undoSnapshots.RemoveAt(0);
 	}
 
 	/// <summary>Revert level to last snapshot.</summary>
 	public void Undo()
 	{
-		if (undoSnapshots.Count < 1)
+		if (UndoManager.UndoCount < 1)
 			return;
+		string us = UndoManager.UndoTitle;
+		UndoManager.Undo();
+		PrintStatus("Undone: " + us );
+	}
 
-		float saveZoom = sectorSwitchNotebook.CurrentRenderer.GetZoom();
-		Vector saveTranslation = sectorSwitchNotebook.CurrentRenderer.GetTranslation();
-
-		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
-		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
-		StringReader sr = new StringReader(us.snapshot);
-		Level newLevel = (Level) serializer.Read(sr, "level-snapshot");
-		if(newLevel.Version < 2)
-			throw new Exception("Old Level Format not supported");
-		ChangeCurrentLevel(newLevel);
-		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
-			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
-		}
-		PrintStatus("Undone: " + us.actionTitle );
+	public void Redo() {
+		if (UndoManager.RedoCount < 1)
+			return;
+		string us = UndoManager.RedoTitle;
+		UndoManager.Redo();
+		PrintStatus("Redone: " + us);
 	}
 
 	public void OnUndo(object o, EventArgs args)
@@ -790,10 +780,15 @@ public class Application : IEditorApplication {
 		Undo();
 	}
 
+	public void OnRedo(object o, EventArgs args) {
+		Redo();
+	}
+
 	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
-		undo1.Sensitive = (undoSnapshots.Count > 0);
+		undo1.Sensitive = (UndoManager.UndoCount > 0);
+		redo1.Sensitive = (UndoManager.RedoCount > 0);
 	}
 
 	public static void Main(string[] args)

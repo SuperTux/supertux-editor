@@ -99,6 +99,9 @@
     <Compile Include="Tiles\TilemapNode.cs" />
     <Compile Include="Tiles\Tileset.cs" />
     <Compile Include="Timer.cs" />
+    <Compile Include="Undo\Command.cs" />
+    <Compile Include="Undo\ObjectCommands.cs" />
+    <Compile Include="Undo\UndoManager.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="LevelObjects\WorldmapObjects.cs" />
   </ItemGroup>

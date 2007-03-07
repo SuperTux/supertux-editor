@@ -35,6 +35,7 @@ CSharp supertux-editor.exe
         [ Wildcard supertux-editor/Editors : *.cs ]
         [ Wildcard supertux-editor/PropertyEditors : *.cs ]
         [ Wildcard supertux-editor/LevelObjects : *.cs ]
+        [ Wildcard supertux-editor/Undo : *.cs ]
     :   [ Wildcard supertux-editor/resources : *.glade *.png ]
 ;
 LinkWith supertux-editor.exe : Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll ;
