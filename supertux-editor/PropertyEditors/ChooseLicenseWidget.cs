@@ -30,9 +30,14 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 
 		List<String> licenseTemplateTexts = new List<String>();
 		licenseTemplateTexts.Add("non-redistributable (forbid sharing and modification of this level)");
-		licenseTemplateTexts.Add("GPL 2 / CC-by-sa 3.0 (allow sharing and modification of this level)");
+		licenseTemplateTexts.Add("GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)");
 
 		comboBox = new ComboBoxEntry(licenseTemplateTexts.ToArray());
+
+		// set current value
+		string val = (string)field.GetValue(Object);
+		comboBox.Entry.Text = val;
+
 		comboBox.Changed += OnComboBoxChanged;
 
 		HBox box = new HBox();
@@ -51,7 +56,7 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 
 			// strip off comments from licenseTemplateTexts
 			if (s == "non-redistributable (forbid sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
-			if (s == "GPL 2 / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
+			if (s == "GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 
 			comboBox.Entry.Text = s;
 			field.SetValue(_object, s);
