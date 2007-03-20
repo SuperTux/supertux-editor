@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Text;
 using Gtk;
 using LispReader;
+using Undo;
 
 public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 	private ComboBoxEntry comboBox;
@@ -58,8 +59,13 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 			if (s == "non-redistributable (forbid sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 			if (s == "GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 
-			comboBox.Entry.Text = s;
-			field.SetValue(_object, s);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				_object,
+				s);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
