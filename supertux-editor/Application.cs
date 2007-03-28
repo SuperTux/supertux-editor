@@ -21,35 +21,35 @@ public class Application : IEditorApplication {
 	private Gtk.Window MainWindow = null;
 
 	[Glade.Widget]
-	private Widget ToolSelectProps;
+	private Widget ToolSelectProps = null;
 
 	private Widget ToolTilesProps;
 	private Widget ToolObjectsProps;
 
 	[Glade.Widget]
-	private Widget ToolBrushProps;
+	private Widget ToolBrushProps = null;
 
-	[Glade.Widget] private Gtk.RadioToolButton ToolSelect;
-	[Glade.Widget] private Gtk.RadioToolButton ToolTiles;
-	[Glade.Widget] private Gtk.RadioToolButton ToolObjects;
-	[Glade.Widget] private Gtk.RadioToolButton ToolBrush;
-	[Glade.Widget] private Gtk.RadioToolButton ToolFill;
-	[Glade.Widget] private Gtk.RadioToolButton ToolReplace;
-
-	[Glade.Widget]
-	private Statusbar sbMain;
+	[Glade.Widget] private Gtk.RadioToolButton ToolSelect = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolTiles = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolObjects = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolBrush = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolFill = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolReplace = null;
 
 	[Glade.Widget]
-	private Gtk.MenuItem MenuItemUndo;
+	private Statusbar sbMain = null;
 
 	[Glade.Widget]
-	private Gtk.MenuItem MenuItemRedo;
+	private Gtk.MenuItem MenuItemUndo = null;
 
 	[Glade.Widget]
-	private Gtk.CheckMenuItem show_background1;
+	private Gtk.MenuItem MenuItemRedo = null;
 
 	[Glade.Widget]
-	private Gtk.ToggleToolButton ttbShowBackground;
+	private Gtk.CheckMenuItem show_background1 = null;
+
+	[Glade.Widget]
+	private Gtk.ToggleToolButton ttbShowBackground = null;
 	#endregion Glade
 
 	private TileListWidget tileList;
