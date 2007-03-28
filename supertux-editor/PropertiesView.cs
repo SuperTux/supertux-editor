@@ -48,17 +48,17 @@ public class PropertiesView : ScrolledWindow
 		return Result;
 	}
 
-	public void SetObject(object Object, string title)
+	public void SetObject(object NewObject, string title)
 	{
-		this.Object = Object;
 		try {
-			CreatePropertyWidgets(title);
+			CreatePropertyWidgets(title, NewObject);
+			this.Object = NewObject;
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
 	}
 
-	private void CreatePropertyWidgets(string title)
+	private void CreatePropertyWidgets(string title, object NewObject)
 	{
 		VBox box = new VBox();
 		tooltips = new Tooltips();
@@ -71,7 +71,7 @@ public class PropertiesView : ScrolledWindow
 		box.PackStart(titleLabel, true, false, 0);
 
 		// iterate over all fields and properties
-		Type type = Object.GetType();
+		Type type = NewObject.GetType();
 		fieldTable.Clear();
 		List<Widget> editWidgets = new List<Widget>();
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
@@ -80,7 +80,7 @@ public class PropertiesView : ScrolledWindow
 			if(customSettings != null) {
 				Type customType = customSettings.Type;
 				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(customType);
-				customWidget.Object = Object;
+				customWidget.Object = NewObject;
 				customWidget.Field = field;
 				editWidgets.Add(customWidget.Create(this));
 				continue;
@@ -101,7 +101,7 @@ public class PropertiesView : ScrolledWindow
 				|| field.Type == typeof(int)) {
 				Entry entry = new Entry();
 				entry.Name = field.Name;
-				object val = field.GetValue(Object);
+				object val = field.GetValue(NewObject);
 				if(val != null)
 					entry.Text = val.ToString();
 				fieldTable[field.Name] = field;
@@ -112,7 +112,7 @@ public class PropertiesView : ScrolledWindow
 			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
-				checkButton.Active = (bool) field.GetValue(Object);
+				checkButton.Active = (bool) field.GetValue(NewObject);
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
@@ -125,7 +125,7 @@ public class PropertiesView : ScrolledWindow
 				// FIXME: This will break if:
 				//        1) the first enum isn't 0 and/or
 				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
-				object val = field.GetValue(Object);
+				object val = field.GetValue(NewObject);
 				if (val != null)
 					comboBox.Active = (int)val;
 				fieldTable[field.Name] = field;
