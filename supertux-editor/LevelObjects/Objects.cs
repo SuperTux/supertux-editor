@@ -1046,6 +1046,15 @@ public sealed class ScriptTrigger : SimpleObjectArea
 	}
 }
 
+[SupertuxObject("invisible_wall", "images/engine/editor/invisible_wall.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class InvisibleWall : SimpleObjectArea
+{
+	public InvisibleWall() {
+		Color = new Drawing.Color(0, .8f, 0, 0.8f);
+	}
+}
+
 [SupertuxObject("secretarea",  "images/engine/editor/secretarea.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SecretArea : SimpleObjectArea
