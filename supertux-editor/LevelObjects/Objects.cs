@@ -1118,7 +1118,7 @@ public sealed class CloudParticles : IGameObject
 #endregion Particles
 
 [SupertuxObject("leveltime", "images/engine/editor/clock.png",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class LevelTime : IGameObject
 {
 	[PropertyProperties(Tooltip = "Time in seconds")]
