@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Gtk;
 using LispReader;
+using Undo;
 
 
 /// <summary>
@@ -47,17 +48,17 @@ public class PropertiesView : ScrolledWindow
 		return Result;
 	}
 
-	public void SetObject(object Object, string title)
+	public void SetObject(object NewObject, string title)
 	{
-		this.Object = Object;
 		try {
-			CreatePropertyWidgets(title);
+			CreatePropertyWidgets(title, NewObject);
+			this.Object = NewObject;
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
 	}
 
-	private void CreatePropertyWidgets(string title)
+	private void CreatePropertyWidgets(string title, object NewObject)
 	{
 		VBox box = new VBox();
 		tooltips = new Tooltips();
@@ -70,7 +71,7 @@ public class PropertiesView : ScrolledWindow
 		box.PackStart(titleLabel, true, false, 0);
 
 		// iterate over all fields and properties
-		Type type = Object.GetType();
+		Type type = NewObject.GetType();
 		fieldTable.Clear();
 		List<Widget> editWidgets = new List<Widget>();
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
@@ -79,7 +80,7 @@ public class PropertiesView : ScrolledWindow
 			if(customSettings != null) {
 				Type customType = customSettings.Type;
 				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(customType);
-				customWidget.Object = Object;
+				customWidget.Object = NewObject;
 				customWidget.Field = field;
 				editWidgets.Add(customWidget.Create(this));
 				continue;
@@ -100,17 +101,18 @@ public class PropertiesView : ScrolledWindow
 				|| field.Type == typeof(int)) {
 				Entry entry = new Entry();
 				entry.Name = field.Name;
-				object val = field.GetValue(Object);
+				object val = field.GetValue(NewObject);
 				if(val != null)
 					entry.Text = val.ToString();
 				fieldTable[field.Name] = field;
 				entry.Changed += OnEntryChanged;
+				entry.FocusOutEvent += OnEntryChangeDone;
 				editWidgets.Add(entry);
 				AddTooltip(propertyProperties, entry);
 			} else if(field.Type == typeof(bool)) {
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
-				checkButton.Active = (bool) field.GetValue(Object);
+				checkButton.Active = (bool) field.GetValue(NewObject);
 				fieldTable[field.Name] = field;
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
@@ -123,7 +125,7 @@ public class PropertiesView : ScrolledWindow
 				// FIXME: This will break if:
 				//        1) the first enum isn't 0 and/or
 				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
-				object val = field.GetValue(Object);
+				object val = field.GetValue(NewObject);
 				if (val != null)
 					comboBox.Active = (int)val;
 				fieldTable[field.Name] = field;
@@ -178,23 +180,71 @@ public class PropertiesView : ScrolledWindow
 			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
 
+	private void OnEntryChangeDone(object o, FocusOutEventArgs args)
+	{
+		try {
+			Entry entry = (Entry) o;
+			FieldOrProperty field = fieldTable[entry.Name];
+			PropertyChangeCommand command;
+			if(field.Type == typeof(string)) {
+				if ((string)field.GetValue(Object) == entry.Text) return;
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					entry.Text);
+			} else if(field.Type == typeof(float)) {
+				float parsed = Single.Parse(entry.Text);
+				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
+					entry.Text = parsed.ToString();
+				if ((float)field.GetValue(Object) == parsed) return;
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					parsed);
+			} else if(field.Type == typeof(int)) {
+				int parsed = Int32.Parse(entry.Text);
+				if(parsed.ToString() != entry.Text)
+					entry.Text = parsed.ToString();
+				if ((int)field.GetValue(Object) == parsed) return;
+				command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					parsed);
+			} else {
+				throw new ApplicationException(
+					"PropertiesView.OnEntryChangeDone, \""  + field.Type.FullName + "\" is not implemented yet. " +
+					"If you are a developer, please fix it, else report this full error message and what you did to cause it to the supertux developers.");
+			}
+			command.Do();
+			UndoManager.AddCommand(command);
+		} catch(FormatException fe) {
+			errorLabel.Text = fe.Message;
+			return;
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+			return;
+		}
+		errorLabel.Text = String.Empty;
+	}
+
 	private void OnEntryChanged(object o, EventArgs args)
 	{
 		try {
 			Entry entry = (Entry) o;
 			FieldOrProperty field = fieldTable[entry.Name];
 			if(field.Type == typeof(string)) {
-				field.SetValue(Object, entry.Text);
+				return;
 			} else if(field.Type == typeof(float)) {
 				float parsed = Single.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text && parsed.ToString() + "." != entry.Text )
 					entry.Text = parsed.ToString();
-				field.SetValue(Object, parsed);
 			} else if(field.Type == typeof(int)) {
 				int parsed = Int32.Parse(entry.Text);
 				if(parsed.ToString() != entry.Text)
 					entry.Text = parsed.ToString();
-				field.SetValue(Object, parsed);
 			} else {
 				throw new ApplicationException(
 					"PropertiesView.OnEntryChanged, \""  + field.Type.FullName + "\" is not implemented yet. " +
@@ -215,7 +265,13 @@ public class PropertiesView : ScrolledWindow
 		try {
 			CheckButton checkButton = (CheckButton) o;
 			FieldOrProperty field = fieldTable[checkButton.Name];
-			field.SetValue(Object, checkButton.Active);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				Object,
+				checkButton.Active);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -226,7 +282,13 @@ public class PropertiesView : ScrolledWindow
 			ComboBox comboBox = (ComboBox)o;
 			FieldOrProperty field = fieldTable[comboBox.Name];
 			// Parse the string back to enum.
-			field.SetValue(Object, Enum.Parse(field.Type, comboBox.ActiveText));
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				Object,
+				Enum.Parse(field.Type, comboBox.ActiveText));
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}

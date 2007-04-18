@@ -7,8 +7,8 @@
 ; 25.10.2006 16:55:34
 
 #define MyAppName "SuperTux Editor"
-#define MyAppVer "0.3.0"
-#define MyAppVerName "SuperTux Editor 0.3.0"
+#define MyAppVer "0.3.1"
+#define MyAppVerName "SuperTux Editor 0.3.1"
 #define MyAppPublisher "SuperTux Development Team"
 #define MyAppURL "http://supertux.berlios.de"
 #define MyAppBaseName "supertux-editor"
@@ -21,7 +21,7 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppVerName}
-DefaultGroupName=SuperTux 0.3.0
+DefaultGroupName=SuperTux 0.3.1
 AllowNoIcons=true
 VersionInfoVersion={#MyAppVer}
 AppVersion={#MyAppVer}

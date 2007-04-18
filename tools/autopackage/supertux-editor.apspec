@@ -28,7 +28,7 @@ ShortName: supertux-editor
 Maintainer: SuperTux Development Team <supertux-devel@lists.berlios.de>
 Packager: Christoph Sommer <christoph.sommer@2006.expires.deltadevelopment.de>
 Summary: SuperTux is a classic style 2D jump and run sidescroller game in a style similar to the original SuperMario games. This is the level editor.
-SoftwareVersion: 0.3.0
+SoftwareVersion: 0.3.1
 PackageVersion: 1
 AutopackageTarget: 1.0
 

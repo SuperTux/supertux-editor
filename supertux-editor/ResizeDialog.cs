@@ -3,6 +3,7 @@ using System;
 using Gtk;
 using Gdk;
 using Glade;
+using Undo;
 
 public class ResizeDialog
 {
@@ -15,12 +16,9 @@ public class ResizeDialog
 
 	private Sector sector;
 
-	private IEditorApplication application;
-
-	public ResizeDialog(Sector sector, IEditorApplication app)
+	public ResizeDialog(Sector sector)
 	{
 		this.sector = sector;
-		application = app;
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 
@@ -37,7 +35,7 @@ public class ResizeDialog
 		}
 		WidthEntry.Text = width.ToString();
 		HeightEntry.Text = height.ToString();
-
+		resizeDialog.Icon = EditorStock.WindowIcon;
 		resizeDialog.ShowAll();
 	}
 
@@ -46,11 +44,14 @@ public class ResizeDialog
 		try {
 			uint newWidth = UInt32.Parse(WidthEntry.Text);
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
-			application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
-			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-				tilemap.Resize(newWidth, newHeight, 0);
-			}
-			sector.EmitSizeChanged();
+			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
+			SectorSizeChangeCommand command = new SectorSizeChangeCommand(
+				"Sector resized to " + newWidth + "x" + newHeight,
+				sector,
+				newWidth,
+				newHeight);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}

@@ -3,15 +3,17 @@ expect everything to work smoothly and save often...
 
 For more information browse to:
 
-http://supertux.berlios.de/wiki/index.php/Editor_FAQ
-http://supertux.berlios.de/wiki/index.php/Building_SuperTux#Compiling_the_editor
+http://supertux.lethargik.org/wiki/Editor_FAQ
+http://supertux.lethargik.org/wiki/Building_SuperTux#Compiling_the_editor
 
 
 == Prerequisites ==
 
- * SuperTux version 0.3.0 or higher
+ * SuperTux version 0.3.1 or higher
  * OpenGL driver and environment
- * mono 1.1.13 or newer
+ * mono 1.2.2.1 or newer
+   (1.1.13 or newer may work but if it doesn't, don't blame us just 
+    upgrade to 1.2.2.1 or newer)
  * gtk-sharp 2.8 or newer
 
 
@@ -25,12 +27,17 @@ Type
 
 You can start the editor by typing
 	mono supertux-editor.exe
+
+To run with debugging info (that is the only way to get a usable
+backtrace for a bug report in case of a crash):
+	mono --debug supertux-editor.exe
+
 Remember to set your SuperTux paths in the editor options!
- 
+
 
 == Known Problems ==
 
-The open source ATI drivers seem to have problems with multiple viewports 
+The open source ATI drivers seem to have problems with multiple viewports
 and shared textures.
 
 

@@ -157,6 +157,10 @@ public abstract class SimpleDirObject : SimpleObject
 			DirectionChanged();
 		}
 	}
+
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = String.Empty;
 }
 
 /// <summary>Base class for area objects in levels</summary>

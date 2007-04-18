@@ -8,7 +8,7 @@ using Resources;
 
 public sealed class Tileset {
 	private List<Tile> tiles = new List<Tile>();
-	private Dictionary<string, Tilegroup> tilegroups = new Dictionary<string, Tilegroup>();
+	private SortedDictionary<string, Tilegroup> tilegroups = new SortedDictionary<string, Tilegroup>();
 	private string baseDir;
 	public static bool LoadEditorImages;
 
@@ -133,22 +133,25 @@ public sealed class Tileset {
 		int id = 0;
 		for(int y = 0; y < height; ++y) {
 			for(int x = 0; x < width; ++x) {
-				Tile tile = new Tile();
+				if (ids[id] != 0) {
+					Tile tile = new Tile();
 
-				Tile.ImageResource res = new Tile.ImageResource();
-				res.Filename = image;
-				res.x = x * TILE_WIDTH;
-				res.y = y * TILE_HEIGHT;
-				res.w = TILE_WIDTH;
-				res.h = TILE_HEIGHT;
-				tile.Images = new List<Tile.ImageResource>();
-				tile.Images.Add(res);
-				tile.Id = ids[id];
-				tile.Attributes = (Tile.Attribute) attributes[id];
+					Tile.ImageResource res = new Tile.ImageResource();
+					res.Filename = image;
+					res.x = x * TILE_WIDTH;
+					res.y = y * TILE_HEIGHT;
+					res.w = TILE_WIDTH;
+					res.h = TILE_HEIGHT;
+					tile.Images = new List<Tile.ImageResource>();
+					tile.Images.Add(res);
+					tile.Id = ids[id];
+					tile.Attributes = (Tile.Attribute) attributes[id];
 
-				while(tiles.Count <= tile.Id)
-					tiles.Add(null);
-				tiles[tile.Id] = tile;
+					while(tiles.Count <= tile.Id)
+						tiles.Add(null);
+
+					tiles[tile.Id] = tile;
+				}
 
 				id++;
 			}

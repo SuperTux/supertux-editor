@@ -7,11 +7,11 @@ using Glade;
 public class SettingsDialog
 {
 	[Glade.Widget]
-	private Dialog settingsDialog;
+	private Dialog settingsDialog = null;
 	[Glade.Widget]
-	private Entry entryDataDir;
+	private Entry entryDataDir = null;
 	[Glade.Widget]
-	private Entry entryExe;
+	private Entry entryExe = null;
 
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
@@ -30,7 +30,7 @@ public class SettingsDialog
 		entryExe.Text = Settings.Instance.SupertuxExe;
 
 		Changed = false;
-
+		settingsDialog.Icon = EditorStock.WindowIcon;
 		if (!modal) {
 			settingsDialog.ShowAll();
 		} else {

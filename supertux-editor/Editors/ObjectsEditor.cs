@@ -6,6 +6,7 @@ using DataStructures;
 using SceneGraph;
 using Gtk;
 using Gdk;
+using Undo;
 
 public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 {
@@ -104,12 +105,44 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		}
 	}
 
+	private sealed class ObjectAreaChangeCommand : Command {
+		/// <summary>
+		/// The object this action was on
+		/// </summary>
+		private IObject changedObject;
+		/// <summary>
+		/// Old area
+		/// </summary>
+		private RectangleF originalArea;
+		/// <summary>
+		/// New area
+		/// </summary>
+		private RectangleF newArea;
+
+		public override void Do() {
+			changedObject.ChangeArea(newArea);
+		}
+
+		public override void Undo() {
+			changedObject.ChangeArea(originalArea);
+		}
+
+		public ObjectAreaChangeCommand(string title,
+		                               RectangleF originalArea, RectangleF newArea,
+																	 IObject changedObject)
+			: base(title) {
+			this.changedObject = changedObject;
+			this.originalArea = originalArea;
+			this.newArea = newArea;
+		}
+	}
+
 	private IObject activeObject;
 	private Vector pressPoint;
 	private RectangleF originalArea;
 	private bool dragging;
 	// Used to make sure we just do undo snapshot when moving.
-	private bool moveStarted;
+	//private bool moveStarted;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
 
 	public event RedrawEventHandler Redraw;
@@ -274,7 +307,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	{
 		if(activeObject == null)
 			return;
-		application.TakeUndoSnapshot("Delete Object " + activeObject);
 		sector.Remove((IGameObject) activeObject);
 		activeObject = null;
 		Redraw();
@@ -286,7 +318,13 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			dragging = false;
 
 			if (mousePos != pressPoint) {
-				moveStarted = false;
+				//moveStarted = false;
+				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
+					"Moved Object " + activeObject,
+					originalArea,
+					getNewPosition(mousePos, SnapValue(Modifiers)),
+					activeObject);
+				UndoManager.AddCommand(command);
 				moveObject(mousePos, SnapValue(Modifiers));
 			} else {
 				MakeActive(FindNext(mousePos));
@@ -298,27 +336,33 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
-			if (!moveStarted) {
-				application.TakeUndoSnapshot("Moved Object " + activeObject);
-				moveStarted = true;
-			}
+			//if (!moveStarted) {
+			//	application.TakeUndoSnapshot("Moved Object " + activeObject);
+			//	moveStarted = true;
+			//}
 			moveObject(mousePos, SnapValue(Modifiers));
 		}
 	}
 
 	private void moveObject(Vector mousePos, int snap)
 	{
+		RectangleF newArea = getNewPosition(mousePos, snap);
+		activeObject.ChangeArea(newArea);
+		Redraw();
+	}
+
+	private RectangleF getNewPosition(Vector mousePos, int snap) {
 		Vector spos = new Vector(originalArea.Left, originalArea.Top);
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
-			spos = new Vector((float) ((int)spos.X / snap) * snap,
-			                  (float) ((int)spos.Y / snap) * snap);
+			// TODO: Get this right for area objects, they currently snap to the
+			//       handle instead of the actual object...
+			spos = new Vector((float) ((int) spos.X / snap) * snap,
+												(float) ((int) spos.Y / snap) * snap);
 		}
 
-		RectangleF newArea = new RectangleF(spos.X, spos.Y,
-		                                    originalArea.Width,
-		                                    originalArea.Height);
-		activeObject.ChangeArea(newArea);
-		Redraw();
+		return new RectangleF(spos.X, spos.Y,
+		                      originalArea.Width,
+		                      originalArea.Height);
 	}
 }

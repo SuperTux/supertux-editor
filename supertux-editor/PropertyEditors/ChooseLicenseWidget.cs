@@ -1,6 +1,6 @@
 //  $Id$
 //
-//  Copyright (C) 2007 Arvid Norlander <anmaster AT berlios DOT de>
+//  Copyright (C) 2007 Christoph Sommer <christoph.sommer@2007.expires.deltadevelopment.de>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -24,32 +24,25 @@ using Gtk;
 using LispReader;
 using Undo;
 
-public sealed class ChooseSectorWidget : CustomSettingsWidget {
-	private ComboBox comboBox;
+public sealed class ChooseLicenseWidget : CustomSettingsWidget {
+	private ComboBoxEntry comboBox;
 
 	public override Widget Create(object caller) {
-		HBox box = new HBox();
 
-		PropertiesView propview = (PropertiesView)caller;
+		List<String> licenseTemplateTexts = new List<String>();
+		licenseTemplateTexts.Add("non-redistributable (forbid sharing and modification of this level)");
+		licenseTemplateTexts.Add("GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)");
 
-		// Add the names of the sectors to a list
-		List<String> sectorNames = new List<String>(propview.application.CurrentLevel.Sectors.Count);
-		foreach(Sector sector in propview.application.CurrentLevel.Sectors) {
-			sectorNames.Add(sector.Name);
-		}
+		comboBox = new ComboBoxEntry(licenseTemplateTexts.ToArray());
 
-		// Populate a combo box with the sector names
-		comboBox = new ComboBox(sectorNames.ToArray());
-
-		// Get the index of the current value from the original list
-		// due to limitations in ComboBox
+		// set current value
 		string val = (string)field.GetValue(Object);
-		if (val != null)
-			comboBox.Active = sectorNames.IndexOf(val);
+		comboBox.Entry.Text = val;
 
 		comboBox.Changed += OnComboBoxChanged;
-		box.PackStart(comboBox, true, true, 0);
 
+		HBox box = new HBox();
+		box.PackStart(comboBox, true, true, 0);
 		box.Name = field.Name;
 
 		CreateToolTip(caller, comboBox);
@@ -59,12 +52,18 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 
 	private void OnComboBoxChanged(object o, EventArgs args) {
 		try {
-			ComboBox comboBox = (ComboBox)o;
+			ComboBoxEntry comboBox = (ComboBoxEntry)o;
+			string s = comboBox.ActiveText;
+
+			// strip off comments from licenseTemplateTexts
+			if (s == "non-redistributable (forbid sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
+			if (s == "GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
+
 			PropertyChangeCommand command = new PropertyChangeCommand(
 				"Changed value of " + field.Name,
 				field,
 				_object,
-				comboBox.ActiveText);
+				s);
 			command.Do();
 			UndoManager.AddCommand(command);
 		} catch (Exception e) {
@@ -73,10 +72,9 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 	}
 }
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
-								AllowMultiple = false)]
-public sealed class ChooseSectorSettingAttribute : CustomSettingsWidgetAttribute {
-	public ChooseSectorSettingAttribute()
-		: base(typeof(ChooseSectorWidget)) {
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)] 
+public sealed class ChooseLicenseSettingAttribute : CustomSettingsWidgetAttribute {
+	public ChooseLicenseSettingAttribute() : base(typeof(ChooseLicenseWidget)) {
 	}
 }
+

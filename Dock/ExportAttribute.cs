@@ -1,4 +1,6 @@
 /*
+ * $Id: ExportAttribute.cs 4703 2007-01-28 13:44:03Z anmaster $
+ *
  * Copyright (C) 2005 John Luke <john.luke@gmail.com>
  *
  * based on work by:

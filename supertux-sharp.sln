@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dock", "Dock\Dock.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "supertux-editor", "supertux-editor\supertux-editor.csproj", "{EC40E667-B055-408B-9D92-C3640EB2B032}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkgl", "gtkgl-sharp\gtkgl-sharp.csproj", "{BA787F0F-DD07-45A1-B4D8-6F643ADE289C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gtkgl-sharp", "gtkgl-sharp\gtkgl-sharp.csproj", "{BA787F0F-DD07-45A1-B4D8-6F643ADE289C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

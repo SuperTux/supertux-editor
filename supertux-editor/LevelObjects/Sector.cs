@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Lisp;
 using LispReader;
+using Undo;
 
 public delegate void ObjectAddedHandler(Sector sector, IGameObject Object);
 public delegate void ObjectRemovedHandler(Sector sector, IGameObject Object);
@@ -112,8 +113,25 @@ public sealed class Sector : ICustomLispSerializer {
 		return GameObjects;
 	}
 
-	public void Add(IGameObject Object)
+	public void Add(IGameObject Object) {
+		Add(Object, "unknown", false);
+	}
+	public void Add(IGameObject Object, string type) {
+		Add(Object, type, false);
+	}
+	public void Add(IGameObject Object, bool NoUndo) {
+		Add(Object, "unknown", NoUndo);
+	}
+
+	public void Add(IGameObject Object, string type, bool NoUndo)
 	{
+		if (!NoUndo) {
+			ObjectAddCommand command = new ObjectAddCommand(
+				"Created Object '" + type + "'",
+				Object,
+				this);
+			UndoManager.AddCommand(command);
+		}
 		GameObjects.Add(Object);
 		try {
 			if(ObjectAdded != null)
@@ -123,8 +141,18 @@ public sealed class Sector : ICustomLispSerializer {
 		}
 	}
 
-	public void Remove(IGameObject Object)
-	{
+	public void Remove(IGameObject Object) {
+		Remove(Object, false);
+	}
+
+	public void Remove(IGameObject Object, bool NoUndo) {
+		if (!NoUndo) {
+			ObjectRemoveCommand command = new ObjectRemoveCommand(
+				"Delete Object " + Object,
+				Object,
+				this);
+			UndoManager.AddCommand(command);
+		}
 		GameObjects.Remove(Object);
 		try {
 			if(ObjectRemoved != null)

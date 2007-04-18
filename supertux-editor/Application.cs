@@ -9,21 +9,10 @@ using Drawing;
 using LispReader;
 using System.Collections.Generic;
 using DataStructures;
+using Undo;
 
 public class Application : IEditorApplication {
 
-	private bool modified = false;
-	private struct UndoSnapshot {
-		public UndoSnapshot(string actionTitle, string snapshot)
-		{
-			this.actionTitle = actionTitle;
-			this.snapshot = snapshot;
-		}
-		/// <summary>title of action that triggered the snapshot, e.g. "Sector resize"</summary>
-		public string actionTitle;
-		/// <summary>serialized level</summary>
-		public string snapshot;
-	}
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix;
 
@@ -32,32 +21,35 @@ public class Application : IEditorApplication {
 	private Gtk.Window MainWindow = null;
 
 	[Glade.Widget]
-	private Widget ToolSelectProps;
+	private Widget ToolSelectProps = null;
 
 	private Widget ToolTilesProps;
 	private Widget ToolObjectsProps;
 
 	[Glade.Widget]
-	private Widget ToolBrushProps;
+	private Widget ToolBrushProps = null;
 
-	[Glade.Widget] private Gtk.RadioToolButton ToolSelect;
-	[Glade.Widget] private Gtk.RadioToolButton ToolTiles;
-	[Glade.Widget] private Gtk.RadioToolButton ToolObjects;
-	[Glade.Widget] private Gtk.RadioToolButton ToolBrush;
-	[Glade.Widget] private Gtk.RadioToolButton ToolFill;
-	[Glade.Widget] private Gtk.RadioToolButton ToolReplace;
-
-	[Glade.Widget]
-	private Statusbar sbMain;
+	[Glade.Widget] private Gtk.RadioToolButton ToolSelect = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolTiles = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolObjects = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolBrush = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolFill = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolReplace = null;
 
 	[Glade.Widget]
-	private Gtk.MenuItem undo1;
+	private Statusbar sbMain = null;
 
 	[Glade.Widget]
-	private Gtk.CheckMenuItem show_background1;
+	private Gtk.MenuItem MenuItemUndo = null;
 
 	[Glade.Widget]
-	private Gtk.ToggleToolButton ttbShowBackground;
+	private Gtk.MenuItem MenuItemRedo = null;
+
+	[Glade.Widget]
+	private Gtk.CheckMenuItem show_background1 = null;
+
+	[Glade.Widget]
+	private Gtk.ToggleToolButton ttbShowBackground = null;
 	#endregion Glade
 
 	private TileListWidget tileList;
@@ -75,9 +67,6 @@ public class Application : IEditorApplication {
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
 	private string fileName;
-
-	private const int maxUndoSnapshots = 10;
-	private List<UndoSnapshot> undoSnapshots = new List<UndoSnapshot>();
 
 	public event LevelChangedEventHandler LevelChanged;
 	public event SectorChangedEventHandler SectorChanged;
@@ -136,6 +125,8 @@ public class Application : IEditorApplication {
 
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
+		UpdateTitlebar();
+		MainWindow.Icon = EditorStock.WindowIcon;
 		MainWindow.ShowAll();
 
 		// Manually set icons for Tools
@@ -196,6 +187,10 @@ public class Application : IEditorApplication {
 		if (args.Length > 0) {
 			Load(args[0]);
 		}
+
+		UndoManager.OnAddCommand += OnUndoManager;
+		UndoManager.OnRedo += OnUndoManager;
+		UndoManager.OnUndo += OnUndoManager;
 
 		PrintStatus("Welcome to Supertux-Editor.");
 	}
@@ -341,7 +336,7 @@ public class Application : IEditorApplication {
 
 	protected void OnHome(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.Home();
+			sectorSwitchNotebook.CurrentRenderer.SetTranslation(new Vector(0, 0));
 		}
 	}
 
@@ -369,15 +364,15 @@ public class Application : IEditorApplication {
 			return;
 
 		try {
-			undoSnapshots.Clear();
+			UndoManager.Clear();
 			Level level = LevelUtil.CreateLevel();
 			ChangeCurrentLevel(level);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new level", e);
 		}
 		fileName = null;
-		MainWindow.Title = MainWindowTitlePrefix;
-		modified = false;
+		UpdateTitlebar();
+		UndoManager.MarkAsSaved();
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -400,7 +395,8 @@ public class Application : IEditorApplication {
 	private void Load(string fileName)
 	{
 		try {
-			undoSnapshots.Clear();
+			//undoSnapshots.Clear();
+			UndoManager.Clear();
 			Level newLevel = (Level) serializer.Read(fileName);
 			if (newLevel.Version < 2) {
 				ErrorDialog.ShowError("Couldn't load level: Old Level Format not supported",
@@ -409,8 +405,8 @@ public class Application : IEditorApplication {
 			}
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
-			MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
-			modified = false;
+			UpdateTitlebar();
+			UndoManager.MarkAsSaved();
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -443,8 +439,8 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			fileName = fileChooser.Filename;
 		}
-		MainWindow.Title = MainWindowTitlePrefix + " - " + fileName;
-		modified = false;
+		UpdateTitlebar();
+		UndoManager.MarkAsSaved();
 
 		QACheck.ReplaceDepercatedTiles(level);
 
@@ -512,9 +508,10 @@ public class Application : IEditorApplication {
 		};
 
 		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
+		dialog.Icon = EditorStock.WindowIcon;
 		dialog.Name = "SuperTux Editor";
 		dialog.Version = Constants.PACKAGE_VERSION;
-		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
+		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.1";
 		dialog.Authors = authors;
 		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
 		dialog.License =
@@ -531,10 +528,10 @@ public class Application : IEditorApplication {
 			"You should have received a copy of the GNU General Public License" + Environment.NewLine +
 			"along with this program; if not, write to the Free Software Foundation, Inc.," + Environment.NewLine +
 			"59 Temple Place, Suite 330, Boston, MA 02111-1307 USA" + Environment.NewLine;
-		dialog.Website = "http://supertux.berlios.de/";
+		dialog.Website = "http://supertux.lethargik.org/";
 		dialog.WebsiteLabel = "SuperTux on the Web";
-		dialog.ShowAll();
-
+		dialog.Run();
+		dialog.Destroy();
 	}
 
 	/// <summary>Run the current version of the level in Supertux</summary>
@@ -653,17 +650,22 @@ public class Application : IEditorApplication {
 	/// <param name="act">What we would do ("quit", "close", "open another file" or such)</param>
 	/// <returns>True if continue otherwise false</returns>
 	private bool ChangeConfirm(string act) {
-		if( modified ) {
+		if( UndoManager.IsDirty ) {
 			MessageDialog md = new MessageDialog (MainWindow,
 			                                      DialogFlags.DestroyWithParent,
 			                                      MessageType.Warning,
-			                                      ButtonsType.None, "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
+			                                      ButtonsType.None,
+			                                      "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
 			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
+			md.AddButton("Save and close", Gtk.ResponseType.Accept);
 			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
 
 			ResponseType result = (ResponseType)md.Run ();
 			md.Destroy();
-			if (result != ResponseType.Yes){
+			if (result == ResponseType.Accept) {
+				Save(false);
+				return true;
+			} else if (result != ResponseType.Yes) {
 				return false;
 			}
 		}
@@ -741,41 +743,42 @@ public class Application : IEditorApplication {
 	/// </summary>
 	public void TakeUndoSnapshot(string actionTitle)
 	{
-		LogManager.Log(LogLevel.Debug, "TakeUndoSnapshot {0} ", actionTitle);
-		if( !modified ){
-			MainWindow.Title += '*';
-			modified = true;
+		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot (\"{0}\") does nothing now", actionTitle);
+	}
+
+	private void UpdateTitlebar() {
+		string s = fileName != null ? fileName : "[No Name]";
+		if (UndoManager.IsDirty) {
+			MainWindow.Title = MainWindowTitlePrefix + " - " + s + "*";
+		} else {
+			MainWindow.Title = MainWindowTitlePrefix + " - " + s;
 		}
-		StringWriter sw = new StringWriter();
-		serializer.Write(sw, "level-snapshot", level);
-		string snapshot = sw.ToString();
-		UndoSnapshot us = new UndoSnapshot(actionTitle, snapshot);
-		undoSnapshots.Add(us);
-		while (undoSnapshots.Count > maxUndoSnapshots)
-			undoSnapshots.RemoveAt(0);
+	}
+
+	/// <summary>
+	/// Yes it is used for undo, redo and all of it, as we only need one.
+	/// </summary>
+	/// <param name="command"></param>
+	private void OnUndoManager(Command command) {
+		UpdateTitlebar();
 	}
 
 	/// <summary>Revert level to last snapshot.</summary>
 	public void Undo()
 	{
-		if (undoSnapshots.Count < 1)
+		if (UndoManager.UndoCount < 1)
 			return;
+		string us = UndoManager.UndoTitle;
+		UndoManager.Undo();
+		PrintStatus("Undone: " + us );
+	}
 
-		float saveZoom = sectorSwitchNotebook.CurrentRenderer.GetZoom();
-		Vector saveTranslation = sectorSwitchNotebook.CurrentRenderer.GetTranslation();
-
-		UndoSnapshot us = undoSnapshots[undoSnapshots.Count-1];
-		undoSnapshots.RemoveAt(undoSnapshots.Count-1);
-		StringReader sr = new StringReader(us.snapshot);
-		Level newLevel = (Level) serializer.Read(sr, "level-snapshot");
-		if(newLevel.Version < 2)
-			throw new Exception("Old Level Format not supported");
-		ChangeCurrentLevel(newLevel);
-		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.SetZoom( saveZoom );
-			sectorSwitchNotebook.CurrentRenderer.SetTranslation( saveTranslation );
-		}
-		PrintStatus("Undone: " + us.actionTitle );
+	public void Redo() {
+		if (UndoManager.RedoCount < 1)
+			return;
+		string us = UndoManager.RedoTitle;
+		UndoManager.Redo();
+		PrintStatus("Redone: " + us);
 	}
 
 	public void OnUndo(object o, EventArgs args)
@@ -783,10 +786,22 @@ public class Application : IEditorApplication {
 		Undo();
 	}
 
+	public void OnRedo(object o, EventArgs args) {
+		Redo();
+	}
+
 	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
-		undo1.Sensitive = (undoSnapshots.Count > 0);
+		string undoLabel = "Undo";
+		MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
+		if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
+		foreach (Label l in MenuItemUndo.Children) l.Text = undoLabel;
+
+		string redoLabel = "Redo";
+		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
+		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
+		foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
 	}
 
 	public static void Main(string[] args)

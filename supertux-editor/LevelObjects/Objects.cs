@@ -313,7 +313,8 @@ public sealed class Dispenser : SimpleDirObject
                 ObjectListAction = "stand-left")]
 public sealed class Yeti : SimpleObject
 {
-	[LispChild("dead-script")]
+
+	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public String DeadScript = String.Empty;
 
@@ -984,6 +985,15 @@ public sealed class ScriptTrigger : SimpleObjectArea
 	}
 }
 
+[SupertuxObject("invisible_wall", "images/engine/editor/invisible_wall.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class InvisibleWall : SimpleObjectArea
+{
+	public InvisibleWall() {
+		Color = new Drawing.Color(0, .8f, 0, 0.8f);
+	}
+}
+
 [SupertuxObject("secretarea",  "images/engine/editor/secretarea.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SecretArea : SimpleObjectArea
@@ -994,6 +1004,17 @@ public sealed class SecretArea : SimpleObjectArea
 
 	public SecretArea() {
 		Color = new Drawing.Color(0, .8f, 0, 0.8f);
+	}
+}
+
+// TODO: This image isn't good for this, make one that fit with the
+//       other areas.
+[SupertuxObject("climbable",  "images/tiles/forest/ladder.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Climbable : SimpleObjectArea
+{
+	public Climbable() {
+		Color = new Drawing.Color(.8f, .8f, 0, 0.8f);
 	}
 }
 
@@ -1036,7 +1057,7 @@ public sealed class CloudParticles : IGameObject
 #endregion Particles
 
 [SupertuxObject("leveltime", "images/engine/editor/clock.png",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class LevelTime : IGameObject
 {
 	[PropertyProperties(Tooltip = "Time in seconds")]

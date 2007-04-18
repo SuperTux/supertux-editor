@@ -9,8 +9,8 @@ namespace DataStructures
 	public class Field<T>
 	{
 		protected List<T> Elements = new List<T>();
-		private uint width;
-		private uint height;
+		protected uint width;
+		protected uint height;
 
 		public Field()
 		{

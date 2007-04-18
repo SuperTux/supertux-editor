@@ -17,7 +17,6 @@
   <Contents>
     <File name="./GLWidgetBase.cs" subtype="Code" buildaction="Compile" />
     <File name="./IEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Renderer.cs" subtype="Code" buildaction="Compile" />
     <File name="./DataStructures/Field.cs" subtype="Code" buildaction="Compile" />
     <File name="./DataStructures/FieldPos.cs" subtype="Code" buildaction="Compile" />
     <File name="./DataStructures/Matrix.cs" subtype="Code" buildaction="Compile" />
@@ -43,6 +42,8 @@
     <File name="./resources/errordialog.glade" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./SceneGraph/Rect.cs" subtype="Code" buildaction="Compile" />
     <File name="./LogManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./RenderView.cs" subtype="Code" buildaction="Compile" />
+    <File name="./ScrollBarRenderView.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Resources" />

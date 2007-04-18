@@ -1,4 +1,6 @@
 /*
+ * $Id: GLArea.cs 4703 2007-01-28 13:44:03Z anmaster $
+ *
  * GtkGL# - OpenGL Graphics Library for the Gtk# Toolkit
  *
  * Copyright (c) 2002-2004 The Olympum Group, http://www.olympum.com/

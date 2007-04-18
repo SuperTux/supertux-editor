@@ -1,12 +1,12 @@
 CSC ?= gmcs ;
 NCC ?= ncc.exe ;
 LOCATE_TARGETS ?= $(TOP) ;
-CSFLAGS ?= -debug ;
+CSFLAGS ?= -debug -warn:4 -nowarn:1591 ;
 
 rule AntLR {
     local sources = [ SearchSource $(>) ] ;
     local target = $(<:G=antlr) ;
-    
+
     MakeLocate $(target) : $(SUBDIR) ;
     antlr $(target) : $(sources) ;
     Depends $(target) : $(sources) ;
@@ -40,7 +40,7 @@ rule CSharp {
     local sources = [ SearchSource $(>) ] ;
     local resources = [ SearchSource $(3) ] ;
     local target = $(<) ;
-    
+
     MakeLocate $(target) : $(SUBDIR) ;
     MonoCSharp $(target) : $(sources) ;
     CSFLAGS on $(target) = $(CSFLAGS) ;
@@ -53,7 +53,7 @@ rule CSharp {
     Depends $(target) : $(sources) $(resources) ;
     Depends all : $(target) ;
 
-    Clean clean : $(target) ;
+    Clean clean : $(target) $(target).xml $(target).mdb ;
     Clean clean$(<) : $(target) ;
 }
 
@@ -69,7 +69,7 @@ rule Nemerle {
         TARGET on $(target) = library ;
     } else if $(<:S) = .exe {
         TARGET on $(target) = exe ;
-    }                                      
+    }
     NFLAGS on $(target) = $(NFLAGS) ;
     RESOURCES on $(target) = $(resources) ;
     Depends $(target) : $(sources) ;
@@ -86,7 +86,7 @@ rule LinkWith {
 }
 
 actions MonoCSharp bind RESOURCES {
-    $(CSC) $(CSFLAGS) -out:$(<) -target:$(TARGET) -r:$(LIBS) -resource:$(RESOURCES) $(>)
+    $(CSC) $(CSFLAGS) -out:$(<) -doc:$(<).xml -target:$(TARGET) -r:$(LIBS) -resource:$(RESOURCES) $(>)
 }
 
 actions Ncc bind RESOURCES {

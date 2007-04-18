@@ -15,9 +15,14 @@ public static class EditorStock
 	public static string ToolFill = "ToolFill";
 	public static string ToolReplace = "ToolReplace";
 	public static string Background = "Background";
+	/// <summary>Icon for windows and dialogs</summary>
+	public static Gdk.Pixbuf WindowIcon;
 
 	static EditorStock ()
 	{
+		// Load Window icon.
+		WindowIcon = Gdk.Pixbuf.LoadFromResource ("supertux-editor.png");
+
 		AddIcon (Eye, Gtk.IconSize.Menu, "stock-eye-12.png");
 		AddIcon (EyeHalf, Gtk.IconSize.Menu, "stock-eye-half-12.png");
 
@@ -35,7 +40,7 @@ public static class EditorStock
 		AddIcon(ToolReplace, ToolBarIconSize, "stock-tool-replace-24.png");
 		AddIcon(Background, ToolBarIconSize, "stock-background-24.png");
 
-		stock.AddDefault ();
+		stock.AddDefault();
 	}
 
 	static void AddIcon (string stockid, Gtk.IconSize iconSize, string resource)

@@ -1,4 +1,6 @@
 /*
+ * $Id: GLContext.cs 4831 2007-02-10 14:18:53Z anmaster $
+ *
  * GtkGL# - OpenGL Graphics Library for the Gtk# Toolkit
  *
  * Copyright (c) 2002-2004 The Olympum Group, http://www.olympum.com/
@@ -49,6 +51,7 @@ namespace Gdk
 					                        (X11GLContext) share, gdkDrawable);
 				} catch(DllNotFoundException e) {
 					Console.WriteLine("Failed setting up X11 opengl context: " + e.Message);
+					Console.WriteLine("  (If you run Windows this is normal, on any other OS it would be bad)");
 					Console.WriteLine(e.StackTrace);
 					Console.WriteLine("Trying win32 API");
 					useWGLContext = true;

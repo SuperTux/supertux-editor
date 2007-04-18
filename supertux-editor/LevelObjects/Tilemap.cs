@@ -53,6 +53,10 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("draw-target", Optional = true, Default = DrawTargets.normal)]
 	public DrawTargets DrawTarget = DrawTargets.normal;
 
+	[PropertyProperties(Tooltip = "Opacity of this Tilemap, ranges from 0.0 (transparent) to 1.0 (fully opaque)")]
+	[LispChild("alpha", Optional = true, Default = 1.0f)]
+	public float Alpha = 1.0f;
+
 	public Tilemap() : base() {
 	}
 

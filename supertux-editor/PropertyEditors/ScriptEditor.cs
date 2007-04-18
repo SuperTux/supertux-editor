@@ -4,6 +4,7 @@ using Gtk;
 using Gdk;
 using Glade;
 using LispReader;
+using Undo;
 
 /// <summary>
 /// A dialogbox used to edit scripts and currently also other multi line strings.
@@ -49,7 +50,13 @@ public class ScriptEditor
 	protected void OnOk(object o, EventArgs args)
 	{
 		try {
-			field.SetValue(object_, scriptEditor.Buffer.Text);
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + field.Name,
+				field,
+				object_,
+				scriptEditor.Buffer.Text);
+			command.Do();
+			UndoManager.AddCommand(command);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
