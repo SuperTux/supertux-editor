@@ -30,8 +30,6 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 		}
 	}
 
-
-
 	public TilemapEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 		: base(application, Tilemap, Tileset) {
 		this.selection = selection;
@@ -82,7 +80,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand("Modify Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			TilemapModifyCommand command = new TilemapModifyCommand("Change Tiles on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
 			UndoManager.AddCommand(command);
 			
 		}
