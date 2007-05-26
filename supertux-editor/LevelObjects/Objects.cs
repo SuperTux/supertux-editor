@@ -330,32 +330,6 @@ public sealed class Dispenser : SimpleDirObject
 	}
 }
 
-[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "stand-left")]
-public sealed class Yeti : SimpleObject
-{
-
-	[LispChild("dead-script", Optional = true, Default = "")]
-	[EditScriptSetting]
-	public String DeadScript = String.Empty;
-
-	public Yeti() {
-		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
-		Sprite.Action = "stand-left";
-	}
-}
-
-[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class StalactiteYeti : SimpleObject
-{
-	public StalactiteYeti() {
-		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
-		Sprite.Action = "normal";
-	}
-}
-
 [SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
@@ -485,6 +459,46 @@ public sealed class Mole : SimpleObject
 		Sprite.Action = "idle";
 	}
 }
+
+#region Bosses
+[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "stand-left")]
+public sealed class Yeti : SimpleObject
+{
+
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = String.Empty;
+
+	public Yeti() {
+		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
+		Sprite.Action = "stand-left";
+	}
+}
+
+[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class StalactiteYeti : SimpleObject
+{
+	public StalactiteYeti() {
+		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
+[SupertuxObject("ghosttree", "images/creatures/ghosttree/ghosttree.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "default")]
+public sealed class GhostTree : SimpleObject
+{
+	public GhostTree() {
+		Sprite = SpriteManager.Create("images/creatures/ghosttree/ghosttree.sprite");
+		Sprite.Action = "default";
+	}
+}
+
+#endregion Bosses
 
 #endregion Badguys
 
