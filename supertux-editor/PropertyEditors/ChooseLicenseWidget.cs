@@ -72,9 +72,8 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 	}
 }
 
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)] 
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
 public sealed class ChooseLicenseSettingAttribute : CustomSettingsWidgetAttribute {
 	public ChooseLicenseSettingAttribute() : base(typeof(ChooseLicenseWidget)) {
 	}
 }
-
