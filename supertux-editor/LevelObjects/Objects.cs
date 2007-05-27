@@ -381,12 +381,15 @@ public sealed class WilloWisp : SimpleObject, IPathObject
 	public string SpawnPoint = String.Empty;
 	[LispChild("name")]
 	public string Name;
-	[LispChild("flyspeed", Default=64f)]
+	[LispChild("flyspeed", Optional = true, Default=64f)]
 	public float FlySpeed = 64f;
-	[LispChild("track-range", Default=384f)]
+	[LispChild("track-range", Optional = true, Default=384f)]
 	public float TrackRange = 384f;
-	[LispChild("vanish-range", Default=512f)]
+	[LispChild("vanish-range", Optional = true, Default=512f)]
 	public float VanishRange = 512f;
+	[LispChild("hit-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string HitScript;
 
 	private Path path = new Path();
 	[LispChild("path")]
