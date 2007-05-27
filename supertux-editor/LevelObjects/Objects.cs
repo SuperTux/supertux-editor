@@ -373,12 +373,31 @@ public sealed class Nolok_01 : SimpleObject
                 "images/creatures/willowisp/willowisp.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
-public sealed class WilloWisp : SimpleObject
+public sealed class WilloWisp : SimpleObject, IPathObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector = String.Empty;
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = String.Empty;
+	[LispChild("name")]
+	public string Name;
+	[LispChild("flyspeed", Default=64f)]
+	public float FlySpeed = 64f;
+	[LispChild("track-range", Default=384f)]
+	public float TrackRange = 384f;
+	[LispChild("vanish-range", Default=512f)]
+	public float VanishRange = 512f;
+
+	private Path path = new Path();
+	[LispChild("path")]
+	public Path Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
 
 	public WilloWisp() {
 		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
@@ -791,7 +810,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 
 	private Sprite Sprite;
 
-	private Path path;
+	private Path path = new Path();
 	[LispChild("path")]
 	public Path Path {
 		get {
@@ -811,7 +830,6 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	public PlatformBase()
 	{
 		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");
-		path = new Path();
 		path.Nodes.Add(new Path.Node());
 	}
 

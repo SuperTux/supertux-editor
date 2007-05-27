@@ -85,8 +85,12 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		}
 		if(gameObject is IPathObject) {
 			Path path = ((IPathObject) gameObject).Path;
-			if( path != null )
+			if(path != null) {
+				if(path.Nodes.Count == 0) {
+					path.Nodes.Add(new Path.Node());
+				}
 				path.Nodes[0].Pos = pos;
+			}
 		}
 
 		sector.Add(gameObject, objectType.ToString());
