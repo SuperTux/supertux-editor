@@ -10,8 +10,8 @@ using Glade;
 public sealed class Settings {
 	public string LastDirectoryName;
 	public string LastBrushDir;
-	public string SupertuxExe = "/usr/local/bin/supertux";
-	public string SupertuxData = "/usr/local/share/supertux";
+	public string SupertuxExe = "/usr/local/bin/supertux2";
+	public string SupertuxData = "/usr/local/share/supertux2";
 
 	public static Settings Instance;
 	private static XmlSerializer settingsSerializer = new XmlSerializer(typeof(Settings));
