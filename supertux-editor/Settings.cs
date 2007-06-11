@@ -66,7 +66,7 @@ public sealed class Settings {
 			"Inno Setup: App Path", null);
 		if (SupertuxDir == null)
 			SupertuxDir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\SuperTux-0.3";
-		SupertuxExe = SupertuxDir + "\\SuperTux.exe";
+		SupertuxExe = SupertuxDir + "\\SuperTux2.exe";
 		SupertuxData = SupertuxDir + "\\data\\";
 #endif
 	}
