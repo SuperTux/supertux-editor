@@ -308,42 +308,38 @@ public sealed class Dispenser : SimpleDirObject
 	}
 }
 
-[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "stand-left")]
-public sealed class Yeti : SimpleObject
-{
-
-	[LispChild("dead-script", Optional = true, Default = "")]
-	[EditScriptSetting]
-	public String DeadScript = String.Empty;
-
-	public Yeti() {
-		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
-		Sprite.Action = "stand-left";
-	}
-}
-
-[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class StalactiteYeti : SimpleObject
-{
-	public StalactiteYeti() {
-		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
-		Sprite.Action = "normal";
-	}
-}
-
 [SupertuxObject("willowisp",
                 "images/creatures/willowisp/willowisp.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
-public sealed class WilloWisp : SimpleObject
+public sealed class WilloWisp : SimpleObject, IPathObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector = String.Empty;
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = String.Empty;
+	[LispChild("name")]
+	public string Name;
+	[LispChild("flyspeed", Optional = true, Default=64f)]
+	public float FlySpeed = 64f;
+	[LispChild("track-range", Optional = true, Default=384f)]
+	public float TrackRange = 384f;
+	[LispChild("vanish-range", Optional = true, Default=512f)]
+	public float VanishRange = 512f;
+	[LispChild("hit-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string HitScript;
+
+	private Path path = new Path();
+	[LispChild("path", Optional = true, Default = null)]
+	public Path Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
 
 	public WilloWisp() {
 		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
@@ -424,6 +420,35 @@ public sealed class Mole : SimpleObject
 		Sprite.Action = "idle";
 	}
 }
+
+#region Bosses
+[SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "stand-left")]
+public sealed class Yeti : SimpleObject
+{
+
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = String.Empty;
+
+	public Yeti() {
+		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
+		Sprite.Action = "stand-left";
+	}
+}
+
+[SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class StalactiteYeti : SimpleObject
+{
+	public StalactiteYeti() {
+		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
+#endregion Bosses
 
 #endregion Badguys
 
