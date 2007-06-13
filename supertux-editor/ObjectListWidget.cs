@@ -143,15 +143,15 @@ public class ObjectListWidget : GLWidgetBase
 					continue;
 				}
 			}
-
-			// This should give us all objects
-			gameObjectTypes.Add(type);
+	
 			Sprite icon = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
 			if( icon == null ) { //no sprite, no image, no can do.
 				LogManager.Log(LogLevel.Warning, "ObjectListWidget: Can't create an icon for " + objectAttribute.Name
 				                     + " from " +objectAttribute.IconSprite);
+			} else {
+				gameObjectTypes.Add(type);
+				gameObjectSprites.Add(icon);
 			}
-			gameObjectSprites.Add(icon);
 		}
 
 		objectsLoaded = true;

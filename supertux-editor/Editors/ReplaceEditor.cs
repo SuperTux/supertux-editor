@@ -3,10 +3,33 @@ using DataStructures;
 using OpenGl;
 using System;
 using Gdk;
+using Undo;
 
 public sealed class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
 
 	public event RedrawEventHandler Redraw;
+
+	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
+
+	internal sealed class TilemapModifyCommand : Command {
+		internal Tilemap changedTilemap;
+		internal TileBlock.StateData oldState;
+		internal TileBlock.StateData newState;
+
+		public override void Do() {
+			changedTilemap.RestoreState(newState);
+		}
+
+		public override void Undo() {
+			changedTilemap.RestoreState(oldState);
+		}
+
+		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
+			this.changedTilemap = changedTilemap;
+			this.oldState = oldState;
+			this.newState = newState;
+		}
+	}
 
 	public ReplaceEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 		: base(application, Tilemap, Tileset) {
@@ -34,8 +57,11 @@ public sealed class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
 		UpdateMouseTilePos(mousePos);
 
 		if(button == 1) {
+
+			// save backup of Tilemap
+			tilemapBackup = Tilemap.SaveState();
+
 			if ((selection.Width == 1) && (selection.Height == 1)) {
-				application.TakeUndoSnapshot("Replace Tool");
 				Replace(Tilemap[MouseTilePos], selection[0,0]);
 			}
 			LastDrawPos = MouseTilePos;
@@ -63,6 +89,11 @@ public sealed class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
 
 		if(button == 1) {
 			drawing = false;
+
+			// use backup of Tilemap to create undo command
+			TilemapModifyCommand command = new TilemapModifyCommand("Replace Tiles on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			UndoManager.AddCommand(command);
+
 		}
 		if(button == 3) {
 			UpdateSelection();

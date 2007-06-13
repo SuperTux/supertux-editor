@@ -3,6 +3,7 @@ using DataStructures;
 using OpenGl;
 using System;
 using Gdk;
+using Undo;
 
 /// <summary>
 /// Smoothes Tilemaps by changing tiles to one of several stored valid patterns.
@@ -27,6 +28,28 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	private bool LastPreviewIsChange;
 
 	public event RedrawEventHandler Redraw;
+
+	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
+
+	internal sealed class TilemapModifyCommand : Command {
+		internal Tilemap changedTilemap;
+		internal TileBlock.StateData oldState;
+		internal TileBlock.StateData newState;
+
+		public override void Do() {
+			changedTilemap.RestoreState(newState);
+		}
+
+		public override void Undo() {
+			changedTilemap.RestoreState(oldState);
+		}
+
+		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
+			this.changedTilemap = changedTilemap;
+			this.oldState = oldState;
+			this.newState = newState;
+		}
+	}
 
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
 		: base(application, Tilemap, Tileset) {
@@ -134,7 +157,10 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 
 		// left mouse button means apply brush
 		if(button == 1) {
-			application.TakeUndoSnapshot("Brush Tool");
+
+			// save backup of Tilemap
+			tilemapBackup = Tilemap.SaveState();
+
 			brush.ApplyToTilemap(MouseTilePos, Tilemap);
 			LastDrawPos = MouseTilePos;
 			drawing = true;
@@ -162,6 +188,11 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		// left mouse button means apply brush
 		if(button == 1) {
 			drawing = false;
+
+			// use backup of Tilemap to create undo command
+			TilemapModifyCommand command = new TilemapModifyCommand("Tile Brush on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			UndoManager.AddCommand(command);
+
 		}
 
 		// right mouse button means select area to learn

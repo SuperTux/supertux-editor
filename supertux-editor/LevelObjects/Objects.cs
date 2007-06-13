@@ -716,7 +716,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 
 	private Sprite Sprite;
 
-	private Path path;
+	private Path path = new Path();
 	[LispChild("path")]
 	public Path Path {
 		get {
@@ -736,7 +736,6 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	public PlatformBase()
 	{
 		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");
-		path = new Path();
 		path.Nodes.Add(new Path.Node());
 	}
 

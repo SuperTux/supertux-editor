@@ -136,7 +136,7 @@ public class RenderView : GLWidgetBase
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
 		}
-		
+
 		SetTranslation(Translation
 		                 + realMousePos / Zoom - realMousePos / oldZoom);
 
@@ -146,17 +146,17 @@ public class RenderView : GLWidgetBase
 		}
 		args.RetVal = true;
 	}
-	
+
 	private void UpdateAdjustments()
 	{
 		if(hadjustment != null) {
 			hadjustment.SetBounds(minx, maxx, 32/Zoom, 256/Zoom, Allocation.Width/Zoom);
-			hadjustment.ClampPage(-Translation.X, -Translation.X + (Allocation.Width/Zoom)); 			
+			hadjustment.ClampPage(-Translation.X, -Translation.X + (Allocation.Width/Zoom));
 		}
 		if(vadjustment != null) {
 			vadjustment.SetBounds(miny, maxy, 32/Zoom, 256/Zoom, Allocation.Height/Zoom);
 			vadjustment.ClampPage(-Translation.Y, -Translation.Y + (Allocation.Height/Zoom));
-		}		
+		}
 	}
 
 	public void SetZoom(float newZoom)
@@ -168,7 +168,7 @@ public class RenderView : GLWidgetBase
 		if( Zoom < 0.002 || Zoom > 500 ){
 			Zoom = oldZoom;
 		}
-		
+
 		UpdateAdjustments();
 		QueueDraw();
 	}
@@ -191,7 +191,7 @@ public class RenderView : GLWidgetBase
 	public void SetTranslation(Vector tr)
 	{
 		Translation = tr;
-		
+
 		UpdateAdjustments();
 		QueueDraw();
 	}
@@ -221,7 +221,7 @@ public class RenderView : GLWidgetBase
 	{
 		GdkWindow.Cursor = cursor;
 	}
-	
+
 	/**
 	 * Add gtk adjustments for vertical and horizontal scrolling
 	 * (This is used for scrollbars)
@@ -238,17 +238,17 @@ public class RenderView : GLWidgetBase
 		}
 		UpdateAdjustments();
 	}
-		
+
 	private void OnHAdjustmentChanged(object sender, EventArgs e)
 	{
-		SetTranslation(new Vector((float) -hadjustment.Value, Translation.Y)); 		
+		SetTranslation(new Vector((float) -hadjustment.Value, Translation.Y));
 	}
-	
+
 	private void OnVAdjustmentChanged(object sender, EventArgs e)
 	{
-		SetTranslation(new Vector(Translation.X, (float) -vadjustment.Value)); 		
+		SetTranslation(new Vector(Translation.X, (float) -vadjustment.Value));
 	}
-	
+
 	private Adjustment vadjustment;
 	private Adjustment hadjustment;
 	protected float minx = -1000, maxx = 1000;

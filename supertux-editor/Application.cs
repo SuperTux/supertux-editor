@@ -771,6 +771,9 @@ public class Application : IEditorApplication {
 		string us = UndoManager.UndoTitle;
 		UndoManager.Undo();
 		PrintStatus("Undone: " + us );
+
+		// Refresh View
+		if ((sectorSwitchNotebook != null) && (sectorSwitchNotebook.CurrentRenderer != null)) sectorSwitchNotebook.CurrentRenderer.QueueDraw();
 	}
 
 	public void Redo() {
@@ -779,6 +782,9 @@ public class Application : IEditorApplication {
 		string us = UndoManager.RedoTitle;
 		UndoManager.Redo();
 		PrintStatus("Redone: " + us);
+
+		// Refresh View
+		if ((sectorSwitchNotebook != null) && (sectorSwitchNotebook.CurrentRenderer != null)) sectorSwitchNotebook.CurrentRenderer.QueueDraw();
 	}
 
 	public void OnUndo(object o, EventArgs args)

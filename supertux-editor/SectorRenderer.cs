@@ -180,7 +180,7 @@ public sealed class SectorRenderer : RenderView
 		sectorFill.Rect = new RectangleF(-1, -1,
 		                                 width * Tileset.TILE_WIDTH + 1,
 		                                 height * Tileset.TILE_HEIGHT + 1);
-		
+
 		minx = -500;
 		maxx = width * Tileset.TILE_WIDTH + 500;
 		miny = -500;

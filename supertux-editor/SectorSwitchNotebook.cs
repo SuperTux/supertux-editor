@@ -19,13 +19,13 @@ public class SectorSwitchNotebook : Notebook
 				ScrollBarRenderView scrollview = (ScrollBarRenderView) CurrentPageWidget;
 				if(scrollview == null)
 					return null;
-			
+
 				return (SectorRenderer) scrollview.Renderer;
 			} catch(Exception e) {
 				Console.WriteLine("Except: " + e.Message);
 				return null;
 			}
-			
+
 		}
 	}
 
@@ -211,7 +211,7 @@ public class SectorSwitchNotebook : Notebook
 	}
 
 	/// <summary>
-	/// Used from sector commands that add/remove sectors to force an update of our 
+	/// Used from sector commands that add/remove sectors to force an update of our
 	/// tablist and any other stuff we have to do.
 	/// </summary>
 	private void OnSectorUpdate() {
