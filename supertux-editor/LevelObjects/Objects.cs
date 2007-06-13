@@ -392,7 +392,7 @@ public sealed class WilloWisp : SimpleObject, IPathObject
 	public string HitScript;
 
 	private Path path = new Path();
-	[LispChild("path")]
+	[LispChild("path", Optional = true, Default = null)]
 	public Path Path {
 		get {
 			return path;
