@@ -91,5 +91,8 @@ public static class QACheck
 		}
 	}
 
+	// TODO: Add check for objects where direction auto should not be used.
+	// Examples of such are: dispenser (for rockets at least), Ispy and darttrap
+
 
 }

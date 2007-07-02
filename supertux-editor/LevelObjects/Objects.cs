@@ -770,13 +770,13 @@ public sealed class Ispy : SimpleDirObject
 		if (facingDown) {
 			Sprite.Action = "idle-down";
 		} else {
-			Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
+			Sprite.Action = (Direction == Directions.left) ? "idle-left" : "idle-right";
 		}
 	}
 
 	public Ispy() {
 		Sprite = SpriteManager.Create("images/objects/ispy/ispy.sprite");
-		Sprite.Action = "idle-left";
+		Sprite.Action = "idle-right";
 	}
 }
 
