@@ -143,7 +143,7 @@ public class ObjectListWidget : GLWidgetBase
 					continue;
 				}
 			}
-	
+
 			Sprite icon = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
 			if( icon == null ) { //no sprite, no image, no can do.
 				LogManager.Log(LogLevel.Warning, "ObjectListWidget: Can't create an icon for " + objectAttribute.Name

@@ -744,6 +744,42 @@ public sealed class PushButton : SimpleObject
 	}
 }
 
+[SupertuxObject("ispy", "images/objects/ispy/ispy.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle-left")]
+public sealed class Ispy : SimpleDirObject
+{
+	[LispChild("script")]
+	[EditScriptSetting]
+	public string Script = String.Empty;
+
+	[LispChild("facing-down", Optional = true, Default = false)]
+	public bool FacingDown {
+		get {
+			return facingDown;
+		}
+		set {
+			facingDown = value;
+			this.DirectionChanged();
+		}
+	}
+
+	private bool facingDown;
+
+	protected override void DirectionChanged() {
+		if (facingDown) {
+			Sprite.Action = "idle-down";
+		}	else {
+		Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
+		}
+	}
+
+	public Ispy() {
+		Sprite = SpriteManager.Create("images/objects/ispy/ispy.sprite");
+		Sprite.Action = "idle-left";
+	}
+}
+
 #endregion Switches
 
 #region Portables
@@ -753,7 +789,7 @@ public sealed class Trampoline : SimpleObject
 {
 	[PropertyProperties(Tooltip = "If enabled Tux can carry the trampoline arround.")]
 	[LispChild("portable", Optional = true, Default = true)]
-	public bool Portable{
+	public bool Portable {
 		get {
 			return portable;
 		}
