@@ -769,8 +769,8 @@ public sealed class Ispy : SimpleDirObject
 	protected override void DirectionChanged() {
 		if (facingDown) {
 			Sprite.Action = "idle-down";
-		}	else {
-		Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
+		} else {
+			Sprite.Action = (Direction == Directions.right) ? "idle-right" : "idle-left";
 		}
 	}
 
