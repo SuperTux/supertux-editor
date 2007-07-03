@@ -18,6 +18,7 @@
 //  02111-1307, USA.
 using System;
 using System.Collections.Generic;
+using Gtk;
 
 /// <summary>
 /// Functions to check for common problems in levels.
@@ -88,6 +89,28 @@ public static class QACheck
 		foreach (Sector sector in level.Sectors) {
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap)))
 				ReplaceDepercatedTiles(tilemap, level.TilesetFile);
+		}
+	}
+
+	private static void CheckBadDirection(SimpleDirObject dirobject) {
+		if (dirobject.Direction == SimpleDirObject.Directions.auto) {
+			string message = String.Format("The {0} at {1} {2} has direction set to auto. Setting the direction of a {0} to auto is a bad idea.",
+			                               dirobject.GetType().Name, dirobject.X, dirobject.Y);
+			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Close, message);
+			md.Run();
+			md.Destroy();
+		}
+	}
+
+	public static void CheckObjectDirections(Level level) {
+		foreach (Sector sector in level.Sectors) {
+			// This is hackish, I know
+			foreach (SimpleDirObject dirobject in sector.GetObjects(typeof(Ispy)))
+				CheckBadDirection(dirobject);
+			foreach (SimpleDirObject dirobject in sector.GetObjects(typeof(DartTrap)))
+				CheckBadDirection(dirobject);
+			foreach (SimpleDirObject dirobject in sector.GetObjects(typeof(Dispenser)))
+				CheckBadDirection(dirobject);
 		}
 	}
 
