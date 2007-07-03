@@ -187,7 +187,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="ansicht1">
+	    <widget class="GtkMenuItem" id="View1">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_View</property>
 	      <property name="use_underline">True</property>
@@ -370,7 +370,7 @@
 		<widget class="GtkMenu" id="editor1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="einstellungen1">
+		    <widget class="GtkMenuItem" id="Settings1">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">_Settings</property>
 		      <property name="use_underline">True</property>
@@ -383,7 +383,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="menuitem4">
+	    <widget class="GtkMenuItem" id="HelpMenu">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Help</property>
 	      <property name="use_underline">True</property>
