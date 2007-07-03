@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="PropertyEditors\ChooseLicenseWidget.cs" />
     <Compile Include="QACheck.cs" />
     <Compile Include="PropertyEditors\ChooseSectorWidget.cs" />
     <Compile Include="PropertyEditors\CustomSettingsWidget.cs" />
