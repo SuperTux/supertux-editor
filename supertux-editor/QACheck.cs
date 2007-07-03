@@ -47,6 +47,39 @@ public static class QACheck
 	}
 
 
+	public static void CheckIds(IEditorApplication application, Sector sector, bool AlertGood) {
+		System.Text.StringBuilder sb = new System.Text.StringBuilder("These tilemaps have bad ids in sector " + sector.Name + ":");
+		List<int> invalidtiles;
+		// Any bad found yet?
+		bool bad = false;
+		foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
+			invalidtiles = CheckIds(tilemap, application.CurrentLevel.Tileset);
+			if (invalidtiles.Count != 0) {
+				bad = true;
+				if (String.IsNullOrEmpty(tilemap.Name))
+					sb.Append(Environment.NewLine + "Tilemap (" + tilemap.ZPos + ")");
+				else
+					sb.Append(Environment.NewLine + tilemap.Name + " (" + tilemap.ZPos + ")");
+			}
+		}
+
+		MessageType msgtype;
+		string message;
+		if (! bad) {
+			if (! AlertGood)
+				return;
+			msgtype = MessageType.Info;
+			message = "No invalid tile ids in any tilemap in sector " + sector.Name + ".";
+		} else {
+			msgtype = MessageType.Warning;
+			message = sb.ToString();
+		}
+		MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent,
+		                                     msgtype, ButtonsType.Close, message);
+		md.Run();
+		md.Destroy();
+	}
+
 	// 26 -> 83
 	// 63 -> 70
 	// 101 -> 93
@@ -94,7 +127,7 @@ public static class QACheck
 
 	private static void CheckBadDirection(SimpleDirObject dirobject) {
 		if (dirobject.Direction == SimpleDirObject.Directions.auto) {
-			string message = String.Format("The {0} at {1} {2} has direction set to auto. Setting the direction of a {0} to auto is a bad idea.",
+			string message = String.Format("The {0} at x={1} y={2} has direction set to auto. Setting the direction of {0} objects to auto is a bad idea.",
 			                               dirobject.GetType().Name, dirobject.X, dirobject.Y);
 			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Close, message);
 			md.Run();
@@ -113,9 +146,5 @@ public static class QACheck
 				CheckBadDirection(dirobject);
 		}
 	}
-
-	// TODO: Add check for objects where direction auto should not be used.
-	// Examples of such are: dispenser (for rockets at least), Ispy and darttrap
-
 
 }
