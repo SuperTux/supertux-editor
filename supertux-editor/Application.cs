@@ -580,6 +580,8 @@ public class Application : IEditorApplication {
 		QACheck.CheckObjectDirections(level);
 		foreach (Sector sector in level.Sectors)
 			QACheck.CheckIds(this, sector, false);
+
+		QACheck.CheckLicense(level);
 	}
 
 	protected void OnBrushLoad(object o, EventArgs args)

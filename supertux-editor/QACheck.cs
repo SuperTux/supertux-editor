@@ -26,6 +26,7 @@ using Gtk;
 public static class QACheck
 {
 
+	#region CheckIds
 	/// <summary>
 	/// Check a tile block for non existant tile ids.
 	/// </summary>
@@ -79,6 +80,7 @@ public static class QACheck
 		md.Run();
 		md.Destroy();
 	}
+	#endregion CheckIds
 
 	// 26 -> 83
 	// 63 -> 70
@@ -98,6 +100,7 @@ public static class QACheck
 		LevelReplaceMap.Add(101, 93);
 	}
 
+	#region ReplaceDepercatedTiles
 	/// <summary>
 	/// Replace deprecated tiles in tileblocks.
 	/// </summary>
@@ -124,7 +127,9 @@ public static class QACheck
 				ReplaceDepercatedTiles(tilemap, level.TilesetFile);
 		}
 	}
+	#endregion ReplaceDepercatedTiles
 
+	#region CheckDirection
 	private static void CheckBadDirection(SimpleDirObject dirobject) {
 		if (dirobject.Direction == SimpleDirObject.Directions.auto) {
 			string message = String.Format("The {0} at x={1} y={2} has direction set to auto. Setting the direction of {0} objects to auto is a bad idea.",
@@ -144,6 +149,16 @@ public static class QACheck
 				CheckBadDirection(dirobject);
 			foreach (SimpleDirObject dirobject in sector.GetObjects(typeof(Dispenser)))
 				CheckBadDirection(dirobject);
+		}
+	}
+	#endregion CheckDirection
+
+	public static void CheckLicense(Level level) {
+		if (String.IsNullOrEmpty(level.License)) {
+			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent,
+			                                     MessageType.Warning, ButtonsType.Close, "No license is set for this level! Please make sure to fix this (setting is under Level menu -> Properties).");
+			md.Run();
+			md.Destroy();
 		}
 	}
 
