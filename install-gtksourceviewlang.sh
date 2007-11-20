@@ -10,4 +10,3 @@ test -z "$XDG_DATA_HOME" && XDG_DATA_HOME="$HOME/.local/share"
 MIMEDIR="$XDG_DATA_HOME/mime"
 mkdir -pv "$MIMEDIR"
 cp -p squirrel.xml "$MIMEDIR"
-
