@@ -573,6 +573,17 @@ public class Application : IEditorApplication {
 		new SettingsDialog(false);
 	}
 
+	protected void OnQACheck(object o, EventArgs args)
+	{
+		if(level == null)
+			return;
+		QACheck.CheckObjectDirections(level);
+		foreach (Sector sector in level.Sectors)
+			QACheck.CheckIds(this, sector, false);
+
+		QACheck.CheckLicense(level);
+	}
+
 	protected void OnBrushLoad(object o, EventArgs args)
 	{
 		try {

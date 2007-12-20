@@ -61,13 +61,14 @@
     <Compile Include="Libs\OpenGlUtil.cs" />
     <Compile Include="Libs\Sdl.cs" />
     <Compile Include="Libs\SdlImage.cs" />
-    <Compile Include="Renderer.cs" />
+    <Compile Include="RenderView.cs" />
     <Compile Include="SceneGraph\ColorNode.cs" />
     <Compile Include="SceneGraph\Layer.cs" />
     <Compile Include="SceneGraph\Node.cs" />
     <Compile Include="SceneGraph\NodeWithChilds.cs" />
     <Compile Include="SceneGraph\Rect.cs" />
     <Compile Include="SceneGraph\Transform.cs" />
+    <Compile Include="ScrollBarRenderView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gtkgl-sharp\gtkgl-sharp.csproj">

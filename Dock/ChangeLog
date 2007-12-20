@@ -1,4 +1,4 @@
-2006-03-03  Jacob Ilsø Christensen <jacobilsoe@gmail.com> 
+2006-03-03  Jacob Ilsø Christensen <jacobilsoe@gmail.com>
 
 	* DockBar.cs:
 	* DockBarButton.cs:
@@ -7,10 +7,10 @@
 	Added comments, fixed a variable name and fixed a
 	internationalization issue.
 
-2006-03-03  Jacob Ilsø Christensen <jacobilsoe@gmail.com> 
+2006-03-03  Jacob Ilsø Christensen <jacobilsoe@gmail.com>
 
 	* DockBar.cs: Use correct tooltip for iconified docks.
-	
+
 2006-01-24  Jacob Ilsø Christensen  <jacobilsoe@gmail.com>
 
 	* DockItem.cs:
@@ -36,7 +36,7 @@
 2005-06-27  John Luke  <john.luke@gmail.com>
 
 	* DockLayout.cs: Save part of placeholders support
-	
+
 2005-06-27  John Luke  <john.luke@gmail.com>
 
 	* DockLayout.cs: catch exception on invalid XML
@@ -53,7 +53,7 @@
 
 	* DockBar.cs: remove redundent RemoveItem call
 	* DockItem.cs: remove redundent LayoutChanged event
-	
+
 2005-04-17  John Luke  <john.luke@gmail.com>
 
 	* Makefile.am: fix distcheck

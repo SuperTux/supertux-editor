@@ -85,7 +85,15 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="eigenschaften1">
+		    <widget class="GtkImageMenuItem" id="qacheck1">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Check level</property>
+		      <signal name="activate" handler="OnQACheck" last_modification_time="Wed, 15 Mar 2006 21:16:40 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkImageMenuItem" id="properties1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-properties</property>
 		      <property name="use_stock">True</property>
@@ -116,7 +124,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="trennlinie1">
+		    <widget class="GtkSeparatorMenuItem" id="separatormenuitem2">
 		      <property name="visible">True</property>
 		    </widget>
 		  </child>
@@ -179,7 +187,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="ansicht1">
+	    <widget class="GtkMenuItem" id="View1">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_View</property>
 	      <property name="use_underline">True</property>
@@ -362,7 +370,7 @@
 		<widget class="GtkMenu" id="editor1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="einstellungen1">
+		    <widget class="GtkMenuItem" id="Settings1">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">_Settings</property>
 		      <property name="use_underline">True</property>
@@ -375,7 +383,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="menuitem4">
+	    <widget class="GtkMenuItem" id="HelpMenu">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Help</property>
 	      <property name="use_underline">True</property>

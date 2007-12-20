@@ -6,7 +6,7 @@ Please send comments to the devtools list (gnome-devtools@gnome.org)
 and report bugs to bugzilla (bugzilla.gnome.org).  Also check the todo
 list at the end of this document.
 
-For the C# version - 
+For the C# version -
 Please send comments to monodevelop-list@lists.ximian.com
 and report bugs to bugzilla (bugzilla.ximian.com) under monodevelop.
 
@@ -19,7 +19,7 @@ Overview
 
 The GdlDock is a hierarchical based docking widget.  It is composed of
 widgets derived from the abstract class GdlDockObject which defines
-the basic interface for docking widgets on top of others.  
+the basic interface for docking widgets on top of others.
 
 The toplevel entries for docks are GdlDock widgets, which in turn hold
 a tree of GdlDockItem widgets.  For the toplevel docks to be able to
@@ -144,7 +144,7 @@ GdlDock
   its own window or not.
 
   "default_title" (gchar, read-write): title for new floating docks.
-  This property is proxied to the master, which truly holds it.  
+  This property is proxied to the master, which truly holds it.
 
 The title for the floating docks is: the user supplied title
 (GdlDockObject's long_name property) if it's set, the default title
@@ -184,5 +184,3 @@ TODO LIST
 
 - Make a nicer dragbar for the items, with buttons for undocking,
   closing, hidding, etc. (See sodipodi, kdevelop)
-
-

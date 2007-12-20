@@ -12,7 +12,7 @@ http://supertux.lethargik.org/wiki/Building_SuperTux#Compiling_the_editor
  * SuperTux version 0.3.1 or higher
  * OpenGL driver and environment
  * mono 1.2.2.1 or newer
-   (1.1.13 or newer may work but if it doesn't, don't blame us just 
+   (1.1.13 or newer may work but if it doesn't, don't blame us just
     upgrade to 1.2.2.1 or newer)
  * gtk-sharp 2.8 or newer
 
@@ -39,5 +39,3 @@ Remember to set your SuperTux paths in the editor options!
 
 The open source ATI drivers seem to have problems with multiple viewports
 and shared textures.
-
-

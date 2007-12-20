@@ -177,37 +177,8 @@ public class SectorSwitchNotebook : Notebook
 		}
 	}
 
-	private void OnCheckIDs(object o, EventArgs args) {
-
-		System.Text.StringBuilder sb = new System.Text.StringBuilder("These tilemaps have bad ids:");
-		List<int> invalidtiles;
-		// Any bad found yet?
-		bool bad = false;
-		foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-			invalidtiles = QACheck.CheckIds(tilemap, application.CurrentLevel.Tileset);
-			if (invalidtiles.Count != 0) {
-				bad = true;
-				if (String.IsNullOrEmpty(tilemap.Name))
-					sb.Append(Environment.NewLine + "Tilemap (" + tilemap.ZPos + ")");
-				else
-					sb.Append(Environment.NewLine + tilemap.Name + " (" + tilemap.ZPos + ")");
-			}
-		}
-
-
-		MessageType msgtype;
-		string message;
-		if (! bad) {
-			msgtype = MessageType.Info;
-			message = "No invalid tile ids in any tilemap.";
-		} else {
-			msgtype = MessageType.Warning;
-			message = sb.ToString();
-		}
-		MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent,
-		                                     msgtype, ButtonsType.Close, message);
-		md.Run();
-		md.Destroy();
+	protected void OnCheckIDs(object o, EventArgs args) {
+		QACheck.CheckIds(application, sector, true);
 	}
 
 	/// <summary>
