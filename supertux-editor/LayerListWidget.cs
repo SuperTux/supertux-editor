@@ -45,13 +45,13 @@ public class LayerListWidget : TreeView {
 		visibilityRenderer.VisibilityChanged += OnVisibilityChange;
 		TreeViewColumn visibilityColumn = new TreeViewColumn("Visibility",
 		                                                     visibilityRenderer);
-		visibilityColumn.SetCellDataFunc(visibilityRenderer, VisibilityDataFunc);
+		visibilityColumn.SetCellDataFunc(visibilityRenderer, (TreeCellDataFunc)VisibilityDataFunc);
 		AppendColumn(visibilityColumn);
 
 		CellRendererText TextRenderer = new CellRendererText();
 		TreeViewColumn TypeColumn = new TreeViewColumn();
 		TypeColumn.PackStart(TextRenderer, true);
-		TypeColumn.SetCellDataFunc(TextRenderer, TextDataFunc);
+		TypeColumn.SetCellDataFunc(TextRenderer, (TreeCellDataFunc)TextDataFunc);
 		TypeColumn.Title = "Type";
 		AppendColumn(TypeColumn);
 
