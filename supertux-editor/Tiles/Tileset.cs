@@ -31,6 +31,15 @@ public sealed class Tileset {
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
 
 		Properties TilesP = new Properties(TilesL);
+		
+		// add blank tile with ID 0
+		Tile blank = new Tile();
+		blank.Id = 0;
+		while(tiles.Count <= blank.Id){
+			tiles.Add(null);
+		}
+		tiles[blank.Id] = blank;
+		
 		foreach(List list in TilesP.GetList("tile")) {
 			try {
 				Tile tile = new Tile();
