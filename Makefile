@@ -20,6 +20,12 @@
 GMCS?=gmcs
 GMCSFLAGS?=-debug -warn:4 -nowarn:1591 -unsafe
 
+ifeq ($(VERBOSE),1)
+Q=
+else
+Q=@
+endif
+
 .phony: all clean
 
 all: supertux-editor.exe 
@@ -54,13 +60,13 @@ supertux-editor.exe: \
 	gtk-sharp-2.0.pkg.dummy glade-sharp-2.0.pkg.dummy \
 
 %.pkg.dummy:
-	@touch $@
+	$(Q)touch $@
 
 %.exe:
 	@echo MonoCSharp $@
-	@$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:exe $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^)
+	$(Q)$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:exe $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^)
 
 %.dll:
 	@echo MonoCSharp $@
-	@$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:library $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^) 
+	$(Q)$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:library $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^) 
 
