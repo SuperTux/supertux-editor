@@ -341,6 +341,18 @@ public sealed class AngryStone : SimpleObject
 	}
 }
 
+[SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle")]
+public sealed class IceCrusher : SimpleObject
+{
+	public IceCrusher() {
+		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
+		Sprite.Action = "idle";
+	}
+}
+
+
 [SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Spidermite : SimpleObject
