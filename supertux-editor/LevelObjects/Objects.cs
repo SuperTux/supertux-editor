@@ -90,6 +90,16 @@ public sealed class Snowball : SimpleDirObject
 	}
 }
 
+[SupertuxObject("smartball", "images/creatures/snowball/smart-snowball.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class SmartBall : SimpleDirObject
+{
+	public SmartBall() {
+		Sprite = SpriteManager.Create("images/creatures/snowball/smart-snowball.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Stalactite : SimpleObject
