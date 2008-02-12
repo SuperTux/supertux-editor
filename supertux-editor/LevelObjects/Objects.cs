@@ -100,6 +100,26 @@ public sealed class SmartBall : SimpleDirObject
 	}
 }
 
+[SupertuxObject("captainsnowball", "images/creatures/snowball/cpt-snowball.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class CaptainSnowball : SimpleDirObject
+{
+	public CaptainSnowball() {
+		Sprite = SpriteManager.Create("images/creatures/snowball/cpt-snowball.sprite");
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("kamikazesnowball", "images/creatures/snowball/kamikaze-snowball.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class KamikazeSnowball : SimpleDirObject
+{
+	public KamikazeSnowball() {
+		Sprite = SpriteManager.Create("images/creatures/snowball/kamikaze-snowball.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Stalactite : SimpleObject
@@ -294,6 +314,8 @@ public sealed class Dispenser : SimpleDirObject
 	/// Type of enemy to create.
 	/// </summary>
 	public enum Badguys {
+        kamikazesnowball,
+        captainsnowball,
 		snowball,
 		bouncingsnowball,
 		mrbomb,
@@ -320,6 +342,8 @@ public sealed class Dispenser : SimpleDirObject
 			badguy = value;
 			if (value == Badguys.mrrocket)
 				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+			else if (value == Badguys.kamikazesnowball || value == Badguys.captainsnowball) 
+				Sprite.Action = "working";
 			else
 				Sprite.Action = "dropper";
 		}
