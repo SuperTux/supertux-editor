@@ -4,13 +4,10 @@ using Gtk;
 using Gdk;
 using OpenGl;
 using Drawing;
-using SceneGraph;
 using DataStructures;
 
-public class RenderView : GLWidgetBase
+public abstract class RenderView : GLWidgetBase
 {
-	public Node SceneGraphRoot;
-
 	private bool dragging;
 	private Vector dragStartMouse;
 	private Vector dragStartTranslation;
@@ -55,12 +52,16 @@ public class RenderView : GLWidgetBase
 		gl.ClearColor(0.4f, 0, 0.4f, 1);
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 
-		if(SceneGraphRoot != null)
-			SceneGraphRoot.Draw(GetClipRect());
+		DrawingContext context = new DrawingContext();
+		/* TODO: setup transform */
+		DrawContents(context);
 
 		if(!dragging && Editor != null)
-			Editor.Draw(GetClipRect());
+			Editor.Draw(context);
+		context.DoDrawing();
 	}
+
+	public abstract void DrawContents(DrawingContext context);
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
@@ -190,10 +191,12 @@ public class RenderView : GLWidgetBase
 
 	public void SetTranslation(Vector tr)
 	{
-		Translation = tr;
-
-		UpdateAdjustments();
-		QueueDraw();
+		if(Translation != tr) {
+			Translation = tr;
+	
+			UpdateAdjustments();
+			QueueDraw();
+		}
 	}
 
 	public Vector GetTranslation()
@@ -202,14 +205,14 @@ public class RenderView : GLWidgetBase
 	}
 
 	/// <summary>
-	///		Returns a <see cref="Gdk.Rectangle"/> for the currently
+	///		Returns a <see cref="RectangleF"/> for the currently
 	///		visible area in world coordinates.
 	/// </summary>
-	/// <returns>A <see cref="Gdk.Rectangle"/>.</returns>
-	public Gdk.Rectangle GetClipRect() {
-		return new Gdk.Rectangle(
-		           (int)-Translation.X, (int)-Translation.Y,
-		           (int)(Allocation.Width / Zoom), (int)(Allocation.Height / Zoom));
+	/// <returns>A <see cref="RectangleF"/>.</returns>
+	public RectangleF GetClipRect() {
+		return new RectangleF(-Translation.X, -Translation.Y,
+		                      Allocation.Width / Zoom,
+		                      Allocation.Height / Zoom);
 	}
 
 	private Vector MouseToWorld(Vector MousePos)

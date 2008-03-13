@@ -72,10 +72,6 @@ namespace DataStructures
 			return r1.Left != r2.Left || r1.Top != r2.Top || r1.Right != r2.Right || r1.Bottom != r2.Bottom;
 		}
 
-		public static explicit operator Gdk.Rectangle(RectangleF r) {
-			return new Gdk.Rectangle((int) r.Left, (int) r.Top, (int) r.Width, (int) r.Height);
-		}
-
 		public override bool Equals(object obj) {
 			if (!(obj is RectangleF))
 				return false;
@@ -87,6 +83,14 @@ namespace DataStructures
 			return base.GetHashCode();
 		}
 
+		public bool IntersectsWith(RectangleF other) {
+			if(other.Right < Left || other.Left > Right)
+				return false;
+			if(other.Bottom < Top || other.Top > Bottom)
+				return false;
+
+			return true;
+		}
 	}
 
 }

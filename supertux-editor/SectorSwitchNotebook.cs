@@ -177,7 +177,7 @@ public class SectorSwitchNotebook : Notebook
 		}
 	}
 
-	protected void OnCheckIDs(object o, EventArgs args) {
+	private void OnCheckIDs(object o, EventArgs args) {
 		QACheck.CheckIds(application, sector, true);
 	}
 

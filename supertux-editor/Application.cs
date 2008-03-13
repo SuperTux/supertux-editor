@@ -29,7 +29,6 @@ public class Application : IEditorApplication {
 	[Glade.Widget]
 	private Widget ToolBrushProps = null;
 
-	[Glade.Widget] private Gtk.RadioToolButton ToolSelect = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolTiles = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolObjects = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolBrush = null;
@@ -57,6 +56,9 @@ public class Application : IEditorApplication {
 	private SectorSwitchNotebook sectorSwitchNotebook;
 	private PropertiesView propertiesView;
 	private Selection selection;
+
+	private ToolWindow propertiesWindow;
+	private ToolWindow textEditorWindow;
 
 	private uint printStatusContextID;
 	private uint printStatusMessageID;
@@ -130,18 +132,23 @@ public class Application : IEditorApplication {
 		MainWindow.ShowAll();
 
 		// Manually set icons for Tools
-		ToolSelect.StockId = EditorStock.ToolSelect;
 		ToolTiles.StockId = EditorStock.ToolTiles;
 		ToolObjects.StockId = EditorStock.ToolObjects;
 		ToolBrush.StockId = EditorStock.ToolBrush;
 		ToolFill.StockId = EditorStock.ToolFill;
 		ToolReplace.StockId = EditorStock.ToolReplace;
 
-		// Tool "Select" is selected by default - call its event handler
-		OnToolSelect(null, null);
-
 		// Manually set icon for Background toggle button
 		ttbShowBackground.StockId = EditorStock.Background;
+
+		// Initialize Tool windows
+		propertiesWindow = new ToolWindow(MainWindow, "Object Properties");
+		propertiesView = new PropertiesView(this);
+		propertiesWindow.Add(propertiesView);
+		propertiesView.ShowAll();
+
+		textEditorWindow = new ToolWindow(MainWindow, "Text Editor");
+		textEditorWindow.Add(new TextEditor());
 
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName == null){
@@ -219,10 +226,6 @@ public class Application : IEditorApplication {
 			ToolObjectsProps = new ObjectListWidget(this);
 			return ToolObjectsProps;
 		}
-		if(func_name == "GObjectList") {
-			Widget ToolGObjectsProps = new GameObjectListWidget(this);
-			return ToolGObjectsProps;
-		}
 		if(func_name == "SectorSwitchNotebook") {
 			sectorSwitchNotebook = new SectorSwitchNotebook(this);
 			sectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
@@ -232,10 +235,6 @@ public class Application : IEditorApplication {
 		if(func_name == "LayerList") {
 			layerList = new LayerListWidget(this);
 			return layerList;
-		}
-		if(func_name == "PropertiesView") {
-			propertiesView = new PropertiesView(this);
-			return propertiesView;
 		}
 		throw new Exception("No Custom Widget Handler named \""+func_name+"\" exists");
 	}
@@ -249,10 +248,6 @@ public class Application : IEditorApplication {
 
 
 	#region Tool Button Handlers
-
-	protected void OnMenuToolSelect(object o, EventArgs args) {
-		ToolSelect.Active = true;
-	}
 
 	protected void OnMenuToolTiles(object o, EventArgs args) {
 		ToolTiles.Active = true;
@@ -274,18 +269,8 @@ public class Application : IEditorApplication {
 		ToolReplace.Active = true;
 	}
 
-	protected void OnToolSelect(object o, EventArgs args) {
-		PrintStatus("Tool: Select");
-		ToolSelectProps.Visible = true;
-		ToolTilesProps.Visible = false;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		SetEditor(new ObjectsEditor(this, CurrentSector));
-	}
-
 	protected void OnToolTiles(object o, EventArgs args) {
 		PrintStatus("Tool: Tiles");
-		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
@@ -295,7 +280,6 @@ public class Application : IEditorApplication {
 
 	protected void OnToolObjects(object o, EventArgs args) {
 		PrintStatus("Tool: Objects");
-		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;
 		ToolObjectsProps.Visible = true;
 		ToolBrushProps.Visible = false;
@@ -304,7 +288,6 @@ public class Application : IEditorApplication {
 
 	protected void OnToolBrush(object o, EventArgs args) {
 		PrintStatus("Tool: Brush");
-		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = false;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = true;
@@ -313,7 +296,6 @@ public class Application : IEditorApplication {
 
 	protected void OnToolFill(object o, EventArgs args) {
 		PrintStatus("Tool: Fill");
-		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
@@ -323,7 +305,6 @@ public class Application : IEditorApplication {
 
 	protected void OnToolReplace(object o, EventArgs args) {
 		PrintStatus("Tool: Replace");
-		ToolSelectProps.Visible = false;
 		ToolTilesProps.Visible = true;
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
@@ -465,8 +446,14 @@ public class Application : IEditorApplication {
 			PrintStatus("Snap to grid deactivated.");
 	}
 
+	protected void OnProperties(object o, EventArgs e)
+	{
+		propertiesWindow.Visible = !propertiesWindow.Visible;
+	}
+
 	protected void OnShowBackground(object o, EventArgs e)
 	{
+		/*
 		if( CurrentRenderer == null ){
 			show_background1.Active = true;
 			ttbShowBackground.Active = true;
@@ -479,10 +466,12 @@ public class Application : IEditorApplication {
 			ttbShowBackground.Active = false;
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 		}
+		*/
 	}
 
 	protected void OnShowBackgroundButton(object o, EventArgs e)
 	{
+		/*
 		if( CurrentRenderer == null ){
 			show_background1.Active = true;
 			ttbShowBackground.Active = true;
@@ -495,6 +484,7 @@ public class Application : IEditorApplication {
 			show_background1.Active = false;
 			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 		}
+		*/
 	}
 
 	protected void OnAbout(object o, EventArgs e)
@@ -704,25 +694,20 @@ public class Application : IEditorApplication {
 		level = newLevel;
 		LevelChanged(level);
 		ChangeCurrentSector(level.Sectors[0]);
-		OnToolSelect(null, null);
-		ToolSelect.Active = true;
 	}
 
 	public void ChangeCurrentSector(Sector newSector)
 	{
 		this.sector = newSector;
 		SectorChanged(level, newSector);
+		/*
 		if (CurrentRenderer != null) {
 			if (show_background1.Active)
 				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
 			else
 				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
-			// If there is no tool activated for this sector yet reset it to the Select tool.
-			if (CurrentRenderer.Editor == null) {
-				OnToolSelect(null, null);
-				ToolSelect.Active = true;
-			}
 		}
+		*/
 	}
 
 	public void ChangeCurrentTilemap(Tilemap tilemap)
@@ -810,15 +795,19 @@ public class Application : IEditorApplication {
 	/// <summary>Called when "Edit" menu is opened</summary>
 	public void OnMenuEdit(object o, EventArgs args)
 	{
-		string undoLabel = "Undo";
-		MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
-		if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
-		foreach (Label l in MenuItemUndo.Children) l.Text = undoLabel;
+		try {
+			string undoLabel = "Undo";
+			MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
+			if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
+			foreach (Label l in MenuItemUndo.Children) l.Text = undoLabel;
 
-		string redoLabel = "Redo";
-		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
-		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
-		foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
+			string redoLabel = "Redo";
+			MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
+			if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
+			foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
+		} catch(Exception e) {
+			Console.WriteLine("unexpected exception" + e.Message + e.StackTrace);
+		}
 	}
 
 	public static void Main(string[] args)

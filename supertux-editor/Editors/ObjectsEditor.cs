@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using OpenGl;
 using DataStructures;
-using SceneGraph;
+using Drawing;
 using Gtk;
 using Gdk;
 using Undo;
 
 public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 {
-	private sealed class ControlPoint : IObject, Node
+	private sealed class ControlPoint : IObject
 	{
 		public enum AttachPoint {
 			TOP = 1,
@@ -32,21 +32,12 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			this.attachPoint = attachPoint;
 		}
 
-		public void Draw(Gdk.Rectangle cliprect)
+		public void Draw(DrawingContext context)
 		{
 			UpdatePosition();
-			gl.Color4f(0, 0, 1, 0.7f);
-			gl.Disable(gl.TEXTURE_2D);
 
-			gl.Begin(gl.QUADS);
-			gl.Vertex2f(Area.Left, Area.Top);
-			gl.Vertex2f(Area.Right, Area.Top);
-			gl.Vertex2f(Area.Right, Area.Bottom);
-			gl.Vertex2f(Area.Left, Area.Bottom);
-			gl.End();
-
-			gl.Enable(gl.TEXTURE_2D);
-			gl.Color4f(1, 1, 1, 1);
+			context.DrawFilledRect(Area, new Drawing.Color(0, 0, 1, 0.7f),
+			                       1000);
 		}
 
 		public void UpdatePosition()
@@ -99,10 +90,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 				return area;
 			}
 		}
-
-		public Node GetSceneGraphNode() {
-			return this;
-		}
 	}
 
 	private sealed class ObjectAreaChangeCommand : Command {
@@ -153,19 +140,22 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		this.sector = sector;
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public void Draw(DrawingContext context)
 	{
 		if(activeObject != null) {
 			IObject obj = activeObject;
+
+			/* TODO
 			if(obj is ControlPoint)
 				obj = ((ControlPoint) obj).Object;
-
 			gl.Color4f(1, 0, 0, 0.7f);
 			obj.GetSceneGraphNode().Draw(cliprect);
 			gl.Color4f(1, 1, 1, 1);
+			*/
+			obj.Draw(context);
 		}
 		foreach(ControlPoint point in controlPoints) {
-			point.Draw(cliprect);
+			point.Draw(context);
 		}
 	}
 

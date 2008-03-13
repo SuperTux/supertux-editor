@@ -1,5 +1,4 @@
 //  $Id$
-using SceneGraph;
 using DataStructures;
 using System;
 using Drawing;
@@ -17,7 +16,7 @@ namespace Sprites
 /// stored in a <see cref="SpriteData"/> object that is shared between
 /// sprites of the same spritefile/imagefile.
 /// </remarks>
-public class Sprite : Node {
+public class Sprite {
 	private SpriteData Data;
 	private SpriteData.Action CurrentAction;
 	private SpriteData.Action _NextAction;
@@ -99,12 +98,7 @@ public class Sprite : Node {
 		}
 	}
 
-	public virtual void Draw(Gdk.Rectangle cliprect)
-	{
-		Draw(new Vector(0, 0));
-	}
-
-	public virtual void Draw(Vector pos)
+	public void Draw(DrawingContext context, Vector pos, int layer)
 	{
 		if(CurrentAction == null || CurrentAction.Frames.Count == 0)
 			return;
@@ -119,7 +113,7 @@ public class Sprite : Node {
 		}
 		int AnimationFrame = ((int) AnimationTime) % CurrentAction.Frames.Count;
 		Surface Surface = CurrentAction.Frames[AnimationFrame];
-		Surface.Draw(pos - CurrentAction.Offset);
+		context.DrawSurface(Surface, pos - CurrentAction.Offset, layer);
 	}
 }
 

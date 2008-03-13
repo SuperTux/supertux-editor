@@ -45,14 +45,14 @@ namespace Undo {
 
 		public override void Do() {
 			foreach (TilemapData tilemapdata in tilemaps) {
-				tilemapdata.Tilemap.Resize(newWidth, newHeight, 0);
+				tilemapdata.Tilemap.Tiles.Resize(newWidth, newHeight, 0);
 			}
 			sector.EmitSizeChanged();
 		}
 
 		public override void Undo() {
 			foreach (TilemapData tilemapdata in tilemaps) {
-				tilemapdata.Tilemap.RestoreState(tilemapdata.OldState);
+				tilemapdata.Tilemap.Tiles.RestoreState(tilemapdata.OldState);
 			}
 			sector.EmitSizeChanged();
 		}
@@ -62,7 +62,7 @@ namespace Undo {
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
+				tilemaps.Add(new TilemapData(tilemap.Tiles.SaveState(), tilemap));
 			}
 		}
 	}

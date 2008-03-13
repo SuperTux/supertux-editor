@@ -12,14 +12,16 @@ public sealed class Tileset {
 	private string baseDir;
 	public static bool LoadEditorImages;
 
+	public static Tileset CurrentTileset;
+
 	public IDictionary<string, Tilegroup> Tilegroups {
 		get {
 			return tilegroups;
 		}
 	}
 
-	public const int TILE_WIDTH = 32;
-	public const int TILE_HEIGHT = 32;
+	public uint TILE_WIDTH = 32;
+	public uint TILE_HEIGHT = 32;
 
 	public Tileset() {
 	}
@@ -27,11 +29,14 @@ public sealed class Tileset {
 	/// <summary>Loads the tiles from <paramref name="Resourcepath"/>.</summary>
 	/// <param name="Resourcepath">A path relative to the data folder of SuperTux.</param>
 	public Tileset(string Resourcepath) {
-		baseDir = ResourceManager.Instance.GetDirectoryName(Resourcepath);
+		baseDir     = ResourceManager.Instance.GetDirectoryName(Resourcepath);
 		List TilesL = Util.Load(Resourcepath, "supertux-tiles");
 
 		Properties TilesP = new Properties(TilesL);
-		
+
+		TilesP.Get("tile-width", ref TILE_WIDTH);
+		TilesP.Get("tile-height", ref TILE_HEIGHT);
+
 		// add blank tile with ID 0
 		Tile blank = new Tile();
 		blank.Id = 0;
@@ -147,10 +152,10 @@ public sealed class Tileset {
 
 					Tile.ImageResource res = new Tile.ImageResource();
 					res.Filename = image;
-					res.x = x * TILE_WIDTH;
-					res.y = y * TILE_HEIGHT;
-					res.w = TILE_WIDTH;
-					res.h = TILE_HEIGHT;
+					res.x = x * (int) TILE_WIDTH;
+					res.y = y * (int) TILE_HEIGHT;
+					res.w = (int) TILE_WIDTH;
+					res.h = (int) TILE_HEIGHT;
 					tile.Images = new List<Tile.ImageResource>();
 					tile.Images.Add(res);
 					tile.Id = ids[id];

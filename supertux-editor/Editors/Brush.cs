@@ -196,7 +196,7 @@ public class Brush
 		if (py+width > tilemap.Height) return;
 
 		// store subset of tilemap where brush will be applied as a reference pattern
-		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
+		TileBlock tb = new TileBlock(tilemap.Tiles, px, py, width, height);
 
 		// find the stored pattern that matches this reference pattern best
 		float bestSimilarity = 0;
@@ -217,7 +217,7 @@ public class Brush
 			uint H = Math.Min((uint) (tilemap.Height - py), Height);
 			for(uint y = StartY; y < H; ++y) {
 				for(uint x = StartX; x < W; ++x) {
-					tilemap[(uint) (px + x), (uint) (py + y)] = bestPattern[x, y];
+					tilemap.Tiles[(uint) (px + x), (uint) (py + y)] = bestPattern[x, y];
 				}
 			}
 		}
@@ -246,7 +246,7 @@ public class Brush
 		if (py + width > tilemap.Height) return false;
 
 		// store subset of tilemap where brush will be applied as a reference pattern
-		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
+		TileBlock tb = new TileBlock(tilemap.Tiles, px, py, width, height);
 
 		// find the stored pattern that matches this reference pattern best
 		float bestSimilarity = 0;

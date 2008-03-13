@@ -29,20 +29,20 @@ public static class LevelUtil
 		sector.Name = Name;
 
 		Tilemap tilemap = new Tilemap();
-		tilemap.Resize(100, 35, 0);
+		tilemap.Tiles.Resize(100, 35, 0);
 		tilemap.ZPos = -100;
 		tilemap.Name = "Background";
 		sector.Add(tilemap, true);
 
 		tilemap = new Tilemap();
-		tilemap.Resize(100, 35, 0);
+		tilemap.Tiles.Resize(100, 35, 0);
 		tilemap.ZPos = 0;
 		tilemap.Solid = true;
 		tilemap.Name = "Interactive";
 		sector.Add(tilemap, true);
 
 		tilemap = new Tilemap();
-		tilemap.Resize(100, 35, 0);
+		tilemap.Tiles.Resize(100, 35, 0);
 		tilemap.ZPos = 100;
 		tilemap.Name = "Foreground";
 		sector.Add(tilemap, true);

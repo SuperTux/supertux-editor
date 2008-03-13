@@ -122,16 +122,13 @@ public sealed class Tile {
 		}
 	}
 
-	public void Draw(Vector pos) {
-		if(Surfaces != null)
-			Surfaces[0].Draw(pos);
-	}
-
-	public void DrawEditor(Vector pos) {
+	public Surface GetEditorSurface() {
 		if(EditorSurfaces != null) {
-			EditorSurfaces[0].Draw(pos);
-			return;
+			return EditorSurfaces[0];
+		} else if(Surfaces != null) {
+			return Surfaces[0];
+		} else {
+			return null;
 		}
-		Draw(pos);
 	}
 }

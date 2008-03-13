@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using LispReader;
+using Lisp;
 
 public delegate void TilesetChangedHandler(Level level);
 
@@ -29,6 +30,10 @@ public sealed class Level
 	public Tileset Tileset = new Tileset("images/tiles.strf");
 	public event TilesetChangedHandler TilesetChanged;
 
+	public Level() {
+		Tileset.CurrentTileset = Tileset;
+	}
+
 	[PropertyProperties(Tooltip = "Tileset used for level.\nDo not change this unless you know what you are doing.")]
 	[LispChild("tileset", Optional = true, Default = "images/tiles.strf")]
 	[ChooseResourceSetting]
@@ -43,9 +48,11 @@ public sealed class Level
 			Tileset = new Tileset(value);
 			if(TilesetChanged != null)
 				TilesetChanged(this);
+			Tileset.CurrentTileset = Tileset;
 		}
 	}
 
 	[LispChilds(Name = "sector", Type = typeof(Sector))]
 	public List<Sector> Sectors = new List<Sector> ();
 }
+

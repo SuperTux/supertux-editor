@@ -4,8 +4,8 @@ using System.Timers;
 using System.Collections.Generic;
 using Gtk;
 using Gdk;
-using SceneGraph;
 using DataStructures;
+using Drawing;
 using OpenGl;
 
 public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisposable
@@ -48,8 +48,10 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		killTimer = true;
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public void Draw(DrawingContext context)
 	{
+		/* TODO... TODO 
+
 		// draw path edges
 		gl.Color4f(1, 0, 0, 0.7f);
 		gl.Disable(gl.TEXTURE_2D);
@@ -92,6 +94,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		gl.End();
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4f(1, 1, 1, 1);
+		*/
 	}
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)

@@ -54,7 +54,7 @@ public static class QACheck
 		// Any bad found yet?
 		bool bad = false;
 		foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-			invalidtiles = CheckIds(tilemap, application.CurrentLevel.Tileset);
+			invalidtiles = CheckIds(tilemap.Tiles, application.CurrentLevel.Tileset);
 			if (invalidtiles.Count != 0) {
 				bad = true;
 				if (String.IsNullOrEmpty(tilemap.Name))
@@ -94,7 +94,6 @@ public static class QACheck
 	/// Initialize the ReplaceMap.
 	/// </summary>
 	static QACheck() {
-		// Keep this sorted on key to make it faster.
 		LevelReplaceMap.Add(26, 83);
 		LevelReplaceMap.Add(63, 70);
 		LevelReplaceMap.Add(101, 93);
@@ -124,7 +123,7 @@ public static class QACheck
 	public static void ReplaceDepercatedTiles(Level level) {
 		foreach (Sector sector in level.Sectors) {
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap)))
-				ReplaceDepercatedTiles(tilemap, level.TilesetFile);
+				ReplaceDepercatedTiles(tilemap.Tiles, level.TilesetFile);
 		}
 	}
 	#endregion ReplaceDepercatedTiles

@@ -2,7 +2,7 @@
 using LispReader;
 
 [SupertuxObject("camera", "images/engine/editor/camera.png")]
-public sealed class Camera : IGameObject, IPathObject {
+public sealed class Camera : VirtualObject, IPathObject {
 
 	/// <summary>
 	/// Modes for <see cref="Camera"/>.

@@ -6,10 +6,9 @@ using Lisp;
 using LispReader;
 using Drawing;
 using OpenGl;
-using SceneGraph;
 
 /// <summary>Base class for objects in levels</summary>
-public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
+public abstract class SimpleObject : IGameObject, IObject, ICloneable {
 	[PropertyProperties(Tooltip = "X position of object")]
 	[LispChild("x")]
 	public float X;
@@ -55,15 +54,12 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 		}
 	}
 
-	public virtual void Draw(Gdk.Rectangle cliprect) {
+	public virtual void Draw(DrawingContext context) {
 		if(Sprite == null)
 			return;
-		if (cliprect.IntersectsWith((Gdk.Rectangle) Area))
-			Sprite.Draw(new Vector(X, Y));
-	}
+		/* TODO if (cliprect.IntersectsWith(Area)) */
 
-	public virtual Node GetSceneGraphNode() {
-		return this;
+		Sprite.Draw(context, new Vector(X, Y), 5);
 	}
 
 	public object Clone() {
@@ -190,8 +186,9 @@ public abstract class SimpleObjectArea : SimpleObject
 		}
 	}
 
-	public override void Draw(Gdk.Rectangle cliprect) {
-		if (!cliprect.IntersectsWith(new Gdk.Rectangle((int) X, (int) Y, (int) Width, (int) Height)))
+	public override void Draw(DrawingContext context) {
+		/* TODO
+		if (!cliprect.IntersectsWith(new RectangleF(X, Y, Width, Height)))
 			return;
 		float left = X;
 		float right = X + Width;
@@ -213,6 +210,7 @@ public abstract class SimpleObjectArea : SimpleObject
 
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4fv( current_color );
+		*/
 	}
 
 	public override void ChangeArea(RectangleF NewArea) {
@@ -220,9 +218,5 @@ public abstract class SimpleObjectArea : SimpleObject
 		Y = NewArea.Top;
 		Width = NewArea.Width;
 		Height = NewArea.Height;
-	}
-
-	public sealed override Node GetSceneGraphNode() {
-		return this;
 	}
 }

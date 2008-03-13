@@ -2,6 +2,7 @@
 using System;
 using System.Text;
 using DataStructures;
+using Drawing;
 using Lisp;
 using LispReader;
 using System.Collections.Generic;
@@ -23,45 +24,53 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	public TileBlock(TileBlock Other, int startX, int startY, uint width, uint height) : base(Other, startX, startY, width, height) {
 	}
 
-	public void Draw(Vector Pos, Tileset Tileset) {
+	public void Draw(DrawingContext context, Vector Pos, Tileset Tileset,
+	                 int layer) {
 		Vector CurrentPos = Pos;
 		for(uint y = 0; y < Height; ++y) {
-			for(uint x = 0; x < Width; ++x) {
+			for(uint x = 0; x < Width; ++x, CurrentPos.X += Tileset.TILE_WIDTH) {
 				int TileId = this[x, y];
 				Tile Tile = Tileset.Get(TileId);
-				if (Tile != null)
-					Tile.DrawEditor(CurrentPos);
-				else
+				if (Tile == null) {
 					LogManager.Log(LogLevel.Warning,
 					               "Tile {0} is null?! The tile with id {0} at {1},{2} is probably invalid.",
 					               TileId, x, y);
-				CurrentPos.X += Tileset.TILE_HEIGHT;
+					continue;
+				}
+
+				Surface surface = Tile.GetEditorSurface();
+				context.DrawSurface(surface, CurrentPos, layer);
 			}
 			CurrentPos.X = Pos.X;
-			CurrentPos.Y += Tileset.TILE_WIDTH;
+			CurrentPos.Y += Tileset.TILE_HEIGHT;
 		}
 	}
 
-	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
-		if(pos.X >= Tilemap.Width)
+	public void ApplyToTileblock(FieldPos pos, TileBlock tiles, bool skipNull) {
+		if(pos.X >= tiles.Width)
 			return;
-		if(pos.Y >= Tilemap.Height)
+		if(pos.Y >= tiles.Height)
 			return;
 
 		uint StartX = (uint) Math.Max(0, -pos.X);
 		uint StartY = (uint) Math.Max(0, -pos.Y);
-		uint W = Math.Min((uint) (Tilemap.Width - pos.X), Width);
-		uint H = Math.Min((uint) (Tilemap.Height - pos.Y), Height);
+		uint W = Math.Min((uint) (tiles.Width - pos.X), Width);
+		uint H = Math.Min((uint) (tiles.Height - pos.Y), Height);
 		for(uint y = StartY; y < H; ++y) {
 			for(uint x = StartX; x < W; ++x) {
-				if ((skipNull) && (this[x, y] == 0) && (Width > 1 || Height > 1)) continue;
-				Tilemap[(uint) (pos.X + x), (uint) (pos.Y + y)] = this[x, y];
+				if (skipNull && (this[x, y] == 0) && (Width > 1 || Height > 1))
+					continue;
+				tiles[(uint) (pos.X + x), (uint) (pos.Y + y)] = this[x, y];
 			}
 		}
 	}
 
+	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
+		ApplyToTileblock(pos, Tilemap.Tiles, skipNull);
+	}
+
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
-		ApplyToTilemap(pos, Tilemap, true);
+		ApplyToTileblock(pos, Tilemap.Tiles, true);
 	}
 
 	public void CustomLispRead(Properties Props) {

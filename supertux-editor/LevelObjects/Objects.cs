@@ -3,8 +3,8 @@ using Sprites;
 using System;
 using LispReader;
 using DataStructures;
-using SceneGraph;
 using OpenGl;
+using Drawing;
 
 /// <summary>
 /// Used to make it simpler to change common tooltip strings.
@@ -640,8 +640,10 @@ public sealed class Spotlight : SimpleColorObject
 		Sprite = SpriteManager.Create("images/objects/spotlight/spotlight_base.sprite");
 		Sprite.Action = "default";
 	}
-	public override void Draw(Gdk.Rectangle cliprect) {
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+
+	public override void Draw(DrawingContext context) {
+		/* TODO
+		if (!cliprect.IntersectsWith(Area))
 			return;
 		// Draw sprite
 		if(Sprite == null)
@@ -650,6 +652,7 @@ public sealed class Spotlight : SimpleColorObject
 		Sprite.Draw(new Vector(X, Y));
 		// Draw a color rectangle
 		DrawColor(color);
+		*/
 	}
 }
 
@@ -671,8 +674,9 @@ public sealed class MagicBlock : SimpleColorObject
 	}
 	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
 
-	public override void Draw(Gdk.Rectangle cliprect) {
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+	public override void Draw(DrawingContext context) {
+		/* TODO
+		if (!cliprect.IntersectsWith(Area))
 			return;
 		// Draw sprite
 		if(Sprite == null)
@@ -681,6 +685,7 @@ public sealed class MagicBlock : SimpleColorObject
 		Sprite.Draw(new Vector(X, Y));
 		// Draw a color rectangle
 		DrawColor(magiccolor);
+		*/
 	}
 	public MagicBlock() {
 		Sprite = SpriteManager.Create("images/objects/magicblock/magicblock.sprite");
@@ -706,8 +711,9 @@ public sealed class Lantern : SimpleColorObject
 	}
 	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
 
-	public override void Draw(Gdk.Rectangle cliprect) {
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+	public override void Draw(DrawingContext context) {
+		/*
+		if (!cliprect.IntersectsWith(Area))
 			return;
 		// Draw sprite
 		if(Sprite == null)
@@ -716,6 +722,7 @@ public sealed class Lantern : SimpleColorObject
 		Sprite.Draw(new Vector(X, Y));
 		// Draw a color rectangle
 		DrawColor(lightcolor);
+		*/
 	}
 	public Lantern() {
 		Sprite = SpriteManager.Create("images/objects/lantern/lantern.sprite");
@@ -871,7 +878,7 @@ public sealed class Rock : SimpleObject
 #region Platforms
 
 /// <summary>Base class for platforms.</summary>
-public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
+public abstract class PlatformBase : IGameObject, IObject, IPathObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
@@ -918,15 +925,9 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		path.Nodes.Add(new Path.Node());
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public void Draw(DrawingContext context)
 	{
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
-			return;
-		Sprite.Draw(Path.Nodes[0].Pos);
-	}
-
-	public virtual Node GetSceneGraphNode() {
-		return this;
+		Sprite.Draw(context, Path.Nodes[0].Pos, 10);
 	}
 
 	public virtual void ChangeArea(RectangleF NewArea) {

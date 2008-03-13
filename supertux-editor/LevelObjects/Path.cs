@@ -62,6 +62,13 @@ public class Path
 	{
 	}
 
+	public Path(Vector pos)
+	{
+		Node n = new Node();
+		n.Pos = pos;
+		Nodes.Add(n);
+	}
+
 	public void Move(Vector offset)
 	{
 		foreach(Node node in Nodes) {

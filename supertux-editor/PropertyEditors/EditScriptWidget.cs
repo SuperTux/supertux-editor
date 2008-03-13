@@ -22,7 +22,7 @@ public sealed class EditScriptWidget : CustomSettingsWidget
 
 	private void OnEdit(object sender, EventArgs args)
 	{
-		new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);
+		//new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);
 	}
 }
 

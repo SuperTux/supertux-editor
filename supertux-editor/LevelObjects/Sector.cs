@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Lisp;
 using LispReader;
 using Undo;
+using Drawing;
 
 public delegate void ObjectAddedHandler(Sector sector, IGameObject Object);
 public delegate void ObjectRemovedHandler(Sector sector, IGameObject Object);
@@ -26,17 +27,15 @@ public sealed class Sector : ICustomLispSerializer {
 	[EditScriptSetting]
 	public string InitScript = String.Empty;
 
-	//[ChooseColorSetting]
-	//[LispChild("ambient-light", Optional = true, Default = new Drawing.Color( 1f, 1f, 1f ) )]
 	[ChooseColorSetting]
 	[LispChild("ambient-light", Optional = true )]
 	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
 
-	public event ObjectAddedHandler ObjectAdded;
+	public event ObjectAddedHandler   ObjectAdded;
 	public event ObjectRemovedHandler ObjectRemoved;
-	public event SizeChangedHandler SizeChanged;
+	public event SizeChangedHandler   SizeChanged;
 
 	private class DynamicList : IEnumerable, ICollection {
 		public Sector Sector;
@@ -133,6 +132,9 @@ public sealed class Sector : ICustomLispSerializer {
 			UndoManager.AddCommand(command);
 		}
 		GameObjects.Add(Object);
+		if(Object is VirtualObject)
+			LayoutVirtualObjects();
+
 		try {
 			if(ObjectAdded != null)
 				ObjectAdded(this, Object);
@@ -154,6 +156,9 @@ public sealed class Sector : ICustomLispSerializer {
 			UndoManager.AddCommand(command);
 		}
 		GameObjects.Remove(Object);
+		if(Object is VirtualObject)
+			LayoutVirtualObjects();
+
 		try {
 			if(ObjectRemoved != null)
 				ObjectRemoved(this, Object);
@@ -168,6 +173,15 @@ public sealed class Sector : ICustomLispSerializer {
 			SizeChanged(this);
 	}
 
+	private void LayoutVirtualObjects()
+	{
+		float x = 0;
+		foreach(VirtualObject vobject in GetObjects(typeof(VirtualObject))) {
+			vobject.SetPos(x, -32);
+			x += 32;
+		}
+	}
+
 	public void CustomLispRead(Properties Props) {
 		foreach(Type type in this.GetType().Assembly.GetTypes()) {
 			SupertuxObjectAttribute objectAttribute
@@ -180,6 +194,12 @@ public sealed class Sector : ICustomLispSerializer {
 				IGameObject Object = (IGameObject) serializer.Read(list);
 				GameObjects.Add(Object);
 			}
+		}
+	}
+
+	public void Draw(DrawingContext context) {
+		foreach(IObject iobject in GetObjects(typeof(IObject))) {
+			iobject.Draw(context);
 		}
 	}
 
@@ -213,5 +233,6 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void FinishRead() {
+		LayoutVirtualObjects();
 	}
 }

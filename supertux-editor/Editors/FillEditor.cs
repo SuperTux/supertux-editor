@@ -17,11 +17,11 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		internal TileBlock.StateData newState;
 
 		public override void Do() {
-			changedTilemap.RestoreState(newState);
+			changedTilemap.Tiles.RestoreState(newState);
 		}
 
 		public override void Undo() {
-			changedTilemap.RestoreState(oldState);
+			changedTilemap.Tiles.RestoreState(oldState);
 		}
 
 		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
@@ -38,14 +38,14 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 	}
 
 	private void FloodFill(FieldPos pos, int new_tile) {
-		if (Tilemap[pos] != new_tile)
-			FloodFillAt(pos, Tilemap[pos], new_tile);
+		if (Tilemap.Tiles[pos] != new_tile)
+			FloodFillAt(pos, Tilemap.Tiles[pos], new_tile);
 	}
 
 	private void FloodFillAt(FieldPos pos, int oldId, int newId) {
-		if (!Tilemap.InBounds(pos)) return;
-		if (Tilemap[pos] != oldId) return;
-		Tilemap[pos] = newId;
+		if (!Tilemap.Tiles.InBounds(pos)) return;
+		if (Tilemap.Tiles[pos] != oldId) return;
+		Tilemap.Tiles[pos] = newId;
 		FloodFillAt(pos.Up, oldId, newId);
 		FloodFillAt(pos.Down, oldId, newId);
 		FloodFillAt(pos.Left, oldId, newId);
@@ -66,7 +66,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		if (button == 1) {
 
 			// save backup of Tilemap
-			tilemapBackup = Tilemap.SaveState();
+			tilemapBackup = Tilemap.Tiles.SaveState();
 
 			if ((selection.Width == 1) && (selection.Height == 1)) {
 				FloodFill(MouseTilePos, selection[0, 0]);
@@ -98,7 +98,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand("Flood Fill on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			TilemapModifyCommand command = new TilemapModifyCommand("Flood Fill on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.Tiles.SaveState());
 			UndoManager.AddCommand(command);
 
 		}
@@ -111,8 +111,8 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y]
-						= Tilemap[(uint) SelectionP1.X + x,
-						          (uint) SelectionP1.Y + y];
+						= Tilemap.Tiles[(uint) SelectionP1.X + x,
+						                (uint) SelectionP1.Y + y];
 				}
 			}
 

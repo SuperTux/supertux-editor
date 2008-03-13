@@ -3,15 +3,9 @@ using System;
 using DataStructures;
 using LispReader;
 using Drawing;
-using SceneGraph;
 
 [SupertuxObject("background", "images/engine/editor/background.png")]
-public sealed class Background : IGameObject, Node {
-	[LispChild("x", Optional = true, Default = 0f)]
-	public float X;
-	[LispChild("y", Optional = true, Default = 0f)]
-	public float Y;
-
+public sealed class Background : VirtualObject {
 	[LispChild("image-top", Optional = true, Default = "")]
 	[ChooseResourceSetting]
 	public string ImageTop {
@@ -71,65 +65,58 @@ public sealed class Background : IGameObject, Node {
 	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 
-	public RectangleF Area {
-		get {
-			if(surface != null) {
-				return new RectangleF(X, Y, surface.Width, surface.Height);
-			} else {
-				return new RectangleF(X, Y, 32, 32);
-			}
-		}
-	}
-
-	public bool Resizable {
-		get {
-			return false;
-		}
-	}
-
-	public void ChangeArea(RectangleF NewArea) {
-		X = NewArea.Left;
-		Y = NewArea.Top;
-	}
-
-	public void Draw(Gdk.Rectangle cliprect)
+	public override void Draw(DrawingContext context)
 	{
-		if (surface == null) return;
+		base.Draw(context);
 
-		Surface sm = surface;
-		Surface st = (surfaceTop != null)?(surfaceTop):(surface);
-		Surface sb = (surfaceBottom != null)?(surfaceBottom):(surface);
+		if (surface == null)
+			return;
 
-		// TODO only draw tiles inside level and do draw all inside level
+		float left = 0;
+		float top = 0;
+		float right = 10000; // TODO find the actual value for this
+		float levelBottom = 3000;
+		float bottom = levelBottom; // TODO
 
-		for (int tileX = -10; tileX <= 10; tileX++) {
-			for (int tileY = -10; tileY <= 0; tileY++) {
-				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + st.Width * tileX),
-				                                              (int) (Y - st.Height + st.Height * tileY),
-				                                              (int) st.Width, (int) st.Height)))
-					st.Draw(new Vector(X + st.Width * tileX, Y - st.Height + st.Height * tileY));
+		/* TODO 
+		if(cliprect.Left > left)
+			left = cliprect.Left;
+		if(cliprect.Right < right)
+			right = cliprect.Right;
+		if(cliprect.Top > top)
+			top = cliprect.Top;
+		if(cliprect.Bottom < bottom)
+			bottom = cliprect.Bottom;
+		*/
+
+		float normalsurface_start = (surfaceTop != null) ? (surfaceTop.Height) : 0;
+		float bottomsurface_start = (surfaceBottom != null) ? levelBottom - (surfaceBottom.Height) : bottom;
+
+		Surface surf = surfaceTop;
+		if(top >= bottomsurface_start) {
+			surf = surfaceBottom;
+		} else if(top >= normalsurface_start) {
+			surf = surface;
+		}
+		top -= (top % surf.Height);
+		left -= (left % surf.Width);
+		for(float y = top; y < bottom; y += surf.Height) {
+			surf = surfaceTop;
+			if(y >= bottomsurface_start) {
+				surf = surfaceBottom;
+			} else if(y >= normalsurface_start) {
+				surf = surface;
 			}
-			if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sm.Width * tileX),
-			                                              (int) (Y),
-			                                              (int) sm.Width, (int) sm.Height)))
-				sm.Draw(new Vector(X + sm.Width * tileX, Y));
-			for (int tileY = 0; tileY <= 10; tileY++) {
-				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sb.Width * tileX),
-				                                              (int) (Y + surface.Height + sb.Height * tileY),
-				                                              (int) sb.Width, (int) sb.Height)))
-					sb.Draw(new Vector(X + sb.Width * tileX, Y + surface.Height + sb.Height * tileY));
+
+			for(float x = left; x < right; x += surf.Width) {
+				context.DrawSurface(surf, new Vector(x, y), Layer);
 			}
 		}
 	}
-
-	public Node GetSceneGraphNode() {
-		return this;
-	}
-
 }
 
 [SupertuxObject("gradient", "images/engine/editor/gradient.png")]
-public sealed class Gradient : IGameObject {
+public sealed class Gradient : VirtualObject {
 	[LispChild("layer", Optional = true, Default = -200)]
 	public int Layer = -200;
 	[ChooseColorSetting]
@@ -138,4 +125,6 @@ public sealed class Gradient : IGameObject {
 	[ChooseColorSetting]
 	[LispChild("bottom_color")]
 	public Color BottomColor;
+
+	/* TODO: draw gradient */
 }

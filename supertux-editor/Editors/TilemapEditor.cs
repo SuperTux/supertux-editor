@@ -16,11 +16,11 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 		internal TileBlock.StateData newState;
 
 		public override void Do() {
-			changedTilemap.RestoreState(newState);
+			changedTilemap.Tiles.RestoreState(newState);
 		}
 
 		public override void Undo() {
-			changedTilemap.RestoreState(oldState);
+			changedTilemap.Tiles.RestoreState(oldState);
 		}
 
 		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
@@ -50,7 +50,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 		if(button == 1) {
 
 			// save backup of Tilemap
-			tilemapBackup = Tilemap.SaveState();
+			tilemapBackup = Tilemap.Tiles.SaveState();
 
 			selection.ApplyToTilemap(MouseTilePos, Tilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 			LastDrawPos = MouseTilePos;
@@ -80,7 +80,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand("Change Tiles on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			TilemapModifyCommand command = new TilemapModifyCommand("Change Tiles on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.Tiles.SaveState());
 			UndoManager.AddCommand(command);
 
 		}
@@ -93,8 +93,8 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y]
-						= Tilemap[(uint) SelectionP1.X + x,
-						          (uint) SelectionP1.Y + y];
+						= Tilemap.Tiles[(uint) SelectionP1.X + x,
+						                (uint) SelectionP1.Y + y];
 				}
 			}
 

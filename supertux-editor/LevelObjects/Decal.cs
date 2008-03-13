@@ -24,7 +24,7 @@ using Drawing;
 using SceneGraph;
 
 [SupertuxObject("decal", "images/engine/editor/decal.png")]
-public sealed class Decal : IGameObject, IObject, Node {
+public sealed class Decal : IGameObject, IObject {
 	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
 	[LispChild("y", Optional = true, Default = 0f)]
@@ -72,15 +72,9 @@ public sealed class Decal : IGameObject, IObject, Node {
 		Y = NewArea.Top;
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public void Draw(DrawingContext context)
 	{
 		if (surface == null) return;
-		surface.Draw(new Vector(X, Y));
-		
+		context.DrawSurface(surface, new Vector(X, Y), Layer);
 	}
-
-	public Node GetSceneGraphNode() {
-		return this;
-	}
-
 }

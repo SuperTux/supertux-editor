@@ -4,6 +4,7 @@ using OpenGl;
 using System;
 using Gdk;
 using Undo;
+using Drawing;
 
 /// <summary>
 /// Smoothes Tilemaps by changing tiles to one of several stored valid patterns.
@@ -37,11 +38,11 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		internal TileBlock.StateData newState;
 
 		public override void Do() {
-			changedTilemap.RestoreState(newState);
+			changedTilemap.Tiles.RestoreState(newState);
 		}
 
 		public override void Undo() {
-			changedTilemap.RestoreState(oldState);
+			changedTilemap.Tiles.RestoreState(oldState);
 		}
 
 		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
@@ -77,8 +78,9 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public new void Draw(Gdk.Rectangle cliprect)
+	public new void Draw(DrawingContext context)
 	{
+		/* TODO
 		// When not selecting, draw white rectangle over affected tiles
 		if(!selecting) {
 
@@ -149,6 +151,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			gl.Color4f(1, 1, 1, 1);
 
 		}
+		*/
 	}
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
@@ -159,7 +162,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		if(button == 1) {
 
 			// save backup of Tilemap
-			tilemapBackup = Tilemap.SaveState();
+			tilemapBackup = Tilemap.Tiles.SaveState();
 
 			brush.ApplyToTilemap(MouseTilePos, Tilemap);
 			LastDrawPos = MouseTilePos;
@@ -190,7 +193,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand("Tile Brush on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			TilemapModifyCommand command = new TilemapModifyCommand("Tile Brush on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.Tiles.SaveState());
 			UndoManager.AddCommand(command);
 
 		}
@@ -205,8 +208,8 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y]
-						= Tilemap[(uint) SelectionP1.X + x,
-						          (uint) SelectionP1.Y + y];
+						= Tilemap.Tiles[(uint) SelectionP1.X + x,
+						                (uint) SelectionP1.Y + y];
 				}
 			}
 			brush.LearnPatterns(selection);

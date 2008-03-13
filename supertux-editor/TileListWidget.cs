@@ -5,7 +5,6 @@ using Gtk;
 using Gdk;
 using OpenGl;
 using Drawing;
-using SceneGraph;
 using DataStructures;
 
 public class TileListWidget : GLWidgetBase {
@@ -14,12 +13,12 @@ public class TileListWidget : GLWidgetBase {
 	private Selection selection;
 	private Level level;
 
-	private const int TILE_WIDTH = 32;
-	private const int TILE_HEIGHT = 32;
+	private uint TILE_WIDTH = 32;
+	private uint TILE_HEIGHT = 32;
 	private const int SPACING_X = 1;
 	private const int SPACING_Y = 1;
-	private const int ROW_HEIGHT = TILE_HEIGHT + SPACING_Y;
-	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
+	private int ROW_HEIGHT;
+	private int COLUMN_WIDTH;
 	private const int TILES_PER_ROW = 4;
 
 	private int hovertile = -1;
@@ -35,7 +34,7 @@ public class TileListWidget : GLWidgetBase {
 		this.application = application;
 
 		Tileset.LoadEditorImages = true;
-		SetSizeRequest((TILE_WIDTH + SPACING_X) * TILES_PER_ROW, -1);
+		SetSizeRequest((int) (TILE_WIDTH + SPACING_X) * TILES_PER_ROW, -1);
 
 		ButtonPressEvent += OnButtonPress;
 		ButtonReleaseEvent += OnButtonRelease;
@@ -78,6 +77,11 @@ public class TileListWidget : GLWidgetBase {
 
 		tilegroup = tileset.Tilegroups["All"];
 
+		TILE_WIDTH   = tileset.TILE_WIDTH;
+		TILE_HEIGHT  = tileset.TILE_HEIGHT;
+		ROW_HEIGHT   = (int) TILE_HEIGHT + SPACING_Y;
+		COLUMN_WIDTH = (int) TILE_WIDTH + SPACING_X;
+
 		QueueDraw();
 	}
 
@@ -101,6 +105,7 @@ public class TileListWidget : GLWidgetBase {
 			return;
 
 		gl.Clear(gl.COLOR_BUFFER_BIT);
+		DrawingContext context = new DrawingContext();
 
 		int starttile = (int) -Translation.Y / (ROW_HEIGHT)
 		                * TILES_PER_ROW;
@@ -111,23 +116,22 @@ public class TileListWidget : GLWidgetBase {
 		for(int i = starttile; i < tiles.Count; i++) {
 			Tile tile = tileset.Get(tiles[i]);
 
-			tile.DrawEditor(pos);
+			Surface surface = tile.GetEditorSurface();
+			if(surface != null) {
+				context.DrawSurface(surface, pos, 0);
+			}
 			bool selected = IsSelected( tiles[i] );
 
 			if(i == hovertile || selected) {
+				Drawing.Color color;
 				if(selected)
-					gl.Color4f(0, 0, 1, 0.4f);
+					color = new Drawing.Color(0, 0, 1, 0.4f);
 				else
-					gl.Color4f(0, 0, 1, 0.08f);
-				gl.Disable(gl.TEXTURE_2D);
-				gl.Begin(gl.QUADS);
-				gl.Vertex2f(pos.X, pos.Y);
-				gl.Vertex2f(pos.X + TILE_WIDTH, pos.Y);
-				gl.Vertex2f(pos.X + TILE_WIDTH, pos.Y + TILE_HEIGHT);
-				gl.Vertex2f(pos.X, pos.Y + TILE_HEIGHT);
-				gl.End();
-				gl.Enable(gl.TEXTURE_2D);
-				gl.Color4f(1, 1, 1, 1);
+					color = new Drawing.Color(0, 0, 1, 0.08f);
+
+				context.DrawFilledRect(
+						new RectangleF(pos.X, pos.Y, TILE_WIDTH, TILE_HEIGHT),
+						color, 10);
 			}
 			pos.X += TILE_WIDTH + SPACING_X;
 			if(pos.X >= maxwidth) {
@@ -137,6 +141,7 @@ public class TileListWidget : GLWidgetBase {
 					break;
 			}
 		}
+		context.DoDrawing();
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)

@@ -20,8 +20,8 @@ using DataStructures;
 using OpenGl;
 using System;
 using Gdk;
+using Drawing;
 
-// TODO: More things should be moved into this class.
 /// <summary>
 /// Base class for all editors.
 /// </summary>
@@ -75,7 +75,8 @@ public abstract class TileEditorBase : EditorBase {
 		return false;
 	}
 
-	public virtual void Draw(Gdk.Rectangle cliprect) {
+	public virtual void Draw(DrawingContext context) {
+		/* TODO 
 		if (!selecting) {
 			gl.Color4f(1, 1, 1, 0.7f);
 			Vector pos = new Vector(MouseTilePos.X * 32f, MouseTilePos.Y * 32f);
@@ -101,6 +102,7 @@ public abstract class TileEditorBase : EditorBase {
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
 		}
+		*/
 	}
 
 	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset) {

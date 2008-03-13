@@ -26,6 +26,9 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 	}
 }
 
+/// <summary>
+///   A widget that displays the list of properties of an object
+/// </summary>
 public class PropertiesView : ScrolledWindow
 {
 	internal IEditorApplication application;

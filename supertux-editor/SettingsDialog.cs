@@ -7,11 +7,11 @@ using Glade;
 public class SettingsDialog
 {
 	[Glade.Widget]
-	private Dialog settingsDialog = null;
+	protected Dialog settingsDialog = null;
 	[Glade.Widget]
-	private Entry entryDataDir = null;
+	protected Entry entryDataDir = null;
 	[Glade.Widget]
-	private Entry entryExe = null;
+	protected Entry entryExe = null;
 
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.

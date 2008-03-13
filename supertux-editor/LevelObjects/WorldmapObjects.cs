@@ -1,6 +1,7 @@
 //  $Id$
 using System;
 using Sprites;
+using Drawing;
 using DataStructures;
 using LispReader;
 
@@ -24,13 +25,11 @@ public abstract class WorldmapObject : SimpleObject
 		Y = ((int) (NewArea.Top - 16 + Sprite.Offset.Y)) / 32;
 	}
 
-	public override void Draw(Gdk.Rectangle cliprect) {
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
-			return;
+	public override void Draw(DrawingContext context) {
 		if(Sprite == null)
 			return;
 
-		Sprite.Draw(new Vector(X*32 + 16, Y*32 + 16));
+		Sprite.Draw(context, new Vector(X*32 + 16, Y*32 + 16), 10);
 	}
 }
 

@@ -106,8 +106,8 @@ namespace Gdk
 				if (share != null)
 					glxshare = share.glxcontext;
 
-				bool directRendering = true;
-				//bool directRendering = false;
+				//bool directRendering = true;
+				bool directRendering = false;
 
 				glxcontext = glXCreateContext (xdisplay,
 					visualInfo,

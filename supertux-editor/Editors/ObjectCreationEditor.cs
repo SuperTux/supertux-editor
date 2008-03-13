@@ -5,6 +5,7 @@ using System.Reflection;
 using Gdk;
 using OpenGl;
 using Sprites;
+using Drawing;
 
 public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 {
@@ -23,22 +24,25 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		this.Icon = Icon;
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public void Draw(DrawingContext context)
 	{
 		Vector pos;
-		if( application.SnapToGrid ){
+
+		if(application.SnapToGrid) {
 			int snap = 32;
 			pos = new Vector((float) ((int)MousePos.X / snap) * snap,
 			                 (float) ((int)MousePos.Y / snap) * snap);
 		} else {
 			pos = MousePos;
 		}
+		/* TODO
 		if (Icon != null) {
 			gl.Color4f(1, 0, 0, 0.7f);
 			//TODO: Make it correct for hitbox coordinates...
 			Icon.Draw(pos);
 			gl.Color4f(1, 1, 1, 1);
 		}
+		*/
 	}
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
@@ -116,7 +120,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 		object Result = Constructor.Invoke(new object[] {});
 
 		// Some Objects need special treatment
-		if( Result is Tilemap ){
+		if (Result is Tilemap) {
 			uint width = 0;
 			uint height = 0;
 			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
@@ -125,7 +129,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 				if(tilemap.Height > height)
 					height = tilemap.Height;
 			}
-			((Tilemap) Result).Resize( width, height, 0);
+			((Tilemap) Result).Tiles.Resize(width, height, 0);
 		}
 		return Result;
 	}

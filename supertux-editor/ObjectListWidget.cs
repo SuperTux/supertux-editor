@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using OpenGl;
 using Sprites;
 using DataStructures;
+using Drawing;
 using Gtk;
 using Gdk;
 
@@ -55,6 +56,7 @@ public class ObjectListWidget : GLWidgetBase
 		LoadObjectImages();
 
 		gl.Clear(gl.COLOR_BUFFER_BIT);
+		DrawingContext context = new DrawingContext();
 		int x = 0;
 		int y = 0;
 		float scalex = 1;
@@ -80,9 +82,10 @@ public class ObjectListWidget : GLWidgetBase
 					scalex = scaley;
 				}
 
-				gl.Translatef(x, y, 0);
+				//gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );
-				objectSprite.Draw(objectSprite.Offset);
+				Vector pos = objectSprite.Offset + new Vector(x, y);
+				objectSprite.Draw(context, pos, 0);
 				gl.PopMatrix();
 			}
 			//mark the selected object
@@ -105,6 +108,7 @@ public class ObjectListWidget : GLWidgetBase
 				y += ROW_HEIGHT;
 			}
 		}
+		context.DoDrawing();
 	}
 
 	/// <summary>Create object list</summary>

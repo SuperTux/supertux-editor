@@ -258,7 +258,7 @@ public class LayerListWidget : TreeView {
 		if (currentTilemap == null)
 			return;
 
-		List<int> invalidtiles = QACheck.CheckIds(currentTilemap, application.CurrentLevel.Tileset);
+		List<int> invalidtiles = QACheck.CheckIds(currentTilemap.Tiles, application.CurrentLevel.Tileset);
 		MessageType msgtype;
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		if (invalidtiles.Count == 0) {

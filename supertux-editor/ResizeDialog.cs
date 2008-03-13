@@ -28,10 +28,10 @@ public class ResizeDialog
 		uint width = 0;
 		uint height = 0;
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-			if(tilemap.Width > width)
-				width = tilemap.Width;
-			if(tilemap.Height > height)
-				height = tilemap.Height;
+			if(tilemap.Tiles.Width > width)
+				width = tilemap.Tiles.Width;
+			if(tilemap.Tiles.Height > height)
+				height = tilemap.Tiles.Height;
 		}
 		WidthEntry.Text = width.ToString();
 		HeightEntry.Text = height.ToString();
@@ -44,7 +44,7 @@ public class ResizeDialog
 		try {
 			uint newWidth = UInt32.Parse(WidthEntry.Text);
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
-			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
+
 			SectorSizeChangeCommand command = new SectorSizeChangeCommand(
 				"Sector resized to " + newWidth + "x" + newHeight,
 				sector,
