@@ -79,9 +79,7 @@ namespace Drawing
 		{
 			public int Compare(DrawingRequest request1,
 			                   DrawingRequest request2) {
-			    if(request1.Layer < request2.Layer)
-			    	return 1;
-			    return 0;
+			    return request1.Layer - request2.Layer;
 			}
 		}
 		static RequestComparer comparer = new RequestComparer();
