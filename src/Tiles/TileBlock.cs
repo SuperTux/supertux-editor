@@ -8,7 +8,7 @@ using LispReader;
 using System.Collections.Generic;
 
 [LispRoot("tileblock")]
-public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
+public class TileBlock : Field<int>, IComparable {
 	public int TileListFirstTile = -1;
 	public int TileListW, TileListH;
 
@@ -71,39 +71,6 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap) {
 		ApplyToTileblock(pos, Tilemap.Tiles, true);
-	}
-
-	public void CustomLispRead(Properties Props) {
-		uint Width = 0;
-		uint Height = 0;
-		Props.Get("width", ref Width);
-		Props.Get("height", ref Height);
-		if(Width == 0 || Height == 0) throw new LispException("Width or Height of TileBlock invalid");
-
-		List<int> Tiles = new List<int>();
-		Props.GetIntList("tiles", Tiles);
-		if(Tiles.Count != (int) (Width * Height)) throw new LispException("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
-
-		Assign(Tiles, Width, Height);
-	}
-
-	public void CustomLispWrite(Writer Writer) {
-		Writer.Write("width", Width);
-		Writer.Write("height", Height);
-		Writer.WriteVerbatimLine("(tiles");
-		for (uint y = 0; y < Height; ++y) {
-			StringBuilder line = new StringBuilder();
-			for (uint x = 0; x < Width; ++x) {
-				if(x != 0)
-					line.Append(" ");
-				line.Append(this[x, y]);
-			}
-			Writer.WriteVerbatimLine(line.ToString());
-		}
-		Writer.WriteVerbatimLine(")");
-	}
-
-	public void FinishRead() {
 	}
 
 	#region IComparable Members

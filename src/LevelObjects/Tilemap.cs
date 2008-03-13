@@ -1,5 +1,6 @@
 //  $Id$
 using System;
+using System.Text;
 using DataStructures;
 using Drawing;
 using Lisp;
@@ -7,7 +8,7 @@ using LispReader;
 using System.Collections.Generic;
 
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png")]
-public sealed class Tilemap : VirtualObject, IPathObject {
+public sealed class Tilemap : VirtualObject, IPathObject, ICustomLispSerializer {
 	public TileBlock Tiles = new TileBlock();
 
 	[LispChild("z-pos")]
@@ -74,6 +75,8 @@ public sealed class Tilemap : VirtualObject, IPathObject {
 	}
 
 	public override void Draw(DrawingContext context) {
+		base.Draw(context);
+
 		Tileset tileset = Tileset.CurrentTileset;
 		int  tile_width  = (int) tileset.TILE_WIDTH;
 		int  tile_height = (int) tileset.TILE_HEIGHT;
@@ -87,19 +90,18 @@ public sealed class Tilemap : VirtualObject, IPathObject {
 		uint start_y = 0;
 		uint end_x   = Tiles.Width;
 		uint end_y   = Tiles.Height;
-		Tile Tile;
 
 		for (uint y = start_y; y < end_y; ++y) {
 			for (uint x = start_x; x < end_x; ++x) {
-				Tile = tileset.Get(Tiles[x, y]);
-				if (Tile == null) {
+				Tile tile = tileset.Get(Tiles[x, y]);
+				if (tile == null) {
 					LogManager.Log(LogLevel.Warning,
 					               "Tile {0} is null?! The tile with id {0} at {1},{2} is probably invalid.",
 					               Tiles[x, y], x, y);
 					continue;
 				}
 
-				Surface surface = Tile.GetEditorSurface();
+				Surface surface = tile.GetEditorSurface();
 				if(surface == null)
 					continue;
 
@@ -109,4 +111,36 @@ public sealed class Tilemap : VirtualObject, IPathObject {
 			}
 		}
 	}
+
+	public void CustomLispRead(Properties Props) {
+		uint Width = 0;
+		uint Height = 0;
+		Props.Get("width", ref Width);
+		Props.Get("height", ref Height);
+		if(Width == 0 || Height == 0) throw new LispException("Width or Height of TileBlock invalid");
+
+		List<int> Tiles = new List<int>();
+		Props.GetIntList("tiles", Tiles);
+		if(Tiles.Count != (int) (Width * Height)) throw new LispException("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
+
+		this.Tiles.Assign(Tiles, Width, Height);
+	}
+
+	public void CustomLispWrite(Writer Writer) {
+		Writer.Write("width", Tiles.Width);
+		Writer.Write("height", Tiles.Height);
+		Writer.WriteVerbatimLine("(tiles");
+		for (uint y = 0; y < Tiles.Height; ++y) {
+			StringBuilder line = new StringBuilder();
+			for (uint x = 0; x < Tiles.Width; ++x) {
+				if(x != 0)
+					line.Append(" ");
+				line.Append(Tiles[x, y]);
+			}
+			Writer.WriteVerbatimLine(line.ToString());
+		}
+		Writer.WriteVerbatimLine(")");
+	}
+
+	public void FinishRead() { }
 }
