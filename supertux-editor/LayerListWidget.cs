@@ -28,7 +28,7 @@ public class LayerListWidget : TreeView {
 		                                          CellRendererState flags) {
 			if(VisibilityChanged != null)
 				VisibilityChanged(this, null);
-			return base.StartEditing(evnt, widget, path, background_area, cell_area, flags);
+			return null;
 		}
 
 		public delegate void VisibilityChangedHandler(object o, EventArgs args);
