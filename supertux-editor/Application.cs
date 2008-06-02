@@ -13,6 +13,11 @@ using Undo;
 
 public class Application : IEditorApplication {
 
+	private class MruEntry {
+		public Gtk.MenuItem MenuItem;
+		public string FileName;
+	}
+
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix;
 
@@ -46,6 +51,12 @@ public class Application : IEditorApplication {
 	private Gtk.MenuItem MenuItemRedo = null;
 
 	[Glade.Widget]
+	private Gtk.Menu MenuItemLevel_menu = null; /* "Level" menu, contains MenuItemMruBegin */
+
+	[Glade.Widget]
+	private Gtk.MenuItem MenuItemMruBegin = null; /* RecentDocument list will start after this item */
+
+	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1 = null;
 
 	[Glade.Widget]
@@ -62,6 +73,7 @@ public class Application : IEditorApplication {
 	private uint printStatusMessageID;
 
 	private FileChooserDialog fileChooser;
+	private List<MruEntry> MenuItemMruEntries = new List<MruEntry>(); /* list of MenuItem entries that constitute the RecentDocument list */
 
 	private Level level;
 	private Sector sector;
@@ -126,6 +138,7 @@ public class Application : IEditorApplication {
 		MainWindow.SetSizeRequest(900, 675);
 		MainWindowTitlePrefix = MainWindow.Title;
 		UpdateTitlebar();
+		UpdateRecentDocuments();
 		MainWindow.Icon = EditorStock.WindowIcon;
 		MainWindow.ShowAll();
 
@@ -405,7 +418,10 @@ public class Application : IEditorApplication {
 			}
 			ChangeCurrentLevel(newLevel);
 			this.fileName = fileName;
+			Settings.Instance.addToRecentDocuments(fileName);
+			Settings.Instance.Save();
 			UpdateTitlebar();
+			UpdateRecentDocuments();
 			UndoManager.MarkAsSaved();
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
@@ -436,7 +452,9 @@ public class Application : IEditorApplication {
 			if(result != (int) ResponseType.Ok)
 				return;
 			Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
+			Settings.Instance.addToRecentDocuments(fileChooser.Filename);
 			Settings.Instance.Save();
+			UpdateRecentDocuments();
 			fileName = fileChooser.Filename;
 		}
 		UpdateTitlebar();
@@ -766,6 +784,36 @@ public class Application : IEditorApplication {
 		}
 	}
 
+	private void UpdateRecentDocuments() {
+		// FIXME: Inserting new items at run-time doesn't seem to have an effect. For now we simply don't remove any some there's at least something to click on
+
+/*
+		// remove all old MenuItems 
+		MenuItemMruEntries.ForEach(delegate(MruEntry o){ MenuItemLevel_menu.Remove(o.MenuItem); });
+		MenuItemMruEntries.Clear();
+*/
+
+		// find out where to insert the MenuItems
+		int insertAt = 0;
+		foreach (Widget w in MenuItemLevel_menu.Children) {
+			insertAt++;
+			if (w == MenuItemMruBegin) break;
+		}
+		
+		// add all new MenuItems
+		Settings.Instance.RecentDocuments.ForEach(delegate(string fileName){
+			string shortLabel = System.IO.Path.GetFileName(fileName);
+			
+			MruEntry e = new MruEntry();
+			e.MenuItem = new Gtk.MenuItem(shortLabel);
+			e.MenuItem.Activated += OnMruEntry;
+			e.FileName = fileName;
+			MenuItemMruEntries.Add(e);
+			MenuItemLevel_menu.Insert(e.MenuItem, insertAt);
+		});
+
+	}
+
 	/// <summary>
 	/// Yes it is used for undo, redo and all of it, as we only need one.
 	/// </summary>
@@ -819,6 +867,20 @@ public class Application : IEditorApplication {
 		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
 		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
 		foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
+	}
+
+	/// <summary>Called when an item of the RecentDocument MenuItems is chosen</summary>
+	public void OnMruEntry(object o, EventArgs args)
+	{
+
+		// find out which MruEntry was chosen
+		foreach (MruEntry mruEntry in MenuItemMruEntries) {
+			if (mruEntry.MenuItem != o) continue;
+
+			Load(mruEntry.FileName);
+			break;
+		}
+		
 	}
 
 	public static void Main(string[] args)

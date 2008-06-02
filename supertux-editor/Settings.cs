@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Collections.Generic;
 using Gtk;
 using Gdk;
 using Glade;
@@ -12,6 +13,7 @@ public sealed class Settings {
 	public string LastBrushDir = "/usr/share/games/supertux-editor/brushes";
 	public string SupertuxExe = "/usr/games/supertux2";
 	public string SupertuxData = "/usr/share/games/supertux2";
+	public List<string> RecentDocuments;
 
 	public static Settings Instance;
 	private static XmlSerializer settingsSerializer = new XmlSerializer(typeof(Settings));
@@ -90,4 +92,11 @@ public sealed class Settings {
 				writer.Close();
 		}
 	}
+
+	public void addToRecentDocuments(string fileName) {
+		RecentDocuments.RemoveAll(delegate(string s) { return (s == fileName); });
+		RecentDocuments.Add(fileName);
+		while (RecentDocuments.Count > 8) RecentDocuments.RemoveAt(0);
+	}
+
 }

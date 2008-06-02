@@ -34,13 +34,13 @@
 	  <property name="child_pack_direction">GTK_PACK_DIRECTION_LTR</property>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="menuitem1">
+	    <widget class="GtkMenuItem" id="MenuItemLevel">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Level</property>
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menuitem1_menu">
+		<widget class="GtkMenu" id="MenuItemLevel_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="New1">
@@ -85,9 +85,10 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkImageMenuItem" id="qacheck1">
+		    <widget class="GtkMenuItem" id="qacheck1">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Check level</property>
+		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="OnQACheck" last_modification_time="Wed, 15 Mar 2006 21:16:40 GMT"/>
 		    </widget>
 		  </child>
@@ -110,7 +111,7 @@
 		      <accelerator key="P" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image10">
+			<widget class="GtkImage" id="image22">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-media-play</property>
 			  <property name="icon_size">1</property>
@@ -124,7 +125,13 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separatormenuitem2">
+		    <widget class="GtkSeparatorMenuItem" id="MenuItemMruBegin">
+		      <property name="visible">True</property>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkSeparatorMenuItem" id="MenuItemMruEnd">
 		      <property name="visible">True</property>
 		    </widget>
 		  </child>
@@ -193,7 +200,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="ansicht1_menu">
+		<widget class="GtkMenu" id="View1_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="home1">
@@ -204,7 +211,7 @@
 		      <accelerator key="Home" modifiers="GDK_MOD1_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image11">
+			<widget class="GtkImage" id="image23">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-home</property>
 			  <property name="icon_size">1</property>
@@ -251,7 +258,7 @@
 		      <accelerator key="plus" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image12">
+			<widget class="GtkImage" id="image24">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-zoom-in</property>
 			  <property name="icon_size">1</property>
@@ -273,7 +280,7 @@
 		      <accelerator key="minus" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 
 		      <child internal-child="image">
-			<widget class="GtkImage" id="image13">
+			<widget class="GtkImage" id="image25">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-zoom-out</property>
 			  <property name="icon_size">1</property>
@@ -389,7 +396,7 @@
 	      <property name="use_underline">True</property>
 
 	      <child>
-		<widget class="GtkMenu" id="menuitem4_menu">
+		<widget class="GtkMenu" id="HelpMenu_menu">
 
 		  <child>
 		    <widget class="GtkImageMenuItem" id="info1">
