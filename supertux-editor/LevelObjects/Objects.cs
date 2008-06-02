@@ -273,6 +273,16 @@ public sealed class Zeekling : SimpleDirObject
 	}
 }
 
+[SupertuxObject("mrrocket", "images/creatures/mr_rocket/mr_rocket.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class MrRocket : SimpleDirObject
+{
+	public MrRocket() {
+		Sprite = SpriteManager.Create("images/creatures/mr_rocket/mr_rocket.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("snail", "images/creatures/snail/snail.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Snail : SimpleDirObject
