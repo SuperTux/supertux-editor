@@ -901,7 +901,7 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 				Sprite = SpriteManager.Create(value);
 		}
 	}
-	private string spriteFile = "images/objects/flying_platform/flying_platform.sprite";
+	private string spriteFile;
 
 	private Sprite Sprite;
 
@@ -924,7 +924,6 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 
 	public PlatformBase()
 	{
-		Sprite = SpriteManager.Create("images/objects/flying_platform/flying_platform.sprite");
 		path.Nodes.Add(new Path.Node());
 	}
 
@@ -961,6 +960,10 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class FlyingPlatform : PlatformBase
 {
+	public FlyingPlatform()
+	{
+		SpriteFile = "images/objects/flying_platform/flying_platform.sprite";
+	}
 }
 
 [SupertuxObject("hurting_platform",
@@ -968,6 +971,10 @@ public sealed class FlyingPlatform : PlatformBase
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class HurtingPlatform : PlatformBase
 {
+	public HurtingPlatform()
+	{
+		SpriteFile = "images/objects/sawblade/sawblade.sprite";
+	}
 }
 
 #endregion Platforms
