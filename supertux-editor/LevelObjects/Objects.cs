@@ -880,8 +880,8 @@ public sealed class Rock : SimpleObject
 
 #region Platforms
 
-/// <summary>Base class for platforms.</summary>
-public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
+/// <summary>Base class for platforms and other moving objects.</summary>
+public abstract class SimplePathObject : SimpleObject, IPathObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
@@ -903,8 +903,6 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 	}
 	private string spriteFile;
 
-	private Sprite Sprite;
-
 	private Path path = new Path();
 	[LispChild("path")]
 	public Path Path {
@@ -916,49 +914,48 @@ public abstract class PlatformBase : IGameObject, IObject, IPathObject, Node
 		}
 	}
 
-	public virtual bool Resizable {
-		get {
-			return false;
-		}
-	}
-
-	public PlatformBase()
+	public SimplePathObject()
 	{
 		path.Nodes.Add(new Path.Node());
 	}
 
-	public void Draw(Gdk.Rectangle cliprect)
+	public override void Draw(Gdk.Rectangle cliprect)
 	{
 		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
 			return;
 		Sprite.Draw(Path.Nodes[0].Pos);
 	}
 
-	public virtual Node GetSceneGraphNode() {
-		return this;
-	}
-
-	public virtual void ChangeArea(RectangleF NewArea) {
+	public override void ChangeArea(RectangleF NewArea) {
+		base.ChangeArea(NewArea);
 		Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X,
 		                                NewArea.Top - Path.Nodes[0].Y);
 		Path.Move(translation);
 	}
 
-	public virtual RectangleF Area {
+	public override RectangleF Area {
 		get {
-			float x = Path.Nodes[0].X;
-			float y = Path.Nodes[0].Y;
+			X = Path.Nodes[0].X;	//object is always at the first path node
+			Y = Path.Nodes[0].Y;
 
-			return new RectangleF(x - Sprite.Offset.X, y - Sprite.Offset.Y,
-			                      Sprite.Width, Sprite.Height);
+			return base.Area;
 		}
+	}
+
+	public override object Clone() {
+		SimplePathObject aClone = (SimplePathObject) MemberwiseClone();
+		aClone.Path = new Path();
+		foreach(Path.Node node in this.Path.Nodes) {
+			aClone.Path.Nodes.Add((Path.Node) node.Clone());
+		}
+		return aClone;
 	}
 }
 
 [SupertuxObject("platform",
                 "images/objects/flying_platform/flying_platform.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class FlyingPlatform : PlatformBase
+public sealed class FlyingPlatform : SimplePathObject
 {
 	public FlyingPlatform()
 	{
@@ -969,7 +966,7 @@ public sealed class FlyingPlatform : PlatformBase
 [SupertuxObject("hurting_platform",
                 "images/objects/sawblade/sawblade.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class HurtingPlatform : PlatformBase
+public sealed class HurtingPlatform : SimplePathObject
 {
 	public HurtingPlatform()
 	{

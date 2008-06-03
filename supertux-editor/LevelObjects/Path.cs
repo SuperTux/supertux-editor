@@ -33,7 +33,7 @@ public class Path
 	[LispChilds(Name = "node", Type = typeof(Node), ListType = typeof(Node))]
 	public List<Node> Nodes = new List<Node>();
 
-	public class Node
+	public class Node : ICloneable
 	{
 		[PropertyProperties(Tooltip = "X position of node")]
 		[LispChild("x")]
@@ -55,6 +55,10 @@ public class Path
 				X = value.X;
 				Y = value.Y;
 			}
+		}
+		
+		public object Clone() {
+			return MemberwiseClone();
 		}
 	}
 
