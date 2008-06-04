@@ -919,13 +919,6 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 		path.Nodes.Add(new Path.Node());
 	}
 
-	public override void Draw(Gdk.Rectangle cliprect)
-	{
-		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
-			return;
-		Sprite.Draw(Path.Nodes[0].Pos);
-	}
-
 	public override void ChangeArea(RectangleF NewArea) {
 		base.ChangeArea(NewArea);
 		Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X,
