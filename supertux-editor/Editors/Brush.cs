@@ -189,37 +189,11 @@ public class Brush
 		int px = pos.X - (int)(width/2);
 		int py = pos.Y - (int)(height/2);
 
-		// make sure we are in bounds of the tilemap
-		if (px < 0) return;
-		if (py < 0) return;
-		if (px+width > tilemap.Width) return;
-		if (py+width > tilemap.Height) return;
-
-		// store subset of tilemap where brush will be applied as a reference pattern
-		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
-
-		// find the stored pattern that matches this reference pattern best
-		float bestSimilarity = 0;
 		TileBlock bestPattern = null;
-		foreach (TileBlock pattern in patterns) {
-			float sim = calculateSimilarity(pattern, tb);
-			if (sim > bestSimilarity) {
-				bestSimilarity = sim;
-				bestPattern = pattern;
-			}
-		}
-
-		// if we found any such pattern, apply it
-		if (bestPattern != null) {
-			uint StartX = (uint) Math.Max(0, -px);
-			uint StartY = (uint) Math.Max(0, -py);
-			uint W = Math.Min((uint) (tilemap.Width - px), Width);
-			uint H = Math.Min((uint) (tilemap.Height - py), Height);
-			for(uint y = StartY; y < H; ++y) {
-				for(uint x = StartX; x < W; ++x) {
-					tilemap[(uint) (px + x), (uint) (py + y)] = bestPattern[x, y];
-				}
-			}
+		
+		// if we find any usable pattern, we apply it
+		if (FindBestPattern(px, py, tilemap, ref bestPattern)) {
+			bestPattern.ApplyToTilemap(new FieldPos(px,py),tilemap);
 		}
 	}
 
@@ -238,6 +212,21 @@ public class Brush
 		int px = pos.X - (int) (width / 2);
 		int py = pos.Y - (int) (height / 2);
 
+		return FindBestPattern(px, py, tilemap, ref bestPattern);
+	}
+
+	/// <summary>
+	/// Find the best pattern to use when changing tiles to one of the stored patterns (with topright position arguments).
+	/// </summary>
+	/// <param name="px">The starting X position at the <paramref name="tilemap"/> to look at.</param>
+	/// <param name="py">The starting Y position at the <paramref name="tilemap"/> to look at.</param>
+	/// <param name="tilemap">The tilemap to look at.</param>
+	/// <param name="bestPattern">A tileblock that will replace the area.</param>
+	/// <returns>
+	/// True if <paramref name="bestPattern"/> is diffrent from the calculated
+	/// pattern in <paramref name="tilemap"/>, otherwise false.
+	/// </returns>
+	public bool FindBestPattern(int px, int py, Tilemap tilemap, ref TileBlock bestPattern) {
 		// Make sure we are in bounds of the tilemap, and don't throw an Exception, this
 		// is user input that haven't been checked.
 		if (px < 0) return false;
