@@ -157,26 +157,34 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 
 		// left mouse button means apply brush
 		if(button == 1) {
+			if(selecting){	//but both buttons means "abort learning"
+				selecting = false;
+			} else {
+				// save backup of Tilemap
+				tilemapBackup = Tilemap.SaveState();
 
-			// save backup of Tilemap
-			tilemapBackup = Tilemap.SaveState();
-
-			brush.ApplyToTilemap(MouseTilePos, Tilemap);
-			LastDrawPos = MouseTilePos;
-			drawing = true;
+				brush.ApplyToTilemap(MouseTilePos, Tilemap);
+				LastDrawPos = MouseTilePos;
+				drawing = true;
+			}
 			Redraw();
 		}
 
 		// right mouse button means select area to learn
 		if(button == 3) {
-			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-				|| MouseTilePos.X >= Tilemap.Width
-				|| MouseTilePos.Y >= Tilemap.Height)
-				return;
+			if(drawing) {	//but both buttons means "abort drawing"
+				drawing = false;
+				Tilemap.RestoreState(tilemapBackup);
+			} else {
+				if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
+					|| MouseTilePos.X >= Tilemap.Width
+					|| MouseTilePos.Y >= Tilemap.Height)
+					return;
 
-			SelectStartPos = MouseTilePos;
-			selecting = true;
-			UpdateSelection();
+				SelectStartPos = MouseTilePos;
+				selecting = true;
+				UpdateSelection();
+			}
 			Redraw();
 		}
 	}
@@ -186,7 +194,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		UpdateMouseTilePos(mousePos);
 
 		// left mouse button means apply brush
-		if(button == 1) {
+		if(button == 1 && drawing) {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
@@ -196,7 +204,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 
 		// right mouse button means select area to learn
-		if(button == 3) {
+		if(button == 3 && selecting) {
 			UpdateSelection();
 
 			uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
