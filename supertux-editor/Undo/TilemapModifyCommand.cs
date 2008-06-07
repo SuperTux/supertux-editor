@@ -1,4 +1,3 @@
-//  $Id: PropertyCommands.cs 4928 2007-03-07 21:18:40Z anmaster $
 //
 //  Copyright (C) 2007 Arvid Norlander <anmaster AT berlios DOT de>
 //
