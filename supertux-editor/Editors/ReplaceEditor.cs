@@ -11,26 +11,6 @@ public sealed class ReplaceEditor : TileEditorBase, IEditor, IDisposable {
 
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
 
-	internal sealed class TilemapModifyCommand : Command {
-		internal Tilemap changedTilemap;
-		internal TileBlock.StateData oldState;
-		internal TileBlock.StateData newState;
-
-		public override void Do() {
-			changedTilemap.RestoreState(newState);
-		}
-
-		public override void Undo() {
-			changedTilemap.RestoreState(oldState);
-		}
-
-		public TilemapModifyCommand(string title, Tilemap changedTilemap, TileBlock.StateData oldState, TileBlock.StateData newState) : base(title) {
-			this.changedTilemap = changedTilemap;
-			this.oldState = oldState;
-			this.newState = newState;
-		}
-	}
-
 	public ReplaceEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 		: base(application, Tilemap, Tileset) {
 		this.selection = selection;
