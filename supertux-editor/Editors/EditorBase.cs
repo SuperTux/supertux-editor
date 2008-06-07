@@ -83,13 +83,13 @@ public abstract class TileEditorBase : EditorBase {
 			gl.Color4f(1, 1, 1, 1);
 		}
 		if (selecting) {
-			gl.Color4f(0, 0, 1, 0.7f);
-			gl.Disable(gl.TEXTURE_2D);
-
 			float left = SelectionP1.X * 32f;
 			float top = SelectionP1.Y * 32f;
 			float right = SelectionP2.X * 32f + 32f;
 			float bottom = SelectionP2.Y * 32f + 32f;
+
+			gl.Color4f(0, 0, 1, 0.7f);
+			gl.Disable(gl.TEXTURE_2D);
 
 			gl.Begin(gl.QUADS);
 			gl.Vertex2f(left, top);
