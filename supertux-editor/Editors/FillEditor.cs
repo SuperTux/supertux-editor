@@ -9,8 +9,6 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 
 	public event RedrawEventHandler Redraw;
 
-	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
-
 	public FillEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
 		: base(application, Tilemap, Tileset) {
 		this.selection = selection;

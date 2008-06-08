@@ -65,6 +65,8 @@ public abstract class TileEditorBase : EditorBase {
 	protected Tilemap Tilemap;
 	protected Tileset Tileset;
 
+	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
+
 	protected bool UpdateMouseTilePos(Vector MousePos) {
 		FieldPos NewMouseTilePos = new FieldPos((int) (MousePos.X) / 32, (int) (MousePos.Y) / 32);
 		if (NewMouseTilePos != MouseTilePos) {
