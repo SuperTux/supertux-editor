@@ -11,7 +11,6 @@ using Undo;
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
 public sealed class BrushEditor : TileEditorBase, IEditor {
-	private new Selection selection = new Selection();
 	private Brush brush;
 
 	/// <summary>
@@ -28,8 +27,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	private bool LastPreviewIsChange;
 
 	public event RedrawEventHandler Redraw;
-
-	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
 
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
 		: base(application, Tilemap, Tileset) {
