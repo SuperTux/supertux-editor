@@ -166,18 +166,6 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		if(button == 3 && selecting) {
 			UpdateSelection();
 
-			uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
-			uint NewHeight = (uint) (SelectionP2.Y - SelectionP1.Y) + 1;
-			selection.Resize(NewWidth, NewHeight, 0);
-			for(uint y = 0; y < NewHeight; y++) {
-				for(uint x = 0; x < NewWidth; ++x) {
-					selection[x, y]
-						= Tilemap[(uint) SelectionP1.X + x,
-						          (uint) SelectionP1.Y + y];
-				}
-			}
-			brush.LearnPatterns(selection);
-
 			selection.FireChangedEvent();
 			selecting = false;
 		}
