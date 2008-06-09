@@ -395,6 +395,7 @@ public class Application : IEditorApplication {
 		fileChooser.Title = "Choose a Level";
 		fileChooser.Action = FileChooserAction.Open;
 		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+		fileChooser.Filter = fileChooser.Filters[0];
 		int result = fileChooser.Run();
 		fileChooser.Hide();
 		if(result != (int) ResponseType.Ok)
@@ -447,6 +448,7 @@ public class Application : IEditorApplication {
 			fileChooser.Title = "Select file to save Level";
 			fileChooser.Action = FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
+			fileChooser.Filter = fileChooser.Filters[0];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
@@ -614,6 +616,7 @@ public class Application : IEditorApplication {
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Open;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
+			fileChooser.Filter = fileChooser.Filters[3];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
@@ -644,6 +647,7 @@ public class Application : IEditorApplication {
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
+			fileChooser.Filter = fileChooser.Filters[3];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
