@@ -6,7 +6,7 @@ using Gdk;
 using Undo;
 
 /// <summary>
-/// Smoothes Tilemaps by changing tiles to one of several stored valid patterns.
+/// Smooths Tilemaps by changing tiles to one of several stored valid patterns.
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>

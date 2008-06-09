@@ -9,7 +9,7 @@ namespace LispReader
 {
 
 	/// <summary>Serializes and Deserializes an object based on reflection.</summary>
-	/// <remarks>If someone is looking for a chalenge: Speed could be improved heavily
+	/// <remarks>If someone is looking for a challenge: Speed could be improved heavily
 	/// by creating CIL at runtime...</remarks>
 	public class LispRootSerializer : ILispSerializer
 	{

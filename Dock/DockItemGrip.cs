@@ -283,7 +283,7 @@ namespace Gdl
 				}
 			}
 
-			/* TODO this crashs win32 at the moment...
+			/* TODO this crashes win32 at the moment...
 			if (titleArea.Intersect (evnt.Area, out exposeArea)) {
 				int width, height, textX, textY;
 				Layout.GetPixelSize (out width, out height);

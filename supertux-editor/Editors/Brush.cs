@@ -25,7 +25,7 @@ using DataStructures;
 using LispReader;
 
 /// <summary>
-/// Smoothes Tilemaps by changing tiles to one of several stored valid patterns
+/// Smooths Tilemaps by changing tiles to one of several stored valid patterns
 /// </summary>
 public class Brush
 {
@@ -181,7 +181,7 @@ public class Brush
 	}
 
 	/// <summary>
-	/// Smoothes Tilemap by changing tiles around the given position to one of the stored patterns
+	/// Smooths Tilemap by changing tiles around the given position to one of the stored patterns
 	/// </summary>
 	public void ApplyToTilemap(FieldPos pos, Tilemap tilemap) {
 
@@ -204,7 +204,7 @@ public class Brush
 	/// <param name="tilemap">The tilemap to look at.</param>
 	/// <param name="bestPattern">A tileblock that will replace the area.</param>
 	/// <returns>
-	/// True if <paramref name="bestPattern"/> is diffrent from the calculated
+	/// True if <paramref name="bestPattern"/> is different from the calculated
 	/// pattern in <paramref name="tilemap"/>, otherwise false.
 	/// </returns>
 	public bool FindBestPattern(FieldPos pos, Tilemap tilemap, ref TileBlock bestPattern) {

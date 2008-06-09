@@ -129,7 +129,7 @@ public class Application : IEditorApplication {
 
 		Tileset.LoadEditorImages = true;
 
-		// Initialize statur bar for PrintStatus()
+		// Initialize status bar for PrintStatus()
 		printStatusContextID = sbMain.GetContextId("PrintStatus");
 		printStatusMessageID = sbMain.Push(printStatusContextID, "Welcome to Supertux-Editor.");
 
@@ -182,7 +182,7 @@ public class Application : IEditorApplication {
 		worldmapfilter.AddPattern("*.stwm");
 		fileChooser.AddFilter( worldmapfilter );
 		Gtk.FileFilter brushfilter = new Gtk.FileFilter();
-		brushfilter.Name = "Supertux-Editor Brushs";
+		brushfilter.Name = "Supertux-Editor Brushes";
 		brushfilter.AddPattern("*.csv");
 		fileChooser.AddFilter(brushfilter);
 		Gtk.FileFilter all = new Gtk.FileFilter();
@@ -460,7 +460,7 @@ public class Application : IEditorApplication {
 		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
 
-		QACheck.ReplaceDepercatedTiles(level);
+		QACheck.ReplaceDeprecatedTiles(level);
 
 		try {
 			serializer.Write(fileName, level);
@@ -674,7 +674,7 @@ public class Application : IEditorApplication {
 	}
 
 	/// <summary>
-	/// Ask if realy continue if unsaved changes.
+	/// Ask if really continue if unsaved changes.
 	/// </summary>
 	/// <param name="act">What we would do ("quit", "close", "open another file" or such)</param>
 	/// <returns>True if continue otherwise false</returns>

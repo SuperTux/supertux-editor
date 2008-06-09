@@ -42,7 +42,7 @@ public class Path
 		[LispChild("y")]
 		public float Y;
 
-		// TODO: Is this tooltip vaild for other path modes than circular?
+		// TODO: Is this tooltip valid for other path modes than circular?
 		[PropertyProperties(Tooltip = "Seconds it will take to go to the node after this one.")]
 		[LispChild("time", Optional = true, Default = 1f)]
 		public float Time = 1f;

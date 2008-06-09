@@ -18,7 +18,7 @@ public sealed class TilemapNode : Node {
 	public void Draw(Gdk.Rectangle cliprect) {
 		uint start_x = (uint) Math.Max(0, cliprect.X / 32 - 1);
 		uint start_y = (uint) Math.Max(0, cliprect.Y / 32 - 1);
-		//HACK: Coudln't find any "inrange" or such
+		//HACK: Couldn't find any "inrange" or such
 		uint end_x = (uint) Math.Max(0, Math.Min(Field.Width, (cliprect.X + cliprect.Width) / 32 + 1));
 		uint end_y = (uint) Math.Max(0, Math.Min(Field.Height, (cliprect.Y + cliprect.Height) / 32 + 1));
 		Tile Tile;

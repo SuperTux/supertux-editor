@@ -843,7 +843,7 @@ public sealed class Ispy : SimpleDirObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Trampoline : SimpleObject
 {
-	[PropertyProperties(Tooltip = "If enabled Tux can carry the trampoline arround.")]
+	[PropertyProperties(Tooltip = "If enabled Tux can carry the trampoline around.")]
 	[LispChild("portable", Optional = true, Default = true)]
 	public bool Portable {
 		get {

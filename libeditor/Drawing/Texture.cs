@@ -118,7 +118,7 @@ namespace Drawing
 		{
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			PixelFormat* format = (PixelFormat*) surface->format;
-			GlUtil.Assert("Before update textxure");
+			GlUtil.Assert("Before update texture");
 
 			uint surface_format = SetupPixelFormat(surfacep);
 

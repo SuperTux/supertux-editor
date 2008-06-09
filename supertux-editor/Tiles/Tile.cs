@@ -8,7 +8,7 @@ using System;
 
 public sealed class Tile {
 	public enum Attribute {
-		/// <summary>solid tile that is indestructable by Tux</summary>
+		/// <summary>solid tile that is indestructible by Tux</summary>
 		SOLID     = 0x0001,
 		/// <summary>uni-directional solid tile</summary>
 		UNISOLID  = 0x0002,

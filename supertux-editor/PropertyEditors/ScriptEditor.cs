@@ -11,7 +11,7 @@ using Undo;
 /// </summary>
 /// <remarks>
 /// If you change this to add syntax highlighting or other
-/// features that are specialised for Squirrel please create another
+/// features that are specialized for Squirrel please create another
 /// multi-line edit box that can be used in for
 /// example <see cref="InfoBlock"/>.
 /// </remarks>

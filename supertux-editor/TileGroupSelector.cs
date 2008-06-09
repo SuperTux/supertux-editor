@@ -16,7 +16,7 @@ public class TilegroupSelector : ComboBox
 		PackStart(renderer, false);
 		SetCellDataFunc(renderer, TextDataFunc);
 
-		Changed += OnTileGroupChoosen;
+		Changed += OnTileGroupChosen;
 	}
 
 	private void OnLevelChanged(Level level)
@@ -49,7 +49,7 @@ public class TilegroupSelector : ComboBox
 		textRenderer.Text = group.Name;
 	}
 
-	private void OnTileGroupChoosen(object o, EventArgs args)
+	private void OnTileGroupChosen(object o, EventArgs args)
 	{
 		TreeIter iter;
 

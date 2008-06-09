@@ -49,7 +49,7 @@ namespace Undo {
 		public abstract void Undo();
 
 		/// <summary>
-		/// Protected constructor for use in specifc Command.
+		/// Protected constructor for use in specific Command.
 		/// </summary>
 		/// <param name="title">The title shown to the user.</param>
 		protected Command(string title) {

@@ -28,7 +28,7 @@ public static class QACheck
 
 	#region CheckIds
 	/// <summary>
-	/// Check a tile block for non existant tile ids.
+	/// Check a tile block for nonexistent tile ids.
 	/// </summary>
 	/// <param name="tiles">TileBlock to check</param>
 	/// <param name="Tileset">Tileset where the ids should be defined</param>
@@ -86,7 +86,7 @@ public static class QACheck
 	// 63 -> 70
 	// 101 -> 93
 	/// <summary>
-	///		A map for replacing deprecated tiles with new ones automaticly.
+	///		A map for replacing deprecated tiles with new ones automatically.
 	/// </summary>
 	private static SortedList<int, int> LevelReplaceMap = new SortedList<int, int>();
 
@@ -100,13 +100,13 @@ public static class QACheck
 		LevelReplaceMap.Add(101, 93);
 	}
 
-	#region ReplaceDepercatedTiles
+	#region ReplaceDeprecatedTiles
 	/// <summary>
 	/// Replace deprecated tiles in tileblocks.
 	/// </summary>
 	/// <param name="tiles">The tileblock</param>
 	/// <param name="TilesetFile">The TileSet file.</param>
-	private static void ReplaceDepercatedTiles(TileBlock tiles, string TilesetFile) {
+	private static void ReplaceDeprecatedTiles(TileBlock tiles, string TilesetFile) {
 		// We don't have any worldmap one currently
 		if (TilesetFile != "images/tiles.strf")
 			return;
@@ -121,13 +121,13 @@ public static class QACheck
 		}
 	}
 
-	public static void ReplaceDepercatedTiles(Level level) {
+	public static void ReplaceDeprecatedTiles(Level level) {
 		foreach (Sector sector in level.Sectors) {
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap)))
-				ReplaceDepercatedTiles(tilemap, level.TilesetFile);
+				ReplaceDeprecatedTiles(tilemap, level.TilesetFile);
 		}
 	}
-	#endregion ReplaceDepercatedTiles
+	#endregion ReplaceDeprecatedTiles
 
 	#region CheckDirection
 	private static void CheckBadDirection(SimpleDirObject dirobject) {

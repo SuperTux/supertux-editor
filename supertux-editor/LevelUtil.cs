@@ -4,7 +4,7 @@ using System;
 public static class LevelUtil
 {
 	/// <summary>
-	/// Initialises a new level with some default values.
+	/// Initializes a new level with some default values.
 	/// </summary>
 	/// <returns>The created <see cref="Level"/> object.</returns>
 	public static Level CreateLevel()
@@ -19,7 +19,7 @@ public static class LevelUtil
 	}
 
 	/// <summary>
-	/// Initialises a new sector with some default values.
+	/// Initializes a new sector with some default values.
 	/// </summary>
 	/// <param name="Name">Name of new sector.</param>
 	/// <returns>The created <see cref="Sector"/> object.</returns>

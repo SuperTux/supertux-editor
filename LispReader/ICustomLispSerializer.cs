@@ -12,13 +12,13 @@ namespace Lisp
 		/// <summary>
 		///		Should populate the object from <paramref name="Props"/>
 		/// </summary>
-		/// <param name="Props">The seralized data.</param>
+		/// <param name="Props">The serialized data.</param>
 		/// <seealso cref="CustomLispWrite"/>
 		void CustomLispRead(Properties Props);
 		/// <summary>
-		///		Should seralize the object to <paramref name="Writer"/>
+		///		Should serialize the object to <paramref name="Writer"/>
 		/// </summary>
-		/// <param name="Writer">a <see cref="Lisp.Writer"/> to seralize to.</param>
+		/// <param name="Writer">a <see cref="Lisp.Writer"/> to serialize to.</param>
 		/// <seealso cref="CustomLispRead"/>
 		void CustomLispWrite(Writer Writer);
 		/// <summary>
@@ -35,18 +35,18 @@ namespace Lisp
 	}
 
 	/// <summary>
-	///		Implement this interface to handle the seralizing of some other
+	///		Implement this interface to handle the serializing of some other
 	///		class or struct in a special way.
 	/// </summary>
 	/// <seealso cref="ICustomLispSerializer"/>
 	/// <seealso cref="LispReader.LispCustomSerializerAttribute"/>
 	public interface ILispSerializer {
 		/// <summary>
-		///		Creates an instance from the seralized object in
+		///		Creates an instance from the serialized object in
 		///		<paramref name="list"/>
 		/// </summary>
-		/// <param name="list">The seralized object</param>
-		/// <returns>The unseralized object</returns>
+		/// <param name="list">The serialized object</param>
+		/// <returns>The unserialized object</returns>
 		/// <seealso cref="Write"/>
 		object Read(List list);
 		/// <summary>
@@ -56,7 +56,7 @@ namespace Lisp
 		///		A <see cref="Writer"/> that <paramref name="Object"/> should be
 		///		seralized to.</param>
 		/// <param name="name">
-		///		Name that should be used for the seralized lisp tree.
+		///		Name that should be used for the serialized lisp tree.
 		/// </param>
 		/// <param name="Object">
 		///		The object to write.

@@ -144,9 +144,9 @@ public abstract class SimpleDirObject : SimpleObject
 	protected Directions direction = Directions.auto;
 
 	/// <summary>
-	/// Direction the badguy will be facing initaly.
+	/// Direction the badguy will be facing initially.
 	/// </summary>
-	[PropertyProperties(Tooltip = "Direction the badguy will be facing initaly.")]
+	[PropertyProperties(Tooltip = "Direction the badguy will be facing initially.")]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
 	public Directions Direction {
 		get {

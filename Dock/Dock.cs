@@ -609,7 +609,7 @@ namespace Gdl
 		{
 			if (root != null)
 				/* this will call reduce on ourselves, hiding
-				   the window if appropiate */
+				   the window if appropriate */
 				((DockItem)root).HideItem ();
 
 			e.RetVal = true;

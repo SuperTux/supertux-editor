@@ -266,7 +266,7 @@ public class LayerListWidget : TreeView {
 			sb.Append("All tile ids are valid");
 		} else {
 			msgtype = MessageType.Warning;
-			sb.Append("This tilemap contains tiles with these non existant IDs:");
+			sb.Append("This tilemap contains tiles with these nonexistent IDs:");
 			foreach (int id in invalidtiles) {
 				sb.Append(" " + id.ToString());
 			}

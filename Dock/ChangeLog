@@ -142,7 +142,7 @@
 
 2005-03-13  John Luke  <john.luke@gmail.com>
 
-	* DockPaned.cs: fix little orientaion bug when
+	* DockPaned.cs: fix little orientation bug when
 	loading the layout
 
 2005-03-12  Todd Berman  <tberman@off.net>
@@ -156,7 +156,7 @@
 2005-02-28  John Luke  <john.luke@gmail.com>
 
 	* DockBarButton.cs: new Button wrapper
-	* DockBar.cs: fix iconfiy/uniconify
+	* DockBar.cs: fix iconify/uniconify
 	* DockItem.cs: add item to dockbar on iconify
 	* DockItemGrip.cs: fix warning by adding new to Item prop
 
