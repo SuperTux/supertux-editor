@@ -448,7 +448,7 @@ public class Application : IEditorApplication {
 			fileChooser.Title = "Select file to save Level";
 			fileChooser.Action = FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
-			fileChooser.Filter = fileChooser.Filters[0];
+			fileChooser.Filter = fileChooser.Filters[(level.TilesetFile == "images/worldmap.strf")?2:1];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
