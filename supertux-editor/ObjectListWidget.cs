@@ -136,10 +136,10 @@ public class ObjectListWidget : GLWidgetBase
 			// when no level is loaded).
 			if (this.level != null) {
 				if ( (objectAttribute.Target == SupertuxObjectAttribute.Usage.WorldmapOnly) &&
-				     (level.TilesetFile != "images/worldmap.strf") ) {
+				     (!level.isWorldmap) ) {
 					continue;
 				} else if ( (objectAttribute.Target == SupertuxObjectAttribute.Usage.LevelOnly) &&
-				            (level.TilesetFile == "images/worldmap.strf") ) {
+				            (level.isWorldmap) ) {
 					continue;
 				}
 			}

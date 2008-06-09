@@ -448,7 +448,7 @@ public class Application : IEditorApplication {
 			fileChooser.Title = "Select file to save Level";
 			fileChooser.Action = FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
-			fileChooser.Filter = fileChooser.Filters[(level.TilesetFile == "images/worldmap.strf")?2:1];
+			fileChooser.Filter = fileChooser.Filters[(level.isWorldmap)?2:1];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
 			if(result != (int) ResponseType.Ok)
@@ -568,7 +568,7 @@ public class Application : IEditorApplication {
 		try {
 			string tempName = System.IO.Path.GetTempPath();
 
-			if(level.TilesetFile == "images/worldmap.strf")
+			if(level.isWorldmap)
 				tempName += "/supertux-editor.tmp.stwm";
 			else
 				tempName += "/supertux-editor.tmp.stl";

@@ -26,6 +26,11 @@ public sealed class Level
 	public string License = "";
 
 	private string tilesetFile = "images/tiles.strf";
+	public bool isWorldmap {
+		get {
+			return tilesetFile == "images/worldmap.strf";
+		}
+	}
 	public Tileset Tileset = new Tileset("images/tiles.strf");
 	public event TilesetChangedHandler TilesetChanged;
 
