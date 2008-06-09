@@ -321,6 +321,15 @@ public sealed class Kugelblitz : SimpleObject
 public sealed class Dispenser : SimpleDirObject
 {
 	/// <summary>
+	/// Type of dispenser.
+	/// </summary>
+	public enum DispenserTypes {
+		rocket_launcher,
+		cannon,
+		dropper
+	}
+
+	/// <summary>
 	/// Type of enemy to create.
 	/// </summary>
 	public enum Badguys {
@@ -340,7 +349,25 @@ public sealed class Dispenser : SimpleDirObject
 		random
 	}
 
+	private DispenserTypes dispenserType = DispenserTypes.rocket_launcher;
 	private Badguys badguy = Badguys.mrrocket;
+
+	[PropertyProperties(Tooltip = "Type of dispenser to shoot from.")]
+	[LispChild("type", Optional = true, Default = DispenserTypes.dropper)]
+	public DispenserTypes DispenserType {
+		get {
+			return dispenserType;
+		}
+		set {
+			dispenserType = value;
+			if (value == DispenserTypes.rocket_launcher)
+				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+			else if (value == DispenserTypes.cannon)
+				Sprite.Action = "working";
+			else
+				Sprite.Action = "dropper";
+		}
+	}
 
 	[PropertyProperties(Tooltip = "Type of badguy the dispenser will create.")]
 	[LispChild("badguy")]
@@ -350,17 +377,11 @@ public sealed class Dispenser : SimpleDirObject
 		}
 		set {
 			badguy = value;
-			if (value == Badguys.mrrocket)
-				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
-			else if (value == Badguys.kamikazesnowball || value == Badguys.captainsnowball) 
-				Sprite.Action = "working";
-			else
-				Sprite.Action = "dropper";
 		}
 	}
 
 	protected override void DirectionChanged() {
-		if (badguy == Badguys.mrrocket) {
+		if (dispenserType == DispenserTypes.rocket_launcher) {
 			Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
 		}
 	}
