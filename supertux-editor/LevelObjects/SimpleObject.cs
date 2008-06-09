@@ -163,6 +163,71 @@ public abstract class SimpleDirObject : SimpleObject
 	public String DeadScript = String.Empty;
 }
 
+/// <summary>Base class for platforms and other moving objects.</summary>
+public abstract class SimplePathObject : SimpleObject, IPathObject
+{
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name = String.Empty;
+	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
+	[LispChild("running", Optional = true, Default = true)]
+	public bool Running = true;
+	[ChooseResourceSetting]
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			spriteFile = value;
+			if(! String.IsNullOrEmpty(value))
+				Sprite = SpriteManager.Create(value);
+		}
+	}
+	private string spriteFile;
+
+	private Path path = new Path();
+	[LispChild("path")]
+	public Path Path {
+		get {
+			return path;
+		}
+		set {
+			path = value;
+		}
+	}
+
+	public SimplePathObject()
+	{
+		path.Nodes.Add(new Path.Node());
+	}
+
+	public override void ChangeArea(RectangleF NewArea) {
+		base.ChangeArea(NewArea);
+		Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X,
+		                                NewArea.Top - Path.Nodes[0].Y);
+		Path.Move(translation);
+	}
+
+	public override RectangleF Area {
+		get {
+			X = Path.Nodes[0].X;	//object is always at the first path node
+			Y = Path.Nodes[0].Y;
+
+			return base.Area;
+		}
+	}
+
+	public override object Clone() {
+		SimplePathObject aClone = (SimplePathObject) MemberwiseClone();
+		aClone.Path = new Path();
+		foreach(Path.Node node in this.Path.Nodes) {
+			aClone.Path.Nodes.Add((Path.Node) node.Clone());
+		}
+		return aClone;
+	}
+}
+
 /// <summary>Base class for area objects in levels</summary>
 public abstract class SimpleObjectArea : SimpleObject
 {
