@@ -459,9 +459,6 @@ public class Application : IEditorApplication {
 			UpdateRecentDocuments();
 			fileName = fileChooser.Filename;
 		}
-		UpdateTitlebar();
-		UndoManager.MarkAsSaved();
-
 		QACheck.ReplaceDeprecatedTiles(level);
 
 		try {
@@ -469,7 +466,10 @@ public class Application : IEditorApplication {
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't save level", e);
 		}
-	}
+
+		UndoManager.MarkAsSaved();
+		UpdateTitlebar();
+}
 
 	protected void OnQuit(object o, EventArgs e)
 	{
