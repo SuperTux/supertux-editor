@@ -338,7 +338,7 @@ public sealed class Dispenser : SimpleDirObject
 	/// Type of dispenser.
 	/// </summary>
 	public enum DispenserTypes {
-		rocket_launcher,
+		rocketlauncher,
 		cannon,
 		dropper
 	}
@@ -370,7 +370,7 @@ public sealed class Dispenser : SimpleDirObject
 		}
 		set {
 			dispenserType = value;
-			if (value == DispenserTypes.rocket_launcher)
+			if (value == DispenserTypes.rocketlauncher)
 				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
 			else if (value == DispenserTypes.cannon)
 				Sprite.Action = "working";
@@ -391,7 +391,7 @@ public sealed class Dispenser : SimpleDirObject
 	}
 
 	protected override void DirectionChanged() {
-		if (dispenserType == DispenserTypes.rocket_launcher) {
+		if (dispenserType == DispenserTypes.rocketlauncher) {
 			Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
 		}
 	}
