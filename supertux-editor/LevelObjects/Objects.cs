@@ -320,6 +320,20 @@ public sealed class Kugelblitz : SimpleObject
                 ObjectListAction = "working-left")]
 public sealed class Dispenser : SimpleDirObject
 {
+	private bool random;
+
+	[PropertyProperties(Tooltip = "Put a tick here to make badguys order random")]
+	[LispChild("random", Optional = true, Default = false)]
+	public bool Random {
+		get {
+			return random;
+		}
+		set {
+			random = value;
+		}
+	}
+
+
 	/// <summary>
 	/// Type of dispenser.
 	/// </summary>
@@ -343,13 +357,9 @@ public sealed class Dispenser : SimpleDirObject
 		mrrocket,
 		poisonivy,
 		skullyhop,
-		/// <summary>
-		/// Random enemies.
-		/// </summary>
-		random
 	}
 
-	private DispenserTypes dispenserType = DispenserTypes.rocket_launcher;
+	private DispenserTypes dispenserType = DispenserTypes.dropper;
 	private Badguys badguy = Badguys.mrrocket;
 
 	[PropertyProperties(Tooltip = "Type of dispenser to shoot from.")]
@@ -391,7 +401,7 @@ public sealed class Dispenser : SimpleDirObject
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
-		Sprite.Action = "working-left";
+		Sprite.Action = "dropper";
 	}
 }
 
