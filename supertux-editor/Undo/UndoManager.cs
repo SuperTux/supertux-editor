@@ -113,12 +113,15 @@ namespace Undo {
 		public static void Clear() {
 			RedoStack.Clear();
 			UndoStack.Clear();
+			savedEmpty = true;
 		}
 
 		private static Command savedCommand;
+		private static bool savedEmpty = true;
 
 		public static void MarkAsSaved() {
-			if (UndoStack.Count < 1) {
+			savedEmpty = UndoStack.Count < 1;
+			if (savedEmpty) {
 				LogManager.Log(LogLevel.Debug, "UndoManager.MarkAsSaved() called when UndoStack was empty.");
 				return;
 			}
@@ -128,7 +131,7 @@ namespace Undo {
 
 		public static bool IsDirty {
 			get {
-				if (UndoStack.Count < 1) return false;
+				if (UndoStack.Count < 1) return !savedEmpty;
 				return savedCommand != UndoStack.Peek();
 			}
 		}
