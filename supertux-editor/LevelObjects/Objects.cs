@@ -317,7 +317,7 @@ public sealed class Kugelblitz : SimpleObject
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "working-left")]
+                ObjectListAction = "dropper")]
 public sealed class Dispenser : SimpleDirObject
 {
 	private bool random;
