@@ -444,6 +444,9 @@ public class Application : IEditorApplication {
 		if(fileName == null)
 			chooseName = true;
 
+		if(level == null)
+			return;
+
 		if(chooseName) {
 			fileChooser.Title = "Select file to save Level";
 			fileChooser.Action = FileChooserAction.Save;
