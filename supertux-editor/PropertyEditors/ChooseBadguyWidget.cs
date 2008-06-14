@@ -21,6 +21,7 @@ using Drawing;
 using Gtk;
 using Gdk;
 using LispReader;
+using System.Collections.Generic;
 using Undo;
 
 /// <summary>
@@ -33,7 +34,7 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 
 	public override Widget Create(object caller)
 	{
-		StringList val = (StringList) field.GetValue(Object);
+		List<string> val = (List<string>) field.GetValue(Object);
 
 		entry = new Entry();
 		entry.Name = field.Name;
@@ -63,7 +64,7 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 	private void OnBadguyChangeDone(object sender, EventArgs args)
 	{
 		if (!changed) return; 
-		StringList bad = new StringList();
+		List<string> bad = new List<string>();
 		string String1 = entry.Text;
 		string String2 = "";
 

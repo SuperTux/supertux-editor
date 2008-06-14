@@ -1,9 +1,9 @@
 //  $Id$
 using Sprites;
 using System;
-using Lisp;
 using LispReader;
 using DataStructures;
+using System.Collections.Generic;
 using SceneGraph;
 using OpenGl;
 
@@ -316,53 +316,6 @@ public sealed class Kugelblitz : SimpleObject
 	}
 }
 
-[LispCustomSerializer(typeof(StringList))]
-public class StringList : System.Collections.Generic.List<string>, ILispSerializer
-{
-	/// <summary>
-	///		Creates an instance from the serialized object in
-	///		<paramref name="list"/>
-	/// </summary>
-	/// <param name="list">The serialized object</param>
-	/// <returns>The unserialized object</returns>
-	/// <seealso cref="Write"/>
-	public object Read(List list)
-	{
-		StringList obj = new StringList();
-
-		for (int i = 1; i < list.Length; i++) {
-			obj.Add((string)list[i]);
-		}
-		
-		return obj;
-	}
-	/// <summary>
-	///		Seralizes <paramref name="Object"/> using <paramref name="writer"/>
-	/// </summary>
-	/// <param name="writer">
-	///		A <see cref="Writer"/> that <paramref name="Object"/> should be
-	///		seralized to.</param>
-	/// <param name="name">
-	///		Name that should be used for the serialized lisp tree.
-	/// </param>
-	/// <param name="Object">
-	///		The object to write.
-	/// </param>
-	/// <seealso cref="Read"/>
-	public void Write(Writer writer, string name, object Object)
-	{
-		StringList WrittenList = (StringList) Object;
-
-		if (WrittenList.Count < 1) return;
-
-		string[] vals = new string[WrittenList.Count];
-		for (int i = 0; i < WrittenList.Count; i++) {
-			vals[i] = WrittenList[i];
-		}
-		writer.Write(name, vals);
-	}
-}
-
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "dropper")]
@@ -392,7 +345,7 @@ public sealed class Dispenser : SimpleDirObject
 	}
 
 	private DispenserTypes dispenserType = DispenserTypes.dropper;
-	private StringList badguy = new StringList();
+	private List<string> badguy = new List<string>();
 
 	[PropertyProperties(Tooltip = "Type of dispenser to shoot from.")]
 	[LispChild("type", Optional = true, Default = DispenserTypes.dropper)]
@@ -414,7 +367,7 @@ public sealed class Dispenser : SimpleDirObject
 	[ChooseBadguySetting]
 	[PropertyProperties(Tooltip = "Type of badguys the dispenser will create (lowercase). Use exactly this string to separate badguy names: ', '")]
 	[LispChild("badguy")]
-	public StringList Badguy {
+	public List<string> Badguy {
 		get {
 			return badguy;
 		}
