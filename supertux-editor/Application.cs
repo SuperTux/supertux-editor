@@ -905,9 +905,10 @@ public class Application : IEditorApplication {
 #if !INSANEDEBUG
 		} catch(Exception e) {
 			if(app.level != null) {
-				LogManager.Log(LogLevel.Fatal, "Unexpected Exception... Emergency save to '" + System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl'");
+				string filename = System.IO.Path.GetTempPath() + "/supertux-editor-emergency."+ ((app.level.isWorldmap)?"stwm":"stl");
+				LogManager.Log(LogLevel.Fatal, "Unexpected Exception... Emergency save to '" + filename + "'");
 				Console.Error.WriteLine(e.Message);
-				app.serializer.Write(System.IO.Path.GetTempPath() + "/supertux-editor-emergency.stl", app.level);
+				app.serializer.Write(filename, app.level);
 			}
 			throw;
 		}
