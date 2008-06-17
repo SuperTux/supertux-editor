@@ -29,6 +29,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	{
 		this.application = application;
 		this.path = path;
+		application.EditProperties(path, "Path");
 		killTimer = false;
 		GLib.Timeout.Add(100, Animate);
 	}
