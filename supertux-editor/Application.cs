@@ -191,9 +191,9 @@ public class Application : IEditorApplication {
 		fileChooser.AddFilter( all );
 		if( Settings.Instance.SupertuxData != null ){
 			try {
-				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData);
+				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData + "/levels");
 			} catch (Exception e) {
-				LogManager.Log(LogLevel.Warning, "Couldn't add supertux data directory to File Chooser: " + e.Message);
+				LogManager.Log(LogLevel.Warning, "Couldn't add supertux level directory to File Chooser: " + e.Message);
 			}
 		}
 
