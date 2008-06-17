@@ -36,9 +36,7 @@ namespace Undo {
 		}
 	}
 
-	// TODO: Avoid code duplication from ObjectRemoveCommand
-	// FIXME: Undoing this doesn't work, why?
-	internal sealed class ObjectAddCommand : ObjectCommand {
+	internal class ObjectAddCommand : ObjectCommand {
 		public override void Do() {
 			sector.Add(changedObject, true);
 		}
@@ -52,15 +50,13 @@ namespace Undo {
 	}
 
 	// TODO: Possible mem leak with objects hanging around forever?
-	// TODO: Avoid code duplication from ObjectAddCommand
-	// FIXME: Redoing this doesn't work, why?
-	internal sealed class ObjectRemoveCommand : ObjectCommand {
+	internal sealed class ObjectRemoveCommand : ObjectAddCommand {
 		public override void Do() {
-			sector.Remove(changedObject, true);
+			base.Undo();
 		}
 
 		public override void Undo() {
-			sector.Add(changedObject, true);
+			base.Do();
 		}
 
 		public ObjectRemoveCommand(string title, IGameObject changedObject, Sector sector)
