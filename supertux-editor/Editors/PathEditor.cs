@@ -7,6 +7,7 @@ using Gdk;
 using SceneGraph;
 using DataStructures;
 using OpenGl;
+using Undo;
 
 public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisposable
 {
@@ -105,13 +106,13 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					Vector pointOnEdge = new Vector(0, 0);
 					int addNode = FindPath(mousePos, ref pointOnEdge);
 					if(addNode >= 0) {
-						application.TakeUndoSnapshot("Added Path node");
 						node = new Path.Node();
 						node.Pos = pointOnEdge;
-						path.Nodes.Insert(addNode+1, node);
+						PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path, addNode+1);
+						command.Do();
+						UndoManager.AddCommand(command);
 					}
 				} else if(selectedNode == path.Nodes[path.Nodes.Count - 1]) {
-					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
 					// Snap?
 					if( application.SnapToGrid ) {
@@ -119,12 +120,15 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 						                      (float) ((int)mousePos.Y / 32) * 32);
 					}
 					node.Pos = mousePos;
-					path.Nodes.Add(node);
+					PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path);
+					command.Do();
+					UndoManager.AddCommand(command);
 				} else if(selectedNode == path.Nodes[0]) {
-					application.TakeUndoSnapshot("Added Path node");
 					node = new Path.Node();
 					node.Pos = mousePos;
-					path.Nodes.Insert(0, node);
+					PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path, 0);
+					command.Do();
+					UndoManager.AddCommand(command);
 				}
 			}
 
@@ -214,8 +218,9 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		application.TakeUndoSnapshot("Deleted Path node");
-		path.Nodes.Remove(selectedNode);
+		PathNodeRemoveCommand command = new PathNodeRemoveCommand("Removed Path node", selectedNode, path);
+		command.Do();
+		UndoManager.AddCommand(command);
 		selectedNode = null;
 		dragging = false;
 		Redraw();
