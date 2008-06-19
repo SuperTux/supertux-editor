@@ -42,5 +42,13 @@ namespace Undo {
 			this.oldData = field.GetValue(obj);
 			this.newData = newData;
 		}
+
+		public PropertyChangeCommand(string title, FieldOrProperty field, Object obj, Object newData, Object oldData)
+			: base(title) {
+			this.obj = obj;
+			this.field = field;
+			this.oldData = oldData;
+			this.newData = newData;
+		}
 	}
 }
