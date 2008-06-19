@@ -243,13 +243,17 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnShiftLeft(object o, EventArgs args)
 	{
-		path.Shift(-1);
+		PathShiftCommand command = new PathShiftCommand("Path shifted backwards", path, -1);
+		command.Do();
+		UndoManager.AddCommand(command);
 		Redraw();
 	}
 
 	private void OnShiftRight(object o, EventArgs args)
 	{
-		path.Shift(1);
+		PathShiftCommand command = new PathShiftCommand("Path shifted forward", path, 1);
+		command.Do();
+		UndoManager.AddCommand(command);
 		Redraw();
 	}
 

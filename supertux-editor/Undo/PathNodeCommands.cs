@@ -87,4 +87,30 @@ namespace Undo {
 			: base(title, changedPathNode, changedPath, position) { }
 	}
 
+	internal class PathShiftCommand : Command {
+		protected Path.Node changedPathNode;
+		/// <summary>
+		/// The Path the Node was/is in.
+		/// </summary>
+		protected Path changedPath;
+		/// <summary>
+		/// The shift delta.
+		/// </summary>
+		protected int delta;
+
+		public override void Do() {
+			changedPath.Shift(delta);
+		}
+
+		public override void Undo() {
+			changedPath.Shift(-delta);
+		}
+
+		public PathShiftCommand(string title, Path changedPath, int delta)
+			: base(title) {
+			this.delta = delta;
+			this.changedPath = changedPath;
+		}
+	}
+
 }
