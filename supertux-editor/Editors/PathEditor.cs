@@ -146,7 +146,16 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 			}
 
 		} else if(button == 3) {
-			PopupMenu(button);
+			if(dragging)	{
+				dragging = false;
+				selectedNode.Pos = originalPos;
+				Redraw();
+			} else	{
+				Path.Node node = FindNodeAt(mousePos);
+				if (node != null) 	//if we have clicked on a node..
+					selectedNode = node;	//..make that node active
+				PopupMenu(button);
+			}
 		}
 	}
 
