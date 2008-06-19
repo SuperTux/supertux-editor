@@ -213,7 +213,8 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
-		deleteItem.Sensitive = path.Nodes.Count > 1;
+		//Do not allow to delete already deleted node.
+		deleteItem.Sensitive = path.Nodes.Count > 1 && path.Nodes.IndexOf(selectedNode) > -1;
 		popupMenu.Append(deleteItem);
 
 		MenuItem shiftLeftItem = new ImageMenuItem(Stock.GoBack, null);
