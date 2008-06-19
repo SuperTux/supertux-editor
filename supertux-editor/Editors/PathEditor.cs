@@ -7,6 +7,7 @@ using Gdk;
 using SceneGraph;
 using DataStructures;
 using OpenGl;
+using LispReader;
 using Undo;
 
 public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisposable
@@ -151,6 +152,11 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
+		if (dragging && selectedNode.Pos != originalPos){
+			PropertyChangeCommand command = new PropertyChangeCommand("Moved Path Node", new FieldOrProperty.Property(typeof(Path.Node).GetProperty("Pos")), selectedNode, selectedNode.Pos, originalPos);
+			UndoManager.AddCommand(command);
+		}
+
 		dragging = false;
 		moveStarted = false;
 	}
@@ -159,7 +165,6 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	{
 		if(dragging) {
 			if (!moveStarted) {
-				application.TakeUndoSnapshot("Moved Path Node");
 				moveStarted = true;
 			}
 			Vector spos = originalPos + (mousePos - pressPoint);
