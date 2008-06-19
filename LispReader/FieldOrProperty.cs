@@ -58,7 +58,7 @@ namespace LispReader
 		public abstract object GetCustomAttribute(Type attributeType);
 		public abstract object[] GetCustomAttributes(Type attributeType);
 
-		private class Field : FieldOrProperty{
+		public class Field : FieldOrProperty{
 			private FieldInfo field;
 
 			public Field(FieldInfo field)
@@ -99,7 +99,7 @@ namespace LispReader
 			}
 		}
 
-		private class Property : FieldOrProperty{
+		public class Property : FieldOrProperty{
 			private PropertyInfo property;
 
 			public Property(PropertyInfo property)
