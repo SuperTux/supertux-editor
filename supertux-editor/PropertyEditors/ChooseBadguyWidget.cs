@@ -34,10 +34,11 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 
 	public override Widget Create(object caller)
 	{
+		HBox box = new HBox(true, 3);
+
 		List<string> val = (List<string>) field.GetValue(Object);
 
 		entry = new Entry();
-		entry.Name = field.Name;
 
 		string String = "";
 		for (int i = 0; i < val.Count; i++) {
@@ -53,7 +54,10 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 		// Create a tooltip if we can.
 		CreateToolTip(caller, entry);
 
-		return entry;
+		box.PackStart(entry, true, true, 0);
+		box.Name = field.Name;
+
+		return box;
 	}
 
 	private void OnBadguyChanged(object sender, EventArgs args)
