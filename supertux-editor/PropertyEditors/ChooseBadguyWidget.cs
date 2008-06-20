@@ -40,7 +40,11 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int NONE = -1;
 
 	private List<Sprite> badguySprites = new List<Sprite>();
-	private List<String> badguys;
+	private List<string> badguys;
+	private Sprite draggedSprite;
+	private string draggedBadguy;
+	private int draggedIndex;
+	private bool dragging = false;
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
 
@@ -48,7 +52,7 @@ public class BadguyChooserWidget : GLWidgetBase
 		new TargetEntry("GameObject", TargetFlags.App, 0)
 	};
 
-	public BadguyChooserWidget(List<String> badguys)
+	public BadguyChooserWidget(List<string> badguys)
 	{
 		this.badguys = badguys;
 
@@ -80,20 +84,24 @@ public class BadguyChooserWidget : GLWidgetBase
 		SetSizeRequest( -1, ROW_HEIGHT);
 
 		ButtonPressEvent += OnButtonPress;
-		AddEvents((int) Gdk.EventMask.ButtonPressMask);
+		ButtonReleaseEvent += OnButtonRelease;
+		MotionNotifyEvent += OnMotionNotify;
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
 
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    DragTargetEntries, DragAction.Default);
 
 		DragBegin += OnDragBegin;
+		DragEnd += OnDragEnd;
 	}
 
 	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{
 
+//		gl.ClearColor(1,1,1,1);		//possible clear with other color
 		gl.Clear(gl.COLOR_BUFFER_BIT);
+//		gl.ClearColor(0,0,0,1);
 		int x = 0;
 		int y = 0;
 		float scalex = 1;
@@ -198,11 +206,37 @@ public class BadguyChooserWidget : GLWidgetBase
 				}
 			}
 		}
+		if(args.Event.Button == 3 && dragging) {
+			dragging = false;
+			badguySprites.Insert(draggedIndex, draggedSprite);	
+			badguys.Insert(draggedIndex, draggedBadguy);	
+		}
+	}
+
+	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
+	{
+		LogManager.Log(LogLevel.Debug, "Mouse button released");
+		if(args.Event.Button == 1) {
+			dragging = false;
+		}
+	}
+
+	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
+	{
+
+		if (args.Event.State.CompareTo(ModifierType.Button1Mask) > -1){
+			LogManager.Log(LogLevel.Debug, "Mouse moved with button 1 pressed, X: " + args.Event.X + ", Y: " + args.Event.Y);
+		}
 	}
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Dragstart");
+		LogManager.Log(LogLevel.Debug, "Dragstart");// + DragBeginArgs.Context.);
+	}
+
+	private void OnDragEnd(object o, DragEndArgs args)
+	{
+		LogManager.Log(LogLevel.Debug, "Dragstop");
 	}
 }
 
