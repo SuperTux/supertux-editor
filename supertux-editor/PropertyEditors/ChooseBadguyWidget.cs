@@ -71,6 +71,7 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 	private void OnBadguyChangeDone(object sender, EventArgs args)
 	{
 		if (!changed) return; 
+		changed = false;
 		List<string> bad = new List<string>();
 		string String1 = entry.Text;
 		string String2 = "";
