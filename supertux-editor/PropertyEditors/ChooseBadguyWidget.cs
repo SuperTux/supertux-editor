@@ -34,11 +34,12 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 
 	public override Widget Create(object caller)
 	{
-		HBox box = new HBox(true, 3);
+		VBox vBox = new VBox(false, 3);
 
 		List<string> val = (List<string>) field.GetValue(Object);
 
 		entry = new Entry();
+		HBox hBox = new HBox(true, 3);
 
 		string String = "";
 		for (int i = 0; i < val.Count; i++) {
@@ -51,13 +52,15 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 		entry.Changed += OnBadguyChanged;
 		entry.FocusOutEvent += OnBadguyChangeDone;
 
+		vBox.PackEnd(entry, true, true, 0);
+		vBox.PackEnd(hBox, true, true, 0);
+
 		// Create a tooltip if we can.
-		CreateToolTip(caller, entry);
+		CreateToolTip(caller, vBox);
 
-		box.PackStart(entry, true, true, 0);
-		box.Name = field.Name;
+		vBox.Name = field.Name;
 
-		return box;
+		return vBox;
 	}
 
 	private void OnBadguyChanged(object sender, EventArgs args)
