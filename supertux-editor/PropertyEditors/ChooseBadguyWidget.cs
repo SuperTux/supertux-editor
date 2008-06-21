@@ -39,9 +39,8 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int TILES_PER_ROW = 4;
 	private const int NONE = -1;
 
-	private List<Sprite> badguySprites = new List<Sprite>();
+	private static Dictionary<string, Sprite> badguySprites = new Dictionary<string, Sprite>();
 	private List<string> badguys;
-	private Sprite draggedSprite;
 	private string draggedBadguy;
 	private int draggedIndex;
 	private bool dragging = false;
@@ -78,20 +77,26 @@ public class BadguyChooserWidget : GLWidgetBase
 				continue;
 			}
 
-			badguySprites.Add(sprite);
+			if(!badguySprites.ContainsKey(name)) {
+				badguySprites.Add(name, sprite);
+			}
 		}
 
 		SetSizeRequest( -1, ROW_HEIGHT);
 
 		ButtonPressEvent += OnButtonPress;
-		ButtonReleaseEvent += OnButtonRelease;
-		MotionNotifyEvent += OnMotionNotify;
+//		ButtonReleaseEvent += OnButtonRelease;
+//		MotionNotifyEvent += OnMotionNotify;
 		AddEvents((int) Gdk.EventMask.AllEventsMask);
 
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    DragTargetEntries, DragAction.Default);
 
+		Gtk.Drag.DestSet (this, Gtk.DestDefaults.All,
+		                    DragTargetEntries, DragAction.Default);
+
 		DragBegin += OnDragBegin;
+		DragMotion += OnDragMotion;
 		DragEnd += OnDragEnd;
 	}
 
@@ -108,7 +113,7 @@ public class BadguyChooserWidget : GLWidgetBase
 		float scaley = 1;
 		Sprite objectSprite = null;
 		for( int i = 0 + FirstRow * TILES_PER_ROW; i < badguys.Count; i++ ){
-			objectSprite = badguySprites[i];
+			objectSprite = badguySprites[badguys[i]];
 			//Draw Image
 			if( objectSprite != null ){
 				gl.PushMatrix();
@@ -206,37 +211,49 @@ public class BadguyChooserWidget : GLWidgetBase
 				}
 			}
 		}
-		if(args.Event.Button == 3 && dragging) {
-			dragging = false;
-			badguySprites.Insert(draggedIndex, draggedSprite);	
-			badguys.Insert(draggedIndex, draggedBadguy);	
-		}
+//		if(args.Event.Button == 3 && dragging) {
+//			dragging = false;
+//			badguySprites.Insert(draggedIndex, draggedSprite);	
+//			badguys.Insert(draggedIndex, draggedBadguy);	
+//		}
 	}
 
-	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
-	{
-		LogManager.Log(LogLevel.Debug, "Mouse button released");
-		if(args.Event.Button == 1) {
-			dragging = false;
-		}
-	}
+//	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
+//	{
+//		LogManager.Log(LogLevel.Debug, "Mouse button released");
+//		if(args.Event.Button == 1) {
+//			dragging = false;
+//		}
+//	}
 
-	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
-	{
-
-		if (args.Event.State.CompareTo(ModifierType.Button1Mask) > -1){
-			LogManager.Log(LogLevel.Debug, "Mouse moved with button 1 pressed, X: " + args.Event.X + ", Y: " + args.Event.Y);
-		}
-	}
+//	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
+//	{
+//
+//		if (args.Event.State.CompareTo(ModifierType.Button1Mask) > -1){
+//			LogManager.Log(LogLevel.Debug, "Mouse moved with button 1 pressed, X: " + args.Event.X + ", Y: " + args.Event.Y);
+//		}
+//	}
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Dragstart");// + DragBeginArgs.Context.);
+		LogManager.Log(LogLevel.Debug, "Dragstart of ID " + SelectedObjectNr.ToString());// + DragBeginArgs.Context.);
+		if (SelectedObjectNr > -1){
+			draggedIndex = SelectedObjectNr;
+			draggedBadguy = badguys[SelectedObjectNr];
+			badguys.RemoveAt(SelectedObjectNr);
+		}
+	}
+
+	private void OnDragMotion(object o, DragMotionArgs args)
+	{
+		LogManager.Log(LogLevel.Debug, "Drag motion, X: " + args.X + ", Y: " + args.Y);// + DragBeginArgs.Context.);
 	}
 
 	private void OnDragEnd(object o, DragEndArgs args)
 	{
 		LogManager.Log(LogLevel.Debug, "Dragstop");
+//		Gtk.Drag.Finish(Gdk.DragContext, bool, bool, uint);
+//		GetSourceWidget(Gdk.DragContext) : Widget
 	}
 }
 
