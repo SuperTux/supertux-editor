@@ -41,9 +41,8 @@ public class BadguyChooserWidget : GLWidgetBase
 
 	private static Dictionary<string, Sprite> badguySprites = new Dictionary<string, Sprite>();
 	private List<string> badguys;
-	private string draggedBadguy;
+	private string draggedBadguy = "";
 	private int draggedIndex;
-	private bool dragging = false;
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
 
@@ -56,29 +55,9 @@ public class BadguyChooserWidget : GLWidgetBase
 		this.badguys = badguys;
 
 		foreach(string name in badguys){
-			Type type = this.GetType().Assembly.GetType(name, false, true); //case-insensitive
-
-			if (type == null) {
-				LogManager.Log(LogLevel.Warning, "No type found for " + name);
-				continue;
-			}
-
-			SupertuxObjectAttribute objectAttribute	= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
-
-			if(objectAttribute == null) {
-				LogManager.Log(LogLevel.Warning, "No objectAttribute found for " + name);
-				continue;
-			}
-
-			Sprite sprite = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
-
-			if(sprite == null) {
-				LogManager.Log(LogLevel.Warning, "No sprite found for " + name);
-				continue;
-			}
 
 			if(!badguySprites.ContainsKey(name)) {
-				badguySprites.Add(name, sprite);
+				badguySprites.Add(name, CrateSprite(this, name));
 			}
 		}
 
@@ -157,6 +136,31 @@ public class BadguyChooserWidget : GLWidgetBase
 				y += ROW_HEIGHT;
 			}
 		}
+	}
+
+	private static Sprite CrateSprite(BadguyChooserWidget widgetInstance, string classname)
+	{
+		Type type = widgetInstance.GetType().Assembly.GetType(classname, false, true); //case-insensitive search
+
+		if (type == null) {
+			LogManager.Log(LogLevel.Warning, "No type found for " + classname);
+			return null;
+		}
+
+		SupertuxObjectAttribute objectAttribute	= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+
+		if(objectAttribute == null) {
+			LogManager.Log(LogLevel.Warning, "No objectAttribute found for " + classname);
+			return null;
+		}
+
+		Sprite sprite = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
+
+		if(sprite == null) {
+			LogManager.Log(LogLevel.Warning, "No sprite found for " + classname);
+			return null;
+		}
+		return sprite;
 	}
 
 	private static Sprite CreateSprite(string name, string action)
@@ -247,11 +251,35 @@ public class BadguyChooserWidget : GLWidgetBase
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
 		LogManager.Log(LogLevel.Debug, "Drag motion, X: " + args.X + ", Y: " + args.Y);// + DragBeginArgs.Context.);
+		Vector MousePos = new Vector((float) args.X, (float) args.Y);
+		int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
+		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
+		if( column >= TILES_PER_ROW ){
+			SelectedObjectNr = NONE;
+			return;
+		}
+		int selected = TILES_PER_ROW * row + column;
+		if( selected  < badguys.Count ){
+			if( SelectedObjectNr != selected ){
+				SelectedObjectNr = selected;
+				//find type by name, case-unsensitive
+				QueueDraw();
+			} else {
+				SelectedObjectNr = NONE;
+			}
+		}	
 	}
 
 	private void OnDragEnd(object o, DragEndArgs args)
 	{
 		LogManager.Log(LogLevel.Debug, "Dragstop");
+		if (draggedBadguy != ""){
+			if (SelectedObjectNr == NONE)
+				badguys.Add(draggedBadguy);
+			else
+				badguys.Insert(SelectedObjectNr, draggedBadguy);
+			draggedBadguy = "";
+		}
 //		Gtk.Drag.Finish(Gdk.DragContext, bool, bool, uint);
 //		GetSourceWidget(Gdk.DragContext) : Widget
 	}
