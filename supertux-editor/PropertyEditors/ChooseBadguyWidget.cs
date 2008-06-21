@@ -34,6 +34,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int TILE_HEIGHT = 32;
 	private const int SPACING_X = 1;
 	private const int SPACING_Y = 1;
+	private const int BORDER_LEFT = 6;
 	private const int ROW_HEIGHT = TILE_HEIGHT + SPACING_Y;
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
 	private const int TILES_PER_ROW = 4;
@@ -42,6 +43,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	private static Dictionary<string, Sprite> badguySprites = new Dictionary<string, Sprite>();
 	private List<string> badguys;
 	private string draggedBadguy = "";
+	private bool dragging = false;
 	private int draggedIndex;
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
@@ -86,7 +88,7 @@ public class BadguyChooserWidget : GLWidgetBase
 //		gl.ClearColor(1,1,1,1);		//possible clear with other color
 		gl.Clear(gl.COLOR_BUFFER_BIT);
 //		gl.ClearColor(0,0,0,1);
-		int x = 0;
+		int x = BORDER_LEFT;
 		int y = 0;
 		float scalex = 1;
 		float scaley = 1;
@@ -117,7 +119,7 @@ public class BadguyChooserWidget : GLWidgetBase
 				gl.PopMatrix();
 			}
 			//mark the selected object
-			if( i == SelectedObjectNr ){
+			if( i == SelectedObjectNr && !dragging ){
 				gl.Color4f(0, 1, 1, 0.4f);
 				gl.Disable(gl.TEXTURE_2D);
 				gl.Begin(gl.QUADS);
@@ -135,6 +137,26 @@ public class BadguyChooserWidget : GLWidgetBase
 				x = 0;
 				y += ROW_HEIGHT;
 			}
+		}
+
+		//draw insert mark if dragging
+		if (dragging){
+			int offset_x = COLUMN_WIDTH * ((SelectedObjectNr == NONE)?badguys.Count:SelectedObjectNr) + BORDER_LEFT;
+
+			gl.Color4f(1, 1, 1, 1);
+			gl.Disable(gl.TEXTURE_2D);
+			gl.LineWidth(3);
+			gl.Begin(gl.LINES);
+				gl.Vertex2f( offset_x - 5, 4);
+				gl.Vertex2f( offset_x + 5, 4);
+				gl.Vertex2f( offset_x, 4);
+				gl.Vertex2f( offset_x, TILE_HEIGHT - 4);
+				gl.Vertex2f( offset_x + 5, TILE_HEIGHT - 4);
+				gl.Vertex2f( offset_x - 5, TILE_HEIGHT - 4);
+			gl.End();
+			gl.LineWidth(1);
+			gl.Enable(gl.TEXTURE_2D);
+			gl.Color4f(1, 1, 1, 1);
 		}
 	}
 
@@ -199,7 +221,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 1) {
-			Vector MousePos = new Vector((float) args.Event.X,
+			Vector MousePos = new Vector((float) args.Event.X - BORDER_LEFT,
 			                             (float) args.Event.Y);
 			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 			int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
@@ -245,13 +267,14 @@ public class BadguyChooserWidget : GLWidgetBase
 			draggedIndex = SelectedObjectNr;
 			draggedBadguy = badguys[SelectedObjectNr];
 			badguys.RemoveAt(SelectedObjectNr);
+
+			dragging = true;
 		}
 	}
 
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Drag motion, X: " + args.X + ", Y: " + args.Y);// + DragBeginArgs.Context.);
-		Vector MousePos = new Vector((float) args.X, (float) args.Y);
+		Vector MousePos = new Vector((float) args.X - BORDER_LEFT + TILE_WIDTH / 2, (float) args.Y);
 		int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 		if( column >= TILES_PER_ROW ){
@@ -264,10 +287,13 @@ public class BadguyChooserWidget : GLWidgetBase
 				SelectedObjectNr = selected;
 				//find type by name, case-unsensitive
 				QueueDraw();
-			} else {
-				SelectedObjectNr = NONE;
 			}
-		}	
+		} else {
+			SelectedObjectNr = NONE;
+		}
+
+		if (SelectedObjectNr == NONE)
+			QueueDraw();
 	}
 
 	private void OnDragEnd(object o, DragEndArgs args)
@@ -278,7 +304,9 @@ public class BadguyChooserWidget : GLWidgetBase
 				badguys.Add(draggedBadguy);
 			else
 				badguys.Insert(SelectedObjectNr, draggedBadguy);
+
 			draggedBadguy = "";
+			dragging = false;
 		}
 //		Gtk.Drag.Finish(Gdk.DragContext, bool, bool, uint);
 //		GetSourceWidget(Gdk.DragContext) : Widget
