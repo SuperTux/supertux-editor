@@ -15,9 +15,9 @@ public class ObjectListWidget : GLWidgetBase
 	private const int SPACING_Y = 1;
 	private const int ROW_HEIGHT = TILE_HEIGHT + SPACING_Y;
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
-	private const int TILES_PER_ROW = 4;
 	private const int NONE = -1;
 
+	private int TILES_PER_ROW = 4;
 	private bool objectsLoaded;
 	private List<Type> gameObjectTypes = new List<Type>();
 	private List<Sprite> gameObjectSprites = new List<Sprite>();
@@ -44,6 +44,8 @@ public class ObjectListWidget : GLWidgetBase
 
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    DragTargetEntries, DragAction.Copy | DragAction.Default);
+
+		SizeAllocated += OnSizeAllocated;
 
 		DragBegin += OnDragBegin;
 		ScrollEvent += OnScroll;
@@ -274,5 +276,11 @@ public class ObjectListWidget : GLWidgetBase
 			args.RetVal = true;
 			QueueDraw();
 		}
+	}
+
+	/// <summary>Calculate TILES_PER_ROW, when we know how long we are</summary>
+	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
+	{
+		TILES_PER_ROW = args.Allocation.Width /  COLUMN_WIDTH;
 	}
 }
