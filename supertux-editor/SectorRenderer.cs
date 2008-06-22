@@ -8,6 +8,10 @@ using Gtk;
 
 public sealed class SectorRenderer : RenderView
 {
+	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
+		new TargetEntry("GameObject", TargetFlags.App, 0)
+	};
+
 	private Hashtable colors = new Hashtable();
 	private ColorNode objectsColorNode;
 	private ColorNode backgroundColorNode;
@@ -67,7 +71,7 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
 
-		Drag.DestSet(this, DestDefaults.All, ObjectListWidget.DragTargetEntries, Gdk.DragAction.Default);
+		Drag.DestSet(this, DestDefaults.All, DragTargetEntries, Gdk.DragAction.Default);
 		DragMotion += OnDragMotion;
 	}
 
