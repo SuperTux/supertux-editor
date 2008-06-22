@@ -73,7 +73,8 @@ public class BadguyChooserWidget : GLWidgetBase
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
-		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
+		if (badguys.Count > 0)		//we need at least one badguy for dragging
+			Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    source_table, DragAction.Move);
 
 		Gtk.Drag.DestSet (this, Gtk.DestDefaults.All,
