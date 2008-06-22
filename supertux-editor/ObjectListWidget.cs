@@ -261,7 +261,7 @@ public class ObjectListWidget : GLWidgetBase
 			foreach (Atom target in Targets){
 				if (target.Name == "BadguyName") 
 					//TODO: Send only badguys for dispenser, no Doors or Tilemaps..
-					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name));
+					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
 			}
 		}
 	}
