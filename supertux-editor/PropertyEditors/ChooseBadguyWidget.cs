@@ -283,7 +283,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	{
 		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
 
-		LogManager.Log(LogLevel.Debug, "Badguy recieved " + data);
+		LogManager.Log(LogLevel.Debug, "Badguy " + data + " recieved");
 
 		if(!badguySprites.ContainsKey(data)) {
 				badguySprites.Add(data, CrateSprite(data));
@@ -318,7 +318,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	/// <summary>Calculate TILES_PER_ROW, when we know how long we are</summary>
 	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
 	{
-		TILES_PER_ROW = (int) Math.Floor(( (float)args.Allocation.Width - BORDER_LEFT ) /  COLUMN_WIDTH);
+		TILES_PER_ROW = (args.Allocation.Width - BORDER_LEFT ) /  COLUMN_WIDTH;
 	}
 }
 
