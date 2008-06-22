@@ -27,7 +27,8 @@ public class ObjectListWidget : GLWidgetBase
 	private Level level;
 
 	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
-		new TargetEntry("GameObject", TargetFlags.App, 0)
+		new TargetEntry("GameObject", TargetFlags.App, 0),
+		new TargetEntry("BadguyName", TargetFlags.App, 1)
 	};
 
 	public ObjectListWidget(IEditorApplication application)
@@ -42,10 +43,11 @@ public class ObjectListWidget : GLWidgetBase
 		AddEvents((int) Gdk.EventMask.ScrollMask);
 
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
-		                    DragTargetEntries, DragAction.Default);
+		                    DragTargetEntries, DragAction.Copy | DragAction.Default);
 
 		DragBegin += OnDragBegin;
 		ScrollEvent += OnScroll;
+		DragDataGet += OnDragDataGet;		
 		application.LevelChanged += OnLevelChanged;
 	}
 
@@ -244,7 +246,20 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
+		//TODO: set object icon here
 		LogManager.Log(LogLevel.Debug, "Dragstart");
+	}
+
+	private void OnDragDataGet (object o, DragDataGetArgs args)
+	{
+		//TODO: send right badguy name here
+
+		Atom[] Targets = args.Context.Targets;
+
+		foreach (Atom target in Targets){
+			if (target.Name == "BadguyName")
+				args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes ("mrrocket"));
+		}
 	}
 
 	private void OnScroll(object o, ScrollEventArgs args)
