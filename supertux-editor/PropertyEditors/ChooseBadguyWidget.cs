@@ -37,48 +37,57 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int BORDER_LEFT = 6;
 	private const int ROW_HEIGHT = TILE_HEIGHT + SPACING_Y;
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
-	private const int TILES_PER_ROW = 4;
 	private const int NONE = -1;
 
+	private int TILES_PER_ROW = 4;
 	private static Dictionary<string, Sprite> badguySprites = new Dictionary<string, Sprite>();
 	private List<string> badguys;
 	private string draggedBadguy = "";
 	private bool dragging = false;
-	private int draggedIndex;
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
 
-	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
-		new TargetEntry("GameObject", TargetFlags.App, 0)
+	//do not allow dragging our badguys away from this editor
+	public static TargetEntry [] source_table = new TargetEntry[] {
+		new TargetEntry("BadguyName", TargetFlags.Widget, 0)
+	};
+
+	//allow incomming badguys from any widget in this application
+	public static TargetEntry [] target_table = new TargetEntry[] {
+		new TargetEntry("BadguyName", TargetFlags.App, 0)
 	};
 
 	public BadguyChooserWidget(List<string> badguys)
 	{
 		this.badguys = badguys;
 
-		foreach(string name in badguys){
+		foreach(string name in badguys){	//process each badguy name and crate sprite for it
 
 			if(!badguySprites.ContainsKey(name)) {
-				badguySprites.Add(name, CrateSprite(this, name));
+				badguySprites.Add(name, CrateSprite(name));
 			}
 		}
 
 		SetSizeRequest( -1, ROW_HEIGHT);
 
 		ButtonPressEvent += OnButtonPress;
-//		ButtonReleaseEvent += OnButtonRelease;
-//		MotionNotifyEvent += OnMotionNotify;
-		AddEvents((int) Gdk.EventMask.AllEventsMask);
+		AddEvents((int) Gdk.EventMask.ButtonPressMask);
 
 		Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
-		                    DragTargetEntries, DragAction.Default);
+		                    source_table, DragAction.Move);
 
 		Gtk.Drag.DestSet (this, Gtk.DestDefaults.All,
-		                    DragTargetEntries, DragAction.Default);
+		                    target_table, DragAction.Move | DragAction.Copy);
 
 		DragBegin += OnDragBegin;
 		DragMotion += OnDragMotion;
-		DragEnd += OnDragEnd;
+		DragFailed += OnDragFailed;
+
+		DragDataReceived += OnDragDataReceived;
+		DragDataGet += OnDragDataGet;
+		DragLeave += OnDragLeave;
+
+		SizeAllocated += OnSizeAllocated;
 	}
 
 	/// <summary>Redraw Widget</summary>
@@ -94,7 +103,7 @@ public class BadguyChooserWidget : GLWidgetBase
 		float scaley = 1;
 		Sprite objectSprite = null;
 		for( int i = 0 + FirstRow * TILES_PER_ROW; i < badguys.Count; i++ ){
-			objectSprite = badguySprites[badguys[i]];
+			objectSprite = badguySprites[badguys[i]];	//find sprite in the dictionary
 			//Draw Image
 			if( objectSprite != null ){
 				gl.PushMatrix();
@@ -106,19 +115,13 @@ public class BadguyChooserWidget : GLWidgetBase
 				if( objectSprite.Height > TILE_HEIGHT ){
 					scaley = TILE_HEIGHT / objectSprite.Height;
 				}
-				//keep aspect ratio
-				if( scalex < scaley ) {
-					scaley = scalex;
-				} else {
-					scalex = scaley;
-				}
 
 				gl.Translatef(x, y, 0);
 				gl.Scalef( scalex, scaley, 1 );
 				objectSprite.Draw(objectSprite.Offset);
 				gl.PopMatrix();
 			}
-			//mark the selected object
+			//mark the selected badguy
 			if( i == SelectedObjectNr && !dragging ){
 				gl.Color4f(0, 1, 1, 0.4f);
 				gl.Disable(gl.TEXTURE_2D);
@@ -160,9 +163,10 @@ public class BadguyChooserWidget : GLWidgetBase
 		}
 	}
 
-	private static Sprite CrateSprite(BadguyChooserWidget widgetInstance, string classname)
+	/// <summary>Create sprite from name of badguy's class</summary>
+	private Sprite CrateSprite(string classname)
 	{
-		Type type = widgetInstance.GetType().Assembly.GetType(classname, false, true); //case-insensitive search
+		Type type = this.GetType().Assembly.GetType(classname, false, true); //case-insensitive search
 
 		if (type == null) {
 			LogManager.Log(LogLevel.Warning, "No type found for " + classname);
@@ -176,43 +180,37 @@ public class BadguyChooserWidget : GLWidgetBase
 			return null;
 		}
 
-		Sprite sprite = CreateSprite(objectAttribute.IconSprite, objectAttribute.ObjectListAction);
-
-		if(sprite == null) {
-			LogManager.Log(LogLevel.Warning, "No sprite found for " + classname);
-			return null;
-		}
-		return sprite;
-	}
-
-	private static Sprite CreateSprite(string name, string action)
-	{
 		Sprite result = null;
 
 		// Might be a sprite
 		try{
-			result = SpriteManager.Create(name);
+			result = SpriteManager.Create(objectAttribute.IconSprite);
 		} catch {
 		}
 
 		if( result != null ){ // Try to find a nice action.
-			// Check if we were passed an action to use and if not set it to left.
-			if (String.IsNullOrEmpty(action))
-				action = "left";
-			try { result.Action = action; }
-			catch { try { result.Action = "normal"; }
-				catch { try { result.Action = "default"; }
-					catch {
-						LogManager.Log(LogLevel.DebugWarning, "ObjectListWidget: No action selected for " + name);
+
+			try { result.Action =objectAttribute.ObjectListAction; }
+			catch { try { result.Action = "left"; }
+				catch { try { result.Action = "normal"; }
+					catch { try { result.Action = "default"; }
+						catch {
+							LogManager.Log(LogLevel.DebugWarning, "BadguyChooserWidget: No action selected for " + objectAttribute.IconSprite);
+						}
 					}
 				}
 			}
 		} else { // Not a sprite so it has to be an Image.
 			try{
-				result = SpriteManager.CreateFromImage(name);
+				result = SpriteManager.CreateFromImage(objectAttribute.IconSprite);
 			} catch(Exception) {
 				result = null;
 			}
+		}
+
+		if(result == null) {
+			LogManager.Log(LogLevel.Warning, "No editor image found for " + classname);
+			return null;
 		}
 
 		return result;
@@ -232,84 +230,95 @@ public class BadguyChooserWidget : GLWidgetBase
 			if( selected  < badguys.Count ){
 				if( SelectedObjectNr != selected ){
 					SelectedObjectNr = selected;
-					//find type by name, case-unsensitive
 					QueueDraw();
 				}
 			}
 		}
-//		if(args.Event.Button == 3 && dragging) {
-//			dragging = false;
-//			badguySprites.Insert(draggedIndex, draggedSprite);	
-//			badguys.Insert(draggedIndex, draggedBadguy);	
-//		}
 	}
-
-//	private void OnButtonRelease(object o, ButtonReleaseEventArgs args)
-//	{
-//		LogManager.Log(LogLevel.Debug, "Mouse button released");
-//		if(args.Event.Button == 1) {
-//			dragging = false;
-//		}
-//	}
-
-//	private void OnMotionNotify(object o, MotionNotifyEventArgs args)
-//	{
-//
-//		if (args.Event.State.CompareTo(ModifierType.Button1Mask) > -1){
-//			LogManager.Log(LogLevel.Debug, "Mouse moved with button 1 pressed, X: " + args.Event.X + ", Y: " + args.Event.Y);
-//		}
-//	}
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Dragstart of ID " + SelectedObjectNr.ToString());// + DragBeginArgs.Context.);
+		//TODO: set dragged icon here
+
 		if (SelectedObjectNr > -1){
-			draggedIndex = SelectedObjectNr;
 			draggedBadguy = badguys[SelectedObjectNr];
 			badguys.RemoveAt(SelectedObjectNr);
 
 			dragging = true;
 		}
+		LogManager.Log(LogLevel.Debug, "Dragstart of " + draggedBadguy);
 	}
 
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
+		dragging = true;
+
 		Vector MousePos = new Vector((float) args.X - BORDER_LEFT + TILE_WIDTH / 2, (float) args.Y);
 		int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 		if( column >= TILES_PER_ROW ){
 			SelectedObjectNr = NONE;
+			QueueDraw();
 			return;
 		}
 		int selected = TILES_PER_ROW * row + column;
-		if( selected  < badguys.Count ){
-			if( SelectedObjectNr != selected ){
-				SelectedObjectNr = selected;
-				//find type by name, case-unsensitive
-				QueueDraw();
-			}
-		} else {
-			SelectedObjectNr = NONE;
-		}
+		if( selected  >= badguys.Count )
+			selected = NONE;
 
-		if (SelectedObjectNr == NONE)
-			QueueDraw();
+		if( SelectedObjectNr != selected ){
+			SelectedObjectNr = selected;
+			QueueDraw();		//redraw on any change of selected ID
+		}
 	}
 
-	private void OnDragEnd(object o, DragEndArgs args)
+	private void OnDragFailed (object o, DragFailedArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Dragstop");
-		if (draggedBadguy != ""){
-			if (SelectedObjectNr == NONE)
-				badguys.Add(draggedBadguy);
-			else
-				badguys.Insert(SelectedObjectNr, draggedBadguy);
+//		badguys.Insert(draggedIndex, draggedBadguy);
+		LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
+		draggedBadguy = "";
+		dragging = false;
+	}
 
-			draggedBadguy = "";
+	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
+	{
+		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
+
+		LogManager.Log(LogLevel.Debug, "Badguy recieved " + data);
+
+		if(!badguySprites.ContainsKey(data)) {
+				badguySprites.Add(data, CrateSprite(data));
+			}
+
+		if (data != ""){
+			if (SelectedObjectNr == NONE)
+				badguys.Add(data);
+			else
+				badguys.Insert(SelectedObjectNr, data);
+
 			dragging = false;
 		}
-//		Gtk.Drag.Finish(Gdk.DragContext, bool, bool, uint);
-//		GetSourceWidget(Gdk.DragContext) : Widget
+
+
+		Gtk.Drag.Finish (args.Context, true, false, args.Time);
+	}
+
+	private void OnDragDataGet (object o, DragDataGetArgs args)
+	{
+		Atom[] Targets = args.Context.Targets;
+
+		args.SelectionData.Set (Targets[0], 8, System.Text.Encoding.UTF8.GetBytes (draggedBadguy));
+		draggedBadguy = "";	//badguy was succesfully moved
+	}
+
+	private void OnDragLeave (object o, DragLeaveArgs args)
+	{
+		dragging = false;
+	}
+
+	/// <summary>Calculate TILES_PER_ROW, when we know how long we are</summary>
+	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
+	{
+		TILES_PER_ROW = (int) Math.Floor(( (float)args.Allocation.Width - BORDER_LEFT ) /  COLUMN_WIDTH);
 	}
 }
 
