@@ -254,13 +254,15 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragDataGet (object o, DragDataGetArgs args)
 	{
-		//TODO: send right badguy name here
 
-		Atom[] Targets = args.Context.Targets;
+		if (SelectedObjectNr != NONE){
+			Atom[] Targets = args.Context.Targets;
 
-		foreach (Atom target in Targets){
-			if (target.Name == "BadguyName")
-				args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes ("mrrocket"));
+			foreach (Atom target in Targets){
+				if (target.Name == "BadguyName") 
+					//TODO: Send only badguys for dispenser, no Doors or Tilemaps..
+					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name));
+			}
 		}
 	}
 
