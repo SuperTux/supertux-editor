@@ -277,6 +277,8 @@ public class BadguyChooserWidget : GLWidgetBase
 		LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
 		draggedBadguy = "";
 		dragging = false;
+		if (badguys.Count == 0)
+			Gtk.Drag.SourceUnset(this);
 	}
 
 	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
@@ -290,6 +292,9 @@ public class BadguyChooserWidget : GLWidgetBase
 			}
 
 		if (data != ""){
+			if (badguys.Count == 0)
+				Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
+		                    source_table, DragAction.Move);
 			if (SelectedObjectNr == NONE)
 				badguys.Add(data);
 			else
