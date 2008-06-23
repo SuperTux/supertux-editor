@@ -365,7 +365,7 @@ public sealed class Dispenser : SimpleDirObject
 	}
 
 	[ChooseBadguySetting]
-	[PropertyProperties(Tooltip = "Type of badguys the dispenser will create (lowercase). Use exactly this string to separate badguy names: ', '")]
+	[PropertyProperties(Tooltip = "Badguys which will dispenser shoot. To add badguy just drag it here from badguy list.")]
 	[LispChild("badguy")]
 	public List<string> Badguy {
 		get {
