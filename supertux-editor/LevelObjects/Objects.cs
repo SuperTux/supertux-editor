@@ -256,9 +256,9 @@ public sealed class PoisonIvy : SimpleDirObject
 
 [SupertuxObject("walkingleaf", "images/creatures/walkingleaf/walkingleaf.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class WalinkgLeaf : SimpleDirObject
+public sealed class WalkingLeaf : SimpleDirObject
 {
-	public WalinkgLeaf() {
+	public WalkingLeaf() {
 		Sprite = SpriteManager.Create("images/creatures/walkingleaf/walkingleaf.sprite");
 		Sprite.Action = "left";
 	}
