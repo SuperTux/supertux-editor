@@ -35,6 +35,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int SPACING_X = 1;
 	private const int SPACING_Y = 1;
 	private const int BORDER_LEFT = 6;
+	private const int BORDER_RIGHT = 6;
 	private const int ROW_HEIGHT = TILE_HEIGHT + SPACING_Y;
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
 	private const int NONE = -1;
@@ -44,8 +45,8 @@ public class BadguyChooserWidget : GLWidgetBase
 	private List<string> badguys;
 	private string draggedBadguy = "";
 	private bool dragging = false;
+	private bool insertOnEnd = false;
 	private int SelectedObjectNr = NONE;
-	private int FirstRow = 0;
 
 	//do not allow dragging our badguys away from this editor
 	public static TargetEntry [] source_table = new TargetEntry[] {
@@ -68,7 +69,7 @@ public class BadguyChooserWidget : GLWidgetBase
 			}
 		}
 
-		SetSizeRequest( -1, ROW_HEIGHT);
+		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count  - 1) / TILES_PER_ROW + 1));
 
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
@@ -103,7 +104,7 @@ public class BadguyChooserWidget : GLWidgetBase
 		float scalex = 1;
 		float scaley = 1;
 		Sprite objectSprite = null;
-		for( int i = 0 + FirstRow * TILES_PER_ROW; i < badguys.Count; i++ ){
+		for( int i = 0; i < badguys.Count; i++ ){
 			objectSprite = badguySprites[badguys[i]];	//find sprite in the dictionary
 			//Draw Image
 			if( objectSprite != null ){
@@ -138,25 +139,33 @@ public class BadguyChooserWidget : GLWidgetBase
 
 			x += COLUMN_WIDTH;
 			if( x >= TILES_PER_ROW * COLUMN_WIDTH ) {
-				x = 0;
+				x = BORDER_LEFT;
 				y += ROW_HEIGHT;
 			}
 		}
 
 		//draw insert mark if dragging
 		if (dragging){
-			int offset_x = COLUMN_WIDTH * ((SelectedObjectNr == NONE)?badguys.Count:SelectedObjectNr) + BORDER_LEFT;
+			int offset_x = ((SelectedObjectNr == NONE)?badguys.Count:SelectedObjectNr) % TILES_PER_ROW * COLUMN_WIDTH + BORDER_LEFT;
+
+			int offset_y = (SelectedObjectNr == NONE?badguys.Count:SelectedObjectNr) / TILES_PER_ROW * ROW_HEIGHT;
+
+			if (insertOnEnd) {
+				//compensations for drawing sign on end of the line
+				offset_x += TILES_PER_ROW * COLUMN_WIDTH;
+				offset_y -= ROW_HEIGHT;
+			}
 
 			gl.Color4f(1, 1, 1, 1);
 			gl.Disable(gl.TEXTURE_2D);
 			gl.LineWidth(3);
 			gl.Begin(gl.LINES);
-				gl.Vertex2f( offset_x - 5, 4);
-				gl.Vertex2f( offset_x + 5, 4);
-				gl.Vertex2f( offset_x, 4);
-				gl.Vertex2f( offset_x, TILE_HEIGHT - 4);
-				gl.Vertex2f( offset_x + 5, TILE_HEIGHT - 4);
-				gl.Vertex2f( offset_x - 5, TILE_HEIGHT - 4);
+				gl.Vertex2f( offset_x - 5, offset_y + 4);
+				gl.Vertex2f( offset_x + 5, offset_y + 4);
+				gl.Vertex2f( offset_x    , offset_y + 4);
+				gl.Vertex2f( offset_x    , offset_y + TILE_HEIGHT - 4);
+				gl.Vertex2f( offset_x + 5, offset_y + TILE_HEIGHT - 4);
+				gl.Vertex2f( offset_x - 5, offset_y + TILE_HEIGHT - 4);
 			gl.End();
 			gl.LineWidth(1);
 			gl.Enable(gl.TEXTURE_2D);
@@ -222,7 +231,7 @@ public class BadguyChooserWidget : GLWidgetBase
 		if(args.Event.Button == 1) {
 			Vector MousePos = new Vector((float) args.Event.X - BORDER_LEFT,
 			                             (float) args.Event.Y);
-			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
+			int row = (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 			int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 			if( column >= TILES_PER_ROW ){
 				return;
@@ -247,6 +256,8 @@ public class BadguyChooserWidget : GLWidgetBase
 
 			dragging = true;
 		}
+		//update heigth
+		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count - 1) / TILES_PER_ROW + 1));
 		LogManager.Log(LogLevel.Debug, "Dragstart of " + draggedBadguy);
 	}
 
@@ -255,17 +266,12 @@ public class BadguyChooserWidget : GLWidgetBase
 		dragging = true;
 
 		Vector MousePos = new Vector((float) args.X - BORDER_LEFT + TILE_WIDTH / 2, (float) args.Y);
-		int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
+		int row = (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
 		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
-		if( column >= TILES_PER_ROW ){
-			SelectedObjectNr = NONE;
-			QueueDraw();
-			return;
-		}
+		insertOnEnd = ( column >= TILES_PER_ROW );	//This is true on every end of line
 		int selected = TILES_PER_ROW * row + column;
 		if( selected  >= badguys.Count )
 			selected = NONE;
-
 		if( SelectedObjectNr != selected ){
 			SelectedObjectNr = selected;
 			QueueDraw();		//redraw on any change of selected ID
@@ -302,6 +308,9 @@ public class BadguyChooserWidget : GLWidgetBase
 				badguys.Insert(SelectedObjectNr, data);
 
 			dragging = false;
+
+			//update heigth
+			SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count - 1) / TILES_PER_ROW + 1));
 		}
 
 
@@ -321,10 +330,11 @@ public class BadguyChooserWidget : GLWidgetBase
 		dragging = false;
 	}
 
-	/// <summary>Calculate TILES_PER_ROW, when we know how long we are</summary>
+	/// <summary>Calculate TILES_PER_ROW and heigth, when we know how long we are</summary>
 	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
 	{
-		TILES_PER_ROW = (args.Allocation.Width - BORDER_LEFT ) /  COLUMN_WIDTH;
+		TILES_PER_ROW = (args.Allocation.Width - BORDER_LEFT - BORDER_RIGHT) /  COLUMN_WIDTH;
+		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count - 1) / TILES_PER_ROW + 1));
 	}
 }
 
