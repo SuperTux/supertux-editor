@@ -86,4 +86,29 @@ namespace Undo {
 		public SortedListRemoveCommand(string title, T changedItem, List<T> changedList, int position)
 			: base(title, changedItem, changedList, position) { }
 	}
+
+
+	internal sealed class SortedListMoveCommand<T> : Command {
+		private List<T> changedList;	/// <summary>The List the Item was/is in</summary>
+		private int position;		/// <summary>Current number of item</summary>
+		private int newPosition;	/// <summary>New number of item</summary>
+
+		public override void Do() {
+			T changedItem = changedList[position];
+			changedList.RemoveAt(position);
+			changedList.Insert(newPosition, changedItem);
+		}
+
+		public override void Undo() {
+			T changedItem = changedList[newPosition];
+			changedList.RemoveAt(newPosition);
+			changedList.Insert(position, changedItem);
+		}
+
+		public SortedListMoveCommand(string title, List<T> changedList, int position, int newPosition) : base(title) {
+			this.changedList = changedList;
+			this.position = position;
+			this.newPosition = newPosition;
+		}
+	}
 }
