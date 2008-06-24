@@ -40,6 +40,8 @@ public class BadguyChooserWidget : GLWidgetBase
 	private const int COLUMN_WIDTH = TILE_WIDTH + SPACING_X;
 	private const int NONE = -1;
 
+	private FieldOrProperty field;
+	private object _object;
 	private int TILES_PER_ROW = 4;
 	private static Dictionary<string, Sprite> badguySprites = new Dictionary<string, Sprite>();
 	private List<string> badguys;
@@ -58,9 +60,13 @@ public class BadguyChooserWidget : GLWidgetBase
 		new TargetEntry("BadguyName", TargetFlags.App, 0)
 	};
 
-	public BadguyChooserWidget(List<string> badguys)
+	public BadguyChooserWidget(FieldOrProperty field, object _object)
 	{
-		this.badguys = badguys;
+		this.field = field;
+		this._object = _object;
+		//HACK: two "this." on the following two lines are there only for hiding 2 compilation warnings and can be removed after implementation of undo mechanism.
+		this.Name = this.field.Name;
+		badguys = (List<string>)field.GetValue(this._object);
 
 		foreach(string name in badguys){	//process each badguy name and crate sprite for it
 
@@ -282,6 +288,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	{
 //		badguys.Insert(draggedIndex, draggedBadguy);
 		LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
+
 		draggedBadguy = "";
 		dragging = false;
 		if (badguys.Count == 0)
@@ -345,12 +352,10 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 {
 	public override Widget Create(object caller)
 	{
-		BadguyChooserWidget editor = new BadguyChooserWidget((List<string>)field.GetValue(Object));
+		BadguyChooserWidget editor = new BadguyChooserWidget(field, Object);
 
 		// Create a tooltip if we can.
 		CreateToolTip(caller, editor);
-
-		editor.Name = field.Name;
 
 		return editor;
 	}
