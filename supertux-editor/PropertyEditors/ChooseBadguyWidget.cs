@@ -47,6 +47,7 @@ public class BadguyChooserWidget : GLWidgetBase
 	private List<string> badguys;
 	private string draggedBadguy = "";
 	private bool dragging = false;
+	private int draggedID = NONE;
 	private bool insertOnEnd = false;
 	private int SelectedObjectNr = NONE;
 
@@ -130,8 +131,22 @@ public class BadguyChooserWidget : GLWidgetBase
 				gl.PopMatrix();
 			}
 			//mark the selected badguy
-			if( i == SelectedObjectNr && !dragging ){
+			if( i == SelectedObjectNr && !dragging && draggedID == NONE){
 				gl.Color4f(0, 1, 1, 0.4f);
+				gl.Disable(gl.TEXTURE_2D);
+				gl.Begin(gl.QUADS);
+					gl.Vertex2f( x, y );
+					gl.Vertex2f( x + TILE_WIDTH, y );
+					gl.Vertex2f( x + TILE_WIDTH, y + TILE_HEIGHT);
+					gl.Vertex2f( x, y + TILE_HEIGHT);
+				gl.End();
+				gl.Enable(gl.TEXTURE_2D);
+				gl.Color4f(1, 1, 1, 1);
+			}
+
+			//mark currently dragged badguy
+			if( i == draggedID){
+				gl.Color4f(0, 0, 0, 0.6f);
 				gl.Disable(gl.TEXTURE_2D);
 				gl.Begin(gl.QUADS);
 					gl.Vertex2f( x, y );
@@ -257,8 +272,8 @@ public class BadguyChooserWidget : GLWidgetBase
 		//TODO: set dragged icon here
 
 		if (SelectedObjectNr > -1){
+			draggedID = SelectedObjectNr;
 			draggedBadguy = badguys[SelectedObjectNr];
-			badguys.RemoveAt(SelectedObjectNr);
 
 			dragging = true;
 		}
@@ -289,6 +304,8 @@ public class BadguyChooserWidget : GLWidgetBase
 //		badguys.Insert(draggedIndex, draggedBadguy);
 		LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
 
+		badguys.RemoveAt(draggedID);
+		draggedID = NONE;
 		draggedBadguy = "";
 		dragging = false;
 		if (badguys.Count == 0)
@@ -329,6 +346,8 @@ public class BadguyChooserWidget : GLWidgetBase
 		Atom[] Targets = args.Context.Targets;
 
 		args.SelectionData.Set (Targets[0], 8, System.Text.Encoding.UTF8.GetBytes (draggedBadguy));
+		badguys.RemoveAt(draggedID);
+		draggedID = NONE;
 		draggedBadguy = "";	//badguy was succesfully moved
 	}
 
