@@ -167,9 +167,9 @@ public class BadguyChooserWidget : GLWidgetBase
 
 		//draw insert mark if dragging
 		if (dragging){
-			int offset_x = ((SelectedObjectNr == NONE)?badguys.Count:SelectedObjectNr) % TILES_PER_ROW * COLUMN_WIDTH + BORDER_LEFT;
+			int offset_x = SelectedObjectNr % TILES_PER_ROW * COLUMN_WIDTH + BORDER_LEFT;
 
-			int offset_y = (SelectedObjectNr == NONE?badguys.Count:SelectedObjectNr) / TILES_PER_ROW * ROW_HEIGHT;
+			int offset_y = SelectedObjectNr / TILES_PER_ROW * ROW_HEIGHT;
 
 			if (insertOnEnd) {
 				//compensations for drawing sign on end of the line
@@ -291,8 +291,8 @@ public class BadguyChooserWidget : GLWidgetBase
 		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
 		insertOnEnd = ( column >= TILES_PER_ROW );	//This is true on every end of line
 		int selected = TILES_PER_ROW * row + column;
-		if( selected  >= badguys.Count )
-			selected = NONE;
+		if( selected  > badguys.Count )
+			selected = badguys.Count;
 		if( SelectedObjectNr != selected ){
 			SelectedObjectNr = selected;
 			QueueDraw();		//redraw on any change of selected ID
@@ -327,10 +327,14 @@ public class BadguyChooserWidget : GLWidgetBase
 			if (badguys.Count == 0)
 				Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    source_table, DragAction.Move);
-			if (SelectedObjectNr == NONE)
-				badguys.Add(data);
-			else
-				badguys.Insert(SelectedObjectNr, data);
+
+			if (draggedID > NONE){		//We were moving
+				if (SelectedObjectNr > draggedID)
+					SelectedObjectNr--;
+				badguys.RemoveAt(draggedID);
+				draggedID = NONE;
+			}
+			badguys.Insert(SelectedObjectNr, data);
 
 			dragging = false;
 
@@ -347,8 +351,6 @@ public class BadguyChooserWidget : GLWidgetBase
 		Atom[] Targets = args.Context.Targets;
 
 		args.SelectionData.Set (Targets[0], 8, System.Text.Encoding.UTF8.GetBytes (draggedBadguy));
-		badguys.RemoveAt(draggedID);
-		draggedID = NONE;
 		draggedBadguy = "";	//badguy was succesfully moved
 	}
 
