@@ -90,7 +90,7 @@ public class BadguyChooserWidget : GLWidgetBase
 
 		DragBegin += OnDragBegin;
 		DragMotion += OnDragMotion;
-		DragFailed += OnDragFailed;
+		DragEnd += OnDragEnd;
 
 		DragDataReceived += OnDragDataReceived;
 		DragDataGet += OnDragDataGet;
@@ -299,17 +299,18 @@ public class BadguyChooserWidget : GLWidgetBase
 		}
 	}
 
-	private void OnDragFailed (object o, DragFailedArgs args)
+	private void OnDragEnd (object o, DragEndArgs args)
 	{
-//		badguys.Insert(draggedIndex, draggedBadguy);
-		LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
+		if (draggedID > NONE) {		//Widget.DragFailed is not aviable for windows users
+			LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
 
-		badguys.RemoveAt(draggedID);
-		draggedID = NONE;
-		draggedBadguy = "";
-		dragging = false;
-		if (badguys.Count == 0)
-			Gtk.Drag.SourceUnset(this);
+			badguys.RemoveAt(draggedID);
+			draggedID = NONE;
+			draggedBadguy = "";
+			dragging = false;
+			if (badguys.Count == 0)
+				Gtk.Drag.SourceUnset(this);
+		}
 	}
 
 	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
