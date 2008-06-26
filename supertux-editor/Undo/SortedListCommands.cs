@@ -62,7 +62,9 @@ namespace Undo {
 		}
 
 		public override void Undo() {
-			changedList.Remove(changedItem);
+			if (position == -1)
+				position = changedList.IndexOf(changedItem);
+			changedList.RemoveAt(position);
 		}
 
 		public SortedListAddCommand(string title, T changedItem, List<T> changedList)
