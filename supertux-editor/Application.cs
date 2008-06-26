@@ -532,7 +532,7 @@ public class Application : IEditorApplication {
 
 		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
 		dialog.Icon = EditorStock.WindowIcon;
-		dialog.Name = "SuperTux Editor";
+		dialog.ProgramName = "SuperTux Editor";
 		dialog.Version = Constants.PACKAGE_VERSION;
 		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
 		dialog.Authors = authors;

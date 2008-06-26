@@ -286,7 +286,8 @@ public class TileListWidget : GLWidgetBase {
 		   Translation.Y <= (float) -ROW_HEIGHT) {
 			Translation = Translation + new Vector(0, ROW_HEIGHT);
 			args.RetVal = true;
-		} else if(args.Event.Direction == ScrollDirection.Down) {
+		} else if(args.Event.Direction == ScrollDirection.Down &&
+		   Translation.Y - ROW_HEIGHT > -ROW_HEIGHT * Math.Floor( (double)tilegroup.Tiles.Count / (double)TILES_PER_ROW)){
 			Translation = Translation - new Vector(0, ROW_HEIGHT);
 			args.RetVal = true;
 		}

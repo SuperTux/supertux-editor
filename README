@@ -20,7 +20,7 @@ http://supertux.lethargik.org/wiki/Building_SuperTux#Compiling_the_editor
 == Building ==
 
 Type
-	jam
+	make
 
 
 == Running ==
