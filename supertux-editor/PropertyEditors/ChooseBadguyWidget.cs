@@ -302,9 +302,10 @@ public class BadguyChooserWidget : GLWidgetBase
 	private void OnDragEnd (object o, DragEndArgs args)
 	{
 		if (draggedID > NONE) {		//Widget.DragFailed is not aviable for windows users
-			LogManager.Log(LogLevel.Debug, "Badguy " + draggedBadguy + " thrown away");
+			Command command = new SortedListRemoveCommand<string>("Removed badguy \"" + draggedBadguy + "\" from the queue", badguys, draggedID);
+			command.Do();
+			UndoManager.AddCommand(command);
 
-			badguys.RemoveAt(draggedID);
 			draggedID = NONE;
 			draggedBadguy = "";
 			dragging = false;
@@ -317,8 +318,6 @@ public class BadguyChooserWidget : GLWidgetBase
 	{
 		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
 
-		LogManager.Log(LogLevel.Debug, "Badguy " + data + " recieved");
-
 		if(!badguySprites.ContainsKey(data)) {
 				badguySprites.Add(data, CrateSprite(data));
 			}
@@ -328,13 +327,20 @@ public class BadguyChooserWidget : GLWidgetBase
 				Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
 		                    source_table, DragAction.Move);
 
+			Command command;
 			if (draggedID > NONE){		//We were moving
 				if (SelectedObjectNr > draggedID)
 					SelectedObjectNr--;
-				badguys.RemoveAt(draggedID);
+				if (SelectedObjectNr == draggedID) {
+					draggedID = NONE;
+					return;
+				}
+				command = new SortedListMoveCommand<string>("Changed position of badguy  \"" + data + "\" in the queue", badguys, draggedID, SelectedObjectNr);
 				draggedID = NONE;
-			}
-			badguys.Insert(SelectedObjectNr, data);
+			} else				//We were adding
+				command = new SortedListAddCommand<string>("Added badguy \"" + data + "\" into the queue", badguys, data, SelectedObjectNr);
+			command.Do();
+			UndoManager.AddCommand(command);
 
 			dragging = false;
 
