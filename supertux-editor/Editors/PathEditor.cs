@@ -109,7 +109,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					if(addNode >= 0) {
 						node = new Path.Node();
 						node.Pos = pointOnEdge;
-						PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path, addNode+1);
+						Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node, addNode+1);
 						command.Do();
 						UndoManager.AddCommand(command);
 					}
@@ -121,13 +121,13 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 						                      (float) ((int)mousePos.Y / 32) * 32);
 					}
 					node.Pos = mousePos;
-					PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path);
+					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node);
 					command.Do();
 					UndoManager.AddCommand(command);
 				} else if(selectedNode == path.Nodes[0]) {
 					node = new Path.Node();
 					node.Pos = mousePos;
-					PathNodeAddCommand command = new PathNodeAddCommand("Added Path node", node, path, 0);
+					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node, 0);
 					command.Do();
 					UndoManager.AddCommand(command);
 				}
@@ -162,7 +162,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if (dragging && selectedNode.Pos != originalPos){
-			PropertyChangeCommand command = new PropertyChangeCommand("Moved Path Node", new FieldOrProperty.Property(typeof(Path.Node).GetProperty("Pos")), selectedNode, selectedNode.Pos, originalPos);
+			Command command = new PropertyChangeCommand("Moved Path Node", new FieldOrProperty.Property(typeof(Path.Node).GetProperty("Pos")), selectedNode, selectedNode.Pos, originalPos);
 			UndoManager.AddCommand(command);
 		}
 
@@ -233,7 +233,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		PathNodeRemoveCommand command = new PathNodeRemoveCommand("Removed Path node", selectedNode, path);
+		Command command = new SortedListRemoveCommand<Path.Node>("Added Path node", path.Nodes, selectedNode);
 		command.Do();
 		UndoManager.AddCommand(command);
 		selectedNode = null;
@@ -243,7 +243,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnShiftLeft(object o, EventArgs args)
 	{
-		PathShiftCommand command = new PathShiftCommand("Path shifted backwards", path, -1);
+		Command command = new PathShiftCommand("Path shifted backwards", path, -1);
 		command.Do();
 		UndoManager.AddCommand(command);
 		Redraw();
@@ -251,7 +251,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnShiftRight(object o, EventArgs args)
 	{
-		PathShiftCommand command = new PathShiftCommand("Path shifted forward", path, 1);
+		Command command = new PathShiftCommand("Path shifted forward", path, 1);
 		command.Do();
 		UndoManager.AddCommand(command);
 		Redraw();
