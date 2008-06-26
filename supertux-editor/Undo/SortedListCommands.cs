@@ -30,18 +30,11 @@ namespace Undo {
 		/// </summary>
 		protected List<T> changedList;
 		/// <summary>
-		/// The position in the List, optional.
+		/// The position in the List.
 		/// </summary>
 		protected int position;
 
-		protected SortedListCommand(string title, T changedItem, List<T> changedList)
-			: base(title) {
-			this.changedItem = changedItem;
-			this.changedList = changedList;
-			position = -1;
-		}
-
-		protected SortedListCommand(string title, T changedItem, List<T> changedList, int position)
+		protected SortedListCommand(string title, List<T> changedList, T changedItem, int position)
 			: base(title) {
 			this.changedItem = changedItem;
 			this.changedList = changedList;
@@ -53,24 +46,17 @@ namespace Undo {
 
 	internal class SortedListAddCommand<T> : SortedListCommand<T> {
 		public override void Do() {
-			if (position > -1) {	//If we have specified position, add it at this position
-				changedList.Insert(position, changedItem);
-			} else {	//If we haven't, we add it to the last and fill position field
-				changedList.Add(changedItem);
-				position = changedList.Count-1;
-			}
+			changedList.Insert(position, changedItem);
 		}
 
 		public override void Undo() {
-			if (position == -1)
-				position = changedList.IndexOf(changedItem);
 			changedList.RemoveAt(position);
 		}
 
-		public SortedListAddCommand(string title, T changedItem, List<T> changedList)
-			: base(title, changedItem, changedList) { }
-		public SortedListAddCommand(string title, T changedItem, List<T> changedList, int position)
-			: base(title, changedItem, changedList, position) { }
+		public SortedListAddCommand(string title, List<T> changedList, T changedItem)
+			: base(title, changedList, changedItem, changedList.Count) { }
+		public SortedListAddCommand(string title, List<T> changedList, T changedItem, int position)
+			: base(title, changedList, changedItem, position) { }
 	}
 
 
@@ -83,10 +69,11 @@ namespace Undo {
 		public override void Undo() {
 			base.Do();
 		}
-		public SortedListRemoveCommand(string title, T changedItem, List<T> changedList)
-			: base(title, changedItem, changedList) { }
-		public SortedListRemoveCommand(string title, T changedItem, List<T> changedList, int position)
-			: base(title, changedItem, changedList, position) { }
+
+		public SortedListRemoveCommand(string title, List<T> changedList, T changedItem)
+			: base(title, changedList, changedItem, changedList.IndexOf(changedItem)) { }
+		public SortedListRemoveCommand(string title, List<T> changedList, int position)
+			: base(title, changedList, changedList[position], position) { }
 	}
 
 
