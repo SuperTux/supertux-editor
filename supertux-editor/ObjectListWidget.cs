@@ -248,7 +248,7 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		//TODO: set object icon here
+		Gtk.Drag.SetIconPixbuf( args.Context, Gdk.Pixbuf.LoadFromResource("stock-tool-objects-24.png"), 20, 20);
 		LogManager.Log(LogLevel.Debug, "Dragstart");
 	}
 
