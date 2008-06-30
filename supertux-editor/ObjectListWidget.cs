@@ -248,6 +248,7 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
+		//TODO: This looks OK, but icon of currently selected badguy would be better (if possible)
 		Gtk.Drag.SetIconPixbuf( args.Context, Gdk.Pixbuf.LoadFromResource("stock-tool-objects-24.png"), 20, 20);
 		LogManager.Log(LogLevel.Debug, "Dragstart");
 	}
@@ -260,7 +261,7 @@ public class ObjectListWidget : GLWidgetBase
 
 			foreach (Atom target in Targets){
 				if (target.Name == "BadguyName") 
-					//TODO: Send only badguys for dispenser, no Doors or Tilemaps..
+					//TODO: Send only badguys into dispensers, no Doors, no Tilemaps..
 					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
 			}
 		}
