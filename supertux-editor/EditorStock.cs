@@ -27,6 +27,8 @@ public static class EditorStock
 		AddIcon (EyeHalf, Gtk.IconSize.Menu, "stock-eye-half-12.png");
 
 		// HACK: This is needed to make tool icons show up on Windows, no idea why.
+		// TODO: test if this is still needed with additional SizeWildcarded.
+		// SizeWildcarded only gives fuzzy images, at least for stock-eye-12.png  
 #if WINDOWS
 		Gtk.IconSize ToolBarIconSize = Gtk.IconSize.SmallToolbar;
 #else
@@ -50,11 +52,18 @@ public static class EditorStock
 		if (iconset == null) {
 			iconset = new Gtk.IconSet ();
 			Gdk.Pixbuf img = Gdk.Pixbuf.LoadFromResource (resource);
+			//no scaling in the given size, ...
 			IconSource source = new IconSource ();
 			source.Size = iconSize;
 			source.SizeWildcarded = false;
 			source.Pixbuf = img;
 			iconset.AddSource (source);
+			//... but allow to use the image for all other sizes, too.
+			source = new IconSource ();
+			source.SizeWildcarded = true;
+			source.Pixbuf = img;
+			iconset.AddSource (source);
+			
 			stock.Add (stockid, iconset);
 		}
 	}

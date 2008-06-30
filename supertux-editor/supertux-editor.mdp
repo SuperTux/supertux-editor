@@ -97,6 +97,7 @@
     <File name="Undo/PathNodeCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ChooseBadguyWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="Undo/SortedListCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="StringListSerializer.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
