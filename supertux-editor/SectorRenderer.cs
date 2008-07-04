@@ -138,15 +138,17 @@ public sealed class SectorRenderer : RenderView
 	{
 		//handle tilemaps
 		if( Object is Tilemap ){
+			Layer layer = (Layer) SceneGraphRoot;
 			Tilemap tm = (Tilemap) Object;
-			tm.Resize( 0, 0, 0);
+			layer.Remove(tm.ZPos, (ColorNode) colors[tm]);
+			colors.Remove(tm);
 			QueueDraw();
 			return;
 		}
 		//handle backgrounds
 		if( Object is Background ){
-			Background bg = (Background) Object;
-			bg.Image = String.Empty;
+			Node bgNode = ((Background) Object).GetSceneGraphNode();
+			backgroundNode.RemoveChild(bgNode);
 			QueueDraw();
 			return;
 		}
