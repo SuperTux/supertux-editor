@@ -15,6 +15,8 @@ public class ResizeDialog
 	private Entry HeightEntry = null;
 
 	private Sector sector;
+	private uint width = 0;
+	private uint height = 0;
 
 	public ResizeDialog(Sector sector)
 	{
@@ -25,8 +27,6 @@ public class ResizeDialog
 		if(resizeDialog == null || WidthEntry == null || HeightEntry == null)
 			throw new Exception("Couldn't load resize Dialog");
 
-		uint width = 0;
-		uint height = 0;
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			if(tilemap.Width > width)
 				width = tilemap.Width;
@@ -49,7 +49,9 @@ public class ResizeDialog
 				"Sector resized to " + newWidth + "x" + newHeight,
 				sector,
 				newWidth,
-				newHeight);
+				newHeight,
+				width,
+				height);
 			command.Do();
 			UndoManager.AddCommand(command);
 		} catch(Exception e) {

@@ -42,9 +42,14 @@ namespace Undo {
 
 		private uint newWidth;
 		private uint newHeight;
+		private uint minWidth;
+		private uint minHeight;
 
 		public override void Do() {
 			foreach (TilemapData tilemapdata in tilemaps) {
+				//skip this tilemap, if it's smaller than resizing parameters
+				if (tilemapdata.Tilemap.Width < minWidth && tilemapdata.Tilemap.Height < minHeight)
+					continue;
 				tilemapdata.Tilemap.Resize(newWidth, newHeight, 0);
 			}
 			sector.EmitSizeChanged();
@@ -57,14 +62,20 @@ namespace Undo {
 			sector.EmitSizeChanged();
 		}
 
-		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
+		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
 			: base(title, sector) {
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
+			this.minWidth = Math.Min(oldWidth, newWidth);
+			this.minHeight = Math.Min(oldHeight, newHeight);
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
 			}
 		}
+
+		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
+			:this(title, sector, newWidth, newHeight, 0, 0)
+		{ }
 	}
 
 	public delegate void SectorsAddRemoveHandler();
