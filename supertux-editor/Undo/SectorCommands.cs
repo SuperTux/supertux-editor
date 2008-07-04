@@ -38,7 +38,7 @@ namespace Undo {
 				this.Tilemap = Tilemap;
 			}
 		}
-		private List<TilemapData> tilemaps = new List<TilemapData>();
+		private List<TilemapData> tilemaps;
 
 		private uint newWidth;
 		private uint newHeight;
@@ -62,16 +62,25 @@ namespace Undo {
 			sector.EmitSizeChanged();
 		}
 
-		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
+		private SectorSizeChangeCommand(string title, Sector sector, List<TilemapData> tilemaps, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
 			: base(title, sector) {
+			this.tilemaps = tilemaps;
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
 			this.minWidth = Math.Min(oldWidth, newWidth);
 			this.minHeight = Math.Min(oldHeight, newHeight);
+		}
+
+		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
+			: this(title, sector, new List<TilemapData>(), newWidth, newHeight, oldWidth, oldHeight) {
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
 			}
 		}
+
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
+			: this(title, sector, new List<TilemapData>(){new TilemapData(tilemap.SaveState(), tilemap)}, newWidth, newHeight, oldWidth, oldHeight) {
+			}
 
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
 			:this(title, sector, newWidth, newHeight, 0, 0)
