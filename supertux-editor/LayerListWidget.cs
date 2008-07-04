@@ -59,6 +59,7 @@ public class LayerListWidget : TreeView {
 
 		application.SectorChanged += OnSectorChanged;
 		application.TilemapChanged += OnTilemapChanged;
+		application.LevelChanged += OnLevelChanged;
 	}
 
 	public Tilemap CurrentTilemap {
@@ -85,6 +86,13 @@ public class LayerListWidget : TreeView {
 			return;
 
 		UpdateList();
+	}
+
+	/// <summary>Called when a new level is loaded</summary>
+	private void OnLevelChanged(Level level)
+	{
+		//Find and select first solid tilemap (and discard tilemap from level opened before).
+		currentTilemap = null;
 	}
 
 	private void UpdateList()
