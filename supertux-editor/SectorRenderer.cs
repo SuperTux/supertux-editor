@@ -21,7 +21,7 @@ public sealed class SectorRenderer : RenderView
 	private SceneGraph.Rectangle sectorFill;
 	private Level level;
 
-	public SectorRenderer(Level level, Sector sector)
+	public SectorRenderer(IEditorApplication application, Level level, Sector sector)
 	{
 		this.level = level;
 		Layer layer = new Layer();
@@ -70,6 +70,7 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectAdded += OnObjectAdded;
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
+		application.TilemapChanged += OnTilemapChanged;
 
 		Drag.DestSet(this, DestDefaults.All, DragTargetEntries, Gdk.DragAction.Default);
 		DragMotion += OnDragMotion;
@@ -191,5 +192,9 @@ public sealed class SectorRenderer : RenderView
 		maxx = width * Tileset.TILE_WIDTH + 500;
 		miny = -500;
 		maxy = height * Tileset.TILE_HEIGHT + 500;
+	}
+
+	public void OnTilemapChanged(Tilemap newTilemap) {
+		
 	}
 }

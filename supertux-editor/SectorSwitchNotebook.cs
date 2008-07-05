@@ -67,7 +67,7 @@ public class SectorSwitchNotebook : Notebook
 	private void CreateTabList()
 	{
 		foreach(Sector sector in level.Sectors) {
-			SectorRenderer Renderer = new SectorRenderer(level, sector);
+			SectorRenderer Renderer = new SectorRenderer(application, level, sector);
 			ScrollBarRenderView scrollbarview = new ScrollBarRenderView(Renderer);
 			scrollbarview.ShowAll();
 			AppendPage(scrollbarview, new Label(sector.Name));
