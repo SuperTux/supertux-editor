@@ -180,26 +180,17 @@ public sealed class SectorRenderer : RenderView
 
 	public void OnSizeChanged(Sector sector)
 	{
-		uint width = 0;
-		uint height = 0;
-		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-			if(tilemap.Width > width)
-				width = tilemap.Width;
-			if(tilemap.Height > height)
-				height = tilemap.Height;
-		}
-
 		sectorBBox.Rect = new RectangleF(-1, -1,
-		                                 width * Tileset.TILE_WIDTH + 1,
-		                                 height * Tileset.TILE_HEIGHT + 1);
+		                                 sector.Width * Tileset.TILE_WIDTH + 1,
+		                                 sector.Height * Tileset.TILE_HEIGHT + 1);
 		sectorFill.Rect = new RectangleF(-1, -1,
-		                                 width * Tileset.TILE_WIDTH + 1,
-		                                 height * Tileset.TILE_HEIGHT + 1);
+		                                 sector.Width * Tileset.TILE_WIDTH + 1,
+		                                 sector.Height * Tileset.TILE_HEIGHT + 1);
 
 		minx = -500;
-		maxx = width * Tileset.TILE_WIDTH + 500;
+		maxx = sector.Width * Tileset.TILE_WIDTH + 500;
 		miny = -500;
-		maxy = height * Tileset.TILE_HEIGHT + 500;
+		maxy = sector.Height * Tileset.TILE_HEIGHT + 500;
 	}
 
 	public void OnTilemapChanged(Tilemap newTilemap)
