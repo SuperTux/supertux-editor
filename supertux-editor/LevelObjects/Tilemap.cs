@@ -6,7 +6,9 @@ using Lisp;
 using LispReader;
 using System.Collections.Generic;
 
-[SupertuxObject("tilemap", "images/engine/editor/tilemap.png")]
+		//tilemaps are no longer created as badguys, it is looking bad
+[SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
+                Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;

@@ -115,18 +115,6 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 			throw new Exception("Type '" + objectType + "' has no public constructor without arguments");
 		object Result = Constructor.Invoke(new object[] {});
 
-		// Some Objects need special treatment
-		if( Result is Tilemap ){
-			uint width = 0;
-			uint height = 0;
-			foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-				if(tilemap.Width > width)
-					width = tilemap.Width;
-				if(tilemap.Height > height)
-					height = tilemap.Height;
-			}
-			((Tilemap) Result).Resize( width, height, 0);
-		}
 		return Result;
 	}
 }
