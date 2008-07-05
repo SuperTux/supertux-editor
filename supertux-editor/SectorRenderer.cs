@@ -18,6 +18,7 @@ public sealed class SectorRenderer : RenderView
 	private NodeWithChilds objectsNode;
 	private NodeWithChilds backgroundNode;
 	private SceneGraph.Rectangle sectorBBox;
+	private SceneGraph.Rectangle tilemapBBox;
 	private SceneGraph.Rectangle sectorFill;
 	private Level level;
 
@@ -52,16 +53,23 @@ public sealed class SectorRenderer : RenderView
 				objectsNode.AddChild(node);
 		}
 
-		// draw border around sector...
+		// fill remaining place with one color
 		sectorFill = new SceneGraph.Rectangle();
 		sectorFill.Fill = true;
 		ColorNode color = new ColorNode(sectorFill, new Drawing.Color(0.4f, 0.3f, 0.4f));
 		layer.Add(-10000, color);
 
+		// draw border around sector...
 		sectorBBox = new SceneGraph.Rectangle();
 		sectorBBox.Fill = false;
 		color = new ColorNode(sectorBBox, new Drawing.Color(1, 0.3f, 1));
 		layer.Add(1000, color);
+
+		// draw border around selected layer...
+		tilemapBBox = new SceneGraph.Rectangle();
+		tilemapBBox.Fill = false;
+		color = new ColorNode(tilemapBBox, new Drawing.Color(1, 1, 0));
+		layer.Add(1001, color);
 
 		OnSizeChanged(sector);
 
@@ -194,7 +202,18 @@ public sealed class SectorRenderer : RenderView
 		maxy = height * Tileset.TILE_HEIGHT + 500;
 	}
 
-	public void OnTilemapChanged(Tilemap newTilemap) {
-		
+	public void OnTilemapChanged(Tilemap newTilemap)
+	{
+		if (newTilemap == null)
+			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//hide the border
+		else
+			tilemapBBox.Rect = new RectangleF(-1, -1,
+		                                 newTilemap.Width * Tileset.TILE_WIDTH + 1,
+		                                 newTilemap.Height * Tileset.TILE_HEIGHT + 1);
+
+		if (tilemapBBox.Rect.Equals(sectorBBox.Rect)) //If we have full-sized tilemap selected...
+			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//...we hide the border.
+
+		QueueDraw();
 	}
 }
