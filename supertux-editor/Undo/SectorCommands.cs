@@ -78,12 +78,13 @@ namespace Undo {
 			}
 		}
 
+		/// <summary>Constructor used if you want to specify different old size</summary>
 		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
 			: this(title, sector, new List<TilemapData>(){new TilemapData(tilemap.SaveState(), tilemap)}, newWidth, newHeight, oldWidth, oldHeight) {
 			}
 
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
-			:this(title, sector, newWidth, newHeight, 0, 0)
+			:this(title, sector, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 	}
 
