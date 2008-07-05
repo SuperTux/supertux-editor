@@ -75,6 +75,9 @@ public class LayerListWidget : TreeView {
 
 		this.sector = sector;
 
+		//Find and select first solid tilemap (and discard tilemap from level opened before).
+		currentTilemap = null;
+
 		sector.ObjectAdded += ObjectsChanged;
 		sector.ObjectAdded += ObjectsChanged;
 		UpdateList();
