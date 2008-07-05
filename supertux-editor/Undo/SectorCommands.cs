@@ -71,6 +71,7 @@ namespace Undo {
 			this.minHeight = Math.Min(oldHeight, newHeight);
 		}
 
+		/// <summary>Constructor used if you want to specify different old size</summary>
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
 			: this(title, sector, new List<TilemapData>(), newWidth, newHeight, oldWidth, oldHeight) {
 			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
@@ -78,11 +79,12 @@ namespace Undo {
 			}
 		}
 
-		/// <summary>Constructor used if you want to specify different old size</summary>
-		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
-			: this(title, sector, new List<TilemapData>(){new TilemapData(tilemap.SaveState(), tilemap)}, newWidth, newHeight, oldWidth, oldHeight) {
+		/// <summary>Constructor used if you want to resize only one tilemap</summary>
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight)
+			: this(title, sector, new List<TilemapData>(){new TilemapData(tilemap.SaveState(), tilemap)}, newWidth, newHeight, newWidth, newHeight) {
 			}
 
+		/// <summary>Constructor used if you want to resize all tilemaps in sector</summary>
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
 			:this(title, sector, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
