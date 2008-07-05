@@ -33,10 +33,24 @@ public sealed class Sector : ICustomLispSerializer {
 	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
+	private uint height;
+	private uint width;
 
 	public event ObjectAddedHandler ObjectAdded;
 	public event ObjectRemovedHandler ObjectRemoved;
 	public event SizeChangedHandler SizeChanged;
+
+	public uint Height{
+		get {
+			return height;
+		}
+	}
+
+	public uint Width{
+		get {
+			return width;
+		}
+	}
 
 	private class DynamicList : IEnumerable, ICollection {
 		public Sector Sector;
@@ -164,6 +178,7 @@ public sealed class Sector : ICustomLispSerializer {
 
 	public void EmitSizeChanged()
 	{
+		FinishRead();		//update Height / Width
 		if(SizeChanged != null)
 			SizeChanged(this);
 	}
@@ -213,5 +228,13 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void FinishRead() {
+		width = 0;
+		height = 0;
+		foreach(Tilemap tmap in this.GetObjects(typeof(Tilemap))) {
+			if(tmap.Width > width)
+				width = tmap.Width;
+			if(tmap.Height > height)
+				height = tmap.Height;
+			}	
 	}
 }
