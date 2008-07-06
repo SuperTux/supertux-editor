@@ -13,6 +13,14 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	[LispChild("z-pos")]
 	public int ZPos = 0;
 
+//TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
+//	[LispChild("x")]
+	public float X = 0;
+
+//TODO: If we want to store Y coordinate to level file, we must uncomment this and add support for it
+//	[LispChild("y")]
+	public float Y = 0;
+
 	[PropertyProperties(Tooltip = "If selected Tux will interact with tiles in this tilemap.")]
 	[LispChild("solid")]
 	public bool Solid = false;

@@ -235,6 +235,10 @@ public sealed class Sector : ICustomLispSerializer {
 				width = tmap.Width;
 			if(tmap.Height > height)
 				height = tmap.Height;
+			if (tmap.Path != null && tmap.Path.Nodes.Count > 0){
+					tmap.X = tmap.Path.Nodes[0].X;
+					tmap.Y = tmap.Path.Nodes[0].Y;
+				}
 			}	
 	}
 }
