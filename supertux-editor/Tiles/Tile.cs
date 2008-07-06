@@ -81,6 +81,78 @@ public sealed class Tile {
 
 	}
 
+	/// <summary>A string describing the level-tile's attributes in human readable form.</summary>
+	public string attributesString{
+		get{
+			string result = "";
+			if( HasAttribute(Attribute.SOLID) ){
+				result += "Solid ";
+			}
+			if( HasAttribute(Attribute.UNISOLID) ){
+				result += "Unisolid ";
+			}
+			if( HasAttribute(Attribute.BRICK) ){
+				result += "Brick ";
+			}
+			if( HasAttribute(Attribute.GOAL) ){ //has data
+				result += "Goal("+Data+") ";
+			}
+			if( HasAttribute(Attribute.SLOPE) ){
+				result += "Slope ";
+			}
+			if( HasAttribute(Attribute.FULLBOX) ){ //has data
+				result += "Fullbox("+Data+") ";
+			}
+			if( HasAttribute(Attribute.COIN) ){
+				result += "Coin ";
+			}
+			if( HasAttribute(Attribute.ICE) ){
+				result += "Ice ";
+			}
+			if( HasAttribute(Attribute.WATER) ){
+				result += "Water ";
+			}			
+			if( HasAttribute(Attribute.HURTS) ){
+				result += "Hurts ";
+			}
+			if( HasAttribute(Attribute.FIRE) ){
+				result += "Fire ";
+			}
+			
+			if( result == "" ){
+				result = "none ";
+			}	
+			return result;
+		}
+	}
+		
+	/// <summary>A string describing the worldmap-tile's attributes in human readable form.</summary>
+	public string attributesWMString{
+		get{
+			string result = "";		
+			if( HasAttribute(Attribute.WORLDMAP_NORTH) ){
+				result += "North ";
+			}
+			if( HasAttribute(Attribute.WORLDMAP_SOUTH) ){
+				result += "South ";
+			}
+			if( HasAttribute(Attribute.WORLDMAP_WEST) ){
+				result += "West ";
+			}
+			if( HasAttribute(Attribute.WORLDMAP_EAST) ){
+				result += "East ";
+			}
+			if( HasAttribute(Attribute.WORLDMAP_STOP) ){
+				result += "Stop ";
+			}
+			
+			if( result == "" ){
+				result = "none ";
+			}	
+			return result;
+		}
+	}	
+	
 	public List<ImageResource> Images;
 	private List<Surface> Surfaces;
 	public List<ImageResource> EditorImages;

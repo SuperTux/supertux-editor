@@ -86,7 +86,14 @@ public class TileListWidget : GLWidgetBase {
 		QueueDraw();
 
 		if( selection.Width == 1 && selection.Height == 1 ){
-			application.PrintStatus( "TileListWidget: Selected tile: " + selection[0, 0] );
+			int selectedTileID = selection[0, 0]; 
+			string attributes;
+			if( level.isWorldmap ){
+				attributes = tileset.Get( selectedTileID ).attributesWMString;
+			} else {
+				attributes = tileset.Get( selectedTileID ).attributesString;
+			}	
+			application.PrintStatus( "TileListWidget: Selected tile: " + selectedTileID + " Attributes: " + attributes);
 		} else if( selection.Width <= 0 || selection.Height <= 0 ){
 			application.PrintStatus( "TileListWidget: No tile selected tile." );
 		} else {
