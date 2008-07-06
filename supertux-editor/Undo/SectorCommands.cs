@@ -76,12 +76,15 @@ namespace Undo {
 			this.newHeight = newHeight;
 			this.minWidth = Math.Min(oldWidth, newWidth);
 			this.minHeight = Math.Min(oldHeight, newHeight);
-			if (tilemap != null)
+			if (tilemap != null){
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
-			else
+				this.minWidth = 0;
+				this.minHeight = 0;
+			} else {
 				foreach (Tilemap tmap in sector.GetObjects(typeof(Tilemap))) {
 					tilemaps.Add(new TilemapData(tmap.SaveState(), tmap));
 				}
+			}
 		}
 
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)

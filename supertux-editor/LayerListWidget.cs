@@ -211,6 +211,10 @@ public class LayerListWidget : TreeView {
 		addItem.Activated += OnAdd;
 		popupMenu.Append(addItem);
 
+		MenuItem resizeItem = new MenuItem("Resize");
+		resizeItem.Activated += OnResize;
+		popupMenu.Append(resizeItem);
+
 		MenuItem editPathItem = new MenuItem("Edit Path");
 		editPathItem.Activated += OnEditPath;
 		popupMenu.Append(editPathItem);
@@ -236,7 +240,15 @@ public class LayerListWidget : TreeView {
 		Tilemap tilemap = new Tilemap();
 		tilemap.Resize( sector.Width, sector.Height, 0);
 		sector.Add(tilemap, "Tilemap");
+	}
 
+	private void OnResize(object o, EventArgs args)
+	{
+		try {
+			new ResizeDialog(sector, currentTilemap);
+		} catch(Exception e) {
+			ErrorDialog.Exception(e);
+		}		
 	}
 
 	private void OnEditPath(object o, EventArgs args)
