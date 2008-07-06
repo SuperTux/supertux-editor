@@ -38,7 +38,7 @@ namespace Undo {
 				this.Tilemap = Tilemap;
 			}
 		}
-		private List<TilemapData> tilemaps;
+		private List<TilemapData> tilemaps = new List<TilemapData>();
 
 		private uint newWidth;
 		private uint newHeight;
@@ -62,31 +62,34 @@ namespace Undo {
 			sector.EmitSizeChanged();
 		}
 
-		private SectorSizeChangeCommand(string title, Sector sector, List<TilemapData> tilemaps, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
+		/// <summary> Base constructor for class </summary>
+		/// <param name="title"> Title for undo record </param>
+		/// <param name="sector"> Sector that we want resize </param>
+		/// <param name="tilemap"> Tilemap we want resize, null means All tilemap in sector </param>
+		/// <param name="newWidth"> Width that we want to apply </param>
+		/// <param name="newHeight"> Height that we want to apply </param>
+		/// <param name="oldWidth"> Used when you want to set different value </param>
+		/// <param name="oldHeight"> Used when you want to set different value </param>
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
 			: base(title, sector) {
-			this.tilemaps = tilemaps;
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
 			this.minWidth = Math.Min(oldWidth, newWidth);
 			this.minHeight = Math.Min(oldHeight, newHeight);
-		}
-
-		/// <summary>Constructor used if you want to specify different old size</summary>
-		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
-			: this(title, sector, new List<TilemapData>(), newWidth, newHeight, oldWidth, oldHeight) {
-			foreach (Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
+			if (tilemap != null)
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
-			}
+			else
+				foreach (Tilemap tmap in sector.GetObjects(typeof(Tilemap))) {
+					tilemaps.Add(new TilemapData(tmap.SaveState(), tmap));
+				}
 		}
 
-		/// <summary>Constructor used if you want to resize only one tilemap</summary>
-		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight)
-			: this(title, sector, new List<TilemapData>(){new TilemapData(tilemap.SaveState(), tilemap)}, newWidth, newHeight, newWidth, newHeight) {
-			}
-
-		/// <summary>Constructor used if you want to resize all tilemaps in sector</summary>
 		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
-			:this(title, sector, newWidth, newHeight, sector.Width, sector.Height)
+			:this(title, sector, null, newWidth, newHeight, sector.Width, sector.Height)
+		{ }
+
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight)
+			:this(title, sector, tilemap, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 	}
 
