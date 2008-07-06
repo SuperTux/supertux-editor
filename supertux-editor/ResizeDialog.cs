@@ -15,21 +15,36 @@ public class ResizeDialog
 	private Entry HeightEntry = null;
 
 	private Sector sector;
+	private Tilemap tilemap;
+	private string undoTitleBase;
 
-	public ResizeDialog(Sector sector)
+	public ResizeDialog(Sector sector, Tilemap tilemap)
 	{
 		this.sector = sector;
+		this.tilemap = tilemap;
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 
 		if(resizeDialog == null || WidthEntry == null || HeightEntry == null)
 			throw new Exception("Couldn't load resize Dialog");
 
-		WidthEntry.Text = sector.Width.ToString();
-		HeightEntry.Text = sector.Height.ToString();
+		if (tilemap == null) {
+			WidthEntry.Text = sector.Width.ToString();
+			HeightEntry.Text = sector.Height.ToString();
+			undoTitleBase = "Sector \"" + sector.Name + "\"";
+		} else {
+			WidthEntry.Text = tilemap.Width.ToString();
+			HeightEntry.Text = tilemap.Height.ToString();
+			undoTitleBase = "Tilemap \"" + tilemap.Name + "\"";
+		}
+		resizeDialog.Title += " " + undoTitleBase;
 		resizeDialog.Icon = EditorStock.WindowIcon;
 		resizeDialog.ShowAll();
 	}
+
+	public ResizeDialog(Sector sector)
+		:this (sector, null)
+	{ }
 
 	protected void OnOk(object o, EventArgs args)
 	{
@@ -38,8 +53,9 @@ public class ResizeDialog
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
 			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
 			SectorSizeChangeCommand command = new SectorSizeChangeCommand(
-				"Sector resized to " + newWidth + "x" + newHeight,
+				undoTitleBase + " resized to " + newWidth + "x" + newHeight,
 				sector,
+				tilemap,
 				newWidth,
 				newHeight);
 			command.Do();

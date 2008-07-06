@@ -1235,7 +1235,7 @@
 
 <widget class="GtkDialog" id="resizeDialog">
   <property name="visible">True</property>
-  <property name="title" translatable="yes">ResizeSector</property>
+  <property name="title" translatable="yes">Resize</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
