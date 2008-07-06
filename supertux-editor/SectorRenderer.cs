@@ -201,9 +201,10 @@ public sealed class SectorRenderer : RenderView
 		if (tilemap == null)
 			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//hide the border
 		else
-			tilemapBBox.Rect = new RectangleF(-1, -1,
-		                                 tilemap.Width * Tileset.TILE_WIDTH + 1,
-		                                 tilemap.Height * Tileset.TILE_HEIGHT + 1);
+			tilemapBBox.Rect = new RectangleF(tilemap.X -1,
+						tilemap.Y -1,
+						tilemap.Width * Tileset.TILE_WIDTH + 1,
+						tilemap.Height * Tileset.TILE_HEIGHT + 1);
 
 		if (tilemapBBox.Rect.Equals(sectorBBox.Rect)) //If we have full-sized tilemap selected...
 			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//...we hide the border.		
