@@ -89,9 +89,9 @@ public class TileListWidget : GLWidgetBase {
 			int selectedTileID = selection[0, 0]; 
 			string attributes;
 			if( level.isWorldmap ){
-				attributes = tileset.Get( selectedTileID ).attributesWMString;
+				attributes = tileset.Get( selectedTileID ).ParseWorldmapAttributes();
 			} else {
-				attributes = tileset.Get( selectedTileID ).attributesString;
+				attributes = tileset.Get( selectedTileID ).ParseLevelAttributes();
 			}	
 			application.PrintStatus( "TileListWidget: Selected tile: " + selectedTileID + " Attributes: " + attributes);
 		} else if( selection.Width <= 0 || selection.Height <= 0 ){
