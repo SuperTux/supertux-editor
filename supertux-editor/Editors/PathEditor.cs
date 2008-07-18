@@ -18,10 +18,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	private Path.Node selectedNode;
 	private const float NODE_SIZE = 10;
 	private bool dragging;
-	/// <summary>
-	/// Used to make sure we just do one undo snapshot when moving.
-	/// </summary>
-	private bool moveStarted;
+
 	private Vector pressPoint;
 	private Vector originalPos;
 	private ushort linepattern = 7;
@@ -167,15 +164,11 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		}
 
 		dragging = false;
-		moveStarted = false;
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
-			if (!moveStarted) {
-				moveStarted = true;
-			}
 			Vector spos = originalPos + (mousePos - pressPoint);
 			// snap to 32pixel?
 			if((Modifiers & ModifierType.ShiftMask) != 0 || application.SnapToGrid ) {
