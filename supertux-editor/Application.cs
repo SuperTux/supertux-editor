@@ -75,6 +75,7 @@ public class Application : IEditorApplication {
 	private FileChooserDialog fileChooser;
 	private List<MruEntry> MenuItemMruEntries = new List<MruEntry>(); /* list of MenuItem entries that constitute the RecentDocument list */
 
+	private Tilemap tilemap;
 	private Level level;
 	private Sector sector;
 	private	LispSerializer serializer = new LispSerializer(typeof(Level));
@@ -94,11 +95,35 @@ public class Application : IEditorApplication {
 		get {
 			return sector;
 		}
+		set {
+			//TODO: Processing assigned value was the reason why we have properties.
+			//TODO: Is there a reason why have separate ChangeCurrentSector method?
+			//TODO: Can be code from ChangeCurrentSector() moved here?
+			ChangeCurrentSector(value);
+		}
 	}
 
 	public Level CurrentLevel {
 		get {
 			return level;
+		}
+		set {
+			//TODO: Processing assigned value was the reason why we have properties.
+			//TODO: Is there a reason why have separate ChangeCurrentLevel method?
+			//TODO: Can be code from ChangeCurrentLevel() moved here?
+			ChangeCurrentLevel(value);
+		}
+	}
+
+	public Tilemap CurrentTilemap {
+		get {
+			return tilemap;
+		}
+		set {
+			//TODO: Processing assigned value was the reason why we have properties.
+			//TODO: Is there a reason why have separate ChangeCurrentTilemap method?
+			//TODO: Can be code from ChangeCurrentTilemap() moved here?
+			ChangeCurrentTilemap(value);
 		}
 	}
 
@@ -752,6 +777,7 @@ public class Application : IEditorApplication {
 
 	public void ChangeCurrentTilemap(Tilemap tilemap)
 	{
+		this.tilemap = tilemap;
 		TilemapChanged(tilemap);
 	}
 

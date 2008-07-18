@@ -19,12 +19,20 @@ public interface IEditorApplication
 	SectorRenderer CurrentRenderer {
 		get;
 	}
+
 	Sector CurrentSector {
 		get;
+		set;
 	}
 
 	Level CurrentLevel {
 		get;
+		set;
+	}
+
+	Tilemap CurrentTilemap {
+		get;
+		set;
 	}
 
 	/// <summary>
