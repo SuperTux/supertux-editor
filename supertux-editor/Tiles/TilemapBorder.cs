@@ -27,16 +27,18 @@ public sealed class TilemapBorder : Node {
 		Tilemap tm = application.CurrentTilemap;
 
 		gl.Disable(gl.TEXTURE_2D);
-//		gl.PolygonMode(gl.FRONT_AND_BACK, gl.LINE);
 		gl.Begin(gl.LINE_LOOP);
 
-		gl.Vertex2f(tm.X - 1					, tm.Y - 1);
-		gl.Vertex2f(tm.X + 1 + tm.Width * Tileset.TILE_WIDTH	, tm.Y - 1);
-		gl.Vertex2f(tm.X + 1 + tm.Width * Tileset.TILE_WIDTH	, tm.Y + 1 + tm.Height * Tileset.TILE_HEIGHT);
-		gl.Vertex2f(tm.X - 1					, tm.Y + 1 + tm.Height * Tileset.TILE_HEIGHT);
+		gl.Vertex2f(tm.X - 1,
+				tm.Y - 1);
+		gl.Vertex2f(tm.X + 1 + tm.Width * Tileset.TILE_WIDTH,
+				tm.Y - 1);
+		gl.Vertex2f(tm.X + 1 + tm.Width * Tileset.TILE_WIDTH,
+				tm.Y + 1 + tm.Height * Tileset.TILE_HEIGHT);
+		gl.Vertex2f(tm.X - 1,
+				tm.Y + 1 + tm.Height * Tileset.TILE_HEIGHT);
 		gl.End();
 
-//		gl.PolygonMode(gl.FRONT_AND_BACK, gl.FILL);
 		gl.Enable(gl.TEXTURE_2D);
 	}
 }
