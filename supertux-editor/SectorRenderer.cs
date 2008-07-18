@@ -21,10 +21,11 @@ public sealed class SectorRenderer : RenderView
 	private SceneGraph.Rectangle tilemapBBox;
 	private SceneGraph.Rectangle sectorFill;
 	private Level level;
-	private Tilemap currentTilemap;
+	private IEditorApplication application;
 
 	public SectorRenderer(IEditorApplication application, Level level, Sector sector)
 	{
+		this.application = application;
 		this.level = level;
 		Layer layer = new Layer();
 
@@ -188,7 +189,7 @@ public sealed class SectorRenderer : RenderView
 		                                 sector.Width * Tileset.TILE_WIDTH + 1,
 		                                 sector.Height * Tileset.TILE_HEIGHT + 1);
 
-		UpdateTilemapBox(currentTilemap);
+		UpdateTilemapBox();
 
 		minx = -500;
 		maxx = sector.Width * Tileset.TILE_WIDTH + 500;
@@ -196,15 +197,15 @@ public sealed class SectorRenderer : RenderView
 		maxy = sector.Height * Tileset.TILE_HEIGHT + 500;
 	}
 
-	public void UpdateTilemapBox(Tilemap tilemap)
+	public void UpdateTilemapBox()
 	{
-		if (tilemap == null)
+		if (application.CurrentTilemap == null)
 			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//hide the border
 		else
-			tilemapBBox.Rect = new RectangleF(tilemap.X -1,
-						tilemap.Y -1,
-						tilemap.Width * Tileset.TILE_WIDTH + 1,
-						tilemap.Height * Tileset.TILE_HEIGHT + 1);
+			tilemapBBox.Rect = new RectangleF(application.CurrentTilemap.X -1,
+						application.CurrentTilemap.Y -1,
+						application.CurrentTilemap.Width * Tileset.TILE_WIDTH + 1,
+						application.CurrentTilemap.Height * Tileset.TILE_HEIGHT + 1);
 
 		if (tilemapBBox.Rect.Equals(sectorBBox.Rect)) //If we have full-sized tilemap selected...
 			tilemapBBox.Rect = new RectangleF(0, 0, 0, 0);	//...we hide the border.		
@@ -212,8 +213,7 @@ public sealed class SectorRenderer : RenderView
 
 	public void OnTilemapChanged(Tilemap newTilemap)
 	{
-		currentTilemap = newTilemap;
-		UpdateTilemapBox(currentTilemap);
+		UpdateTilemapBox();
 		QueueDraw();
 	}
 }
