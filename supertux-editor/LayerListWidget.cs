@@ -9,7 +9,6 @@ using Drawing;
 public class LayerListWidget : TreeView {
 	private IEditorApplication application;
 	private static object nullObject = new System.Object();
-	private Tilemap currentTilemap;
 	private Sector sector;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
 
@@ -62,12 +61,6 @@ public class LayerListWidget : TreeView {
 		application.LevelChanged += OnLevelChanged;
 	}
 
-	public Tilemap CurrentTilemap {
-		get {
-			return currentTilemap;
-		}
-	}
-
 	private void OnSectorChanged(Level level, Sector sector)
 	{
 		sector.ObjectAdded -= ObjectsChanged;
@@ -76,7 +69,7 @@ public class LayerListWidget : TreeView {
 		this.sector = sector;
 
 		//Find and select first solid tilemap (and discard tilemap from level opened before).
-		currentTilemap = null;
+		application.CurrentTilemap = null;
 
 		sector.ObjectAdded += ObjectsChanged;
 		sector.ObjectAdded += ObjectsChanged;
@@ -95,7 +88,7 @@ public class LayerListWidget : TreeView {
 	private void OnLevelChanged(Level level)
 	{
 		//Find and select first solid tilemap (and discard tilemap from level opened before).
-		currentTilemap = null;
+		application.CurrentTilemap = null;
 	}
 
 	private void UpdateList()
@@ -107,10 +100,9 @@ public class LayerListWidget : TreeView {
 			visibility[Tilemap] = 1.0f;
 
 			// if no tilemap is yet selected, select the first solid one
-			if ((currentTilemap == null) && (Tilemap.Solid)) {
-				currentTilemap = Tilemap;
-				application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
-				application.ChangeCurrentTilemap(currentTilemap);
+			if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
+				application.CurrentTilemap = Tilemap;
+				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
 			}
 
 		}
@@ -119,12 +111,12 @@ public class LayerListWidget : TreeView {
 		Model = store;
 
 		// Visibly select current Tilemap
-		if (currentTilemap != null) {
+		if (application.CurrentTilemap != null) {
 			TreePath path = TreePath.NewFirst();
 			TreeIter iter;
 			while (Model.GetIter(out iter, path)) {
 				object obj = Model.GetValue(iter, 0);
-				if(obj == currentTilemap) {
+				if(obj == application.CurrentTilemap) {
 					HasFocus = true;
 					ActivateRow(path, GetColumn(0));
 					SetCursor(path, GetColumn(0), false);
@@ -187,15 +179,12 @@ public class LayerListWidget : TreeView {
 
 		object obj = Model.GetValue(iter, 0);
 		if(obj is Tilemap) {
-			if(obj != currentTilemap) {
-				currentTilemap = (Tilemap) obj;
-				application.EditProperties(currentTilemap, "Tilemap (" + currentTilemap.ZPos + ")");
-				application.ChangeCurrentTilemap(currentTilemap);
+			if(obj != application.CurrentTilemap) {
+				application.CurrentTilemap = (Tilemap) obj;
+				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
 			}
 		} else {
-			currentTilemap = null;
-	// TODO: clear properties window?
-			application.ChangeCurrentTilemap(currentTilemap);
+			application.CurrentTilemap = null;
 		}
 
 		if((args.Event.Button == 3) && (obj is Tilemap)) {
@@ -245,7 +234,7 @@ public class LayerListWidget : TreeView {
 	private void OnResize(object o, EventArgs args)
 	{
 		try {
-			new ResizeDialog(sector, currentTilemap);
+			new ResizeDialog(sector, application.CurrentTilemap);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}		
@@ -253,7 +242,7 @@ public class LayerListWidget : TreeView {
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) currentTilemap;
+		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path == null) {
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
@@ -263,7 +252,7 @@ public class LayerListWidget : TreeView {
 
 	private void OnDeletePath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) currentTilemap;
+		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path != null) {
 			pathObject.Path = null;
 			//application.SetEditor(null);
@@ -272,28 +261,28 @@ public class LayerListWidget : TreeView {
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		if(currentTilemap == null)
+		if(application.CurrentTilemap == null)
 			return;
 
 		// Don't remove last tilemap, that cause bugs.
 		if (sector.GetObjects(typeof(Tilemap)).Count == 1)
 			return;
 
-		if(String.IsNullOrEmpty(currentTilemap.Name)){
-			application.TakeUndoSnapshot("Delete Tilemap (" + currentTilemap.ZPos + ")");
+		if(String.IsNullOrEmpty(application.CurrentTilemap.Name)){
+			application.TakeUndoSnapshot("Delete Tilemap (" + application.CurrentTilemap.ZPos + ")");
 		} else {
-			application.TakeUndoSnapshot("Delete Tilemap " + currentTilemap.Name + " (" + currentTilemap.ZPos + ")");
+			application.TakeUndoSnapshot("Delete Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.ZPos + ")");
 		}
-		sector.Remove(currentTilemap);
-		currentTilemap = null;
+		sector.Remove(application.CurrentTilemap);
+		application.CurrentTilemap = null;
 		UpdateList();
 	}
 
 	private void OnCheckIDs(object o, EventArgs args) {
-		if (currentTilemap == null)
+		if (application.CurrentTilemap == null)
 			return;
 
-		List<int> invalidtiles = QACheck.CheckIds(currentTilemap, application.CurrentLevel.Tileset);
+		List<int> invalidtiles = QACheck.CheckIds(application.CurrentTilemap, application.CurrentLevel.Tileset);
 		MessageType msgtype;
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		if (invalidtiles.Count == 0) {
@@ -314,8 +303,8 @@ public class LayerListWidget : TreeView {
 
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
-		if(currentTilemap != null) {
-			float vis = visibility[currentTilemap];
+		if(application.CurrentTilemap != null) {
+			float vis = visibility[application.CurrentTilemap];
 			float newvis = 1.0f;
 			if(vis == 1.0f) {
 				newvis = 0.5f;
@@ -325,9 +314,9 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 
-			application.CurrentRenderer.SetTilemapColor(currentTilemap,
+			application.CurrentRenderer.SetTilemapColor(application.CurrentTilemap,
 			                                            new Color(1, 1, 1, newvis));
-			visibility[currentTilemap] = newvis;
+			visibility[application.CurrentTilemap] = newvis;
 			QueueDraw();
 		} else {
 			float vis = visibility[nullObject];

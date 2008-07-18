@@ -328,7 +328,7 @@ public class Application : IEditorApplication {
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
-		SetEditor(new TilemapEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
+		SetEditor(new TilemapEditor(this, tilemap, level.Tileset, selection));
 	}
 
 	protected void OnToolObjects(object o, EventArgs args) {
@@ -356,7 +356,7 @@ public class Application : IEditorApplication {
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
-		SetEditor(new FillEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
+		SetEditor(new FillEditor(this, tilemap, level.Tileset, selection));
 	}
 
 	protected void OnToolReplace(object o, EventArgs args) {
@@ -366,7 +366,7 @@ public class Application : IEditorApplication {
 		ToolObjectsProps.Visible = false;
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
-		SetEditor(new ReplaceEditor(this, layerList.CurrentTilemap, level.Tileset, selection));
+		SetEditor(new ReplaceEditor(this, tilemap, level.Tileset, selection));
 	}
 
 	#endregion Tool Button Handlers
@@ -635,7 +635,7 @@ public class Application : IEditorApplication {
 	protected void OnBrushLoad(object o, EventArgs args)
 	{
 		try {
-			if (layerList.CurrentTilemap == null) {
+			if (tilemap == null) {
 				ErrorDialog.ShowError("Brush: No tilemap selected",
 				                      "You have to select a tilemap before you load a brush");
 				return;
@@ -653,7 +653,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
 
-			BrushEditor editor = new BrushEditor(this, layerList.CurrentTilemap,
+			BrushEditor editor = new BrushEditor(this, tilemap,
 			                                     level.Tileset, brushFile);
 			SetEditor(editor);
 		} catch(Exception e) {
