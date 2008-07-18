@@ -16,6 +16,7 @@ public sealed class TilemapNode : Node {
 	}
 
 	public void Draw(Gdk.Rectangle cliprect) {
+		tilemap.UpdatePos();
 		cliprect.X -= (int)tilemap.X;
 		cliprect.Y -= (int)tilemap.Y;
 

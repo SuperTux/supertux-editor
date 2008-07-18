@@ -70,4 +70,11 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	public Tilemap() : base() {
 	}
 
+	public void UpdatePos(){
+		if (path != null && path.Nodes.Count > 0){
+			X = path.Nodes[0].X;
+			Y = path.Nodes[0].Y;
+		}
+
+	}
 }
