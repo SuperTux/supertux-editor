@@ -26,12 +26,8 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	/// </summary>
 	private bool LastPreviewIsChange;
 
-	public event RedrawEventHandler Redraw;
-
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
-		: base(application, Tilemap, Tileset) {
-		selection = new Selection();
-		selection.Changed += OnSelectionChanged;
+		: base(application, Tilemap, Tileset, new Selection()) {
 		brush = Brush.loadFromFile(brushFile, Tileset);
 	}
 
@@ -126,7 +122,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 				LastDrawPos = MouseTilePos;
 				drawing = true;
 			}
-			Redraw();
+			FireRedraw();
 		}
 
 		// right mouse button means select area to learn
@@ -144,7 +140,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 				selecting = true;
 				UpdateSelection();
 			}
-			Redraw();
+			FireRedraw();
 		}
 	}
 
@@ -170,7 +166,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			selecting = false;
 		}
 
-		Redraw();
+		FireRedraw();
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
@@ -185,11 +181,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			if (selecting) {
 				UpdateSelection();
 			}
-			Redraw();
+			FireRedraw();
 		}
-	}
-
-	private void OnSelectionChanged() {
-		Redraw();
 	}
 }

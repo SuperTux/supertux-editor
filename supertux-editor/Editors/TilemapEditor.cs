@@ -5,18 +5,10 @@ using System;
 using Gdk;
 using Undo;
 
-public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
-	public event RedrawEventHandler Redraw;
+public sealed class TilemapEditor : TileEditorBase, IEditor {
 
 	public TilemapEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
-		: base(application, Tilemap, Tileset) {
-		this.selection = selection;
-		selection.Changed += OnSelectionChanged;
-	}
-
-	public void Dispose()
-	{
-		selection.Changed -= OnSelectionChanged;
+		: base(application, Tilemap, Tileset, selection) {
 	}
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
@@ -33,7 +25,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			selection.ApplyToTilemap(MouseTilePos, Tilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 			LastDrawPos = MouseTilePos;
 			drawing = true;
-			Redraw();
+			FireRedraw();
 		}
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
@@ -44,7 +36,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			SelectStartPos = MouseTilePos;
 			selecting = true;
 			UpdateSelection();
-			Redraw();
+			FireRedraw();
 		}
 	}
 
@@ -69,7 +61,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			selecting = false;
 		}
 
-		Redraw();
+		FireRedraw();
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
@@ -91,11 +83,7 @@ public sealed class TilemapEditor : TileEditorBase, IEditor, IDisposable {
 			}
 			if(selecting)
 				UpdateSelection();
-			Redraw();
+			FireRedraw();
 		}
-	}
-
-	private void OnSelectionChanged() {
-		Redraw();
 	}
 }

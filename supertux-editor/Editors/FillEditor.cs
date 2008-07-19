@@ -5,14 +5,10 @@ using System;
 using Gdk;
 using Undo;
 
-public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
-
-	public event RedrawEventHandler Redraw;
+public sealed class FillEditor : TileEditorBase, IEditor {
 
 	public FillEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
-		: base(application, Tilemap, Tileset) {
-		this.selection = selection;
-		selection.Changed += OnSelectionChanged;
+		: base(application, Tilemap, Tileset, selection) {
 	}
 
 	private void FloodFill(FieldPos pos, int new_tile) {
@@ -28,11 +24,6 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 		FloodFillAt(pos.Down, oldId, newId);
 		FloodFillAt(pos.Left, oldId, newId);
 		FloodFillAt(pos.Right, oldId, newId);
-	}
-
-	public void Dispose()
-	{
-		selection.Changed -= OnSelectionChanged;
 	}
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
@@ -51,7 +42,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			}
 			LastDrawPos = MouseTilePos;
 			drawing = true;
-			Redraw();
+			FireRedraw();
 		}
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
@@ -62,7 +53,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			SelectStartPos = MouseTilePos;
 			selecting = true;
 			UpdateSelection();
-			Redraw();
+			FireRedraw();
 		}
 	}
 
@@ -87,7 +78,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			selecting = false;
 		}
 
-		Redraw();
+		FireRedraw();
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
@@ -111,11 +102,7 @@ public sealed class FillEditor : TileEditorBase, IEditor, IDisposable {
 			}
 			if(selecting)
 				UpdateSelection();
-			Redraw();
+			FireRedraw();
 		}
-	}
-
-	private void OnSelectionChanged() {
-		Redraw();
 	}
 }

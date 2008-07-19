@@ -52,7 +52,10 @@ public abstract class ObjectEditorBase : EditorBase {
 /// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
-public abstract class TileEditorBase : EditorBase {
+public abstract class TileEditorBase : EditorBase, IDisposable {
+
+	public event RedrawEventHandler Redraw;
+
 	protected Selection selection;
 	protected bool drawing;
 	protected bool selecting;
@@ -105,11 +108,18 @@ public abstract class TileEditorBase : EditorBase {
 		}
 	}
 
-	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset) {
+	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection) {
 		this.application = application;
 		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
+		this.selection = selection;
 		application.TilemapChanged += OnTilemapChanged;
+		selection.Changed += OnSelectionChanged;
+	}
+
+	public void Dispose()
+	{
+		selection.Changed -= OnSelectionChanged;
 	}
 
 	public virtual void OnTilemapChanged(Tilemap newTilemap) {
@@ -158,4 +168,11 @@ public abstract class TileEditorBase : EditorBase {
 			}
 	}
 
+	private void OnSelectionChanged() {
+		Redraw();
+	}
+
+	protected void FireRedraw() {
+		Redraw();
+	}
 }
