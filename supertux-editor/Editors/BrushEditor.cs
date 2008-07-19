@@ -1,7 +1,6 @@
 //  $Id$
 using DataStructures;
 using OpenGl;
-using System;
 using Gdk;
 
 /// <summary>
@@ -25,8 +24,8 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	/// </summary>
 	private bool LastPreviewIsChange;
 
-	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
-		: base(application, Tilemap, Tileset, new Selection()) {
+	public BrushEditor(IEditorApplication application, Tileset Tileset, string brushFile)
+		: base(application, Tileset, new Selection()) {
 		brush = Brush.loadFromFile(brushFile, Tileset);
 		ActionName = "Tile Brush";
 	}
@@ -45,7 +44,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	/// </summary>
 	private void UpdatePreview() {
 		if (LastPreviewPos != MouseTilePos) {
-			LastPreviewIsChange = brush.FindBestPattern(MouseTilePos, Tilemap, ref LastPreview);
+			LastPreviewIsChange = brush.FindBestPattern(MouseTilePos, application.CurrentTilemap, ref LastPreview);
 			LastPreviewPos = MouseTilePos;
 		}
 	}
@@ -108,7 +107,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 
 	public override void EditorAction(ModifierType Modifiers)
 	{
-		brush.ApplyToTilemap(MouseTilePos, Tilemap);
+		brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
 	}
 
 	public new void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
@@ -117,7 +116,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			if (drawing) {
 				if (LastDrawPos != MouseTilePos) {
 					LastDrawPos = MouseTilePos;
-					brush.ApplyToTilemap(MouseTilePos, Tilemap);
+					brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
 				}
 			}
 			if (selecting) {

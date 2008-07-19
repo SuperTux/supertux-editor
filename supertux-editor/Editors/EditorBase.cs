@@ -65,7 +65,6 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	protected FieldPos SelectionP1;
 	protected FieldPos SelectionP2;
 
-	protected Tilemap Tilemap;
 	protected Tileset Tileset;
 
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
@@ -73,12 +72,10 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	public abstract void EditorAction(ModifierType Modifiers);
 	public string ActionName;
 
-	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection) {
+	protected TileEditorBase(IEditorApplication application, Tileset Tileset, Selection selection) {
 		this.application = application;
-		this.Tilemap = Tilemap;
 		this.Tileset = Tileset;
 		this.selection = selection;
-		application.TilemapChanged += OnTilemapChanged;
 		selection.Changed += OnSelectionChanged;
 	}
 
@@ -127,14 +124,14 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if (Tilemap == null) return;
+		if (application.CurrentTilemap == null) return;
 
 		UpdateMouseTilePos(mousePos);
 
 		if(button == 1) {
 
 			// save backup of Tilemap
-			tilemapBackup = Tilemap.SaveState();
+			tilemapBackup = application.CurrentTilemap.SaveState();
 
 			EditorAction(Modifiers);	//Call editor-specific part of code
 
@@ -144,8 +141,8 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 		}
 		if(button == 3) {
 			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-			   || MouseTilePos.X >= Tilemap.Width
-			   || MouseTilePos.Y >= Tilemap.Height)
+			   || MouseTilePos.X >= application.CurrentTilemap.Width
+			   || MouseTilePos.Y >= application.CurrentTilemap.Height)
 				return;
 
 			SelectStartPos = MouseTilePos;
@@ -157,7 +154,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if (Tilemap == null) return;
+		if (application.CurrentTilemap == null) return;
 
 		UpdateMouseTilePos(mousePos);
 
@@ -165,7 +162,11 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand(ActionName + " on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			TilemapModifyCommand command = new TilemapModifyCommand(
+				ActionName + " on Tilemap \"" + application.CurrentTilemap.Name + "\"",
+				application.CurrentTilemap,
+				tilemapBackup,
+				application.CurrentTilemap.SaveState());
 			UndoManager.AddCommand(command);
 
 		}
@@ -181,7 +182,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
-		if (Tilemap == null) return;
+		if (application.CurrentTilemap == null) return;
 
 		if (UpdateMouseTilePos(mousePos)) {
 			if(selection.Width == 0 || selection.Height == 0)
@@ -205,10 +206,6 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 		}
 	}
 
-	public virtual void OnTilemapChanged(Tilemap newTilemap) {
-		Tilemap = newTilemap;
-	}
-
 	protected virtual void UpdateSelection() {
 		if (MouseTilePos.X < SelectStartPos.X) {
 			if (MouseTilePos.X < 0)
@@ -218,8 +215,8 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			SelectionP2.X = SelectStartPos.X;
 		} else {
 			SelectionP1.X = SelectStartPos.X;
-			if (MouseTilePos.X >= Tilemap.Width)
-				SelectionP2.X = (int) Tilemap.Width - 1;
+			if (MouseTilePos.X >= application.CurrentTilemap.Width)
+				SelectionP2.X = (int) application.CurrentTilemap.Width - 1;
 			else
 				SelectionP2.X = MouseTilePos.X;
 		}
@@ -232,8 +229,8 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			SelectionP2.Y = SelectStartPos.Y;
 		} else {
 			SelectionP1.Y = SelectStartPos.Y;
-			if (MouseTilePos.Y >= Tilemap.Height)
-				SelectionP2.Y = (int) Tilemap.Height - 1;
+			if (MouseTilePos.Y >= application.CurrentTilemap.Height)
+				SelectionP2.Y = (int) application.CurrentTilemap.Height - 1;
 			else
 				SelectionP2.Y = MouseTilePos.Y;
 		}
@@ -245,8 +242,8 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
 					selection[x, y]
-						= Tilemap[(uint) SelectionP1.X + x,
-						          (uint) SelectionP1.Y + y];
+						= application.CurrentTilemap[(uint) SelectionP1.X + x,
+									     (uint) SelectionP1.Y + y];
 				}
 			}
 	}

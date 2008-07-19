@@ -1,25 +1,23 @@
 //  $Id$
 using DataStructures;
-using OpenGl;
-using System;
 using Gdk;
 
 public sealed class FillEditor : TileEditorBase, IEditor {
 
-	public FillEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection)
-		: base(application, Tilemap, Tileset, selection) {
+	public FillEditor(IEditorApplication application, Tileset Tileset, Selection selection)
+		: base(application, Tileset, selection) {
 		ActionName = "Flood Fill";
 	}
 
 	private void FloodFill(FieldPos pos, int new_tile) {
-		if (Tilemap[pos] != new_tile)
-			FloodFillAt(pos, Tilemap[pos], new_tile);
+		if (application.CurrentTilemap[pos] != new_tile)
+			FloodFillAt(pos, application.CurrentTilemap[pos], new_tile);
 	}
 
 	private void FloodFillAt(FieldPos pos, int oldId, int newId) {
-		if (!Tilemap.InBounds(pos)) return;
-		if (Tilemap[pos] != oldId) return;
-		Tilemap[pos] = newId;
+		if (!application.CurrentTilemap.InBounds(pos)) return;
+		if (application.CurrentTilemap[pos] != oldId) return;
+		application.CurrentTilemap[pos] = newId;
 		FloodFillAt(pos.Up, oldId, newId);
 		FloodFillAt(pos.Down, oldId, newId);
 		FloodFillAt(pos.Left, oldId, newId);
