@@ -20,6 +20,7 @@ using DataStructures;
 using OpenGl;
 using System;
 using Gdk;
+using Undo;
 
 // TODO: More things should be moved into this class.
 /// <summary>
@@ -48,7 +49,6 @@ public abstract class ObjectEditorBase : EditorBase {
 
 }
 
-// TODO: More things should be moved into this class.
 /// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
@@ -69,6 +69,23 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	protected Tileset Tileset;
 
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
+
+	public abstract void EditorAction(ModifierType Modifiers);
+	public string ActionName;
+
+	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection) {
+		this.application = application;
+		this.Tilemap = Tilemap;
+		this.Tileset = Tileset;
+		this.selection = selection;
+		application.TilemapChanged += OnTilemapChanged;
+		selection.Changed += OnSelectionChanged;
+	}
+
+	public void Dispose()
+	{
+		selection.Changed -= OnSelectionChanged;
+	}
 
 	protected bool UpdateMouseTilePos(Vector MousePos) {
 		FieldPos NewMouseTilePos = new FieldPos((int) (MousePos.X) / 32, (int) (MousePos.Y) / 32);
@@ -108,18 +125,84 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 		}
 	}
 
-	protected TileEditorBase(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, Selection selection) {
-		this.application = application;
-		this.Tilemap = Tilemap;
-		this.Tileset = Tileset;
-		this.selection = selection;
-		application.TilemapChanged += OnTilemapChanged;
-		selection.Changed += OnSelectionChanged;
+	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
+	{
+		if (Tilemap == null) return;
+
+		UpdateMouseTilePos(mousePos);
+
+		if(button == 1) {
+
+			// save backup of Tilemap
+			tilemapBackup = Tilemap.SaveState();
+
+			EditorAction(Modifiers);	//Call editor-specific part of code
+
+			LastDrawPos = MouseTilePos;
+			drawing = true;
+			Redraw();
+		}
+		if(button == 3) {
+			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
+			   || MouseTilePos.X >= Tilemap.Width
+			   || MouseTilePos.Y >= Tilemap.Height)
+				return;
+
+			SelectStartPos = MouseTilePos;
+			selecting = true;
+			UpdateSelection();
+			Redraw();
+		}
 	}
 
-	public void Dispose()
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		selection.Changed -= OnSelectionChanged;
+		if (Tilemap == null) return;
+
+		UpdateMouseTilePos(mousePos);
+
+		if(button == 1) {
+			drawing = false;
+
+			// use backup of Tilemap to create undo command
+			TilemapModifyCommand command = new TilemapModifyCommand(ActionName + " on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
+			UndoManager.AddCommand(command);
+
+		}
+		if(button == 3) {
+			UpdateSelection();
+
+			selection.FireChangedEvent();
+			selecting = false;
+		}
+
+		Redraw();
+	}
+
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
+	{
+		if (Tilemap == null) return;
+
+		if (UpdateMouseTilePos(mousePos)) {
+			if(selection.Width == 0 || selection.Height == 0)
+				return;
+
+			if(drawing &&
+			   ( (Modifiers & ModifierType.ShiftMask) != 0 ||
+			     ((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
+			      (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0
+			    )
+			   )
+			  ) {
+				LastDrawPos = MouseTilePos;
+
+				EditorAction(Modifiers);	//Call editor-specific part of code
+
+			}
+			if(selecting)
+				UpdateSelection();
+			Redraw();
+		}
 	}
 
 	public virtual void OnTilemapChanged(Tilemap newTilemap) {

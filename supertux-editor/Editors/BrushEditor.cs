@@ -3,7 +3,6 @@ using DataStructures;
 using OpenGl;
 using System;
 using Gdk;
-using Undo;
 
 /// <summary>
 /// Smooths Tilemaps by changing tiles to one of several stored valid patterns.
@@ -29,6 +28,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	public BrushEditor(IEditorApplication application, Tilemap Tilemap, Tileset Tileset, string brushFile)
 		: base(application, Tilemap, Tileset, new Selection()) {
 		brush = Brush.loadFromFile(brushFile, Tileset);
+		ActionName = "Tile Brush";
 	}
 
 	/// <summary>
@@ -106,70 +106,12 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 	}
 
-	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
+	public override void EditorAction(ModifierType Modifiers)
 	{
-		UpdateMouseTilePos(mousePos);
-
-		// left mouse button means apply brush
-		if(button == 1) {
-			if(selecting){	//but both buttons means "abort learning"
-				selecting = false;
-			} else {
-				// save backup of Tilemap
-				tilemapBackup = Tilemap.SaveState();
-
-				brush.ApplyToTilemap(MouseTilePos, Tilemap);
-				LastDrawPos = MouseTilePos;
-				drawing = true;
-			}
-			FireRedraw();
-		}
-
-		// right mouse button means select area to learn
-		if(button == 3) {
-			if(drawing) {	//but both buttons means "abort drawing"
-				drawing = false;
-				Tilemap.RestoreState(tilemapBackup);
-			} else {
-				if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-					|| MouseTilePos.X >= Tilemap.Width
-					|| MouseTilePos.Y >= Tilemap.Height)
-					return;
-
-				SelectStartPos = MouseTilePos;
-				selecting = true;
-				UpdateSelection();
-			}
-			FireRedraw();
-		}
+		brush.ApplyToTilemap(MouseTilePos, Tilemap);
 	}
 
-	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
-	{
-		UpdateMouseTilePos(mousePos);
-
-		// left mouse button means apply brush
-		if(button == 1 && drawing) {
-			drawing = false;
-
-			// use backup of Tilemap to create undo command
-			TilemapModifyCommand command = new TilemapModifyCommand("Tile Brush on Tilemap \""+Tilemap.Name+"\"", Tilemap, tilemapBackup, Tilemap.SaveState());
-			UndoManager.AddCommand(command);
-
-		}
-
-		// right mouse button means select area to learn
-		if(button == 3 && selecting) {
-			UpdateSelection();
-
-			selection.FireChangedEvent();
-			selecting = false;
-		}
-
-		FireRedraw();
-	}
-
-	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
+	public new void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if (UpdateMouseTilePos(mousePos)) {
 			if (drawing) {
