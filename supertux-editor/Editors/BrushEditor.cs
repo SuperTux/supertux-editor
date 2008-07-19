@@ -55,10 +55,10 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		if(!selecting) {
 
 			// Calculate rectangle to color
-			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * 32f;
-			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * 32f;
-			float w = brush.Width * 32f;
-			float h = brush.Height * 32f;
+			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * Tileset.TILE_WIDTH + application.CurrentTilemap.X;
+			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y;
+			float w = brush.Width * Tileset.TILE_WIDTH;
+			float h = brush.Height * Tileset.TILE_HEIGHT;
 
 			// Draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);

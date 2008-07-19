@@ -85,7 +85,15 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	}
 
 	protected bool UpdateMouseTilePos(Vector MousePos) {
-		FieldPos NewMouseTilePos = new FieldPos((int) (MousePos.X) / 32, (int) (MousePos.Y) / 32);
+		//count position relative to current tilemap
+		int XPos = (int) (MousePos.X - application.CurrentTilemap.X);
+		int YPos = (int) (MousePos.Y - application.CurrentTilemap.Y);
+		FieldPos NewMouseTilePos = new FieldPos(XPos / Tileset.TILE_WIDTH,
+							YPos / Tileset.TILE_HEIGHT);
+
+		if (XPos < 0) NewMouseTilePos.X--;	//Fix for negative X values
+		if (YPos < 0) NewMouseTilePos.Y--;	//Fix for negative Y values
+
 		if (NewMouseTilePos != MouseTilePos) {
 			MouseTilePos = NewMouseTilePos;
 			return true;
@@ -97,15 +105,17 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	public virtual void Draw(Gdk.Rectangle cliprect) {
 		if (!selecting) {
 			gl.Color4f(1, 1, 1, 0.7f);
-			Vector pos = new Vector(MouseTilePos.X * 32f, MouseTilePos.Y * 32f);
+			Vector pos = new Vector(
+				MouseTilePos.X * Tileset.TILE_WIDTH  + application.CurrentTilemap.X,
+				MouseTilePos.Y * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y);
 			selection.Draw(pos, Tileset);
 			gl.Color4f(1, 1, 1, 1);
 		}
 		if (selecting) {
-			float left = SelectionP1.X * 32f;
-			float top = SelectionP1.Y * 32f;
-			float right = SelectionP2.X * 32f + 32f;
-			float bottom = SelectionP2.Y * 32f + 32f;
+			float left = SelectionP1.X * Tileset.TILE_WIDTH + application.CurrentTilemap.X;
+			float top = SelectionP1.Y * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y;
+			float right = (SelectionP2.X + 1) * Tileset.TILE_WIDTH + application.CurrentTilemap.X;
+			float bottom = (SelectionP2.Y + 1) * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y;
 
 			gl.Color4f(0, 0, 1, 0.7f);
 			gl.Disable(gl.TEXTURE_2D);
