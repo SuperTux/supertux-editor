@@ -79,8 +79,13 @@ public class SectorSwitchNotebook : Notebook
 
 	private void OnSwitchPage(object o, SwitchPageArgs args)
 	{
-		Sector NewSector = level.Sectors[(int) args.PageNum];
-		SectorChanged(NewSector);
+		try {
+			Sector NewSector = level.Sectors[(int) args.PageNum];
+			SectorChanged(NewSector);
+		} catch(System.ArgumentOutOfRangeException) {
+			//HACK: There is something wrong wit PageNum when removing first sector of 2
+				//This is called more times then, first two calls have bad PageNum (1)
+		}
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
@@ -149,12 +154,6 @@ public class SectorSwitchNotebook : Notebook
 		// Don't remove sector if it is the only one.
 		if (level.Sectors.Count == 1){
 			application.PrintStatus("A level has to have at least one sector.");
-			return;
-		}
-		//HACK: Don't remove first sector if we got two sector.
-		//      It will cause weird bugs elsewhere.
-		if ((level.Sectors.IndexOf(sector) == 0) && (level.Sectors.Count == 2)){
-			application.PrintStatus("Bug: Removing first sector does not work if there are exactly two sectors.");
 			return;
 		}
 
