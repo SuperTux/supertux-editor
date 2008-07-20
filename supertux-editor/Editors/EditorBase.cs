@@ -140,26 +140,37 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 		UpdateMouseTilePos(mousePos);
 
 		if(button == 1) {
+			if (selecting) {	//both buttons => cancel selection
+				selecting = false;
+				selection.Resize(0, 0, 0);
+				selection.FireChangedEvent();
+			} else {
 
-			// save backup of Tilemap
-			tilemapBackup = application.CurrentTilemap.SaveState();
+				// save backup of Tilemap
+				tilemapBackup = application.CurrentTilemap.SaveState();
 
-			EditorAction(Modifiers);	//Call editor-specific part of code
+				EditorAction(Modifiers);	//Call editor-specific part of code
 
-			LastDrawPos = MouseTilePos;
-			drawing = true;
-			Redraw();
+				LastDrawPos = MouseTilePos;
+				drawing = true;
+				Redraw();
+			}
 		}
 		if(button == 3) {
-			if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
-			   || MouseTilePos.X >= application.CurrentTilemap.Width
-			   || MouseTilePos.Y >= application.CurrentTilemap.Height)
-				return;
+			if (drawing) {	//both buttons => cancel drawing
+				drawing = false;
+				application.CurrentTilemap.RestoreState(tilemapBackup);
+			} else {
+				if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
+				   || MouseTilePos.X >= application.CurrentTilemap.Width
+				   || MouseTilePos.Y >= application.CurrentTilemap.Height)
+					return;
 
-			SelectStartPos = MouseTilePos;
-			selecting = true;
-			UpdateSelection();
-			Redraw();
+				SelectStartPos = MouseTilePos;
+				selecting = true;
+				UpdateSelection();
+				Redraw();
+			}
 		}
 	}
 
@@ -169,7 +180,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 		UpdateMouseTilePos(mousePos);
 
-		if(button == 1) {
+		if((button == 1) && drawing) {
 			drawing = false;
 
 			// use backup of Tilemap to create undo command
@@ -181,7 +192,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			UndoManager.AddCommand(command);
 
 		}
-		if(button == 3) {
+		if((button == 3) && selecting) {
 			UpdateSelection();
 
 			SelectionDoneAction(selection);
