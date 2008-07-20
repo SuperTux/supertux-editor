@@ -157,7 +157,7 @@ public class SectorSwitchNotebook : Notebook
 			application.PrintStatus("Bug: Removing first sector does not work if there are exactly two sectors.");
 			return;
 		}
-		application.TakeUndoSnapshot("Removed sector");
+
 		application.PrintStatus("Sector '"+ sector.Name + "' removed.");
 		SectorRemoveCommand command = new SectorRemoveCommand(
 			"Removed sector",
