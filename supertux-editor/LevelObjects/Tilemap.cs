@@ -14,10 +14,12 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 	public int ZPos = 0;
 
 //TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
+	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
 //	[LispChild("x", Optional = true, Default = 0.0f)]
 	public float X = 0;
 
 //TODO: If we want to store Y coordinate to level file, we must uncomment this and add support for it
+	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
 //	[LispChild("y", Optional = true, Default = 0.0f)]
 	public float Y = 0;
 
@@ -74,7 +76,6 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
 		if (path != null && path.Nodes.Count > 0){
 			X = path.Nodes[0].X;
 			Y = path.Nodes[0].Y;
-		}
-
+		} else X = Y = 0;
 	}
 }
