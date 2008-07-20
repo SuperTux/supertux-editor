@@ -70,6 +70,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
 
 	public abstract void EditorAction(ModifierType Modifiers);
+	public virtual void SelectionDoneAction(Selection selection) { }
 	public string ActionName;
 
 	protected TileEditorBase(IEditorApplication application, Tileset Tileset, Selection selection) {
@@ -182,6 +183,8 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 		}
 		if(button == 3) {
 			UpdateSelection();
+
+			SelectionDoneAction(selection);
 
 			selection.FireChangedEvent();
 			selecting = false;

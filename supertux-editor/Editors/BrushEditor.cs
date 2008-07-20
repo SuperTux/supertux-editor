@@ -110,6 +110,11 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
 	}
 
+	public override void SelectionDoneAction(Selection selection)
+	{
+		brush.LearnPatterns(selection);
+	}
+
 	public new void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if (UpdateMouseTilePos(mousePos)) {
