@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Gtk;
 using GLib;
 using Drawing;
+using LispReader;
+using Undo;
 
 public class LayerListWidget : TreeView {
 	private IEditorApplication application;
@@ -209,6 +211,7 @@ public class LayerListWidget : TreeView {
 		popupMenu.Append(editPathItem);
 
 		MenuItem deletePathItem = new MenuItem("Delete Path");
+		deletePathItem.Sensitive = application.CurrentTilemap.Path != null;
 		deletePathItem.Activated += OnDeletePath;
 		popupMenu.Append(deletePathItem);
 
@@ -217,6 +220,7 @@ public class LayerListWidget : TreeView {
 		popupMenu.Append(CheckIDsItem);
 
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
+		deleteItem.Sensitive = sector.GetObjects(typeof(Tilemap)).Count > 1;
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
 
@@ -254,8 +258,12 @@ public class LayerListWidget : TreeView {
 	{
 		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path != null) {
-			pathObject.Path = null;
-			//application.SetEditor(null);
+			Command command = new PropertyChangeCommand("Removed path of Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.ZPos + ")",
+				new FieldOrProperty.Property(typeof(Tilemap).GetProperty("Path")),
+				application.CurrentTilemap,
+				null);
+			command.Do();
+			UndoManager.AddCommand(command);
 		}
 	}
 
@@ -268,11 +276,6 @@ public class LayerListWidget : TreeView {
 		if (sector.GetObjects(typeof(Tilemap)).Count == 1)
 			return;
 
-		if(String.IsNullOrEmpty(application.CurrentTilemap.Name)){
-			application.TakeUndoSnapshot("Delete Tilemap (" + application.CurrentTilemap.ZPos + ")");
-		} else {
-			application.TakeUndoSnapshot("Delete Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.ZPos + ")");
-		}
 		sector.Remove(application.CurrentTilemap);
 		application.CurrentTilemap = null;
 		UpdateList();
