@@ -59,8 +59,8 @@ public class SectorSwitchNotebook : Notebook
 
 	private void ClearTabList()
 	{
-		foreach(Widget widget in this) {
-			Remove(widget);
+		while (NPages > 0) {
+			RemovePage(-1);	//Remove last page
 		}
 	}
 
@@ -79,13 +79,8 @@ public class SectorSwitchNotebook : Notebook
 
 	private void OnSwitchPage(object o, SwitchPageArgs args)
 	{
-		try {
-			Sector NewSector = level.Sectors[(int) args.PageNum];
-			SectorChanged(NewSector);
-		} catch(System.ArgumentOutOfRangeException) {
-			//HACK: There is something wrong wit PageNum when removing first sector of 2
-				//This is called more times then, first two calls have bad PageNum (1)
-		}
+		Sector NewSector = level.Sectors[(int) args.PageNum];
+		SectorChanged(NewSector);
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
