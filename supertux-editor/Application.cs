@@ -893,12 +893,12 @@ public class Application : IEditorApplication {
 		string undoLabel = "Undo";
 		MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
 		if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
-		foreach (Label l in MenuItemUndo.Children) l.Text = undoLabel;
+		((Label)MenuItemUndo.Child).Text = undoLabel;
 
 		string redoLabel = "Redo";
 		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
 		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
-		foreach (Label l in MenuItemRedo.Children) l.Text = redoLabel;
+		((Label)MenuItemUndo.Child).Text = redoLabel;
 	}
 
 	/// <summary>Called when an item of the RecentDocument MenuItems is chosen</summary>

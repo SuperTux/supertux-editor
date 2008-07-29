@@ -160,20 +160,20 @@
 		<widget class="GtkMenu" id="edit1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="MenuItemUndo">
+		    <widget class="GtkImageMenuItem" id="MenuItemUndo">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Undo</property>
-		      <property name="use_underline">True</property>
+		      <property name="label">gtk-undo</property>
+		      <property name="use_stock">True</property>
 		      <signal name="activate" handler="OnUndo" last_modification_time="Thu, 15 Jun 2006 16:42:42 GMT"/>
 		      <accelerator key="Z" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 		    </widget>
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="MenuItemRedo">
+		    <widget class="GtkImageMenuItem" id="MenuItemRedo">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Redo</property>
-		      <property name="use_underline">True</property>
+		      <property name="label">gtk-redo</property>
+		      <property name="use_stock">True</property>
 		      <signal name="activate" handler="OnRedo" last_modification_time="Thu, 15 Jun 2006 16:42:42 GMT"/>
 		      <accelerator key="Y" modifiers="GDK_CONTROL_MASK" signal="activate"/>
 		    </widget>
@@ -341,10 +341,10 @@
 		<widget class="GtkMenu" id="editor1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="Settings1">
+		    <widget class="GtkImageMenuItem" id="Settings1">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Settings</property>
-		      <property name="use_underline">True</property>
+		      <property name="label">gtk-preferences</property>
+		      <property name="use_stock">True</property>
 		      <signal name="activate" handler="OnSettings" last_modification_time="Thu, 11 May 2006 17:25:31 GMT"/>
 		    </widget>
 		  </child>
@@ -356,8 +356,8 @@
 	  <child>
 	    <widget class="GtkMenuItem" id="HelpMenu">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">_Help</property>
-	      <property name="use_underline">True</property>
+	      <property name="label">gtk-help</property>
+	      <property name="use_stock">True</property>
 
 	      <child>
 		<widget class="GtkMenu" id="HelpMenu_menu">
