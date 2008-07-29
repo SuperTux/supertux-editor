@@ -898,7 +898,7 @@ public class Application : IEditorApplication {
 		string redoLabel = "Redo";
 		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
 		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
-		((Label)MenuItemUndo.Child).Text = redoLabel;
+		((Label)MenuItemRedo.Child).Text = redoLabel;
 	}
 
 	/// <summary>Called when an item of the RecentDocument MenuItems is chosen</summary>
