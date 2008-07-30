@@ -10,7 +10,9 @@ using Undo;
 
 public class LayerListWidget : TreeView {
 	private IEditorApplication application;
-	private static object nullObject = new System.Object();
+	private static object separatorObject = new System.Object();
+	private static object badguysObject = new System.Object();
+	private static object backgroundObject = new System.Object();
 	private Sector sector;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
 
@@ -40,6 +42,7 @@ public class LayerListWidget : TreeView {
 	public LayerListWidget(IEditorApplication application)
 	{
 		this.application = application;
+		RowSeparatorFunc = OurRowSeparatorFunc;
 		ButtonPressEvent += OnButtonPressed;
 
 		VisibilityRenderer visibilityRenderer = new VisibilityRenderer();
@@ -108,8 +111,14 @@ public class LayerListWidget : TreeView {
 			}
 
 		}
-		store.AppendValues(nullObject);
-		visibility[nullObject] = 1.0f;
+		store.AppendValues(separatorObject);
+		visibility[separatorObject] = 0;
+
+		store.AppendValues(backgroundObject);
+		visibility[backgroundObject] = 1.0f;
+
+		store.AppendValues(badguysObject);
+		visibility[badguysObject] = 1.0f;
 		Model = store;
 
 		// Visibly select current Tilemap
@@ -132,6 +141,12 @@ public class LayerListWidget : TreeView {
 	private void OnTilemapChanged(Tilemap Tilemap)
 	{
 		LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnTilemapChanged: Not implemented");
+	}
+
+	private bool OurRowSeparatorFunc (TreeModel model, TreeIter iter)
+	{
+		object o = model.GetValue(iter, 0);
+		return (o == separatorObject);
 	}
 
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
@@ -164,7 +179,10 @@ public class LayerListWidget : TreeView {
 				TextRenderer.Text = Tilemap.Name + " (" + Tilemap.ZPos + ")";
 			}
 		} else {
-			TextRenderer.Text = "Objects";
+			if (o == badguysObject)
+				TextRenderer.Text = "Objects";
+			else
+				TextRenderer.Text = "Background image";
 		}
 	}
 
@@ -186,6 +204,8 @@ public class LayerListWidget : TreeView {
 				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
 			}
 		} else {
+			if (obj == separatorObject)
+				return;
 			application.CurrentTilemap = null;
 		}
 
@@ -322,7 +342,11 @@ public class LayerListWidget : TreeView {
 			visibility[application.CurrentTilemap] = newvis;
 			QueueDraw();
 		} else {
-			float vis = visibility[nullObject];
+			TreeIter treeIter;
+			Selection.GetSelected(out treeIter);
+			object obj = Model.GetValue(treeIter, 0);
+
+			float vis = visibility[obj == badguysObject?badguysObject:backgroundObject];
 			float newvis = 1.0f;
 			if(vis == 1.0f) {
 				newvis = 0.5f;
@@ -332,8 +356,13 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 
-			application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-			visibility[nullObject] = newvis;
+			if (obj == badguysObject) {
+				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
+				visibility[badguysObject] = newvis;
+			} else {
+				application.CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, newvis));
+				visibility[backgroundObject] = newvis;
+			}
 			QueueDraw();
 		}
 	}
