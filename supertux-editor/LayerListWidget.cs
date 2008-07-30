@@ -346,7 +346,7 @@ public class LayerListWidget : TreeView {
 			Selection.GetSelected(out treeIter);
 			object obj = Model.GetValue(treeIter, 0);
 
-			float vis = visibility[obj == badguysObject?badguysObject:backgroundObject];
+			float vis = visibility[obj];
 			float newvis = 1.0f;
 			if(vis == 1.0f) {
 				newvis = 0.5f;
@@ -358,11 +358,10 @@ public class LayerListWidget : TreeView {
 
 			if (obj == badguysObject) {
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-				visibility[badguysObject] = newvis;
 			} else {
 				application.CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, newvis));
-				visibility[backgroundObject] = newvis;
 			}
+			visibility[obj] = newvis;
 			QueueDraw();
 		}
 	}
