@@ -51,6 +51,12 @@ public class Application : IEditorApplication {
 	private Gtk.MenuItem MenuItemRedo = null;
 
 	[Glade.Widget]
+	private Gtk.ToolButton ToolButtonUndo = null;
+
+	[Glade.Widget]
+	private Gtk.ToolButton ToolButtonRedo = null;
+
+	[Glade.Widget]
 	private Gtk.Menu MenuItemLevel_menu = null; /* "Level" menu, contains MenuItemMruBegin */
 
 	[Glade.Widget]
@@ -409,6 +415,7 @@ public class Application : IEditorApplication {
 			ErrorDialog.Exception("Couldn't create new level", e);
 		}
 		fileName = null;
+		UpdateUndoButtons();
 		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
 	}
@@ -446,6 +453,7 @@ public class Application : IEditorApplication {
 			this.fileName = fileName;
 			Settings.Instance.addToRecentDocuments(fileName);
 			Settings.Instance.Save();
+			UpdateUndoButtons();
 			UpdateTitlebar();
 			UpdateRecentDocuments();
 			UndoManager.MarkAsSaved();
@@ -807,6 +815,12 @@ public class Application : IEditorApplication {
 		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot (\"{0}\") does nothing now", actionTitle);
 	}
 
+	public void UpdateUndoButtons()
+	{
+		ToolButtonUndo.Sensitive = (UndoManager.UndoCount > 0);
+		ToolButtonRedo.Sensitive = (UndoManager.RedoCount > 0);
+	}
+
 	private void UpdateTitlebar() {
 		string s = fileName != null ? fileName : "[No Name]";
 		if (UndoManager.IsDirty) {
@@ -851,6 +865,7 @@ public class Application : IEditorApplication {
 	/// </summary>
 	/// <param name="command"></param>
 	private void OnUndoManager(Command command) {
+		UpdateUndoButtons();
 		UpdateTitlebar();
 	}
 

@@ -477,6 +477,51 @@
 	  </child>
 
 	  <child>
+	    <widget class="GtkToolButton" id="ToolButtonUndo">
+	      <property name="visible">True</property>
+	      <property name="sensitive">False</property>
+	      <property name="stock_id">gtk-undo</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	      <property name="is_important">False</property>
+	      <signal name="clicked" handler="OnUndo"/>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkToolButton" id="ToolButtonRedo">
+	      <property name="visible">True</property>
+	      <property name="sensitive">False</property>
+	      <property name="stock_id">gtk-redo</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	      <property name="is_important">False</property>
+	      <signal name="clicked" handler="OnRedo"/>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkSeparatorToolItem" id="separatortoolitem3">
+	      <property name="visible">True</property>
+	      <property name="draw">True</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">False</property>
+	    </packing>
+	  </child>
+
+	  <child>
 	    <widget class="GtkToggleToolButton" id="ttbShowBackground">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">Background</property>
