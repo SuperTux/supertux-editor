@@ -102,7 +102,7 @@ public class LayerListWidget : TreeView {
 		TreeStore store = new TreeStore(typeof(System.Object));
 		foreach(Tilemap Tilemap in sector.GetObjects(typeof(Tilemap))) {
 			store.AppendValues(Tilemap);
-			visibility[Tilemap] = 1.0f;
+			visibility[Tilemap] = application.CurrentRenderer.GetTilemapColor(Tilemap).Alpha;
 
 			// if no tilemap is yet selected, select the first solid one
 			if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
@@ -115,10 +115,10 @@ public class LayerListWidget : TreeView {
 		visibility[separatorObject] = 0;
 
 		store.AppendValues(backgroundObject);
-		visibility[backgroundObject] = 1.0f;
+		visibility[backgroundObject] = application.CurrentRenderer.GetBackgroundColor().Alpha;
 
 		store.AppendValues(badguysObject);
-		visibility[badguysObject] = 1.0f;
+		visibility[badguysObject] = application.CurrentRenderer.GetObjectsColor().Alpha;
 		Model = store;
 
 		// Visibly select current Tilemap
