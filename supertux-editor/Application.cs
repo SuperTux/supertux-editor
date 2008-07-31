@@ -752,6 +752,8 @@ public class Application : IEditorApplication {
 
 	public void ChangeCurrentLevel(Level newLevel)
 	{
+		if (level == newLevel)
+			return;		//ignore when there is no change
 		// Fix bug if loading worldmap while having a selection
 		// in a "normal" level (or the other way round):
 		if(level != null && !level.TilesetFile.Equals(newLevel.TilesetFile)){
@@ -767,6 +769,8 @@ public class Application : IEditorApplication {
 
 	public void ChangeCurrentSector(Sector newSector)
 	{
+		if (sector == newSector)
+			return;		//ignore when there is no change
 		this.sector = newSector;
 		SectorChanged(level, newSector);
 		if (CurrentRenderer != null) {
@@ -784,6 +788,8 @@ public class Application : IEditorApplication {
 
 	public void ChangeCurrentTilemap(Tilemap tilemap)
 	{
+		if (this.tilemap == tilemap)
+			return;		//ignore when there is no change
 		this.tilemap = tilemap;
 		TilemapChanged(tilemap);
 	}
@@ -792,11 +798,6 @@ public class Application : IEditorApplication {
 	{
 		if (sectorSwitchNotebook == null) return;
 		if (sectorSwitchNotebook.CurrentRenderer == null) return;
-		IEditor oldEditor = sectorSwitchNotebook.CurrentRenderer.Editor;
-		if(oldEditor is IDisposable) {
-			IDisposable disposable = (IDisposable) oldEditor;
-			disposable.Dispose();
-		}
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 		sectorSwitchNotebook.CurrentRenderer.QueueDraw();
 	}
