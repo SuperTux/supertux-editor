@@ -28,9 +28,11 @@ public class RenderView : GLWidgetBase
 			}
 
 			this.editor = value;
-			this.editor.Redraw += QueueDraw;
-			if(this.editor is IEditorCursorChange)
-				((IEditorCursorChange) this.editor).CursorChange += CursorChange;
+			if(this.editor != null) {
+				this.editor.Redraw += QueueDraw;
+				if(this.editor is IEditorCursorChange)
+					((IEditorCursorChange) this.editor).CursorChange += CursorChange;
+			}
 		}
 		get {
 			return editor;
