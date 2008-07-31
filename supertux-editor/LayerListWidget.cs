@@ -326,25 +326,11 @@ public class LayerListWidget : TreeView {
 
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
-		if(application.CurrentTilemap != null) {
-			float vis = visibility[application.CurrentTilemap];
-			float newvis = 1.0f;
-			if(vis == 1.0f) {
-				newvis = 0.5f;
-			} else if(vis == 0.5f) {
-				newvis = 0.0f;
-			} else {
-				newvis = 1.0f;
-			}
-
-			application.CurrentRenderer.SetTilemapColor(application.CurrentTilemap,
-			                                            new Color(1, 1, 1, newvis));
-			visibility[application.CurrentTilemap] = newvis;
-			QueueDraw();
-		} else {
-			TreeIter treeIter;
-			Selection.GetSelected(out treeIter);
-			object obj = Model.GetValue(treeIter, 0);
+		TreeIter treeIter;
+		TreeModel treeModel;
+		if (Selection.GetSelected(out treeModel, out treeIter))
+		{	//we have selected row
+			object obj = treeModel.GetValue(treeIter, 0);
 
 			float vis = visibility[obj];
 			float newvis = 1.0f;
@@ -356,11 +342,15 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 
-			if (obj == badguysObject) {
+			if (obj is Tilemap)
+				application.CurrentRenderer.SetTilemapColor((Tilemap)obj,
+			                                            new Color(1, 1, 1, newvis));
+			if (obj == badguysObject)
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-			} else {
+
+			if (obj == backgroundObject) 
 				application.CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, newvis));
-			}
+
 			visibility[obj] = newvis;
 			QueueDraw();
 		}
