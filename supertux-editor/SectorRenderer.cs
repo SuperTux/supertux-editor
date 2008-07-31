@@ -81,6 +81,11 @@ public sealed class SectorRenderer : RenderView
 		DragMotion += OnDragMotion;
 	}
 
+	public Color GetTilemapColor(Tilemap tilemap)
+	{
+		return ((ColorNode) colors[tilemap]).Color;
+	}
+
 	/// <summary>
 	///		Change color of a tilemap. Useful to hide tilemaps (but they are still drawn that way...)
 	/// </summary>
@@ -97,10 +102,20 @@ public sealed class SectorRenderer : RenderView
 		QueueDraw();
 	}
 
+	public Color GetBackgroundColor()
+	{
+		return backgroundColorNode.Color;
+	}
+
 	public void SetBackgroundColor(Color color)
 	{
 		backgroundColorNode.Color = color;
 		QueueDraw();
+	}
+
+	public Color GetObjectsColor()
+	{
+		return objectsColorNode.Color;
 	}
 
 	public void SetObjectsColor(Color color)
