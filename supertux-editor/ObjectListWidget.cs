@@ -18,6 +18,7 @@ public class ObjectListWidget : GLWidgetBase
 	private const int NONE = -1;
 
 	private int TILES_PER_ROW = 4;
+	private int ROWS_PER_PAGE = 10;
 	private bool objectsLoaded;
 	private List<Type> gameObjectTypes = new List<Type>();
 	private List<Sprite> gameObjectSprites = new List<Sprite>();
@@ -25,13 +26,14 @@ public class ObjectListWidget : GLWidgetBase
 	private int FirstRow = 0;
 	private IEditorApplication application;
 	private Level level;
+	private Adjustment vadjustment;
 
 	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
 		new TargetEntry("GameObject", TargetFlags.App, 0),
 		new TargetEntry("BadguyName", TargetFlags.App, 1)
 	};
 
-	public ObjectListWidget(IEditorApplication application)
+	public ObjectListWidget(IEditorApplication application, Adjustment adjv)
 	{
 		this.application = application;
 
@@ -51,8 +53,10 @@ public class ObjectListWidget : GLWidgetBase
 		ScrollEvent += OnScroll;
 		DragDataGet += OnDragDataGet;		
 		application.LevelChanged += OnLevelChanged;
+		vadjustment = adjv;
+		vadjustment.ValueChanged += OnVAdjustmentChangedValue;
 	}
-
+	
 	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{
@@ -159,6 +163,7 @@ public class ObjectListWidget : GLWidgetBase
 		}
 
 		objectsLoaded = true;
+		updateScrollbar();
 	}
 
 	private static Sprite CreateSprite(string name, string action)
@@ -272,18 +277,36 @@ public class ObjectListWidget : GLWidgetBase
 		if(args.Event.Direction == ScrollDirection.Up && FirstRow > 0 ) {
 			FirstRow -= 1;
 			args.RetVal = true;
+			vadjustment.Value = FirstRow;
 			QueueDraw();
 		} else if( args.Event.Direction == ScrollDirection.Down &&
-			         FirstRow + 1 < Math.Floor( (double)gameObjectTypes.Count / (double)TILES_PER_ROW )) {
+			         FirstRow + ROWS_PER_PAGE -1 < Math.Floor( (double)gameObjectTypes.Count / (double)TILES_PER_ROW )) {
 			FirstRow += 1;
 			args.RetVal = true;
+			vadjustment.Value = FirstRow;
 			QueueDraw();
 		}
 	}
 
-	/// <summary>Calculate TILES_PER_ROW, when we know how long we are</summary>
+	/// <summary>Vertical Scroll Bar was scrolled</summary>
+	private void OnVAdjustmentChangedValue(object sender, EventArgs e)
+	{
+		FirstRow = (int) vadjustment.Value;
+		QueueDraw();
+	}	
+	
+	/// <summary>Calculate TILES_PER_ROW, when we know how wide we are</summary>
 	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
 	{
 		TILES_PER_ROW = args.Allocation.Width /  COLUMN_WIDTH;
+		ROWS_PER_PAGE = args.Allocation.Height / ROW_HEIGHT;
+		updateScrollbar();
+	}
+	
+	/// <summary>adjust the scrollbar</summary>
+	private void updateScrollbar()
+	{
+		double upper = Math.Ceiling( (double)gameObjectTypes.Count / (double)TILES_PER_ROW );
+		vadjustment.SetBounds(0, upper, 1, ROWS_PER_PAGE-1, ROWS_PER_PAGE);
 	}
 }

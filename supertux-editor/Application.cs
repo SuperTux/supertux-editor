@@ -244,15 +244,36 @@ public class Application : IEditorApplication {
 		VBox box = new VBox();
 		box.Homogeneous = false;
 
-		tileList = new TileListWidget(this, selection);
+		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
+		
+		tileList = new TileListWidget(this, selection, vadjustment);
 		TilegroupSelector selector = new TilegroupSelector(this, tileList);
 
+		HBox hbox = new HBox(false, 0);
+		
+		VScrollbar scrollbar = new VScrollbar(vadjustment);
+		
+		hbox.PackStart(tileList, true, true, 0);
+		hbox.PackEnd(scrollbar, false, true, 0);
+		
 		box.PackStart(selector, false, true, 0);
-		box.PackStart(tileList, true, true, 0);
+		box.PackStart(hbox, true, true, 0);
 
 		return box;
 	}
 
+	private Widget CreateObjectList()
+	{
+		HBox hbox = new HBox(false, 0);
+
+		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
+		VScrollbar scrollbar = new VScrollbar(vadjustment);
+		
+		hbox.PackStart(new ObjectListWidget(this, vadjustment), true, true, 0);
+		hbox.PackEnd(scrollbar, false, true, 0);
+		return hbox;
+	}	
+	
 	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
 	{
 		if(func_name == "TileList") {
@@ -260,7 +281,7 @@ public class Application : IEditorApplication {
 			return ToolTilesProps;
 		}
 		if(func_name == "ObjectList") {
-			ToolObjectsProps = new ObjectListWidget(this);
+			ToolObjectsProps = CreateObjectList();
 			return ToolObjectsProps;
 		}
 		if(func_name == "GObjectList") {

@@ -25,10 +25,12 @@ public class TileListWidget : GLWidgetBase {
 	private int hovertile = -1;
 	private Vector StartPos;
 	private bool multiselectInProgress = false;
-
+	
+	private Adjustment vadjustment;
+	
 	private IEditorApplication application;
 
-	public TileListWidget(IEditorApplication application, Selection selection)
+	public TileListWidget(IEditorApplication application, Selection selection, Adjustment adjv)
 	{
 		this.selection = selection;
 		selection.Changed += OnSelectionChanged;
@@ -47,15 +49,21 @@ public class TileListWidget : GLWidgetBase {
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);
 
+		SizeAllocated += OnSizeAllocated;
 		application.LevelChanged += OnLevelChanged;
+		
+		vadjustment = adjv;
+		vadjustment.ValueChanged += OnVAdjustmentChangedValue;
 	}
 
 	public void ChangeTilegroup(Tilegroup tilegroup)
 	{
 		this.tilegroup = tilegroup;
 		Translation = new Vector(0, 0);
+		vadjustment.Value = -Translation.Y;
 		Zoom = 1.0f;
 		hovertile = -1;
+		updateScrollbar();
 		QueueDraw();
 	}
 
@@ -74,10 +82,12 @@ public class TileListWidget : GLWidgetBase {
 	{
 		tileset = level.Tileset;
 		Translation = new Vector(0, 0);
+		vadjustment.Value = -Translation.Y;
 		Zoom = 1.0f;
 
 		tilegroup = tileset.Tilegroups["All"];
-
+		updateScrollbar();
+		
 		QueueDraw();
 	}
 
@@ -291,12 +301,37 @@ public class TileListWidget : GLWidgetBase {
 	{
 		if(args.Event.Direction == ScrollDirection.Up &&
 		   Translation.Y <= (float) -ROW_HEIGHT) {
-			Translation = Translation + new Vector(0, ROW_HEIGHT);
+			Translation = Translation + new Vector(0, ROW_HEIGHT - (Translation.Y%ROW_HEIGHT));
+			vadjustment.Value = -Translation.Y;
 			args.RetVal = true;
 		} else if(args.Event.Direction == ScrollDirection.Down &&
 		   Translation.Y - ROW_HEIGHT > -ROW_HEIGHT * Math.Floor( (double)tilegroup.Tiles.Count / (double)TILES_PER_ROW)){
-			Translation = Translation - new Vector(0, ROW_HEIGHT);
+			Translation = Translation - new Vector(0, ROW_HEIGHT - (Translation.Y%ROW_HEIGHT));
+			vadjustment.Value = -Translation.Y;
 			args.RetVal = true;
 		}
+	}
+	
+	/// <summary>Vertical Scroll Bar was scrolled</summary>
+	private void OnVAdjustmentChangedValue(object sender, EventArgs e)
+	{
+		Translation = new Vector(0, (float) -vadjustment.Value);
+		QueueDraw();
+	}	
+	
+	/// <summary>adjust the scrollbar</summary>
+	private void updateScrollbar()
+	{
+		if( tilegroup != null ){
+			double pageheight =  Allocation.Height - (Allocation.Height%ROW_HEIGHT);
+			double upper = (ROW_HEIGHT * Math.Ceiling( (double)tilegroup.Tiles.Count / (double)TILES_PER_ROW ));
+			vadjustment.SetBounds(0, upper, ROW_HEIGHT, pageheight - ROW_HEIGHT, pageheight);
+		}
+	}
+
+	/// <summary>Calculate Scrollbars again for new height</summary>
+	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
+	{
+		updateScrollbar();
 	}
 }
