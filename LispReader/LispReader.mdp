@@ -1,4 +1,4 @@
-<Project name="LispReader" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="LispReader" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Debug" assembly="LispReader" />
@@ -13,18 +13,20 @@
       <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
-  <DeployTargets />
   <Contents>
-    <File name="./ICustomLispSerializer.cs" subtype="Code" buildaction="Compile" />
-    <File name="./LispAttributes.cs" subtype="Code" buildaction="Compile" />
-    <File name="./LispSerializer.cs" subtype="Code" buildaction="Compile" />
-    <File name="./FieldOrProperty.cs" subtype="Code" buildaction="Compile" />
-    <File name="./LispRootSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="ICustomLispSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="LispAttributes.cs" subtype="Code" buildaction="Compile" />
+    <File name="LispSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="FieldOrProperty.cs" subtype="Code" buildaction="Compile" />
+    <File name="LispRootSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="LispReader.csproj" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="Lisp" />
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
   </References>
+  <DeployTargets />
   <DeploymentInformation strategy="File">
     <excludeFiles />
   </DeploymentInformation>

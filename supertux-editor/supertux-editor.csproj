@@ -22,6 +22,12 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>supertux-editor</AssemblyName>
+    <RootNamespace>supertux_editor</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <ApplicationIcon>resources\supertux-editor.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +38,13 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>supertux-editor</AssemblyName>
+    <DebugSymbols>true</DebugSymbols>
+    <RootNamespace>supertux_editor</RootNamespace>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <ApplicationIcon>resources\supertux-editor.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -92,7 +105,7 @@
     <Compile Include="Sprites\SpriteManager.cs" />
     <Compile Include="Tiles\Tile.cs" />
     <Compile Include="Tiles\TileBlock.cs" />
-    <Compile Include="Tiles\TileGroup.cs" />
+    <Compile Include="Tiles\Tilegroup.cs" />
     <Compile Include="TileGroupSelector.cs" />
     <Compile Include="TileListWidget.cs" />
     <Compile Include="LevelObjects\Tilemap.cs" />
@@ -107,17 +120,22 @@
     <Compile Include="Undo\UndoManager.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="LevelObjects\WorldmapObjects.cs" />
+    <Compile Include="Undo\PathNodeCommands.cs" />
+    <Compile Include="Undo\SortedListCommands.cs" />
+    <Compile Include="Undo\TilemapModifyCommand.cs" />
+    <Compile Include="PropertyEditors\ChooseBadguyWidget.cs" />
+    <Compile Include="Tiles\TilemapBorder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="atk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System" />
-    <Reference Include="System.XML" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\gtkgl-sharp\gtkgl-sharp.csproj">
@@ -183,6 +201,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="resources\supertux-editor.ico" />
+    <None Include="resources\supertux-editor.ico" />
   </ItemGroup>
 </Project>

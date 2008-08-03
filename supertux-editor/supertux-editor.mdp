@@ -1,4 +1,4 @@
-<Project name="supertux-editor" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="supertux-editor" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../" assembly="supertux-editor" />
@@ -98,6 +98,14 @@
     <File name="PropertyEditors/ChooseBadguyWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="Undo/SortedListCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="StringListSerializer.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tiles/TilemapBorder.cs" subtype="Code" buildaction="Compile" />
+    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="supertux-editor" subtype="Code" buildaction="Nothing" />
+    <File name="supertux-editor.csproj" subtype="Code" buildaction="Nothing" />
+    <File name="supertux-editor.in" subtype="Code" buildaction="Nothing" />
+    <File name="LevelObjects/Decal.cs" subtype="Code" buildaction="Compile" />
+    <File name="resources/editor.gladep" subtype="Code" buildaction="Nothing" />
+    <File name="resources/supertux-editor.ico" subtype="Code" buildaction="Nothing" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />

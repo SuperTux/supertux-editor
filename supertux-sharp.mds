@@ -17,7 +17,6 @@
       <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
     </Configuration>
   </Configurations>
-  <DeployTargets />
   <StartMode startupentry="supertux-editor" single="True">
     <Execute type="None" entry="Resources" />
     <Execute type="None" entry="Lisp" />
@@ -26,12 +25,13 @@
     <Execute type="None" entry="supertux-editor" />
     <Execute type="None" entry="gtkgl-sharp" />
   </StartMode>
+  <DeployTargets />
   <Entries>
-    <Entry filename="./Resources/Resources.mdp" />
-    <Entry filename="./Lisp/Lisp.mdp" />
-    <Entry filename="./LispReader/LispReader.mdp" />
-    <Entry filename="./libeditor/libeditor.mdp" />
-    <Entry filename="./supertux-editor/supertux-editor.mdp" />
-    <Entry filename="./gtkgl-sharp/gtkgl-sharp.mdp" />
+    <Entry filename="Resources/Resources.mdp" />
+    <Entry filename="Lisp/Lisp.mdp" />
+    <Entry filename="LispReader/LispReader.mdp" />
+    <Entry filename="libeditor/libeditor.mdp" />
+    <Entry filename="supertux-editor/supertux-editor.mdp" />
+    <Entry filename="gtkgl-sharp/gtkgl-sharp.mdp" />
   </Entries>
 </Combine>
