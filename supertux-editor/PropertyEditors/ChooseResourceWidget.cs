@@ -51,14 +51,9 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 			path = System.IO.Path.GetFileName(dialog.Filename);
 		// Fixes backslashes on windows:
 		entry.Text = path.Replace("\\", "/");
-		PropertyChangeCommand command = new PropertyChangeCommand(
-			"Changed value of " + field.Name,
-			field,
-			_object,
-			entry.Text);
-		command.Do();
-		UndoManager.AddCommand(command);
 		dialog.Destroy();
+
+		OnEntryChangeDone(entry, null);
 	}
 
 	private void OnEntryChangeDone(object o, FocusOutEventArgs args) {
@@ -74,6 +69,9 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
+			string val = (string) field.GetValue(Object);
+			if (val != null)
+				entry.Text = val;
 		}
 	}
 }
