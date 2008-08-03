@@ -66,16 +66,12 @@ public sealed class WorldmapLevel : WorldmapObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				try {
-					Sprite = SpriteManager.Create(value);
-					Sprite.Action = "solved";
-				} catch(Exception e) {
-					ErrorDialog.Exception(e);
-					Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
-				}
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "solved";
+				Sprite = newSprite;	//save new sprite after (no exception only)
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -112,17 +108,12 @@ public sealed class SpecialTile : WorldmapObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				try {
-					Sprite = SpriteManager.Create(value);
-				} catch(Exception e) {
-					ErrorDialog.Exception(e);
-					Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
-				}
+				Sprite = SpriteManager.Create(value);
 			} else {
 				Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -143,17 +134,12 @@ public sealed class SpriteChange : WorldmapObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				try {
-					Sprite = SpriteManager.Create(value);
-				} catch(Exception e) {
-					ErrorDialog.Exception(e);
-					Sprite = SpriteManager.Create("images/worldmap/common/tux.sprite");
-				}
+				Sprite = SpriteManager.Create(value);
 			} else {
 				Sprite = SpriteManager.Create("images/worldmap/common/tux.sprite");
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -181,17 +167,12 @@ public sealed class Teleporter : WorldmapObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				try {
-					Sprite = SpriteManager.Create(value);
-				} catch(Exception e) {
-					ErrorDialog.Exception(e);
-					Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
-				}
+				Sprite = SpriteManager.Create(value);
 			} else {
 				Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;

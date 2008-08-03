@@ -63,15 +63,13 @@ public sealed class MrBomb : SimpleDirObject
 			return spriteFile;
 		}
 		set {
+			if (!String.IsNullOrEmpty(value)){
+				//TODO: find out why cherry's sprite causes problems. Particles?
+				Sprite newSprite= SpriteManager.Create(value);
+				newSprite.Action = "left";
+				Sprite = newSprite;	//save new sprite after (no exception only)
+			}
 			spriteFile = value;
-			if (!String.IsNullOrEmpty(value))
-				try { //TODO: find out why cherry's sprite causes problems. Particles?
-					Sprite = SpriteManager.Create(value);
-					Sprite.Action = "left";
-				} catch {
-					Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
-					Sprite.Action = "right";
-				}
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -623,9 +621,9 @@ public sealed class Firefly : SimpleObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if(!String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -785,11 +783,12 @@ public sealed class Switch : SimpleObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				Sprite = SpriteManager.Create(value);
-				Sprite.Action = "off";
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "off";
+				Sprite = newSprite;	//save new sprite after (no exception only)
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = "images/objects/switch/switch.sprite";
@@ -937,11 +936,12 @@ public sealed class UnstableTile : SimpleObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value)) {
-				Sprite = SpriteManager.Create(value);
-				Sprite.Action = "normal";
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "normal";
+				Sprite = newSprite;	//save new sprite after (no exception only)
 			}
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = "images/objects/unstable_tile/unstable_tile.sprite";
@@ -988,13 +988,9 @@ public sealed class Powerup : SimpleObject
 			return spriteFile;
 		}
 		set {
+			if (!String.IsNullOrEmpty(value))
+				Sprite = SpriteManager.Create(value);
 			spriteFile = value;
-			try {
-				if (!String.IsNullOrEmpty(value))
-					Sprite = SpriteManager.Create(value);
-			} catch(Exception e) {
-				ErrorDialog.Exception(e);
-			}
 		}
 	}
 	private string spriteFile = String.Empty;
@@ -1024,9 +1020,9 @@ public sealed class ScriptedObject : SimpleObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if (!String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
+			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;

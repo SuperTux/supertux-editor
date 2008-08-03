@@ -179,9 +179,9 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 			return spriteFile;
 		}
 		set {
-			spriteFile = value;
 			if(! String.IsNullOrEmpty(value))
 				Sprite = SpriteManager.Create(value);
+			spriteFile = value;
 		}
 	}
 	private string spriteFile;

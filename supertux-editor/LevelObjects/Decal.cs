@@ -37,12 +37,12 @@ public sealed class Decal : IGameObject, IObject, Node {
 			return image;
 		}
 		set {
-			image = value;
-			if (String.IsNullOrEmpty(image)) {
+			if (String.IsNullOrEmpty(value)) {
 				surface = null;
-				return;
+			} else {
+				surface = new Surface(value);
 			}
-			surface = new Surface(image);
+			image = value;
 		}
 	}
 	private string image;

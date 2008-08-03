@@ -44,10 +44,10 @@ public sealed class Level
 		set {
 			if(String.IsNullOrEmpty(value))
 				return;
-			tilesetFile = value;
 			Tileset = new Tileset(value);
 			if(TilesetChanged != null)
 				TilesetChanged(this);
+			tilesetFile = value;
 		}
 	}
 

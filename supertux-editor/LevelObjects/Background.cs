@@ -19,12 +19,12 @@ public sealed class Background : IGameObject, Node {
 			return imageTop;
 		}
 		set {
-			imageTop = value;
-			if (String.IsNullOrEmpty(imageTop)) {
+			if (String.IsNullOrEmpty(value)) {
 				surfaceTop = null;
-				return;
+			} else {
+				surfaceTop = new Surface(value);
 			}
-			surfaceTop = new Surface(imageTop);
+			imageTop = value;
 		}
 	}
 	private string imageTop;
@@ -37,12 +37,12 @@ public sealed class Background : IGameObject, Node {
 			return image;
 		}
 		set {
-			image = value;
-			if (String.IsNullOrEmpty(image)) {
+			if (String.IsNullOrEmpty(value)) {
 				surface = null;
-				return;
+			} else {
+				surface = new Surface(value);
 			}
-			surface = new Surface(image);
+			image = value;
 		}
 	}
 	private string image;
@@ -55,12 +55,12 @@ public sealed class Background : IGameObject, Node {
 			return imageBottom;
 		}
 		set {
-			imageBottom = value;
-			if (String.IsNullOrEmpty(imageBottom)) {
+			if (String.IsNullOrEmpty(value)) {
 				surfaceBottom = null;
-				return;
+			} else {
+				surfaceBottom = new Surface(value);
 			}
-			surfaceBottom = new Surface(imageBottom);
+			imageBottom = value;
 		}
 	}
 	private string imageBottom;
