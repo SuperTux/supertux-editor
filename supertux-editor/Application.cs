@@ -190,7 +190,7 @@ public class Application : IEditorApplication {
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName == null){
 			if( Settings.Instance.SupertuxData != null ){
-				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData;
+				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData + "levels" + System.IO.Path.DirectorySeparatorChar;
 			} else {
 				Settings.Instance.LastDirectoryName = Environment.ExpandEnvironmentVariables("%HOME%");
 			}
