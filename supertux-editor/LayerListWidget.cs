@@ -96,6 +96,23 @@ public class LayerListWidget : TreeView {
 		application.CurrentTilemap = null;
 	}
 
+	/// <summary> Compare ZPos Values of Tilemaps, non Tilemap layers last </summary>
+    public int compareZPos(TreeModel model, TreeIter tia, TreeIter tib){
+		object objA = model.GetValue (tia, 0);
+		object objB = model.GetValue (tib, 0);
+		int a = int.MaxValue; 
+		int b =	int.MaxValue;
+		if(objA is Tilemap) {
+			Tilemap Tilemap = (Tilemap) objA;
+			a = Tilemap.ZPos;
+		}	
+		if(objB is Tilemap) {
+			Tilemap Tilemap = (Tilemap) objB;
+			b = Tilemap.ZPos;
+		}		
+		return a - b; 
+     }	
+	
 	private void UpdateList()
 	{
 		visibility.Clear();
@@ -111,6 +128,8 @@ public class LayerListWidget : TreeView {
 			}
 
 		}
+		store.SetSortFunc( 0, compareZPos );
+		store.SetSortColumnId( 0, SortType.Ascending );
 		store.AppendValues(separatorObject);
 		visibility[separatorObject] = 0;
 
