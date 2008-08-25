@@ -749,7 +749,7 @@
 				  <property name="is_important">False</property>
 				  <property name="active">False</property>
 				  <property name="group">ToolSelect</property>
-				  <signal name="toggled" handler="OnToolReplace"/>
+				  <signal name="toggled" handler="OnToolPath"/>
 				</widget>
 				<packing>
 				  <property name="expand">False</property>

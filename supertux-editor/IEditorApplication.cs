@@ -8,6 +8,13 @@ public interface IEditorApplication
 	void ChangeCurrentSector(Sector Sector);
 	void ChangeCurrentTilemap(Tilemap Tilemap);
 	void SetEditor(IEditor editor);
+	void SetToolSelect();
+	void SetToolTiles();
+	void SetToolObjects();
+	void SetToolBrush();
+	void SetToolFill();
+	void SetToolReplace();
+	void SetToolPath(Path path);
 	void EditProperties(object Object, string title);
 	void PrintStatus(string message);
 	void TakeUndoSnapshot(string actionTitle);

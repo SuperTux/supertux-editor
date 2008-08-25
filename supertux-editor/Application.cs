@@ -40,6 +40,7 @@ public class Application : IEditorApplication {
 	[Glade.Widget] private Gtk.RadioToolButton ToolBrush = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolFill = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolReplace = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolPath = null;
 
 	[Glade.Widget]
 	private Statusbar sbMain = null;
@@ -382,6 +383,16 @@ public class Application : IEditorApplication {
 		ToolBrushProps.Visible = false;
 		if (level == null) return;
 		SetEditor(new ReplaceEditor(this, level.Tileset, selection));
+	}
+
+	protected void OnToolPath(object o, EventArgs args) {
+//		PrintStatus("Tool: Path editor");
+//		ToolSelectProps.Visible = false;
+//		ToolTilesProps.Visible = false;
+//		ToolObjectsProps.Visible = false;
+//		ToolBrushProps.Visible = false;
+//		if (level == null) return;
+//		SetEditor(null); //missing suitable editor
 	}
 
 	#endregion Tool Button Handlers
@@ -786,6 +797,50 @@ public class Application : IEditorApplication {
 		if (sectorSwitchNotebook.CurrentRenderer == null) return;
 		sectorSwitchNotebook.CurrentRenderer.Editor = editor;
 		sectorSwitchNotebook.CurrentRenderer.QueueDraw();
+	}
+
+	public void SetToolSelect()
+	{
+		OnMenuToolSelect(null,null);
+	}
+
+	public void SetToolTiles()
+	{
+		OnMenuToolTiles(null,null);
+	}
+
+	public void SetToolObjects()
+	{
+		OnMenuToolObjects(null,null);
+	}
+
+	public void SetToolBrush()
+	{
+		OnMenuToolBrush(null,null);
+	}
+
+	public void SetToolFill()
+	{
+		OnMenuToolFill(null,null);
+	}
+
+	public void SetToolReplace()
+	{
+		OnMenuToolReplace(null,null);
+	}
+
+	public void SetToolPath(Path path)
+	{
+		ToolPath.Active = true;
+
+		PrintStatus("Tool: Path editor");
+		ToolSelectProps.Visible = false;
+		ToolTilesProps.Visible = false;
+		ToolObjectsProps.Visible = false;
+		ToolBrushProps.Visible = false;
+		if (level == null) return;
+		SetEditor(new PathEditor(this, path));
+
 	}
 
 	public void EditProperties(object Object, string title)

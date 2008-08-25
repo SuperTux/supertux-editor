@@ -300,7 +300,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			return;
 
 		IPathObject pathObject = (IPathObject) activeObject;
-		application.SetEditor(new PathEditor(application, pathObject.Path));
+		application.SetToolPath(pathObject.Path);
 	}
 
 	private void OnDelete(object o, EventArgs args)

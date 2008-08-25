@@ -290,7 +290,7 @@ public class LayerListWidget : TreeView {
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
 		}
-		application.SetEditor(new PathEditor(application, pathObject.Path));
+		application.SetToolPath(pathObject.Path);
 	}
 
 	private void OnDeletePath(object o, EventArgs args)
