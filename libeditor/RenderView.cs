@@ -54,8 +54,9 @@ public class RenderView : GLWidgetBase
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);
 		CanFocus = true;
-		Gtk.Drag.DestSet(this, DestDefaults.All, DragTargetEntries, Gdk.DragAction.Default);
+		Gtk.Drag.DestSet(this, DestDefaults.Drop | DestDefaults.Motion, DragTargetEntries, Gdk.DragAction.Copy);
 		DragMotion += OnDragMotion;
+		DragDataReceived += OnDragDataReceived;
 	}
 
 	protected override void DrawGl()
@@ -72,8 +73,29 @@ public class RenderView : GLWidgetBase
 
 	private void OnDragMotion(object o, DragMotionArgs args)
 	{
-		LogManager.Log(LogLevel.Debug, "Motion: " + args.X + " - " + args.Y);
-		//Console.WriteLine("Blup: " + args.Context
+		//pass motion event to editor
+		if(Editor != null) {
+			MousePos = MouseToWorld(new Vector((float) args.X, (float) args.Y));
+			Editor.OnMouseMotion(MousePos, ModifierType.Button1Mask);
+		}
+	}
+
+	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
+	{
+//		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);	//no data transmitted on "fake drag"s
+
+		if(Editor != null) {
+			MousePos = MouseToWorld(new Vector((float) args.X, (float) args.Y));
+
+			//emulated click on current editor to place object and perform "fake drag"
+			Editor.OnMouseButtonPress(MousePos, 1, ModifierType.Button1Mask);
+			Editor.OnMouseButtonRelease(MousePos, 1, ModifierType.Button1Mask);
+
+			Gtk.Drag.Finish (args.Context, true, false, args.Time);
+		} else	{
+			LogManager.Log(LogLevel.Warning, "DragDataRecieved OK, but there is no editor that can handle it");
+			Gtk.Drag.Finish (args.Context, false, false, args.Time);			
+		}
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)

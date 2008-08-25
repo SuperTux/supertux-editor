@@ -268,6 +268,8 @@ public class ObjectListWidget : GLWidgetBase
 				if (target.Name == "BadguyName") 
 					//TODO: Send only badguys into dispensers, no Doors, no Tilemaps..
 					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
+				//if (target.Name == "GameObject") 
+				//no data transmitted
 			}
 		}
 	}
