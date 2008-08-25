@@ -14,6 +14,7 @@ public static class EditorStock
 	public static string ToolBrush = "ToolBrush";
 	public static string ToolFill = "ToolFill";
 	public static string ToolReplace = "ToolReplace";
+	public static string ToolPath = "ToolPath";
 	public static string Background = "Background";
 	/// <summary>Icon for windows and dialogs</summary>
 	public static Gdk.Pixbuf WindowIcon;
@@ -41,6 +42,7 @@ public static class EditorStock
 		AddIcon(ToolBrush, ToolBarIconSize, "stock-tool-brush-24.png");
 		AddIcon(ToolFill, ToolBarIconSize, "stock-tool-fill-24.png");
 		AddIcon(ToolReplace, ToolBarIconSize, "stock-tool-replace-24.png");
+		AddIcon(ToolPath, ToolBarIconSize, "stock-tool-path-24.png");
 		AddIcon(Background, ToolBarIconSize, "stock-background-24.png");
 
 		stock.AddDefault();
