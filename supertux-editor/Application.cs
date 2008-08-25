@@ -64,9 +64,6 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Gtk.CheckMenuItem show_background1 = null;
-
-	[Glade.Widget]
-	private Gtk.ToggleToolButton ttbShowBackground = null;
 	#endregion Glade
 
 	private TileListWidget tileList;
@@ -171,21 +168,12 @@ public class Application : IEditorApplication {
 		UpdateTitlebar();
 		UpdateRecentDocuments();
 		MainWindow.Icon = EditorStock.WindowIcon;
+		//HACK: not a typo, EditorStock adds icons to the stock only when called 2x or more..
+		MainWindow.Icon = EditorStock.WindowIcon;
 		MainWindow.ShowAll();
-
-		// Manually set icons for Tools
-		ToolSelect.StockId = EditorStock.ToolSelect;
-		ToolTiles.StockId = EditorStock.ToolTiles;
-		ToolObjects.StockId = EditorStock.ToolObjects;
-		ToolBrush.StockId = EditorStock.ToolBrush;
-		ToolFill.StockId = EditorStock.ToolFill;
-		ToolReplace.StockId = EditorStock.ToolReplace;
 
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
-
-		// Manually set icon for Background toggle button
-		ttbShowBackground.StockId = EditorStock.Background;
 
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if(Settings.Instance.LastDirectoryName == null){
@@ -546,32 +534,9 @@ public class Application : IEditorApplication {
 	{
 		if( CurrentRenderer == null ){
 			show_background1.Active = true;
-			ttbShowBackground.Active = true;
 			return;
 		}
-		if (show_background1.Active) {
-			ttbShowBackground.Active = true;
-			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
-		} else {
-			ttbShowBackground.Active = false;
-			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
-		}
-	}
-
-	protected void OnShowBackgroundButton(object o, EventArgs e)
-	{
-		if( CurrentRenderer == null ){
-			show_background1.Active = true;
-			ttbShowBackground.Active = true;
-			return;
-		}
-		if (ttbShowBackground.Active) {
-			show_background1.Active = true;
-			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
-		} else {
-			show_background1.Active = false;
-			CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
-		}
+		CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, (show_background1.Active?1:0)));
 	}
 
 	protected void OnAbout(object o, EventArgs e)

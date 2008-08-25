@@ -43,7 +43,6 @@ public static class EditorStock
 		AddIcon(ToolFill, ToolBarIconSize, "stock-tool-fill-24.png");
 		AddIcon(ToolReplace, ToolBarIconSize, "stock-tool-replace-24.png");
 		AddIcon(ToolPath, ToolBarIconSize, "stock-tool-path-24.png");
-		AddIcon(Background, ToolBarIconSize, "stock-background-24.png");
 
 		stock.AddDefault();
 	}
