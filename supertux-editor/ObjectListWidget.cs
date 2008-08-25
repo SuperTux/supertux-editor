@@ -253,8 +253,7 @@ public class ObjectListWidget : GLWidgetBase
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		//TODO: This looks OK, but icon of currently selected badguy would be better (if possible)
-		Gtk.Drag.SetIconStock( args.Context, EditorStock.ToolObjects, 20, 20);
+		Gtk.Drag.SetIconWidget( args.Context, SpriteViewWidget.CreateWindow(gameObjectSprites[SelectedObjectNr]), -15, -15);
 		LogManager.Log(LogLevel.Debug, "Dragstart");
 	}
 
