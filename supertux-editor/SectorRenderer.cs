@@ -8,10 +8,6 @@ using Gtk;
 
 public sealed class SectorRenderer : RenderView
 {
-	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
-		new TargetEntry("GameObject", TargetFlags.App, 0)
-	};
-
 	private Hashtable colors = new Hashtable();
 	private ColorNode objectsColorNode;
 	private ColorNode backgroundColorNode;
@@ -76,9 +72,6 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
 		application.TilemapChanged += OnTilemapChanged;
-
-		Drag.DestSet(this, DestDefaults.All, DragTargetEntries, Gdk.DragAction.Default);
-		DragMotion += OnDragMotion;
 	}
 
 	public Color GetTilemapColor(Tilemap tilemap)
@@ -182,12 +175,6 @@ public sealed class SectorRenderer : RenderView
 		Node node = iObject.GetSceneGraphNode();
 		if(node != null)
 			objectsNode.RemoveChild(node);
-	}
-
-	private void OnDragMotion(object o, DragMotionArgs args)
-	{
-		LogManager.Log(LogLevel.Debug, "Motion: " + args.X + " - " + args.Y);
-		//Console.WriteLine("Blup: " + args.Context
 	}
 
 	public void OnSizeChanged(Sector sector)

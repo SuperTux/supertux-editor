@@ -9,6 +9,10 @@ using DataStructures;
 
 public class RenderView : GLWidgetBase
 {
+	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
+		new TargetEntry("GameObject", TargetFlags.App, 0)
+	};
+
 	public Node SceneGraphRoot;
 
 	private bool dragging;
@@ -50,6 +54,8 @@ public class RenderView : GLWidgetBase
 		AddEvents((int) Gdk.EventMask.PointerMotionMask);
 		AddEvents((int) Gdk.EventMask.ScrollMask);
 		CanFocus = true;
+		Gtk.Drag.DestSet(this, DestDefaults.All, DragTargetEntries, Gdk.DragAction.Default);
+		DragMotion += OnDragMotion;
 	}
 
 	protected override void DrawGl()
@@ -62,6 +68,12 @@ public class RenderView : GLWidgetBase
 
 		if(!dragging && Editor != null)
 			Editor.Draw(GetClipRect());
+	}
+
+	private void OnDragMotion(object o, DragMotionArgs args)
+	{
+		LogManager.Log(LogLevel.Debug, "Motion: " + args.X + " - " + args.Y);
+		//Console.WriteLine("Blup: " + args.Context
 	}
 
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
