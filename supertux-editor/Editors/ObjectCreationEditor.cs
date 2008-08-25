@@ -43,15 +43,19 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		IGameObject gameObject = CreateObjectAt(MousePos);
+		if (button == 1){
+			IGameObject gameObject = CreateObjectAt(MousePos);
 
-		// switch back to object edit mode when shift was not pressed
-		if((Modifiers & ModifierType.ShiftMask) == 0) {
-			ObjectsEditor editor = new ObjectsEditor(application, application.CurrentSector);
-			if(gameObject is IObject) {
-				editor.MakeActive((IObject) gameObject);
+			// switch back to object edit mode when shift was not pressed
+			if((Modifiers & ModifierType.ShiftMask) == 0) {
+				ObjectsEditor editor = new ObjectsEditor(application, application.CurrentSector);
+				if(gameObject is IObject) {
+					editor.MakeActive((IObject) gameObject);
+				}
+				application.SetEditor(editor);
 			}
-			application.SetEditor(editor);
+		} else {	//cancel creation by other buttons
+			application.SetToolObjects();
 		}
 		if (UpdateMousePos(mousePos))
 			Redraw();

@@ -801,32 +801,38 @@ public class Application : IEditorApplication {
 
 	public void SetToolSelect()
 	{
-		OnMenuToolSelect(null,null);
+		ToolSelect.Active = true;
+		OnToolSelect(null,null);
 	}
 
 	public void SetToolTiles()
 	{
-		OnMenuToolTiles(null,null);
+		ToolTiles.Active = true;
+		OnToolTiles(null,null);
 	}
 
 	public void SetToolObjects()
 	{
-		OnMenuToolObjects(null,null);
+		ToolObjects.Active = true;
+		OnToolObjects(null,null);
 	}
 
 	public void SetToolBrush()
 	{
-		OnMenuToolBrush(null,null);
+		ToolBrush.Active = true;
+		OnToolBrush(null,null);
 	}
 
 	public void SetToolFill()
 	{
-		OnMenuToolFill(null,null);
+		ToolFill.Active = true;
+		OnToolFill(null,null);
 	}
 
 	public void SetToolReplace()
 	{
-		OnMenuToolReplace(null,null);
+		ToolReplace.Active = true;
+		OnToolReplace(null,null);
 	}
 
 	public void SetToolPath(Path path)
