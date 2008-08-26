@@ -221,12 +221,16 @@ public class LayerListWidget : TreeView {
 			if(obj != application.CurrentTilemap) {
 				application.CurrentTilemap = (Tilemap) obj;
 				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
+			if (obj is IPathObject)
+				application.PathToEdit = ((IPathObject) obj).Path;
 			}
 		} else {
 			if (obj == separatorObject)
 				return;
 			application.CurrentTilemap = null;
 		}
+		if (obj == badguysObject)
+			application.SetToolObjects();
 
 		if((args.Event.Button == 3) && (obj is Tilemap)) {
 			ShowPopupMenu();
@@ -290,7 +294,7 @@ public class LayerListWidget : TreeView {
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
 		}
-		application.SetToolPath(pathObject.Path);
+		application.SetToolPath();
 	}
 
 	private void OnDeletePath(object o, EventArgs args)

@@ -72,6 +72,7 @@ public class Application : IEditorApplication {
 	private SectorSwitchNotebook sectorSwitchNotebook;
 	private PropertiesView propertiesView;
 	private Selection selection;
+	private Path pathToEdit;
 
 	private uint printStatusContextID;
 	private uint printStatusMessageID;
@@ -138,6 +139,17 @@ public class Application : IEditorApplication {
 		}
 	}
 	private bool snapToGrid = true;
+
+	public Path PathToEdit {
+		get {
+			return pathToEdit;
+		}
+		set {
+			pathToEdit = value;
+			ToolPath.Sensitive = (pathToEdit != null);
+		}
+	}
+
 
 	/// <summary>Write message on main windows's statusbar</summary>
 	public void PrintStatus( string message )
@@ -329,70 +341,92 @@ public class Application : IEditorApplication {
 	}
 
 	protected void OnToolSelect(object o, EventArgs args) {
-		PrintStatus("Tool: Select");
-		ToolSelectProps.Visible = true;
-		ToolTilesProps.Visible = false;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		SetEditor(new ObjectsEditor(this, CurrentSector));
+		if (ToolSelect.Active) {
+			PrintStatus("Tool: Select");
+			ToolSelectProps.Visible = true;
+			ToolTilesProps.Visible = false;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = false;
+			PathToEdit = null;
+			SetEditor(new ObjectsEditor(this, CurrentSector));
+		}
 	}
 
 	protected void OnToolTiles(object o, EventArgs args) {
-		PrintStatus("Tool: Tiles");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		if (level == null) return;
-		SetEditor(new TilemapEditor(this, level.Tileset, selection));
+		if (ToolTiles.Active) {
+			PrintStatus("Tool: Tiles");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = true;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = false;
+			PathToEdit = null;
+			if (level == null) return;
+			SetEditor(new TilemapEditor(this, level.Tileset, selection));
+		}
 	}
 
 	protected void OnToolObjects(object o, EventArgs args) {
-		PrintStatus("Tool: Objects");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;
-		ToolObjectsProps.Visible = true;
-		ToolBrushProps.Visible = false;
-		SetEditor(new ObjectsEditor(this, CurrentSector));
+		if (ToolObjects.Active) {
+			PrintStatus("Tool: Objects");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = false;
+			ToolObjectsProps.Visible = true;
+			ToolBrushProps.Visible = false;
+			PathToEdit = null;
+			SetEditor(new ObjectsEditor(this, CurrentSector));
+		}
 	}
 
 	protected void OnToolBrush(object o, EventArgs args) {
-		PrintStatus("Tool: Brush");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = true;
-		SetEditor(new ObjectsEditor(this, CurrentSector));
+		if (ToolBrush.Active) {
+			PrintStatus("Tool: Brush");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = false;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = true;
+			PathToEdit = null;
+			SetEditor(new ObjectsEditor(this, CurrentSector));
+		}
 	}
 
 	protected void OnToolFill(object o, EventArgs args) {
-		PrintStatus("Tool: Fill");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		if (level == null) return;
-		SetEditor(new FillEditor(this, level.Tileset, selection));
+		if (ToolFill.Active) {
+			PrintStatus("Tool: Fill");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = true;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = false;
+			PathToEdit = null;
+			if (level == null) return;
+			SetEditor(new FillEditor(this, level.Tileset, selection));
+		}
 	}
 
 	protected void OnToolReplace(object o, EventArgs args) {
-		PrintStatus("Tool: Replace");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = true;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		if (level == null) return;
-		SetEditor(new ReplaceEditor(this, level.Tileset, selection));
+		if (ToolReplace.Active) {
+			PrintStatus("Tool: Replace");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = true;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = false;
+			PathToEdit = null;
+			if (level == null) return;
+			SetEditor(new ReplaceEditor(this, level.Tileset, selection));
+		}
 	}
 
 	protected void OnToolPath(object o, EventArgs args) {
-//		PrintStatus("Tool: Path editor");
-//		ToolSelectProps.Visible = false;
-//		ToolTilesProps.Visible = false;
-//		ToolObjectsProps.Visible = false;
-//		ToolBrushProps.Visible = false;
-//		if (level == null) return;
-//		SetEditor(null); //missing suitable editor
+		if (!ToolPath.Active || PathToEdit == null){
+			ToolPath.Sensitive = false;
+		} else {
+			PrintStatus("Tool: Path editor");
+			ToolSelectProps.Visible = false;
+			ToolTilesProps.Visible = false;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible = false;
+			if (level == null) return;
+			SetEditor(new PathEditor(this, PathToEdit));
+		}
 	}
 
 	#endregion Tool Button Handlers
@@ -769,6 +803,7 @@ public class Application : IEditorApplication {
 		if (sector == newSector)
 			return;		//ignore when there is no change
 		this.sector = newSector;
+		PathToEdit = null;
 		SectorChanged(level, newSector);
 		if (CurrentRenderer != null) {
 			if (show_background1.Active)
@@ -835,17 +870,10 @@ public class Application : IEditorApplication {
 		OnToolReplace(null,null);
 	}
 
-	public void SetToolPath(Path path)
+	public void SetToolPath()
 	{
 		ToolPath.Active = true;
-
-		PrintStatus("Tool: Path editor");
-		ToolSelectProps.Visible = false;
-		ToolTilesProps.Visible = false;
-		ToolObjectsProps.Visible = false;
-		ToolBrushProps.Visible = false;
-		if (level == null) return;
-		SetEditor(new PathEditor(this, path));
+		OnToolPath(null,null);
 
 	}
 

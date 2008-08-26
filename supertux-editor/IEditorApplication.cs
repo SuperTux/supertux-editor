@@ -14,7 +14,7 @@ public interface IEditorApplication
 	void SetToolBrush();
 	void SetToolFill();
 	void SetToolReplace();
-	void SetToolPath(Path path);
+	void SetToolPath();
 	void EditProperties(object Object, string title);
 	void PrintStatus(string message);
 	void TakeUndoSnapshot(string actionTitle);
@@ -38,6 +38,12 @@ public interface IEditorApplication
 	}
 
 	Tilemap CurrentTilemap {
+		get;
+		set;
+	}
+
+	/// <summary> Path that will be edited when user clicks PathTool button. </summary>
+	Path PathToEdit {
 		get;
 		set;
 	}

@@ -231,6 +231,11 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			controlPoints.Clear();
 		}
 
+		if(activeObject is IPathObject)
+			application.PathToEdit = ((IPathObject) activeObject).Path;
+		else
+			application.PathToEdit = null;
+		
 		if(activeObject != null && activeObject.Resizable) {
 			controlPoints.Add(new ControlPoint(activeObject,
 			                                   ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
@@ -296,11 +301,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		if(! (activeObject is IPathObject))
-			return;
-
-		IPathObject pathObject = (IPathObject) activeObject;
-		application.SetToolPath(pathObject.Path);
+		application.SetToolPath();
 	}
 
 	private void OnDelete(object o, EventArgs args)
