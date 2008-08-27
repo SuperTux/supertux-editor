@@ -229,8 +229,15 @@ public class LayerListWidget : TreeView {
 				return;
 			application.CurrentTilemap = null;
 		}
-		if (obj == badguysObject)
-			application.SetToolObjects();
+
+		if (obj == backgroundObject) {
+			Background bg = null;	//search for background object
+			foreach(Background background in sector.GetObjects(typeof(Background))) {
+				bg = background;
+			}
+			if (bg != null)		//open it's properties if any
+				application.EditProperties(bg, "Background");
+		}
 
 		if((args.Event.Button == 3) && (obj is Tilemap)) {
 			ShowPopupMenu();

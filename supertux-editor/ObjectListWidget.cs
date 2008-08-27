@@ -221,6 +221,8 @@ public class ObjectListWidget : GLWidgetBase
 	private void OnButtonPress(object o, ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 1) {
+			application.SetToolObjects();
+
 			Vector MousePos = new Vector((float) args.Event.X,
 			                             (float) args.Event.Y);
 			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
