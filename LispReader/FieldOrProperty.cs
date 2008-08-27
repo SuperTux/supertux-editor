@@ -6,13 +6,19 @@ using System.Collections.Generic;
 
 namespace LispReader
 {
-	// TODO: Someone should try to understand what this is for and document it
-	// It is probably some kind of simplifier of accessing property and field
-	// metadata.
+	public delegate void PropertyChangedHandler(object Object, FieldOrProperty field);
+
+	/// <summary>
+	/// Oreginal base class (MemberInfo) can't Get/SetValue and this class allows it.
+	/// One code can work with FieldInfo or PropertyInfo as if there was no difference between them. + can raise event when Changed
+	/// It's a kind of hack, however, because we can't "rebase" a class. 
+	///</summary>
 	public abstract class FieldOrProperty
 	{
 		private class FieldOrPropertyLister : IEnumerable<FieldOrProperty>
 		{
+			private static Dictionary<FieldInfo, FieldOrProperty> fields = new Dictionary<FieldInfo, FieldOrProperty>();
+			private static Dictionary<PropertyInfo, FieldOrProperty> properties = new Dictionary<PropertyInfo, FieldOrProperty>();
 			private Type type;
 
 			public FieldOrPropertyLister(Type type)
@@ -23,11 +29,15 @@ namespace LispReader
 			private IEnumerator<FieldOrProperty> GetEnumerator()
 			{
 				foreach(FieldInfo field in type.GetFields()) {
-					yield return new Field(field);
+					if (!fields.ContainsKey(field))
+						fields.Add(field, new Field(field));
+					yield return fields[field];
 				}
 
 				foreach(PropertyInfo property in type.GetProperties()) {
-					yield return new Property(property);
+					if (!properties.ContainsKey(property))
+						properties.Add(property, new Property(property));
+					yield return properties[property];
 				}
 			}
 
@@ -41,6 +51,8 @@ namespace LispReader
 				return GetEnumerator();
 			}
 		}
+
+		public event PropertyChangedHandler Changed;
 
 		public static IEnumerable<FieldOrProperty> GetFieldsAndProperties(Type type)
 		{
@@ -57,6 +69,11 @@ namespace LispReader
 		public abstract object GetValue(object Object);
 		public abstract object GetCustomAttribute(Type attributeType);
 		public abstract object[] GetCustomAttributes(Type attributeType);
+
+		protected void FireChanged(object Object, FieldOrProperty field){
+			if (Changed != null)
+				Changed(Object, field);
+		}
 
 		public class Field : FieldOrProperty{
 			private FieldInfo field;
@@ -80,6 +97,8 @@ namespace LispReader
 
 			public override void SetValue(object Object, object value)
 			{
+				if (field.GetValue(Object) != value)
+					FireChanged(Object, this);
 				field.SetValue(Object, value);
 			}
 
@@ -121,6 +140,8 @@ namespace LispReader
 
 			public override void SetValue(object Object, object value)
 			{
+				if (property.GetValue(Object, null) != value)
+					FireChanged(Object, this);
 				property.SetValue(Object, value, null);
 			}
 

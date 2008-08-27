@@ -380,7 +380,7 @@ public sealed class ChooseBadguyWidget : CustomSettingsWidget
 {
 	public override Widget Create(object caller)
 	{
-		BadguyChooserWidget editor = new BadguyChooserWidget(field, Object);
+		BadguyChooserWidget editor = new BadguyChooserWidget(Field, Object);
 
 		// Create a tooltip if we can.
 		CreateToolTip(caller, editor);

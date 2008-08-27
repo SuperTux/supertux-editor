@@ -12,7 +12,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 	public override Widget Create(object caller) {
 		HBox box = new HBox();
 		entry = new Entry();
-		string val = (string) field.GetValue(Object);
+		string val = (string) Field.GetValue(Object);
 		if (val != null)
 			entry.Text = val;
 
@@ -23,7 +23,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 		box.PackStart(chooseButton, false, false, 0);
 		chooseButton.Clicked += OnChoose;
 
-		box.Name = field.Name;
+		box.Name = Field.Name;
 
 		CreateToolTip(caller, entry);
 
@@ -59,17 +59,17 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 	private void OnEntryChangeDone(object o, FocusOutEventArgs args) {
 		try {
 			Entry entry = (Entry) o;
-			if ((string)field.GetValue(_object) == entry.Text) return;
+			if ((string)Field.GetValue(Object) == entry.Text) return;
 			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				_object,
+				"Changed value of " + Field.Name,
+				Field,
+				Object,
 				entry.Text);
 			command.Do();
 			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
-			string val = (string) field.GetValue(Object);
+			string val = (string) Field.GetValue(Object);
 			if (val != null)
 				entry.Text = val;
 		}

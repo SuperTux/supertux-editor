@@ -36,14 +36,14 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 		comboBox = new ComboBoxEntry(licenseTemplateTexts.ToArray());
 
 		// set current value
-		string val = (string)field.GetValue(Object);
+		string val = (string)Field.GetValue(Object);
 		comboBox.Entry.Text = val;
 
 		comboBox.Changed += OnComboBoxChanged;
 
 		HBox box = new HBox();
 		box.PackStart(comboBox, true, true, 0);
-		box.Name = field.Name;
+		box.Name = Field.Name;
 
 		CreateToolTip(caller, comboBox);
 
@@ -60,9 +60,9 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 			if (s == "GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 
 			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				_object,
+				"Changed value of " + Field.Name,
+				Field,
+				Object,
 				s);
 			command.Do();
 			UndoManager.AddCommand(command);

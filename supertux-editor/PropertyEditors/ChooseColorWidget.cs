@@ -22,13 +22,13 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 
 	public override Widget Create(object caller)
 	{
-		Drawing.Color val = (Drawing.Color) field.GetValue(Object);
+		Drawing.Color val = (Drawing.Color) Field.GetValue(Object);
 
 		colorButton = new ColorButton();
 		//Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);
 		// Get if we should use alpha
 		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
-			field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
+			Field.GetCustomAttribute(typeof(ChooseColorSettingAttribute));
 		useAlpha = chooseColorSetting.UseAlpha;
 
 		if (useAlpha)
@@ -44,7 +44,7 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		colorButton.Color = color;
 		colorButton.ColorSet += OnChooseColor;
 
-		colorButton.Name = field.Name;
+		colorButton.Name = Field.Name;
 
 		// Create a tooltip if we can.
 		CreateToolTip(caller, colorButton);
@@ -62,8 +62,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		if (useAlpha)
 			col.Alpha = ((float) colorButton.Alpha) / 65535f;
 		PropertyChangeCommand command = new PropertyChangeCommand(
-			"Changed value of " + field.Name,
-			field,
+			"Changed value of " + Field.Name,
+			Field,
 			Object,
 			col);
 		command.Do();

@@ -25,18 +25,21 @@ using LispReader;
 /// <summary>
 /// Base class for custom settings widgets.
 /// </summary>
-public abstract class CustomSettingsWidget : ICustomSettingsWidget {
-	public FieldOrProperty field;
+public abstract class CustomSettingsWidget : ICustomSettingsWidget, IDisposable {
+	private FieldOrProperty field;
 	public FieldOrProperty Field {
 		get {
 			return field;
 		}
 		set {
+			if (field != null)
+				field.Changed -= OnAnyFieldChanged;
 			field = value;
+			field.Changed += OnAnyFieldChanged;
 		}
 	}
 
-	public object _object;
+	private object _object;
 	public object Object {
 		get {
 			return _object;
@@ -47,6 +50,25 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget {
 	}
 
 	public abstract Widget Create(object caller);
+	public Widget Create(object caller, object Object, FieldOrProperty field){
+		this.Field = field;
+		this.Object = Object;
+		return Create(caller);
+	}
+
+	public void Dispose() {
+		field.Changed -= OnAnyFieldChanged;
+	}
+
+	/// <summary> Called when our field changes on any instance of same type as our Object. </summary>
+	private void OnAnyFieldChanged(object Object, FieldOrProperty field) {
+		if (this.Object == Object)
+			OnFieldChanged(field);
+	}
+
+	/// <summary> Called when our data changes, use this for re-loading. </summary>
+	protected virtual void OnFieldChanged(FieldOrProperty field) {}
+
 
 	protected void CreateToolTip(object caller, Widget widget) {
 		// Create a tooltip if we can.

@@ -28,6 +28,7 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 
 public class PropertiesView : ScrolledWindow
 {
+	static List<Widget> editWidgets = new List<Widget>();
 	internal IEditorApplication application;
 	private System.Object Object;
 	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
@@ -73,7 +74,12 @@ public class PropertiesView : ScrolledWindow
 		// iterate over all fields and properties
 		Type type = NewObject.GetType();
 		fieldTable.Clear();
-		List<Widget> editWidgets = new List<Widget>();
+		
+		foreach(IDisposable disposable in editWidgets) {
+			disposable.Dispose();
+		}
+		editWidgets.Clear();
+
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			CustomSettingsWidgetAttribute customSettings = (CustomSettingsWidgetAttribute)
 				field.GetCustomAttribute(typeof(CustomSettingsWidgetAttribute));

@@ -13,7 +13,7 @@ public sealed class EditScriptWidget : CustomSettingsWidget
 	{
 		Button button = new Button("Edit Script");
 		button.Clicked += OnEdit;
-		button.Name = field.Name;
+		button.Name = Field.Name;
 
 		// Create a tooltip if we can.
 		CreateToolTip(caller, button);
@@ -22,7 +22,7 @@ public sealed class EditScriptWidget : CustomSettingsWidget
 
 	private void OnEdit(object sender, EventArgs args)
 	{
-		new ScriptEditor(_object.GetType() + ":" + field.Name, field, Object);
+		new ScriptEditor(Object.GetType() + ":" + Field.Name, Field, Object);
 	}
 }
 

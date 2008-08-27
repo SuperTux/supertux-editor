@@ -43,14 +43,14 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 
 		// Get the index of the current value from the original list
 		// due to limitations in ComboBox
-		string val = (string)field.GetValue(Object);
+		string val = (string)Field.GetValue(Object);
 		if (val != null)
 			comboBox.Active = sectorNames.IndexOf(val);
 
 		comboBox.Changed += OnComboBoxChanged;
 		box.PackStart(comboBox, true, true, 0);
 
-		box.Name = field.Name;
+		box.Name = Field.Name;
 
 		CreateToolTip(caller, comboBox);
 
@@ -61,9 +61,9 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 		try {
 			ComboBox comboBox = (ComboBox)o;
 			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				_object,
+				"Changed value of " + Field.Name,
+				Field,
+				Object,
 				comboBox.ActiveText);
 			command.Do();
 			UndoManager.AddCommand(command);
