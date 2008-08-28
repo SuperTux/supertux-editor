@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using Undo;
 
 
-public class BadguyChooserWidget : GLWidgetBase
+public class BadguyChooserWidget : GLWidgetBase, IDisposable
 {
 	private const int TILE_WIDTH = 32;
 	private const int TILE_HEIGHT = 32;
@@ -67,23 +67,12 @@ public class BadguyChooserWidget : GLWidgetBase
 		this._object = _object;
 		//HACK: two "this." on the following two lines are there only for hiding 2 compilation warnings and can be removed after implementation of undo mechanism.
 		this.Name = this.field.Name;
-		badguys = (List<string>)field.GetValue(this._object);
 
-		foreach(string name in badguys){	//process each badguy name and crate sprite for it
-
-			if(!badguySprites.ContainsKey(name)) {
-				badguySprites.Add(name, CrateSprite(name));
-			}
-		}
-
-		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count  - 1) / TILES_PER_ROW + 1));
+		field.Changed += OnFieldChanged;
+		OnFieldChanged(_object, field); //load&update code is the same, why to keep it twice?
 
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
-
-		if (badguys.Count > 0)		//we need at least one badguy for dragging
-			Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
-		                    source_table, DragAction.Move);
 
 		Gtk.Drag.DestSet (this, Gtk.DestDefaults.All,
 		                    target_table, DragAction.Move | DragAction.Copy);
@@ -97,6 +86,10 @@ public class BadguyChooserWidget : GLWidgetBase
 		DragLeave += OnDragLeave;
 
 		SizeAllocated += OnSizeAllocated;
+	}
+
+	public override void Dispose() {
+		field.Changed -= OnFieldChanged;
 	}
 
 	/// <summary>Redraw Widget</summary>
@@ -302,7 +295,9 @@ public class BadguyChooserWidget : GLWidgetBase
 	private void OnDragEnd (object o, DragEndArgs args)
 	{
 		if (draggedID > NONE) {		//Widget.DragFailed is not aviable for windows users
-			Command command = new SortedListRemoveCommand<string>("Removed badguy \"" + draggedBadguy + "\" from the queue", badguys, draggedID);
+			Command command = new SortedListRemoveCommand<string>(
+						"Removed badguy \"" + draggedBadguy + "\" from the queue",
+						_object, field, draggedID);
 			command.Do();
 			UndoManager.AddCommand(command);
 
@@ -335,10 +330,14 @@ public class BadguyChooserWidget : GLWidgetBase
 					draggedID = NONE;
 					return;
 				}
-				command = new SortedListMoveCommand<string>("Changed position of badguy  \"" + data + "\" in the queue", badguys, draggedID, SelectedObjectNr);
+				command = new SortedListMoveCommand<string>(
+						"Changed position of badguy  \"" + data + "\" in the queue",
+						_object, field , draggedID, SelectedObjectNr);
 				draggedID = NONE;
 			} else				//We were adding
-				command = new SortedListAddCommand<string>("Added badguy \"" + data + "\" into the queue", badguys, data, SelectedObjectNr);
+				command = new SortedListAddCommand<string>(
+						"Added badguy \"" + data + "\" into the queue",
+						_object, field, data, SelectedObjectNr);
 			command.Do();
 			UndoManager.AddCommand(command);
 
@@ -370,6 +369,34 @@ public class BadguyChooserWidget : GLWidgetBase
 	{
 		TILES_PER_ROW = (args.Allocation.Width - BORDER_LEFT - BORDER_RIGHT) /  COLUMN_WIDTH;
 		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count - 1) / TILES_PER_ROW + 1));
+	}
+
+	protected void OnFieldChanged(object Object, FieldOrProperty field)
+	{
+		if (_object == Object) {
+			badguys = (List<string>)field.GetValue(this._object);
+
+			foreach(string name in badguys){	//process each badguy name and crate sprite for it
+
+				if(!badguySprites.ContainsKey(name)) {
+					badguySprites.Add(name, CrateSprite(name));
+				}
+			}
+
+			SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count  - 1) / TILES_PER_ROW + 1));
+
+			if (badguys.Count > 0)		//we need at least one badguy for dragging
+				Gtk.Drag.SourceSet (this, Gdk.ModifierType.Button1Mask,
+				            source_table, DragAction.Move);
+			else
+				Gtk.Drag.SourceUnset(this);
+
+			draggedID = NONE;
+			draggedBadguy = "";
+			dragging = false;
+
+			QueueDraw();
+		}
 	}
 }
 

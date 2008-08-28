@@ -16,6 +16,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	public event CursorChangeHandler CursorChange;
 	private Path path;
 	private Path.Node selectedNode;
+	private FieldOrProperty field;
 	private const float NODE_SIZE = 10;
 	private bool dragging;
 
@@ -28,6 +29,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	{
 		this.application = application;
 		this.path = path;
+		field = FieldOrProperty.Lookup(typeof(Path).GetField("Nodes"));
 		application.EditProperties(path, "Path");
 		killTimer = false;
 		GLib.Timeout.Add(100, Animate);
@@ -106,7 +108,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 					if(addNode >= 0) {
 						node = new Path.Node();
 						node.Pos = pointOnEdge;
-						Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node, addNode+1);
+						Command command = new SortedListAddCommand<Path.Node>("Added Path node", path, field, node, addNode+1);
 						command.Do();
 						UndoManager.AddCommand(command);
 					}
@@ -118,13 +120,13 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 						                      (float) ((int)mousePos.Y / 32) * 32);
 					}
 					node.Pos = mousePos;
-					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node);
+					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path, field, node);
 					command.Do();
 					UndoManager.AddCommand(command);
 				} else if(selectedNode == path.Nodes[0]) {
 					node = new Path.Node();
 					node.Pos = mousePos;
-					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path.Nodes, node, 0);
+					Command command = new SortedListAddCommand<Path.Node>("Added Path node", path, field, node, 0);
 					command.Do();
 					UndoManager.AddCommand(command);
 				}
@@ -226,7 +228,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		Command command = new SortedListRemoveCommand<Path.Node>("Added Path node", path.Nodes, selectedNode);
+		Command command = new SortedListRemoveCommand<Path.Node>("Added Path node", path, field, selectedNode);
 		command.Do();
 		UndoManager.AddCommand(command);
 		selectedNode = null;

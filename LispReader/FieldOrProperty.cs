@@ -84,6 +84,11 @@ namespace LispReader
 				Changed(Object, field);
 		}
 
+		/// <summary> Code uses this to notify editors when only part of object changes (but it's adress not). </summary>
+		public void FireChanged(object Object) {
+			FireChanged(Object, this);
+		}
+
 		private class Field : FieldOrProperty{
 			private FieldInfo field;
 

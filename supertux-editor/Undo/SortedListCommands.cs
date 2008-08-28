@@ -17,6 +17,7 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 using System.Collections.Generic;
+using LispReader;
 
 namespace Undo {
 
@@ -33,12 +34,22 @@ namespace Undo {
 		/// The position in the List.
 		/// </summary>
 		protected int position;
+		/// <summary>
+		/// Object we're changing.
+		/// </summary>
+		protected object Object;
+		/// <summary>
+		/// Field with changed list.
+		/// </summary>
+		protected FieldOrProperty field;
 
-		protected SortedListCommand(string title, List<T> changedList, T changedItem, int position)
+		protected SortedListCommand(string title, object Object, FieldOrProperty field, T changedItem, int position)
 			: base(title) {
+			this.Object = Object;
+			this.field = field;
 			this.changedItem = changedItem;
-			this.changedList = changedList;
 			this.position = position;
+			this.changedList = (List<T>) field.GetValue(Object);
 		}
 
 	}
@@ -47,16 +58,20 @@ namespace Undo {
 	internal class SortedListAddCommand<T> : SortedListCommand<T> {
 		public override void Do() {
 			changedList.Insert(position, changedItem);
+			field.FireChanged(Object);
 		}
 
 		public override void Undo() {
 			changedList.RemoveAt(position);
+			field.FireChanged(Object);
 		}
 
-		public SortedListAddCommand(string title, List<T> changedList, T changedItem)
-			: base(title, changedList, changedItem, changedList.Count) { }
-		public SortedListAddCommand(string title, List<T> changedList, T changedItem, int position)
-			: base(title, changedList, changedItem, position) { }
+		public SortedListAddCommand(string title, object Object, FieldOrProperty field, T changedItem)
+			: base(title, Object, field, changedItem, 0) {
+			position = changedList.Count;
+		}
+		public SortedListAddCommand(string title, object Object, FieldOrProperty field, T changedItem, int position)
+			: base(title, Object, field, changedItem, position) { }
 	}
 
 
@@ -70,10 +85,14 @@ namespace Undo {
 			base.Do();
 		}
 
-		public SortedListRemoveCommand(string title, List<T> changedList, T changedItem)
-			: base(title, changedList, changedItem, changedList.IndexOf(changedItem)) { }
-		public SortedListRemoveCommand(string title, List<T> changedList, int position)
-			: base(title, changedList, changedList[position], position) { }
+		public SortedListRemoveCommand(string title, object Object, FieldOrProperty field, T changedItem)
+			: base(title, Object, field, changedItem, 0) {
+			position = changedList.IndexOf(changedItem);
+		}
+		public SortedListRemoveCommand(string title, object Object, FieldOrProperty field, int position)
+			: base(title, Object, field, default(T), position) {
+			changedItem = changedList[position];
+		}
 	}
 
 
@@ -81,23 +100,29 @@ namespace Undo {
 		private List<T> changedList;	/// <summary>The List the Item was/is in</summary>
 		private int position;		/// <summary>Current number of item</summary>
 		private int newPosition;	/// <summary>New number of item</summary>
+		private object Object;		/// <summary> Object we're changing </summary>
+		private FieldOrProperty field;	/// <summary> Field with changed list. </summary>
 
 		public override void Do() {
 			T changedItem = changedList[position];
 			changedList.RemoveAt(position);
 			changedList.Insert(newPosition, changedItem);
+			field.FireChanged(Object);
 		}
 
 		public override void Undo() {
 			T changedItem = changedList[newPosition];
 			changedList.RemoveAt(newPosition);
 			changedList.Insert(position, changedItem);
+			field.FireChanged(Object);
 		}
 
-		public SortedListMoveCommand(string title, List<T> changedList, int position, int newPosition) : base(title) {
-			this.changedList = changedList;
+		public SortedListMoveCommand(string title, object Object, FieldOrProperty field, int position, int newPosition) : base(title) {
+			this.Object = Object;
+			this.field = field;
 			this.position = position;
 			this.newPosition = newPosition;
+			this.changedList = (List<T>) this.field.GetValue(this.Object);
 		}
 	}
 }
