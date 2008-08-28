@@ -119,6 +119,19 @@ public sealed class KamikazeSnowball : SimpleDirObject
 	}
 }
 
+[SupertuxObject("crystallo", "images/creatures/crystallo/crystallo.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Crystallo : SimpleDirObject
+{
+	[LispChild("radius", Optional = true, Default = 100f)]
+	public float Radius = 100f;
+	
+	public Crystallo() {
+		Sprite = SpriteManager.Create("images/creatures/crystallo/crystallo.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Stalactite : SimpleObject

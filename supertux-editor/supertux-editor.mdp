@@ -106,6 +106,8 @@
     <File name="LevelObjects/Decal.cs" subtype="Code" buildaction="Compile" />
     <File name="resources/editor.gladep" subtype="Code" buildaction="Nothing" />
     <File name="resources/supertux-editor.ico" subtype="Code" buildaction="Nothing" />
+    <File name="SpriteViewWidget.cs" subtype="Code" buildaction="Compile" />
+    <File name="resources/stock-tool-path-24.png" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
