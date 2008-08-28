@@ -159,7 +159,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if (dragging && selectedNode.Pos != originalPos){
-			Command command = new PropertyChangeCommand("Moved Path Node", new FieldOrProperty.Property(typeof(Path.Node).GetProperty("Pos")), selectedNode, selectedNode.Pos, originalPos);
+			Command command = new PropertyChangeCommand("Moved Path Node", FieldOrProperty.Lookup(typeof(Path.Node).GetProperty("Pos")), selectedNode, selectedNode.Pos, originalPos);
 			UndoManager.AddCommand(command);
 		}
 

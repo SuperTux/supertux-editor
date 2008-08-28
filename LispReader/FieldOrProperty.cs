@@ -15,10 +15,11 @@ namespace LispReader
 	///</summary>
 	public abstract class FieldOrProperty
 	{
+		private static Dictionary<FieldInfo, FieldOrProperty> fields = new Dictionary<FieldInfo, FieldOrProperty>();
+		private static Dictionary<PropertyInfo, FieldOrProperty> properties = new Dictionary<PropertyInfo, FieldOrProperty>();
+
 		private class FieldOrPropertyLister : IEnumerable<FieldOrProperty>
 		{
-			private static Dictionary<FieldInfo, FieldOrProperty> fields = new Dictionary<FieldInfo, FieldOrProperty>();
-			private static Dictionary<PropertyInfo, FieldOrProperty> properties = new Dictionary<PropertyInfo, FieldOrProperty>();
 			private Type type;
 
 			public FieldOrPropertyLister(Type type)
@@ -29,15 +30,11 @@ namespace LispReader
 			private IEnumerator<FieldOrProperty> GetEnumerator()
 			{
 				foreach(FieldInfo field in type.GetFields()) {
-					if (!fields.ContainsKey(field))
-						fields.Add(field, new Field(field));
-					yield return fields[field];
+					yield return Lookup(field);
 				}
 
 				foreach(PropertyInfo property in type.GetProperties()) {
-					if (!properties.ContainsKey(property))
-						properties.Add(property, new Property(property));
-					yield return properties[property];
+					yield return Lookup(property);
 				}
 			}
 
@@ -70,12 +67,24 @@ namespace LispReader
 		public abstract object GetCustomAttribute(Type attributeType);
 		public abstract object[] GetCustomAttributes(Type attributeType);
 
+		public static FieldOrProperty Lookup(FieldInfo field) {
+			if (!fields.ContainsKey(field))
+				fields.Add(field, new Field(field));
+			return fields[field];
+		}
+
+		public static FieldOrProperty Lookup(PropertyInfo property) {
+			if (!properties.ContainsKey(property))
+				properties.Add(property, new Property(property));
+			return properties[property];
+		}
+
 		protected void FireChanged(object Object, FieldOrProperty field){
 			if (Changed != null)
 				Changed(Object, field);
 		}
 
-		public class Field : FieldOrProperty{
+		private class Field : FieldOrProperty{
 			private FieldInfo field;
 
 			public Field(FieldInfo field)
@@ -97,9 +106,10 @@ namespace LispReader
 
 			public override void SetValue(object Object, object value)
 			{
-				if (field.GetValue(Object) != value)
-					FireChanged(Object, this);
+				object oldValue = field.GetValue(Object);
 				field.SetValue(Object, value);
+				if (oldValue != value)
+					FireChanged(Object, this);
 			}
 
 			public override object GetValue(object Object)
@@ -118,7 +128,7 @@ namespace LispReader
 			}
 		}
 
-		public class Property : FieldOrProperty{
+		private class Property : FieldOrProperty{
 			private PropertyInfo property;
 
 			public Property(PropertyInfo property)
@@ -140,9 +150,10 @@ namespace LispReader
 
 			public override void SetValue(object Object, object value)
 			{
-				if (property.GetValue(Object, null) != value)
-					FireChanged(Object, this);
+				object oldValue = property.GetValue(Object, null);
 				property.SetValue(Object, value, null);
+				if (oldValue != value)
+					FireChanged(Object, this);
 			}
 
 			public override object GetValue(object Object)

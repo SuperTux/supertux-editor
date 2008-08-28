@@ -28,10 +28,12 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 
 public class PropertiesView : ScrolledWindow
 {
-	static List<Widget> editWidgets = new List<Widget>();
+	private List<Widget> editWidgets = new List<Widget>();	//All widgets that edit properties
 	internal IEditorApplication application;
 	private System.Object Object;
-	private Dictionary<string, FieldOrProperty> fieldTable = new Dictionary<string, FieldOrProperty>();
+	//HACK: No bi-directional dictionary found... - it' simple: matching items have same ID.
+	private List<object> widgetTable = new List<object>();	//self-managed widgets ...
+	private List<FieldOrProperty> fieldTable = new List<FieldOrProperty>();	//... and fields that they edit
 	private Label errorLabel;
 	internal Tooltips tooltips;
 
@@ -71,15 +73,23 @@ public class PropertiesView : ScrolledWindow
 		titleLabel.Markup = "<b>" + title + "</b>";
 		box.PackStart(titleLabel, true, false, 0);
 
-		// iterate over all fields and properties
 		Type type = NewObject.GetType();
-		fieldTable.Clear();
-		
+
+		// Dispose all former editor widgets
 		foreach(IDisposable disposable in editWidgets) {
 			disposable.Dispose();
 		}
+
+		// Unregister our event handler from self-managed fields
+		foreach(FieldOrProperty field in fieldTable) {
+			field.Changed -= OnFieldChanged;
+		}
+
+		widgetTable.Clear();
+		fieldTable.Clear();
 		editWidgets.Clear();
 
+		// iterate over all fields and properties
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 			CustomSettingsWidgetAttribute customSettings = (CustomSettingsWidgetAttribute)
 				field.GetCustomAttribute(typeof(CustomSettingsWidgetAttribute));
@@ -110,7 +120,8 @@ public class PropertiesView : ScrolledWindow
 				object val = field.GetValue(NewObject);
 				if(val != null)
 					entry.Text = val.ToString();
-				fieldTable[field.Name] = field;
+				widgetTable.Add(entry);
+				fieldTable.Add(field);
 				entry.Changed += OnEntryChanged;
 				entry.FocusOutEvent += OnEntryChangeDone;
 				editWidgets.Add(entry);
@@ -119,7 +130,8 @@ public class PropertiesView : ScrolledWindow
 				CheckButton checkButton = new CheckButton(field.Name);
 				checkButton.Name = field.Name;
 				checkButton.Active = (bool) field.GetValue(NewObject);
-				fieldTable[field.Name] = field;
+				widgetTable.Add(checkButton);
+				fieldTable.Add(field);
 				checkButton.Toggled += OnCheckButtonToggled;
 				editWidgets.Add(checkButton);
 				AddTooltip(propertyProperties, checkButton);
@@ -134,13 +146,18 @@ public class PropertiesView : ScrolledWindow
 				object val = field.GetValue(NewObject);
 				if (val != null)
 					comboBox.Active = (int)val;
-				fieldTable[field.Name] = field;
+				widgetTable.Add(comboBox);
+				fieldTable.Add(field);
 				comboBox.Changed += OnComboBoxChanged;
 				editWidgets.Add(comboBox);
-				// FIXME: Why doesn't this work for the ComboBox?
 				AddTooltip(propertyProperties, comboBox);
 			}
 
+		}
+
+		// Register our event handler for self-managed fields
+		foreach(FieldOrProperty field in fieldTable) {
+			field.Changed += OnFieldChanged;
 		}
 
 		Table table = new Table((uint) editWidgets.Count, 2, false);
@@ -190,7 +207,7 @@ public class PropertiesView : ScrolledWindow
 	{
 		try {
 			Entry entry = (Entry) o;
-			FieldOrProperty field = fieldTable[entry.Name];
+			FieldOrProperty field = fieldTable[widgetTable.IndexOf(entry)];
 			PropertyChangeCommand command;
 			if(field.Type == typeof(string)) {
 				if ((string)field.GetValue(Object) == entry.Text) return;
@@ -240,7 +257,7 @@ public class PropertiesView : ScrolledWindow
 	{
 		try {
 			Entry entry = (Entry) o;
-			FieldOrProperty field = fieldTable[entry.Name];
+			FieldOrProperty field = fieldTable[widgetTable.IndexOf(entry)];
 			if(field.Type == typeof(string)) {
 				return;
 			} else if(field.Type == typeof(float)) {
@@ -270,7 +287,7 @@ public class PropertiesView : ScrolledWindow
 	{
 		try {
 			CheckButton checkButton = (CheckButton) o;
-			FieldOrProperty field = fieldTable[checkButton.Name];
+			FieldOrProperty field = fieldTable[widgetTable.IndexOf(checkButton)];
 			PropertyChangeCommand command = new PropertyChangeCommand(
 				"Changed value of " + field.Name,
 				field,
@@ -286,7 +303,7 @@ public class PropertiesView : ScrolledWindow
 	private void OnComboBoxChanged(object o, EventArgs args) {
 		try {
 			ComboBox comboBox = (ComboBox)o;
-			FieldOrProperty field = fieldTable[comboBox.Name];
+			FieldOrProperty field = fieldTable[widgetTable.IndexOf(comboBox)];
 			// Parse the string back to enum.
 			PropertyChangeCommand command = new PropertyChangeCommand(
 				"Changed value of " + field.Name,
@@ -297,6 +314,35 @@ public class PropertiesView : ScrolledWindow
 			UndoManager.AddCommand(command);
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
+		}
+	}
+
+	/// <summary> Called when our field changes on any instance of same type as our Object. </summary>
+	private void OnFieldChanged(object Object, FieldOrProperty field) {
+		if (this.Object == Object) {
+			if(field.Type == typeof(string) || field.Type == typeof(float)
+				|| field.Type == typeof(int)) {
+
+				Entry entry = (Entry) widgetTable[fieldTable.IndexOf(field)];
+				object val = field.GetValue(Object);
+				if(val != null)
+					entry.Text = val.ToString();
+
+			} else if(field.Type == typeof(bool)) {
+
+				CheckButton checkButton = (CheckButton) widgetTable[fieldTable.IndexOf(field)];
+				checkButton.Active = (bool) field.GetValue(Object);
+
+			} else if(field.Type.IsEnum) {
+
+				ComboBox comboBox = (ComboBox) widgetTable[fieldTable.IndexOf(field)];
+				// FIXME: This will break if:
+				//        1) the first enum isn't 0 and/or
+				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
+				object val = field.GetValue(Object);
+				if (val != null)
+					comboBox.Active = (int)val;
+			}
 		}
 	}
 }

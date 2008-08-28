@@ -309,7 +309,7 @@ public class LayerListWidget : TreeView {
 		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path != null) {
 			Command command = new PropertyChangeCommand("Removed path of Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.ZPos + ")",
-				new FieldOrProperty.Property(typeof(Tilemap).GetProperty("Path")),
+				FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Path")),
 				application.CurrentTilemap,
 				null);
 			command.Do();
