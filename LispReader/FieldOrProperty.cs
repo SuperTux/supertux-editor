@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace LispReader
 {
-	public delegate void PropertyChangedHandler(object Object, FieldOrProperty field);
+	public delegate void PropertyChangedHandler(object Object, FieldOrProperty field, object oldValue);
 
 	/// <summary>
 	/// Oreginal base class (MemberInfo) can't Get/SetValue and this class allows it.
@@ -79,14 +79,14 @@ namespace LispReader
 			return properties[property];
 		}
 
-		protected void FireChanged(object Object, FieldOrProperty field){
+		protected void FireChanged(object Object, FieldOrProperty field, object oldValue){
 			if (Changed != null)
-				Changed(Object, field);
+				Changed(Object, field, oldValue);
 		}
 
 		/// <summary> Code uses this to notify editors when only part of object changes (but it's adress not). </summary>
 		public void FireChanged(object Object) {
-			FireChanged(Object, this);
+			FireChanged(Object, this, this.GetValue(Object));
 		}
 
 		private class Field : FieldOrProperty{
@@ -114,7 +114,7 @@ namespace LispReader
 				object oldValue = field.GetValue(Object);
 				field.SetValue(Object, value);
 				if (oldValue != value)
-					FireChanged(Object, this);
+					FireChanged(Object, this, oldValue);
 			}
 
 			public override object GetValue(object Object)
@@ -158,7 +158,7 @@ namespace LispReader
 				object oldValue = property.GetValue(Object, null);
 				property.SetValue(Object, value, null);
 				if (oldValue != value)
-					FireChanged(Object, this);
+					FireChanged(Object, this, oldValue);
 			}
 
 			public override object GetValue(object Object)

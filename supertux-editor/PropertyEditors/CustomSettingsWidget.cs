@@ -61,7 +61,7 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget, IDisposable 
 	}
 
 	/// <summary> Called when our field changes on any instance of same type as our Object. </summary>
-	private void OnAnyFieldChanged(object Object, FieldOrProperty field) {
+	private void OnAnyFieldChanged(object Object, FieldOrProperty field, object oldValue) {
 		if (this.Object == Object)
 			OnFieldChanged(field);
 	}

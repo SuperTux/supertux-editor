@@ -69,7 +69,7 @@ public class BadguyChooserWidget : GLWidgetBase, IDisposable
 		this.Name = this.field.Name;
 
 		field.Changed += OnFieldChanged;
-		OnFieldChanged(_object, field); //load&update code is the same, why to keep it twice?
+		OnFieldChanged(_object, field, null); //load&update code is the same, why to keep it twice?
 
 		ButtonPressEvent += OnButtonPress;
 		AddEvents((int) Gdk.EventMask.ButtonPressMask);
@@ -371,7 +371,7 @@ public class BadguyChooserWidget : GLWidgetBase, IDisposable
 		SetSizeRequest( -1, ROW_HEIGHT * ((badguys.Count - 1) / TILES_PER_ROW + 1));
 	}
 
-	protected void OnFieldChanged(object Object, FieldOrProperty field)
+	protected void OnFieldChanged(object Object, FieldOrProperty field, object oldValue)
 	{
 		if (_object == Object) {
 			badguys = (List<string>)field.GetValue(this._object);

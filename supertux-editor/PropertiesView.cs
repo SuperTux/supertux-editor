@@ -318,7 +318,7 @@ public class PropertiesView : ScrolledWindow
 	}
 
 	/// <summary> Called when our field changes on any instance of same type as our Object. </summary>
-	private void OnFieldChanged(object Object, FieldOrProperty field) {
+	private void OnFieldChanged(object Object, FieldOrProperty field, object oldValue) {
 		if (this.Object == Object) {
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {

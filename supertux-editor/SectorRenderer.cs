@@ -5,6 +5,7 @@ using Drawing;
 using DataStructures;
 using System.Collections;
 using Gtk;
+using LispReader;
 
 public sealed class SectorRenderer : RenderView
 {
@@ -15,11 +16,15 @@ public sealed class SectorRenderer : RenderView
 	private NodeWithChilds backgroundNode;
 	private SceneGraph.Rectangle sectorBBox;
 	private SceneGraph.Rectangle sectorFill;
+	private IEditorApplication application;
 	private Level level;
+	private Sector sector;
 
 	public SectorRenderer(IEditorApplication application, Level level, Sector sector)
 	{
+		this.application = application;
 		this.level = level;
+		this.sector = sector;
 		Layer layer = new Layer();
 
 		backgroundNode = new NodeWithChilds();
@@ -72,6 +77,16 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
 		application.TilemapChanged += OnTilemapChanged;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed += OnTilemapZPosModified;
+	}
+
+	public override void Dispose()
+	{
+		sector.ObjectAdded -= OnObjectAdded;
+		sector.ObjectRemoved -= OnObjectRemoved;
+		sector.SizeChanged -= OnSizeChanged;
+		application.TilemapChanged -= OnTilemapChanged;		
+		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed -= OnTilemapZPosModified;
 	}
 
 	public Color GetTilemapColor(Tilemap tilemap)
@@ -142,8 +157,7 @@ public sealed class SectorRenderer : RenderView
 
 			Node mynode = background.GetSceneGraphNode();
 			if(mynode != null) {
-				ColorNode colorNode = new ColorNode(mynode, new Color(1f, 1f, 1f, 1f));
-				layer.Add(background.Layer, colorNode);
+				backgroundNode.AddChild(mynode);
 			}
 		}
 	}
@@ -175,6 +189,22 @@ public sealed class SectorRenderer : RenderView
 		Node node = iObject.GetSceneGraphNode();
 		if(node != null)
 			objectsNode.RemoveChild(node);
+	}
+
+	/// <summary> Moves tilemap from layer to layer when ZPos is changed. </summary>
+	private void OnTilemapZPosModified(object Object, FieldOrProperty field, object oldValue)
+	{
+		if (colors.ContainsKey(Object)){	//is is our tilemap => our sector?
+			Layer layer = (Layer) SceneGraphRoot;
+			Tilemap tm = (Tilemap) Object;
+			ColorNode color = (ColorNode) colors[tm];
+			int oldZPos = (int) oldValue;
+
+			layer.Remove(oldZPos, color);
+			layer.Add(tm.ZPos, color);
+
+			QueueDraw();
+		}
 	}
 
 	public void OnSizeChanged(Sector sector)

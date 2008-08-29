@@ -60,6 +60,9 @@ public class SectorSwitchNotebook : Notebook
 	private void ClearTabList()
 	{
 		while (NPages > 0) {
+			ScrollBarRenderView scrlview = (ScrollBarRenderView) GetNthPage(-1);
+			IDisposable disposable = (IDisposable) scrlview.Renderer;
+			disposable.Dispose();	//Let the render unregister its event handlers
 			RemovePage(-1);	//Remove last page
 		}
 	}

@@ -64,6 +64,18 @@ public class LayerListWidget : TreeView {
 		application.SectorChanged += OnSectorChanged;
 		application.TilemapChanged += OnTilemapChanged;
 		application.LevelChanged += OnLevelChanged;
+
+		FieldOrProperty.Lookup(typeof(Tilemap).GetField("Name")).Changed += OnTilemapModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed += OnTilemapModified;
+	}
+
+	private void OnTilemapModified(object Object, FieldOrProperty field, object oldValue)
+	{
+		//TODO: Is that sorting execute-once or what? (found no other working way)
+		TreeStore store = (TreeStore) Model;
+		if (store != null)
+			store.SetSortFunc( 0, compareZPos );
+		QueueDraw();
 	}
 
 	private void OnSectorChanged(Level level, Sector sector)
@@ -77,13 +89,13 @@ public class LayerListWidget : TreeView {
 		application.CurrentTilemap = null;
 
 		sector.ObjectAdded += ObjectsChanged;
-		sector.ObjectAdded += ObjectsChanged;
+		sector.ObjectRemoved += ObjectsChanged;
 		UpdateList();
 	}
 
 	private void ObjectsChanged(Sector sector, IGameObject Object)
 	{
-		if(! (Object is Tilemap))
+		if(! (Object is Tilemap || Object is Background))
 			return;
 
 		UpdateList();
@@ -96,21 +108,23 @@ public class LayerListWidget : TreeView {
 		application.CurrentTilemap = null;
 	}
 
-	/// <summary> Compare ZPos Values of Tilemaps, non Tilemap layers last </summary>
-    public int compareZPos(TreeModel model, TreeIter tia, TreeIter tib){
+
+	/// <summary> Get ZPos Value for object, non-tilemaps last </summary>
+	private int getZPos (object o) {
+		if(o is Tilemap) {
+			Tilemap Tilemap = (Tilemap) o;
+			return Tilemap.ZPos;
+		}			
+		return int.MaxValue;
+	}
+
+	/// <summary> Compare ZPos Values and return which comes first </summary>
+	public int compareZPos(TreeModel model, TreeIter tia, TreeIter tib){
 		object objA = model.GetValue (tia, 0);
 		object objB = model.GetValue (tib, 0);
-		int a = int.MaxValue; 
-		int b =	int.MaxValue;
-		if(objA is Tilemap) {
-			Tilemap Tilemap = (Tilemap) objA;
-			a = Tilemap.ZPos;
-		}	
-		if(objB is Tilemap) {
-			Tilemap Tilemap = (Tilemap) objB;
-			b = Tilemap.ZPos;
-		}		
-		return a - b; 
+		int a = getZPos(objA); 
+		int b = getZPos(objB);
+		return a.CompareTo(b); 
      }	
 	
 	private void UpdateList()
@@ -133,8 +147,10 @@ public class LayerListWidget : TreeView {
 		store.AppendValues(separatorObject);
 		visibility[separatorObject] = 0;
 
-		store.AppendValues(backgroundObject);
-		visibility[backgroundObject] = application.CurrentRenderer.GetBackgroundColor().Alpha;
+		if (sector.GetObjects(typeof(Background)).Count > 0) {
+			store.AppendValues(backgroundObject);
+			visibility[backgroundObject] = application.CurrentRenderer.GetBackgroundColor().Alpha;
+		}
 
 		store.AppendValues(badguysObject);
 		visibility[badguysObject] = application.CurrentRenderer.GetObjectsColor().Alpha;
