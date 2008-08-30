@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using Gtk;
 using Undo;
+using LispReader;
 
 public class SectorSwitchNotebook : Notebook
 {
 	private Level level;
 	private Sector sector;
 	private IEditorApplication application;
+	private Dictionary<object, Widget> widgets = new Dictionary<object, Widget>();	//keep widgets in dictionary for easy updates
 
 	public delegate void SectorChangedEventHandler(Sector newSector);
 	public event SectorChangedEventHandler SectorChanged;
@@ -36,6 +38,8 @@ public class SectorSwitchNotebook : Notebook
 		ButtonPressEvent += OnButtonPress;
 		application.LevelChanged += OnLevelChanged;
 		application.SectorChanged += OnSectorChanged;
+
+		FieldOrProperty.Lookup(typeof(Sector).GetField("Name")).Changed += OnSectorRenamed;
 	}
 
 	private void OnLevelChanged(Level newLevel)
@@ -57,6 +61,13 @@ public class SectorSwitchNotebook : Notebook
 		}
 	}
 
+	/// <summary> Called when Name changes on any sector. </summary>
+	private void OnSectorRenamed(object Object, FieldOrProperty field, object oldValue)
+	{
+		if (widgets.ContainsKey(Object))
+			SetTabLabelText (widgets[Object], (string) field.GetValue(Object));	
+	}
+
 	private void ClearTabList()
 	{
 		while (NPages > 0) {
@@ -65,15 +76,13 @@ public class SectorSwitchNotebook : Notebook
 			disposable.Dispose();	//Let the render unregister its event handlers
 			RemovePage(-1);	//Remove last page
 		}
+		widgets.Clear();
 	}
 
 	private void CreateTabList()
 	{
 		foreach(Sector sector in level.Sectors) {
-			SectorRenderer Renderer = new SectorRenderer(application, level, sector);
-			ScrollBarRenderView scrollbarview = new ScrollBarRenderView(Renderer);
-			scrollbarview.ShowAll();
-			AppendPage(scrollbarview, new Label(sector.Name));
+			OnSectorAdd(sector);
 		}
 
 		if(this.sector == null && level.Sectors.Count > 0)
@@ -134,6 +143,7 @@ public class SectorSwitchNotebook : Notebook
 		MenuItem item = (MenuItem) o;
 		foreach(Sector sector in level.Sectors) {
 			if(sector.Name == item.Name) {
+				CurrentPage = (PageNum(widgets[sector]));	//switch to selected page
 				SectorChanged(sector);
 				return;
 			}
@@ -160,7 +170,8 @@ public class SectorSwitchNotebook : Notebook
 			"Removed sector",
 			sector,
 			level);
-		command.OnSectorAddRemove += OnSectorUpdate;
+		command.OnSectorAdd += OnSectorAdd;
+		command.OnSectorRemove += OnSectorRemove;
 		command.Do();
 		UndoManager.AddCommand(command);
 	}
@@ -178,13 +189,26 @@ public class SectorSwitchNotebook : Notebook
 		QACheck.CheckIds(application, sector, true);
 	}
 
-	/// <summary>
-	/// Used from sector commands that add/remove sectors to force an update of our
-	/// tablist and any other stuff we have to do.
-	/// </summary>
-	private void OnSectorUpdate() {
-		ClearTabList();
-		CreateTabList();
+	/// <summary> Used from Sector Add/Remove commands to notify us about change. </summary>
+	private void OnSectorAdd(Sector sector) {
+		SectorRenderer Renderer = new SectorRenderer(application, level, sector);
+		ScrollBarRenderView scrollbarview = new ScrollBarRenderView(Renderer);
+		scrollbarview.ShowAll();
+		AppendPage(scrollbarview, new Label(sector.Name));
+		widgets.Add(sector, scrollbarview);
+
+	}
+
+	/// <summary> Used from Sector Add/Remove commands to notify us about change. </summary>
+	private void OnSectorRemove(Sector sector) {
+		if (widgets.ContainsKey(sector)) {
+			ScrollBarRenderView scrollbarview = (ScrollBarRenderView) widgets[sector];
+			RemovePage(PageNum(scrollbarview));
+			scrollbarview.Renderer.Dispose();
+			widgets.Remove(sector);
+		} else {
+			ErrorDialog.ShowError("Removed sector \"" + sector.Name + "\" was not found in the level");
+		}
 	}
 
 	private void OnCreateNew(object o, EventArgs args)
@@ -195,10 +219,12 @@ public class SectorSwitchNotebook : Notebook
 				"Added sector",
 				sector,
 				level);
-			command.OnSectorAddRemove += OnSectorUpdate;
+			command.OnSectorAdd += OnSectorAdd;
+			command.OnSectorRemove += OnSectorRemove;
 			command.Do();
 			UndoManager.AddCommand(command);
 			OnSectorChanged(level, sector);
+			OnPropertiesActivated(null, null);
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new sector", e);
 		}

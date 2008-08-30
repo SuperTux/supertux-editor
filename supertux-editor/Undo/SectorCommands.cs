@@ -96,21 +96,22 @@ namespace Undo {
 		{ }
 	}
 
-	public delegate void SectorsAddRemoveHandler();
+	public delegate void SectorsAddRemoveHandler(Sector sector);
 
 
 	public abstract class SectorAddRemoveCommand : SectorCommand {
 		protected Level level;
-		public event SectorsAddRemoveHandler OnSectorAddRemove;
+		public event SectorsAddRemoveHandler OnSectorAdd;
+		public event SectorsAddRemoveHandler OnSectorRemove;
 
 		public override void Do() {
-			if (OnSectorAddRemove != null)
-				OnSectorAddRemove();
+			if (OnSectorAdd != null)
+				OnSectorAdd(sector);
 		}
 
 		public override void Undo() {
-			if (OnSectorAddRemove != null)
-				OnSectorAddRemove();
+			if (OnSectorRemove != null)
+				OnSectorRemove(sector);
 		}
 
 		protected SectorAddRemoveCommand(string title, Sector sector, Level level)
@@ -120,7 +121,7 @@ namespace Undo {
 
 	}
 
-	public sealed class SectorAddCommand : SectorAddRemoveCommand {
+	public class SectorAddCommand : SectorAddRemoveCommand {
 		public override void Do() {
 			level.Sectors.Add(sector);
 			base.Do();
@@ -134,15 +135,13 @@ namespace Undo {
 		public SectorAddCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
 	}
 
-	public sealed class SectorRemoveCommand : SectorAddRemoveCommand {
+	public sealed class SectorRemoveCommand : SectorAddCommand {
 		public override void Do() {
-			level.Sectors.Remove(sector);
-			base.Do();
+			base.Undo();
 		}
 
 		public override void Undo() {
-			level.Sectors.Add(sector);
-			base.Undo();
+			base.Do();
 		}
 
 		public SectorRemoveCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
