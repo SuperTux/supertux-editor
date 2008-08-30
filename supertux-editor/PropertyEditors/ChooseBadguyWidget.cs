@@ -28,7 +28,7 @@ using System.Collections.Generic;
 using Undo;
 
 
-public class BadguyChooserWidget : GLWidgetBase, IDisposable
+public class BadguyChooserWidget : GLWidgetBase, ICustomSettingsWidget, IDisposable
 {
 	private const int TILE_WIDTH = 32;
 	private const int TILE_HEIGHT = 32;
@@ -61,7 +61,7 @@ public class BadguyChooserWidget : GLWidgetBase, IDisposable
 		new TargetEntry("BadguyName", TargetFlags.App, 0)
 	};
 
-	public BadguyChooserWidget(FieldOrProperty field, object _object)
+	public Widget Create(object caller, object _object, FieldOrProperty field)
 	{
 		this.field = field;
 		this._object = _object;
@@ -86,6 +86,11 @@ public class BadguyChooserWidget : GLWidgetBase, IDisposable
 		DragLeave += OnDragLeave;
 
 		SizeAllocated += OnSizeAllocated;
+
+		// Create a tooltip if we can.
+		CustomSettingsWidget.CreateToolTip(caller, this, field);
+
+		return this;
 	}
 
 	public override void Dispose() {
@@ -400,27 +405,11 @@ public class BadguyChooserWidget : GLWidgetBase, IDisposable
 	}
 }
 
-/// <summary>
-/// Creator for widget editing Dispenser.badguy field.
-/// </summary>
-public sealed class ChooseBadguyWidget : CustomSettingsWidget
-{
-	public override Widget Create(object caller)
-	{
-		BadguyChooserWidget editor = new BadguyChooserWidget(Field, Object);
-
-		// Create a tooltip if we can.
-		CreateToolTip(caller, editor);
-
-		return editor;
-	}
-}
-
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property,
                 AllowMultiple=false)]
 public sealed class ChooseBadguySettingAttribute : CustomSettingsWidgetAttribute
 {
-	public ChooseBadguySettingAttribute() : base(typeof(ChooseBadguyWidget))
+	public ChooseBadguySettingAttribute() : base(typeof(BadguyChooserWidget))
 	{
 	}
 }

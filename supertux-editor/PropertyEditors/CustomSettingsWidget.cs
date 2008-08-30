@@ -71,6 +71,11 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget, IDisposable 
 
 
 	protected void CreateToolTip(object caller, Widget widget) {
+		CreateToolTip(caller, widget, Field);
+	}
+
+	/// <summary> Static member accesible for other ICustomSettingsWidgets. </summary>
+	public static void CreateToolTip(object caller, Widget widget, FieldOrProperty field) {
 		// Create a tooltip if we can.
 		PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 			field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));

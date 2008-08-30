@@ -29,6 +29,7 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 public class PropertiesView : ScrolledWindow
 {
 	private List<Widget> editWidgets = new List<Widget>();	//All widgets that edit properties
+	private List<object> customWidgets = new List<object>();//All custom widgets
 	internal IEditorApplication application;
 	private System.Object Object;
 	//HACK: No bi-directional dictionary found... - it' simple: matching items have same ID.
@@ -75,8 +76,8 @@ public class PropertiesView : ScrolledWindow
 
 		Type type = NewObject.GetType();
 
-		// Dispose all former editor widgets
-		foreach(IDisposable disposable in editWidgets) {
+		// Dispose all former custom editor widgets
+		foreach(IDisposable disposable in customWidgets) {
 			disposable.Dispose();
 		}
 
@@ -88,6 +89,7 @@ public class PropertiesView : ScrolledWindow
 		widgetTable.Clear();
 		fieldTable.Clear();
 		editWidgets.Clear();
+		customWidgets.Clear();
 
 		// iterate over all fields and properties
 		foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
@@ -96,9 +98,8 @@ public class PropertiesView : ScrolledWindow
 			if(customSettings != null) {
 				Type customType = customSettings.Type;
 				ICustomSettingsWidget customWidget = (ICustomSettingsWidget) CreateObject(customType);
-				customWidget.Object = NewObject;
-				customWidget.Field = field;
-				editWidgets.Add(customWidget.Create(this));
+				customWidgets.Add(customWidget);
+				editWidgets.Add(customWidget.Create(this, NewObject, field));
 				continue;
 			}
 

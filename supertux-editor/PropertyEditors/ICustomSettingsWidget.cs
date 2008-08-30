@@ -6,14 +6,5 @@ using LispReader;
 
 public interface ICustomSettingsWidget
 {
-	FieldOrProperty Field {
-		get;
-		set;
-	}
-	object Object {
-		get;
-		set;
-	}
-
-	Widget Create(object caller);
+	Widget Create(object caller, object Object, FieldOrProperty Field);
 }
