@@ -22,9 +22,8 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 
 	public override Widget Create(object caller)
 	{
-		Drawing.Color val = (Drawing.Color) Field.GetValue(Object);
-
 		colorButton = new ColorButton();
+
 		//Console.WriteLine("ChooseColorWidget Create val {0},{1},{2},{3}", val.Red, val.Green, val.Blue, val.Alpha);
 		// Get if we should use alpha
 		ChooseColorSettingAttribute chooseColorSetting = (ChooseColorSettingAttribute)
@@ -33,15 +32,9 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 
 		if (useAlpha)
 			colorButton.UseAlpha = true;
-		Gdk.Color color = new Gdk.Color();
-		color.Red = (ushort) (val.Red * 65535f);
-		color.Green = (ushort) (val.Green * 65535f);
-		color.Blue = (ushort) (val.Blue * 65535f);
 
+		OnFieldChanged(Field);
 
-		if (useAlpha)
-			colorButton.Alpha = (ushort) (val.Alpha * 65535f);
-		colorButton.Color = color;
 		colorButton.ColorSet += OnChooseColor;
 
 		colorButton.Name = Field.Name;
@@ -50,6 +43,20 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		CreateToolTip(caller, colorButton);
 
 		return colorButton;
+	}
+
+	protected override void OnFieldChanged(FieldOrProperty field) {
+		Drawing.Color val = (Drawing.Color) Field.GetValue(Object);
+
+		Gdk.Color color = new Gdk.Color();
+		color.Red = (ushort) (val.Red * 65535f);
+		color.Green = (ushort) (val.Green * 65535f);
+		color.Blue = (ushort) (val.Blue * 65535f);
+
+		if (useAlpha)
+			colorButton.Alpha = (ushort) (val.Alpha * 65535f);
+
+		colorButton.Color = color;
 	}
 
 	private void OnChooseColor(object sender, EventArgs args)
@@ -61,15 +68,18 @@ public sealed class ChooseColorWidget : CustomSettingsWidget
 		col.Alpha = 1f;
 		if (useAlpha)
 			col.Alpha = ((float) colorButton.Alpha) / 65535f;
-		PropertyChangeCommand command = new PropertyChangeCommand(
-			"Changed value of " + Field.Name,
-			Field,
-			Object,
-			col);
-		command.Do();
-		UndoManager.AddCommand(command);
-		//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);
-		//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);
+
+		if (col != (Drawing.Color) Field.GetValue(Object)) {
+			PropertyChangeCommand command = new PropertyChangeCommand(
+				"Changed value of " + Field.Name,
+				Field,
+				Object,
+				col);
+			command.Do();
+			UndoManager.AddCommand(command);
+			//Console.WriteLine("ChooseColorWidget change col r{0},g{1},b{2},a{3}", col.Red, col.Green, col.Blue, col.Alpha);
+			//Console.WriteLine("ChooseColorWidget change gtk color r{0},g{1},b{2},a{3}", colorButton.Color.Red, colorButton.Color.Green, colorButton.Color.Blue, colorButton.Alpha);
+		}
 	}
 }
 
