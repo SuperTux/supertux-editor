@@ -223,38 +223,40 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 
 	public void MakeActive(IObject Object)
 	{
-		activeObject = Object;
+		if (activeObject != Object) {		//ignore MakeActive(activeObject)
+			activeObject = Object;
 
-		if(! (activeObject is ControlPoint)) {
-			if(activeObject != null)
-				application.EditProperties(activeObject, activeObject.GetType().Name);
-			controlPoints.Clear();
-		}
+			if(! (activeObject is ControlPoint)) {
+				if(activeObject != null)
+					application.EditProperties(activeObject, activeObject.GetType().Name);
+				controlPoints.Clear();
+			}
 
-		if(activeObject is IPathObject)
-			application.PathToEdit = ((IPathObject) activeObject).Path;
-		else
-			application.PathToEdit = null;
+			if(activeObject is IPathObject)
+				application.PathToEdit = ((IPathObject) activeObject).Path;
+			else
+				application.PathToEdit = null;
 		
-		if(activeObject != null && activeObject.Resizable) {
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.TOP));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.LEFT));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.RIGHT));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.BOTTOM));
-			controlPoints.Add(new ControlPoint(activeObject,
-			                                   ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
+			if(activeObject != null && activeObject.Resizable) {
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.TOP));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.RIGHT));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.LEFT));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.RIGHT));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.LEFT));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.BOTTOM));
+				controlPoints.Add(new ControlPoint(activeObject,
+					                           ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
+			}
+			application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 		}
-		application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 	}
 
 	private void PopupMenu(int button)
