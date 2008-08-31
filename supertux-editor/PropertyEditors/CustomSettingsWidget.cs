@@ -56,7 +56,13 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget, IDisposable 
 		return Create(caller);
 	}
 
-	public void Dispose() {
+	public virtual void ChangeObject (object Object)
+	{
+		this.Object = Object;
+		OnFieldChanged(Field);
+	}
+
+	public virtual void Dispose() {
 		field.Changed -= OnAnyFieldChanged;
 	}
 

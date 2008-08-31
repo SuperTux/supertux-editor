@@ -400,7 +400,12 @@ public sealed class Dispenser : SimpleDirObject
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
 		Sprite.Action = "dropper";
 		badguy.Add("snowball");
+	}
 
+	public override object Clone() {
+		Dispenser aClone = (Dispenser) MemberwiseClone();
+		aClone.badguy = new List<string>(aClone.badguy);
+		return aClone;
 	}
 }
 

@@ -61,6 +61,12 @@ public class BadguyChooserWidget : GLWidgetBase, ICustomSettingsWidget, IDisposa
 		new TargetEntry("BadguyName", TargetFlags.App, 0)
 	};
 
+	public void ChangeObject (object Object)
+	{
+		_object = Object;
+		OnFieldChanged(Object, field, badguys);
+	}
+
 	public Widget Create(object caller, object _object, FieldOrProperty field)
 	{
 		this.field = field;

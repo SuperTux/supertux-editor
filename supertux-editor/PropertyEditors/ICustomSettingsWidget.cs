@@ -7,4 +7,5 @@ using LispReader;
 public interface ICustomSettingsWidget
 {
 	Widget Create(object caller, object Object, FieldOrProperty Field);
+	void ChangeObject (object Object);
 }

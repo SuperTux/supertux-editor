@@ -29,7 +29,7 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 public class PropertiesView : ScrolledWindow
 {
 	private List<Widget> editWidgets = new List<Widget>();	//All widgets that edit properties
-	private List<object> customWidgets = new List<object>();//All custom widgets
+	private List<ICustomSettingsWidget> customWidgets = new List<ICustomSettingsWidget>();//All custom widgets
 	internal IEditorApplication application;
 	private System.Object Object;
 	//HACK: No bi-directional dictionary found... - it' simple: matching items have same ID.
@@ -37,6 +37,7 @@ public class PropertiesView : ScrolledWindow
 	private List<FieldOrProperty> fieldTable = new List<FieldOrProperty>();	//... and fields that they edit
 	private Label errorLabel;
 	internal Tooltips tooltips;
+	private Label titleLabel;
 
 	public PropertiesView(IEditorApplication application) {
 		this.application = application;
@@ -55,8 +56,17 @@ public class PropertiesView : ScrolledWindow
 	public void SetObject(object NewObject, string title)
 	{
 		try {
-			CreatePropertyWidgets(title, NewObject);
-			this.Object = NewObject;
+			if (Object != null && NewObject != null && Object.GetType() == NewObject.GetType()) {
+				foreach (ICustomSettingsWidget wg in customWidgets)	//notify all custom widgets
+					wg.ChangeObject (NewObject);
+				this.Object = NewObject;
+				foreach (FieldOrProperty field in fieldTable)		//and also all self-managed widgets
+					OnFieldChanged(NewObject, field, null);				
+					titleLabel.Markup = "<b>" + title + "</b>";
+			} else {
+				CreatePropertyWidgets(title, NewObject);
+				this.Object = NewObject;
+			}
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -67,7 +77,7 @@ public class PropertiesView : ScrolledWindow
 		VBox box = new VBox();
 		tooltips = new Tooltips();
 
-		Label titleLabel = new Label();
+		titleLabel = new Label();
 		titleLabel.Xalign = 0;
 		titleLabel.Xpad = 12;
 		titleLabel.Ypad = 6;
@@ -289,13 +299,17 @@ public class PropertiesView : ScrolledWindow
 		try {
 			CheckButton checkButton = (CheckButton) o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(checkButton)];
-			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				Object,
-				checkButton.Active);
-			command.Do();
-			UndoManager.AddCommand(command);
+			bool oldValue = (bool) field.GetValue(Object);
+			bool newValue = checkButton.Active;
+			if (oldValue != newValue) {	//no change => no Undo action
+				PropertyChangeCommand command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					newValue);
+				command.Do();
+				UndoManager.AddCommand(command);
+			}
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -306,13 +320,17 @@ public class PropertiesView : ScrolledWindow
 			ComboBox comboBox = (ComboBox)o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(comboBox)];
 			// Parse the string back to enum.
-			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + field.Name,
-				field,
-				Object,
-				Enum.Parse(field.Type, comboBox.ActiveText));
-			command.Do();
-			UndoManager.AddCommand(command);
+			Enum oldValue = (Enum) field.GetValue(Object);
+			Enum newValue = (Enum) Enum.Parse(field.Type, comboBox.ActiveText);
+			if (!oldValue.Equals(newValue)) {	//no change => no Undo action
+				PropertyChangeCommand command = new PropertyChangeCommand(
+					"Changed value of " + field.Name,
+					field,
+					Object,
+					newValue);
+				command.Do();
+				UndoManager.AddCommand(command);
+			}
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
