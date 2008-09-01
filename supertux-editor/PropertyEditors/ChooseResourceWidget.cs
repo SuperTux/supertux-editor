@@ -12,9 +12,7 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 	public override Widget Create(object caller) {
 		HBox box = new HBox();
 		entry = new Entry();
-		string val = (string) Field.GetValue(Object);
-		if (val != null)
-			entry.Text = val;
+		OnFieldChanged(Field); //same code for initialization
 
 		entry.FocusOutEvent += OnEntryChangeDone;
 		box.PackStart(entry, true, true, 0);
@@ -73,6 +71,15 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 			if (val != null)
 				entry.Text = val;
 		}
+	}
+
+	/// <summary> Called when our data changes, use this for re-loading. </summary>
+	protected override void OnFieldChanged(FieldOrProperty field) {
+		string val = (string) Field.GetValue(Object);
+		if (val != null)
+			entry.Text = val;
+		else
+			entry.Text = "";
 	}
 }
 

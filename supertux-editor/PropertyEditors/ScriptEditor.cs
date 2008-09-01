@@ -41,8 +41,9 @@ public class ScriptEditor
 		window.SetSizeRequest(640, 500);
 		*/
 
-		object val = field.GetValue(object_);
-		scriptEditor.Buffer.Text = val != null ? val.ToString() : String.Empty;
+		scriptDialog.Title = title + "  -  " + scriptDialog.Title;
+		OnFieldChanged(object_, field, null);	//same code as for initialization
+		field.Changed += OnFieldChanged;
 
 		scriptDialog.ShowAll();
 	}
@@ -61,12 +62,21 @@ public class ScriptEditor
 			ErrorDialog.Exception(e);
 		}
 
+		field.Changed -= OnFieldChanged;
 		scriptDialog.Hide();
 	}
 
 	protected void OnCancel(object o, EventArgs args)
 	{
+		field.Changed -= OnFieldChanged;
 		scriptDialog.Hide();
 	}
 
+	/// <summary> Called when our field changes on any instance of same type as our Object. </summary>
+	private void OnFieldChanged(object Object, FieldOrProperty field, object oldValue) {
+		if (object_ == Object) {
+			object val = field.GetValue(object_);
+			scriptEditor.Buffer.Text = val != null ? val.ToString() : String.Empty;
+		}
+	}
 }

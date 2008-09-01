@@ -26,6 +26,7 @@ using Undo;
 
 public sealed class ChooseSectorWidget : CustomSettingsWidget {
 	private ComboBox comboBox;
+	private List<String> sectorNames;
 
 	public override Widget Create(object caller) {
 		HBox box = new HBox();
@@ -33,7 +34,7 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 		PropertiesView propview = (PropertiesView)caller;
 
 		// Add the names of the sectors to a list
-		List<String> sectorNames = new List<String>(propview.application.CurrentLevel.Sectors.Count);
+		sectorNames = new List<String>(propview.application.CurrentLevel.Sectors.Count);
 		foreach(Sector sector in propview.application.CurrentLevel.Sectors) {
 			sectorNames.Add(sector.Name);
 		}
@@ -41,11 +42,7 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 		// Populate a combo box with the sector names
 		comboBox = new ComboBox(sectorNames.ToArray());
 
-		// Get the index of the current value from the original list
-		// due to limitations in ComboBox
-		string val = (string)Field.GetValue(Object);
-		if (val != null)
-			comboBox.Active = sectorNames.IndexOf(val);
+		OnFieldChanged(Field); //same code for initialization
 
 		comboBox.Changed += OnComboBoxChanged;
 		box.PackStart(comboBox, true, true, 0);
@@ -60,16 +57,29 @@ public sealed class ChooseSectorWidget : CustomSettingsWidget {
 	private void OnComboBoxChanged(object o, EventArgs args) {
 		try {
 			ComboBox comboBox = (ComboBox)o;
-			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + Field.Name,
-				Field,
-				Object,
-				comboBox.ActiveText);
-			command.Do();
-			UndoManager.AddCommand(command);
+			string newText = comboBox.ActiveText;
+			string oldText = (string) Field.GetValue(Object);
+			if (newText != oldText) {
+				PropertyChangeCommand command = new PropertyChangeCommand(
+					"Changed value of " + Field.Name,
+					Field,
+					Object,
+					newText);
+				command.Do();
+				UndoManager.AddCommand(command);
+			}
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
+	}
+
+	/// <summary> Called when our data changes, use this for re-loading. </summary>
+	protected override void OnFieldChanged(FieldOrProperty field) {
+		// Get the index of the current value from the original list
+		// due to limitations in ComboBox
+		string val = (string)Field.GetValue(Object);
+		if (val != null)
+			comboBox.Active = sectorNames.IndexOf(val);
 	}
 }
 

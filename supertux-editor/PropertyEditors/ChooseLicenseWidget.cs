@@ -35,9 +35,7 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 
 		comboBox = new ComboBoxEntry(licenseTemplateTexts.ToArray());
 
-		// set current value
-		string val = (string)Field.GetValue(Object);
-		comboBox.Entry.Text = val;
+		OnFieldChanged(Field);	//same code for initialization
 
 		comboBox.Changed += OnComboBoxChanged;
 
@@ -59,16 +57,25 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 			if (s == "non-redistributable (forbid sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 			if (s == "GPL 2+ / CC-by-sa 3.0 (allow sharing and modification of this level)") s = s.Substring(0, s.IndexOf(" ("));
 
-			PropertyChangeCommand command = new PropertyChangeCommand(
-				"Changed value of " + Field.Name,
-				Field,
-				Object,
-				s);
-			command.Do();
-			UndoManager.AddCommand(command);
+			if (s != (string) Field.GetValue(Object)) {	//no change => no undo item
+				PropertyChangeCommand command = new PropertyChangeCommand(
+					"Changed value of " + Field.Name,
+					Field,
+					Object,
+					s);
+				command.Do();
+				UndoManager.AddCommand(command);
+			}
 		} catch (Exception e) {
 			ErrorDialog.Exception(e);
 		}
+	}
+
+	/// <summary> Called when our data changes, use this for re-loading. </summary>
+	protected override void OnFieldChanged(FieldOrProperty field) {
+		// set current value
+		string val = (string)Field.GetValue(Object);
+		comboBox.Entry.Text = val;		
 	}
 }
 
