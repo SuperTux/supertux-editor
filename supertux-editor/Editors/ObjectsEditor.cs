@@ -290,12 +290,10 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		if(activeObject == null)
 			return;
 
-		application.TakeUndoSnapshot("Clone Object " + activeObject);
-
 		try {
 			object newObject = ((ICloneable) activeObject).Clone();
 			IGameObject gameObject = (IGameObject) newObject;
-			sector.Add(gameObject);
+			sector.Add(gameObject, gameObject.GetType().Name + " (clone)");
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}

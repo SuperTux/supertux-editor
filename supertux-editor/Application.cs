@@ -882,15 +882,6 @@ public class Application : IEditorApplication {
 		propertiesView.SetObject(Object, title);
 	}
 
-	/// <summary>
-	/// Take a Snapshot before change. Describe change
-	/// in actionTitle for undo information.
-	/// </summary>
-	public void TakeUndoSnapshot(string actionTitle)
-	{
-		LogManager.Log(LogLevel.DebugWarning, "DEPRECATED: TakeUndoSnapshot (\"{0}\") does nothing now", actionTitle);
-	}
-
 	public void UpdateUndoButtons()
 	{
 		ToolButtonUndo.Sensitive = (UndoManager.UndoCount > 0);
