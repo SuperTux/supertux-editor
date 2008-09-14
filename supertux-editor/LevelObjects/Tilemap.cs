@@ -9,9 +9,17 @@ using System.Collections.Generic;
 		//tilemaps are no longer created as badguys, it is looking bad
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Tilemap : TileBlock, IGameObject, IPathObject {
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayered {
+	private int ZPos = 0;
 	[LispChild("z-pos")]
-	public int ZPos = 0;
+	public int Layer {
+		get {
+			return ZPos;
+		}
+		set {
+			ZPos = value;
+		}
+	}
 
 //TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
 	//If you do that, please remove " else X = Y = 0;" in UpdatePos();

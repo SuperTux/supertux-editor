@@ -39,7 +39,7 @@ public sealed class SectorRenderer : RenderView
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
 			Node node = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
-			layer.Add(tilemap.ZPos, colorNode);
+			layer.Add(tilemap.Layer, colorNode);
 			colors[tilemap] = colorNode;
 		}
 
@@ -77,7 +77,7 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
 		application.TilemapChanged += OnTilemapChanged;
-		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed += OnTilemapZPosModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnTilemapLayerModified;
 	}
 
 	public override void Dispose()
@@ -86,7 +86,7 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved -= OnObjectRemoved;
 		sector.SizeChanged -= OnSizeChanged;
 		application.TilemapChanged -= OnTilemapChanged;		
-		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed -= OnTilemapZPosModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed -= OnTilemapLayerModified;
 	}
 
 	public Color GetTilemapColor(Tilemap tilemap)
@@ -147,7 +147,7 @@ public sealed class SectorRenderer : RenderView
 			Tilemap tilemap = (Tilemap) Object;
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
-			layer.Add(tilemap.ZPos, colorNode);
+			layer.Add(tilemap.Layer, colorNode);
 			LogManager.Log(LogLevel.Debug, "Adding tilemap color: {0}", Object.GetHashCode());
 			colors[tilemap] = colorNode;
 		}
@@ -168,7 +168,7 @@ public sealed class SectorRenderer : RenderView
 		if( Object is Tilemap ){
 			Layer layer = (Layer) SceneGraphRoot;
 			Tilemap tm = (Tilemap) Object;
-			layer.Remove(tm.ZPos, (ColorNode) colors[tm]);
+			layer.Remove(tm.Layer, (ColorNode) colors[tm]);
 			colors.Remove(tm);
 			QueueDraw();
 			return;
@@ -192,16 +192,16 @@ public sealed class SectorRenderer : RenderView
 	}
 
 	/// <summary> Moves tilemap from layer to layer when ZPos is changed. </summary>
-	private void OnTilemapZPosModified(object Object, FieldOrProperty field, object oldValue)
+	private void OnTilemapLayerModified(object Object, FieldOrProperty field, object oldValue)
 	{
 		if (colors.ContainsKey(Object)){	//is is our tilemap => our sector?
 			Layer layer = (Layer) SceneGraphRoot;
 			Tilemap tm = (Tilemap) Object;
 			ColorNode color = (ColorNode) colors[tm];
-			int oldZPos = (int) oldValue;
+			int oldLayer = (int) oldValue;
 
-			layer.Remove(oldZPos, color);
-			layer.Add(tm.ZPos, color);
+			layer.Remove(oldLayer, color);
+			layer.Add(tm.Layer, color);
 
 			QueueDraw();
 		}

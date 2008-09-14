@@ -66,7 +66,7 @@ public class LayerListWidget : TreeView {
 		application.LevelChanged += OnLevelChanged;
 
 		FieldOrProperty.Lookup(typeof(Tilemap).GetField("Name")).Changed += OnTilemapModified;
-		FieldOrProperty.Lookup(typeof(Tilemap).GetField("ZPos")).Changed += OnTilemapModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnTilemapModified;
 	}
 
 	private void OnTilemapModified(object Object, FieldOrProperty field, object oldValue)
@@ -74,7 +74,7 @@ public class LayerListWidget : TreeView {
 		//TODO: Is that sorting execute-once or what? (found no other working way)
 		TreeStore store = (TreeStore) Model;
 		if (store != null)
-			store.SetSortFunc( 0, compareZPos );
+			store.SetSortFunc( 0, compareLayer );
 		QueueDraw();
 	}
 
@@ -111,15 +111,15 @@ public class LayerListWidget : TreeView {
 
 	/// <summary> Get ZPos Value for object, non-tilemaps last </summary>
 	private int getZPos (object o) {
-		if(o is Tilemap) {
-			Tilemap Tilemap = (Tilemap) o;
-			return Tilemap.ZPos;
+		if(o is ILayered) {
+			ILayered ILayered = (ILayered) o;
+			return ILayered.Layer;
 		}			
 		return int.MaxValue;
 	}
 
 	/// <summary> Compare ZPos Values and return which comes first </summary>
-	public int compareZPos(TreeModel model, TreeIter tia, TreeIter tib){
+	public int compareLayer(TreeModel model, TreeIter tia, TreeIter tib){
 		object objA = model.GetValue (tia, 0);
 		object objB = model.GetValue (tib, 0);
 		int a = getZPos(objA); 
@@ -138,11 +138,11 @@ public class LayerListWidget : TreeView {
 			// if no tilemap is yet selected, select the first solid one
 			if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
 				application.CurrentTilemap = Tilemap;
-				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
+				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
 			}
 
 		}
-		store.SetSortFunc( 0, compareZPos );
+		store.SetSortFunc( 0, compareLayer );
 		store.SetSortColumnId( 0, SortType.Ascending );
 		store.AppendValues(separatorObject);
 		visibility[separatorObject] = 0;
@@ -209,9 +209,9 @@ public class LayerListWidget : TreeView {
 		if(o is Tilemap) {
 			Tilemap Tilemap = (Tilemap) o;
 			if (Tilemap.Name.Length == 0) {
-				TextRenderer.Text = "Tilemap (" + Tilemap.ZPos + ")";
+				TextRenderer.Text = "Tilemap (" + Tilemap.Layer + ")";
 			} else {
-				TextRenderer.Text = Tilemap.Name + " (" + Tilemap.ZPos + ")";
+				TextRenderer.Text = Tilemap.Name + " (" + Tilemap.Layer + ")";
 			}
 		} else {
 			if (o == badguysObject)
@@ -236,7 +236,7 @@ public class LayerListWidget : TreeView {
 		if(obj is Tilemap) {
 			if(obj != application.CurrentTilemap) {
 				application.CurrentTilemap = (Tilemap) obj;
-				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.ZPos + ")");
+				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
 			if (obj is IPathObject)
 				application.PathToEdit = ((IPathObject) obj).Path;
 			}
@@ -324,7 +324,7 @@ public class LayerListWidget : TreeView {
 	{
 		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path != null) {
-			Command command = new PropertyChangeCommand("Removed path of Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.ZPos + ")",
+			Command command = new PropertyChangeCommand("Removed path of Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.Layer + ")",
 				FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Path")),
 				application.CurrentTilemap,
 				null);

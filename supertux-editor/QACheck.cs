@@ -58,9 +58,9 @@ public static class QACheck
 			if (invalidtiles.Count != 0) {
 				bad = true;
 				if (String.IsNullOrEmpty(tilemap.Name))
-					sb.Append(Environment.NewLine + "Tilemap (" + tilemap.ZPos + ")");
+					sb.Append(Environment.NewLine + "Tilemap (" + tilemap.Layer + ")");
 				else
-					sb.Append(Environment.NewLine + tilemap.Name + " (" + tilemap.ZPos + ")");
+					sb.Append(Environment.NewLine + tilemap.Name + " (" + tilemap.Layer + ")");
 			}
 		}
 
