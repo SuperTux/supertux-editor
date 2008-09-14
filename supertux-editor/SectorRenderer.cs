@@ -89,23 +89,23 @@ public sealed class SectorRenderer : RenderView
 		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed -= OnTilemapLayerModified;
 	}
 
-	public Color GetTilemapColor(Tilemap tilemap)
+	public Color GetILayerColor(ILayer ILayer)
 	{
-		return ((ColorNode) colors[tilemap]).Color;
+		return ((ColorNode) colors[ILayer]).Color;
 	}
 
 	/// <summary>
-	///		Change color of a tilemap. Useful to hide tilemaps (but they are still drawn that way...)
+	///		Change color of any ILayer . Useful to hide any ILayer objects (they are not drawn, because ColorNodes are set do not-draw-when-transparent)
 	/// </summary>
 	/// <remarks>
-	///		Used to hide tilemaps in <see cref="LayerListWidget.OnVisibilityChange"/>.
+	///		Used to hide ILayer in <see cref="LayerListWidget.OnVisibilityChange"/>.
 	/// </remarks>
-	/// <param name="tilemap">The tilemap to change color of.</param>
+	/// <param name="ILayer">The ILayer to change color of.</param>
 	/// <param name="color">The new color.</param>
-	public void SetTilemapColor(Tilemap tilemap, Color color)
+	public void SetILayerColor(ILayer ILayer, Color color)
 	{
-		LogManager.Log(LogLevel.Debug, "Set color of tilemap {0}", tilemap.GetHashCode());
-		ColorNode colorNode = (ColorNode) colors[tilemap];
+		LogManager.Log(LogLevel.Debug, "Set color of ILayer {0}", ILayer.GetHashCode());
+		ColorNode colorNode = (ColorNode) colors[ILayer];
 		colorNode.Color = color;
 		QueueDraw();
 	}

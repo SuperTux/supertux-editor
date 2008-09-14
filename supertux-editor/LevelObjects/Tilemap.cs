@@ -9,7 +9,7 @@ using System.Collections.Generic;
 		//tilemaps are no longer created as badguys, it is looking bad
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayered {
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayer {
 	private int ZPos = 0;
 	[LispChild("z-pos")]
 	public int Layer {
@@ -35,9 +35,17 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayered {
 	[LispChild("solid")]
 	public bool Solid = false;
 
+	private string name = String.Empty;
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
+	public string Name {
+		get {
+			return name;
+		}
+		set {
+			name = value;
+		}
+	}
 
 	[LispChild("speed", Optional = true, Default = 1.0f)]
 	public float Speed = 1.0f;

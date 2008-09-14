@@ -65,11 +65,11 @@ public class LayerListWidget : TreeView {
 		application.TilemapChanged += OnTilemapChanged;
 		application.LevelChanged += OnLevelChanged;
 
-		FieldOrProperty.Lookup(typeof(Tilemap).GetField("Name")).Changed += OnTilemapModified;
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnTilemapModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Name")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
 	}
 
-	private void OnTilemapModified(object Object, FieldOrProperty field, object oldValue)
+	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
 	{
 		//TODO: Is that sorting execute-once or what? (found no other working way)
 		TreeStore store = (TreeStore) Model;
@@ -111,9 +111,9 @@ public class LayerListWidget : TreeView {
 
 	/// <summary> Get ZPos Value for object, non-tilemaps last </summary>
 	private int getZPos (object o) {
-		if(o is ILayered) {
-			ILayered ILayered = (ILayered) o;
-			return ILayered.Layer;
+		if(o is ILayer) {
+			ILayer ILayer = (ILayer) o;
+			return ILayer.Layer;
 		}			
 		return int.MaxValue;
 	}
@@ -131,16 +131,18 @@ public class LayerListWidget : TreeView {
 	{
 		visibility.Clear();
 		TreeStore store = new TreeStore(typeof(System.Object));
-		foreach(Tilemap Tilemap in sector.GetObjects(typeof(Tilemap))) {
-			store.AppendValues(Tilemap);
-			visibility[Tilemap] = application.CurrentRenderer.GetTilemapColor(Tilemap).Alpha;
+		foreach(ILayer ILayer in sector.GetObjects(typeof(ILayer))) {
+			store.AppendValues(ILayer);
+			visibility[ILayer] = application.CurrentRenderer.GetILayerColor(ILayer).Alpha;
 
-			// if no tilemap is yet selected, select the first solid one
-			if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
-				application.CurrentTilemap = Tilemap;
-				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
+			if (ILayer is Tilemap) {
+				Tilemap Tilemap = (Tilemap) ILayer;
+				// if no tilemap is yet selected, select the first solid one
+				if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
+					application.CurrentTilemap = Tilemap;
+					application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
+				}
 			}
-
 		}
 		store.SetSortFunc( 0, compareLayer );
 		store.SetSortColumnId( 0, SortType.Ascending );
@@ -206,12 +208,12 @@ public class LayerListWidget : TreeView {
 		object o = Model.GetValue(Iter, 0);
 
 		CellRendererText TextRenderer = (CellRendererText) Renderer;
-		if(o is Tilemap) {
-			Tilemap Tilemap = (Tilemap) o;
-			if (Tilemap.Name.Length == 0) {
-				TextRenderer.Text = "Tilemap (" + Tilemap.Layer + ")";
+		if(o is ILayer) {
+			ILayer ILayer = (ILayer) o;
+			if (ILayer.Name.Length == 0) {
+				TextRenderer.Text = "Tilemap (" + ILayer.Layer + ")";
 			} else {
-				TextRenderer.Text = Tilemap.Name + " (" + Tilemap.Layer + ")";
+				TextRenderer.Text = ILayer.Name + " (" + ILayer.Layer + ")";
 			}
 		} else {
 			if (o == badguysObject)
@@ -388,8 +390,8 @@ public class LayerListWidget : TreeView {
 				newvis = 1.0f;
 			}
 
-			if (obj is Tilemap)
-				application.CurrentRenderer.SetTilemapColor((Tilemap)obj,
+			if (obj is ILayer)
+				application.CurrentRenderer.SetILayerColor((ILayer)obj,
 			                                            new Color(1, 1, 1, newvis));
 			if (obj == badguysObject)
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
