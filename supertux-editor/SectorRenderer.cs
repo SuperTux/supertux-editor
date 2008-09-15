@@ -11,9 +11,7 @@ public sealed class SectorRenderer : RenderView
 {
 	private Hashtable colors = new Hashtable();
 	private ColorNode objectsColorNode;
-	private ColorNode backgroundColorNode;
 	private NodeWithChilds objectsNode;
-	private NodeWithChilds backgroundNode;
 	private SceneGraph.Rectangle sectorBBox;
 	private SceneGraph.Rectangle sectorFill;
 	private IEditorApplication application;
@@ -27,13 +25,11 @@ public sealed class SectorRenderer : RenderView
 		this.sector = sector;
 		Layer layer = new Layer();
 
-		backgroundNode = new NodeWithChilds();
-		backgroundColorNode = new ColorNode(backgroundNode, new Color(1f, 1f, 1f, 1f));
-		layer.Add(-900, backgroundColorNode);
-		foreach(Background background in sector.GetObjects(typeof(Background))) {
-			Node node = background.GetSceneGraphNode();
-			if(node == null) continue;
-			backgroundNode.AddChild(node);
+		foreach(IDrawableLayer IDrawableLayer in sector.GetObjects(typeof(IDrawableLayer))) {
+			Node node = IDrawableLayer.GetSceneGraphNode();
+			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
+			layer.Add(IDrawableLayer.Layer, colorNode);
+			colors[IDrawableLayer] = colorNode;
 		}
 
 		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
@@ -77,7 +73,9 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved += OnObjectRemoved;
 		sector.SizeChanged += OnSizeChanged;
 		application.TilemapChanged += OnTilemapChanged;
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnTilemapLayerModified;
+		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
 	}
 
 	public override void Dispose()
@@ -86,7 +84,9 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectRemoved -= OnObjectRemoved;
 		sector.SizeChanged -= OnSizeChanged;
 		application.TilemapChanged -= OnTilemapChanged;		
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed -= OnTilemapLayerModified;
+		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
+		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed -= OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
 	}
 
 	public Color GetILayerColor(ILayer ILayer)
@@ -107,17 +107,6 @@ public sealed class SectorRenderer : RenderView
 		LogManager.Log(LogLevel.Debug, "Set color of ILayer {0}", ILayer.GetHashCode());
 		ColorNode colorNode = (ColorNode) colors[ILayer];
 		colorNode.Color = color;
-		QueueDraw();
-	}
-
-	public Color GetBackgroundColor()
-	{
-		return backgroundColorNode.Color;
-	}
-
-	public void SetBackgroundColor(Color color)
-	{
-		backgroundColorNode.Color = color;
 		QueueDraw();
 	}
 
@@ -152,31 +141,27 @@ public sealed class SectorRenderer : RenderView
 			colors[tilemap] = colorNode;
 		}
 
-		if (Object is Background) {
-			Background background = (Background) Object;
+		if (Object is IDrawableLayer) {
+			IDrawableLayer IDrawableLayer = (IDrawableLayer) Object;
 
-			Node mynode = background.GetSceneGraphNode();
+			Node mynode = IDrawableLayer.GetSceneGraphNode();
 			if(mynode != null) {
-				backgroundNode.AddChild(mynode);
+				ColorNode colorNode = new ColorNode(mynode, new Color(1f, 1f, 1f, 1f));
+				layer.Add(IDrawableLayer.Layer, colorNode);
+				LogManager.Log(LogLevel.Debug, "Adding ILayer color: {0}", Object.GetHashCode());
+				colors[IDrawableLayer] = colorNode;
 			}
 		}
 	}
 
 	private void OnObjectRemoved(Sector sector, IGameObject Object)
 	{
-		//handle tilemaps
-		if( Object is Tilemap ){
+		//handle drawable ILayers
+		if( Object is IDrawableLayer || Object is Tilemap ){
 			Layer layer = (Layer) SceneGraphRoot;
-			Tilemap tm = (Tilemap) Object;
-			layer.Remove(tm.Layer, (ColorNode) colors[tm]);
-			colors.Remove(tm);
-			QueueDraw();
-			return;
-		}
-		//handle backgrounds
-		if( Object is Background ){
-			Node bgNode = ((Background) Object).GetSceneGraphNode();
-			backgroundNode.RemoveChild(bgNode);
+			ILayer ILayer = (ILayer) Object;
+			layer.Remove(ILayer.Layer, (ColorNode) colors[ILayer]);
+			colors.Remove(ILayer);
 			QueueDraw();
 			return;
 		}
@@ -191,17 +176,17 @@ public sealed class SectorRenderer : RenderView
 			objectsNode.RemoveChild(node);
 	}
 
-	/// <summary> Moves tilemap from layer to layer when ZPos is changed. </summary>
-	private void OnTilemapLayerModified(object Object, FieldOrProperty field, object oldValue)
+	/// <summary> Moves any ILayer from layer to layer when ZPos is changed. </summary>
+	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
 	{
-		if (colors.ContainsKey(Object)){	//is is our tilemap => our sector?
+		if (colors.ContainsKey(Object)){	//is is our ILayer => our sector?
 			Layer layer = (Layer) SceneGraphRoot;
-			Tilemap tm = (Tilemap) Object;
-			ColorNode color = (ColorNode) colors[tm];
+			ILayer ILayer = (ILayer) Object;
+			ColorNode color = (ColorNode) colors[ILayer];
 			int oldLayer = (int) oldValue;
 
 			layer.Remove(oldLayer, color);
-			layer.Add(tm.Layer, color);
+			layer.Add(ILayer.Layer, color);
 
 			QueueDraw();
 		}

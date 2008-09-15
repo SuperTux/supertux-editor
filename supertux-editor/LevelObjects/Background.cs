@@ -6,7 +6,13 @@ using Drawing;
 using SceneGraph;
 
 [SupertuxObject("background", "images/engine/editor/background.png")]
-public sealed class Background : IGameObject, Node {
+public sealed class Background : IGameObject, Node, IDrawableLayer {
+	public string Name {
+		get {
+			return "BG Image";
+		}
+	}
+
 	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
 	[LispChild("y", Optional = true, Default = 0f)]
@@ -68,8 +74,17 @@ public sealed class Background : IGameObject, Node {
 
 	[LispChild("speed")]
 	public float Speed = 0.5f;
+
+	private int layer = -200;
 	[LispChild("layer", Optional = true, Default = -200)]
-	public int Layer = -200;
+	public int Layer {
+		get {
+			return layer;
+		}
+		set {
+			layer = value;
+		}
+	}
 
 	public RectangleF Area {
 		get {

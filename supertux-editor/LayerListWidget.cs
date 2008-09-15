@@ -12,7 +12,6 @@ public class LayerListWidget : TreeView {
 	private IEditorApplication application;
 	private static object separatorObject = new System.Object();
 	private static object badguysObject = new System.Object();
-	private static object backgroundObject = new System.Object();
 	private Sector sector;
 	private Dictionary<object, float> visibility = new Dictionary<object, float>();
 
@@ -65,8 +64,11 @@ public class LayerListWidget : TreeView {
 		application.TilemapChanged += OnTilemapChanged;
 		application.LevelChanged += OnLevelChanged;
 
+		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
 		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Name")).Changed += OnILayerModified;
 		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Background).GetProperty("Name")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
 	}
 
 	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
@@ -149,11 +151,6 @@ public class LayerListWidget : TreeView {
 		store.AppendValues(separatorObject);
 		visibility[separatorObject] = 0;
 
-		if (sector.GetObjects(typeof(Background)).Count > 0) {
-			store.AppendValues(backgroundObject);
-			visibility[backgroundObject] = application.CurrentRenderer.GetBackgroundColor().Alpha;
-		}
-
 		store.AppendValues(badguysObject);
 		visibility[badguysObject] = application.CurrentRenderer.GetObjectsColor().Alpha;
 		Model = store;
@@ -192,6 +189,12 @@ public class LayerListWidget : TreeView {
 		CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
 
 		object o = Model.GetValue(Iter, 0);
+
+		if (o is ILayer && !(o is IDrawableLayer || o is Tilemap)) {	//no visibility for objects that we can't currently display
+			PixbufRenderer.StockId = null;
+			return;
+		}
+
 		float vis = visibility[o];
 		if(vis <= 0) {
 			PixbufRenderer.StockId = null;
@@ -238,7 +241,6 @@ public class LayerListWidget : TreeView {
 		if(obj is Tilemap) {
 			if(obj != application.CurrentTilemap) {
 				application.CurrentTilemap = (Tilemap) obj;
-				application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
 			if (obj is IPathObject)
 				application.PathToEdit = ((IPathObject) obj).Path;
 			}
@@ -248,21 +250,18 @@ public class LayerListWidget : TreeView {
 			application.CurrentTilemap = null;
 		}
 
-		if (obj == backgroundObject) {
-			Background bg = null;	//search for background object
-			foreach(Background background in sector.GetObjects(typeof(Background))) {
-				bg = background;
-			}
-			if (bg != null)		//open it's properties if any
-				application.EditProperties(bg, "Background");
+		if (obj is ILayer) {
+			ILayer ILayer = (ILayer) obj;
+			if (ILayer != null)		//open it's properties if any
+				application.EditProperties(ILayer, ILayer.GetType().Name + " \"" +ILayer.Name + "\" (" + ILayer.Layer.ToString() + ")");
 		}
 
-		if((args.Event.Button == 3) && (obj is Tilemap)) {
-			ShowPopupMenu();
+		if ((args.Event.Button == 3) && (obj is ILayer)) {
+			ShowPopupMenu(obj as ILayer);
 		}
 	}
 
-	private void ShowPopupMenu()
+	private void ShowPopupMenu(ILayer layer)
 	{
 		Menu popupMenu = new Menu();
 
@@ -270,25 +269,29 @@ public class LayerListWidget : TreeView {
 		addItem.Activated += OnAdd;
 		popupMenu.Append(addItem);
 
-		MenuItem resizeItem = new MenuItem("Resize");
-		resizeItem.Activated += OnResize;
-		popupMenu.Append(resizeItem);
+		if (layer is Tilemap) {
+			MenuItem resizeItem = new MenuItem("Resize");
+			resizeItem.Activated += OnResize;
+			popupMenu.Append(resizeItem);
 
-		MenuItem editPathItem = new MenuItem("Edit Path");
-		editPathItem.Activated += OnEditPath;
-		popupMenu.Append(editPathItem);
+			MenuItem editPathItem = new MenuItem("Edit Path");
+			editPathItem.Activated += OnEditPath;
+			popupMenu.Append(editPathItem);
 
-		MenuItem deletePathItem = new MenuItem("Delete Path");
-		deletePathItem.Sensitive = application.CurrentTilemap.Path != null;
-		deletePathItem.Activated += OnDeletePath;
-		popupMenu.Append(deletePathItem);
+			MenuItem deletePathItem = new MenuItem("Delete Path");
+			deletePathItem.Sensitive = application.CurrentTilemap.Path != null;
+			deletePathItem.Activated += OnDeletePath;
+			popupMenu.Append(deletePathItem);
 
-		MenuItem CheckIDsItem = new MenuItem("Check tile IDs");
-		CheckIDsItem.Activated += OnCheckIDs;
-		popupMenu.Append(CheckIDsItem);
+			MenuItem CheckIDsItem = new MenuItem("Check tile IDs");
+			CheckIDsItem.Activated += OnCheckIDs;
+			popupMenu.Append(CheckIDsItem);
+		}
 
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
-		deleteItem.Sensitive = sector.GetObjects(typeof(Tilemap)).Count > 1;
+		if (layer is Tilemap) {
+			deleteItem.Sensitive = sector.GetObjects(typeof(Tilemap)).Count > 1;
+		}
 		deleteItem.Activated += OnDelete;
 		popupMenu.Append(deleteItem);
 
@@ -337,16 +340,22 @@ public class LayerListWidget : TreeView {
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		if(application.CurrentTilemap == null)
-			return;
+		TreeIter treeIter;
+		TreeModel treeModel;
+		if (Selection.GetSelected(out treeModel, out treeIter))
+		{	//we have selected row
+			IGameObject obj = (IGameObject) treeModel.GetValue(treeIter, 0);
+			if (obj == null)
+				return;
 
-		// Don't remove last tilemap, that cause bugs.
-		if (sector.GetObjects(typeof(Tilemap)).Count == 1)
-			return;
+			// Don't remove last tilemap, that cause bugs.
+			if (obj is Tilemap && sector.GetObjects(typeof(Tilemap)).Count == 1)
+				return;
 
-		sector.Remove(application.CurrentTilemap);
-		application.CurrentTilemap = null;
-		UpdateList();
+			sector.Remove(obj);
+			if (obj is Tilemap) application.CurrentTilemap = null;
+			UpdateList();
+		}
 	}
 
 	private void OnCheckIDs(object o, EventArgs args) {
@@ -380,6 +389,9 @@ public class LayerListWidget : TreeView {
 		{	//we have selected row
 			object obj = treeModel.GetValue(treeIter, 0);
 
+			if (obj is ILayer && !(obj is IDrawableLayer || obj is Tilemap))	//skip it, if we can't currently display that object
+				return;
+
 			float vis = visibility[obj];
 			float newvis = 1.0f;
 			if(vis == 1.0f) {
@@ -395,9 +407,6 @@ public class LayerListWidget : TreeView {
 			                                            new Color(1, 1, 1, newvis));
 			if (obj == badguysObject)
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-
-			if (obj == backgroundObject) 
-				application.CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, newvis));
 
 			visibility[obj] = newvis;
 			QueueDraw();

@@ -63,8 +63,6 @@ public class Application : IEditorApplication {
 	[Glade.Widget]
 	private Gtk.MenuItem MenuItemMruBegin = null; /* RecentDocument list will start after this item */
 
-	[Glade.Widget]
-	private Gtk.CheckMenuItem show_background1 = null;
 	#endregion Glade
 
 	private TileListWidget tileList;
@@ -575,15 +573,6 @@ public class Application : IEditorApplication {
 			PrintStatus("Snap to grid deactivated.");
 	}
 
-	protected void OnShowBackground(object o, EventArgs e)
-	{
-		if( CurrentRenderer == null ){
-			show_background1.Active = true;
-			return;
-		}
-		CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, (show_background1.Active?1:0)));
-	}
-
 	protected void OnAbout(object o, EventArgs e)
 	{
 		string[] authors = new string[]{
@@ -806,10 +795,6 @@ public class Application : IEditorApplication {
 		PathToEdit = null;
 		SectorChanged(level, newSector);
 		if (CurrentRenderer != null) {
-			if (show_background1.Active)
-				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 1));
-			else
-				CurrentRenderer.SetBackgroundColor(new Drawing.Color(1, 1, 1, 0));
 			// If there is no tool activated for this sector yet reset it to the Select tool.
 			if (CurrentRenderer.Editor == null) {
 				OnToolSelect(null, null);

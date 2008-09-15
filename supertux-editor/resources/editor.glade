@@ -226,22 +226,6 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkCheckMenuItem" id="show_background1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Background</property>
-		      <property name="use_underline">True</property>
-		      <property name="active">True</property>
-		      <signal name="activate" handler="OnShowBackground" last_modification_time="Thu, 06 Jul 2006 12:54:19 GMT"/>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkSeparatorMenuItem" id="separator1">
-		      <property name="visible">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
 		    <widget class="GtkImageMenuItem" id="normal_size1">
 		      <property name="visible">True</property>
 		      <property name="label">gtk-zoom-100</property>

@@ -29,13 +29,13 @@ public class GameObjectListWidget : IconView
 		this.sector = sector;
 
 		sector.ObjectAdded += ObjectsChanged;
-		sector.ObjectAdded += ObjectsChanged;
+		sector.ObjectRemoved += ObjectsChanged;
 		UpdateList();
 	}
 
 	private void ObjectsChanged(Sector sector, IGameObject Object)
 	{
-		if((Object is IObject) || (Object is Tilemap))
+		if((Object is IObject) || (Object is ILayer))
 			return;
 
 		UpdateList();
@@ -45,7 +45,9 @@ public class GameObjectListWidget : IconView
 	{
 		ListStore store = new ListStore(typeof(string), typeof(System.Object));
 		foreach(IGameObject Object in sector.GetObjects()) {
-			if(! (Object is IObject) && !(Object is Tilemap))
+			if (Object is ILayer)	//skip items moved into LayerListWidget
+				continue;
+			if(! (Object is IObject))
 				store.AppendValues(Object.GetType().Name, Object);
 		}
 		Model = store;

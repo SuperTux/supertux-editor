@@ -50,6 +50,7 @@ public class ObjectListWidget : GLWidgetBase
 		SizeAllocated += OnSizeAllocated;
 
 		DragBegin += OnDragBegin;
+		DragEnd += OnDragEnd;
 		ScrollEvent += OnScroll;
 		DragDataGet += OnDragDataGet;		
 		application.LevelChanged += OnLevelChanged;
@@ -257,6 +258,12 @@ public class ObjectListWidget : GLWidgetBase
 	{
 		Gtk.Drag.SetIconWidget( args.Context, SpriteViewWidget.CreateWindow(gameObjectSprites[SelectedObjectNr]), -15, -15);
 		LogManager.Log(LogLevel.Debug, "Dragstart");
+	}
+
+	private void OnDragEnd(object o, DragEndArgs args)
+	{
+		SelectedObjectNr = NONE;
+		QueueDraw();
 	}
 
 	private void OnDragDataGet (object o, DragDataGetArgs args)
