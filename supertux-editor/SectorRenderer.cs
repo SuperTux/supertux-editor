@@ -27,16 +27,11 @@ public sealed class SectorRenderer : RenderView
 
 		foreach(IDrawableLayer IDrawableLayer in sector.GetObjects(typeof(IDrawableLayer))) {
 			Node node = IDrawableLayer.GetSceneGraphNode();
+			if (IDrawableLayer is Tilemap)	//Special handling for tilemaps
+				node = new TilemapNode((Tilemap) IDrawableLayer, level.Tileset);
 			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
 			layer.Add(IDrawableLayer.Layer, colorNode);
 			colors[IDrawableLayer] = colorNode;
-		}
-
-		foreach(Tilemap tilemap in sector.GetObjects(typeof(Tilemap))) {
-			Node node = new TilemapNode(tilemap, level.Tileset);
-			ColorNode colorNode = new ColorNode(node, new Color(1f, 1f, 1f, 1f), true);
-			layer.Add(tilemap.Layer, colorNode);
-			colors[tilemap] = colorNode;
 		}
 
 		objectsNode = new NodeWithChilds();

@@ -69,6 +69,11 @@ public class LayerListWidget : TreeView {
 		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
 		FieldOrProperty.Lookup(typeof(Background).GetProperty("Name")).Changed += OnILayerModified;
 		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(Gradient).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(RainParticles).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(GhostParticles).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(SnowParticles).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.Lookup(typeof(CloudParticles).GetProperty("Layer")).Changed += OnILayerModified;
 	}
 
 	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
@@ -97,7 +102,7 @@ public class LayerListWidget : TreeView {
 
 	private void ObjectsChanged(Sector sector, IGameObject Object)
 	{
-		if(! (Object is Tilemap || Object is Background))
+		if(! (Object is ILayer))
 			return;
 
 		UpdateList();
@@ -135,14 +140,17 @@ public class LayerListWidget : TreeView {
 		TreeStore store = new TreeStore(typeof(System.Object));
 		foreach(ILayer ILayer in sector.GetObjects(typeof(ILayer))) {
 			store.AppendValues(ILayer);
-			visibility[ILayer] = application.CurrentRenderer.GetILayerColor(ILayer).Alpha;
+			if (ILayer is IDrawableLayer) {
+				visibility[ILayer] = application.CurrentRenderer.GetILayerColor(ILayer).Alpha;
 
-			if (ILayer is Tilemap) {
-				Tilemap Tilemap = (Tilemap) ILayer;
-				// if no tilemap is yet selected, select the first solid one
-				if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
-					application.CurrentTilemap = Tilemap;
-					application.EditProperties(application.CurrentTilemap, "Tilemap (" + application.CurrentTilemap.Layer + ")");
+				if (ILayer is Tilemap) {
+					Tilemap Tilemap = (Tilemap) ILayer;
+					// if no tilemap is yet selected, select the first solid one
+					if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
+						application.CurrentTilemap = Tilemap;
+						string name = (String.IsNullOrEmpty(Tilemap.Name))?"":" \"" +Tilemap.Name + "\"";
+						application.EditProperties(application.CurrentTilemap, "Tilemap" + name + " (" + application.CurrentTilemap.Layer + ")");
+					}
 				}
 			}
 		}
@@ -190,7 +198,7 @@ public class LayerListWidget : TreeView {
 
 		object o = Model.GetValue(Iter, 0);
 
-		if (o is ILayer && !(o is IDrawableLayer || o is Tilemap)) {	//no visibility for objects that we can't currently display
+		if (o is ILayer && !(o is IDrawableLayer)) {	//no visibility for objects that we can't currently display
 			PixbufRenderer.StockId = null;
 			return;
 		}
@@ -214,7 +222,7 @@ public class LayerListWidget : TreeView {
 		if(o is ILayer) {
 			ILayer ILayer = (ILayer) o;
 			if (ILayer.Name.Length == 0) {
-				TextRenderer.Text = "Tilemap (" + ILayer.Layer + ")";
+				TextRenderer.Text = ILayer.GetType().Name + " (" + ILayer.Layer + ")";
 			} else {
 				TextRenderer.Text = ILayer.Name + " (" + ILayer.Layer + ")";
 			}
@@ -252,8 +260,10 @@ public class LayerListWidget : TreeView {
 
 		if (obj is ILayer) {
 			ILayer ILayer = (ILayer) obj;
-			if (ILayer != null)		//open it's properties if any
-				application.EditProperties(ILayer, ILayer.GetType().Name + " \"" +ILayer.Name + "\" (" + ILayer.Layer.ToString() + ")");
+			if (ILayer != null) {		//open it's properties if any
+				string name = (String.IsNullOrEmpty(ILayer.Name))?"":" \"" +ILayer.Name + "\"";
+				application.EditProperties(ILayer, ILayer.GetType().Name + name + " (" + ILayer.Layer.ToString() + ")");
+			}
 		}
 
 		if ((args.Event.Button == 3) && (obj is ILayer)) {
@@ -389,7 +399,7 @@ public class LayerListWidget : TreeView {
 		{	//we have selected row
 			object obj = treeModel.GetValue(treeIter, 0);
 
-			if (obj is ILayer && !(obj is IDrawableLayer || obj is Tilemap))	//skip it, if we can't currently display that object
+			if (obj is ILayer && !(obj is IDrawableLayer))	//skip it, if we can't currently display that object
 				return;
 
 			float vis = visibility[obj];

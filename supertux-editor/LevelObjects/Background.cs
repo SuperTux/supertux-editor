@@ -144,9 +144,20 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 }
 
 [SupertuxObject("gradient", "images/engine/editor/gradient.png")]
-public sealed class Gradient : IGameObject {
+public sealed class Gradient : IGameObject, ILayer {
+	public string Name {get {return "";}}	//= it can't have a name
+
+	private int layer = -200;
 	[LispChild("layer", Optional = true, Default = -200)]
-	public int Layer = -200;
+	public int Layer {
+		get {
+			return layer;
+		}
+		set {
+			layer = value;
+		}
+	}	
+
 	[ChooseColorSetting]
 	[LispChild("top_color")]
 	public Color TopColor;

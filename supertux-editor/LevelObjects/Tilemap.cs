@@ -9,7 +9,7 @@ using System.Collections.Generic;
 		//tilemaps are no longer created as badguys, it is looking bad
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayer {
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer {
 	private int ZPos = 0;
 	[LispChild("z-pos")]
 	public int Layer {
@@ -93,5 +93,8 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, ILayer {
 			X = path.Nodes[0].X;
 			Y = path.Nodes[0].Y;
 		} else X = Y = 0;
+	}
+	public Node GetSceneGraphNode() {
+		return null;	//Tilemap can't create it's node
 	}
 }
