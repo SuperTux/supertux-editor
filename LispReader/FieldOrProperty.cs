@@ -49,7 +49,10 @@ namespace LispReader
 			}
 		}
 
+		/// <summary> Use this event, if you want to recieve events for this Field only </summary>
 		public event PropertyChangedHandler Changed;
+		/// <summary> Use this event, if you want to get all changed events and implement custom filter (e.g. field name) </summary>
+		public static event PropertyChangedHandler AnyFieldChanged;
 
 		public static IEnumerable<FieldOrProperty> GetFieldsAndProperties(Type type)
 		{
@@ -82,6 +85,8 @@ namespace LispReader
 		protected void FireChanged(object Object, FieldOrProperty field, object oldValue){
 			if (Changed != null)
 				Changed(Object, field, oldValue);
+			if (AnyFieldChanged != null)
+				AnyFieldChanged(Object, field, oldValue);
 		}
 
 		/// <summary> Code uses this to notify editors when only part of object changes (but it's adress not). </summary>

@@ -176,6 +176,10 @@ public sealed class Sector : ICustomLispSerializer {
 		}
 	}
 
+	public bool Contains(IGameObject Object) {
+		return GameObjects.Contains(Object);
+	}
+
 	public void EmitSizeChanged()
 	{
 		FinishRead();		//update Height / Width

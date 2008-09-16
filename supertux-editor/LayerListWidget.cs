@@ -64,20 +64,16 @@ public class LayerListWidget : TreeView {
 		application.TilemapChanged += OnTilemapChanged;
 		application.LevelChanged += OnLevelChanged;
 
-		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Name")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Background).GetProperty("Name")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Gradient).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(RainParticles).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(GhostParticles).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(SnowParticles).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(CloudParticles).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.AnyFieldChanged += OnFieldModified;
 	}
 
-	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
+	private void OnFieldModified(object Object, FieldOrProperty field, object oldValue)
 	{
+		if (! (Object is ILayer)) //ignore changes on other objects
+			return;
+		if (! (field.Name=="Layer" || field.Name=="Name")) //ignore changes on other fields 
+			return;
+
 		//TODO: Is that sorting execute-once or what? (found no other working way)
 		TreeStore store = (TreeStore) Model;
 		if (store != null)

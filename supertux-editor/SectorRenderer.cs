@@ -69,8 +69,7 @@ public sealed class SectorRenderer : RenderView
 		sector.SizeChanged += OnSizeChanged;
 		application.TilemapChanged += OnTilemapChanged;
 		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed += OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.AnyFieldChanged += OnFieldChanged;
 	}
 
 	public override void Dispose()
@@ -80,8 +79,7 @@ public sealed class SectorRenderer : RenderView
 		sector.SizeChanged -= OnSizeChanged;
 		application.TilemapChanged -= OnTilemapChanged;		
 		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
-		FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Layer")).Changed -= OnILayerModified;
-		FieldOrProperty.Lookup(typeof(Background).GetProperty("Layer")).Changed += OnILayerModified;
+		FieldOrProperty.AnyFieldChanged += OnFieldChanged;
 	}
 
 	public Color GetILayerColor(ILayer ILayer)
@@ -172,9 +170,12 @@ public sealed class SectorRenderer : RenderView
 	}
 
 	/// <summary> Moves any ILayer from layer to layer when ZPos is changed. </summary>
-	private void OnILayerModified(object Object, FieldOrProperty field, object oldValue)
+	private void OnFieldChanged(object Object, FieldOrProperty field, object oldValue)
 	{
-		if (colors.ContainsKey(Object)){	//is is our ILayer => our sector?
+		if (! (Object is IGameObject && sector.Contains((IGameObject)Object)))	//return, if it's not (GameObject in our sector)
+			return;
+
+		if (Object is ILayer && field.Name == "Layer") { //filter for ILayer.Layer
 			Layer layer = (Layer) SceneGraphRoot;
 			ILayer ILayer = (ILayer) Object;
 			ColorNode color = (ColorNode) colors[ILayer];
@@ -183,6 +184,9 @@ public sealed class SectorRenderer : RenderView
 			layer.Remove(oldLayer, color);
 			layer.Add(ILayer.Layer, color);
 
+			QueueDraw();
+		}
+		if (field.Name == "X" || field.Name == "Y") {	//Something has been moved.
 			QueueDraw();
 		}
 	}
