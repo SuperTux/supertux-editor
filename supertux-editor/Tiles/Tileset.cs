@@ -136,7 +136,7 @@ public sealed class Tileset {
 		props.GetUIntList("attributes", attributes);
 		if(ids.Count != width * height)
 			throw new ApplicationException("Must have width*height ids in tiles block");
-		if(attributes.Count != width * height)
+		if((attributes.Count != width * height) && attributes.Count > 0)	//missing atributes == all-are-0-attributes
 			throw new ApplicationException("Must have width*height attributes in tiles block");
 
 		int id = 0;
@@ -154,7 +154,7 @@ public sealed class Tileset {
 					tile.Images = new List<Tile.ImageResource>();
 					tile.Images.Add(res);
 					tile.Id = ids[id];
-					tile.Attributes = (Tile.Attribute) attributes[id];
+					tile.Attributes = (attributes.Count > 0)?(Tile.Attribute) attributes[id]:0;	//missing atributes == all-are-0-attributes
 
 					while(tiles.Count <= tile.Id)
 						tiles.Add(null);
