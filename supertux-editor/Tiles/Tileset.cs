@@ -132,12 +132,16 @@ public sealed class Tileset {
 
 		List<int> ids = new List<int> ();
 		List<uint> attributes = new List<uint> ();
+		List<uint> datas = new List<uint> ();
 		props.GetIntList("ids", ids);
 		props.GetUIntList("attributes", attributes);
+		props.GetUIntList("datas", datas);
 		if(ids.Count != width * height)
 			throw new ApplicationException("Must have width*height ids in tiles block");
 		if((attributes.Count != width * height) && attributes.Count > 0)	//missing atributes == all-are-0-attributes
 			throw new ApplicationException("Must have width*height attributes in tiles block");
+		if((datas.Count != width * height) && datas.Count > 0)	//missing DATAs == all-are-0-DATAs
+			throw new ApplicationException("Must have width*height DATAs in tiles block");
 
 		int id = 0;
 		for(int y = 0; y < height; ++y) {
@@ -155,6 +159,7 @@ public sealed class Tileset {
 					tile.Images.Add(res);
 					tile.Id = ids[id];
 					tile.Attributes = (attributes.Count > 0)?(Tile.Attribute) attributes[id]:0;	//missing atributes == all-are-0-attributes
+					tile.Data = (datas.Count > 0)?(int) datas[id]:0;	//missing DATAs == all-are-0-DATAs
 
 					while(tiles.Count <= tile.Id)
 						tiles.Add(null);
