@@ -197,6 +197,10 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 		}
 	}
 
+	public virtual bool PathRemovable {
+		get { return false; }
+	}
+
 	public SimplePathObject()
 	{
 		path.Nodes.Add(new Path.Node());

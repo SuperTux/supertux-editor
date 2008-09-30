@@ -493,6 +493,10 @@ public sealed class WilloWisp : SimpleObject, IPathObject
 		}
 	}
 
+	public bool PathRemovable {
+		get { return true; }
+	}
+
 	public override void ChangeArea(RectangleF NewArea) {
 		base.ChangeArea(NewArea);
 		if (path != null) {

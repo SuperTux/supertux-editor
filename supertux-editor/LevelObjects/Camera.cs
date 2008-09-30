@@ -39,4 +39,7 @@ public sealed class Camera : IGameObject, IPathObject {
 			path = value;
 		}
 	}
+	public bool PathRemovable {
+		get { return true; }
+	}
 }

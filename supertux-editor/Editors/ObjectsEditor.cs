@@ -129,7 +129,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 
 		public ObjectAreaChangeCommand(string title,
 		                               RectangleF originalArea, RectangleF newArea,
-																	 IObject changedObject)
+		                               IObject changedObject)
 			: base(title) {
 			this.changedObject = changedObject;
 			this.originalArea = originalArea;
@@ -272,9 +272,18 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		popupMenu.Append(cloneItem);
 
 		if(activeObject is IPathObject) {
+			IPathObject pathObject = (IPathObject) activeObject;
+
 			MenuItem editPathItem = new MenuItem("Edit Path");
 			editPathItem.Activated += OnEditPath;
 			popupMenu.Append(editPathItem);
+
+			if (pathObject.PathRemovable) {
+				MenuItem deletePathItem = new MenuItem("Delete Path");
+				deletePathItem.Sensitive = pathObject.Path != null;
+				deletePathItem.Activated += OnDeletePath;
+				popupMenu.Append(deletePathItem);
+			}
 		}
 
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
@@ -301,18 +310,30 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (activeObject as IPathObject);
+		IPathObject pathObject = (IPathObject) activeObject;
 		if (pathObject.Path == null) {
 			// We need to get area before or it may have changed due to adding
 			// the path.
-			IObject obj = (activeObject as IObject);
-			RectangleF area = obj.Area;
+			RectangleF area = activeObject.Area;
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
 			// Move path to object.
 			pathObject.Path.Move(new Vector(area.Left, area.Top));
 		}
 		application.SetToolPath();
+	}
+
+	private void OnDeletePath(object o, EventArgs args)
+	{
+		IPathObject pathObject = (IPathObject) activeObject;
+		if (pathObject.Path != null) {
+			Command command = new PropertyChangeCommand("Removed path from " + activeObject,
+				LispReader.FieldOrProperty.Lookup(typeof(IPathObject).GetProperty("Path")),
+				activeObject,
+				null);
+			command.Do();
+			UndoManager.AddCommand(command);
+		}
 	}
 
 	private void OnDelete(object o, EventArgs args)
@@ -370,7 +391,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 			// TODO: Get this right for area objects, they currently snap to the
 			//       handle instead of the actual object...
 			spos = new Vector((float) ((int) spos.X / snap) * snap,
-												(float) ((int) spos.Y / snap) * snap);
+			                  (float) ((int) spos.Y / snap) * snap);
 		}
 
 		return new RectangleF(spos.X, spos.Y,

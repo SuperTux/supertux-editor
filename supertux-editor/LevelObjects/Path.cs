@@ -103,4 +103,9 @@ public interface IPathObject {
 		get;
 		set;
 	}
+
+	/// <summary>If true it is possible to remove the path from the object.</summary>
+	bool PathRemovable {
+		get;
+	}
 }

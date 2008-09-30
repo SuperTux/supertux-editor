@@ -64,6 +64,10 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		}
 	}
 
+	public bool PathRemovable {
+		get { return true; }
+	}
+
 	public enum DrawTargets {
 		/// <summary>
 		/// Normal tilemap.
