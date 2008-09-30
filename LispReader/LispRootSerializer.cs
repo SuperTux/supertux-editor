@@ -156,7 +156,7 @@ namespace LispReader
 							}
 						}
 					} else {
-						LogManager.Log(LogLevel.DebugWarning, "Field '" + field.Name + "' is null");
+						LogManager.Log(LogLevel.Debug, "Field '" + field.Name + "' is null");
 					}
 				}
 

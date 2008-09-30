@@ -482,7 +482,7 @@ public sealed class WilloWisp : SimpleObject, IPathObject
 	[EditScriptSetting]
 	public string HitScript;
 
-	private Path path = new Path();
+	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
 	public Path Path {
 		get {
@@ -490,6 +490,25 @@ public sealed class WilloWisp : SimpleObject, IPathObject
 		}
 		set {
 			path = value;
+		}
+	}
+
+	public override void ChangeArea(RectangleF NewArea) {
+		base.ChangeArea(NewArea);
+		if (path != null) {
+			Vector translation = new Vector(NewArea.Left - Path.Nodes[0].X,
+			                                NewArea.Top - Path.Nodes[0].Y);
+			Path.Move(translation);
+		}
+	}
+
+	public override RectangleF Area {
+		get {
+			if (path != null) {
+				X = Path.Nodes[0].X;	//object is always at the first path node
+				Y = Path.Nodes[0].Y;
+			}
+			return base.Area;
 		}
 	}
 

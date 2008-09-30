@@ -301,6 +301,17 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 
 	private void OnEditPath(object o, EventArgs args)
 	{
+		IPathObject pathObject = (activeObject as IPathObject);
+		if (pathObject.Path == null) {
+			// We need to get area before or it may have changed due to adding
+			// the path.
+			IObject obj = (activeObject as IObject);
+			RectangleF area = obj.Area;
+			pathObject.Path = new Path();
+			pathObject.Path.Nodes.Add(new Path.Node());
+			// Move path to object.
+			pathObject.Path.Move(new Vector(area.Left, area.Top));
+		}
 		application.SetToolPath();
 	}
 
