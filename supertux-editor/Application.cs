@@ -81,7 +81,7 @@ public class Application : IEditorApplication {
 	private Tilemap tilemap;
 	private Level level;
 	private Sector sector;
-	private	LispSerializer serializer = new LispSerializer(typeof(Level));
+	private LispSerializer serializer = new LispSerializer(typeof(Level));
 	private string fileName;
 
 	public event LevelChangedEventHandler LevelChanged;
@@ -132,7 +132,7 @@ public class Application : IEditorApplication {
 
 
 	public bool SnapToGrid {
-		get{
+		get {
 			return snapToGrid;
 		}
 	}
@@ -145,6 +145,13 @@ public class Application : IEditorApplication {
 		set {
 			pathToEdit = value;
 			ToolPath.Sensitive = (pathToEdit != null);
+		}
+	}
+
+	private static IEditorApplication editorApplication;
+	public static IEditorApplication EditorApplication {
+		get {
+			return editorApplication;
 		}
 	}
 
@@ -234,6 +241,8 @@ public class Application : IEditorApplication {
 		UndoManager.OnAddCommand += OnUndoManager;
 		UndoManager.OnRedo += OnUndoManager;
 		UndoManager.OnUndo += OnUndoManager;
+
+		editorApplication = this;
 
 		PrintStatus("Welcome to Supertux-Editor.");
 	}

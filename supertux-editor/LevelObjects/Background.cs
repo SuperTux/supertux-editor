@@ -115,21 +115,40 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		Surface st = (surfaceTop != null)?(surfaceTop):(surface);
 		Surface sb = (surfaceBottom != null)?(surfaceBottom):(surface);
 
-		// TODO only draw tiles inside level and do draw all inside level
+		// TODO:
+		// * Calculate range for Y too in order to draw all inside level.
+		// * Clip images that are partially outside the sector to make the edges
+		//   "neat"? How?
 
-		for (int tileX = -10; tileX <= 10; tileX++) {
+		// This is quite a hack, since we can't get our parent sector.
+		// However we will only draw if we are the current sector, thus
+		// we get the size from the Application.
+		Gdk.Rectangle sectorbounds = new Gdk.Rectangle(0, 0,
+		                                               (int) Application.EditorApplication.CurrentSector.Width*32,
+		                                               (int) Application.EditorApplication.CurrentSector.Height*32);
+		// Calculate range to draw in. For these calculation we use the
+		// surface with the lowest width.
+		int minWidth = (int)Math.Min(sm.Width, Math.Min(st.Width, sb.Width));
+		// Calc min and max *tiles*.
+		int minX = -((int)this.X / minWidth);
+		// Fix rounding with integer division...
+		if (this.X > 0)
+			minX--;
+		int maxX = Math.Abs(sectorbounds.Width - (int)this.X) / minWidth;
+
+		for (int tileX = minX; tileX <= maxX; tileX++) {
 			for (int tileY = -10; tileY <= 0; tileY++) {
-				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + st.Width * tileX),
+				if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + st.Width * tileX),
 				                                              (int) (Y - st.Height + st.Height * tileY),
 				                                              (int) st.Width, (int) st.Height)))
 					st.Draw(new Vector(X + st.Width * tileX, Y - st.Height + st.Height * tileY));
 			}
-			if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sm.Width * tileX),
+			if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + sm.Width * tileX),
 			                                              (int) (Y),
 			                                              (int) sm.Width, (int) sm.Height)))
 				sm.Draw(new Vector(X + sm.Width * tileX, Y));
 			for (int tileY = 0; tileY <= 10; tileY++) {
-				if (cliprect.IntersectsWith(new Gdk.Rectangle((int) (X + sb.Width * tileX),
+				if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + sb.Width * tileX),
 				                                              (int) (Y + surface.Height + sb.Height * tileY),
 				                                              (int) sb.Width, (int) sb.Height)))
 					sb.Draw(new Vector(X + sb.Width * tileX, Y + surface.Height + sb.Height * tileY));
