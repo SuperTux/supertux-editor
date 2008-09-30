@@ -16,7 +16,7 @@ public class SpriteViewWidget : GLWidgetBase
 		window.SetSizeRequest( (int)sprite.Width, (int)sprite.Height);
 		window.Add(widget);
 		window.ShowAll();
-		return window;		
+		return window;
 	}
 
 	public SpriteViewWidget(Sprite sprite)
@@ -24,7 +24,7 @@ public class SpriteViewWidget : GLWidgetBase
 		this.sprite = sprite;
 		SetSizeRequest( (int)sprite.Width, (int)sprite.Height);
 	}
-	
+
 	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{

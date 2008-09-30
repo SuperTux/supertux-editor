@@ -35,4 +35,3 @@ public interface IDrawableLayer : ILayer
 {
 	SceneGraph.Node GetSceneGraphNode();
 }
-

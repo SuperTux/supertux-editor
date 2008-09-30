@@ -156,7 +156,7 @@ public sealed class Gradient : IGameObject, ILayer {
 		set {
 			layer = value;
 		}
-	}	
+	}
 
 	[ChooseColorSetting]
 	[LispChild("top_color")]

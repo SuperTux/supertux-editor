@@ -110,7 +110,7 @@ public sealed class Tile {
 		}
 		if( HasAttribute(Attribute.WATER) ){
 			result += "Water ";
-		}			
+		}
 		if( HasAttribute(Attribute.HURTS) ){
 			result += "Hurts ";
 		}
@@ -120,13 +120,13 @@ public sealed class Tile {
 
 		if( result == "" ){
 			result = "(none) ";
-		}	
+		}
 		return result;
 	}
-		
+
 	/// <summary>Returns a string describing the worldmap-tile's attributes in human readable form.</summary>
 	public string ParseWorldmapAttributes(){
-		string result = "";		
+		string result = "";
 		if( HasAttribute(Attribute.WORLDMAP_NORTH) ){
 			result += "North ";
 		}
@@ -145,10 +145,10 @@ public sealed class Tile {
 
 		if( result == "" ){
 			result = "(none) ";
-		}	
+		}
 		return result;
-	}	
-	
+	}
+
 	public List<ImageResource> Images;
 	private List<Surface> Surfaces;
 	public List<ImageResource> EditorImages;

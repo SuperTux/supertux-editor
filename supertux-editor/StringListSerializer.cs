@@ -38,7 +38,7 @@ public class StringListSerializer : ILispSerializer
 		for (int i = 1; i < list.Length; i++) {
 			obj.Add((string)list[i]);
 		}
-		
+
 		return obj;
 	}
 	/// <summary>

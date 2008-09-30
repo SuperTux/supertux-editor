@@ -236,7 +236,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 				application.PathToEdit = ((IPathObject) activeObject).Path;
 			else
 				application.PathToEdit = null;
-		
+
 			if(activeObject != null && activeObject.Resizable) {
 				controlPoints.Add(new ControlPoint(activeObject,
 					                           ControlPoint.AttachPoint.TOP | ControlPoint.AttachPoint.LEFT));

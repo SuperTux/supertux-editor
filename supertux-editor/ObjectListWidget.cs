@@ -52,12 +52,12 @@ public class ObjectListWidget : GLWidgetBase
 		DragBegin += OnDragBegin;
 		DragEnd += OnDragEnd;
 		ScrollEvent += OnScroll;
-		DragDataGet += OnDragDataGet;		
+		DragDataGet += OnDragDataGet;
 		application.LevelChanged += OnLevelChanged;
 		vadjustment = adjv;
 		vadjustment.ValueChanged += OnVAdjustmentChangedValue;
 	}
-	
+
 	/// <summary>Redraw Widget</summary>
 	protected override void DrawGl()
 	{
@@ -273,10 +273,10 @@ public class ObjectListWidget : GLWidgetBase
 			Atom[] Targets = args.Context.Targets;
 
 			foreach (Atom target in Targets){
-				if (target.Name == "BadguyName") 
+				if (target.Name == "BadguyName")
 					//TODO: Send only badguys into dispensers, no Doors, no Tilemaps..
 					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
-				//if (target.Name == "GameObject") 
+				//if (target.Name == "GameObject")
 				//no data transmitted
 			}
 		}
@@ -303,8 +303,8 @@ public class ObjectListWidget : GLWidgetBase
 	{
 		FirstRow = (int) vadjustment.Value;
 		QueueDraw();
-	}	
-	
+	}
+
 	/// <summary>Calculate TILES_PER_ROW, when we know how wide we are</summary>
 	private void OnSizeAllocated  (object o, SizeAllocatedArgs args)
 	{
@@ -312,7 +312,7 @@ public class ObjectListWidget : GLWidgetBase
 		ROWS_PER_PAGE = args.Allocation.Height / ROW_HEIGHT;
 		updateScrollbar();
 	}
-	
+
 	/// <summary>adjust the scrollbar</summary>
 	private void updateScrollbar()
 	{

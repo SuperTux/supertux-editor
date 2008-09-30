@@ -75,7 +75,7 @@ public sealed class ChooseLicenseWidget : CustomSettingsWidget {
 	protected override void OnFieldChanged(FieldOrProperty field) {
 		// set current value
 		string val = (string)Field.GetValue(Object);
-		comboBox.Entry.Text = val;		
+		comboBox.Entry.Text = val;
 	}
 }
 

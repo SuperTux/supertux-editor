@@ -244,17 +244,17 @@ public class Application : IEditorApplication {
 		box.Homogeneous = false;
 
 		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
-		
+
 		tileList = new TileListWidget(this, selection, vadjustment);
 		TilegroupSelector selector = new TilegroupSelector(this, tileList);
 
 		HBox hbox = new HBox(false, 0);
-		
+
 		VScrollbar scrollbar = new VScrollbar(vadjustment);
-		
+
 		hbox.PackStart(tileList, true, true, 0);
 		hbox.PackEnd(scrollbar, false, true, 0);
-		
+
 		box.PackStart(selector, false, true, 0);
 		box.PackStart(hbox, true, true, 0);
 
@@ -267,12 +267,12 @@ public class Application : IEditorApplication {
 
 		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
 		VScrollbar scrollbar = new VScrollbar(vadjustment);
-		
+
 		hbox.PackStart(new ObjectListWidget(this, vadjustment), true, true, 0);
 		hbox.PackEnd(scrollbar, false, true, 0);
 		return hbox;
-	}	
-	
+	}
+
 	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
 	{
 		if(func_name == "TileList") {
@@ -886,7 +886,7 @@ public class Application : IEditorApplication {
 		// FIXME: Inserting new items at run-time doesn't seem to have an effect. For now we simply don't remove any some there's at least something to click on
 
 /*
-		// remove all old MenuItems 
+		// remove all old MenuItems
 		MenuItemMruEntries.ForEach(delegate(MruEntry o){ MenuItemLevel_menu.Remove(o.MenuItem); });
 		MenuItemMruEntries.Clear();
 */
@@ -897,11 +897,11 @@ public class Application : IEditorApplication {
 			insertAt++;
 			if (w == MenuItemMruBegin) break;
 		}
-		
+
 		// add all new MenuItems
 		Settings.Instance.RecentDocuments.ForEach(delegate(string fileName){
 			string shortLabel = System.IO.Path.GetFileName(fileName);
-			
+
 			MruEntry e = new MruEntry();
 			e.MenuItem = new Gtk.MenuItem(shortLabel);
 			e.MenuItem.Activated += OnMruEntry;
@@ -979,7 +979,7 @@ public class Application : IEditorApplication {
 			Load(mruEntry.FileName);
 			break;
 		}
-		
+
 	}
 
 	public static void Main(string[] args)

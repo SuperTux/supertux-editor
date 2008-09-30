@@ -125,7 +125,7 @@ public sealed class Crystallo : SimpleDirObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
-	
+
 	public Crystallo() {
 		Sprite = SpriteManager.Create("images/creatures/crystallo/crystallo.sprite");
 		Sprite.Action = "left";
@@ -1182,7 +1182,7 @@ public sealed class RainParticles : IGameObject, ILayer
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = 0;
 	[LispChild("z-pos", Optional = true, Default = 0)]
-	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer	
+	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer
 }
 
 [SupertuxObject("particles-ghosts", "images/engine/editor/ghostparticles.png",
@@ -1192,7 +1192,7 @@ public sealed class GhostParticles : IGameObject, ILayer
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
-	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer	
+	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer
 }
 
 [SupertuxObject("particles-snow", "images/engine/editor/snow.png",
@@ -1202,7 +1202,7 @@ public sealed class SnowParticles : IGameObject, ILayer
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
-	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer	
+	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer
 }
 
 [SupertuxObject("particles-clouds", "images/engine/editor/clouds.png",
@@ -1212,7 +1212,7 @@ public sealed class CloudParticles : IGameObject, ILayer
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
-	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer	
+	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer
 }
 
 #endregion Particles

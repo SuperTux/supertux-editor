@@ -28,7 +28,7 @@ endif
 
 .phony: all clean
 
-all: supertux-editor.exe 
+all: supertux-editor.exe
 
 clean:
 	rm -f *.dll *.pkg.dummy supertux-editor.exe
@@ -36,13 +36,13 @@ clean:
 gtkgl-sharp.dll: \
 	$(wildcard gtkgl-sharp/*.cs) \
 	gtk-sharp-2.0.pkg.dummy \
-	
+
 Lisp.dll: \
 	$(wildcard Lisp/*.cs) \
-	
+
 Resources.dll: \
 	$(wildcard Resources/*.cs) \
-	
+
 libeditor.dll: \
 	$(wildcard libeditor/DataStructures/*.cs) $(wildcard libeditor/Libs/*.cs) $(wildcard libeditor/SceneGraph/*.cs) $(wildcard libeditor/Drawing/*.cs) $(wildcard libeditor/*.cs) \
 	$(wildcard libeditor/resources/*.png) $(wildcard libeditor/resources/*.glade) \
@@ -52,7 +52,7 @@ libeditor.dll: \
 LispReader.dll: \
 	$(wildcard LispReader/*.cs) \
 	Lisp.dll libeditor.dll \
-	
+
 supertux-editor.exe: \
 	$(wildcard supertux-editor/*.cs) $(wildcard supertux-editor/Sprites/*.cs) $(wildcard supertux-editor/Tiles/*.cs) $(wildcard supertux-editor/PropertyEditors/*.cs) $(wildcard supertux-editor/LevelObjects/*.cs) $(wildcard supertux-editor/Undo/*.cs) $(wildcard supertux-editor/Editors/*.cs) \
 	$(wildcard supertux-editor/resources/*.png) $(wildcard supertux-editor/resources/*.glade) \
@@ -68,5 +68,4 @@ supertux-editor.exe: \
 
 %.dll:
 	@echo MonoCSharp $@
-	$(Q)$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:library $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^) 
-
+	$(Q)$(GMCS) $(GMCSFLAGS) $(patsubst %.pkg.dummy,-pkg:%,$(filter %.pkg.dummy, $^)) -out:$@ -doc:$(patsubst %.dll,%.dll.xml,$@) -target:library $(patsubst %,-r:%,$(filter %.dll, $^)) $(patsubst %,-resource:%,$(filter %.png %.glade, $^)) $(filter %.cs, $^)

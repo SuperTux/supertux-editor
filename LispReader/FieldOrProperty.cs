@@ -11,7 +11,7 @@ namespace LispReader
 	/// <summary>
 	/// Oreginal base class (MemberInfo) can't Get/SetValue and this class allows it.
 	/// One code can work with FieldInfo or PropertyInfo as if there was no difference between them. + can raise event when Changed
-	/// It's a kind of hack, however, because we can't "rebase" a class. 
+	/// It's a kind of hack, however, because we can't "rebase" a class.
 	///</summary>
 	public abstract class FieldOrProperty
 	{

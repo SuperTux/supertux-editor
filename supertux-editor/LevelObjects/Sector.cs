@@ -240,6 +240,6 @@ public sealed class Sector : ICustomLispSerializer {
 			if(tmap.Height > height)
 				height = tmap.Height;
 			tmap.UpdatePos();
-			}	
+			}
 	}
 }

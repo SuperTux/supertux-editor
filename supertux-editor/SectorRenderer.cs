@@ -77,7 +77,7 @@ public sealed class SectorRenderer : RenderView
 		sector.ObjectAdded -= OnObjectAdded;
 		sector.ObjectRemoved -= OnObjectRemoved;
 		sector.SizeChanged -= OnSizeChanged;
-		application.TilemapChanged -= OnTilemapChanged;		
+		application.TilemapChanged -= OnTilemapChanged;
 		//TODO: It should be possible to iterate over all (currently present?) types that implements ILayer.. How?
 		FieldOrProperty.AnyFieldChanged += OnFieldChanged;
 	}

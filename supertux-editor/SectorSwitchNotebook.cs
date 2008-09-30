@@ -65,7 +65,7 @@ public class SectorSwitchNotebook : Notebook
 	private void OnSectorRenamed(object Object, FieldOrProperty field, object oldValue)
 	{
 		if (widgets.ContainsKey(Object))
-			SetTabLabelText (widgets[Object], (string) field.GetValue(Object));	
+			SetTabLabelText (widgets[Object], (string) field.GetValue(Object));
 	}
 
 	private void ClearTabList()

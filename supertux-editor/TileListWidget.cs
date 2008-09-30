@@ -25,9 +25,9 @@ public class TileListWidget : GLWidgetBase {
 	private int hovertile = -1;
 	private Vector StartPos;
 	private bool multiselectInProgress = false;
-	
+
 	private Adjustment vadjustment;
-	
+
 	private IEditorApplication application;
 
 	public TileListWidget(IEditorApplication application, Selection selection, Adjustment adjv)
@@ -51,7 +51,7 @@ public class TileListWidget : GLWidgetBase {
 
 		SizeAllocated += OnSizeAllocated;
 		application.LevelChanged += OnLevelChanged;
-		
+
 		vadjustment = adjv;
 		vadjustment.ValueChanged += OnVAdjustmentChangedValue;
 	}
@@ -87,7 +87,7 @@ public class TileListWidget : GLWidgetBase {
 
 		tilegroup = tileset.Tilegroups["All"];
 		updateScrollbar();
-		
+
 		QueueDraw();
 	}
 
@@ -96,13 +96,13 @@ public class TileListWidget : GLWidgetBase {
 		QueueDraw();
 
 		if( selection.Width == 1 && selection.Height == 1 ){
-			int selectedTileID = selection[0, 0]; 
+			int selectedTileID = selection[0, 0];
 			string attributes;
 			if( level.isWorldmap ){
 				attributes = tileset.Get( selectedTileID ).ParseWorldmapAttributes();
 			} else {
 				attributes = tileset.Get( selectedTileID ).ParseLevelAttributes();
-			}	
+			}
 			application.PrintStatus( "TileListWidget: Selected tile: " + selectedTileID + " Attributes: " + attributes);
 		} else if( selection.Width <= 0 || selection.Height <= 0 ){
 			application.PrintStatus( "TileListWidget: No tile selected tile." );
@@ -311,14 +311,14 @@ public class TileListWidget : GLWidgetBase {
 			args.RetVal = true;
 		}
 	}
-	
+
 	/// <summary>Vertical Scroll Bar was scrolled</summary>
 	private void OnVAdjustmentChangedValue(object sender, EventArgs e)
 	{
 		Translation = new Vector(0, (float) -vadjustment.Value);
 		QueueDraw();
-	}	
-	
+	}
+
 	/// <summary>adjust the scrollbar</summary>
 	private void updateScrollbar()
 	{

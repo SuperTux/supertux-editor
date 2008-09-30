@@ -190,7 +190,7 @@ public class Brush
 		int py = pos.Y - (int)(height/2);
 
 		TileBlock bestPattern = null;
-		
+
 		// if we find any usable pattern, we apply it
 		if (FindBestPattern(px, py, tilemap, ref bestPattern)) {
 			bestPattern.ApplyToTilemap(new FieldPos(px,py),tilemap);

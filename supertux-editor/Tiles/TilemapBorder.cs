@@ -19,7 +19,7 @@ public sealed class TilemapBorder : Node {
 		if (application.CurrentTilemap == null)
 			return;		//Stop, if we have no tilemap
 		if (application.CurrentTilemap.Width ==  application.CurrentSector.Width &&
-			application.CurrentTilemap.Width ==  application.CurrentSector.Width &&	
+			application.CurrentTilemap.Width ==  application.CurrentSector.Width &&
 			application.CurrentTilemap.X == 0 &&
 			application.CurrentTilemap.Y == 0)
 			return;		//Stop, if we have full-sized tilemap starting at [0,0]

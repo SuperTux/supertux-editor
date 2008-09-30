@@ -56,7 +56,7 @@ public class Path
 				Y = value.Y;
 			}
 		}
-		
+
 		public object Clone() {
 			return MemberwiseClone();
 		}

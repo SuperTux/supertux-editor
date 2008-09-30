@@ -61,7 +61,7 @@ public class PropertiesView : ScrolledWindow
 					wg.ChangeObject (NewObject);
 				this.Object = NewObject;
 				foreach (FieldOrProperty field in fieldTable)		//and also all self-managed widgets
-					OnFieldChanged(NewObject, field, null);				
+					OnFieldChanged(NewObject, field, null);
 					titleLabel.Markup = "<b>" + title + "</b>";
 			} else {
 				CreatePropertyWidgets(title, NewObject);

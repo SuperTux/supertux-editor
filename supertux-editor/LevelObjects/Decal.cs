@@ -76,7 +76,7 @@ public sealed class Decal : IGameObject, IObject, Node {
 	{
 		if (surface == null) return;
 		surface.Draw(new Vector(X, Y));
-		
+
 	}
 
 	public Node GetSceneGraphNode() {

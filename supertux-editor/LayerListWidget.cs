@@ -71,7 +71,7 @@ public class LayerListWidget : TreeView {
 	{
 		if (! (Object is ILayer)) //ignore changes on other objects
 			return;
-		if (! (field.Name=="Layer" || field.Name=="Name")) //ignore changes on other fields 
+		if (! (field.Name=="Layer" || field.Name=="Name")) //ignore changes on other fields
 			return;
 
 		//TODO: Is that sorting execute-once or what? (found no other working way)
@@ -117,7 +117,7 @@ public class LayerListWidget : TreeView {
 		if(o is ILayer) {
 			ILayer ILayer = (ILayer) o;
 			return ILayer.Layer;
-		}			
+		}
 		return int.MaxValue;
 	}
 
@@ -125,11 +125,11 @@ public class LayerListWidget : TreeView {
 	public int compareLayer(TreeModel model, TreeIter tia, TreeIter tib){
 		object objA = model.GetValue (tia, 0);
 		object objB = model.GetValue (tib, 0);
-		int a = getZPos(objA); 
+		int a = getZPos(objA);
 		int b = getZPos(objB);
-		return a.CompareTo(b); 
-     }	
-	
+		return a.CompareTo(b);
+     }
+
 	private void UpdateList()
 	{
 		visibility.Clear();
@@ -318,7 +318,7 @@ public class LayerListWidget : TreeView {
 			new ResizeDialog(sector, application.CurrentTilemap);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
-		}		
+		}
 	}
 
 	private void OnEditPath(object o, EventArgs args)

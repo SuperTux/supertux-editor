@@ -94,7 +94,7 @@ public class RenderView : GLWidgetBase
 			Gtk.Drag.Finish (args.Context, true, false, args.Time);
 		} else	{
 			LogManager.Log(LogLevel.Warning, "DragDataRecieved OK, but there is no editor that can handle it");
-			Gtk.Drag.Finish (args.Context, false, false, args.Time);			
+			Gtk.Drag.Finish (args.Context, false, false, args.Time);
 		}
 	}
 

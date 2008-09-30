@@ -29,7 +29,7 @@ public static class EditorStock
 
 		// HACK: This is needed to make tool icons show up on Windows, no idea why.
 		// TODO: test if this is still needed with additional SizeWildcarded.
-		// SizeWildcarded only gives fuzzy images, at least for stock-eye-12.png  
+		// SizeWildcarded only gives fuzzy images, at least for stock-eye-12.png
 		// It looks like windows are confusing large and small toolbar size ("SmallToolbar" causes 2x bigger buttons that "LargeToolbar"), bug in GTK for windows? bug in windows themselves?
 #if WINDOWS
 		Gtk.IconSize ToolBarIconSize = Gtk.IconSize.SmallToolbar;
@@ -65,7 +65,7 @@ public static class EditorStock
 			source.SizeWildcarded = true;
 			source.Pixbuf = img;
 			iconset.AddSource (source);
-			
+
 			stock.Add (stockid, iconset);
 		}
 	}
