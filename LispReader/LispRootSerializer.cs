@@ -79,6 +79,14 @@ namespace LispReader
 						} else {
 							field.SetValue(result, val);
 						}
+					} else if(field.Type == typeof(List<string>)) {
+						List<string> val = new List<string>();
+						if(!props.GetStringList(Name, val)) {
+							if(!ChildAttrib.Optional)
+								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+						} else {
+							field.SetValue(result, val);
+						}
 					} else {
 						ILispSerializer serializer = LispSerializer.GetSerializer(field.Type);
 						if(serializer == null)
