@@ -20,6 +20,12 @@ namespace LispReader
 			this.type = type;
 		}
 
+		private void CheckRequired(LispChildAttribute ChildAttrib)
+		{
+			if(!ChildAttrib.Optional)
+				LogManager.Log(LogLevel.Debug, "Required field '" + type.Name + "." + ChildAttrib.Name + "' was not declared in loded file.");
+		}
+
 		public object Read(List list)
 		{
 			object result = CreateObject(type);
@@ -34,56 +40,49 @@ namespace LispReader
 					if(field.Type == typeof(int)) {
 						int val = 0;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if(field.Type == typeof(string)) {
 						string val = null;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if(field.Type == typeof(float)) {
 						float val = 0;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if (field.Type.IsEnum) {
 						Enum val = null;
 						if (!props.Get(Name, ref val, field.Type)) {
-							if (!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if(field.Type == typeof(bool)) {
 						bool val = false;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if(field.Type == typeof(List<int>)) {
 						List<int> val = new List<int>();
 						if(!props.GetIntList(Name, val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
 					} else if(field.Type == typeof(List<string>)) {
 						List<string> val = new List<string>();
 						if(!props.GetStringList(Name, val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
 						}
@@ -94,8 +93,7 @@ namespace LispReader
 
 						List val = null;
 						if(!props.Get(Name, ref val)) {
-							if(!ChildAttrib.Optional)
-								LogManager.Log(LogLevel.Debug, "Field '" + Name + "' not in lisp");
+							CheckRequired(ChildAttrib);
 						} else {
 							object oval = serializer.Read(val);
 							field.SetValue(result, oval);
