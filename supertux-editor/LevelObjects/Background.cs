@@ -116,7 +116,6 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		Surface sb = (surfaceBottom != null)?(surfaceBottom):(surface);
 
 		// TODO:
-		// * Calculate range for Y too in order to draw all inside level.
 		// * Clip images that are partially outside the sector to make the edges
 		//   "neat"? How?
 
@@ -126,32 +125,54 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		Gdk.Rectangle sectorbounds = new Gdk.Rectangle(0, 0,
 		                                               (int) Application.EditorApplication.CurrentSector.Width*32,
 		                                               (int) Application.EditorApplication.CurrentSector.Height*32);
-		// Calculate range to draw in. For these calculation we use the
-		// surface with the lowest width.
-		int minWidth = (int)Math.Min(sm.Width, Math.Min(st.Width, sb.Width));
+
+		int minX;
+		int maxX;
+		int minY;
+		int maxY;
+
 		// Calc min and max *tiles*, including one *tile* overlap on both sides.
-		int minX = -((int)this.X / minWidth) - 1;
+		minX = -((int)this.X / (int)st.Width) - 1;
 		// Fix rounding with integer division...
 		if (this.X > 0)
 			minX--;
-		int maxX = Math.Abs(sectorbounds.Width - (int)this.X) / minWidth;
+		maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)st.Width;
+
+		minY = -((int)this.Y / (int)st.Height) - 1;
+		// Fix rounding with integer division...
+		if (this.Y > 0)
+			minY--;
+		maxY = -1;	//tile position 0 belongs to middle surface
 
 		for (int tileX = minX; tileX <= maxX; tileX++) {
-			for (int tileY = -10; tileY <= 0; tileY++) {
-				if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + st.Width * tileX),
-				                                              (int) (Y - st.Height + st.Height * tileY),
-				                                              (int) st.Width, (int) st.Height)))
-					st.Draw(new Vector(X + st.Width * tileX, Y - st.Height + st.Height * tileY));
+			for (int tileY = minY; tileY <= maxY; tileY++) {
+				st.Draw(new Vector(X + st.Width * tileX, Y + st.Height * tileY));
 			}
-			if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + sm.Width * tileX),
-			                                              (int) (Y),
-			                                              (int) sm.Width, (int) sm.Height)))
-				sm.Draw(new Vector(X + sm.Width * tileX, Y));
-			for (int tileY = 0; tileY <= 10; tileY++) {
-				if (sectorbounds.IntersectsWith(new Gdk.Rectangle((int) (X + sb.Width * tileX),
-				                                              (int) (Y + surface.Height + sb.Height * tileY),
-				                                              (int) sb.Width, (int) sb.Height)))
-					sb.Draw(new Vector(X + sb.Width * tileX, Y + surface.Height + sb.Height * tileY));
+		}
+
+		// Calc min and max *tiles*, including one *tile* overlap on both sides.
+		minX = -((int)this.X / (int)sm.Width) - 1;
+		// Fix rounding with integer division...
+		if (this.X > 0)
+			minX--;
+		maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)sm.Width;
+
+		for (int tileX = minX; tileX <= maxX; tileX++) {
+			sm.Draw(new Vector(X + sm.Width * tileX, Y));
+		}
+
+		// Calc min and max *tiles*, including one *tile* overlap on both sides.
+		minX = -((int)this.X / (int)sb.Width) - 1;
+		// Fix rounding with integer division...
+		if (this.X > 0)
+			minX--;
+		maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)sb.Width;
+
+		maxY = Math.Abs(sectorbounds.Height - (int)this.Y - (int)sm.Height) / (int)sb.Height;
+
+		for (int tileX = minX; tileX <= maxX; tileX++) {
+			for (int tileY = 0; tileY <= maxY; tileY++) {
+				sb.Draw(new Vector(X + sb.Width * tileX, Y + sm.Height + sb.Height * tileY));
 			}
 		}
 	}
