@@ -129,8 +129,8 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		// Calculate range to draw in. For these calculation we use the
 		// surface with the lowest width.
 		int minWidth = (int)Math.Min(sm.Width, Math.Min(st.Width, sb.Width));
-		// Calc min and max *tiles*.
-		int minX = -((int)this.X / minWidth);
+		// Calc min and max *tiles*, including one *tile* overlap on both sides.
+		int minX = -((int)this.X / minWidth) - 1;
 		// Fix rounding with integer division...
 		if (this.X > 0)
 			minX--;
