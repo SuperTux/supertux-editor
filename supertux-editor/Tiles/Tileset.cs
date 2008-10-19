@@ -213,16 +213,17 @@ public sealed class Tileset {
 		if(Props.Get("goal", ref val) && val)
 			Tile.Attributes |= Tile.Attribute.GOAL;
 
+	// TODO: Find out why are worldmap tile attributes stored in data(s)
 		if(Props.Get("north", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WORLDMAP_NORTH;
+			Tile.Data |= (int)Tile.Attribute.WORLDMAP_NORTH;
 		if(Props.Get("south", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WORLDMAP_SOUTH;
+			Tile.Data |= (int)Tile.Attribute.WORLDMAP_SOUTH;
 		if(Props.Get("west", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WORLDMAP_WEST;
+			Tile.Data |= (int)Tile.Attribute.WORLDMAP_WEST;
 		if(Props.Get("east", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WORLDMAP_EAST;
+			Tile.Data |= (int)Tile.Attribute.WORLDMAP_EAST;
 		if(Props.Get("stop", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WORLDMAP_STOP;
+			Tile.Data |= (int)Tile.Attribute.WORLDMAP_STOP;
 
 		Props.Get("data", ref Tile.Data);
 		Props.Get("anim-fps", ref Tile.AnimFps);

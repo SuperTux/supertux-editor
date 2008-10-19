@@ -38,6 +38,7 @@ public sealed class Tile {
 		FIRE      = 0x0800,
 
 
+	// TODO: Find out why are worldmap tile attributes stored in data(s)
 		// worldmap flags
 		WORLDMAP_NORTH = 0x0001,
 		WORLDMAP_SOUTH = 0x0002,
@@ -125,21 +126,22 @@ public sealed class Tile {
 	}
 
 	/// <summary>Returns a string describing the worldmap-tile's attributes in human readable form.</summary>
+	// TODO: Find out why are worldmap attributes stored in data(s)
 	public string ParseWorldmapAttributes(){
 		string result = "";
-		if( HasAttribute(Attribute.WORLDMAP_NORTH) ){
+		if( HasWMAttribute(Attribute.WORLDMAP_NORTH) ){
 			result += "North ";
 		}
-		if( HasAttribute(Attribute.WORLDMAP_SOUTH) ){
+		if( HasWMAttribute(Attribute.WORLDMAP_SOUTH) ){
 			result += "South ";
 		}
-		if( HasAttribute(Attribute.WORLDMAP_WEST) ){
+		if( HasWMAttribute(Attribute.WORLDMAP_WEST) ){
 			result += "West ";
 		}
-		if( HasAttribute(Attribute.WORLDMAP_EAST) ){
+		if( HasWMAttribute(Attribute.WORLDMAP_EAST) ){
 			result += "East ";
 		}
-		if( HasAttribute(Attribute.WORLDMAP_STOP) ){
+		if( HasWMAttribute(Attribute.WORLDMAP_STOP) ){
 			result += "Stop ";
 		}
 
@@ -159,6 +161,11 @@ public sealed class Tile {
 
 	public bool HasAttribute(Attribute Attrib) {
 		return (Attributes & Attrib) != 0;
+	}
+
+	// TODO: Find out why are worldmap tile attributes stored in data(s)
+	public bool HasWMAttribute(Attribute Attrib) {
+		return ((Attribute)Data & Attrib) != 0;
 	}
 
 	public void LoadSurfaces(string BaseDir, bool Editor) {
