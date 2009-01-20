@@ -20,7 +20,6 @@
 namespace Undo {
 
 	internal class PathShiftCommand : Command {
-		protected Path.Node changedPathNode;
 		/// <summary>
 		/// The Path the Node was/is in.
 		/// </summary>

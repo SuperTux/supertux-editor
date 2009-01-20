@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Application.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="LevelObjects\ILayer.cs" />
     <Compile Include="PropertyEditors\ChooseLicenseWidget.cs" />
     <Compile Include="QACheck.cs" />
     <Compile Include="PropertyEditors\ChooseSectorWidget.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="LevelObjects\Sector.cs" />
     <Compile Include="SectorRenderer.cs" />
     <Compile Include="SectorSwitchNotebook.cs" />
+    <Compile Include="SpriteViewWidget.cs" />
     <Compile Include="Tiles\Selection.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsDialog.cs" />
@@ -127,13 +129,13 @@
     <Compile Include="Tiles\TilemapBorder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="atk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gtksourceview-sharp, Version=1.0.0.2, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="pango-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -192,6 +194,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="resources\stock-tool-tiles-24.png">
       <LogicalName>stock-tool-tiles-24.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-tool-path-24.png">
+      <LogicalName>stock-tool-path-24.png</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="resources\stock-background-24.png">
       <LogicalName>stock-background-24.png</LogicalName>
