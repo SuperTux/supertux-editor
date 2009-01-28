@@ -1251,11 +1251,31 @@ public sealed class LevelTime : IGameObject
 
 [SupertuxObject("thunderstorm", "images/engine/editor/thunderstorm.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Thunderstorm : IGameObject
+public sealed class Thunderstorm : IGameObject, ILayer
 {
+	private string name = String.Empty;
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
+	public string Name {
+		get {
+			return name;
+		}
+		set {
+			name = value;
+		}
+	}
+
+	private int layer = -101;
+	[PropertyProperties(Tooltip = "Layer in which lightning appears.")]
+	[LispChild("layer", Optional = true, Default = -101)]
+	public int Layer {
+		get {
+			return layer;
+		}
+		set {
+			layer = value;
+		}
+	}
 
 	[PropertyProperties(Tooltip = "If enabled the thunderstorm will be running initially.")]
 	[LispChild("running", Optional = true, Default = true)]
