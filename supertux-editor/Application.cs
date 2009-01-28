@@ -30,6 +30,7 @@ public class Application : IEditorApplication {
 
 	private Widget ToolTilesProps;
 	private Widget ToolObjectsProps;
+	private Widget ToolGObjectsProps;
 
 	[Glade.Widget]
 	private Widget ToolBrushProps = null;
@@ -65,6 +66,9 @@ public class Application : IEditorApplication {
 
 	[Glade.Widget]
 	private Gtk.MenuItem MenuItemMruBegin = null; /* RecentDocument list will start after this item */
+
+	[Glade.Widget]
+	private Gtk.Frame fGObjects = null;
 
 	#endregion Glade
 
@@ -165,6 +169,8 @@ public class Application : IEditorApplication {
 
 		if (MainWindow == null)
 			throw new Exception("Couldn't resolve all widgets");
+
+		((GameObjectListWidget)ToolGObjectsProps).SetGtkFrame(fGObjects);
 
 		Tileset.LoadEditorImages = true;
 
@@ -298,7 +304,7 @@ public class Application : IEditorApplication {
 			return ToolObjectsProps;
 		}
 		if(func_name == "GObjectList") {
-			Widget ToolGObjectsProps = new GameObjectListWidget(this);
+			ToolGObjectsProps = new GameObjectListWidget(this);
 			return ToolGObjectsProps;
 		}
 		if(func_name == "SectorSwitchNotebook") {

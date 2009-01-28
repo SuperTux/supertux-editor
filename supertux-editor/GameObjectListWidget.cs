@@ -10,6 +10,7 @@ public class GameObjectListWidget : IconView
 	private IGameObject currentObject;
 	private IEditorApplication application;
 	private Sector sector;
+	private Gtk.Frame myFrame;
 
 	public GameObjectListWidget(IEditorApplication application)
 	{
@@ -19,6 +20,11 @@ public class GameObjectListWidget : IconView
 		TextColumn = COL_NAME;
 
 		application.SectorChanged += OnSectorChanged;
+	}
+
+	public void SetGtkFrame(Gtk.Frame myFrame)
+	{
+		this.myFrame = myFrame;
 	}
 
 	private void OnSectorChanged(Level level, Sector sector)
@@ -43,14 +49,20 @@ public class GameObjectListWidget : IconView
 
 	private void UpdateList()
 	{
+		bool found = false;
 		ListStore store = new ListStore(typeof(string), typeof(System.Object));
 		foreach(IGameObject Object in sector.GetObjects()) {
 			if (Object is ILayer)	//skip items moved into LayerListWidget
 				continue;
-			if(! (Object is IObject))
+			if (Object is Camera)	//skip Camera, it has Toolbar button and item in sectorSwitchNotebook context menu
+				continue;
+			if(! (Object is IObject)) {
 				store.AppendValues(Object.GetType().Name, Object);
+				found = true;
+			}
 		}
 		Model = store;
+		if (myFrame != null) myFrame.Visible = found;
 	}
 
 	[GLib.ConnectBefore]
