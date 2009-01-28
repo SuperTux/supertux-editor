@@ -16,6 +16,8 @@ public static class EditorStock
 	public static string ToolReplace = "ToolReplace";
 	public static string ToolPath = "ToolPath";
 	public static string Background = "Background";
+	public static string Camera = "gtk-missing-image";
+	public static string CameraMenuImage = "gtk-missing-image";
 	/// <summary>Icon for windows and dialogs</summary>
 	public static Gdk.Pixbuf WindowIcon;
 

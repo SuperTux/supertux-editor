@@ -58,6 +58,9 @@ public class Application : IEditorApplication {
 	private Gtk.ToolButton ToolButtonRedo = null;
 
 	[Glade.Widget]
+	private Gtk.ToolButton ToolButtonCamera = null;
+
+	[Glade.Widget]
 	private Gtk.Menu MenuItemLevel_menu = null; /* "Level" menu, contains MenuItemMruBegin */
 
 	[Glade.Widget]
@@ -199,6 +202,7 @@ public class Application : IEditorApplication {
 		ToolFill.StockId = EditorStock.ToolFill;
 		ToolReplace.StockId = EditorStock.ToolReplace;
 		ToolPath.StockId = EditorStock.ToolPath;
+		ToolButtonCamera.StockId = EditorStock.Camera;
 #endif
 
 		// Tool "Select" is selected by default - call its event handler
@@ -490,6 +494,7 @@ public class Application : IEditorApplication {
 		UpdateUndoButtons();
 		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
+		ToolButtonCamera.Sensitive=true;
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -529,6 +534,7 @@ public class Application : IEditorApplication {
 			UpdateTitlebar();
 			UpdateRecentDocuments();
 			UndoManager.MarkAsSaved();
+			ToolButtonCamera.Sensitive=true;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Error loading level", e);
 		}
@@ -972,6 +978,23 @@ public class Application : IEditorApplication {
 
 	public void OnRedo(object o, EventArgs args) {
 		Redo();
+	}
+
+	public void EditCurrentCamera() {
+		OnEditCamera(null, null);
+	}
+
+	public void OnEditCamera(object o, EventArgs args) {
+		Camera camera = null;
+		foreach(IGameObject Object in CurrentSector.GetObjects()) {
+			if (Object is Camera)
+				camera = (Camera) Object;
+		}
+		if (camera == null) {
+			camera = new Camera();
+			CurrentSector.Add(camera, true);
+		}
+		EditProperties(camera, "Camera");
 	}
 
 	/// <summary>Called when "Edit" menu is opened</summary>

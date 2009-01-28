@@ -188,11 +188,13 @@
 		      <signal name="activate" handler="OnSnap" last_modification_time="Thu, 06 Jul 2006 13:18:53 GMT"/>
 		    </widget>
 		  </child>
+
 		  <child>
 		    <widget class="GtkSeparatorMenuItem" id="separatorEdit">
 		      <property name="visible">True</property>
 		    </widget>
 		  </child>
+
 		  <child>
 		    <widget class="GtkImageMenuItem" id="Settings1">
 		      <property name="visible">True</property>
@@ -491,6 +493,36 @@
 
 	  <child>
 	    <widget class="GtkSeparatorToolItem" id="separatortoolitem3">
+	      <property name="visible">True</property>
+	      <property name="draw">True</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">False</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkToolButton" id="ToolButtonCamera">
+	      <property name="visible">True</property>
+	      <property name="tooltip" translatable="yes">Display camera properties in current sector</property>
+	      <property name="sensitive">False</property>
+	      <property name="stock_id">Camera</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	      <property name="is_important">False</property>
+	      <signal name="clicked" handler="OnEditCamera"/>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkSeparatorToolItem" id="separatortoolitem4">
 	      <property name="visible">True</property>
 	      <property name="draw">True</property>
 	      <property name="visible_horizontal">True</property>

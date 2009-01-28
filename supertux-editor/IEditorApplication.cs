@@ -15,6 +15,7 @@ public interface IEditorApplication
 	void SetToolFill();
 	void SetToolReplace();
 	void SetToolPath();
+	void EditCurrentCamera();
 	void EditProperties(object Object, string title);
 	void PrintStatus(string message);
 

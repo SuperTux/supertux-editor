@@ -118,6 +118,11 @@ public class SectorSwitchNotebook : Notebook
 		propertiesItem.Activated += OnPropertiesActivated;
 		popupMenu.Add(propertiesItem);
 
+		ImageMenuItem camPropsItem = new ImageMenuItem("Camera Properties");
+		camPropsItem.Activated += OnCameraPropertiesActivated;
+		//camPropsItem.Image = Image(EditorStock.CameraMenuImage); //TODO: find out how to set custom image
+		popupMenu.Add(camPropsItem);
+
 		MenuItem resizeItem = new MenuItem("Resize");
 		resizeItem.Activated += OnResizeActivated;
 		popupMenu.Add(resizeItem);
@@ -155,6 +160,11 @@ public class SectorSwitchNotebook : Notebook
 	private void OnPropertiesActivated(object o, EventArgs args)
 	{
 		application.EditProperties(sector, "Sector");
+	}
+
+	private void OnCameraPropertiesActivated(object o, EventArgs args)
+	{
+		application.EditCurrentCamera();
 	}
 
 	private void OnDeleteActivated(object o, EventArgs args)
