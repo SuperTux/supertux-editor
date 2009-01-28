@@ -111,7 +111,6 @@ public class GameObjectListWidget : IconView
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
 		}
-		application.PathToEdit = pathObject.Path;
 		application.SetToolPath();
 	}
 

@@ -73,7 +73,7 @@ public class Application : IEditorApplication {
 	private SectorSwitchNotebook sectorSwitchNotebook;
 	private PropertiesView propertiesView;
 	private Selection selection;
-	private Path pathToEdit;
+	private IPathObject iPathToEdit;
 
 	private uint printStatusContextID;
 	private uint printStatusMessageID;
@@ -140,16 +140,6 @@ public class Application : IEditorApplication {
 		}
 	}
 	private bool snapToGrid = true;
-
-	public Path PathToEdit {
-		get {
-			return pathToEdit;
-		}
-		set {
-			pathToEdit = value;
-			ToolPath.Sensitive = (pathToEdit != null);
-		}
-	}
 
 	private static IEditorApplication editorApplication;
 	public static IEditorApplication EditorApplication {
@@ -369,7 +359,6 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			PathToEdit = null;
 			SetEditor(new ObjectsEditor(this, CurrentSector));
 		}
 	}
@@ -381,7 +370,6 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = true;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			PathToEdit = null;
 			if (level == null) return;
 			SetEditor(new TilemapEditor(this, level.Tileset, selection));
 		}
@@ -394,7 +382,6 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = true;
 			ToolBrushProps.Visible = false;
-			PathToEdit = null;
 			SetEditor(new ObjectsEditor(this, CurrentSector));
 		}
 	}
@@ -406,7 +393,6 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = true;
-			PathToEdit = null;
 			SetEditor(new ObjectsEditor(this, CurrentSector));
 		}
 	}
@@ -418,7 +404,6 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = true;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			PathToEdit = null;
 			if (level == null) return;
 			SetEditor(new FillEditor(this, level.Tileset, selection));
 		}
@@ -431,14 +416,13 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = true;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			PathToEdit = null;
 			if (level == null) return;
 			SetEditor(new ReplaceEditor(this, level.Tileset, selection));
 		}
 	}
 
 	protected void OnToolPath(object o, EventArgs args) {
-		if (!ToolPath.Active || PathToEdit == null){
+		if (!ToolPath.Active || iPathToEdit == null){
 			ToolPath.Sensitive = false;
 		} else {
 			PrintStatus("Tool: Path editor");
@@ -447,7 +431,11 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new PathEditor(this, PathToEdit));
+			if (iPathToEdit.Path == null)
+				iPathToEdit.Path = new Path();
+			if (iPathToEdit.Path.Nodes.Count == 0)
+				iPathToEdit.Path.Nodes.Add(new Path.Node());
+			SetEditor(new PathEditor(this, iPathToEdit.Path));
 		}
 	}
 
@@ -818,7 +806,6 @@ public class Application : IEditorApplication {
 		if (sector == newSector)
 			return;		//ignore when there is no change
 		this.sector = newSector;
-		PathToEdit = null;
 		SectorChanged(level, newSector);
 		if (CurrentRenderer != null) {
 			// If there is no tool activated for this sector yet reset it to the Select tool.
@@ -891,6 +878,16 @@ public class Application : IEditorApplication {
 	public void EditProperties(object Object, string title)
 	{
 		propertiesView.SetObject(Object, title);
+
+		if (Object is Path || Object is Path.Node)
+			return;		//We want to keep currently edited IPathObject
+		if (Object is IPathObject) {
+			iPathToEdit = (IPathObject) Object;
+			ToolPath.Sensitive = true;
+		} else {
+			iPathToEdit = null;
+			ToolPath.Sensitive = false;
+		}
 	}
 
 	public void UpdateUndoButtons()
@@ -982,6 +979,14 @@ public class Application : IEditorApplication {
 
 	public void EditCurrentCamera() {
 		OnEditCamera(null, null);
+	}
+
+	public void DeleteCurrentPath() {
+		SetToolSelect();
+		Command command = new PropertyChangeCommand("Deleted path from " + iPathToEdit.GetType().ToString(),
+							FieldOrProperty.Lookup(iPathToEdit.GetType().GetProperty("Path")), iPathToEdit, null);
+		command.Do();
+		UndoManager.AddCommand(command);
 	}
 
 	public void OnEditCamera(object o, EventArgs args) {

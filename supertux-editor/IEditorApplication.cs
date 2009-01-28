@@ -16,6 +16,7 @@ public interface IEditorApplication
 	void SetToolReplace();
 	void SetToolPath();
 	void EditCurrentCamera();
+	void DeleteCurrentPath();
 	void EditProperties(object Object, string title);
 	void PrintStatus(string message);
 
@@ -38,12 +39,6 @@ public interface IEditorApplication
 	}
 
 	Tilemap CurrentTilemap {
-		get;
-		set;
-	}
-
-	/// <summary> Path that will be edited when user clicks PathTool button. </summary>
-	Path PathToEdit {
 		get;
 		set;
 	}

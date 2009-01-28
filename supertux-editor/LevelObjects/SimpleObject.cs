@@ -215,8 +215,10 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 
 	public override RectangleF Area {
 		get {
-			X = Path.Nodes[0].X;	//object is always at the first path node
-			Y = Path.Nodes[0].Y;
+			if (Path != null) {
+				X = Path.Nodes[0].X;	//object is always at the first path node
+				Y = Path.Nodes[0].Y;
+			}
 
 			return base.Area;
 		}

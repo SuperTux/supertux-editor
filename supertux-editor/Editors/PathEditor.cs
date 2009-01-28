@@ -209,7 +209,7 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
 		//Do not allow to delete already deleted node.
-		deleteItem.Sensitive = path.Nodes.Count > 1 && path.Nodes.IndexOf(selectedNode) > -1;
+		deleteItem.Sensitive = path.Nodes.IndexOf(selectedNode) > -1;
 		popupMenu.Append(deleteItem);
 
 		MenuItem shiftLeftItem = new ImageMenuItem(Stock.GoBack, null);
@@ -228,12 +228,16 @@ public sealed class PathEditor : EditorBase, IEditor, IEditorCursorChange, IDisp
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		Command command = new SortedListRemoveCommand<Path.Node>("Added Path node", path, field, selectedNode);
-		command.Do();
-		UndoManager.AddCommand(command);
-		selectedNode = null;
-		dragging = false;
-		Redraw();
+		if (path.Nodes.Count > 1) {
+			Command command = new SortedListRemoveCommand<Path.Node>("Deleted Path node", path, field, selectedNode);
+			command.Do();
+			UndoManager.AddCommand(command);
+			selectedNode = null;
+			dragging = false;
+			Redraw();
+		} else {
+			Application.EditorApplication.DeleteCurrentPath();
+		}
 	}
 
 	private void OnShiftLeft(object o, EventArgs args)

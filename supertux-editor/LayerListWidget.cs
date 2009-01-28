@@ -245,8 +245,6 @@ public class LayerListWidget : TreeView {
 		if(obj is Tilemap) {
 			if(obj != application.CurrentTilemap) {
 				application.CurrentTilemap = (Tilemap) obj;
-			if (obj is IPathObject)
-				application.PathToEdit = ((IPathObject) obj).Path;
 			}
 		} else {
 			if (obj == separatorObject)
