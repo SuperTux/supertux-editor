@@ -226,7 +226,7 @@ public class LayerListWidget : TreeView {
 			if (o == badguysObject)
 				TextRenderer.Text = "Objects";
 			else
-				TextRenderer.Text = "Background image";
+				TextRenderer.Text = "UNKNOWN";
 		}
 	}
 
