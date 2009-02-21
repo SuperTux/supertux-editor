@@ -1,7 +1,7 @@
 //  $Id$
 using LispReader;
 
-[SupertuxObject("camera", "images/engine/editor/camera.png")]
+[SupertuxObject("camera", "images/engine/editor/camera.png", Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class Camera : IGameObject, IPathObject {
 
 	/// <summary>
