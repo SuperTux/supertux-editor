@@ -8,7 +8,7 @@ using Gtk;
 using Gdk;
 using Undo;
 
-public sealed class ObjectsEditor : ObjectEditorBase, IEditor
+public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 {
 	private sealed class ControlPoint : IObject, Node
 	{
@@ -151,6 +151,12 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 	{
 		this.application = application;
 		this.sector = sector;
+		if (sector != null) sector.ObjectRemoved += OnObjectRemoved;
+	}
+
+	public void Dispose()
+	{
+		if (sector != null) sector.ObjectRemoved -= OnObjectRemoved;
 	}
 
 	public void Draw(Gdk.Rectangle cliprect)
@@ -254,6 +260,13 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		}
 	}
 
+	private void OnObjectRemoved(Sector sector, IGameObject Object) {
+		if (activeObject==Object) {
+			activeObject = null;
+			Redraw();
+		}
+	}
+
 	private void PopupMenu(int button)
 	{
 		if(! (activeObject is IGameObject))
@@ -336,8 +349,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor
 		if(activeObject == null)
 			return;
 		sector.Remove((IGameObject) activeObject);
-		activeObject = null;
-		Redraw();
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
