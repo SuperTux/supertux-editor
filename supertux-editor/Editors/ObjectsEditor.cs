@@ -195,6 +195,45 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		}
 	}
 
+	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
+	{
+		if(dragging) {
+			dragging = false;
+
+			if (mousePos != pressPoint) {
+				//moveStarted = false;
+				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
+					"Moved Object " + activeObject,
+					originalArea,
+					getNewPosition(mousePos, SnapValue(Modifiers)),
+					activeObject);
+				UndoManager.AddCommand(command);
+				moveObject(mousePos, SnapValue(Modifiers));
+			} else {
+				MakeActive(FindNext(mousePos));
+				Redraw();
+			}
+		}
+	}
+
+	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
+	{
+		if(dragging) {
+			//if (!moveStarted) {
+			//	application.TakeUndoSnapshot("Moved Object " + activeObject);
+			//	moveStarted = true;
+			//}
+			moveObject(mousePos, SnapValue(Modifiers));
+		}
+	}
+
+	private void moveObject(Vector mousePos, int snap)
+	{
+		RectangleF newArea = getNewPosition(mousePos, snap);
+		activeObject.ChangeArea(newArea);
+		Redraw();
+	}
+
 	private IObject FindNext(Vector pos)
 	{
 		foreach(ControlPoint point in controlPoints) {
@@ -349,45 +388,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		if(activeObject == null)
 			return;
 		sector.Remove((IGameObject) activeObject);
-	}
-
-	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
-	{
-		if(dragging) {
-			dragging = false;
-
-			if (mousePos != pressPoint) {
-				//moveStarted = false;
-				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
-					"Moved Object " + activeObject,
-					originalArea,
-					getNewPosition(mousePos, SnapValue(Modifiers)),
-					activeObject);
-				UndoManager.AddCommand(command);
-				moveObject(mousePos, SnapValue(Modifiers));
-			} else {
-				MakeActive(FindNext(mousePos));
-				Redraw();
-			}
-		}
-	}
-
-	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
-	{
-		if(dragging) {
-			//if (!moveStarted) {
-			//	application.TakeUndoSnapshot("Moved Object " + activeObject);
-			//	moveStarted = true;
-			//}
-			moveObject(mousePos, SnapValue(Modifiers));
-		}
-	}
-
-	private void moveObject(Vector mousePos, int snap)
-	{
-		RectangleF newArea = getNewPosition(mousePos, snap);
-		activeObject.ChangeArea(newArea);
-		Redraw();
 	}
 
 	private RectangleF getNewPosition(Vector mousePos, int snap) {
