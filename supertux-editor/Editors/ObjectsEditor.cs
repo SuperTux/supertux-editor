@@ -139,6 +139,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private IObject activeObject;
 	private Vector pressPoint;
+	private Vector mousePoint;	//used when drawing selections
 	private RectangleF originalArea;
 	private bool dragging;
 	private bool selecting;
@@ -160,17 +161,32 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
-		if(activeObject != null) {
-			IObject obj = activeObject;
-			if(obj is ControlPoint)
-				obj = ((ControlPoint) obj).Object;
+		if (selecting) {
+			gl.Color4f(0, 0.7f, 1, 0.7f);
+			gl.Disable(gl.TEXTURE_2D);
 
-			gl.Color4f(1, 0, 0, 0.7f);
-			obj.GetSceneGraphNode().Draw(cliprect);
+			gl.Begin(gl.QUADS);
+			gl.Vertex2f(pressPoint.X, pressPoint.Y);
+			gl.Vertex2f(mousePoint.X, pressPoint.Y);
+			gl.Vertex2f(mousePoint.X, mousePoint.Y);
+			gl.Vertex2f(pressPoint.X, mousePoint.Y);
+			gl.End();
+
+			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
-		}
-		foreach(ControlPoint point in controlPoints) {
-			point.Draw(cliprect);
+		} else {
+			if(activeObject != null) {
+				IObject obj = activeObject;
+				if(obj is ControlPoint)
+					obj = ((ControlPoint) obj).Object;
+
+				gl.Color4f(1, 0, 0, 0.7f);
+				obj.GetSceneGraphNode().Draw(cliprect);
+				gl.Color4f(1, 1, 1, 1);
+			}
+			foreach(ControlPoint point in controlPoints) {
+				point.Draw(cliprect);
+			}
 		}
 	}
 
@@ -189,19 +205,21 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 					originalArea = activeObject.Area;
 					dragging = true;
 				}
-
-				Redraw();
 			}
+
+			Redraw();
 		}
 		if (button == 3) {
 			if (dragging) {
 				activeObject.ChangeArea(originalArea);
 				dragging = false;
-				Redraw();
 			} else {
+				pressPoint = mousePos;
+				mousePoint = mousePos;
 				selecting = true;
-				Redraw();
 			}
+
+			Redraw();
 		}
 	}
 
@@ -225,11 +243,20 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		}
 		if (button == 3 && selecting) {
 			selecting = false;
-			if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
-				MakeActive(FindNext(mousePos));
+			if ((pressPoint - mousePos).Norm() < 10) {	//for moves within 10px circle around pressPoint show popup menu
+				if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+					MakeActive(FindNext(mousePos));
+					Redraw();
+				}
+				PopupMenu(button);
+			} else {
+				activeObject = null;
+				controlPoints.Clear();
+
+				//TODO: selecting code
+
 				Redraw();
 			}
-			PopupMenu(button);
 		}
 	}
 
@@ -237,6 +264,10 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	{
 		if(dragging) {
 			moveObject(mousePos, SnapValue(Modifiers));
+		}
+		if (selecting) {
+			mousePoint = mousePos;
+			Redraw();
 		}
 	}
 
