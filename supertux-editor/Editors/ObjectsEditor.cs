@@ -141,8 +141,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private Vector pressPoint;
 	private RectangleF originalArea;
 	private bool dragging;
-	// Used to make sure we just do undo snapshot when moving.
-	//private bool moveStarted;
+	private bool selecting;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
 
 	public event RedrawEventHandler Redraw;
@@ -177,31 +176,41 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if(button == 1 || button == 3) {
-			if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
-				MakeActive(FindNext(mousePos));
-			}
+		if (button == 1) {
+			if (selecting) {
+				selecting = false;
+			} else {
+				if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+					MakeActive(FindNext(mousePos));
+				}
 
-			if(activeObject != null && button == 1) {
-				pressPoint = mousePos;
-				originalArea = activeObject.Area;
-				dragging = true;
-			}
+				if(activeObject != null && button == 1) {
+					pressPoint = mousePos;
+					originalArea = activeObject.Area;
+					dragging = true;
+				}
 
-			Redraw();
+				Redraw();
+			}
 		}
-		if(button == 3) {
-			PopupMenu(button);
+		if (button == 3) {
+			if (dragging) {
+				activeObject.ChangeArea(originalArea);
+				dragging = false;
+				Redraw();
+			} else {
+				selecting = true;
+				Redraw();
+			}
 		}
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if(dragging) {
+		if (button == 1 && dragging) {
 			dragging = false;
 
 			if (mousePos != pressPoint) {
-				//moveStarted = false;
 				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
 					"Moved Object " + activeObject,
 					originalArea,
@@ -214,15 +223,19 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 				Redraw();
 			}
 		}
+		if (button == 3 && selecting) {
+			selecting = false;
+			if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+				MakeActive(FindNext(mousePos));
+				Redraw();
+			}
+			PopupMenu(button);
+		}
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if(dragging) {
-			//if (!moveStarted) {
-			//	application.TakeUndoSnapshot("Moved Object " + activeObject);
-			//	moveStarted = true;
-			//}
 			moveObject(mousePos, SnapValue(Modifiers));
 		}
 	}
@@ -394,10 +407,12 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		Vector spos = new Vector(originalArea.Left, originalArea.Top);
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
+			spos.X += snap / 2;	//PressPoint would be cutting edge instead of "center" without this correction
+			spos.Y += snap / 2;
 			// TODO: Get this right for area objects, they currently snap to the
 			//       handle instead of the actual object...
-			spos = new Vector((float) ((int) spos.X / snap) * snap,
-			                  (float) ((int) spos.Y / snap) * snap);
+			spos = new Vector((float) ((int) spos.X / snap) * snap - ((spos.X<0)?snap:0),
+			                  (float) ((int) spos.Y / snap) * snap - ((spos.Y<0)?snap:0));
 		}
 
 		return new RectangleF(spos.X, spos.Y,
