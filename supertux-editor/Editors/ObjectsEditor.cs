@@ -230,13 +230,16 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			dragging = false;
 
 			if (mousePos != pressPoint) {
-				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
-					"Moved Object " + activeObject,
-					originalArea,
-					getNewPosition(mousePos, SnapValue(Modifiers)),
-					activeObject);
-				UndoManager.AddCommand(command);
-				moveObject(mousePos, SnapValue(Modifiers));
+				RectangleF newArea = getNewPosition(mousePos, SnapValue(Modifiers));
+				if (originalArea != newArea) {
+					ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
+						"Moved Object " + activeObject,
+						originalArea,
+						newArea,
+						activeObject);
+					UndoManager.AddCommand(command);
+					moveObject(mousePos, SnapValue(Modifiers));
+				}
 			} else {
 				MakeActive(FindNext(mousePos));
 				Redraw();
