@@ -186,9 +186,11 @@ public sealed class SectorRenderer : RenderView
 
 			QueueDraw();
 		}
-		if (field.Name == "X" || field.Name == "Y") {	//Something has been moved.
+
+		PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
+				field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
+		if (propertyProperties != null && propertyProperties.RedrawOnChange)	//Every property that affects appearance is marked using this attribute
 			QueueDraw();
-		}
 	}
 
 	public void OnSizeChanged(Sector sector)

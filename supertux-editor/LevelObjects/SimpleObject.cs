@@ -10,10 +10,10 @@ using SceneGraph;
 
 /// <summary>Base class for objects in levels</summary>
 public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
-	[PropertyProperties(Tooltip = "X position of object")]
+	[PropertyProperties(Tooltip = "X position of object", RedrawOnChange = true)]
 	[LispChild("x")]
 	public float X;
-	[PropertyProperties(Tooltip = "Y position of object")]
+	[PropertyProperties(Tooltip = "Y position of object", RedrawOnChange = true)]
 	[LispChild("y")]
 	public float Y;
 
@@ -146,7 +146,7 @@ public abstract class SimpleDirObject : SimpleObject
 	/// <summary>
 	/// Direction the badguy will be facing initially.
 	/// </summary>
-	[PropertyProperties(Tooltip = "Direction the badguy will be facing initially.")]
+	[PropertyProperties(Tooltip = "Direction the badguy will be facing initially.", RedrawOnChange = true)]
 	[LispChild("direction", Optional = true, Default = Directions.auto)]
 	public Directions Direction {
 		get {
@@ -172,6 +172,7 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -237,10 +238,10 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 /// <summary>Base class for area objects in levels</summary>
 public abstract class SimpleObjectArea : SimpleObject
 {
-	[PropertyProperties(Tooltip = "How wide the object is.")]
+	[PropertyProperties(Tooltip = "How wide the object is.", RedrawOnChange = true)]
 	[LispChild("width")]
 	public float Width = 32;
-	[PropertyProperties(Tooltip = "How high the object is.")]
+	[PropertyProperties(Tooltip = "How high the object is.", RedrawOnChange = true)]
 	[LispChild("height")]
 	public float Height = 32;
 

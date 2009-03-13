@@ -18,9 +18,14 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 	public string Tooltip = String.Empty;
 
 	/// <summary>
-	/// If true this object is hidden from the <see cref="PropertiesView"/>.
+	/// If true this property is hidden from the <see cref="PropertiesView"/>.
 	/// </summary>
 	public bool Hidden = false;
+
+	/// <summary>
+	/// If true and this property changes, it causes redraw in <see cref="SectorRenderer"/>.
+	/// </summary>
+	public bool RedrawOnChange = false;
 
 	public PropertyPropertiesAttribute() {
 	}

@@ -56,6 +56,7 @@ public sealed class SupertuxObjectAttribute : Attribute
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrBomb : SimpleDirObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -358,7 +359,7 @@ public sealed class Dispenser : SimpleDirObject
 	private DispenserTypes dispenserType = DispenserTypes.dropper;
 	private List<string> badguy = new List<string>();
 
-	[PropertyProperties(Tooltip = "Type of dispenser to shoot from.")]
+	[PropertyProperties(Tooltip = "Type of dispenser.", RedrawOnChange = true)]
 	[LispChild("type", Optional = true, Default = DispenserTypes.dropper)]
 	public DispenserTypes DispenserType {
 		get {
@@ -655,6 +656,7 @@ public sealed class SpawnPoint : SimpleObject {
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Firefly : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -817,6 +819,7 @@ public sealed class Candle : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Switch : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -970,6 +973,7 @@ public sealed class HurtingPlatform : SimplePathObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class UnstableTile : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -1022,6 +1026,7 @@ public sealed class InfoBlock : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Powerup : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -1054,6 +1059,7 @@ public sealed class ScriptedObject : SimpleObject
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name")]
 	public string Name = String.Empty;
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
