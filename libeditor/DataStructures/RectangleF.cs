@@ -46,6 +46,14 @@ namespace DataStructures
 			Right = Left + Width;
 		}
 
+		public RectangleF(Vector v1, Vector v2)
+		{
+			Top =    (v1.Y < v2.Y)?v1.Y:v2.Y;
+			Left =   (v1.X < v2.X)?v1.X:v2.X;
+			Bottom = (v1.Y > v2.Y)?v1.Y:v2.Y;
+			Right =  (v1.X > v2.X)?v1.X:v2.X;
+		}
+
 		public void Move(Vector vec)
 		{
 			Left += vec.X;
@@ -62,6 +70,11 @@ namespace DataStructures
 		public bool Contains(Vector v)
 		{
 			return v.X >= Left && v.X < Right && v.Y >= Top && v.Y < Bottom;
+		}
+
+		public bool Contains(RectangleF rect)
+		{
+			return rect.Left >= Left && rect.Right <= Right && rect.Top >= Top && rect.Bottom <= Bottom;
 		}
 
 		public static bool operator ==(RectangleF r1, RectangleF r2) {

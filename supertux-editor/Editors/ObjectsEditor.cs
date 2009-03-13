@@ -144,6 +144,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private bool dragging;
 	private bool selecting;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
+	private List<IObject> selectedObjects = new List<IObject>();
 
 	public event RedrawEventHandler Redraw;
 
@@ -161,7 +162,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
-		if (selecting) {
+		if (selecting && (pressPoint - mousePoint).Norm() >= 10) {
 			gl.Color4f(0, 0.7f, 1, 0.7f);
 			gl.Disable(gl.TEXTURE_2D);
 
@@ -175,8 +176,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
 		} else {
-			if(activeObject != null) {
-				IObject obj = activeObject;
+			foreach(IObject selectedObject in selectedObjects) {
+				IObject obj = selectedObject;
 				if(obj is ControlPoint)
 					obj = ((ControlPoint) obj).Object;
 
@@ -244,17 +245,31 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		if (button == 3 && selecting) {
 			selecting = false;
 			if ((pressPoint - mousePos).Norm() < 10) {	//for moves within 10px circle around pressPoint show popup menu
-				if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+				bool hit = false;
+				foreach (IObject selectedObject in selectedObjects) {
+					hit |= selectedObject.Area.Contains(mousePos);
+				}				
+				if (!hit) {
 					MakeActive(FindNext(mousePos));
 					Redraw();
 				}
-				PopupMenu(button);
+				if (hit || activeObject != null)	//Show popup menu when clicked on object (from selection or new one)
+					PopupMenu(button);
 			} else {
 				activeObject = null;
+				selectedObjects.Clear();
 				controlPoints.Clear();
 
-				//TODO: selecting code
-
+				RectangleF selectedArea = new RectangleF(pressPoint, mousePos);
+				foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
+					if (selectedArea.Contains(Object.Area)) {
+						selectedObjects.Add(Object);
+					}
+				}
+				if (selectedObjects.Count == 1)		//show properties
+					application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
+				else
+					application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
 				Redraw();
 			}
 		}
@@ -314,6 +329,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	{
 		if (activeObject != Object) {		//ignore MakeActive(activeObject)
 			activeObject = Object;
+			selectedObjects.Clear();
+			selectedObjects.Add(Object);
 
 			if(! (activeObject is ControlPoint)) {
 				if(activeObject != null)
@@ -341,29 +358,42 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			}
 			application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 		}
+		if (Object == null)
+			selectedObjects.Clear();	//Ensure empty list when making active null object (temporary and intended fix)
 	}
 
 	private void OnObjectRemoved(Sector sector, IGameObject Object) {
 		if (activeObject==Object) {
 			activeObject = null;
+		}
+		if (selectedObjects.Contains(Object as IObject)) {
+			selectedObjects.Remove(Object as IObject);
 			Redraw();
 		}
 	}
 
 	private void PopupMenu(int button)
 	{
-		if(! (activeObject is IGameObject))
+		if(selectedObjects.Count == 0)
 			return;
+
+		if(activeObject is ControlPoint)
+			return;
+
+		bool groupCloneable = true;	//foreach cycle to get required statistics
+		foreach (IObject selectedObject in selectedObjects) {
+			groupCloneable &= selectedObject is ICloneable;
+		}
 
 		Menu popupMenu = new Menu();
 
 		MenuItem cloneItem = new MenuItem("Clone");
 		cloneItem.Activated += OnClone;
-		cloneItem.Sensitive = activeObject is ICloneable;
+		cloneItem.Sensitive = groupCloneable;
 		popupMenu.Append(cloneItem);
 
-		if(activeObject is IPathObject) {
-			IPathObject pathObject = (IPathObject) activeObject;
+		if(selectedObjects.Count == 1 && selectedObjects[0] is IPathObject) {
+			IPathObject pathObject = (IPathObject) selectedObjects[0];
 
 			MenuItem editPathItem = new MenuItem("Edit Path");
 			editPathItem.Activated += OnEditPath;
@@ -387,25 +417,24 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private void OnClone(object o, EventArgs args)
 	{
-		if(activeObject == null)
-			return;
-
-		try {
-			object newObject = ((ICloneable) activeObject).Clone();
-			IGameObject gameObject = (IGameObject) newObject;
-			sector.Add(gameObject, gameObject.GetType().Name + " (clone)");
-		} catch(Exception e) {
-			ErrorDialog.Exception(e);
+		List<IObject> Objects = new List<IObject>(selectedObjects);
+		foreach (IGameObject selectedObject in Objects)
+			try {
+				object newObject = ((ICloneable) selectedObject).Clone();
+				IGameObject gameObject = (IGameObject) newObject;
+				sector.Add(gameObject, gameObject.GetType().Name + " (clone)");
+			} catch(Exception e) {
+				ErrorDialog.Exception(e);
 		}
 	}
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) activeObject;
+		IPathObject pathObject = (IPathObject) selectedObjects[0];
 		if (pathObject.Path == null) {
 			// We need to get area before or it may have changed due to adding
 			// the path.
-			RectangleF area = activeObject.Area;
+			RectangleF area = selectedObjects[0].Area;
 			pathObject.Path = new Path();
 			pathObject.Path.Nodes.Add(new Path.Node());
 			// Move path to object.
@@ -416,11 +445,11 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private void OnDeletePath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) activeObject;
+		IPathObject pathObject = (IPathObject) selectedObjects[0];
 		if (pathObject.Path != null) {
-			Command command = new PropertyChangeCommand("Removed path from " + activeObject,
+			Command command = new PropertyChangeCommand("Removed path from " + selectedObjects[0],
 				LispReader.FieldOrProperty.Lookup(typeof(IPathObject).GetProperty("Path")),
-				activeObject,
+				selectedObjects[0],
 				null);
 			command.Do();
 			UndoManager.AddCommand(command);
@@ -429,9 +458,9 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private void OnDelete(object o, EventArgs args)
 	{
-		if(activeObject == null)
-			return;
-		sector.Remove((IGameObject) activeObject);
+		List<IObject> Objects = new List<IObject>(selectedObjects);
+		foreach (IGameObject selectedObject in Objects)
+			sector.Remove(selectedObject);
 	}
 
 	private RectangleF getNewPosition(Vector mousePos, int snap) {
