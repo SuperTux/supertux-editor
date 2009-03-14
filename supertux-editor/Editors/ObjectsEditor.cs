@@ -162,7 +162,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
-		if (selecting && (pressPoint - mousePoint).Norm() >= 10) {
+		if (selecting) {
 			gl.Color4f(0, 0.7f, 1, 0.7f);
 			gl.Disable(gl.TEXTURE_2D);
 
@@ -175,19 +175,19 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 			gl.Enable(gl.TEXTURE_2D);
 			gl.Color4f(1, 1, 1, 1);
-		} else {
-			foreach(IObject selectedObject in selectedObjects) {
-				IObject obj = selectedObject;
-				if(obj is ControlPoint)
-					obj = ((ControlPoint) obj).Object;
+		}
 
-				gl.Color4f(1, 0, 0, 0.7f);
-				obj.GetSceneGraphNode().Draw(cliprect);
-				gl.Color4f(1, 1, 1, 1);
-			}
-			foreach(ControlPoint point in controlPoints) {
-				point.Draw(cliprect);
-			}
+		foreach(IObject selectedObject in selectedObjects) {
+			IObject obj = selectedObject;
+			if(obj is ControlPoint)
+				obj = ((ControlPoint) obj).Object;
+
+			gl.Color4f(1, 0, 0, 0.7f);
+			obj.GetSceneGraphNode().Draw(cliprect);
+			gl.Color4f(1, 1, 1, 1);
+		}
+		foreach(ControlPoint point in controlPoints) {
+			point.Draw(cliprect);
 		}
 	}
 
@@ -197,8 +197,26 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			if (selecting) {
 				selecting = false;
 			} else {
-				if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
-					MakeActive(FindNext(mousePos));
+				if ((Modifiers & ModifierType.ControlMask) != 0) {
+					IObject clickedObject = FindNext(mousePos);
+					if (clickedObject != null && clickedObject is IGameObject)
+						if (selectedObjects.Contains(clickedObject))
+							selectedObjects.Remove(clickedObject);
+						else
+							selectedObjects.Add(clickedObject);
+
+					if (selectedObjects.Count == 1)	{	//show properties
+						MakeActive(selectedObjects[0]);
+						//application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
+					} else {
+						activeObject = null;
+						controlPoints.Clear();
+						application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
+					}
+				} else {
+					if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
+						MakeActive(FindNext(mousePos));
+					}
 				}
 
 				if(activeObject != null && button == 1) {
@@ -241,8 +259,10 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 					moveObject(mousePos, SnapValue(Modifiers));
 				}
 			} else {
-				MakeActive(FindNext(mousePos));
-				Redraw();
+				if ((Modifiers & ModifierType.ControlMask) == 0) {
+					MakeActive(FindNext(mousePos));
+					Redraw();
+				}
 			}
 		}
 		if (button == 3 && selecting) {
@@ -259,20 +279,26 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 				if (hit || activeObject != null)	//Show popup menu when clicked on object (from selection or new one)
 					PopupMenu(button);
 			} else {
-				activeObject = null;
-				selectedObjects.Clear();
-				controlPoints.Clear();
+				if ((Modifiers & ModifierType.ControlMask) == 0)	//Flush selected objects if it's not CTRL+select
+					selectedObjects.Clear();
 
 				RectangleF selectedArea = new RectangleF(pressPoint, mousePos);
 				foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
 					if (selectedArea.Contains(Object.Area)) {
-						selectedObjects.Add(Object);
+						if (selectedObjects.Contains(Object))
+							selectedObjects.Remove(Object);
+						else
+							selectedObjects.Add(Object);
 					}
 				}
-				if (selectedObjects.Count == 1)		//show properties
-					application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
-				else
+				if (selectedObjects.Count == 1)	{	//show properties
+					MakeActive(selectedObjects[0]);
+					//application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
+				} else {
+					activeObject = null;
+					controlPoints.Clear();
 					application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
+				}
 				Redraw();
 			}
 		}
