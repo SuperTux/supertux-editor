@@ -238,6 +238,14 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		}
 		if (button == 3) {
 			if (dragging) {
+				Vector shift = new Vector (originalArea.Left - activeObject.Area.Left, originalArea.Top - activeObject.Area.Top);
+				foreach (IObject selectedObject in selectedObjects)
+					if (selectedObject != activeObject) {	//Shift area for all other objects in list
+						RectangleF Area = selectedObject.Area;
+						Area.Move(shift);
+						selectedObject.ChangeArea(Area);
+					}
+
 				activeObject.ChangeArea(originalArea);
 				dragging = false;
 			} else {
