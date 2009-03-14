@@ -215,7 +215,15 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 					}
 				} else {
 					if (activeObject == null || !activeObject.Area.Contains(mousePos)) {
-						MakeActive(FindNext(mousePos));
+						activeObject = null;
+						foreach (IObject selectedObject in selectedObjects) {	//try to find "master object" for multi-dragging
+							if (selectedObject.Area.Contains(mousePos)) {
+								activeObject = selectedObject;
+								break;
+							}
+						}
+						if (activeObject == null)
+							MakeActive(FindNext(mousePos));
 					}
 				}
 
@@ -247,17 +255,30 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		if (button == 1 && dragging) {
 			dragging = false;
 
-			if (mousePos != pressPoint) {
-				RectangleF newArea = getNewPosition(mousePos, SnapValue(Modifiers));
-				if (originalArea != newArea) {
-					ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
-						"Moved Object " + activeObject,
-						originalArea,
-						newArea,
-						activeObject);
-					UndoManager.AddCommand(command);
-					moveObject(mousePos, SnapValue(Modifiers));
-				}
+			RectangleF newArea = activeObject.Area;		//Area is up to date, no need to calculate it again
+			if (originalArea != newArea) {
+				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
+					"Moved Object " + activeObject,
+					originalArea,
+					newArea,
+					activeObject);
+				UndoManager.AddCommand(command);
+
+				Vector totalShift = new Vector (newArea.Left - originalArea.Left, newArea.Top - originalArea.Top);
+				foreach (IObject selectedObject in selectedObjects)
+					if (selectedObject != activeObject) {	//That one is already shifted
+
+						RectangleF oldArea = selectedObject.Area;	//copy new area to variable
+						oldArea.Move(-totalShift);				//and shift it to it's oreginal location
+						command = new ObjectAreaChangeCommand(
+							"Moved Object " + activeObject,
+							oldArea,
+							selectedObject.Area,			//We are already on new area
+							selectedObject);
+						UndoManager.AddCommand(command);
+					}
+
+				Redraw();
 			} else {
 				if ((Modifiers & ModifierType.ControlMask) == 0) {
 					MakeActive(FindNext(mousePos));
@@ -318,6 +339,15 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private void moveObject(Vector mousePos, int snap)
 	{
 		RectangleF newArea = getNewPosition(mousePos, snap);
+
+		Vector shift = new Vector (newArea.Left - activeObject.Area.Left, newArea.Top - activeObject.Area.Top);
+		foreach (IObject selectedObject in selectedObjects)
+			if (selectedObject != activeObject) {	//Shift area for all other objects in list
+				RectangleF Area = selectedObject.Area;
+				Area.Move(shift);
+				selectedObject.ChangeArea(Area);
+			}
+
 		activeObject.ChangeArea(newArea);
 		Redraw();
 	}
@@ -358,8 +388,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	{
 		if (activeObject != Object) {		//ignore MakeActive(activeObject)
 			activeObject = Object;
-			selectedObjects.Clear();
-			selectedObjects.Add(Object);
 
 			if(! (activeObject is ControlPoint)) {
 				if(activeObject != null)
@@ -387,6 +415,9 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			}
 			application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
 		}
+
+		selectedObjects.Clear();
+		selectedObjects.Add(Object);
 		if (Object == null)
 			selectedObjects.Clear();	//Ensure empty list when making active null object (temporary and intended fix)
 	}
