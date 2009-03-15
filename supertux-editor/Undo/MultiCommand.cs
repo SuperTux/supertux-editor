@@ -17,13 +17,14 @@
 //  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 //  02111-1307, USA.
 
+using System.Collections.Generic;
 namespace Undo {
 
 	internal sealed class MultiCommand : Command {
 		/// <summary>
 		/// List of commands in this group.
 		/// </summary>
-		protected List<Command> commandList;
+		private List<Command> commandList;
 
 		public override void Do() {
 			foreach (Command command in commandList)
@@ -35,7 +36,7 @@ namespace Undo {
 				command.Undo();
 		}
 
-		protected ObjectCommand(string title, List<Command> commandList)
+		public MultiCommand(string title, List<Command> commandList)
 			: base(title) {
 			this.commandList = commandList;
 		}

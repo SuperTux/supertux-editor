@@ -265,13 +265,8 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 			RectangleF newArea = activeObject.Area;		//Area is up to date, no need to calculate it again
 			if (originalArea != newArea) {
-				ObjectAreaChangeCommand command = new ObjectAreaChangeCommand(
-					"Moved Object " + activeObject,
-					originalArea,
-					newArea,
-					activeObject);
-				UndoManager.AddCommand(command);
-
+				Command command;
+				List<Command> commandList = new List<Command>();
 				Vector totalShift = new Vector (newArea.Left - originalArea.Left, newArea.Top - originalArea.Top);
 				foreach (IObject selectedObject in selectedObjects)
 					if (selectedObject != activeObject) {	//That one is already shifted
@@ -283,8 +278,20 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 							oldArea,
 							selectedObject.Area,			//We are already on new area
 							selectedObject);
-						UndoManager.AddCommand(command);
+						commandList.Add(command);
 					}
+
+				command = new ObjectAreaChangeCommand(
+					"Moved Object " + activeObject,
+					originalArea,
+					newArea,
+					activeObject);
+				commandList.Add(command);
+
+				if (commandList.Count > 1)	//If there are more items, then create multicommand, otherwise keep single one
+					command = new MultiCommand("Moved " + commandList.Count.ToString() + " objects", commandList);
+
+				UndoManager.AddCommand(command);//All commands are already done.. no need to do that again
 
 				Redraw();
 			} else {
@@ -346,17 +353,16 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private void moveObject(Vector mousePos, int snap)
 	{
-		RectangleF newArea = getNewPosition(mousePos, snap);
+		Vector newPosition = getNewPosition(mousePos, snap);
+		Vector oldPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);
+		Vector shift = newPosition - oldPosition;
 
-		Vector shift = new Vector (newArea.Left - activeObject.Area.Left, newArea.Top - activeObject.Area.Top);
-		foreach (IObject selectedObject in selectedObjects)
-			if (selectedObject != activeObject) {	//Shift area for all other objects in list
-				RectangleF Area = selectedObject.Area;
-				Area.Move(shift);
-				selectedObject.ChangeArea(Area);
-			}
+		foreach (IObject selectedObject in selectedObjects) {
+			RectangleF Area = selectedObject.Area;
+			Area.Move(shift);
+			selectedObject.ChangeArea(Area);
+		}
 
-		activeObject.ChangeArea(newArea);
 		Redraw();
 	}
 
@@ -531,7 +537,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			sector.Remove(selectedObject);
 	}
 
-	private RectangleF getNewPosition(Vector mousePos, int snap) {
+	private Vector getNewPosition(Vector mousePos, int snap) {
 		Vector spos = new Vector(originalArea.Left, originalArea.Top);
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
@@ -543,8 +549,6 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 			                  (float) ((int) spos.Y / snap) * snap - ((spos.Y<0)?snap:0));
 		}
 
-		return new RectangleF(spos.X, spos.Y,
-		                      originalArea.Width,
-		                      originalArea.Height);
+		return spos;
 	}
 }
