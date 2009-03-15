@@ -124,6 +124,7 @@
     <Compile Include="LevelObjects\WorldmapObjects.cs" />
     <Compile Include="Undo\PathNodeCommands.cs" />
     <Compile Include="Undo\SortedListCommands.cs" />
+    <Compile Include="Undo\MultiCommand.cs" />
     <Compile Include="Undo\TilemapModifyCommand.cs" />
     <Compile Include="PropertyEditors\ChooseBadguyWidget.cs" />
     <Compile Include="Tiles\TilemapBorder.cs" />

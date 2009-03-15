@@ -1,6 +1,6 @@
 //  $Id$
 //
-//  Copyright (C) 2008 Milos Kloucek <TuxMMlosh@elektromaniak.wz.cz>
+//  Copyright (C) 2008 Milos Kloucek <TuxMMlosh [AT] elektromaniak [DOT] wz [DOT] cz>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License

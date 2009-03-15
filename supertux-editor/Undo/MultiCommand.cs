@@ -1,6 +1,6 @@
 //  $Id$
 //
-//  Copyright (C) 2008 Milos Kloucek <TuxMMlosh [AT] elektromaniak [DOT] wz [DOT] cz>
+//  Copyright (C) 2009 Milos Kloucek <TuxMMlosh [AT] elektromaniak [DOT] wz [DOT] cz>
 //
 //  This program is free software; you can redistribute it and/or
 //  modify it under the terms of the GNU General Public License
@@ -19,29 +19,25 @@
 
 namespace Undo {
 
-	internal class PathShiftCommand : Command {
+	internal sealed class MultiCommand : Command {
 		/// <summary>
-		/// The Path the Node was/is in.
+		/// List of commands in this group.
 		/// </summary>
-		protected Path changedPath;
-		/// <summary>
-		/// The shift delta.
-		/// </summary>
-		protected int delta;
+		protected List<Command> commandList;
 
 		public override void Do() {
-			changedPath.Shift(delta);
+			foreach (Command command in commandList)
+				command.Do();
 		}
 
 		public override void Undo() {
-			changedPath.Shift(-delta);
+			foreach (Command command in commandList)
+				command.Undo();
 		}
 
-		public PathShiftCommand(string title, Path changedPath, int delta)
+		protected ObjectCommand(string title, List<Command> commandList)
 			: base(title) {
-			this.delta = delta;
-			this.changedPath = changedPath;
+			this.commandList = commandList;
 		}
 	}
-
 }
