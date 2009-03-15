@@ -139,12 +139,25 @@ public sealed class Sector : ICustomLispSerializer {
 
 	public void Add(IGameObject Object, string type, bool NoUndo)
 	{
+		Command command = null;
+		Add(Object, type, NoUndo, ref command);
+		if (!NoUndo)
+			UndoManager.AddCommand(command);
+	}
+
+	//use this one if you want to handle resulting undo command yourself
+	public void Add(IGameObject Object, string type, ref Command command)
+	{
+		Add(Object, type, false, ref command);
+	}
+
+	private void Add(IGameObject Object, string type, bool NoUndo, ref Command command)
+	{
 		if (!NoUndo) {
-			ObjectAddCommand command = new ObjectAddCommand(
+			command = new ObjectAddCommand(
 				"Created Object '" + type + "'",
 				Object,
 				this);
-			UndoManager.AddCommand(command);
 		}
 		GameObjects.Add(Object);
 		try {
@@ -160,12 +173,23 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void Remove(IGameObject Object, bool NoUndo) {
+		Command command = null;
+		Remove(Object, NoUndo, ref command);
+		if (!NoUndo)
+			UndoManager.AddCommand(command);
+	}
+
+	//use this one if you want to handle resulting undo command yourself
+	public void Remove(IGameObject Object, ref Command command) {
+		Remove(Object, false, ref command);
+	}
+
+	private void Remove(IGameObject Object, bool NoUndo, ref Command command) {
 		if (!NoUndo) {
-			ObjectRemoveCommand command = new ObjectRemoveCommand(
+			command = new ObjectRemoveCommand(
 				"Delete Object " + Object,
 				Object,
 				this);
-			UndoManager.AddCommand(command);
 		}
 		GameObjects.Remove(Object);
 		try {

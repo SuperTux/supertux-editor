@@ -427,7 +427,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 				controlPoints.Add(new ControlPoint(activeObject,
 					                           ControlPoint.AttachPoint.BOTTOM | ControlPoint.AttachPoint.RIGHT));
 			}
-			application.PrintStatus("ObjectsEditor:MakeActive(" + activeObject + ")");
+			LogManager.Log(LogLevel.Debug, "ObjectsEditor:MakeActive(" + activeObject + ")");
 		}
 
 		selectedObjects.Clear();
@@ -492,14 +492,20 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private void OnClone(object o, EventArgs args)
 	{
 		List<IObject> Objects = new List<IObject>(selectedObjects);
+		List<Command> commands = new List<Command>();
+		Command command = null;
 		foreach (IGameObject selectedObject in Objects)
 			try {
 				object newObject = ((ICloneable) selectedObject).Clone();
 				IGameObject gameObject = (IGameObject) newObject;
-				sector.Add(gameObject, gameObject.GetType().Name + " (clone)");
+				sector.Add(gameObject, gameObject.GetType().Name + " (clone)", ref command);
+				commands.Add(command);
 			} catch(Exception e) {
 				ErrorDialog.Exception(e);
 		}
+		if (commands.Count > 1)
+			command = new MultiCommand("Cloned " + commands.Count.ToString() + " objects", commands);
+		UndoManager.AddCommand(command);
 	}
 
 	private void OnEditPath(object o, EventArgs args)
@@ -533,8 +539,15 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private void OnDelete(object o, EventArgs args)
 	{
 		List<IObject> Objects = new List<IObject>(selectedObjects);
-		foreach (IGameObject selectedObject in Objects)
-			sector.Remove(selectedObject);
+		List<Command> commands = new List<Command>();
+		Command command = null;
+		foreach (IGameObject selectedObject in Objects) {
+			sector.Remove(selectedObject, ref command);
+			commands.Add(command);
+		}
+		if (commands.Count > 1)
+			command = new MultiCommand("Deleted " + commands.Count.ToString() + " objects", commands);
+		UndoManager.AddCommand(command);
 	}
 
 	private Vector getNewPosition(Vector mousePos, int snap) {
