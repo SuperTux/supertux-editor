@@ -871,6 +871,7 @@ public sealed class Ispy : SimpleDirObject
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
+	[PropertyProperties(Tooltip = "Enables 3rd state of ispy (and ignores left/right setting)", RedrawOnChange = true)]
 	[LispChild("facing-down", Optional = true, Default = false)]
 	public bool FacingDown {
 		get {
