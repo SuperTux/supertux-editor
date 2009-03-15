@@ -201,6 +201,9 @@
     <EmbeddedResource Include="resources\stock-background-24.png">
       <LogicalName>stock-background-24.png</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="resources\stock-camera-24.png">
+      <LogicalName>stock-camera-24.png</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Include="resources\supertux-editor.png">
       <LogicalName>supertux-editor.png</LogicalName>
     </EmbeddedResource>

@@ -15,9 +15,8 @@ public static class EditorStock
 	public static string ToolFill = "ToolFill";
 	public static string ToolReplace = "ToolReplace";
 	public static string ToolPath = "ToolPath";
-	public static string Background = "Background";
-	public static string Camera = "gtk-missing-image";
-	public static string CameraMenuImage = "gtk-missing-image";
+	public static string Camera = "Camera";
+	public static string CameraMenuImage = "Camera";
 	/// <summary>Icon for windows and dialogs</summary>
 	public static Gdk.Pixbuf WindowIcon;
 
@@ -45,6 +44,7 @@ public static class EditorStock
 		AddIcon(ToolFill, ToolBarIconSize, "stock-tool-fill-24.png");
 		AddIcon(ToolReplace, ToolBarIconSize, "stock-tool-replace-24.png");
 		AddIcon(ToolPath, ToolBarIconSize, "stock-tool-path-24.png");
+		AddIcon(Camera, ToolBarIconSize, "stock-camera-24.png");
 
 		stock.AddDefault();
 	}
