@@ -140,7 +140,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	private IObject activeObject;	//This can be also called like "drag master object"
 	private Vector pressPoint;
 	private Vector mousePoint;	//used when drawing selections
-	private RectangleF originalArea;
+	private Vector originalPosition;
 	private bool dragging;
 	private bool selecting;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
@@ -229,7 +229,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 				if(activeObject != null && button == 1) {		//start drag if we have activeObject
 					pressPoint = mousePos;
-					originalArea = activeObject.Area;
+					originalPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);
 					dragging = true;
 				}
 			}
@@ -238,15 +238,12 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		}
 		if (button == 3) {
 			if (dragging) {				//both buttons => drag canceled => calculate current delta and shift all objects back
-				Vector shift = new Vector (originalArea.Left - activeObject.Area.Left, originalArea.Top - activeObject.Area.Top);
-				foreach (IObject selectedObject in selectedObjects)
-					if (selectedObject != activeObject) {		//Shift area for all other objects in list
-						RectangleF Area = selectedObject.Area;
-						Area.Move(shift);
-						selectedObject.ChangeArea(Area);
-					}
-
-				activeObject.ChangeArea(originalArea);
+				Vector shift = originalPosition - new Vector (activeObject.Area.Left, activeObject.Area.Top);
+				foreach (IObject selectedObject in selectedObjects) { 	//Shift area for all other objects in list
+					RectangleF Area = selectedObject.Area;
+					Area.Move(shift);
+					selectedObject.ChangeArea(Area);
+				}
 				dragging = false;
 			} else {							//R click => initiate drag-select
 				pressPoint = mousePos;
@@ -263,30 +260,21 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 		if (button == 1 && dragging) {
 			dragging = false;
 
-			RectangleF newArea = activeObject.Area;				//Area is up to date, no need to calculate it again
-			if (originalArea != newArea) {
-				Command command;
+			Vector newPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);//Area is up to date, no need to calculate it again
+			if (originalPosition != newPosition) {
+				Command command = null;
 				List<Command> commandList = new List<Command>();
-				Vector totalShift = new Vector (newArea.Left - originalArea.Left, newArea.Top - originalArea.Top);
-				foreach (IObject selectedObject in selectedObjects)
-					if (selectedObject != activeObject) {			//That one is already shifted
-
-						RectangleF oldArea = selectedObject.Area;	//copy new area to variable
-						oldArea.Move(-totalShift);			//	and shift it to it's oreginal location
-						command = new ObjectAreaChangeCommand(
-							"Moved Object " + activeObject,
-							oldArea,
-							selectedObject.Area,			//We are already on new area
-							selectedObject);
-						commandList.Add(command);
-					}
-
-				command = new ObjectAreaChangeCommand(
-					"Moved Object " + activeObject,
-					originalArea,
-					newArea,
-					activeObject);
-				commandList.Add(command);
+				Vector totalShift = newPosition - originalPosition;
+				foreach (IObject selectedObject in selectedObjects) {
+					RectangleF oldArea = selectedObject.Area;			//copy new area to variable
+					oldArea.Move(-totalShift);					//	and shift it to it's oreginal location
+					command = new ObjectAreaChangeCommand(
+						"Moved Object " + selectedObject,
+						oldArea,
+						selectedObject.Area,					//We are already on new area
+						selectedObject);
+					commandList.Add(command);
+				}
 
 				if (commandList.Count > 1)			//If there are more items, then create multiCommand, otherwise keep single one
 					command = new MultiCommand("Moved " + commandList.Count.ToString() + " objects", commandList);
@@ -508,17 +496,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) selectedObjects[0];
-		if (pathObject.Path == null) {
-			// We need to get area before or it may have changed due to adding
-			// the path.
-			RectangleF area = selectedObjects[0].Area;
-			pathObject.Path = new Path();
-			pathObject.Path.Nodes.Add(new Path.Node());
-			// Move path to object.
-			pathObject.Path.Move(new Vector(area.Left, area.Top));
-		}
-		application.SetToolPath();
+		application.SetToolPath();					//iPathToEdit is set when calling "EditProperties()" and already contains "selectedObjects[0]"
 	}
 
 	private void OnDeletePath(object o, EventArgs args)
@@ -549,7 +527,7 @@ public sealed class ObjectsEditor : ObjectEditorBase, IEditor, IDisposable
 	}
 
 	private Vector getNewPosition(Vector mousePos, int snap) {
-		Vector spos = new Vector(originalArea.Left, originalArea.Top);
+		Vector spos = originalPosition;
 		spos += mousePos - pressPoint;
 		if (snap > 0) {
 			spos.X += snap / 2;					//PressPoint would be cutting edge instead of "center" without this correction

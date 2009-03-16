@@ -437,10 +437,14 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			if (iPathToEdit.Path == null)
-				iPathToEdit.Path = new Path();
-			if (iPathToEdit.Path.Nodes.Count == 0)
-				iPathToEdit.Path.Nodes.Add(new Path.Node());
+			if (iPathToEdit.Path == null) {					// Create new path if we have invalid one
+				Path path = new Path();
+				Path.Node pathNode = new Path.Node();
+				if (iPathToEdit is IObject)				// Move it to object => preserve it's position (if applicable).
+					pathNode.Pos = new Vector(((IObject)iPathToEdit).Area.Left, ((IObject)iPathToEdit).Area.Top);
+				path.Nodes.Add(pathNode);
+				iPathToEdit.Path = path;
+			}
 			SetEditor(new PathEditor(this, iPathToEdit.Path));
 		}
 	}
