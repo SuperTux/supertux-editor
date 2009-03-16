@@ -321,12 +321,7 @@ public class LayerListWidget : TreeView {
 
 	private void OnEditPath(object o, EventArgs args)
 	{
-		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
-		if (pathObject.Path == null) {
-			pathObject.Path = new Path();
-			pathObject.Path.Nodes.Add(new Path.Node());
-		}
-		application.SetToolPath();
+		application.SetToolPath();					//iPathToEdit is set when calling "EditProperties()" and already contains active Tilemap
 	}
 
 	private void OnDeletePath(object o, EventArgs args)
