@@ -916,13 +916,9 @@ public class Application : IEditorApplication {
 	}
 
 	private void UpdateRecentDocuments() {
-		// FIXME: Inserting new items at run-time doesn't seem to have an effect. For now we simply don't remove any some there's at least something to click on
-
-/*
 		// remove all old MenuItems
 		MenuItemMruEntries.ForEach(delegate(MruEntry o){ MenuItemLevel_menu.Remove(o.MenuItem); });
 		MenuItemMruEntries.Clear();
-*/
 
 		// find out where to insert the MenuItems
 		int insertAt = 0;
@@ -941,6 +937,7 @@ public class Application : IEditorApplication {
 			e.FileName = fileName;
 			MenuItemMruEntries.Add(e);
 			MenuItemLevel_menu.Insert(e.MenuItem, insertAt);
+			e.MenuItem.Show();			//everything is hidden when created...
 		});
 
 	}
