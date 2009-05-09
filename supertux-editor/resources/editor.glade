@@ -261,16 +261,17 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkMenuItem" id="tool1">
+	    <widget class="GtkMenuItem" id="MenuTool">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">_Tool</property>
 	      <property name="use_underline">True</property>
+	      <signal name="activate" handler="OnMenuTool"/>
 
 	      <child>
 		<widget class="GtkMenu" id="tool1_menu">
 
 		  <child>
-		    <widget class="GtkMenuItem" id="select1">
+		    <widget class="GtkMenuItem" id="MenuItemToolSelect">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Select</property>
 		      <property name="use_underline">True</property>
@@ -280,7 +281,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="tiles1">
+		    <widget class="GtkMenuItem" id="MenuItemToolTiles">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Tiles</property>
 		      <property name="use_underline">True</property>
@@ -290,7 +291,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="objects1">
+		    <widget class="GtkMenuItem" id="MenuItemToolObjects">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Objects</property>
 		      <property name="use_underline">True</property>
@@ -300,7 +301,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="brush1">
+		    <widget class="GtkMenuItem" id="MenuItemToolBrush">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Brush</property>
 		      <property name="use_underline">True</property>
@@ -309,7 +310,7 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="fill1">
+		    <widget class="GtkMenuItem" id="MenuItemToolFill">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Fill</property>
 		      <property name="use_underline">True</property>
@@ -318,11 +319,20 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkMenuItem" id="replace1">
+		    <widget class="GtkMenuItem" id="MenuItemToolReplace">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">Replace</property>
 		      <property name="use_underline">True</property>
 		      <signal name="activate" handler="OnMenuToolReplace" last_modification_time="Fri, 16 Jun 2006 00:47:58 GMT"/>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkMenuItem" id="MenuItemToolPath">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">Path editor</property>
+		      <property name="use_underline">True</property>
+		      <signal name="activate" handler="OnMenuToolPath"/>
 		    </widget>
 		  </child>
 		</widget>

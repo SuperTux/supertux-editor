@@ -53,6 +53,9 @@ public class Application : IEditorApplication {
 	private Gtk.MenuItem MenuItemRedo = null;
 
 	[Glade.Widget]
+	private Gtk.MenuItem MenuItemToolPath = null;
+
+	[Glade.Widget]
 	private Gtk.ToolButton ToolButtonUndo = null;
 
 	[Glade.Widget]
@@ -334,6 +337,12 @@ public class Application : IEditorApplication {
 
 	#region Tool Button Handlers
 
+	/// <summary>Called when "Tool" menu is opened to update sensitivites</summary>
+	public void OnMenuTool(object o, EventArgs args)
+	{
+		MenuItemToolPath.Sensitive = ToolPath.Sensitive;
+	}
+
 	protected void OnMenuToolSelect(object o, EventArgs args) {
 		ToolSelect.Active = true;
 	}
@@ -356,6 +365,10 @@ public class Application : IEditorApplication {
 
 	protected void OnMenuToolReplace(object o, EventArgs args) {
 		ToolReplace.Active = true;
+	}
+
+	protected void OnMenuToolPath(object o, EventArgs args) {
+		ToolPath.Active = true;
 	}
 
 	protected void OnToolSelect(object o, EventArgs args) {
