@@ -9,7 +9,7 @@ using SceneGraph;
 public sealed class Background : IGameObject, Node, IDrawableLayer {
 	public string Name {
 		get {
-			return "BG Image";
+			return "Background IMG";
 		}
 	}
 
