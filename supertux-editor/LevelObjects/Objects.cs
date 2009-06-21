@@ -296,6 +296,24 @@ public sealed class MrRocket : SimpleDirObject
 	}
 }
 
+[SupertuxObject("dart", "images/creatures/dart/dart.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Dart : SimpleDirObject
+{
+	public Dart() {
+		Sprite = SpriteManager.Create("images/creatures/dart/dart.sprite");
+		Sprite.Action = "flying-left";
+	}
+
+	protected override void DirectionChanged () {
+		if (direction == Directions.right) {
+			Sprite.Action = "flying-right";
+		} else {
+			Sprite.Action = "flying-left";
+		}
+	}
+}
+
 [SupertuxObject("snail", "images/creatures/snail/snail.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Snail : SimpleDirObject
