@@ -208,7 +208,7 @@ public class Application : IEditorApplication {
 		OnToolSelect(null, null);
 
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
-		if(Settings.Instance.LastDirectoryName == null){
+		if (!Directory.Exists(Settings.Instance.LastDirectoryName)){	//noexistent (or null) LastDirectoryName, resetting to default
 			if( Settings.Instance.SupertuxData != null ){
 				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData + "levels" + System.IO.Path.DirectorySeparatorChar;
 			} else {
