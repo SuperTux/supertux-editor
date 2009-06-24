@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Gtk;
+using Gdk;
 using Glade;
 using Sdl;
 using Drawing;
@@ -20,6 +21,11 @@ public class Application : IEditorApplication {
 
 	/// <summary>Original <see cref="MainWindow"/> title, read from .glade ressource</summary>
 	private string MainWindowTitlePrefix;
+
+	//allow incomming URIs (0 = no limitations, 0 = ID 0)
+	public static TargetEntry [] target_table = new TargetEntry[] {
+		new TargetEntry("text/uri-list", 0, 0)
+	};
 
 	#region Glade
 	[Glade.Widget]
@@ -206,6 +212,11 @@ public class Application : IEditorApplication {
 
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
+
+		//Setup drag destination for "files"
+		Gtk.Drag.DestSet (MainWindow, Gtk.DestDefaults.All,
+		                    target_table, DragAction.Copy);
+		MainWindow.DragDataReceived += OnDragDataReceived;
 
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
 		if (!Directory.Exists(Settings.Instance.LastDirectoryName)){	//noexistent (or null) LastDirectoryName, resetting to default
@@ -1048,6 +1059,22 @@ public class Application : IEditorApplication {
 			break;
 		}
 
+	}
+
+	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
+	{
+		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
+
+		if (!ChangeConfirm("load a new level"))
+		{
+			Gtk.Drag.Finish (args.Context, false, false, args.Time);
+			return;
+		}
+
+		string uri = data.Substring(7, data.Length - 9);			//cut "file://" prefix and last two characters
+		Load(uri);		//load the level
+
+		Gtk.Drag.Finish (args.Context, true, false, args.Time);
 	}
 
 	public static void Main(string[] args)
