@@ -273,11 +273,10 @@ public class BadguyChooserWidget : GLWidgetBase, ICustomSettingsWidget, IDisposa
 
 	private void OnDragBegin(object o, DragBeginArgs args)
 	{
-		//TODO: set dragged icon here
-
 		if (SelectedObjectNr > -1){
 			draggedID = SelectedObjectNr;
 			draggedBadguy = badguys[SelectedObjectNr];
+			Gtk.Drag.SetIconWidget( args.Context, SpriteViewWidget.CreateWindow(badguySprites[draggedBadguy]), -15, -15);
 
 			dragging = true;
 		}
