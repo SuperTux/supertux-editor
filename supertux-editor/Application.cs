@@ -215,7 +215,7 @@ public class Application : IEditorApplication {
 
 		//Setup drag destination for "files"
 		Gtk.Drag.DestSet (MainWindow, Gtk.DestDefaults.All,
-		                    target_table, DragAction.Copy);
+		                    target_table, DragAction.Default | DragAction.Copy | DragAction.Move | DragAction.Link | DragAction.Private | DragAction.Ask );
 		MainWindow.DragDataReceived += OnDragDataReceived;
 
 		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
@@ -1064,7 +1064,7 @@ public class Application : IEditorApplication {
 	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
 	{
 		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
-
+		data += "\r\n";
 		LogManager.Log(LogLevel.Debug, "Drag&Drop Uri-list received: {0}", data);
 
 		int index = 0;		//index of first letter in filename
@@ -1073,7 +1073,7 @@ public class Application : IEditorApplication {
 			// repeat until there's existing file that ends ".stl" or ".stwm"
 		while (! (File.Exists(filename) && (filename.Substring(filename.Length - 4) == ".stl" || filename.Substring(filename.Length - 5) == ".stwm")))
 		{
-			index = data.IndexOf("file://", index);						//move pointer to next "file://"
+			index = data.IndexOf("file:", index);						//move pointer to next "file:"
 
 			if (index == -1)
 			{
@@ -1081,8 +1081,8 @@ public class Application : IEditorApplication {
 				Gtk.Drag.Finish (args.Context, false, false, args.Time);
 				return;
 			}
-			index += 7;									//move pointer after next "file://" to reach filename
-			string uri = data.Substring(index, data.IndexOf('\n', index) - index - 1);
+			index += 5;									//move pointer after next "file:" to reach filename
+			string uri = data.Substring(index, data.IndexOf('\n', index) - index -1 );
 			filename = Uri.UnescapeDataString(uri);						//convert excape sequences ("%2b" = "+") to normal text 
 			LogManager.Log(LogLevel.Debug, "		Found filename: {0}", filename);
 		}

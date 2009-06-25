@@ -1,16 +1,17 @@
-<Project name="supertux-editor" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+<Project name="supertux-editor" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" targetFramework="2.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../" assembly="supertux-editor" />
       <Build debugmode="True" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Csc" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <EnvironmentVariables />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="../" assembly="supertux-editor" />
       <Build debugmode="False" target="Exe" />
       <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
@@ -97,7 +98,6 @@
     <File name="Undo/PathNodeCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ChooseBadguyWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="Undo/SortedListCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="StringListSerializer.cs" subtype="Code" buildaction="Compile" />
     <File name="Tiles/TilemapBorder.cs" subtype="Code" buildaction="Compile" />
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="supertux-editor" subtype="Code" buildaction="Nothing" />
@@ -108,6 +108,9 @@
     <File name="resources/supertux-editor.ico" subtype="Code" buildaction="Nothing" />
     <File name="SpriteViewWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="resources/stock-tool-path-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="LevelObjects/ILayer.cs" subtype="Code" buildaction="Compile" />
+    <File name="Undo/MultiCommand.cs" subtype="Code" buildaction="Compile" />
+    <File name="resources/stock-camera-24.png" subtype="Code" buildaction="EmbedAsResource" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />
@@ -120,8 +123,5 @@
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   </References>
-  <DeployTargets />
-  <DeploymentInformation strategy="File">
-    <excludeFiles />
-  </DeploymentInformation>
+  <DeploymentInformation strategy="File" />
 </Project>
