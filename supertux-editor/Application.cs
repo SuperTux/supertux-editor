@@ -1065,16 +1065,37 @@ public class Application : IEditorApplication {
 	{
 		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
 
+		LogManager.Log(LogLevel.Debug, "Drag&Drop Uri-list received: {0}", data);
+
+		int index = 0;		//index of first letter in filename
+		string filename = "";
+
+			// repeat until there's existing file that ends ".stl" or ".stwm"
+		while (! (File.Exists(filename) && (filename.Substring(filename.Length - 4) == ".stl" || filename.Substring(filename.Length - 5) == ".stwm")))
+		{
+			index = data.IndexOf("file://", index);						//move pointer to next "file://"
+
+			if (index == -1)
+			{
+				LogManager.Log(LogLevel.Debug, "		No more filenames... aborting");
+				Gtk.Drag.Finish (args.Context, false, false, args.Time);
+				return;
+			}
+			index += 7;									//move pointer after next "file://" to reach filename
+			string uri = data.Substring(index, data.IndexOf('\n', index) - index - 1);
+			filename = Uri.UnescapeDataString(uri);						//convert excape sequences ("%2b" = "+") to normal text 
+			LogManager.Log(LogLevel.Debug, "		Found filename: {0}", filename);
+		}
+
 		if (!ChangeConfirm("load a new level"))
 		{
 			Gtk.Drag.Finish (args.Context, false, false, args.Time);
 			return;
 		}
 
-		string uri = data.Substring(7, data.Length - 9);			//cut "file://" prefix and last two characters
-		Load(uri);		//load the level
-
 		Gtk.Drag.Finish (args.Context, true, false, args.Time);
+
+		Load(filename);			//load the level
 	}
 
 	public static void Main(string[] args)
