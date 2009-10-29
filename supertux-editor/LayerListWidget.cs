@@ -243,8 +243,10 @@ public class LayerListWidget : TreeView {
 
 		object obj = Model.GetValue(iter, 0);
 		if(obj is Tilemap) {
-			if(obj != application.CurrentTilemap) {
+			if (visibility[obj]>0) {		//set null tilemap when selected one is invisible
 				application.CurrentTilemap = (Tilemap) obj;
+			} else {
+				application.CurrentTilemap = null;
 			}
 		} else {
 			if (obj == separatorObject)
@@ -408,6 +410,14 @@ public class LayerListWidget : TreeView {
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
 
 			visibility[obj] = newvis;
+
+			if (obj is Tilemap) {				//Selecting and deselecting for invisible layers
+				if ( (application.CurrentTilemap == obj) && newvis == 0)	//deselect active tilemap that is made invisible
+					application.CurrentTilemap = null;
+				if ( (application.CurrentTilemap == null) && newvis != 0)	//select un-invisibled tilemap if we have no active one
+					application.CurrentTilemap = (Tilemap) obj;
+			}
+
 			QueueDraw();
 		}
 	}
