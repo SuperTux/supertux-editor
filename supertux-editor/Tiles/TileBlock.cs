@@ -20,7 +20,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	/// <summary>
 	/// Clone Subset of other TileBlock
 	/// </summary>
-	public TileBlock(TileBlock Other, int startX, int startY, uint width, uint height) : base(Other, startX, startY, width, height) {
+	public TileBlock(TileBlock Other, int startX, int startY, uint width, uint height) : base(Other, startX, startY, width, height, 0) {
 	}
 
 	public void Draw(Vector Pos, Tileset Tileset) {
@@ -136,6 +136,19 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 		throw new ArgumentException("object is not a TileBlock");
 	}
 
+    public override bool Equals(Object tb)
+    {
+       return this == tb;
+    }
+
+    public override int GetHashCode() {
+        int x = 13;
+        x = x*23+(int)width;
+        x= x*23+(int)height;
+        x=x*23+Elements.GetHashCode();
+        return x;
+    }
+	
 	#endregion
 
 	internal struct StateData {

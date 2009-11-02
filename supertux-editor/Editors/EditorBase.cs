@@ -57,8 +57,14 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	public event RedrawEventHandler Redraw;
 
 	protected Selection selection;
-	protected bool drawing;
-	protected bool selecting;
+	protected enum State {
+		NONE,
+		DRAWING,
+		SELECTING,
+		FILLING
+	};
+	protected State state;
+
 	protected FieldPos MouseTilePos;
 	protected FieldPos SelectStartPos;
 	protected FieldPos LastDrawPos;
@@ -70,6 +76,21 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
 
 	public abstract void EditorAction(ModifierType Modifiers);
+
+	public virtual void EditorLargeAction(ModifierType Modifiers) {
+		LogManager.Log(LogLevel.Debug, "Draw: {0},{1} by {2},{3}", SelectionP1.X, SelectionP1.Y,SelectionP2.X,SelectionP2.Y);
+		int xWidth = (SelectionP2.X - SelectionP1.X) + 1;
+		int xHeight = (SelectionP2.Y - SelectionP1.Y) + 1;
+
+		for(int y = 0; y < xHeight; y++) {
+			for(int x = 0; x < xWidth; ++x) {
+				MouseTilePos = new FieldPos(SelectionP1.X + x,
+								     		SelectionP1.Y + y);
+				EditorAction(Modifiers);
+			}
+		}
+	}
+
 	public virtual void SelectionDoneAction(Selection selection) { }
 	public string ActionName;
 
@@ -106,15 +127,14 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 	public virtual void Draw(Gdk.Rectangle cliprect) {
 		float offsetX = (application.CurrentTilemap == null?0:application.CurrentTilemap.X);
 		float offsetY = (application.CurrentTilemap == null?0:application.CurrentTilemap.Y);
-		if (!selecting) {
+		if (state == State.DRAWING) {
 			gl.Color4f(1, 1, 1, 0.7f);
 			Vector pos = new Vector(
 				MouseTilePos.X * Tileset.TILE_WIDTH  + offsetX,
 				MouseTilePos.Y * Tileset.TILE_HEIGHT + offsetY);
 			selection.Draw(pos, Tileset);
 			gl.Color4f(1, 1, 1, 1);
-		}
-		if (selecting) {
+		} else if (state == State.FILLING || state == State.SELECTING) {
 			float left = SelectionP1.X * Tileset.TILE_WIDTH + offsetX;
 			float top = SelectionP1.Y * Tileset.TILE_HEIGHT + offsetY;
 			float right = (SelectionP2.X + 1) * Tileset.TILE_WIDTH + offsetX;
@@ -141,26 +161,9 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 		UpdateMouseTilePos(mousePos);
 
-		if(button == 1) {
-			if (selecting) {	//both buttons => cancel selection
-				selecting = false;
-				selection.Resize(0, 0, 0);
-				selection.FireChangedEvent();
-			} else {
-
-				// save backup of Tilemap
-				tilemapBackup = application.CurrentTilemap.SaveState();
-
-				EditorAction(Modifiers);	//Call editor-specific part of code
-
-				LastDrawPos = MouseTilePos;
-				drawing = true;
-				Redraw();
-			}
-		}
 		if(button == 3) {
-			if (drawing) {	//both buttons => cancel drawing
-				drawing = false;
+			if (state == State.DRAWING) {	//both buttons => cancel drawing
+				state = State.NONE;
 				application.CurrentTilemap.RestoreState(tilemapBackup);
 			} else {
 				if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
@@ -169,11 +172,37 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 					return;
 
 				SelectStartPos = MouseTilePos;
-				selecting = true;
+				state = State.SELECTING;
 				UpdateSelection();
-				Redraw();
+			}
+		} else if(button == 1) {
+			if (state == State.DRAWING) {	//both buttons => cancel selection
+				state = State.NONE;
+				selection.Resize(0, 0, 0);
+				selection.FireChangedEvent();
+			} else {
+
+				// save backup of Tilemap
+				tilemapBackup = application.CurrentTilemap.SaveState();
+
+				if((Modifiers & ModifierType.ShiftMask) != 0) {
+					if(MouseTilePos.X < 0 || MouseTilePos.Y < 0
+					   || MouseTilePos.X >= application.CurrentTilemap.Width
+					   || MouseTilePos.Y >= application.CurrentTilemap.Height)
+						return;
+
+					SelectStartPos = MouseTilePos;
+					state = State.FILLING;
+					UpdateSelection();
+				} else {
+					EditorAction(Modifiers);	//Call editor-specific part of code
+
+					LastDrawPos = MouseTilePos;
+					state = State.DRAWING;
+				}
 			}
 		}
+		Redraw();
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
@@ -182,8 +211,20 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 
 		UpdateMouseTilePos(mousePos);
 
-		if((button == 1) && drawing) {
-			drawing = false;
+		if(button == 3 && state == State.SELECTING) {
+			UpdateSelection();
+
+			SelectionDoneAction(selection);
+
+			selection.FireChangedEvent();
+		}
+
+		if((button == 1) && (state != State.NONE)) {
+			if(state == State.FILLING) {
+				UpdateSelection();
+
+				EditorLargeAction(Modifiers);
+			}
 
 			// use backup of Tilemap to create undo command
 			TilemapModifyCommand command = new TilemapModifyCommand(
@@ -194,14 +235,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			UndoManager.AddCommand(command);
 
 		}
-		if((button == 3) && selecting) {
-			UpdateSelection();
-
-			SelectionDoneAction(selection);
-
-			selection.FireChangedEvent();
-			selecting = false;
-		}
+		state = State.NONE;
 
 		Redraw();
 	}
@@ -214,7 +248,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 			if(selection.Width == 0 || selection.Height == 0)
 				return;
 
-			if(drawing &&
+			if((state == State.DRAWING) &&
 			   ( (Modifiers & ModifierType.ShiftMask) != 0 ||
 			     ((LastDrawPos.X - MouseTilePos.X) % selection.Width == 0 &&
 			      (LastDrawPos.Y - MouseTilePos.Y) % selection.Height == 0
@@ -226,7 +260,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 				EditorAction(Modifiers);	//Call editor-specific part of code
 
 			}
-			if(selecting)
+			if(state == State.FILLING || state == State.SELECTING)
 				UpdateSelection();
 			Redraw();
 		}
@@ -261,9 +295,10 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 				SelectionP2.Y = MouseTilePos.Y;
 		}
 
-		uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
-		uint NewHeight = (uint) (SelectionP2.Y - SelectionP1.Y) + 1;
-		selection.Resize(NewWidth, NewHeight, 0);
+		if(state == State.SELECTING) {
+			uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
+			uint NewHeight = (uint) (SelectionP2.Y - SelectionP1.Y) + 1;
+			selection.Resize(NewWidth, NewHeight, 0);
 
 			for(uint y = 0; y < NewHeight; y++) {
 				for(uint x = 0; x < NewWidth; ++x) {
@@ -272,6 +307,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable {
 									     (uint) SelectionP1.Y + y];
 				}
 			}
+		}
 	}
 
 	private void OnSelectionChanged() {

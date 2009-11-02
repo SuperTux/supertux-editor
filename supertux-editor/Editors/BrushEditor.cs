@@ -52,13 +52,13 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	public new void Draw(Gdk.Rectangle cliprect)
 	{
 		// When not selecting, draw white rectangle over affected tiles
-		if(!selecting) {
+		if(state == State.DRAWING) {
 
 			// Calculate rectangle to color
-			float px = (MouseTilePos.X - (int)(brush.Width / 2)) * Tileset.TILE_WIDTH + application.CurrentTilemap.X;
-			float py = (MouseTilePos.Y - (int)(brush.Height / 2)) * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y;
-			float w = brush.Width * Tileset.TILE_WIDTH;
-			float h = brush.Height * Tileset.TILE_HEIGHT;
+			float px = MouseTilePos.X * Tileset.TILE_WIDTH + application.CurrentTilemap.X;
+			float py = MouseTilePos.Y * Tileset.TILE_HEIGHT + application.CurrentTilemap.Y;
+			float w = Tileset.TILE_WIDTH;
+			float h = Tileset.TILE_HEIGHT;
 
 			// Draw rectangle
 			gl.Color4f(1, 1, 1, 0.25f);
@@ -76,7 +76,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 			if ((LastPreview != null) && (px > 0) && (py > 0)) {
 				gl.Color4f(1, 1, 1, 0.7f);
 				Vector pos = new Vector(px, py);
-				LastPreview.Draw(pos, Tileset);
+				Tileset.Get(LastPreview[LastPreview.Width/2,LastPreview.Height/2]).DrawEditor(pos);
 			}
 
 			// Draw a red rectangle around if the preview is a change
@@ -100,7 +100,7 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 		}
 
 		// When selecting, draw blue rectangle over selected area
-		if(selecting) {
+		if(state == State.SELECTING || state == State.FILLING) {
 			base.Draw(cliprect);
 		}
 	}
@@ -118,13 +118,13 @@ public sealed class BrushEditor : TileEditorBase, IEditor {
 	public new void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
 		if (UpdateMouseTilePos(mousePos)) {
-			if (drawing) {
+			if (state == State.DRAWING) {
 				if (LastDrawPos != MouseTilePos) {
 					LastDrawPos = MouseTilePos;
 					brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
 				}
 			}
-			if (selecting) {
+			if (state == State.FILLING || state == State.SELECTING) {
 				UpdateSelection();
 			}
 			FireRedraw();

@@ -47,6 +47,22 @@ namespace DataStructures
 		}
 
 		/// <summary>
+		/// Clone Subset of other field, filling in missing values with FillValue
+		/// </summary>
+		public Field(Field<T> Other, int startX, int startY, uint width, uint height, T FillValue) {
+			this.width = width;
+			this.height = height;
+			for (int y = startY; y < startY + height; y++) {
+				for (int x = startX; x < startX + width; x++) {
+					if(x < 0 || y < 0 || x >= Other.Width || y >= Other.Height)
+						Elements.Add(FillValue);
+					else
+						Elements.Add(Other[x, y]);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Width of array
 		/// </summary>
 		public uint Width

@@ -18,6 +18,7 @@
 //  02111-1307, USA.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
@@ -50,6 +51,9 @@ public class Brush
 	/// </summary>
 	protected Tileset tileset;
 
+	protected Hashtable cache = new Hashtable();
+		
+		
 	/// <summary>
 	/// Create a new brush from a given list of patterns
 	/// </summary>
@@ -174,7 +178,10 @@ public class Brush
 				if (id1 == id2) sim += 1;
 
 				// ...but not changing solid to non-solid (and vice versa) is even better
-				if (solid1 == solid2) sim += 100;
+				if (solid1 == solid2) sim += 75;
+
+				// Also reward attributes that are completely alike
+				if(tile1.Attributes == tile2.Attributes) sim += 25;
 			}
 		}
 		return sim;
@@ -193,7 +200,8 @@ public class Brush
 
 		// if we find any usable pattern, we apply it
 		if (FindBestPattern(px, py, tilemap, ref bestPattern)) {
-			bestPattern.ApplyToTilemap(new FieldPos(px,py),tilemap);
+			// Only apply to the center
+			tilemap[pos] = bestPattern[width/2,height/2];
 		}
 	}
 
@@ -223,29 +231,28 @@ public class Brush
 	/// <param name="tilemap">The tilemap to look at.</param>
 	/// <param name="bestPattern">A tileblock that will replace the area.</param>
 	/// <returns>
-	/// True if <paramref name="bestPattern"/> is diffrent from the calculated
+	/// True if <paramref name="bestPattern"/> is different from the calculated
 	/// pattern in <paramref name="tilemap"/>, otherwise false.
 	/// </returns>
 	public bool FindBestPattern(int px, int py, Tilemap tilemap, ref TileBlock bestPattern) {
-		// Make sure we are in bounds of the tilemap, and don't throw an Exception, this
-		// is user input that haven't been checked.
-		if (px < 0) return false;
-		if (py < 0) return false;
-		if (px + width > tilemap.Width) return false;
-		if (py + width > tilemap.Height) return false;
-
 		// store subset of tilemap where brush will be applied as a reference pattern
 		TileBlock tb = new TileBlock(tilemap, px, py, width, height);
 
-		// find the stored pattern that matches this reference pattern best
-		float bestSimilarity = 0;
-		bestPattern = null;
-		foreach (TileBlock pattern in patterns) {
-			float sim = calculateSimilarity(pattern, tb);
-			if (sim > bestSimilarity) {
-				bestSimilarity = sim;
-				bestPattern = pattern;
+		if(cache.ContainsKey(tb))
+			bestPattern = (TileBlock) cache[tb];
+		else {
+			// find the stored pattern that matches this reference pattern best
+			float bestSimilarity = 0;
+			bestPattern = null;
+			foreach (TileBlock pattern in patterns) {
+				float sim = calculateSimilarity(pattern, tb);
+				if (sim > bestSimilarity) {
+					bestSimilarity = sim;
+					bestPattern = pattern;
+				}
 			}
+			if(cache.Count < 16)
+				cache[tb] = bestPattern;
 		}
 		return ! ((bestPattern == null) || (bestPattern.EqualContents(tb)));
 	}
