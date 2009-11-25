@@ -44,5 +44,27 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
   VPaned (having it dockable like in Gimp would be best, but likely to
   complicated to do in Gtk+)
 
+* naming cleanup (I am not familiar with the code or C#, so
+  suggestions might be stupid):
+
+  IEditor -> ITool (along with directory and other tools)
+  ObjectCreationEditor -> SelectTool
+  Selection -> TileSelection
+
+* whats the point of empty interfaces (IGameObject)?
+
+* move source code to src/
+
+* split external stuff to external/
+
+* what about some line-breaking to avoid >150 characters per line?
+
+* Do we use the SceneGraph stuff?
+
+* Which code-style/style-guide do we follow?
+
+* Why TileBlock::SaveData and not just a full clone of TileBlock?
+
+* Use one file per class
 
 # EOF #
