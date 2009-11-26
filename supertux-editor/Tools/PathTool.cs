@@ -72,13 +72,15 @@ public sealed class PathTool : ToolBase, ITool, IToolCursorChange, IDisposable
 		gl.Disable(gl.TEXTURE_2D);
 		gl.Enable(gl.LINE_STIPPLE);
 		gl.LineStipple(1, linepattern);
-
+		gl.LineWidth(3.0f);
 		gl.Begin(gl.LINE_STRIP);
 		foreach(Path.Node node in path.Nodes) {
 			gl.Vertex2f(node.X, node.Y);
 		}
 		gl.End();
 		gl.Disable(gl.LINE_STIPPLE);
+		gl.LineWidth(1.0f);
+
 		gl.Enable(gl.TEXTURE_2D);
 		gl.Color4f(1, 1, 1, 1);
 
