@@ -63,7 +63,7 @@ public sealed class ObjectCreationTool : ObjectToolBase, ITool
 
 			// switch back to object edit mode when shift was not pressed
 			if((Modifiers & ModifierType.ShiftMask) == 0) {
-				ObjectsTool editor = new ObjectsTool(application, application.CurrentSector);
+				ObjectSelectTool editor = new ObjectSelectTool(application, application.CurrentSector);
 				if(gameObject is IObject) {
 					editor.MakeActive((IObject) gameObject);
 				}

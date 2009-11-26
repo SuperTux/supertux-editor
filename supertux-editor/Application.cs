@@ -407,7 +407,7 @@ public class Application : IToolApplication
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			SetTool(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectSelectTool(this, CurrentSector));
 		}
 	}
 
@@ -430,7 +430,7 @@ public class Application : IToolApplication
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = true;
 			ToolBrushProps.Visible = false;
-			SetTool(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectSelectTool(this, CurrentSector));
 		}
 	}
 
@@ -441,7 +441,7 @@ public class Application : IToolApplication
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = true;
-			SetTool(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectSelectTool(this, CurrentSector));
 		}
 	}
 
@@ -453,7 +453,7 @@ public class Application : IToolApplication
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetTool(new FillTool(this, level.Tileset, selection));
+			SetTool(new TileFillTool(this, level.Tileset, selection));
 		}
 	}
 

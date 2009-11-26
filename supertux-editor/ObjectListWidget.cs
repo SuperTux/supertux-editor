@@ -258,7 +258,7 @@ public class ObjectListWidget : GLWidgetBase
 							application.SetTool(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
-							ITool editor = new ObjectsTool(application, application.CurrentSector);
+							ITool editor = new ObjectSelectTool(application, application.CurrentSector);
 							application.SetTool(editor);
 							application.PrintStatus("ObjectListWidget: none selected ");
 						}

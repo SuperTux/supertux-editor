@@ -23,7 +23,7 @@ using Gtk;
 using Gdk;
 using Undo;
 
-public sealed class ObjectsTool : ObjectToolBase, ITool, IDisposable
+public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 {
 	private IObject activeObject;	//This can be also called like "drag master object"
 	private Vector pressPoint;
@@ -36,7 +36,7 @@ public sealed class ObjectsTool : ObjectToolBase, ITool, IDisposable
 
 	public event RedrawEventHandler Redraw;
 
-	public ObjectsTool(IToolApplication application, Sector sector)
+	public ObjectSelectTool(IToolApplication application, Sector sector)
 	{
 		this.application = application;
 		this.sector = sector;
