@@ -16,14 +16,16 @@
 
 using Gdk;
 
-public sealed class ReplaceEditor : TileEditorBase, IEditor {
-
+public sealed class ReplaceEditor : TileEditorBase, IEditor
+{
 	public ReplaceEditor(IEditorApplication application, Tileset Tileset, Selection selection)
-		: base(application, Tileset, selection) {
+		: base(application, Tileset, selection) 
+	{
 		ActionName = "Replace Tiles";
 	}
 
-	private void Replace(int oldId, int newId) {
+	private void Replace(int oldId, int newId) 
+	{
 		for (int x = 0; x < application.CurrentTilemap.Width; x++) {
 			for (int y = 0; y < application.CurrentTilemap.Height; y++) {
 				if (application.CurrentTilemap[x,y] == oldId)
