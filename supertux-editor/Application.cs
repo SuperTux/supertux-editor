@@ -404,7 +404,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			SetEditor(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -416,7 +416,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new TilemapTool(this, level.Tileset, selection));
+			SetTool(new TilemapTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -427,7 +427,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = true;
 			ToolBrushProps.Visible = false;
-			SetEditor(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -438,7 +438,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = true;
-			SetEditor(new ObjectsTool(this, CurrentSector));
+			SetTool(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -450,7 +450,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new FillTool(this, level.Tileset, selection));
+			SetTool(new FillTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -462,7 +462,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new ReplaceTool(this, level.Tileset, selection));
+			SetTool(new ReplaceTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -484,7 +484,7 @@ public class Application : IEditorApplication {
 				path.Nodes.Add(pathNode);
 				iPathToEdit.Path = path;
 			}
-			SetEditor(new PathTool(this, iPathToEdit.Path));
+			SetTool(new PathTool(this, iPathToEdit.Path));
 		}
 	}
 
@@ -745,7 +745,7 @@ public class Application : IEditorApplication {
 			string brushFile = fileChooser.Filename;
 
 			BrushTool editor = new BrushTool(this, level.Tileset, brushFile);
-			SetEditor(editor);
+			SetTool(editor);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
 		}
@@ -873,7 +873,7 @@ public class Application : IEditorApplication {
 		TilemapChanged(tilemap);
 	}
 
-	public void SetEditor(IEditor editor)
+	public void SetTool(IEditor editor)
 	{
 		if (sectorSwitchNotebook == null) return;
 		if (sectorSwitchNotebook.CurrentRenderer == null) return;

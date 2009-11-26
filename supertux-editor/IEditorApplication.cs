@@ -22,7 +22,7 @@ public interface IEditorApplication
 	void ChangeCurrentLevel(Level NewLevel);
 	void ChangeCurrentSector(Sector Sector);
 	void ChangeCurrentTilemap(Tilemap Tilemap);
-	void SetEditor(IEditor editor);
+	void SetTool(IEditor editor);
 	void SetToolSelect();
 	void SetToolTiles();
 	void SetToolObjects();
