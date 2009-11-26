@@ -1,5 +1,5 @@
 #!/bin/sh
 
-mono --debug supertux-editor.exe
+mono --debug supertux-editor.exe "$@"
 
 # EOF #
