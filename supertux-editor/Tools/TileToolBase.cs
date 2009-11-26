@@ -23,7 +23,7 @@ using Undo;
 /// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
-public abstract class TileEditorBase : EditorBase, IDisposable 
+public abstract class TileToolBase : ToolBase, IDisposable 
 {
 	public event RedrawEventHandler Redraw;
 
@@ -65,7 +65,7 @@ public abstract class TileEditorBase : EditorBase, IDisposable
 	public virtual void SelectionDoneAction(Selection selection) { }
 	public string ActionName;
 
-	protected TileEditorBase(IEditorApplication application, Tileset Tileset, Selection selection) {
+	protected TileToolBase(IEditorApplication application, Tileset Tileset, Selection selection) {
 		this.application = application;
 		this.Tileset = Tileset;
 		this.selection = selection;

@@ -21,7 +21,7 @@ using Gdk;
 using OpenGl;
 using Sprites;
 
-public sealed class ObjectCreationTool : ObjectEditorBase, IEditor
+public sealed class ObjectCreationTool : ObjectToolBase, IEditor
 {
 	private Type objectType;
 	// Sprite for this object.

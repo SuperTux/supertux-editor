@@ -25,7 +25,7 @@ using OpenGl;
 using LispReader;
 using Undo;
 
-public sealed class PathTool : EditorBase, IEditor, IEditorCursorChange, IDisposable
+public sealed class PathTool : ToolBase, IEditor, IEditorCursorChange, IDisposable
 {
 	public event RedrawEventHandler Redraw;
 	public event CursorChangeHandler CursorChange;

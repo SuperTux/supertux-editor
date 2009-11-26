@@ -16,7 +16,7 @@
 
 using Gdk;
 
-public sealed class ReplaceTool : TileEditorBase, IEditor
+public sealed class ReplaceTool : TileToolBase, IEditor
 {
 	public ReplaceTool(IEditorApplication application, Tileset Tileset, Selection selection)
 		: base(application, Tileset, selection) 

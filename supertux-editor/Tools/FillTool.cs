@@ -18,7 +18,7 @@
 using DataStructures;
 using Gdk;
 
-public sealed class FillTool : TileEditorBase, IEditor {
+public sealed class FillTool : TileToolBase, IEditor {
 
 	public FillTool(IEditorApplication application, Tileset Tileset, Selection selection)
 		: base(application, Tileset, selection) {

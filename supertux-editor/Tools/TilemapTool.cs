@@ -16,7 +16,7 @@
 
 using Gdk;
 
-public sealed class TilemapTool : TileEditorBase, IEditor {
+public sealed class TilemapTool : TileToolBase, IEditor {
 
 	public TilemapTool(IEditorApplication application, Tileset Tileset, Selection selection)
 		: base(application, Tileset, selection) 

@@ -24,7 +24,7 @@ using Undo;
 /// <summary>
 /// Base class for editors editing objects.
 /// </summary>
-public abstract class ObjectEditorBase : EditorBase
+public abstract class ObjectToolBase : ToolBase
 {
 	protected Sector sector;
 

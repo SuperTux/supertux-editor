@@ -23,7 +23,7 @@ using Gdk;
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
-public sealed class BrushTool : TileEditorBase, IEditor
+public sealed class BrushTool : TileToolBase, IEditor
 {
 	private Brush brush;
 

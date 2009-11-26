@@ -23,7 +23,7 @@ using Gtk;
 using Gdk;
 using Undo;
 
-public sealed class ObjectsTool : ObjectEditorBase, IEditor, IDisposable
+public sealed class ObjectsTool : ObjectToolBase, IEditor, IDisposable
 {
 	private sealed class ControlPoint : IObject, Node
 	{

@@ -24,7 +24,7 @@ using Undo;
 /// <summary>
 /// Base class for all editors.
 /// </summary>
-public abstract class EditorBase 
+public abstract class ToolBase 
 {
 	protected IEditorApplication application;
 }
