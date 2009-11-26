@@ -54,7 +54,7 @@ LispReader.dll: \
 	Lisp.dll libeditor.dll \
 
 supertux-editor.exe: \
-	$(wildcard supertux-editor/*.cs) $(wildcard supertux-editor/Sprites/*.cs) $(wildcard supertux-editor/Tiles/*.cs) $(wildcard supertux-editor/PropertyEditors/*.cs) $(wildcard supertux-editor/LevelObjects/*.cs) $(wildcard supertux-editor/Undo/*.cs) $(wildcard supertux-editor/Tools/*.cs) \
+	$(wildcard supertux-editor/*.cs) $(wildcard supertux-editor/Sprites/*.cs) $(wildcard supertux-editor/Tiles/*.cs) $(wildcard supertux-editor/PropertyEditors/*.cs) $(wildcard supertux-editor/LevelObjects/*.cs) $(wildcard supertux-editor/Commands/*.cs) $(wildcard supertux-editor/Tools/*.cs) \
 	$(wildcard supertux-editor/resources/*.png) $(wildcard supertux-editor/resources/*.glade) \
 	Lisp.dll Resources.dll LispReader.dll libeditor.dll gtkgl-sharp.dll \
 	gtk-sharp-2.0.pkg.dummy glade-sharp-2.0.pkg.dummy \

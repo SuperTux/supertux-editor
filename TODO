@@ -140,4 +140,7 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 * LispChild attributes seems a little impractical right now, as they
   code to handle them is larger then the code to do it manually
 
+* "using Gtk" wouldn't it be better to avoid that and use fully
+  qualified names instead for better readability?
+
 # EOF #
