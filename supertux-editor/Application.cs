@@ -419,7 +419,7 @@ public class Application : IToolApplication
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetTool(new TilemapTool(this, level.Tileset, selection));
+			SetTool(new TilePaintTool(this, level.Tileset, selection));
 		}
 	}
 
