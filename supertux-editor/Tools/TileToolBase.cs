@@ -98,7 +98,7 @@ public abstract class TileToolBase : ToolBase, IDisposable
 	public virtual void Draw(Gdk.Rectangle cliprect) {
 		float offsetX = (application.CurrentTilemap == null?0:application.CurrentTilemap.X);
 		float offsetY = (application.CurrentTilemap == null?0:application.CurrentTilemap.Y);
-		if (state == State.DRAWING) {
+		if (state == State.DRAWING || state == State.NONE) {
 			gl.Color4f(1, 1, 1, 0.7f);
 			Vector pos = new Vector(
 				MouseTilePos.X * Tileset.TILE_WIDTH  + offsetX,
