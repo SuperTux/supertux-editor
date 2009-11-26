@@ -16,16 +16,15 @@
 
 using System;
 using System.Collections.Generic;
-using Gtk;
 using Undo;
 using LispReader;
 
-public class SectorSwitchNotebook : Notebook
+public class SectorSwitchNotebook : Gtk.Notebook
 {
 	private Level level;
 	private Sector sector;
 	private IEditorApplication application;
-	private Dictionary<object, Widget> widgets = new Dictionary<object, Widget>();	//keep widgets in dictionary for easy updates
+	private Dictionary<object, Gtk.Widget> widgets = new Dictionary<object, Gtk.Widget>();	//keep widgets in dictionary for easy updates
 
 	public delegate void SectorChangedEventHandler(Sector newSector);
 	public event SectorChangedEventHandler SectorChanged;
@@ -104,13 +103,13 @@ public class SectorSwitchNotebook : Notebook
 			this.sector = level.Sectors[0];
 	}
 
-	private void OnSwitchPage(object o, SwitchPageArgs args)
+	private void OnSwitchPage(object o, Gtk.SwitchPageArgs args)
 	{
 		Sector NewSector = level.Sectors[(int) args.PageNum];
 		SectorChanged(NewSector);
 	}
 
-	private void OnButtonPress(object o, ButtonPressEventArgs args)
+	private void OnButtonPress(object o, Gtk.ButtonPressEventArgs args)
 	{
 		if(args.Event.Button == 3) {
 			popupMenu();
@@ -119,38 +118,38 @@ public class SectorSwitchNotebook : Notebook
 
 	private void popupMenu()
 	{
-		Menu popupMenu = new Menu();
+		Gtk.Menu popupMenu = new Gtk.Menu();
 
 		foreach(Sector sector in level.Sectors) {
-			MenuItem item = new MenuItem(sector.Name);
+			Gtk.MenuItem item = new Gtk.MenuItem(sector.Name);
 			item.Name = sector.Name;
 			item.Activated += OnSectorItemActivated;
 			popupMenu.Add(item);
 		}
-		popupMenu.Add(new SeparatorMenuItem());
+		popupMenu.Add(new Gtk.SeparatorMenuItem());
 
-		MenuItem propertiesItem = new ImageMenuItem(Stock.Properties, null);
+		Gtk.MenuItem propertiesItem = new Gtk.ImageMenuItem(Gtk.Stock.Properties, null);
 		propertiesItem.Activated += OnPropertiesActivated;
 		popupMenu.Add(propertiesItem);
 
-		ImageMenuItem camPropsItem = new ImageMenuItem("Camera Properties");
+		Gtk.ImageMenuItem camPropsItem = new Gtk.ImageMenuItem("Camera Properties");
 		camPropsItem.Activated += OnCameraPropertiesActivated;
 		//camPropsItem.Image = Image(EditorStock.CameraMenuImage); //TODO: find out how to set custom image
 		popupMenu.Add(camPropsItem);
 
-		MenuItem resizeItem = new MenuItem("Resize");
+		Gtk.MenuItem resizeItem = new Gtk.MenuItem("Resize");
 		resizeItem.Activated += OnResizeActivated;
 		popupMenu.Add(resizeItem);
 
-		MenuItem createNewItem = new ImageMenuItem(Stock.New, null);
+		Gtk.MenuItem createNewItem = new Gtk.ImageMenuItem(Gtk.Stock.New, null);
 		createNewItem.Activated += OnCreateNew;
 		popupMenu.Add(createNewItem);
 
-		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
+		Gtk.MenuItem deleteItem = new Gtk.ImageMenuItem(Gtk.Stock.Delete, null);
 		deleteItem.Activated += OnDeleteActivated;
 		popupMenu.Add(deleteItem);
 
-		MenuItem CheckIDsItem = new MenuItem("Check all tilemaps for bad tile IDs");
+		Gtk.MenuItem CheckIDsItem = new Gtk.MenuItem("Check all tilemaps for bad tile IDs");
 		CheckIDsItem.Activated += OnCheckIDs;
 		popupMenu.Append(CheckIDsItem);
 
@@ -160,7 +159,7 @@ public class SectorSwitchNotebook : Notebook
 
 	private void OnSectorItemActivated(object o, EventArgs args)
 	{
-		MenuItem item = (MenuItem) o;
+		Gtk.MenuItem item = (Gtk.MenuItem) o;
 		foreach(Sector sector in level.Sectors) {
 			if(sector.Name == item.Name) {
 				CurrentPage = (PageNum(widgets[sector]));	//switch to selected page
@@ -219,7 +218,7 @@ public class SectorSwitchNotebook : Notebook
 		SectorRenderer Renderer = new SectorRenderer(application, level, sector);
 		ScrollBarRenderView scrollbarview = new ScrollBarRenderView(Renderer);
 		scrollbarview.ShowAll();
-		AppendPage(scrollbarview, new Label(sector.Name));
+		AppendPage(scrollbarview, new Gtk.Label(sector.Name));
 		widgets.Add(sector, scrollbarview);
 
 	}
