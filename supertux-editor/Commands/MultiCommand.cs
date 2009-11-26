@@ -17,11 +17,17 @@
 using System.Collections.Generic;
 namespace Undo {
 
-	internal sealed class MultiCommand : Command {
+	internal sealed class MultiCommand : Command 
+	{
 		/// <summary>
 		/// List of commands in this group.
 		/// </summary>
 		private List<Command> commandList;
+
+		public void Add(Command command) 
+		{
+			commandList.Add(command);
+		}
 
 		public override void Do() {
 			foreach (Command command in commandList)
@@ -33,8 +39,15 @@ namespace Undo {
 				command.Undo();
 		}
 
+		public MultiCommand(string title)
+			: base(title)
+		{
+			this.commandList = new List<Command>();
+		}
+
 		public MultiCommand(string title, List<Command> commandList)
-			: base(title) {
+			: base(title) 
+		{
 			this.commandList = commandList;
 		}
 	}
