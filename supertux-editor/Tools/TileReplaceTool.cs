@@ -16,9 +16,9 @@
 
 using Gdk;
 
-public sealed class ReplaceTool : TileToolBase, ITool
+public sealed class TileReplaceTool : TileToolBase, ITool
 {
-	public ReplaceTool(IToolApplication application, Tileset Tileset, TileSelection selection)
+	public TileReplaceTool(IToolApplication application, Tileset Tileset, TileSelection selection)
 		: base(application, Tileset, selection) 
 	{
 		ActionName = "Replace Tiles";

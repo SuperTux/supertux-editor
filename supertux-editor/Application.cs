@@ -465,7 +465,7 @@ public class Application : IToolApplication
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetTool(new ReplaceTool(this, level.Tileset, selection));
+			SetTool(new TileReplaceTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -747,7 +747,7 @@ public class Application : IToolApplication
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
 
-			BrushTool editor = new BrushTool(this, level.Tileset, brushFile);
+			TileBrushTool editor = new TileBrushTool(this, level.Tileset, brushFile);
 			SetTool(editor);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
@@ -758,12 +758,12 @@ public class Application : IToolApplication
 	{
 		try {
 			ITool editor = sectorSwitchNotebook.CurrentRenderer.Editor;
-			if(! (editor is BrushTool)) {
+			if(! (editor is TileBrushTool)) {
 				ErrorDialog.ShowError("No brush editor active",
 				                      "You need to open a brush before you can save changes to it");
 				return;
 			}
-			BrushTool brushTool = (BrushTool) editor;
+			TileBrushTool brushTool = (TileBrushTool) editor;
 
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = Gtk.FileChooserAction.Save;

@@ -23,9 +23,9 @@ using Gdk;
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
-public sealed class BrushTool : TileToolBase, ITool
+public sealed class TileBrushTool : TileToolBase, ITool
 {
-	private Brush brush;
+	private TileBrush brush;
 
 	/// <summary>
 	/// Contains position where last preview was generated.
@@ -40,16 +40,17 @@ public sealed class BrushTool : TileToolBase, ITool
 	/// </summary>
 	private bool LastPreviewIsChange;
 
-	public BrushTool(IToolApplication application, Tileset Tileset, string brushFile)
-		: base(application, Tileset, new TileSelection()) {
-		brush = Brush.loadFromFile(brushFile, Tileset);
+	public TileBrushTool(IToolApplication application, Tileset Tileset, string brushFile)
+		: base(application, Tileset, new TileSelection()) 
+	{
+		brush = TileBrush.loadFromFile(brushFile, Tileset);
 		ActionName = "Tile Brush";
 	}
 
 	/// <summary>
 	/// Brush currently in use
 	/// </summary>
-	public Brush Brush {
+	public TileBrush Brush {
 		get {
 			return brush;
 		}

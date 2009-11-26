@@ -25,7 +25,7 @@ using LispReader;
 /// <summary>
 /// Smooths Tilemaps by changing tiles to one of several stored valid patterns
 /// </summary>
-public class Brush
+public class TileBrush
 {
 	/// <summary>
 	/// width (in Tiles) of this Brush
@@ -54,7 +54,7 @@ public class Brush
 	/// <summary>
 	/// Create a new brush from a given list of patterns
 	/// </summary>
-	public Brush(uint width, uint height, List<TileBlock> patterns, Tileset tileset)
+	public TileBrush(uint width, uint height, List<TileBlock> patterns, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
@@ -65,7 +65,7 @@ public class Brush
 	/// <summary>
 	/// Create a new, empty brush
 	/// </summary>
-	public Brush(uint width, uint height, Tileset tileset)
+	public TileBrush(uint width, uint height, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
@@ -274,11 +274,11 @@ public class Brush
 	/// Creates a new Brush by loading a list of valid patterns from the given file
 	/// </summary>
 	// TODO: change file syntax from CSV to Lisp
-	public static Brush loadFromFile(string fname, Tileset tileset) {
+	public static TileBrush loadFromFile(string fname, Tileset tileset) {
 		FileStream fs = new FileStream(fname, FileMode.Open);
 		TextReader trd = new StreamReader(fs);
 
-		Brush brush = new Brush(3, 3, tileset);
+		TileBrush brush = new TileBrush(3, 3, tileset);
 
 		try {
 			string s;
