@@ -120,38 +120,6 @@ public sealed class ObjectsTool : ObjectToolBase, IEditor, IDisposable
 		}
 	}
 
-	private sealed class ObjectAreaChangeCommand : Command {
-		/// <summary>
-		/// The object this action was on
-		/// </summary>
-		private IObject changedObject;
-		/// <summary>
-		/// Old area
-		/// </summary>
-		private RectangleF originalArea;
-		/// <summary>
-		/// New area
-		/// </summary>
-		private RectangleF newArea;
-
-		public override void Do() {
-			changedObject.ChangeArea(newArea);
-		}
-
-		public override void Undo() {
-			changedObject.ChangeArea(originalArea);
-		}
-
-		public ObjectAreaChangeCommand(string title,
-		                               RectangleF originalArea, RectangleF newArea,
-		                               IObject changedObject)
-			: base(title) {
-			this.changedObject = changedObject;
-			this.originalArea = originalArea;
-			this.newArea = newArea;
-		}
-	}
-
 	private IObject activeObject;	//This can be also called like "drag master object"
 	private Vector pressPoint;
 	private Vector mousePoint;	//used when drawing selections
