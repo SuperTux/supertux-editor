@@ -40,6 +40,19 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
    at Gtk.Application.Run()
    at Application.Main(System.String[] args)
 
+DEBUG: UndoManager.AddCommand(Moved Object SequenceTrigger)
+DEBUG: ObjectsEditor:MakeActive(ObjectsTool+ControlPoint)
+DEBUG: UndoManager.AddCommand(Moved Object ObjectsTool+ControlPoint)
+DEBUG: ObjectsEditor:MakeActive(SequenceTrigger)
+Stacktrace:
+
+  at (wrapper managed-to-native) System.MonoType.getFullName (bool,bool) <0x00004>
+  at (wrapper managed-to-native) System.MonoType.getFullName (bool,bool) <0xffffffff>
+  at System.MonoType.ToString () <0x00014>
+  at object.ToString () <0x00019>
+  at string.Concat (object,object,object) <0x0004b>
+Bus error
+
 * Replace Tool should document its functions in a status bar message
 
 * Path Tool doesn't seem to do anything
@@ -76,6 +89,8 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 * Do we use the SceneGraph stuff?
 
 * Which code-style/style-guide do we follow?
+
+  -> astyle -t8 
 
 * Why TileBlock::SaveData and not just a full clone of TileBlock?
 

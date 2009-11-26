@@ -67,7 +67,7 @@ public sealed class ObjectCreationTool : ObjectToolBase, IEditor
 				if(gameObject is IObject) {
 					editor.MakeActive((IObject) gameObject);
 				}
-				application.SetEditor(editor);
+				application.SetTool(editor);
 			}
 		} else {	//cancel creation by other buttons
 			application.SetToolObjects();

@@ -20,7 +20,7 @@ using Gdk;
 
 public sealed class FillTool : TileToolBase, IEditor {
 
-	public FillTool(IEditorApplication application, Tileset Tileset, Selection selection)
+	public FillTool(IEditorApplication application, Tileset Tileset, TileSelection selection)
 		: base(application, Tileset, selection) {
 		ActionName = "Flood Fill";
 	}

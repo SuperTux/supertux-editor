@@ -27,7 +27,7 @@ public abstract class TileToolBase : ToolBase, IDisposable
 {
 	public event RedrawEventHandler Redraw;
 
-	protected Selection selection;
+	protected TileSelection selection;
 	protected enum State {
 		NONE,
 		DRAWING,
@@ -62,10 +62,10 @@ public abstract class TileToolBase : ToolBase, IDisposable
 		}
 	}
 
-	public virtual void SelectionDoneAction(Selection selection) { }
+	public virtual void SelectionDoneAction(TileSelection selection) { }
 	public string ActionName;
 
-	protected TileToolBase(IEditorApplication application, Tileset Tileset, Selection selection) {
+	protected TileToolBase(IEditorApplication application, Tileset Tileset, TileSelection selection) {
 		this.application = application;
 		this.Tileset = Tileset;
 		this.selection = selection;

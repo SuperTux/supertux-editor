@@ -100,7 +100,7 @@ public class Application : IEditorApplication {
 	private LayerListWidget layerList;
 	private SectorSwitchNotebook sectorSwitchNotebook;
 	private PropertiesView propertiesView;
-	private Selection selection;
+	private TileSelection selection;
 	private IPathObject iPathToEdit;
 
 	private uint printStatusContextID;
@@ -185,7 +185,7 @@ public class Application : IEditorApplication {
 	}
 
 	private Application(string[] args) {
-		selection = new Selection();
+		selection = new TileSelection();
 
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
 		Glade.XML gxml = new Glade.XML("editor.glade", "MainWindow");

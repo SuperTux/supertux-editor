@@ -41,7 +41,7 @@ public sealed class BrushTool : TileToolBase, IEditor
 	private bool LastPreviewIsChange;
 
 	public BrushTool(IEditorApplication application, Tileset Tileset, string brushFile)
-		: base(application, Tileset, new Selection()) {
+		: base(application, Tileset, new TileSelection()) {
 		brush = Brush.loadFromFile(brushFile, Tileset);
 		ActionName = "Tile Brush";
 	}
@@ -126,7 +126,7 @@ public sealed class BrushTool : TileToolBase, IEditor
 		brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
 	}
 
-	public override void SelectionDoneAction(Selection selection)
+	public override void SelectionDoneAction(TileSelection selection)
 	{
 		brush.LearnPatterns(selection);
 	}

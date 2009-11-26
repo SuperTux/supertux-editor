@@ -14,7 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-public sealed class Selection : TileBlock {
+public sealed class TileSelection : TileBlock {
 	public delegate void ChangedEventHandler();
 	public event ChangedEventHandler Changed;
 

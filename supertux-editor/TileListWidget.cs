@@ -26,7 +26,7 @@ using DataStructures;
 public class TileListWidget : GLWidgetBase {
 	private Tileset tileset;
 	private Tilegroup tilegroup;
-	private Selection selection;
+	private TileSelection selection;
 	private Level level;
 
 	private const int TILE_WIDTH = 32;
@@ -45,7 +45,7 @@ public class TileListWidget : GLWidgetBase {
 
 	private IEditorApplication application;
 
-	public TileListWidget(IEditorApplication application, Selection selection, Adjustment adjv)
+	public TileListWidget(IEditorApplication application, TileSelection selection, Adjustment adjv)
 	{
 		this.selection = selection;
 		selection.Changed += OnSelectionChanged;
