@@ -26,6 +26,7 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
    at Gtk.Application.Run()
    at Application.Main(System.String[] args)
 
+
 DEBUG: UndoManager.AddCommand(Replace Tiles on Tilemap "Interactive")
 DEBUG: UndoManager.AddCommand(Replace Tiles on Tilemap "Interactive")
 Exception in Gtk# callback delegate
@@ -40,6 +41,7 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
    at Gtk.Application.Run()
    at Application.Main(System.String[] args)
 
+
 DEBUG: UndoManager.AddCommand(Moved Object SequenceTrigger)
 DEBUG: ObjectsEditor:MakeActive(ObjectsTool+ControlPoint)
 DEBUG: UndoManager.AddCommand(Moved Object ObjectsTool+ControlPoint)
@@ -52,6 +54,43 @@ Stacktrace:
   at object.ToString () <0x00019>
   at string.Concat (object,object,object) <0x0004b>
 Bus error
+
+
+INFO:  Using configfile: /home/ingo/.config/supertux-editor/settings.xml
+INFO:  Supertux is run as: /home/ingo/projects/supertux/svn/trunk/supertux/supertux2
+INFO:  Data files are in: /home/ingo/projects/supertux/svn/trunk/supertux/data/
+Stacktrace:
+
+  at (wrapper managed-to-native) System.Reflection.MonoMethod.InternalInvoke (object,object[],System.Exception&) <0x00004>
+  at (wrapper managed-to-native) System.Reflection.MonoMethod.InternalInvoke (object,object[],System.Exception&) <0xffffffff>
+  at System.Reflection.MonoMethod.Invoke (object,System.Reflection.BindingFlags,System.Reflection.Binder,object[],System.Globalization.CultureInfo) <0x000a4>
+  at System.Reflection.MethodBase.Invoke (object,object[]) <0x00025>
+  at System.Delegate.DynamicInvokeImpl (object[]) <0x0018a>
+  at System.MulticastDelegate.DynamicInvokeImpl (object[]) <0x00034>
+  at System.Delegate.DynamicInvoke (object[]) <0x00019>
+  at GLib.Signal.ClosureInvokedCB (object,GLib.ClosureInvokedArgs) <0x00120>
+  at GLib.SignalClosure.Invoke (GLib.ClosureInvokedArgs) <0x00023>
+  at GLib.SignalClosure.MarshalCallback (intptr,intptr,uint,intptr,intptr,intptr) <0x0020c>
+  at (wrapper native-to-managed) GLib.SignalClosure.MarshalCallback (intptr,intptr,uint,intptr,intptr,intptr) <0xffffffff>
+  at (wrapper managed-to-native) Gtk.Application.gtk_main () <0x00004>
+  at (wrapper managed-to-native) Gtk.Application.gtk_main () <0xffffffff>
+  at Gtk.Application.Run () <0x0000a>
+Bus error
+
+
+DEBUG: UndoManager.AddCommand(Created Object 'SmartBall')
+DEBUG: ObjectsEditor:MakeActive(SmartBall)
+Exception in Gtk# callback delegate
+  Note: Applications can use GLib.ExceptionManager.UnhandledException to handle the exception.
+System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+  at System.Collections.Generic.Dictionary`2[System.Object,System.Single].get_Item (System.Object key) [0x00000] 
+  at LayerListWidget.VisibilityDataFunc (Gtk.TreeViewColumn Column, Gtk.CellRenderer Renderer, TreeModel Model, TreeIter Iter) [0x00000] 
+  at GtkSharp.TreeCellDataFuncWrapper.NativeCallback (IntPtr tree_column, IntPtr cell, IntPtr tree_model, IntPtr iter, IntPtr data) [0x00000] 
+   at GLib.ExceptionManager.RaiseUnhandledException(System.Exception e, Boolean is_terminal)
+   at GtkSharp.TreeCellDataFuncWrapper.NativeCallback(IntPtr tree_column, IntPtr cell, IntPtr tree_model, IntPtr iter, IntPtr data)
+   at Gtk.Application.gtk_main()
+   at Gtk.Application.Run()
+   at Application.Main(System.String[] args)
 
 * Replace Tool should document its functions in a status bar message
 
