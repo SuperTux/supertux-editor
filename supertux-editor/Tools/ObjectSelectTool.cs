@@ -29,8 +29,12 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 	private Vector pressPoint;
 	private Vector mousePoint;	//used when drawing selections
 	private Vector originalPosition;
-	private bool dragging;
-	private bool selecting;
+	protected enum State {
+		NONE,
+		DRAGGING,
+		SELECTING
+	};
+	protected State state;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
 	private List<IObject> selectedObjects = new List<IObject>();
 
@@ -50,11 +54,22 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 
 	public void Draw(Gdk.Rectangle cliprect)
 	{
-		if (selecting) {
-			gl.Color4f(0, 0.7f, 1, 0.7f);
+		if (state == State.SELECTING) {
+			// FIXME: We shouldn't have to mess around here with raw OpenGL
 			gl.Disable(gl.TEXTURE_2D);
 
+			// Draw the background box
+			gl.Color4f(0, 0.7f, 1, 0.5f);
 			gl.Begin(gl.QUADS);
+			gl.Vertex2f(pressPoint.X, pressPoint.Y);
+			gl.Vertex2f(mousePoint.X, pressPoint.Y);
+			gl.Vertex2f(mousePoint.X, mousePoint.Y);
+			gl.Vertex2f(pressPoint.X, mousePoint.Y);
+			gl.End();
+
+			// Draw an outline around it
+			gl.Color4f(0.5f, 1.0f, 1, 1.0f);
+			gl.Begin(gl.LINE_LOOP);
 			gl.Vertex2f(pressPoint.X, pressPoint.Y);
 			gl.Vertex2f(mousePoint.X, pressPoint.Y);
 			gl.Vertex2f(mousePoint.X, mousePoint.Y);
@@ -82,11 +97,57 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		if (button == 1) {
-			if (selecting) {
-				selecting = false;
+			IObject obj = FindObjectAt(mousePos);
+
+			if (obj == null) 
+			{
+				// Start drawing the select rectangle
+				state = State.SELECTING;
+				pressPoint = mousePos;
+				mousePoint = mousePos;
+			}
+			else
+			{
+				if ((Modifiers & ModifierType.ControlMask) != 0)
+				{
+					if (selectedObjects.Contains(obj))
+					{
+						selectedObjects.Remove(obj);
+					}
+					else
+					{
+						selectedObjects.Add(obj);
+					}
+				}
+				else
+				{				
+					if (!selectedObjects.Contains(obj))
+					{
+						selectedObjects.Clear();
+						selectedObjects.Add(obj);
+					}
+
+					// Start moving the selected objects around
+					state = State.DRAGGING;
+					pressPoint = mousePos;
+					originalPosition = new Vector(obj.Area.Left, obj.Area.Top);
+					MakeActive(obj);
+				}
+			}
+		}
+		else if (button == 3)
+		{
+			PopupMenu(button);
+		}
+		Redraw();
+		
+		if (false)
+		{
+			if (state == State.SELECTING) {
+				state = State.NONE;
 			} else {
 				if ((Modifiers & ModifierType.ControlMask) != 0) {	//CTRL+L click => add/remove clicked object from selection
-					IObject clickedObject = FindNext(mousePos);
+					IObject clickedObject = FindObjectAt(mousePos);
 					if (clickedObject != null && clickedObject is IGameObject)
 						if (selectedObjects.Contains(clickedObject))
 							selectedObjects.Remove(clickedObject);
@@ -111,120 +172,208 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 							}
 						}
 						if (activeObject == null)
-							MakeActive(FindNext(mousePos));
+							MakeActive(FindObjectAt(mousePos));
 					}
 				}
 
 				if(activeObject != null && button == 1) {		//start drag if we have activeObject
 					pressPoint = mousePos;
-					originalPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);
-					dragging = true;
+					originalPosition = new Vector(activeObject.Area.Left, activeObject.Area.Top);
+					state = State.DRAGGING;
 				}
 			}
-
 			Redraw();
-		}
-		if (button == 3) {
-			if (dragging) {				//both buttons => drag canceled => calculate current delta and shift all objects back
-				Vector shift = originalPosition - new Vector (activeObject.Area.Left, activeObject.Area.Top);
-				foreach (IObject selectedObject in selectedObjects) { 	//Shift area for all other objects in list
-					RectangleF Area = selectedObject.Area;
-					Area.Move(shift);
-					selectedObject.ChangeArea(Area);
+		
+			if (button == 3) {
+				if (state == State.DRAGGING) {				//both buttons => drag canceled => calculate current delta and shift all objects back
+					Vector shift = originalPosition - new Vector (activeObject.Area.Left, activeObject.Area.Top);
+					foreach (IObject selectedObject in selectedObjects) { 	//Shift area for all other objects in list
+						RectangleF Area = selectedObject.Area;
+						Area.Move(shift);
+						selectedObject.ChangeArea(Area);
+					}
+					state = State.NONE;
+				} else {							//R click => initiate drag-select
+					pressPoint = mousePos;
+					mousePoint = mousePos;
+					state = State.SELECTING;
 				}
-				dragging = false;
-			} else {							//R click => initiate drag-select
-				pressPoint = mousePos;
-				mousePoint = mousePos;
-				selecting = true;
 			}
-
-			Redraw();
 		}
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
 	{
-		if (button == 1 && dragging) {
-			dragging = false;
+		if (button == 1) {
+			switch(state)
+			{
+			case State.NONE:
+				break;
 
-			Vector newPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);//Area is up to date, no need to calculate it again
-			if (originalPosition != newPosition) {
-				Command command = null;
-				List<Command> commandList = new List<Command>();
-				Vector totalShift = newPosition - originalPosition;
-				foreach (IObject selectedObject in selectedObjects) {
-					RectangleF oldArea = selectedObject.Area;			//copy new area to variable
-					oldArea.Move(-totalShift);					//	and shift it to it's oreginal location
-					command = new ObjectAreaChangeCommand(
-						"Moved Object " + selectedObject,
-						oldArea,
-						selectedObject.Area,					//We are already on new area
-						selectedObject);
-					commandList.Add(command);
-				}
+			case State.SELECTING:
+				// Add objects in the selected area to selectedObjects
 
-				if (commandList.Count > 1)			//If there are more items, then create multiCommand, otherwise keep single one
-					command = new MultiCommand("Moved " + commandList.Count.ToString() + " objects", commandList);
-
-				UndoManager.AddCommand(command);		//All commands are already done.. no need to do that again
-
-				Redraw();
-			} else {						//L click + no CTRL => select single object under cursor
-				if ((Modifiers & ModifierType.ControlMask) == 0) {
-					MakeActive(FindNext(mousePos));
-					Redraw();
-				}
-			}
-		}
-		if (button == 3 && selecting) {
-			selecting = false;
-			if ((pressPoint - mousePos).Norm() < 10) {		//for moves within 10px circle around pressPoint show popup menu
-				bool hit = false;
-				foreach (IObject selectedObject in selectedObjects) {
-					hit |= selectedObject.Area.Contains(mousePos);
-				}				
-				if (!hit) {
-					MakeActive(FindNext(mousePos));
-					Redraw();
-				}
-				if (hit || activeObject != null)		//Show popup menu when clicked on object (from selection or new one)
-					PopupMenu(button);
-			} else {
-				if ((Modifiers & ModifierType.ControlMask) == 0)	//Flush selected objects if it's not CTRL+select
+                                // Flush selected objects if it's not CTRL+select
+				if ((Modifiers & ModifierType.ControlMask) == 0) 
+				{
 					selectedObjects.Clear();
+				}
 
 				RectangleF selectedArea = new RectangleF(pressPoint, mousePos);
-				foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
-					if (selectedArea.Contains(Object.Area)) {
+				foreach(IObject Object in sector.GetObjects(typeof(IObject)))
+				{
+					if (selectedArea.Contains(Object.Area)) 
+					{
 						if (selectedObjects.Contains(Object))
+						{
 							selectedObjects.Remove(Object);
+						}
 						else
+						{
 							selectedObjects.Add(Object);
+						}
 					}
 				}
-				if (selectedObjects.Count == 1)	{		//show properties
+
+				if (selectedObjects.Count == 1)
+				{	
+					//show properties
 					MakeActive(selectedObjects[0]);
 					//application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
-				} else {
-					activeObject = null;					//resizing is unavailable if more objects are selected
+				}
+				else 
+				{
+					// resizing is unavailable if more objects are selected
+					activeObject = null;					
 					controlPoints.Clear();
 					application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
 				}
-				Redraw();
+				break;
+
+			case State.DRAGGING:
+				// Finish dragging and register undo command
+				Vector newPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);//Area is up to date, no need to calculate it again
+				if (newPosition != originalPosition) // FIXME: is that ok in C# or do we compare the reference here?
+				{
+					Vector totalShift = newPosition - originalPosition;
+					MultiCommand multi_command = new MultiCommand("Moved " + selectedObjects.Count + " objects");
+
+					foreach (IObject selectedObject in selectedObjects) 
+					{
+						// copy new area to variable
+						RectangleF oldArea = selectedObject.Area; 
+
+						// and shift it to it's oreginal location
+						oldArea.Move(-totalShift);
+
+						multi_command.Add(new ObjectAreaChangeCommand(
+									  "Moved Object " + selectedObject,
+									  oldArea,
+									  selectedObject.Area, // We are already on new area
+									  selectedObject));
+					}
+
+					UndoManager.AddCommand(multi_command);
+				}
+				
+				break;
+			}
+
+			state = State.NONE;
+			Redraw();
+		}
+
+		if (false)
+		{
+			if (button == 1 && state == State.DRAGGING) {
+				state = State.NONE;
+
+				Vector newPosition = new Vector (activeObject.Area.Left, activeObject.Area.Top);//Area is up to date, no need to calculate it again
+				if (originalPosition != newPosition) {
+					Command command = null;
+					List<Command> commandList = new List<Command>();
+					Vector totalShift = newPosition - originalPosition;
+					foreach (IObject selectedObject in selectedObjects) {
+						RectangleF oldArea = selectedObject.Area;			//copy new area to variable
+						oldArea.Move(-totalShift);					//	and shift it to it's oreginal location
+						command = new ObjectAreaChangeCommand(
+							"Moved Object " + selectedObject,
+							oldArea,
+							selectedObject.Area,					//We are already on new area
+							selectedObject);
+						commandList.Add(command);
+					}
+
+					if (commandList.Count > 1)			//If there are more items, then create multiCommand, otherwise keep single one
+						command = new MultiCommand("Moved " + commandList.Count.ToString() + " objects", commandList);
+
+					UndoManager.AddCommand(command);		//All commands are already done.. no need to do that again
+
+					Redraw();
+				} else {						//L click + no CTRL => select single object under cursor
+					if ((Modifiers & ModifierType.ControlMask) == 0) {
+						MakeActive(FindObjectAt(mousePos));
+						Redraw();
+					}
+				}
+			}
+			if (button == 3 && state == State.SELECTING) {
+				state = State.NONE;
+				if ((pressPoint - mousePos).Norm() < 10) {		//for moves within 10px circle around pressPoint show popup menu
+					bool hit = false;
+					foreach (IObject selectedObject in selectedObjects) {
+						hit |= selectedObject.Area.Contains(mousePos);
+					}				
+					if (!hit) {
+						MakeActive(FindObjectAt(mousePos));
+						Redraw();
+					}
+					if (hit || activeObject != null)		//Show popup menu when clicked on object (from selection or new one)
+						PopupMenu(button);
+				} else {
+					if ((Modifiers & ModifierType.ControlMask) == 0)	//Flush selected objects if it's not CTRL+select
+						selectedObjects.Clear();
+
+					RectangleF selectedArea = new RectangleF(pressPoint, mousePos);
+					foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
+						if (selectedArea.Contains(Object.Area)) {
+							if (selectedObjects.Contains(Object))
+								selectedObjects.Remove(Object);
+							else
+								selectedObjects.Add(Object);
+						}
+					}
+					if (selectedObjects.Count == 1)	{		//show properties
+						MakeActive(selectedObjects[0]);
+						//application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
+					} else {
+						activeObject = null;					//resizing is unavailable if more objects are selected
+						controlPoints.Clear();
+						application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
+					}
+					Redraw();
+				}
 			}
 		}
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
 	{
-		if(dragging) {
+		switch(state)
+		{
+		case State.NONE:
+			break;
+
+		case State.DRAGGING:
 			moveObjects(mousePos, SnapValue(Modifiers));
+			break;
+			
+		case State.SELECTING:
+			// store mouse position for drawin routine
+			mousePoint = mousePos;
+			break;
 		}
-		if (selecting) {
-			mousePoint = mousePos;						//store mouse position for drawin routine
-			Redraw();
-		}
+		Redraw();
 	}
 
 	private void moveObjects(Vector mousePos, int snap)
@@ -242,7 +391,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 		Redraw();
 	}
 
-	private IObject FindNext(Vector pos)
+	private IObject FindObjectAt(Vector pos)
 	{
 		foreach(ControlPoint point in controlPoints) {
 			if(point.Area.Contains(pos)) {
@@ -252,6 +401,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 
 		IObject firstObject = null;
 		bool foundLastActive = false;
+
 		// Cycle through the objects which share a point
 		foreach(IObject Object in sector.GetObjects(typeof(IObject))) {
 			if(Object.Area.Contains(pos)) {
@@ -262,6 +412,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					foundLastActive = true;
 					continue;
 				}
+
 				if(foundLastActive) {
 					return Object;
 				}
@@ -306,9 +457,9 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 			LogManager.Log(LogLevel.Debug, "ObjectsEditor:MakeActive(" + activeObject + ")");
 		}
 
-		selectedObjects.Clear();
-		if (Object != null)
-			selectedObjects.Add(Object);
+		//selectedObjects.Clear();
+		//if (Object != null)
+		//selectedObjects.Add(Object);
 	}
 
 	private void OnObjectRemoved(Sector sector, IGameObject Object) {			//Remove "red shadow" when active object is removed by Undo/Redo
@@ -376,7 +527,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 				commands.Add(command);
 			} catch(Exception e) {
 				ErrorDialog.Exception(e);
-		}
+			}
 		if (commands.Count > 1)						//If there are more items, then create multiCommand, otherwise keep single one
 			command = new MultiCommand("Cloned " + commands.Count.ToString() + " objects", commands);
 		UndoManager.AddCommand(command);
@@ -392,9 +543,9 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 		IPathObject pathObject = (IPathObject) selectedObjects[0];
 		if (pathObject.Path != null) {
 			Command command = new PropertyChangeCommand("Removed path from " + selectedObjects[0],
-				LispReader.FieldOrProperty.Lookup(typeof(IPathObject).GetProperty("Path")),
-				selectedObjects[0],
-				null);
+								    LispReader.FieldOrProperty.Lookup(typeof(IPathObject).GetProperty("Path")),
+								    selectedObjects[0],
+								    null);
 			command.Do();
 			UndoManager.AddCommand(command);
 		}
