@@ -17,8 +17,6 @@
 using System;
 using System.IO;
 using System.Diagnostics;
-using Gtk;
-using Gdk;
 using Glade;
 using Sdl;
 using Drawing;
@@ -27,8 +25,8 @@ using System.Collections.Generic;
 using DataStructures;
 using Undo;
 
-public class Application : IEditorApplication {
-
+public class Application : IEditorApplication 
+{
 	private class MruEntry {
 		public Gtk.MenuItem MenuItem;
 		public string FileName;
@@ -38,8 +36,8 @@ public class Application : IEditorApplication {
 	private string MainWindowTitlePrefix;
 
 	//allow incomming URIs (0 = no limitations, 0 = ID 0)
-	public static TargetEntry [] target_table = new TargetEntry[] {
-		new TargetEntry("text/uri-list", 0, 0)
+	public static Gtk.TargetEntry [] target_table = new Gtk.TargetEntry[] {
+		new Gtk.TargetEntry("text/uri-list", 0, 0)
 	};
 
 	#region Glade
@@ -47,14 +45,14 @@ public class Application : IEditorApplication {
 	private Gtk.Window MainWindow = null;
 
 	[Glade.Widget]
-	private Widget ToolSelectProps = null;
+	private Gtk.Widget ToolSelectProps = null;
 
-	private Widget ToolTilesProps;
-	private Widget ToolObjectsProps;
-	private Widget ToolGObjectsProps;
+	private Gtk.Widget ToolTilesProps;
+	private Gtk.Widget ToolObjectsProps;
+	private Gtk.Widget ToolGObjectsProps;
 
 	[Glade.Widget]
-	private Widget ToolBrushProps = null;
+	private Gtk.Widget ToolBrushProps = null;
 
 	[Glade.Widget] private Gtk.RadioToolButton ToolSelect = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolTiles = null;
@@ -65,7 +63,7 @@ public class Application : IEditorApplication {
 	[Glade.Widget] private Gtk.RadioToolButton ToolPath = null;
 
 	[Glade.Widget]
-	private Statusbar sbMain = null;
+	private Gtk.Statusbar sbMain = null;
 
 	[Glade.Widget]
 	private Gtk.MenuItem MenuItemUndo = null;
@@ -106,7 +104,7 @@ public class Application : IEditorApplication {
 	private uint printStatusContextID;
 	private uint printStatusMessageID;
 
-	private FileChooserDialog fileChooser;
+	private Gtk.FileChooserDialog fileChooser;
 	private List<MruEntry> MenuItemMruEntries = new List<MruEntry>(); /* list of MenuItem entries that constitute the RecentDocument list */
 
 	private Tilemap tilemap;
@@ -229,13 +227,18 @@ public class Application : IEditorApplication {
 		OnToolSelect(null, null);
 
 		//Setup drag destination for "files"
-		Gtk.Drag.DestSet (MainWindow, Gtk.DestDefaults.All,
-		                    target_table, DragAction.Default | DragAction.Copy | DragAction.Move | DragAction.Link | DragAction.Private | DragAction.Ask );
+		Gtk.Drag.DestSet(MainWindow, Gtk.DestDefaults.All, target_table,
+				 Gdk.DragAction.Default | 
+				 Gdk.DragAction.Copy | 
+				 Gdk.DragAction.Move | 
+				 Gdk.DragAction.Link | 
+				 Gdk.DragAction.Private | 
+				 Gdk.DragAction.Ask);
 		MainWindow.DragDataReceived += OnDragDataReceived;
 
-		fileChooser = new FileChooserDialog("Choose a Level", MainWindow, FileChooserAction.Open, new object[] {});
-		if (!Directory.Exists(Settings.Instance.LastDirectoryName)){	//noexistent (or null) LastDirectoryName, resetting to default
-			if( Settings.Instance.SupertuxData != null ){
+		fileChooser = new Gtk.FileChooserDialog("Choose a Level", MainWindow, Gtk.FileChooserAction.Open, new object[] {});
+		if (!Directory.Exists(Settings.Instance.LastDirectoryName)) {	//noexistent (or null) LastDirectoryName, resetting to default
+			if( Settings.Instance.SupertuxData != null ) {
 				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData + "levels" + System.IO.Path.DirectorySeparatorChar;
 			} else {
 				Settings.Instance.LastDirectoryName = Environment.ExpandEnvironmentVariables("%HOME%");
@@ -287,19 +290,19 @@ public class Application : IEditorApplication {
 		PrintStatus("Welcome to Supertux-Editor.");
 	}
 
-	private Widget CreateTileList()
+	private Gtk.Widget CreateTileList()
 	{
-		VBox box = new VBox();
+		Gtk.VBox box = new Gtk.VBox();
 		box.Homogeneous = false;
 
-		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
+		Gtk.Adjustment vadjustment = new Gtk.Adjustment(0, 0, 100, 1, 10, 10);
 
 		tileList = new TileListWidget(this, selection, vadjustment);
 		TilegroupSelector selector = new TilegroupSelector(this, tileList);
 
-		HBox hbox = new HBox(false, 0);
+		Gtk.HBox hbox = new Gtk.HBox(false, 0);
 
-		VScrollbar scrollbar = new VScrollbar(vadjustment);
+		Gtk.VScrollbar scrollbar = new Gtk.VScrollbar(vadjustment);
 
 		hbox.PackStart(tileList, true, true, 0);
 		hbox.PackEnd(scrollbar, false, true, 0);
@@ -310,19 +313,19 @@ public class Application : IEditorApplication {
 		return box;
 	}
 
-	private Widget CreateObjectList()
+	private Gtk.Widget CreateObjectList()
 	{
-		HBox hbox = new HBox(false, 0);
+		Gtk.HBox hbox = new Gtk.HBox(false, 0);
 
-		Adjustment vadjustment = new Adjustment(0, 0, 100, 1, 10, 10);
-		VScrollbar scrollbar = new VScrollbar(vadjustment);
+		Gtk.Adjustment vadjustment = new Gtk.Adjustment(0, 0, 100, 1, 10, 10);
+		Gtk.VScrollbar scrollbar = new Gtk.VScrollbar(vadjustment);
 
 		hbox.PackStart(new ObjectListWidget(this, vadjustment), true, true, 0);
 		hbox.PackEnd(scrollbar, false, true, 0);
 		return hbox;
 	}
 
-	protected Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
+	protected Gtk.Widget GladeCustomWidgetHandler(Glade.XML xml, string func_name, string name, string string1, string string2, int int1, int int2)
 	{
 		if(func_name == "TileList") {
 			ToolTilesProps = CreateTileList();
@@ -539,12 +542,12 @@ public class Application : IEditorApplication {
 		if (!ChangeConfirm("load a new level"))
 			return;
 		fileChooser.Title = "Choose a Level";
-		fileChooser.Action = FileChooserAction.Open;
+		fileChooser.Action = Gtk.FileChooserAction.Open;
 		fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 		fileChooser.Filter = fileChooser.Filters[0];
 		int result = fileChooser.Run();
 		fileChooser.Hide();
-		if(result != (int) ResponseType.Ok)
+		if(result != (int) Gtk.ResponseType.Ok)
 			return;
 
 		Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
@@ -597,12 +600,12 @@ public class Application : IEditorApplication {
 
 		if(chooseName) {
 			fileChooser.Title = "Select file to save Level";
-			fileChooser.Action = FileChooserAction.Save;
+			fileChooser.Action = Gtk.FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastDirectoryName);
 			fileChooser.Filter = fileChooser.Filters[(level.isWorldmap)?2:1];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
-			if(result != (int) ResponseType.Ok)
+			if(result != (int) Gtk.ResponseType.Ok)
 				return;
 			Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 			Settings.Instance.addToRecentDocuments(fileChooser.Filename);
@@ -648,7 +651,7 @@ public class Application : IEditorApplication {
 
 		Gtk.AboutDialog dialog = new Gtk.AboutDialog();
 		dialog.Icon = EditorStock.WindowIcon;
-		dialog.Name = "SuperTux Editor";
+		dialog.ProgramName = "SuperTux Editor";
 		dialog.Version = Constants.PACKAGE_VERSION;
 		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
 		dialog.Authors = authors;
@@ -733,12 +736,12 @@ public class Application : IEditorApplication {
 			}
 
 			fileChooser.Title = "Choose a Brush";
-			fileChooser.Action = FileChooserAction.Open;
+			fileChooser.Action = Gtk.FileChooserAction.Open;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			fileChooser.Filter = fileChooser.Filters[3];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
-			if(result != (int) ResponseType.Ok)
+			if(result != (int) Gtk.ResponseType.Ok)
 				return;
 			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
@@ -763,12 +766,12 @@ public class Application : IEditorApplication {
 			BrushTool brushTool = (BrushTool) editor;
 
 			fileChooser.Title = "Choose a Brush";
-			fileChooser.Action = FileChooserAction.Save;
+			fileChooser.Action = Gtk.FileChooserAction.Save;
 			fileChooser.SetCurrentFolder(Settings.Instance.LastBrushDir);
 			fileChooser.Filter = fileChooser.Filters[3];
 			int result = fileChooser.Run();
 			fileChooser.Hide();
-			if(result != (int) ResponseType.Ok)
+			if(result != (int) Gtk.ResponseType.Ok)
 				return;
 			Settings.Instance.LastBrushDir = fileChooser.CurrentFolder;
 			Settings.Instance.Save();
@@ -789,7 +792,7 @@ public class Application : IEditorApplication {
 		}
 	}
 
-	private void OnDelete(object o, DeleteEventArgs args)
+	private void OnDelete(object o, Gtk.DeleteEventArgs args)
 	{
 		Close();
 		args.RetVal = true;
@@ -802,21 +805,21 @@ public class Application : IEditorApplication {
 	/// <returns>True if continue otherwise false</returns>
 	private bool ChangeConfirm(string act) {
 		if( UndoManager.IsDirty ) {
-			MessageDialog md = new MessageDialog (MainWindow,
-			                                      DialogFlags.DestroyWithParent,
-			                                      MessageType.Warning,
-			                                      ButtonsType.None,
+			Gtk.MessageDialog md = new Gtk.MessageDialog (MainWindow,
+			                                      Gtk.DialogFlags.DestroyWithParent,
+			                                      Gtk.MessageType.Warning,
+			                                      Gtk.ButtonsType.None,
 			                                      "Continue without saving changes?"+ Environment.NewLine + Environment.NewLine +"If you " + act + " without saving, changes since the last save will be discarded.");
 			md.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
 			md.AddButton("Save and close", Gtk.ResponseType.Accept);
 			md.AddButton("Discard Changes", Gtk.ResponseType.Yes);
 
-			ResponseType result = (ResponseType)md.Run ();
+			Gtk.ResponseType result = (Gtk.ResponseType)md.Run ();
 			md.Destroy();
-			if (result == ResponseType.Accept) {
+			if (result == Gtk.ResponseType.Accept) {
 				Save(false);
 				return true;
-			} else if (result != ResponseType.Yes) {
+			} else if (result != Gtk.ResponseType.Yes) {
 				return false;
 			}
 		}
@@ -961,7 +964,7 @@ public class Application : IEditorApplication {
 
 		// find out where to insert the MenuItems
 		int insertAt = 0;
-		foreach (Widget w in MenuItemLevel_menu.Children) {
+		foreach (Gtk.Widget w in MenuItemLevel_menu.Children) {
 			insertAt++;
 			if (w == MenuItemMruBegin) break;
 		}
@@ -1054,12 +1057,12 @@ public class Application : IEditorApplication {
 		string undoLabel = "Undo";
 		MenuItemUndo.Sensitive = (UndoManager.UndoCount > 0);
 		if (UndoManager.UndoCount > 0) undoLabel += ": " + UndoManager.UndoTitle;
-		((Label)MenuItemUndo.Child).Text = undoLabel;
+		((Gtk.Label)MenuItemUndo.Child).Text = undoLabel;
 
 		string redoLabel = "Redo";
 		MenuItemRedo.Sensitive = (UndoManager.RedoCount > 0);
 		if (UndoManager.RedoCount > 0) redoLabel += ": " + UndoManager.RedoTitle;
-		((Label)MenuItemRedo.Child).Text = redoLabel;
+		((Gtk.Label)MenuItemRedo.Child).Text = redoLabel;
 	}
 
 	/// <summary>Called when an item of the RecentDocument MenuItems is chosen</summary>
@@ -1076,7 +1079,7 @@ public class Application : IEditorApplication {
 
 	}
 
-	private void OnDragDataReceived(object o, DragDataReceivedArgs args)
+	private void OnDragDataReceived(object o, Gtk.DragDataReceivedArgs args)
 	{
 		string data = System.Text.Encoding.UTF8.GetString (args.SelectionData.Data);
 		data += "\r\n";

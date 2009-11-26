@@ -19,10 +19,8 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using Gtk;
 using LispReader;
 using Undo;
-
 
 /// <summary>
 /// Used to set a custom tooltip for a LispChild.
@@ -46,18 +44,18 @@ public sealed class PropertyPropertiesAttribute : Attribute {
 	}
 }
 
-public class PropertiesView : ScrolledWindow
+public class PropertiesView : Gtk.ScrolledWindow
 {
-	private List<Widget> editWidgets = new List<Widget>();	//All widgets that edit properties
+	private List<Gtk.Widget> editWidgets = new List<Gtk.Widget>();	//All widgets that edit properties
 	private List<ICustomSettingsWidget> customWidgets = new List<ICustomSettingsWidget>();//All custom widgets
 	internal IEditorApplication application;
 	private System.Object Object;
 	//HACK: No bi-directional dictionary found... - it' simple: matching items have same ID.
 	private List<object> widgetTable = new List<object>();	//self-managed widgets ...
 	private List<FieldOrProperty> fieldTable = new List<FieldOrProperty>();	//... and fields that they edit
-	private Label errorLabel;
-	internal Tooltips tooltips;
-	private Label titleLabel;
+	private Gtk.Label errorLabel;
+	internal Gtk.Tooltips tooltips;
+	private Gtk.Label titleLabel;
 
 	public PropertiesView(IEditorApplication application) {
 		this.application = application;
@@ -94,10 +92,10 @@ public class PropertiesView : ScrolledWindow
 
 	private void CreatePropertyWidgets(string title, object NewObject)
 	{
-		VBox box = new VBox();
-		tooltips = new Tooltips();
+		Gtk.VBox box = new Gtk.VBox();
+		tooltips = new Gtk.Tooltips();
 
-		titleLabel = new Label();
+		titleLabel = new Gtk.Label();
 		titleLabel.Xalign = 0;
 		titleLabel.Xpad = 12;
 		titleLabel.Ypad = 6;
@@ -146,7 +144,7 @@ public class PropertiesView : ScrolledWindow
 
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {
-				Entry entry = new Entry();
+				Gtk.Entry entry = new Gtk.Entry();
 				entry.Name = field.Name;
 				object val = field.GetValue(NewObject);
 				if(val != null)
@@ -158,7 +156,7 @@ public class PropertiesView : ScrolledWindow
 				editWidgets.Add(entry);
 				AddTooltip(propertyProperties, entry);
 			} else if(field.Type == typeof(bool)) {
-				CheckButton checkButton = new CheckButton(field.Name);
+				Gtk.CheckButton checkButton = new Gtk.CheckButton(field.Name);
 				checkButton.Name = field.Name;
 				checkButton.Active = (bool) field.GetValue(NewObject);
 				widgetTable.Add(checkButton);
@@ -168,7 +166,7 @@ public class PropertiesView : ScrolledWindow
 				AddTooltip(propertyProperties, checkButton);
 			} else if(field.Type.IsEnum) {
 				// Create a combobox containing all the names of enum values.
-				ComboBox comboBox = new ComboBox(Enum.GetNames(field.Type));
+				Gtk.ComboBox comboBox = new Gtk.ComboBox(Enum.GetNames(field.Type));
 				// Set the name of the box.
 				comboBox.Name = field.Name;
 				// FIXME: This will break if:
@@ -191,29 +189,29 @@ public class PropertiesView : ScrolledWindow
 			field.Changed += OnFieldChanged;
 		}
 
-		Table table = new Table((uint) editWidgets.Count, 2, false);
+		Gtk.Table table = new Gtk.Table((uint) editWidgets.Count, 2, false);
 		table.ColumnSpacing = 6;
 		table.RowSpacing = 6;
 		table.BorderWidth = 12;
 		for(uint i = 0; i < editWidgets.Count; ++i) {
-			Widget widget = editWidgets[(int) i];
-			if(widget is CheckButton) {
+			Gtk.Widget widget = editWidgets[(int) i];
+			if(widget is Gtk.CheckButton) {
 				table.Attach(widget, 0, 2, i, i+1,
-				             AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+				             Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand, Gtk.AttachOptions.Shrink, 0, 0);
 			} else {
-				Label label = new Label(widget.Name + ":");
+				Gtk.Label label = new Gtk.Label(widget.Name + ":");
 				label.SetAlignment(0, 1);
 				table.Attach(label, 0, 1, i, i+1,
-				             AttachOptions.Fill, AttachOptions.Shrink, 0, 0);
+				             Gtk.AttachOptions.Fill, Gtk.AttachOptions.Shrink, 0, 0);
 				table.Attach(widget, 1, 2, i, i+1,
-				             AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+				             Gtk.AttachOptions.Fill | Gtk.AttachOptions.Expand, Gtk.AttachOptions.Shrink, 0, 0);
 			}
 		}
 		box.PackStart(table, true, true, 0);
 
 		// TODO add a (!) image in front of the label (and hide/show it depending
 		// if there was an error)
-		errorLabel = new Label(String.Empty);
+		errorLabel = new Gtk.Label(String.Empty);
 		errorLabel.Xalign = 0;
 		errorLabel.Xpad = 12;
 		box.PackStart(errorLabel, true, false, 0);
@@ -229,15 +227,15 @@ public class PropertiesView : ScrolledWindow
 	/// </summary>
 	/// <param name="propertyProperties">Attribute with tooltip</param>
 	/// <param name="widget">Widget to add tooltip to.</param>
-	private void AddTooltip(PropertyPropertiesAttribute propertyProperties, Widget widget) {
+	private void AddTooltip(PropertyPropertiesAttribute propertyProperties, Gtk.Widget widget) {
 		if ((propertyProperties != null) && (propertyProperties.Tooltip.Length != 0))
 			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
 	}
 
-	private void OnEntryChangeDone(object o, FocusOutEventArgs args)
+	private void OnEntryChangeDone(object o, Gtk.FocusOutEventArgs args)
 	{
 		try {
-			Entry entry = (Entry) o;
+			Gtk.Entry entry = (Gtk.Entry) o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(entry)];
 			PropertyChangeCommand command;
 			if(field.Type == typeof(string)) {
@@ -287,7 +285,7 @@ public class PropertiesView : ScrolledWindow
 	private void OnEntryChanged(object o, EventArgs args)
 	{
 		try {
-			Entry entry = (Entry) o;
+			Gtk.Entry entry = (Gtk.Entry) o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(entry)];
 			if(field.Type == typeof(string)) {
 				return;
@@ -317,7 +315,7 @@ public class PropertiesView : ScrolledWindow
 	private void OnCheckButtonToggled(object o, EventArgs args)
 	{
 		try {
-			CheckButton checkButton = (CheckButton) o;
+			Gtk.CheckButton checkButton = (Gtk.CheckButton) o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(checkButton)];
 			bool oldValue = (bool) field.GetValue(Object);
 			bool newValue = checkButton.Active;
@@ -337,7 +335,7 @@ public class PropertiesView : ScrolledWindow
 
 	private void OnComboBoxChanged(object o, EventArgs args) {
 		try {
-			ComboBox comboBox = (ComboBox)o;
+			Gtk.ComboBox comboBox = (Gtk.ComboBox)o;
 			FieldOrProperty field = fieldTable[widgetTable.IndexOf(comboBox)];
 			// Parse the string back to enum.
 			Enum oldValue = (Enum) field.GetValue(Object);
@@ -362,19 +360,19 @@ public class PropertiesView : ScrolledWindow
 			if(field.Type == typeof(string) || field.Type == typeof(float)
 				|| field.Type == typeof(int)) {
 
-				Entry entry = (Entry) widgetTable[fieldTable.IndexOf(field)];
+				Gtk.Entry entry = (Gtk.Entry) widgetTable[fieldTable.IndexOf(field)];
 				object val = field.GetValue(Object);
 				if(val != null)
 					entry.Text = val.ToString();
 
 			} else if(field.Type == typeof(bool)) {
 
-				CheckButton checkButton = (CheckButton) widgetTable[fieldTable.IndexOf(field)];
+				Gtk.CheckButton checkButton = (Gtk.CheckButton) widgetTable[fieldTable.IndexOf(field)];
 				checkButton.Active = (bool) field.GetValue(Object);
 
 			} else if(field.Type.IsEnum) {
 
-				ComboBox comboBox = (ComboBox) widgetTable[fieldTable.IndexOf(field)];
+				Gtk.ComboBox comboBox = (Gtk.ComboBox) widgetTable[fieldTable.IndexOf(field)];
 				// FIXME: This will break if:
 				//        1) the first enum isn't 0 and/or
 				//        2) the vaules are not sequential (0, 1, 3, 4 wouldn't work)
