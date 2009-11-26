@@ -16,10 +16,11 @@
 
 using Gdk;
 
-public sealed class TilemapEditor : TileEditorBase, IEditor {
+public sealed class TilemapTool : TileEditorBase, IEditor {
 
-	public TilemapEditor(IEditorApplication application, Tileset Tileset, Selection selection)
-		: base(application, Tileset, selection) {
+	public TilemapTool(IEditorApplication application, Tileset Tileset, Selection selection)
+		: base(application, Tileset, selection) 
+	{
 		ActionName = "Change Tiles";
 	}
 

@@ -254,11 +254,11 @@ public class ObjectListWidget : GLWidgetBase
 						Type type = gameObjectTypes[selected];
 						Sprite Icon = gameObjectSprites[selected];
 						if(type != null) {
-							IEditor editor = new ObjectCreationEditor(application, application.CurrentSector, type, Icon);
+							IEditor editor = new ObjectCreationTool(application, application.CurrentSector, type, Icon);
 							application.SetEditor(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
-							IEditor editor = new ObjectsEditor(application, application.CurrentSector);
+							IEditor editor = new ObjectsTool(application, application.CurrentSector);
 							application.SetEditor(editor);
 							application.PrintStatus("ObjectListWidget: none selected ");
 						}

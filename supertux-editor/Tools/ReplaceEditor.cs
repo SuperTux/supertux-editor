@@ -16,9 +16,9 @@
 
 using Gdk;
 
-public sealed class ReplaceEditor : TileEditorBase, IEditor
+public sealed class ReplaceTool : TileEditorBase, IEditor
 {
-	public ReplaceEditor(IEditorApplication application, Tileset Tileset, Selection selection)
+	public ReplaceTool(IEditorApplication application, Tileset Tileset, Selection selection)
 		: base(application, Tileset, selection) 
 	{
 		ActionName = "Replace Tiles";

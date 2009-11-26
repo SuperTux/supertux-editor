@@ -21,7 +21,7 @@ using Gdk;
 using OpenGl;
 using Sprites;
 
-public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
+public sealed class ObjectCreationTool : ObjectEditorBase, IEditor
 {
 	private Type objectType;
 	// Sprite for this object.
@@ -30,7 +30,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 	private Vector MousePos;
 	public event RedrawEventHandler Redraw;
 
-	public ObjectCreationEditor(IEditorApplication application,
+	public ObjectCreationTool(IEditorApplication application,
 	                            Sector sector, Type objectType, Sprite Icon) {
 		this.application = application;
 		this.sector = sector;
@@ -63,7 +63,7 @@ public sealed class ObjectCreationEditor : ObjectEditorBase, IEditor
 
 			// switch back to object edit mode when shift was not pressed
 			if((Modifiers & ModifierType.ShiftMask) == 0) {
-				ObjectsEditor editor = new ObjectsEditor(application, application.CurrentSector);
+				ObjectsTool editor = new ObjectsTool(application, application.CurrentSector);
 				if(gameObject is IObject) {
 					editor.MakeActive((IObject) gameObject);
 				}

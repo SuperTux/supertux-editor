@@ -404,7 +404,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
-			SetEditor(new ObjectsEditor(this, CurrentSector));
+			SetEditor(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -416,7 +416,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new TilemapEditor(this, level.Tileset, selection));
+			SetEditor(new TilemapTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -427,7 +427,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = true;
 			ToolBrushProps.Visible = false;
-			SetEditor(new ObjectsEditor(this, CurrentSector));
+			SetEditor(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -438,7 +438,7 @@ public class Application : IEditorApplication {
 			ToolTilesProps.Visible = false;
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = true;
-			SetEditor(new ObjectsEditor(this, CurrentSector));
+			SetEditor(new ObjectsTool(this, CurrentSector));
 		}
 	}
 
@@ -450,7 +450,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new FillEditor(this, level.Tileset, selection));
+			SetEditor(new FillTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -462,7 +462,7 @@ public class Application : IEditorApplication {
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			if (level == null) return;
-			SetEditor(new ReplaceEditor(this, level.Tileset, selection));
+			SetEditor(new ReplaceTool(this, level.Tileset, selection));
 		}
 	}
 
@@ -484,7 +484,7 @@ public class Application : IEditorApplication {
 				path.Nodes.Add(pathNode);
 				iPathToEdit.Path = path;
 			}
-			SetEditor(new PathEditor(this, iPathToEdit.Path));
+			SetEditor(new PathTool(this, iPathToEdit.Path));
 		}
 	}
 
@@ -744,7 +744,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
 
-			BrushEditor editor = new BrushEditor(this, level.Tileset, brushFile);
+			BrushTool editor = new BrushTool(this, level.Tileset, brushFile);
 			SetEditor(editor);
 		} catch(Exception e) {
 			ErrorDialog.Exception(e);
@@ -755,12 +755,12 @@ public class Application : IEditorApplication {
 	{
 		try {
 			IEditor editor = sectorSwitchNotebook.CurrentRenderer.Editor;
-			if(! (editor is BrushEditor)) {
+			if(! (editor is BrushTool)) {
 				ErrorDialog.ShowError("No brush editor active",
 				                      "You need to open a brush before you can save changes to it");
 				return;
 			}
-			BrushEditor brushEditor = (BrushEditor) editor;
+			BrushTool brushTool = (BrushTool) editor;
 
 			fileChooser.Title = "Choose a Brush";
 			fileChooser.Action = FileChooserAction.Save;
@@ -774,7 +774,7 @@ public class Application : IEditorApplication {
 			Settings.Instance.Save();
 			string brushFile = fileChooser.Filename;
 
-			brushEditor.Brush.saveToFile(brushFile);
+			brushTool.Brush.saveToFile(brushFile);
 			/*
 			try {
 				LispSerializer serializer = new LispSerializer(typeof(Brush));
