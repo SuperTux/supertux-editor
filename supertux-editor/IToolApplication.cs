@@ -17,12 +17,12 @@
 /// <summary>
 /// Interface to the editor application.
 /// </summary>
-public interface IEditorApplication
+public interface IToolApplication
 {
 	void ChangeCurrentLevel(Level NewLevel);
 	void ChangeCurrentSector(Sector Sector);
 	void ChangeCurrentTilemap(Tilemap Tilemap);
-	void SetTool(IEditor editor);
+	void SetTool(ITool editor);
 	void SetToolSelect();
 	void SetToolTiles();
 	void SetToolObjects();

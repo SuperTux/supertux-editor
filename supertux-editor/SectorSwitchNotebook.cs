@@ -23,7 +23,7 @@ public class SectorSwitchNotebook : Gtk.Notebook
 {
 	private Level level;
 	private Sector sector;
-	private IEditorApplication application;
+	private IToolApplication application;
 	private Dictionary<object, Gtk.Widget> widgets = new Dictionary<object, Gtk.Widget>();	//keep widgets in dictionary for easy updates
 
 	public delegate void SectorChangedEventHandler(Sector newSector);
@@ -45,7 +45,7 @@ public class SectorSwitchNotebook : Gtk.Notebook
 		}
 	}
 
-	public SectorSwitchNotebook(IEditorApplication application)
+	public SectorSwitchNotebook(IToolApplication application)
 	{
 		this.application = application;
 		SwitchPage += OnSwitchPage;

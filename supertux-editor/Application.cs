@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using DataStructures;
 using Undo;
 
-public class Application : IEditorApplication 
+public class Application : IToolApplication 
 {
 	private class MruEntry {
 		public Gtk.MenuItem MenuItem;
@@ -167,8 +167,8 @@ public class Application : IEditorApplication
 	}
 	private bool snapToGrid = true;
 
-	private static IEditorApplication editorApplication;
-	public static IEditorApplication EditorApplication {
+	private static IToolApplication editorApplication;
+	public static IToolApplication EditorApplication {
 		get {
 			return editorApplication;
 		}
@@ -757,7 +757,7 @@ public class Application : IEditorApplication
 	protected void OnBrushSaveAs(object o, EventArgs args)
 	{
 		try {
-			IEditor editor = sectorSwitchNotebook.CurrentRenderer.Editor;
+			ITool editor = sectorSwitchNotebook.CurrentRenderer.Editor;
 			if(! (editor is BrushTool)) {
 				ErrorDialog.ShowError("No brush editor active",
 				                      "You need to open a brush before you can save changes to it");
@@ -876,7 +876,7 @@ public class Application : IEditorApplication
 		TilemapChanged(tilemap);
 	}
 
-	public void SetTool(IEditor editor)
+	public void SetTool(ITool editor)
 	{
 		if (sectorSwitchNotebook == null) return;
 		if (sectorSwitchNotebook.CurrentRenderer == null) return;

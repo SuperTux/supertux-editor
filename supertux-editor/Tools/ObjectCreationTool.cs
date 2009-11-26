@@ -21,7 +21,7 @@ using Gdk;
 using OpenGl;
 using Sprites;
 
-public sealed class ObjectCreationTool : ObjectToolBase, IEditor
+public sealed class ObjectCreationTool : ObjectToolBase, ITool
 {
 	private Type objectType;
 	// Sprite for this object.
@@ -30,7 +30,7 @@ public sealed class ObjectCreationTool : ObjectToolBase, IEditor
 	private Vector MousePos;
 	public event RedrawEventHandler Redraw;
 
-	public ObjectCreationTool(IEditorApplication application,
+	public ObjectCreationTool(IToolApplication application,
 	                            Sector sector, Type objectType, Sprite Icon) {
 		this.application = application;
 		this.sector = sector;

@@ -16,9 +16,8 @@
 
 using DataStructures;
 using Gdk;
-using Gtk;
 
-public interface IEditor
+public interface ITool
 {
 	/// <summary>
 	/// Draw it
@@ -37,7 +36,7 @@ public interface IEditor
 }
 public delegate void RedrawEventHandler();
 
-public interface IEditorCursorChange
+public interface IToolCursorChange
 {
 	event CursorChangeHandler CursorChange;
 }

@@ -22,9 +22,9 @@ using OpenGl;
 /// </summary>
 public sealed class TilemapBorder : Node {
 
-	public IEditorApplication application;
+	public IToolApplication application;
 
-	public TilemapBorder(IEditorApplication application)
+	public TilemapBorder(IToolApplication application)
 	{
 		this.application = application;
 	}

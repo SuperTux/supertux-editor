@@ -23,7 +23,7 @@ using Gtk;
 using Gdk;
 using Undo;
 
-public sealed class ObjectsTool : ObjectToolBase, IEditor, IDisposable
+public sealed class ObjectsTool : ObjectToolBase, ITool, IDisposable
 {
 	private sealed class ControlPoint : IObject, Node
 	{
@@ -131,7 +131,7 @@ public sealed class ObjectsTool : ObjectToolBase, IEditor, IDisposable
 
 	public event RedrawEventHandler Redraw;
 
-	public ObjectsTool(IEditorApplication application, Sector sector)
+	public ObjectsTool(IToolApplication application, Sector sector)
 	{
 		this.application = application;
 		this.sector = sector;

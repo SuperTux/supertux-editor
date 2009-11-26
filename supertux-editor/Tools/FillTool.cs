@@ -18,9 +18,9 @@
 using DataStructures;
 using Gdk;
 
-public sealed class FillTool : TileToolBase, IEditor {
+public sealed class FillTool : TileToolBase, ITool {
 
-	public FillTool(IEditorApplication application, Tileset Tileset, TileSelection selection)
+	public FillTool(IToolApplication application, Tileset Tileset, TileSelection selection)
 		: base(application, Tileset, selection) {
 		ActionName = "Flood Fill";
 	}

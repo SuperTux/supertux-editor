@@ -23,7 +23,7 @@ using Gdk;
 /// Left-click and drag to apply brush.
 /// Right-click and drag to select an area with patterns to learn.
 /// </summary>
-public sealed class BrushTool : TileToolBase, IEditor
+public sealed class BrushTool : TileToolBase, ITool
 {
 	private Brush brush;
 
@@ -40,7 +40,7 @@ public sealed class BrushTool : TileToolBase, IEditor
 	/// </summary>
 	private bool LastPreviewIsChange;
 
-	public BrushTool(IEditorApplication application, Tileset Tileset, string brushFile)
+	public BrushTool(IToolApplication application, Tileset Tileset, string brushFile)
 		: base(application, Tileset, new TileSelection()) {
 		brush = Brush.loadFromFile(brushFile, Tileset);
 		ActionName = "Tile Brush";

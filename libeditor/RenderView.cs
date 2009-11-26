@@ -35,13 +35,13 @@ public class RenderView : GLWidgetBase
 	private Vector dragStartTranslation;
 	private Vector MousePos;
 
-	private IEditor editor;
-	public IEditor Editor {
+	private ITool editor;
+	public ITool Editor {
 		set {
 			if(this.editor != null) {
 				this.editor.Redraw -= QueueDraw;
-				if(this.editor is IEditorCursorChange)
-					((IEditorCursorChange) this.editor).CursorChange -= CursorChange;
+				if(this.editor is IToolCursorChange)
+					((IToolCursorChange) this.editor).CursorChange -= CursorChange;
 				if(this.editor is IDisposable)
 					((IDisposable) this.editor).Dispose();
 			}
@@ -49,8 +49,8 @@ public class RenderView : GLWidgetBase
 			this.editor = value;
 			if(this.editor != null) {
 				this.editor.Redraw += QueueDraw;
-				if(this.editor is IEditorCursorChange)
-					((IEditorCursorChange) this.editor).CursorChange += CursorChange;
+				if(this.editor is IToolCursorChange)
+					((IToolCursorChange) this.editor).CursorChange += CursorChange;
 			}
 		}
 		get {

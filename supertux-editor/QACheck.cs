@@ -46,7 +46,7 @@ public static class QACheck
 	}
 
 
-	public static void CheckIds(IEditorApplication application, Sector sector, bool AlertGood) {
+	public static void CheckIds(IToolApplication application, Sector sector, bool AlertGood) {
 		System.Text.StringBuilder sb = new System.Text.StringBuilder("These tilemaps have bad ids in sector " + sector.Name + ":");
 		List<int> invalidtiles;
 		// Any bad found yet?

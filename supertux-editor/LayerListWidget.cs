@@ -24,7 +24,7 @@ using LispReader;
 using Undo;
 
 public class LayerListWidget : TreeView {
-	private IEditorApplication application;
+	private IToolApplication application;
 	private static object separatorObject = new System.Object();
 	private static object badguysObject = new System.Object();
 	private Sector sector;
@@ -53,7 +53,7 @@ public class LayerListWidget : TreeView {
 		public event VisibilityChangedHandler VisibilityChanged;
 	}
 
-	public LayerListWidget(IEditorApplication application)
+	public LayerListWidget(IToolApplication application)
 	{
 		this.application = application;
 		RowSeparatorFunc = OurRowSeparatorFunc;

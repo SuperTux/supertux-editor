@@ -48,7 +48,7 @@ public class PropertiesView : Gtk.ScrolledWindow
 {
 	private List<Gtk.Widget> editWidgets = new List<Gtk.Widget>();	//All widgets that edit properties
 	private List<ICustomSettingsWidget> customWidgets = new List<ICustomSettingsWidget>();//All custom widgets
-	internal IEditorApplication application;
+	internal IToolApplication application;
 	private System.Object Object;
 	//HACK: No bi-directional dictionary found... - it' simple: matching items have same ID.
 	private List<object> widgetTable = new List<object>();	//self-managed widgets ...
@@ -57,7 +57,7 @@ public class PropertiesView : Gtk.ScrolledWindow
 	internal Gtk.Tooltips tooltips;
 	private Gtk.Label titleLabel;
 
-	public PropertiesView(IEditorApplication application) {
+	public PropertiesView(IToolApplication application) {
 		this.application = application;
 	}
 

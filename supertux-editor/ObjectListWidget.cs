@@ -39,7 +39,7 @@ public class ObjectListWidget : GLWidgetBase
 	private List<Sprite> gameObjectSprites = new List<Sprite>();
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
-	private IEditorApplication application;
+	private IToolApplication application;
 	private Level level;
 	private Adjustment vadjustment;
 
@@ -48,7 +48,7 @@ public class ObjectListWidget : GLWidgetBase
 		new TargetEntry("BadguyName", TargetFlags.App, 1)
 	};
 
-	public ObjectListWidget(IEditorApplication application, Adjustment adjv)
+	public ObjectListWidget(IToolApplication application, Adjustment adjv)
 	{
 		this.application = application;
 
@@ -254,11 +254,11 @@ public class ObjectListWidget : GLWidgetBase
 						Type type = gameObjectTypes[selected];
 						Sprite Icon = gameObjectSprites[selected];
 						if(type != null) {
-							IEditor editor = new ObjectCreationTool(application, application.CurrentSector, type, Icon);
+							ITool editor = new ObjectCreationTool(application, application.CurrentSector, type, Icon);
 							application.SetTool(editor);
 							application.PrintStatus("ObjectListWidget: last selected \"" + gameObjectTypes[selected].Name +"\"");
 						} else {
-							IEditor editor = new ObjectsTool(application, application.CurrentSector);
+							ITool editor = new ObjectsTool(application, application.CurrentSector);
 							application.SetTool(editor);
 							application.PrintStatus("ObjectListWidget: none selected ");
 						}

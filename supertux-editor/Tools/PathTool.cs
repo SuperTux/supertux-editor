@@ -25,7 +25,7 @@ using OpenGl;
 using LispReader;
 using Undo;
 
-public sealed class PathTool : ToolBase, IEditor, IEditorCursorChange, IDisposable
+public sealed class PathTool : ToolBase, ITool, IToolCursorChange, IDisposable
 {
 	public event RedrawEventHandler Redraw;
 	public event CursorChangeHandler CursorChange;
@@ -40,7 +40,7 @@ public sealed class PathTool : ToolBase, IEditor, IEditorCursorChange, IDisposab
 	private ushort linepattern = 7;
 	private static bool killTimer;
 
-	public PathTool(IEditorApplication application, Path path)
+	public PathTool(IToolApplication application, Path path)
 	{
 		this.application = application;
 		this.path = path;

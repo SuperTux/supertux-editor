@@ -65,7 +65,7 @@ public abstract class TileToolBase : ToolBase, IDisposable
 	public virtual void SelectionDoneAction(TileSelection selection) { }
 	public string ActionName;
 
-	protected TileToolBase(IEditorApplication application, Tileset Tileset, TileSelection selection) {
+	protected TileToolBase(IToolApplication application, Tileset Tileset, TileSelection selection) {
 		this.application = application;
 		this.Tileset = Tileset;
 		this.selection = selection;
