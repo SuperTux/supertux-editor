@@ -143,7 +143,7 @@ public class LayerListWidget : TreeView {
 		int a = getZPos(objA);
 		int b = getZPos(objB);
 		return a.CompareTo(b);
-     }
+	}
 
 	private void UpdateList()
 	{
@@ -205,22 +205,27 @@ public class LayerListWidget : TreeView {
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
 	                                TreeModel Model, TreeIter Iter)
 	{
-		CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
+		// FIXME: temporary exception crash stopper, need proper fix
+		try {
+			CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
 
-		object o = Model.GetValue(Iter, 0);
+			object o = Model.GetValue(Iter, 0);
 
-		if (o is ILayer && !(o is IDrawableLayer)) {	//no visibility for objects that we can't currently display
-			PixbufRenderer.StockId = null;
-			return;
-		}
+			if (o is ILayer && !(o is IDrawableLayer)) {	//no visibility for objects that we can't currently display
+				PixbufRenderer.StockId = null;
+				return;
+			}
 
-		float vis = visibility[o];
-		if(vis <= 0) {
-			PixbufRenderer.StockId = null;
-		} else if(vis <= 0.5f) {
-			PixbufRenderer.StockId = EditorStock.EyeHalf;
-		} else {
-			PixbufRenderer.StockId = EditorStock.Eye;
+			float vis = visibility[o];
+			if(vis <= 0) {
+				PixbufRenderer.StockId = null;
+			} else if(vis <= 0.5f) {
+				PixbufRenderer.StockId = EditorStock.EyeHalf;
+			} else {
+				PixbufRenderer.StockId = EditorStock.Eye;
+			}
+		} catch(Exception e) {
+			LogManager.Log(LogLevel.Debug, "LayerListWidget.cs VisibilityDataFunc: " + e);
 		}
 	}
 
@@ -246,7 +251,7 @@ public class LayerListWidget : TreeView {
 	}
 
 	[GLib.ConnectBefore]
-	private void OnButtonPressed(object o, ButtonPressEventArgs args)
+		private void OnButtonPressed(object o, ButtonPressEventArgs args)
 	{
 		TreePath path;
 		if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
@@ -346,9 +351,9 @@ public class LayerListWidget : TreeView {
 		IPathObject pathObject = (IPathObject) application.CurrentTilemap;
 		if (pathObject.Path != null) {
 			Command command = new PropertyChangeCommand("Removed path of Tilemap " + application.CurrentTilemap.Name + " (" + application.CurrentTilemap.Layer + ")",
-				FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Path")),
-				application.CurrentTilemap,
-				null);
+								    FieldOrProperty.Lookup(typeof(Tilemap).GetProperty("Path")),
+								    application.CurrentTilemap,
+								    null);
 			command.Do();
 			UndoManager.AddCommand(command);
 		}
@@ -420,7 +425,7 @@ public class LayerListWidget : TreeView {
 
 			if (obj is ILayer)
 				application.CurrentRenderer.SetILayerColor((ILayer)obj,
-			                                            new Color(1, 1, 1, newvis));
+									   new Color(1, 1, 1, newvis));
 			if (obj == badguysObject)
 				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
 
