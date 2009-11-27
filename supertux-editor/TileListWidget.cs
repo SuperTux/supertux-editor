@@ -43,9 +43,9 @@ public class TileListWidget : GLWidgetBase {
 
 	private Adjustment vadjustment;
 
-	private IToolApplication application;
+	private Application application;
 
-	public TileListWidget(IToolApplication application, TileSelection selection, Adjustment adjv)
+	public TileListWidget(Application application, TileSelection selection, Adjustment adjv)
 	{
 		this.selection = selection;
 		selection.Changed += OnSelectionChanged;

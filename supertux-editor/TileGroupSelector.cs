@@ -22,7 +22,7 @@ public class TilegroupSelector : ComboBox
 	private Level level;
 	private TileListWidget tileList;
 
-	public TilegroupSelector(IToolApplication application, TileListWidget tileList)
+	public TilegroupSelector(Application application, TileListWidget tileList)
 	{
 		this.tileList = tileList;
 		application.LevelChanged += OnLevelChanged;

@@ -25,7 +25,7 @@ using Undo;
 
 public sealed class ZoomTool : ITool
 {
-	private IToolApplication application;
+	private Application application;
 	private enum State {
 		NONE,
 		ZOOM_RECT
@@ -34,7 +34,7 @@ public sealed class ZoomTool : ITool
 	private Vector pressPoint;
 	private Vector mousePoint;
 
-	public ZoomTool(IToolApplication application)
+	public ZoomTool(Application application)
 	{
 		this.application = application;
 		this.state = State.NONE;

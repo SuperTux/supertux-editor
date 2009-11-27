@@ -30,7 +30,7 @@ public sealed class ObjectCreationTool : ObjectToolBase, ITool
 	private Vector MousePos;
 	public event RedrawEventHandler Redraw;
 
-	public ObjectCreationTool(IToolApplication application,
+	public ObjectCreationTool(Application application,
 	                            Sector sector, Type objectType, Sprite Icon) {
 		this.application = application;
 		this.sector = sector;

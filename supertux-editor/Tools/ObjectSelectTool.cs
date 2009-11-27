@@ -40,7 +40,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 
 	public event RedrawEventHandler Redraw;
 
-	public ObjectSelectTool(IToolApplication application, Sector sector)
+	public ObjectSelectTool(Application application, Sector sector)
 	{
 		this.application = application;
 		this.sector = sector;

@@ -26,7 +26,7 @@ using Undo;
 /// </summary>
 public abstract class ToolBase 
 {
-	protected IToolApplication application;
+	protected Application application;
 }
 
 /* EOF */

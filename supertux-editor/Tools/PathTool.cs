@@ -40,7 +40,7 @@ public sealed class PathTool : ToolBase, ITool, IToolCursorChange, IDisposable
 	private ushort linepattern = 7;
 	private static bool killTimer;
 
-	public PathTool(IToolApplication application, Path path)
+	public PathTool(Application application, Path path)
 	{
 		this.application = application;
 		this.path = path;

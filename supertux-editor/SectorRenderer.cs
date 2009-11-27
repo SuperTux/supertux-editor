@@ -29,11 +29,11 @@ public sealed class SectorRenderer : RenderView
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
 	private SceneGraph.Rectangle sectorFill;
-	private IToolApplication application;
+	private Application application;
 	private Level level;
 	private Sector sector;
 
-	public SectorRenderer(IToolApplication application, Level level, Sector sector)
+	public SectorRenderer(Application application, Level level, Sector sector)
 	{
 		this.application = application;
 		this.level = level;

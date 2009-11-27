@@ -39,7 +39,7 @@ public class ObjectListWidget : GLWidgetBase
 	private List<Sprite> gameObjectSprites = new List<Sprite>();
 	private int SelectedObjectNr = NONE;
 	private int FirstRow = 0;
-	private IToolApplication application;
+	private Application application;
 	private Level level;
 	private Adjustment vadjustment;
 
@@ -48,7 +48,7 @@ public class ObjectListWidget : GLWidgetBase
 		new TargetEntry("BadguyName", TargetFlags.App, 1)
 	};
 
-	public ObjectListWidget(IToolApplication application, Adjustment adjv)
+	public ObjectListWidget(Application application, Adjustment adjv)
 	{
 		this.application = application;
 

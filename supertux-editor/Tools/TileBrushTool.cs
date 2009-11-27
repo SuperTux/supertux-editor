@@ -40,7 +40,7 @@ public sealed class TileBrushTool : TileToolBase, ITool
 	/// </summary>
 	private bool LastPreviewIsChange;
 
-	public TileBrushTool(IToolApplication application, Tileset Tileset, string brushFile)
+	public TileBrushTool(Application application, Tileset Tileset, string brushFile)
 		: base(application, Tileset, new TileSelection()) 
 	{
 		brush = TileBrush.loadFromFile(brushFile, Tileset);

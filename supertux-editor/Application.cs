@@ -25,7 +25,11 @@ using System.Collections.Generic;
 using DataStructures;
 using Undo;
 
-public class Application : IToolApplication 
+public delegate void LevelChangedEventHandler(Level NewLevel);
+public delegate void SectorChangedEventHandler(Level Level, Sector NewSector);
+public delegate void TilemapChangedEventHandler(Tilemap Tilemap);
+
+public class Application
 {
 	private class MruEntry {
 		public Gtk.MenuItem MenuItem;
@@ -168,8 +172,8 @@ public class Application : IToolApplication
 	}
 	private bool snapToGrid = true;
 
-	private static IToolApplication editorApplication;
-	public static IToolApplication EditorApplication {
+	private static Application editorApplication;
+	public static Application EditorApplication {
 		get {
 			return editorApplication;
 		}

@@ -23,11 +23,11 @@ public class GameObjectListWidget : IconView
 	const int COL_OBJECT = 1;
 
 	private IGameObject currentObject;
-	private IToolApplication application;
+	private Application application;
 	private Sector sector;
 	private Gtk.Frame myFrame;
 
-	public GameObjectListWidget(IToolApplication application)
+	public GameObjectListWidget(Application application)
 	{
 		this.application = application;
 		ButtonPressEvent += OnButtonPressed;

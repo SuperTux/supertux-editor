@@ -18,7 +18,7 @@ using Gdk;
 
 public sealed class TilePaintTool : TileToolBase, ITool
 {
-	public TilePaintTool(IToolApplication application, Tileset Tileset, TileSelection selection)
+	public TilePaintTool(Application application, Tileset Tileset, TileSelection selection)
 		: base(application, Tileset, selection) 
 	{
 		ActionName = "Change Tiles";
