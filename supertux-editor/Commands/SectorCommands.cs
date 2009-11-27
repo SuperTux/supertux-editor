@@ -16,6 +16,7 @@
 
 using System;
 using System.Collections.Generic;
+using DataStructures;
 
 namespace Undo 
 {
@@ -41,7 +42,25 @@ namespace Undo
 				this.Tilemap = Tilemap;
 			}
 		}
+		
+		private struct ObjectData
+		{
+			public RectangleF OldArea;
+			public RectangleF NewArea;
+			public IObject    Object;
+			
+			public ObjectData(RectangleF OldArea,
+					  RectangleF NewArea,
+					  IObject    Object)
+			{
+				this.OldArea = OldArea;
+				this.NewArea = NewArea;
+				this.Object  = Object;
+			}
+		}
+
 		private List<TilemapData> tilemaps = new List<TilemapData>();
+		private List<ObjectData>  objects  = new List<ObjectData>();
 
 		private int xOffset;
 		private int yOffset;
@@ -52,6 +71,10 @@ namespace Undo
 
 		public override void Do() 
 		{
+			foreach(ObjectData obj in objects) {
+				obj.Object.ChangeArea(obj.NewArea);
+			}
+
 			foreach (TilemapData tilemapdata in tilemaps) {
 				//skip this tilemap, if it's smaller than resizing parameters
 				if (tilemapdata.Tilemap.Width < minWidth && tilemapdata.Tilemap.Height < minHeight)
@@ -63,6 +86,10 @@ namespace Undo
 
 		public override void Undo() 
 		{
+			foreach(ObjectData obj in objects) {
+				obj.Object.ChangeArea(obj.OldArea);
+			}
+
 			foreach (TilemapData tilemapdata in tilemaps) {
 				tilemapdata.Tilemap.RestoreState(tilemapdata.OldState);
 			}
@@ -91,7 +118,8 @@ namespace Undo
 			this.newHeight = newHeight;
 			this.minWidth  = Math.Min(oldWidth, newWidth);
 			this.minHeight = Math.Min(oldHeight, newHeight);
-			if (tilemap != null){
+
+			if (tilemap != null) {
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
 				this.minWidth = 0;
 				this.minHeight = 0;
@@ -99,6 +127,13 @@ namespace Undo
 				foreach (Tilemap tmap in sector.GetObjects(typeof(Tilemap))) {
 					tilemaps.Add(new TilemapData(tmap.SaveState(), tmap));
 				}
+			}
+
+			foreach(IObject obj in sector.GetObjects(typeof(IObject))) 
+			{
+				RectangleF newArea = obj.Area;
+				newArea.Move(new Vector(xOffset * 32, yOffset * 32));
+				objects.Add(new ObjectData(obj.Area, newArea, obj));
 			}
 		}
 
