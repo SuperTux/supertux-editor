@@ -244,7 +244,6 @@ public class RenderView : GLWidgetBase
 	public void ZoomTo(Vector pos, float factor)
 	{
 		Vector old_translation = Translation;
-		float  old_zoom = Zoom;
 
 		SetZoom(Zoom * factor);
 		SetTranslation((pos * (1 - factor) + old_translation) / factor);
@@ -256,6 +255,30 @@ public class RenderView : GLWidgetBase
 	{
 		Vector pos = MouseToWorld(new Vector(Allocation.Width/2.0f, Allocation.Height/2.0f));
 		ZoomTo(pos, factor);
+	}
+
+	public void ZoomTo(RectangleF rect)
+	{
+		float window_aspect = Allocation.Width / Allocation.Height;
+		float rect_aspect = rect.Width / rect.Height;
+
+		if (window_aspect > rect_aspect)
+		{
+			SetZoom(Allocation.Height / rect.Height);
+			SetPosition(rect.Center);
+		}
+		else
+		{
+			SetZoom(Allocation.Width / rect.Width);
+			SetPosition(rect.Center);
+		}
+	}
+
+	/// <summary>Set the Translatation so that the center of the
+	/// window poinst to pos (in World coordinates)</summary>
+	public void SetPosition(Vector pos)
+	{
+		SetTranslation(new Vector(Allocation.Width/2.0f/Zoom - pos.X, Allocation.Height/2.0f/Zoom - pos.Y));
 	}
 
 	public void SetTranslation(Vector tr)
