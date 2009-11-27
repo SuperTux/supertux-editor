@@ -614,6 +614,39 @@
 	      <property name="show_arrow">True</property>
 
 	      <child>
+		<widget class="GtkRadioToolButton" id="ToolZoom">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Zoom Tool</property>
+		  <property name="label" translatable="yes">Zoom</property>
+		  <property name="use_underline">True</property>
+	          <property name="stock_id">gtk-zoom-fit</property>
+		  <property name="visible_horizontal">True</property>
+		  <property name="visible_vertical">True</property>
+		  <property name="is_important">False</property>
+		  <property name="active">False</property>
+		  <property name="group">ToolSelect</property>
+		  <signal name="toggled" handler="OnToolZoom" last_modification_time="Mon, 05 Jun 2009 23:49:54 GMT"/>
+		</widget>
+		<packing>
+		  <property name="expand">False</property>
+		  <property name="homogeneous">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+	        <widget class="GtkSeparatorToolItem" id="separatortoolitem9">
+	          <property name="visible">True</property>
+	          <property name="draw">True</property>
+	          <property name="visible_horizontal">True</property>
+	          <property name="visible_vertical">True</property>
+	        </widget>
+	        <packing>
+	          <property name="expand">False</property>
+	          <property name="homogeneous">False</property>
+	        </packing>
+	      </child>
+
+	      <child>
 		<widget class="GtkRadioToolButton" id="ToolSelect">
 		  <property name="visible">True</property>
 		  <property name="tooltip" translatable="yes">Select Tool</property>

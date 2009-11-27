@@ -54,13 +54,14 @@ public class Application : IToolApplication
 	[Glade.Widget]
 	private Gtk.Widget ToolBrushProps = null;
 
-	[Glade.Widget] private Gtk.RadioToolButton ToolSelect = null;
-	[Glade.Widget] private Gtk.RadioToolButton ToolTiles = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolSelect  = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolTiles   = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolZoom    = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolObjects = null;
-	[Glade.Widget] private Gtk.RadioToolButton ToolBrush = null;
-	[Glade.Widget] private Gtk.RadioToolButton ToolFill = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolBrush   = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolFill    = null;
 	[Glade.Widget] private Gtk.RadioToolButton ToolReplace = null;
-	[Glade.Widget] private Gtk.RadioToolButton ToolPath = null;
+	[Glade.Widget] private Gtk.RadioToolButton ToolPath    = null;
 
 	[Glade.Widget]
 	private Gtk.Statusbar sbMain = null;
@@ -220,6 +221,7 @@ public class Application : IToolApplication
 		ToolFill.StockId = EditorStock.ToolFill;
 		ToolReplace.StockId = EditorStock.ToolReplace;
 		ToolPath.StockId = EditorStock.ToolPath;
+		ToolZoom.StockId = EditorStock.ToolZoom;
 		ToolButtonCamera.StockId = EditorStock.Camera;
 #endif
 
@@ -408,6 +410,19 @@ public class Application : IToolApplication
 			ToolObjectsProps.Visible = false;
 			ToolBrushProps.Visible = false;
 			SetTool(new ObjectSelectTool(this, CurrentSector));
+		}
+	}
+
+	protected void OnToolZoom(object o, EventArgs args) 
+	{
+		if (ToolZoom.Active) {
+			PrintStatus("Tool: Zoom");
+			ToolSelectProps.Visible  = false;
+			ToolTilesProps.Visible   = false;
+			ToolObjectsProps.Visible = false;
+			ToolBrushProps.Visible   = false;
+			if (level == null) return;
+			SetTool(new ZoomTool(this));
 		}
 	}
 
@@ -894,6 +909,12 @@ public class Application : IToolApplication
 	{
 		ToolTiles.Active = true;
 		OnToolTiles(null,null);
+	}
+
+	public void SetToolZoom()
+	{
+		ToolZoom.Active = true;
+		OnToolZoom(null,null);
 	}
 
 	public void SetToolObjects()

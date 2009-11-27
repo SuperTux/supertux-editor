@@ -25,6 +25,7 @@ public interface IToolApplication
 	void SetTool(ITool editor);
 	void SetToolSelect();
 	void SetToolTiles();
+	void SetToolZoom();
 	void SetToolObjects();
 	void SetToolBrush();
 	void SetToolFill();
