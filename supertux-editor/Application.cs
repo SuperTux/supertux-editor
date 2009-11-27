@@ -531,10 +531,18 @@ public class Application
 			sectorSwitchNotebook.CurrentRenderer.ZoomTo((float) Math.Sqrt(2));
 		}
 	}
+
 	protected void OnZoomOut(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
 			//sectorSwitchNotebook.CurrentRenderer.ZoomOut();
 			sectorSwitchNotebook.CurrentRenderer.ZoomTo(1/(float) Math.Sqrt(2));
+		}
+	}
+
+	protected void OnZoomFit(object o, EventArgs args) {
+		if( sectorSwitchNotebook.CurrentRenderer != null ) {
+			sectorSwitchNotebook.CurrentRenderer.ZoomTo(new RectangleF(0, 0, 
+										   CurrentSector.Width*32, CurrentSector.Height*32));
 		}
 	}
 

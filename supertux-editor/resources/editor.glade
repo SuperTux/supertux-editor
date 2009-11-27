@@ -591,6 +591,22 @@
 	      <property name="homogeneous">True</property>
 	    </packing>
 	  </child>
+
+	  <child>
+	    <widget class="GtkToolButton" id="toolbuttonZoomFit">
+	      <property name="visible">True</property>
+	      <property name="tooltip" translatable="yes">Fit Zoom to Level</property>
+	      <property name="stock_id">gtk-zoom-fit</property>
+	      <property name="visible_horizontal">True</property>
+	      <property name="visible_vertical">True</property>
+	      <property name="is_important">False</property>
+	      <signal name="clicked" handler="OnZoomFit" last_modification_time="Thu, 08 Mar 2007 23:02:47 GMT"/>
+	    </widget>
+	    <packing>
+	      <property name="expand">False</property>
+	      <property name="homogeneous">True</property>
+	    </packing>
+	  </child>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
