@@ -146,6 +146,44 @@ namespace DataStructures
 			}
 		}
 
+		/// xOffset/yOffset are the coordinates of the old
+		/// Field relative to the top/left of the new Field,
+		/// same as Gimps "Image->Canvas Size"
+		public void Resize(int xOffset, int yOffset, uint newWidth, uint newHeight, T fillValue)
+		{
+			if (xOffset == 0 && yOffset == 0)
+			{
+				Resize(newWidth, newHeight, fillValue);
+			}
+			else
+			{
+				List<T> newElements = new List<T>();
+			
+				for(int y = 0; y < newHeight; ++y) 
+				{
+					for(int x = 0; x < newWidth; ++x) 
+					{
+						int tX = x - xOffset;
+						int tY = y - yOffset;
+
+						if (0 <= tX && tX < width &&
+						    0 <= tY && tY < height)
+						{
+							newElements.Add(this[tX, tY]);
+						}
+						else
+						{
+							newElements.Add(fillValue);
+						}
+					}
+				}
+
+				Elements = newElements;
+				width  = newWidth;
+				height = newHeight;
+			}
+		}
+
 		public void Resize(uint NewWidth, uint NewHeight, T FillValue)
 		{
 			List<T> NewElements = new List<T>();

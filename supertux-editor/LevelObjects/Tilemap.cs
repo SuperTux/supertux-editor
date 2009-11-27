@@ -24,7 +24,8 @@ using System.Collections.Generic;
 		//tilemaps are no longer created as badguys, it is looking bad
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer {
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer 
+{
 	private int ZPos = 0;
 	[LispChild("z-pos")]
 	public int Layer {
@@ -36,14 +37,14 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		}
 	}
 
-//TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
+	//TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
 	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
-//	[LispChild("x", Optional = true, Default = 0.0f)]
+	//[LispChild("x", Optional = true, Default = 0.0f)]
 	public float X = 0;
 
-//TODO: If we want to store Y coordinate to level file, we must uncomment this and add support for it
+	//TODO: If we want to store Y coordinate to level file, we must uncomment this and add support for it
 	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
-//	[LispChild("y", Optional = true, Default = 0.0f)]
+	//[LispChild("y", Optional = true, Default = 0.0f)]
 	public float Y = 0;
 
 	[PropertyProperties(Tooltip = "If selected Tux will interact with tiles in this tilemap.")]
@@ -70,7 +71,8 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
-	public Path Path {
+	public Path Path 
+	{
 		get {
 			return path;
 		}
@@ -79,11 +81,13 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		}
 	}
 
-	public bool PathRemovable {
+	public bool PathRemovable 
+	{
 		get { return true; }
 	}
 
-	public enum DrawTargets {
+	public enum DrawTargets 
+	{
 		/// <summary>
 		/// Normal tilemap.
 		/// </summary>
@@ -107,13 +111,16 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 	public Tilemap() : base() {
 	}
 
-	public void UpdatePos(){
+	public void UpdatePos()
+	{
 		if (path != null && path.Nodes.Count > 0){
 			X = path.Nodes[0].X;
 			Y = path.Nodes[0].Y;
 		} else X = Y = 0;
 	}
-	public Node GetSceneGraphNode() {
+
+	public Node GetSceneGraphNode() 
+	{
 		return null;	//Tilemap can't create it's node
 	}
 }

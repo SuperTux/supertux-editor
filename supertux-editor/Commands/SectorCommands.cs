@@ -17,17 +17,22 @@
 using System;
 using System.Collections.Generic;
 
-namespace Undo {
-	public abstract class SectorCommand : Command {
+namespace Undo 
+{
+	public abstract class SectorCommand : Command 
+	{
 		protected Sector sector;
-		protected SectorCommand(string title, Sector sector): base(title) {
+		protected SectorCommand(string title, Sector sector) : base(title) 
+		{
 			this.sector = sector;
 		}
 	}
 
 
-	internal sealed class SectorSizeChangeCommand : SectorCommand {
-		private struct TilemapData {
+	internal sealed class SectorSizeChangeCommand : SectorCommand 
+	{
+		private struct TilemapData 
+		{
 			public TileBlock.StateData OldState;
 			public Tilemap Tilemap;
 
@@ -38,22 +43,26 @@ namespace Undo {
 		}
 		private List<TilemapData> tilemaps = new List<TilemapData>();
 
+		private int xOffset;
+		private int yOffset;
 		private uint newWidth;
 		private uint newHeight;
 		private uint minWidth;
 		private uint minHeight;
 
-		public override void Do() {
+		public override void Do() 
+		{
 			foreach (TilemapData tilemapdata in tilemaps) {
 				//skip this tilemap, if it's smaller than resizing parameters
 				if (tilemapdata.Tilemap.Width < minWidth && tilemapdata.Tilemap.Height < minHeight)
 					continue;
-				tilemapdata.Tilemap.Resize(newWidth, newHeight, 0);
+				tilemapdata.Tilemap.Resize(xOffset, yOffset, newWidth, newHeight, 0);
 			}
 			sector.EmitSizeChanged();
 		}
 
-		public override void Undo() {
+		public override void Undo() 
+		{
 			foreach (TilemapData tilemapdata in tilemaps) {
 				tilemapdata.Tilemap.RestoreState(tilemapdata.OldState);
 			}
@@ -64,18 +73,23 @@ namespace Undo {
 		/// <param name="title"> Title for undo record </param>
 		/// <param name="sector"> Sector that we want resize </param>
 		/// <param name="tilemap"> Tilemap we want resize, null means All tilemap in sector </param>
+		/// <param name="xOffset">xPosition of the old Sector relative to the top left of the new one</param>
+		/// <param name="yOffset">yPosition of the old Sector relative to the top left of the new one</param>
 		/// <param name="newWidth"> Width that we want to apply </param>
 		/// <param name="newHeight"> Height that we want to apply </param>
 		/// <param name="oldWidth"> Used when you want to set different value </param>
 		/// <param name="oldHeight"> Used when you want to set different value </param>
 		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, 
+						 int xOffset, int yOffset,
 						 uint newWidth, uint newHeight, 
 						 uint oldWidth, uint oldHeight)
 			: base(title, sector) 
 		{
-			this.newWidth = newWidth;
+			this.xOffset = xOffset;
+			this.yOffset = yOffset;
+			this.newWidth  = newWidth;
 			this.newHeight = newHeight;
-			this.minWidth = Math.Min(oldWidth, newWidth);
+			this.minWidth  = Math.Min(oldWidth, newWidth);
 			this.minHeight = Math.Min(oldHeight, newHeight);
 			if (tilemap != null){
 				tilemaps.Add(new TilemapData(tilemap.SaveState(), tilemap));
@@ -88,29 +102,34 @@ namespace Undo {
 			}
 		}
 
-		internal SectorSizeChangeCommand(string title, Sector sector, uint newWidth, uint newHeight)
-			:this(title, sector, null, newWidth, newHeight, sector.Width, sector.Height)
+		internal SectorSizeChangeCommand(string title, Sector sector, 
+						 int xOffset, int yOffset, uint newWidth, uint newHeight)
+			:this(title, sector, null, xOffset, yOffset, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 
-		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight)
-			:this(title, sector, tilemap, newWidth, newHeight, sector.Width, sector.Height)
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap,
+						 int xOffset, int yOffset, uint newWidth, uint newHeight)
+			:this(title, sector, tilemap, xOffset, yOffset, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 	}
 
 	public delegate void SectorsAddRemoveHandler(Sector sector);
 
 
-	public abstract class SectorAddRemoveCommand : SectorCommand {
+	public abstract class SectorAddRemoveCommand : SectorCommand 
+	{
 		protected Level level;
 		public event SectorsAddRemoveHandler OnSectorAdd;
 		public event SectorsAddRemoveHandler OnSectorRemove;
 
-		public override void Do() {
+		public override void Do() 
+		{
 			if (OnSectorAdd != null)
 				OnSectorAdd(sector);
 		}
 
-		public override void Undo() {
+		public override void Undo() 
+		{
 			if (OnSectorRemove != null)
 				OnSectorRemove(sector);
 		}
@@ -122,13 +141,16 @@ namespace Undo {
 
 	}
 
-	public class SectorAddCommand : SectorAddRemoveCommand {
-		public override void Do() {
+	public class SectorAddCommand : SectorAddRemoveCommand 
+	{
+		public override void Do() 
+		{
 			level.Sectors.Add(sector);
 			base.Do();
 		}
 
-		public override void Undo() {
+		public override void Undo() 
+		{
 			level.Sectors.Remove(sector);
 			base.Undo();
 		}
@@ -136,12 +158,15 @@ namespace Undo {
 		public SectorAddCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
 	}
 
-	public sealed class SectorRemoveCommand : SectorAddCommand {
-		public override void Do() {
+	public sealed class SectorRemoveCommand : SectorAddCommand 
+	{
+		public override void Do() 
+		{
 			base.Undo();
 		}
 
-		public override void Undo() {
+		public override void Undo() 
+		{
 			base.Do();
 		}
 

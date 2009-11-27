@@ -25,6 +25,10 @@ public class ResizeDialog
 	[Glade.Widget]
 	private Dialog resizeDialog = null;
 	[Glade.Widget]
+	private Entry XOffsetEntry = null;
+	[Glade.Widget]
+	private Entry YOffsetEntry = null;
+	[Glade.Widget]
 	private Entry WidthEntry = null;
 	[Glade.Widget]
 	private Entry HeightEntry = null;
@@ -40,14 +44,24 @@ public class ResizeDialog
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 
-		if(resizeDialog == null || WidthEntry == null || HeightEntry == null)
+		if (resizeDialog == null || 
+		    XOffsetEntry == null ||
+		    YOffsetEntry == null ||
+		    WidthEntry   == null || 
+		    HeightEntry  == null)
+		{
 			throw new Exception("Couldn't load resize Dialog");
+		}
 
 		if (tilemap == null) {
+			XOffsetEntry.Text = "0";
+			YOffsetEntry.Text = "0";
 			WidthEntry.Text = sector.Width.ToString();
 			HeightEntry.Text = sector.Height.ToString();
 			undoTitleBase = "Sector \"" + sector.Name + "\"";
 		} else {
+			XOffsetEntry.Text = "0";
+			YOffsetEntry.Text = "0";
 			WidthEntry.Text = tilemap.Width.ToString();
 			HeightEntry.Text = tilemap.Height.ToString();
 			undoTitleBase = "Tilemap \"" + tilemap.Name + "\"";
@@ -64,6 +78,8 @@ public class ResizeDialog
 	protected void OnOk(object o, EventArgs args)
 	{
 		try {
+			int xOffset = Int32.Parse(XOffsetEntry.Text);
+			int yOffset = Int32.Parse(YOffsetEntry.Text);
 			uint newWidth = UInt32.Parse(WidthEntry.Text);
 			uint newHeight = UInt32.Parse(HeightEntry.Text);
 			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
@@ -71,6 +87,8 @@ public class ResizeDialog
 				undoTitleBase + " resized to " + newWidth + "x" + newHeight,
 				sector,
 				tilemap,
+				xOffset,
+				yOffset,
 				newWidth,
 				newHeight);
 			command.Do();
