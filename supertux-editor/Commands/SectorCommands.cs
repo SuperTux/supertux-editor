@@ -68,8 +68,11 @@ namespace Undo {
 		/// <param name="newHeight"> Height that we want to apply </param>
 		/// <param name="oldWidth"> Used when you want to set different value </param>
 		/// <param name="oldHeight"> Used when you want to set different value </param>
-		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, uint newWidth, uint newHeight, uint oldWidth, uint oldHeight)
-			: base(title, sector) {
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, 
+						 uint newWidth, uint newHeight, 
+						 uint oldWidth, uint oldHeight)
+			: base(title, sector) 
+		{
 			this.newWidth = newWidth;
 			this.newHeight = newHeight;
 			this.minWidth = Math.Min(oldWidth, newWidth);
