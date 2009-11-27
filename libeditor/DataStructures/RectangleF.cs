@@ -53,6 +53,15 @@ namespace DataStructures
 			}
 		}
 
+		public Vector Center
+		{
+			get
+			{
+				return new Vector((Left + Right) / 2.0f,
+						  (Top + Bottom) / 2.0f);
+			}
+		}
+
 		public RectangleF(float Left, float Top, float Width, float Height)
 		{
 			this.Top = Top;
