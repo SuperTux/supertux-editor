@@ -146,14 +146,14 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 
 * Add middle button scroll to the TileSelector
 
-* add a ZoomTool
-  
-  - pressing LMB starts a rectangle, leaving LMB zooms that the area of the rectangle fits the screen
-  - RMB zooms out
-  - could make it non-traditional: hold z and move mouse to smoothly zoom in and out
-
 * split up Application
 
 * how do we generate docs for C#?
+
+* use ZoomTo() for scroll wheel
+
+* Display mouse coordinates somewhere, both in pixels and in tiles
+
+* add check if graphic card supports non-power-of-two
 
 # EOF #
