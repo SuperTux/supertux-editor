@@ -79,15 +79,14 @@ public sealed class ZoomTool : ITool
 			state = State.ZOOM_RECT;
 			pressPoint = mousePos;
 			mousePoint = mousePos;
-			LogManager.Log(LogLevel.Info, "ZoomTool::OnMouseButtonPress");
+			Redraw();
 			break;
 			
 		case 3:
-			LogManager.Log(LogLevel.Info, "ZoomTool: ZoomOut");
+			application.CurrentRenderer.ZoomTo(mousePos, (float)(1.0/Math.Sqrt(2.0)));
+			Redraw();
 			break;
 		}
-
-		Redraw();
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
@@ -96,8 +95,9 @@ public sealed class ZoomTool : ITool
 		{
 			state = State.NONE;
 			LogManager.Log(LogLevel.Info, "ZoomTool::OnMouseButtonRelease");
+			application.CurrentRenderer.ZoomTo(new RectangleF(pressPoint, mousePos));
+			Redraw();
 		}
-		Redraw();
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)
@@ -109,7 +109,6 @@ public sealed class ZoomTool : ITool
 
 		case State.ZOOM_RECT:
 			mousePoint = mousePos;
-			LogManager.Log(LogLevel.Info, "ZoomTool::OnMouseMove");
 			Redraw();
 			break;
 		}
