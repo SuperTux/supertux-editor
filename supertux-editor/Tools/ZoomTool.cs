@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using OpenGl;
 using DataStructures;
 using SceneGraph;
@@ -94,7 +93,6 @@ public sealed class ZoomTool : ITool
 		if (button == 1)
 		{
 			state = State.NONE;
-			LogManager.Log(LogLevel.Info, "ZoomTool::OnMouseButtonRelease");
 			application.CurrentRenderer.ZoomTo(new RectangleF(pressPoint, mousePos));
 			Redraw();
 		}
