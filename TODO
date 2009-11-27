@@ -1,8 +1,6 @@
 SuperTux Editor
 ===============
 
-* +/- zoom buttons do not zoom to the center of the screen
-
 * Object Tool should behave more like Inkscape:
 
   - LMB on an object to select
@@ -155,5 +153,7 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
   - could make it non-traditional: hold z and move mouse to smoothly zoom in and out
 
 * split up Application
+
+* how do we generate docs for C#?
 
 # EOF #

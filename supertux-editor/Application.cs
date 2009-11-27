@@ -521,18 +521,20 @@ public class Application
 
 	protected void OnNormalSize(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.SetZoom( 1 );
+			sectorSwitchNotebook.CurrentRenderer.ZoomTo(1.0f/sectorSwitchNotebook.CurrentRenderer.GetZoom());
 		}
 	}
 
 	protected void OnZoomIn(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.ZoomIn();
+			//sectorSwitchNotebook.CurrentRenderer.ZoomIn();
+			sectorSwitchNotebook.CurrentRenderer.ZoomTo((float) Math.Sqrt(2));
 		}
 	}
 	protected void OnZoomOut(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ){
-			sectorSwitchNotebook.CurrentRenderer.ZoomOut();
+			//sectorSwitchNotebook.CurrentRenderer.ZoomOut();
+			sectorSwitchNotebook.CurrentRenderer.ZoomTo(1/(float) Math.Sqrt(2));
 		}
 	}
 

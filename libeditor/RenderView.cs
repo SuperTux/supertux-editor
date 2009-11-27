@@ -239,6 +239,25 @@ public class RenderView : GLWidgetBase
 		SetZoom( Zoom / (float) Math.Sqrt(2));
 	}
 
+	/// <summary>Zoom by factor, while keeping pos (in World
+	/// coordinates) at the same spot on the screen</summary>
+	public void ZoomTo(Vector pos, float factor)
+	{
+		Vector old_translation = Translation;
+		float  old_zoom = Zoom;
+
+		SetZoom(Zoom * factor);
+		SetTranslation((pos * (1 - factor) + old_translation) / factor);
+	}
+
+	/// <summary>Zoom by factor, while keeping the center of the
+	/// window at the same spot on the screen</summary>
+	public void ZoomTo(float factor)
+	{
+		Vector pos = MouseToWorld(new Vector(Allocation.Width/2.0f, Allocation.Height/2.0f));
+		ZoomTo(pos, factor);
+	}
+
 	public void SetTranslation(Vector tr)
 	{
 		Translation = tr;
