@@ -35,8 +35,16 @@ namespace Drawing
 		private unsafe void Create(IntPtr sdlsurface)
 		{
 			Sdl.Surface* surface = (Sdl.Surface*) sdlsurface;
-			uint width = NextPowerOfTwo((uint) surface->w);
-			uint height = NextPowerOfTwo((uint) surface->h);
+
+			uint width  = (uint)surface->w;
+			uint height = (uint)surface->h;
+
+			// Round to next power-of-two isn't needed with newer OpenGL versions
+			if (false)
+			{
+				width  = NextPowerOfTwo((uint)width);
+				height = NextPowerOfTwo((uint)height);
+			}
 
 			IntPtr pixelbufferp;
 			if(BitConverter.IsLittleEndian) {

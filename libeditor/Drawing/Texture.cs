@@ -69,8 +69,13 @@ namespace Drawing
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			this.width = (uint) surface->w;
 			this.height = (uint) surface->h;
-			if(!IsPowerOf2(width) || !IsPowerOf2(height))
-				throw new Exception("Texture size must be power of 2");
+			
+			// Not needed on newer OpenGL
+			if (false)
+			{
+				if(!IsPowerOf2(width) || !IsPowerOf2(height))
+					throw new Exception("Texture size must be power of 2");
+			}
 
 			GlUtil.Assert("before creating texture");
 			CreateTexture();
@@ -94,8 +99,13 @@ namespace Drawing
 
 		protected void CreateEmpty(uint width, uint height, uint glformat)
 		{
-			if(!IsPowerOf2(width) || !IsPowerOf2(height))
-				throw new Exception("Texture size must be power of 2");
+			// Not needed on newer OpenGL
+			if (false)
+			{
+				if(!IsPowerOf2(width) || !IsPowerOf2(height))
+					throw new Exception("Texture size must be power of 2");
+			}
+
 			this.width = width;
 			this.height = height;
 
