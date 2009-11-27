@@ -96,28 +96,31 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 
 * Path Tool doesn't seem to do anything
 
+  -> the path tool requires a click on a path node before it starts to
+     do anything
+
 * Tiles Tool doesn't display the current tile
 
-* add a Sector Menu in the main menubar containing:
+* add a Sector Menu in the main menubar containing all that stuff
+  currently hidden in right-click on the sector tab:
 
   New Sector
   Delete Sector
   Resize Sector
   Sector Properties
   Camera Properties
+  ...
 
 * make Object Properties a separate Window, instead of having it in a
   VPaned (having it dockable like in Gimp would be best, but likely to
   complicated to do in Gtk+)
 
-* naming cleanup (I am not familiar with the code or C#, so
-  suggestions might be stupid):
-
-  IEditor -> ITool (along with directory and other tools)
-  ObjectCreationEditor -> SelectTool
-  Selection -> TileSelection
-
 * whats the point of empty interfaces (IGameObject)?
+
+  -> seem to be used to pass IGameObjects around in code that doesn't
+     care about specifics of the GameObject
+
+  -> they seem to be bad style: http://msdn.microsoft.com/en-us/library/ms182128%28VS.80%29.aspx
 
 * move source code to src/
 
@@ -125,22 +128,31 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 
 * what about some line-breaking to avoid >150 characters per line?
 
-* Do we use the SceneGraph stuff?
+* Do we use the SceneGraph stuff? -> yes, we do
 
 * Which code-style/style-guide do we follow?
 
-  -> astyle -t8 
+  -> "astyle -t8" seems to get close enough to whatever we are using
 
 * Why TileBlock::SaveData and not just a full clone of TileBlock?
 
 * Use one file per class
-
-* add proper copyright header
 
 * LispChild attributes seems a little impractical right now, as they
   code to handle them is larger then the code to do it manually
 
 * "using Gtk" wouldn't it be better to avoid that and use fully
   qualified names instead for better readability?
+
+* should delegate types be declared outside of a class or inside of it?
+
+* Add middle button scroll to the TileSelector
+
+* add a ZoomTool
+  
+  - pressing LMB starts a rectangle, leaving LMB zooms that the area of the rectangle fits the screen
+  - RMB zooms out
+  - could make it non-traditional: hold z and move mouse to smoothly zoom in and out
+
 
 # EOF #
