@@ -660,6 +660,7 @@
                   <widget class="GtkVPaned" id="vpRight">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="orientation">vertical</property>
                     <child>
                       <widget class="GtkFrame" id="fRight">
                         <property name="height_request">8</property>
@@ -673,6 +674,7 @@
                               <widget class="GtkVPaned" id="vpaned1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="orientation">vertical</property>
                                 <child>
                                   <widget class="GtkFrame" id="fSSS">
                                     <property name="height_request">6</property>
