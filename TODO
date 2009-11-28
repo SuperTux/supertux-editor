@@ -156,4 +156,28 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 
 * add check if graphic card supports non-power-of-two
 
+* clip the background to level boundaries
+
+* tilemaps need names (background, foreground, secret1, etc.)
+
+* layer list should be reversed, with background at the bottom
+
+* hove something to define tiles as equal and then a tool to shuffle
+  them to get more randomness
+
+* add a vissible tile-grid
+
+* refactor code a bit more to allow MDI interface
+
+* add Gimp-like mini-toolbar to the layerdialog
+
+* add a group select (like in the TileSelector) to the ObjectSelector
+  (All, Decal, Badguys, Particleeffects, etc.)
+
+* remove handle boxes
+
+* add support for multiple object layer
+
+* add support for parallax scrolling decal
+
 # EOF #
