@@ -180,4 +180,8 @@ System.Collections.Generic.KeyNotFoundException: The given key was not present i
 
 * add support for parallax scrolling decal
 
+* do not limit scrolling so much when zoomed out
+
+* implement Background::alignment
+
 # EOF #
