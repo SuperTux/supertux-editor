@@ -29,12 +29,12 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 	private Vector pressPoint;
 	private Vector mousePoint;	//used when drawing selections
 	private Vector originalPosition;
-	protected enum State {
+	private enum State {
 		NONE,
 		DRAGGING,
 		SELECTING
 	};
-	protected State state;
+	private State state;
 	private List<ControlPoint> controlPoints = new List<ControlPoint>();
 	private List<IObject> selectedObjects = new List<IObject>();
 

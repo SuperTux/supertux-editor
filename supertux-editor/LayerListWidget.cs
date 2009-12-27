@@ -122,8 +122,7 @@ public class LayerListWidget : TreeView {
 	/// <summary>Called when a new level is loaded</summary>
 	private void OnLevelChanged(Level level)
 	{
-		//Find and select first solid tilemap (and discard tilemap from level opened before).
-		application.CurrentTilemap = null;
+		// no-op; everything happens in OnSectorChanged
 	}
 
 
@@ -149,38 +148,42 @@ public class LayerListWidget : TreeView {
 	{
 		visibility.Clear();
 		TreeStore store = new TreeStore(typeof(System.Object));
+		Model = store;
+		store.SetSortFunc( 0, compareLayer );
+		store.SetSortColumnId( 0, SortType.Ascending );
 		foreach(ILayer ILayer in sector.GetObjects(typeof(ILayer))) {
-			store.AppendValues(ILayer);
 			if (ILayer is IDrawableLayer) {
 				visibility[ILayer] = application.CurrentRenderer.GetILayerColor(ILayer).Alpha;
 
-				if (ILayer is Tilemap) {
-					Tilemap Tilemap = (Tilemap) ILayer;
-					// if no tilemap is yet selected, select the first solid one
-					if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
-						application.CurrentTilemap = Tilemap;
-						string name = (String.IsNullOrEmpty(Tilemap.Name))?"":" \"" +Tilemap.Name + "\"";
-						application.EditProperties(application.CurrentTilemap, "Tilemap" + name + " (" + application.CurrentTilemap.Layer + ")");
-					}
+			}
+			store.AppendValues(ILayer);
+			if (ILayer is Tilemap) {
+				Tilemap Tilemap = (Tilemap) ILayer;
+				// if no tilemap is yet selected, select the first solid one
+				if ((application.CurrentTilemap == null) && (Tilemap.Solid)) {
+					application.CurrentTilemap = Tilemap;
+					string name = (String.IsNullOrEmpty(Tilemap.Name))?"":" \"" +Tilemap.Name + "\"";
+					application.EditProperties(application.CurrentTilemap, "Tilemap" + name + " (" + application.CurrentTilemap.Layer + ")");
 				}
 			}
 		}
-		store.SetSortFunc( 0, compareLayer );
-		store.SetSortColumnId( 0, SortType.Ascending );
-		store.AppendValues(separatorObject);
 		visibility[separatorObject] = 0;
+		store.AppendValues(separatorObject);
 
-		store.AppendValues(badguysObject);
 		visibility[badguysObject] = application.CurrentRenderer.GetObjectsColor().Alpha;
-		Model = store;
+		store.AppendValues(badguysObject);
+		QueueDraw();
+	}
 
-		// Visibly select current Tilemap
-		if (application.CurrentTilemap != null) {
+	private void OnTilemapChanged(Tilemap Tilemap)
+	{
+		// Visibly select new Tilemap
+		if (Tilemap != null) {
 			TreePath path = TreePath.NewFirst();
 			TreeIter iter;
 			while (Model.GetIter(out iter, path)) {
 				object obj = Model.GetValue(iter, 0);
-				if(obj == application.CurrentTilemap) {
+				if(obj == Tilemap) {
 					HasFocus = true;
 					ActivateRow(path, GetColumn(0));
 					SetCursor(path, GetColumn(0), false);
@@ -188,12 +191,6 @@ public class LayerListWidget : TreeView {
 				path.Next();
 			}
 		}
-
-	}
-
-	private void OnTilemapChanged(Tilemap Tilemap)
-	{
-		LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnTilemapChanged: Not implemented");
 	}
 
 	private bool OurRowSeparatorFunc (TreeModel model, TreeIter iter)

@@ -26,7 +26,7 @@ public sealed class TileFillTool : TileToolBase, ITool {
 	}
 
 	private void FloodFill(FieldPos pos, int new_tile) {
-		if (application.CurrentTilemap[pos] != new_tile)
+		if (application.CurrentTilemap.InBounds(pos) && application.CurrentTilemap[pos] != new_tile)
 			FloodFillAt(pos, application.CurrentTilemap[pos], new_tile);
 	}
 
@@ -40,10 +40,10 @@ public sealed class TileFillTool : TileToolBase, ITool {
 		FloodFillAt(pos.Right, oldId, newId);
 	}
 
-	public override void EditorAction(ModifierType Modifiers)
+	public override void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers)
 	{
 		if ((selection.Width == 1) && (selection.Height == 1)) {
-			FloodFill(MouseTilePos, selection[0, 0]);
+			FloodFill(TilePos, selection[0, 0]);
 		}
 	}
 }

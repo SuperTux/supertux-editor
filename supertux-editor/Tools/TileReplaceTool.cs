@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DataStructures;
 using Gdk;
 
 public sealed class TileReplaceTool : TileToolBase, ITool
@@ -34,10 +35,10 @@ public sealed class TileReplaceTool : TileToolBase, ITool
 		}
 	}
 
-	public override void EditorAction(ModifierType Modifiers)
+	public override void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers)
 	{
-		if ((selection.Width == 1) && (selection.Height == 1)) {
-			Replace(application.CurrentTilemap[MouseTilePos], selection[0,0]);
+		if ((selection.Width == 1) && (selection.Height == 1) && application.CurrentTilemap.InBounds(TilePos)) {
+			Replace(application.CurrentTilemap[TilePos], selection[0,0]);
 		}
 	}
 }

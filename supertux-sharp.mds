@@ -1,4 +1,4 @@
-<Combine name="supertux-sharp" fileversion="2.0">
+<Combine fileversion="2.0" name="supertux-sharp">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="Resources" configuration="Debug" />
@@ -9,12 +9,12 @@
       <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry build="True" name="Resources" configuration="Debug" />
-      <Entry build="True" name="Lisp" configuration="Debug" />
-      <Entry build="True" name="LispReader" configuration="Debug" />
-      <Entry build="True" name="libeditor" configuration="Debug" />
-      <Entry build="True" name="supertux-editor" configuration="Debug" />
-      <Entry build="True" name="gtkgl-sharp" configuration="Debug" />
+      <Entry build="True" name="Resources" configuration="Release" />
+      <Entry build="True" name="Lisp" configuration="Release" />
+      <Entry build="True" name="LispReader" configuration="Release" />
+      <Entry build="True" name="libeditor" configuration="Release" />
+      <Entry build="True" name="supertux-editor" configuration="Release" />
+      <Entry build="True" name="gtkgl-sharp" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="supertux-editor" single="True">
@@ -25,7 +25,6 @@
     <Execute type="None" entry="supertux-editor" />
     <Execute type="None" entry="gtkgl-sharp" />
   </StartMode>
-  <DeployTargets />
   <Entries>
     <Entry filename="Resources/Resources.mdp" />
     <Entry filename="Lisp/Lisp.mdp" />

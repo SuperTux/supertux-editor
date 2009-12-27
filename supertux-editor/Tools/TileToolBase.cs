@@ -46,18 +46,51 @@ public abstract class TileToolBase : ToolBase, IDisposable
 
 	internal TileBlock.StateData tilemapBackup; // saved OnMouseButtonPress
 
-	public abstract void EditorAction(ModifierType Modifiers);
+	public abstract void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers);
 
-	public virtual void EditorLargeAction(ModifierType Modifiers) {
-		LogManager.Log(LogLevel.Debug, "Draw: {0},{1} by {2},{3}", SelectionP1.X, SelectionP1.Y,SelectionP2.X,SelectionP2.Y);
+	public virtual void PerformActionOnSelection(ModifierType Modifiers) {
 		int xWidth = (SelectionP2.X - SelectionP1.X) + 1;
 		int xHeight = (SelectionP2.Y - SelectionP1.Y) + 1;
 
 		for(int y = 0; y < xHeight; y++) {
 			for(int x = 0; x < xWidth; ++x) {
-				MouseTilePos = new FieldPos(SelectionP1.X + x,
-								     		SelectionP1.Y + y);
-				EditorAction(Modifiers);
+				PerformActionOnTile(new FieldPos(SelectionP1.X + x,
+								     		SelectionP1.Y + y), Modifiers);
+			}
+		}
+	}
+
+	public virtual void PerformActionBetweenPoints(FieldPos p1, FieldPos p2, ModifierType Modifiers) {
+		// from discussion of Bresenham's line algorithm on Wikipedia, "General Line Drawing Algorithm"
+		int x1 = p1.X, y1 = p1.Y,
+			x2 = p2.X, y2 = p2.Y,
+			dX = Math.Abs(x2 - x1),	dY = Math.Abs(y2 - y1),
+			x = x1, y = y1,
+			offsetX, offsetY;
+		if (x1 > x2) offsetX = -1; else offsetX = 1;
+		if (y1 > y2) offsetY = -1; else offsetY = 1;
+		PerformActionOnTile(new FieldPos(x,	y), Modifiers);
+		if (dX > dY) {
+			int error = dX / 2;
+			while (x != x2) {
+				error -= dY;
+				if (error < 0) {
+					y += offsetY;
+               		error += dX;
+				}
+				x += offsetX;
+				PerformActionOnTile(new FieldPos(x,	y), Modifiers);
+			}
+		} else {
+			int error = dY / 2;
+			while (y != y2) {
+				error -= dX;
+				if (error < 0) {
+					x += offsetX;
+					error += dY;
+				}
+				y += offsetY;
+				PerformActionOnTile(new FieldPos(x,	y), Modifiers);
 			}
 		}
 	}
@@ -131,7 +164,8 @@ public abstract class TileToolBase : ToolBase, IDisposable
 		if (application.CurrentTilemap == null) return;
 
 		UpdateMouseTilePos(mousePos);
-
+		LastDrawPos = MouseTilePos;
+		
 		if(button == 3) {
 			if (state == State.DRAWING) {	//both buttons => cancel drawing
 				state = State.NONE;
@@ -166,9 +200,8 @@ public abstract class TileToolBase : ToolBase, IDisposable
 					state = State.FILLING;
 					UpdateSelection();
 				} else {
-					EditorAction(Modifiers);	//Call editor-specific part of code
+					PerformActionBetweenPoints(LastDrawPos, MouseTilePos, Modifiers);
 
-					LastDrawPos = MouseTilePos;
 					state = State.DRAWING;
 				}
 			}
@@ -194,7 +227,7 @@ public abstract class TileToolBase : ToolBase, IDisposable
 			if(state == State.FILLING) {
 				UpdateSelection();
 
-				EditorLargeAction(Modifiers);
+				PerformActionOnSelection(Modifiers);
 			}
 
 			// use backup of Tilemap to create undo command
@@ -226,15 +259,14 @@ public abstract class TileToolBase : ToolBase, IDisposable
 			    )
 			   )
 			  ) {
-				LastDrawPos = MouseTilePos;
-
-				EditorAction(Modifiers);	//Call editor-specific part of code
-
+				PerformActionBetweenPoints(LastDrawPos, MouseTilePos, Modifiers);
 			}
 			if(state == State.FILLING || state == State.SELECTING)
 				UpdateSelection();
 			Redraw();
 		}
+
+		LastDrawPos = MouseTilePos;
 	}
 
 	protected virtual void UpdateSelection() {

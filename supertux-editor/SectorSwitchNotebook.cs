@@ -26,9 +26,6 @@ public class SectorSwitchNotebook : Gtk.Notebook
 	private Application application;
 	private Dictionary<object, Gtk.Widget> widgets = new Dictionary<object, Gtk.Widget>();	//keep widgets in dictionary for easy updates
 
-	public delegate void SectorChangedEventHandler(Sector newSector);
-	public event SectorChangedEventHandler SectorChanged;
-
 	public SectorRenderer CurrentRenderer {
 		get {
 			try {
@@ -106,7 +103,7 @@ public class SectorSwitchNotebook : Gtk.Notebook
 	private void OnSwitchPage(object o, Gtk.SwitchPageArgs args)
 	{
 		Sector NewSector = level.Sectors[(int) args.PageNum];
-		SectorChanged(NewSector);
+		application.CurrentSector = NewSector;
 	}
 
 	private void OnButtonPress(object o, Gtk.ButtonPressEventArgs args)
@@ -163,7 +160,7 @@ public class SectorSwitchNotebook : Gtk.Notebook
 		foreach(Sector sector in level.Sectors) {
 			if(sector.Name == item.Name) {
 				CurrentPage = (PageNum(widgets[sector]));	//switch to selected page
-				SectorChanged(sector);
+				application.CurrentSector = sector;
 				return;
 			}
 		}

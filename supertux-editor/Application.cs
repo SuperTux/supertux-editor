@@ -133,10 +133,18 @@ public class Application
 			return sector;
 		}
 		set {
-			//TODO: Processing assigned value was the reason why we have properties.
-			//TODO: Is there a reason why have separate ChangeCurrentSector method?
-			//TODO: Can be code from ChangeCurrentSector() moved here?
-			ChangeCurrentSector(value);
+			//ignore when there is no change
+			if (sector == value)
+				return;
+			sector = value;
+			SectorChanged(level, value);
+			if (CurrentRenderer != null) {
+				// If there is no tool activated for this sector yet reset it to the Select tool.
+				if (CurrentRenderer.Editor == null) {
+					OnToolSelect(null, null);
+					ToolSelect.Active = true;
+				}
+			}
 		}
 	}
 
@@ -145,10 +153,20 @@ public class Application
 			return level;
 		}
 		set {
-			//TODO: Processing assigned value was the reason why we have properties.
-			//TODO: Is there a reason why have separate ChangeCurrentLevel method?
-			//TODO: Can be code from ChangeCurrentLevel() moved here?
-			ChangeCurrentLevel(value);
+			//ignore when there is no change
+			if (level == value)
+				return;
+			// Fix bug if loading worldmap while having a selection
+			// in a "normal" level (or the other way round):
+			if(level != null && !level.TilesetFile.Equals(value.TilesetFile)){
+				selection.Resize(0, 0, 0);
+				selection.FireChangedEvent();
+			}
+			level = value;
+			LevelChanged(level);
+			CurrentSector = level.Sectors[0];
+			OnToolSelect(null, null);
+			ToolSelect.Active = true;
 		}
 	}
 
@@ -157,10 +175,11 @@ public class Application
 			return tilemap;
 		}
 		set {
-			//TODO: Processing assigned value was the reason why we have properties.
-			//TODO: Is there a reason why have separate ChangeCurrentTilemap method?
-			//TODO: Can be code from ChangeCurrentTilemap() moved here?
-			ChangeCurrentTilemap(value);
+			//ignore when there is no change
+			if (tilemap == value)
+				return;
+			tilemap = value;
+			TilemapChanged(value);
 		}
 	}
 
@@ -347,7 +366,6 @@ public class Application
 		}
 		if(func_name == "SectorSwitchNotebook") {
 			sectorSwitchNotebook = new SectorSwitchNotebook(this);
-			sectorSwitchNotebook.SectorChanged += ChangeCurrentSector;
 			sectorSwitchNotebook.ShowAll();
 			return sectorSwitchNotebook;
 		}
@@ -555,7 +573,7 @@ public class Application
 		try {
 			UndoManager.Clear();
 			Level level = LevelUtil.CreateLevel();
-			ChangeCurrentLevel(level);
+			CurrentLevel = level;
 		} catch(Exception e) {
 			ErrorDialog.Exception("Couldn't create new level", e);
 		}
@@ -595,7 +613,7 @@ public class Application
 				                      "Supertux-Editor does not support Supertux-0.1.x levels");
 				return;
 			}
-			ChangeCurrentLevel(newLevel);
+			CurrentLevel = newLevel;
 			this.fileName = fileName;
 			Settings.Instance.addToRecentDocuments(fileName);
 			Settings.Instance.Save();
@@ -863,46 +881,6 @@ public class Application
 		Settings.Instance.Save();
 		MainWindow.Destroy();
 		Gtk.Application.Quit();
-	}
-
-	public void ChangeCurrentLevel(Level newLevel)
-	{
-		if (level == newLevel)
-			return;		//ignore when there is no change
-		// Fix bug if loading worldmap while having a selection
-		// in a "normal" level (or the other way round):
-		if(level != null && !level.TilesetFile.Equals(newLevel.TilesetFile)){
-			selection.Resize(0, 0, 0);
-			selection.FireChangedEvent();
-		}
-		level = newLevel;
-		LevelChanged(level);
-		ChangeCurrentSector(level.Sectors[0]);
-		OnToolSelect(null, null);
-		ToolSelect.Active = true;
-	}
-
-	public void ChangeCurrentSector(Sector newSector)
-	{
-		if (sector == newSector)
-			return;		//ignore when there is no change
-		this.sector = newSector;
-		SectorChanged(level, newSector);
-		if (CurrentRenderer != null) {
-			// If there is no tool activated for this sector yet reset it to the Select tool.
-			if (CurrentRenderer.Editor == null) {
-				OnToolSelect(null, null);
-				ToolSelect.Active = true;
-			}
-		}
-	}
-
-	public void ChangeCurrentTilemap(Tilemap tilemap)
-	{
-		if (this.tilemap == tilemap)
-			return;		//ignore when there is no change
-		this.tilemap = tilemap;
-		TilemapChanged(tilemap);
 	}
 
 	public void SetTool(ITool editor)

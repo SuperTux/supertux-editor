@@ -14,6 +14,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using DataStructures;
 using Gdk;
 
 public sealed class TilePaintTool : TileToolBase, ITool
@@ -24,9 +25,9 @@ public sealed class TilePaintTool : TileToolBase, ITool
 		ActionName = "Change Tiles";
 	}
 
-	public override void EditorAction(ModifierType Modifiers)
+	public override void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers)
 	{
-		selection.ApplyToTilemap(MouseTilePos, application.CurrentTilemap, ((Modifiers & ModifierType.ControlMask) == 0));
+		selection.ApplyToTilemap(TilePos, application.CurrentTilemap, ((Modifiers & ModifierType.ControlMask) == 0));
 	}
 }
 

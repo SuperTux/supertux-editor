@@ -122,9 +122,10 @@ public sealed class TileBrushTool : TileToolBase, ITool
 		}
 	}
 
-	public override void EditorAction(ModifierType Modifiers)
+	public override void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers)
 	{
-		brush.ApplyToTilemap(MouseTilePos, application.CurrentTilemap);
+		if(application.CurrentTilemap.InBounds(TilePos))
+			brush.ApplyToTilemap(TilePos, application.CurrentTilemap);
 	}
 
 	public override void SelectionDoneAction(TileSelection selection)

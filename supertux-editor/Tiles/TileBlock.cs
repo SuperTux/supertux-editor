@@ -58,11 +58,6 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	}
 
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
-		if(pos.X >= Tilemap.Width)
-			return;
-		if(pos.Y >= Tilemap.Height)
-			return;
-
 		uint StartX = (uint) Math.Max(0, -pos.X);
 		uint StartY = (uint) Math.Max(0, -pos.Y);
 		uint W = Math.Min((uint) (Tilemap.Width - pos.X), Width);
