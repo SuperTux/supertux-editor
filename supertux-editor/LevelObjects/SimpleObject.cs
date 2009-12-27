@@ -25,12 +25,27 @@ using SceneGraph;
 
 /// <summary>Base class for objects in levels</summary>
 public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
+	private float x, y;
 	[PropertyProperties(Tooltip = "X position of object", RedrawOnChange = true)]
 	[LispChild("x")]
-	public float X;
+	public virtual float X {
+	 	get {
+			return x;
+		}
+		set {
+			x = value;
+		}
+	}
 	[PropertyProperties(Tooltip = "Y position of object", RedrawOnChange = true)]
 	[LispChild("y")]
-	public float Y;
+	public virtual float Y {
+	 	get {
+			return y;
+		}
+		set {
+			y = value;
+		}
+	}
 
 	public virtual RectangleF Area {
 		get {
@@ -210,6 +225,25 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 		}
 		set {
 			path = value;
+		}
+	}
+
+	[LispChild("x", Optional = true, Transient = true)]
+	public override float X {
+	 	get {
+			return path.Nodes[0].X;
+		}
+		set {
+			path.Nodes[0].X = value;
+		}
+	}
+	[LispChild("y", Optional = true, Transient = true)]
+	public override float Y {
+	 	get {
+			return path.Nodes[0].Y;
+		}
+		set {
+			path.Nodes[0].Y = value;
 		}
 	}
 

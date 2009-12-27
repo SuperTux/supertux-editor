@@ -46,6 +46,7 @@ namespace LispReader
 	{
 		public bool Translatable;
 		public bool Optional;
+		public bool Transient;
 		public object Default;
 		public string Name;
 

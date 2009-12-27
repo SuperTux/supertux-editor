@@ -17,12 +17,10 @@
   <Contents>
     <File name="Application.cs" subtype="Code" buildaction="Compile" />
     <File name="IGameObject.cs" subtype="Code" buildaction="Compile" />
-    <File name="IEditorApplication.cs" subtype="Code" buildaction="Compile" />
     <File name="IObject.cs" subtype="Code" buildaction="Compile" />
     <File name="LayerListWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="SectorRenderer.cs" subtype="Code" buildaction="Compile" />
     <File name="SectorSwitchNotebook.cs" subtype="Code" buildaction="Compile" />
-    <File name="Tiles/Selection.cs" subtype="Code" buildaction="Compile" />
     <File name="Tiles/Tile.cs" subtype="Code" buildaction="Compile" />
     <File name="Tiles/TileBlock.cs" subtype="Code" buildaction="Compile" />
     <File name="TileListWidget.cs" subtype="Code" buildaction="Compile" />
@@ -51,22 +49,13 @@
     <File name="ResizeDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="TileGroupSelector.cs" subtype="Code" buildaction="Compile" />
     <File name="Tiles/Tilegroup.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors" subtype="Directory" buildaction="Compile" />
-    <File name="Editors/Brush.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/TilemapEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/ObjectsEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/CameraDrag.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/ObjectCreationEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ScriptEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/EditScriptWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="SettingsDialog.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/PathEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects" subtype="Directory" buildaction="Compile" />
     <File name="LevelObjects/Camera.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects/SimpleObject.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects/WorldmapObjects.cs" subtype="Code" buildaction="Compile" />
-    <File name="LevelObjects/Level.cs" subtype="Code" buildaction="Compile" />
-    <File name="LevelObjects/Sector.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects/Objects.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects/Tilemap.cs" subtype="Code" buildaction="Compile" />
     <File name="LevelObjects/Background.cs" subtype="Code" buildaction="Compile" />
@@ -74,9 +63,6 @@
     <File name="resources/modifier-move.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="resources/modifier-plus.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="PropertiesView.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/BrushEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/FillEditor.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/ReplaceEditor.cs" subtype="Code" buildaction="Compile" />
     <File name="resources/stock-tool-brush-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="resources/stock-tool-fill-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="resources/stock-tool-objects-24.png" subtype="Code" buildaction="EmbedAsResource" />
@@ -85,19 +71,10 @@
     <File name="resources/stock-tool-tiles-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="resources/stock-background-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="PropertyEditors/CustomSettingsWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="Editors/EditorBase.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ChooseSectorWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="QACheck.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/Command.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/ObjectCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/PropertyCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/SectorCommands.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/UndoManager.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ChooseLicenseWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/TilemapModifyCommand.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/PathNodeCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="PropertyEditors/ChooseBadguyWidget.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/SortedListCommands.cs" subtype="Code" buildaction="Compile" />
     <File name="Tiles/TilemapBorder.cs" subtype="Code" buildaction="Compile" />
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="supertux-editor" subtype="Code" buildaction="Nothing" />
@@ -109,8 +86,34 @@
     <File name="SpriteViewWidget.cs" subtype="Code" buildaction="Compile" />
     <File name="resources/stock-tool-path-24.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="LevelObjects/ILayer.cs" subtype="Code" buildaction="Compile" />
-    <File name="Undo/MultiCommand.cs" subtype="Code" buildaction="Compile" />
     <File name="resources/stock-camera-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="ControlPoint.cs" subtype="Code" buildaction="Compile" />
+    <File name="Level.cs" subtype="Code" buildaction="Compile" />
+    <File name="Sector.cs" subtype="Code" buildaction="Compile" />
+    <File name="UndoManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/Command.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/MultiCommand.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/ObjectAreaChangeCommand.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/ObjectCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/PathNodeCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/PropertyCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/SectorCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/SortedListCommands.cs" subtype="Code" buildaction="Compile" />
+    <File name="Commands/TilemapModifyCommand.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tiles/TileSelection.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/CameraDrag.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/ObjectCreationTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/ObjectSelectTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/ObjectToolBase.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/PathTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TileBrush.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TileBrushTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TileFillTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TilePaintTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TileReplaceTool.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/TileToolBase.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/ToolBase.cs" subtype="Code" buildaction="Compile" />
+    <File name="Tools/ZoomTool.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Project" localcopy="True" refto="libeditor" />

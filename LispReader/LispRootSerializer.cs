@@ -137,7 +137,7 @@ namespace LispReader
 			foreach(FieldOrProperty field in FieldOrProperty.GetFieldsAndProperties(type)) {
 				LispChildAttribute ChildAttrib = (LispChildAttribute)
 					field.GetCustomAttribute(typeof(LispChildAttribute));
-				if(ChildAttrib != null) {
+				if(ChildAttrib != null && !ChildAttrib.Transient) {
 					object Value = field.GetValue(Object);
 					if(Value != null) {
 						if(ChildAttrib.Translatable) {

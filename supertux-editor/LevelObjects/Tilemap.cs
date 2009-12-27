@@ -26,17 +26,6 @@ using System.Collections.Generic;
                 Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer 
 {
-	private int ZPos = 0;
-	[LispChild("z-pos")]
-	public int Layer {
-		get {
-			return ZPos;
-		}
-		set {
-			ZPos = value;
-		}
-	}
-
 	//TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
 	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
 	//[LispChild("x", Optional = true, Default = 0.0f)]
@@ -50,6 +39,17 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 	[PropertyProperties(Tooltip = "If selected Tux will interact with tiles in this tilemap.")]
 	[LispChild("solid")]
 	public bool Solid = false;
+
+	private int ZPos = 0;
+	[LispChild("z-pos")]
+	public int Layer {
+		get {
+			return ZPos;
+		}
+		set {
+			ZPos = value;
+		}
+	}
 
 	private string name = String.Empty;
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
