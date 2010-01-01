@@ -71,8 +71,7 @@ namespace Drawing
 			this.height = (uint) surface->h;
 
 			// Not needed on newer OpenGL
-			if (false)
-			{
+			if (!glHelper.Extensions.Contains("GL_ARB_texture_non_power_of_two")) {
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
 			}
@@ -100,8 +99,7 @@ namespace Drawing
 		protected void CreateEmpty(uint width, uint height, uint glformat)
 		{
 			// Not needed on newer OpenGL
-			if (false)
-			{
+			if (!glHelper.Extensions.Contains("GL_ARB_texture_non_power_of_two")) {
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
 			}

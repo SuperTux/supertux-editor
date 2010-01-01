@@ -40,8 +40,7 @@ namespace Drawing
 			uint height = (uint)surface->h;
 
 			// Round to next power-of-two isn't needed with newer OpenGL versions
-			if (false)
-			{
+			if (!glHelper.Extensions.Contains("GL_ARB_texture_non_power_of_two")) {
 				width  = NextPowerOfTwo((uint)width);
 				height = NextPowerOfTwo((uint)height);
 			}
