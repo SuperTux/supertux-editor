@@ -1,29 +1,29 @@
-<Project name="Lisp" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" targetFramework="2.0" ctype="DotNetProject">
+<Project name="Lisp" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="Lisp" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Debug" assembly="Lisp" />
       <Build debugmode="True" target="Library" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Release" assembly="Lisp" />
       <Build debugmode="False" target="Library" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
-    <File name="Lexer.cs" subtype="Code" buildaction="Compile" />
-    <File name="LispIterator.cs" subtype="Code" buildaction="Compile" />
-    <File name="List.cs" subtype="Code" buildaction="Compile" />
-    <File name="Parser.cs" subtype="Code" buildaction="Compile" />
-    <File name="Properties.cs" subtype="Code" buildaction="Compile" />
-    <File name="Symbol.cs" subtype="Code" buildaction="Compile" />
-    <File name="Writer.cs" subtype="Code" buildaction="Compile" />
-    <File name="LispException.cs" subtype="Code" buildaction="Compile" />
-    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="Lisp.csproj" subtype="Code" buildaction="Nothing" />
+    <File subtype="Code" buildaction="Compile" name="Lexer.cs" />
+    <File subtype="Code" buildaction="Compile" name="LispIterator.cs" />
+    <File subtype="Code" buildaction="Compile" name="List.cs" />
+    <File subtype="Code" buildaction="Compile" name="Parser.cs" />
+    <File subtype="Code" buildaction="Compile" name="Properties.cs" />
+    <File subtype="Code" buildaction="Compile" name="Symbol.cs" />
+    <File subtype="Code" buildaction="Compile" name="Writer.cs" />
+    <File subtype="Code" buildaction="Compile" name="LispException.cs" />
+    <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
+    <File subtype="Code" buildaction="Nothing" name="Lisp.csproj" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />

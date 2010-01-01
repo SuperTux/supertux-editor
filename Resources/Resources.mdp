@@ -1,23 +1,23 @@
-<Project name="Resources" fileversion="2.0" newfilesearch="OnLoad" language="C#" clr-version="Net_2_0" targetFramework="2.0" ctype="DotNetProject">
+<Project name="Resources" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="Resources" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Debug" assembly="Resources" />
       <Build debugmode="True" target="Library" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Release" assembly="Resources" />
       <Build debugmode="False" target="Library" />
-      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
-    <File name="DefaultResourceManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="ResourceManager.cs" subtype="Code" buildaction="Compile" />
-    <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="Resources.csproj" subtype="Code" buildaction="Nothing" />
+    <File subtype="Code" buildaction="Compile" name="DefaultResourceManager.cs" />
+    <File subtype="Code" buildaction="Compile" name="ResourceManager.cs" />
+    <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
+    <File subtype="Code" buildaction="Nothing" name="Resources.csproj" />
   </Contents>
   <DeploymentInformation strategy="File" />
 </Project>
