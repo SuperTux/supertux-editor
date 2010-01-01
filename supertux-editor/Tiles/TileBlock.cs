@@ -158,7 +158,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
         x=x*23+Elements.GetHashCode();
         return x;
     }
-	
+
 	#endregion
 
 	internal struct StateData {

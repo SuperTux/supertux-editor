@@ -24,7 +24,7 @@ using Undo;
 /// <summary>
 /// Base class for all editors.
 /// </summary>
-public abstract class ToolBase 
+public abstract class ToolBase
 {
 	protected Application application;
 }

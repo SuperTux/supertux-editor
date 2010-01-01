@@ -49,8 +49,8 @@ public class TileBrush
 	protected Tileset tileset;
 
 	protected Hashtable cache = new Hashtable();
-		
-		
+
+
 	/// <summary>
 	/// Create a new brush from a given list of patterns
 	/// </summary>

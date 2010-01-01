@@ -99,7 +99,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 		if (button == 1) {
 			IObject obj = FindObjectAt(mousePos);
 
-			if (obj == null) 
+			if (obj == null)
 			{
 				// Start drawing the select rectangle
 				state = State.SELECTING;
@@ -120,7 +120,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					}
 				}
 				else
-				{				
+				{
 					if (!selectedObjects.Contains(obj))
 					{
 						selectedObjects.Clear();
@@ -140,7 +140,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 			PopupMenu(button);
 		}
 		Redraw();
-		
+
 		if (false)
 		{
 			if (state == State.SELECTING) {
@@ -183,7 +183,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 				}
 			}
 			Redraw();
-		
+
 			if (button == 3) {
 				if (state == State.DRAGGING) {				//both buttons => drag canceled => calculate current delta and shift all objects back
 					Vector shift = originalPosition - new Vector (activeObject.Area.Left, activeObject.Area.Top);
@@ -214,7 +214,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 				// Add objects in the selected area to selectedObjects
 
                                 // Flush selected objects if it's not CTRL+select
-				if ((Modifiers & ModifierType.ControlMask) == 0) 
+				if ((Modifiers & ModifierType.ControlMask) == 0)
 				{
 					selectedObjects.Clear();
 				}
@@ -222,7 +222,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 				RectangleF selectedArea = new RectangleF(pressPoint, mousePos);
 				foreach(IObject Object in sector.GetObjects(typeof(IObject)))
 				{
-					if (selectedArea.Contains(Object.Area)) 
+					if (selectedArea.Contains(Object.Area))
 					{
 						if (selectedObjects.Contains(Object))
 						{
@@ -236,15 +236,15 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 				}
 
 				if (selectedObjects.Count == 1)
-				{	
+				{
 					//show properties
 					MakeActive(selectedObjects[0]);
 					//application.EditProperties(selectedObjects[0], selectedObjects[0].GetType().Name);
 				}
-				else 
+				else
 				{
 					// resizing is unavailable if more objects are selected
-					activeObject = null;					
+					activeObject = null;
 					controlPoints.Clear();
 					application.EditProperties(selectedObjects, "Group of " + selectedObjects.Count.ToString() + " objects");
 				}
@@ -258,10 +258,10 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					Vector totalShift = newPosition - originalPosition;
 					MultiCommand multi_command = new MultiCommand("Moved " + selectedObjects.Count + " objects");
 
-					foreach (IObject selectedObject in selectedObjects) 
+					foreach (IObject selectedObject in selectedObjects)
 					{
 						// copy new area to variable
-						RectangleF oldArea = selectedObject.Area; 
+						RectangleF oldArea = selectedObject.Area;
 
 						// and shift it to it's oreginal location
 						oldArea.Move(-totalShift);
@@ -275,7 +275,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 
 					UndoManager.AddCommand(multi_command);
 				}
-				
+
 				break;
 			}
 
@@ -323,7 +323,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					bool hit = false;
 					foreach (IObject selectedObject in selectedObjects) {
 						hit |= selectedObject.Area.Contains(mousePos);
-					}				
+					}
 					if (!hit) {
 						MakeActive(FindObjectAt(mousePos));
 						Redraw();
@@ -367,7 +367,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 		case State.DRAGGING:
 			moveObjects(mousePos, SnapValue(Modifiers));
 			break;
-			
+
 		case State.SELECTING:
 			// store mouse position for drawin routine
 			mousePoint = mousePos;

@@ -69,7 +69,7 @@ namespace Drawing
 			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
 			this.width = (uint) surface->w;
 			this.height = (uint) surface->h;
-			
+
 			// Not needed on newer OpenGL
 			if (false)
 			{

@@ -158,10 +158,10 @@ namespace DataStructures
 			else
 			{
 				List<T> newElements = new List<T>();
-			
-				for(int y = 0; y < newHeight; ++y) 
+
+				for(int y = 0; y < newHeight; ++y)
 				{
-					for(int x = 0; x < newWidth; ++x) 
+					for(int x = 0; x < newWidth; ++x)
 					{
 						int tX = x - xOffset;
 						int tY = y - yOffset;

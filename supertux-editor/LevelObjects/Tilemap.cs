@@ -24,7 +24,7 @@ using System.Collections.Generic;
 		//tilemaps are no longer created as badguys, it is looking bad
 [SupertuxObject("tilemap", "images/engine/editor/tilemap.png",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer 
+public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLayer
 {
 	//TODO: If we want to store X coordinate to level file, we must uncomment this and add support for it
 	//If you do that, please remove " else X = Y = 0;" in UpdatePos();
@@ -71,7 +71,7 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
-	public Path Path 
+	public Path Path
 	{
 		get {
 			return path;
@@ -81,12 +81,12 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		}
 	}
 
-	public bool PathRemovable 
+	public bool PathRemovable
 	{
 		get { return true; }
 	}
 
-	public enum DrawTargets 
+	public enum DrawTargets
 	{
 		/// <summary>
 		/// Normal tilemap.
@@ -119,7 +119,7 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		} else X = Y = 0;
 	}
 
-	public Node GetSceneGraphNode() 
+	public Node GetSceneGraphNode()
 	{
 		return null;	//Tilemap can't create it's node
 	}

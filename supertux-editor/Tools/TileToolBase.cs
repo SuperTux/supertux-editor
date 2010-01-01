@@ -23,7 +23,7 @@ using Undo;
 /// <summary>
 /// Base class for editors editing tilemaps.
 /// </summary>
-public abstract class TileToolBase : ToolBase, IDisposable 
+public abstract class TileToolBase : ToolBase, IDisposable
 {
 	public event RedrawEventHandler Redraw;
 
@@ -165,7 +165,7 @@ public abstract class TileToolBase : ToolBase, IDisposable
 
 		UpdateMouseTilePos(mousePos);
 		LastDrawPos = MouseTilePos;
-		
+
 		if(button == 3) {
 			if (state == State.DRAWING) {	//both buttons => cancel drawing
 				state = State.NONE;

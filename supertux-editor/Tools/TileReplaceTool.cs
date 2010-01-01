@@ -20,12 +20,12 @@ using Gdk;
 public sealed class TileReplaceTool : TileToolBase, ITool
 {
 	public TileReplaceTool(Application application, Tileset Tileset, TileSelection selection)
-		: base(application, Tileset, selection) 
+		: base(application, Tileset, selection)
 	{
 		ActionName = "Replace Tiles";
 	}
 
-	private void Replace(int oldId, int newId) 
+	private void Replace(int oldId, int newId)
 	{
 		for (int x = 0; x < application.CurrentTilemap.Width; x++) {
 			for (int y = 0; y < application.CurrentTilemap.Height; y++) {

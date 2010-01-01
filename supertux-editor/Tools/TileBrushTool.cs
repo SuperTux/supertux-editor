@@ -41,7 +41,7 @@ public sealed class TileBrushTool : TileToolBase, ITool
 	private bool LastPreviewIsChange;
 
 	public TileBrushTool(Application application, Tileset Tileset, string brushFile)
-		: base(application, Tileset, new TileSelection()) 
+		: base(application, Tileset, new TileSelection())
 	{
 		brush = TileBrush.loadFromFile(brushFile, Tileset);
 		ActionName = "Tile Brush";

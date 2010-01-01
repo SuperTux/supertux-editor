@@ -253,11 +253,11 @@ public class Application
 
 		//Setup drag destination for "files"
 		Gtk.Drag.DestSet(MainWindow, Gtk.DestDefaults.All, target_table,
-				 Gdk.DragAction.Default | 
-				 Gdk.DragAction.Copy | 
-				 Gdk.DragAction.Move | 
-				 Gdk.DragAction.Link | 
-				 Gdk.DragAction.Private | 
+				 Gdk.DragAction.Default |
+				 Gdk.DragAction.Copy |
+				 Gdk.DragAction.Move |
+				 Gdk.DragAction.Link |
+				 Gdk.DragAction.Private |
 				 Gdk.DragAction.Ask);
 		MainWindow.DragDataReceived += OnDragDataReceived;
 
@@ -435,7 +435,7 @@ public class Application
 		}
 	}
 
-	protected void OnToolZoom(object o, EventArgs args) 
+	protected void OnToolZoom(object o, EventArgs args)
 	{
 		if (ToolZoom.Active) {
 			PrintStatus("Tool: Zoom");
@@ -559,7 +559,7 @@ public class Application
 
 	protected void OnZoomFit(object o, EventArgs args) {
 		if( sectorSwitchNotebook.CurrentRenderer != null ) {
-			sectorSwitchNotebook.CurrentRenderer.ZoomTo(new RectangleF(0, 0, 
+			sectorSwitchNotebook.CurrentRenderer.ZoomTo(new RectangleF(0, 0,
 										   CurrentSector.Width*32, CurrentSector.Height*32));
 		}
 	}
@@ -1114,7 +1114,7 @@ public class Application
 			}
 			index += 5;									//move pointer after next "file:" to reach filename
 			string uri = data.Substring(index, data.IndexOf('\n', index) - index -1 );
-			filename = Uri.UnescapeDataString(uri);						//convert excape sequences ("%2b" = "+") to normal text 
+			filename = Uri.UnescapeDataString(uri);						//convert excape sequences ("%2b" = "+") to normal text
 			LogManager.Log(LogLevel.Debug, "		Found filename: {0}", filename);
 		}
 

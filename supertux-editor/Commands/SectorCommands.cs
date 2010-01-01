@@ -18,21 +18,21 @@ using System;
 using System.Collections.Generic;
 using DataStructures;
 
-namespace Undo 
+namespace Undo
 {
-	public abstract class SectorCommand : Command 
+	public abstract class SectorCommand : Command
 	{
 		protected Sector sector;
-		protected SectorCommand(string title, Sector sector) : base(title) 
+		protected SectorCommand(string title, Sector sector) : base(title)
 		{
 			this.sector = sector;
 		}
 	}
 
 
-	internal sealed class SectorSizeChangeCommand : SectorCommand 
+	internal sealed class SectorSizeChangeCommand : SectorCommand
 	{
-		private struct TilemapData 
+		private struct TilemapData
 		{
 			public TileBlock.StateData OldState;
 			public Tilemap Tilemap;
@@ -42,13 +42,13 @@ namespace Undo
 				this.Tilemap = Tilemap;
 			}
 		}
-		
+
 		private struct ObjectData
 		{
 			public RectangleF OldArea;
 			public RectangleF NewArea;
 			public IObject    Object;
-			
+
 			public ObjectData(RectangleF OldArea,
 					  RectangleF NewArea,
 					  IObject    Object)
@@ -69,7 +69,7 @@ namespace Undo
 		private uint minWidth;
 		private uint minHeight;
 
-		public override void Do() 
+		public override void Do()
 		{
 			foreach(ObjectData obj in objects) {
 				obj.Object.ChangeArea(obj.NewArea);
@@ -84,7 +84,7 @@ namespace Undo
 			sector.EmitSizeChanged();
 		}
 
-		public override void Undo() 
+		public override void Undo()
 		{
 			foreach(ObjectData obj in objects) {
 				obj.Object.ChangeArea(obj.OldArea);
@@ -106,11 +106,11 @@ namespace Undo
 		/// <param name="newHeight"> Height that we want to apply </param>
 		/// <param name="oldWidth"> Used when you want to set different value </param>
 		/// <param name="oldHeight"> Used when you want to set different value </param>
-		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap, 
+		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap,
 						 int xOffset, int yOffset,
-						 uint newWidth, uint newHeight, 
+						 uint newWidth, uint newHeight,
 						 uint oldWidth, uint oldHeight)
-			: base(title, sector) 
+			: base(title, sector)
 		{
 			this.xOffset = xOffset;
 			this.yOffset = yOffset;
@@ -129,7 +129,7 @@ namespace Undo
 				}
 			}
 
-			foreach(IObject obj in sector.GetObjects(typeof(IObject))) 
+			foreach(IObject obj in sector.GetObjects(typeof(IObject)))
 			{
 				RectangleF newArea = obj.Area;
 				newArea.Move(new Vector(xOffset * 32, yOffset * 32));
@@ -137,7 +137,7 @@ namespace Undo
 			}
 		}
 
-		internal SectorSizeChangeCommand(string title, Sector sector, 
+		internal SectorSizeChangeCommand(string title, Sector sector,
 						 int xOffset, int yOffset, uint newWidth, uint newHeight)
 			:this(title, sector, null, xOffset, yOffset, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
@@ -151,19 +151,19 @@ namespace Undo
 	public delegate void SectorsAddRemoveHandler(Sector sector);
 
 
-	public abstract class SectorAddRemoveCommand : SectorCommand 
+	public abstract class SectorAddRemoveCommand : SectorCommand
 	{
 		protected Level level;
 		public event SectorsAddRemoveHandler OnSectorAdd;
 		public event SectorsAddRemoveHandler OnSectorRemove;
 
-		public override void Do() 
+		public override void Do()
 		{
 			if (OnSectorAdd != null)
 				OnSectorAdd(sector);
 		}
 
-		public override void Undo() 
+		public override void Undo()
 		{
 			if (OnSectorRemove != null)
 				OnSectorRemove(sector);
@@ -176,15 +176,15 @@ namespace Undo
 
 	}
 
-	public class SectorAddCommand : SectorAddRemoveCommand 
+	public class SectorAddCommand : SectorAddRemoveCommand
 	{
-		public override void Do() 
+		public override void Do()
 		{
 			level.Sectors.Add(sector);
 			base.Do();
 		}
 
-		public override void Undo() 
+		public override void Undo()
 		{
 			level.Sectors.Remove(sector);
 			base.Undo();
@@ -193,14 +193,14 @@ namespace Undo
 		public SectorAddCommand(string title, Sector sector, Level level) : base(title, sector, level) { }
 	}
 
-	public sealed class SectorRemoveCommand : SectorAddCommand 
+	public sealed class SectorRemoveCommand : SectorAddCommand
 	{
-		public override void Do() 
+		public override void Do()
 		{
 			base.Undo();
 		}
 
-		public override void Undo() 
+		public override void Undo()
 		{
 			base.Do();
 		}

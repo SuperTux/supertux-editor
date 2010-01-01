@@ -37,7 +37,7 @@ public sealed class ZoomTool : ITool
 	{
 		this.application = application;
 		this.state = State.NONE;
-		
+
 	}
 
 	public void Draw(Gdk.Rectangle cliprect)
@@ -69,7 +69,7 @@ public sealed class ZoomTool : ITool
 			gl.Color4f(1, 1, 1, 1);
 		}
 	}
-	
+
 	public void OnMouseButtonPress(Vector mousePos, int button, ModifierType Modifiers)
 	{
 		switch (button)
@@ -80,7 +80,7 @@ public sealed class ZoomTool : ITool
 			mousePoint = mousePos;
 			Redraw();
 			break;
-			
+
 		case 3:
 			application.CurrentRenderer.ZoomTo(mousePos, (float)(1.0/Math.Sqrt(2.0)));
 			Redraw();

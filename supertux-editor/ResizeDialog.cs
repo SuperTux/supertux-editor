@@ -44,10 +44,10 @@ public class ResizeDialog
 		Glade.XML gxml = new Glade.XML("editor.glade", "resizeDialog");
 		gxml.Autoconnect(this);
 
-		if (resizeDialog == null || 
+		if (resizeDialog == null ||
 		    XOffsetEntry == null ||
 		    YOffsetEntry == null ||
-		    WidthEntry   == null || 
+		    WidthEntry   == null ||
 		    HeightEntry  == null)
 		{
 			throw new Exception("Couldn't load resize Dialog");
