@@ -302,7 +302,7 @@ public class LayerListWidget : TreeView {
 			popupMenu.Append(editPathItem);
 
 			MenuItem deletePathItem = new MenuItem("Delete Path");
-			deletePathItem.Sensitive = application.CurrentTilemap.Path != null;
+			deletePathItem.Sensitive = application.CurrentTilemap != null && application.CurrentTilemap.Path != null;
 			deletePathItem.Activated += OnDeletePath;
 			popupMenu.Append(deletePathItem);
 
