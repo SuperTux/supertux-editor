@@ -33,6 +33,21 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 	[LispChild("y", Optional = true, Default = 0f)]
 	public float Y;
 
+	public enum Alignments {
+		none,
+		left,
+		right,
+		top,
+		bottom
+	}
+
+	/// <summary>
+	/// Controls which direction(s) if any that the background is repeated in.
+	/// Top and bottom images are only used for "none".
+	/// </summary>
+	[LispChild("alignment", Optional = true, Default = Alignments.none)]
+	public Alignments Alignment = Alignments.none;
+
 	[LispChild("image-top", Optional = true, Default = "")]
 	[ChooseResourceSetting]
 	public string ImageTop {
@@ -143,25 +158,24 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 
 		int minX;
 		int maxX;
-		int minY;
-		int maxY;
+		if (Alignment == Alignments.none) {
+			// Calc min and max *tiles*, including one *tile* overlap on both sides.
+			minX = -((int)this.X / (int)st.Width) - 1;
+			// Fix rounding with integer division...
+			if (this.X > 0)
+				minX--;
+			maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)st.Width;
 
-		// Calc min and max *tiles*, including one *tile* overlap on both sides.
-		minX = -((int)this.X / (int)st.Width) - 1;
-		// Fix rounding with integer division...
-		if (this.X > 0)
-			minX--;
-		maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)st.Width;
+			int minY = -((int)this.Y / (int)st.Height) - 1;
+			// Fix rounding with integer division...
+			if (this.Y > 0)
+				minY--;
+			int maxY = -1;	//tile position 0 belongs to middle surface
 
-		minY = -((int)this.Y / (int)st.Height) - 1;
-		// Fix rounding with integer division...
-		if (this.Y > 0)
-			minY--;
-		maxY = -1;	//tile position 0 belongs to middle surface
-
-		for (int tileX = minX; tileX <= maxX; tileX++) {
-			for (int tileY = minY; tileY <= maxY; tileY++) {
-				st.Draw(new Vector(X + st.Width * tileX, Y + st.Height * tileY));
+			for (int tileX = minX; tileX <= maxX; tileX++) {
+				for (int tileY = minY; tileY <= maxY; tileY++) {
+					st.Draw(new Vector(X + st.Width * tileX, Y + st.Height * tileY));
+				}
 			}
 		}
 
@@ -176,18 +190,20 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 			sm.Draw(new Vector(X + sm.Width * tileX, Y));
 		}
 
-		// Calc min and max *tiles*, including one *tile* overlap on both sides.
-		minX = -((int)this.X / (int)sb.Width) - 1;
-		// Fix rounding with integer division...
-		if (this.X > 0)
-			minX--;
-		maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)sb.Width;
+		if (Alignment == Alignments.none) {
+			// Calc min and max *tiles*, including one *tile* overlap on both sides.
+			minX = -((int)this.X / (int)sb.Width) - 1;
+			// Fix rounding with integer division...
+			if (this.X > 0)
+				minX--;
+			maxX = Math.Abs(sectorbounds.Width - (int)this.X) / (int)sb.Width;
 
-		maxY = Math.Abs(sectorbounds.Height - (int)this.Y - (int)sm.Height) / (int)sb.Height;
+			int maxY = Math.Abs(sectorbounds.Height - (int)this.Y - (int)sm.Height) / (int)sb.Height;
 
-		for (int tileX = minX; tileX <= maxX; tileX++) {
-			for (int tileY = 0; tileY <= maxY; tileY++) {
-				sb.Draw(new Vector(X + sb.Width * tileX, Y + sm.Height + sb.Height * tileY));
+			for (int tileX = minX; tileX <= maxX; tileX++) {
+				for (int tileY = 0; tileY <= maxY; tileY++) {
+					sb.Draw(new Vector(X + sb.Width * tileX, Y + sm.Height + sb.Height * tileY));
+				}
 			}
 		}
 	}
