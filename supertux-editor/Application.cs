@@ -97,6 +97,15 @@ public class Application
 	[Glade.Widget]
 	private Gtk.Frame fGObjects = null;
 
+	[Glade.Widget]
+	private Gtk.Frame fToolsLeft = null;		//container for docking toolbox on left
+
+	[Glade.Widget]
+	private Gtk.Frame fToolsRight = null;		//container for docking toolbox on right
+
+	[Glade.Widget]
+	private Gtk.Alignment aTools = null;		//toolbox frame and it's wrappings
+
 	#endregion Glade
 
 	private TileListWidget tileList;
@@ -247,6 +256,11 @@ public class Application
 		ToolZoom.StockId = EditorStock.ToolZoom;
 		ToolButtonCamera.StockId = EditorStock.Camera;
 #endif
+
+		// Hide some extra widgets (because MainWindow.ShowAll(); showed them all)
+		fGObjects.Visible = false;
+		fToolsLeft.Visible = false;
+
 
 		// Tool "Select" is selected by default - call its event handler
 		OnToolSelect(null, null);
@@ -1127,6 +1141,29 @@ public class Application
 		Gtk.Drag.Finish (args.Context, true, false, args.Time);
 
 		Load(filename);			//load the level
+	}
+
+	protected void OnToolboxSizeAllocated(object o, Gtk.SizeAllocatedArgs args)
+	{
+		if (args.Allocation.Width < 5)
+		{
+			fToolsLeft.Show();
+			fToolsRight.Show();
+		} else {
+			if (o==fToolsLeft) {
+				if (!fToolsRight.Visible) return;
+				fToolsLeft.WidthRequest=1;
+				fToolsLeft.Show();
+				aTools.Reparent(fToolsLeft);
+				fToolsRight.Hide();
+			} else {
+				if (!fToolsLeft.Visible) return;
+				fToolsRight.WidthRequest=1;
+				fToolsRight.Show();
+				aTools.Reparent(fToolsRight);
+				fToolsLeft.Hide();
+			}		
+		}
 	}
 
 	public static void Main(string[] args)
