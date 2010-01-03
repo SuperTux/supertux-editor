@@ -27,6 +27,10 @@ public class SettingsDialog
 	private Entry entryDataDir = null;
 	[Glade.Widget]
 	private Entry entryExe = null;
+	[Glade.Widget]
+	private RadioButton rbToolsLeft = null;
+	[Glade.Widget]
+	private RadioButton rbToolsRight = null;
 
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
@@ -43,6 +47,8 @@ public class SettingsDialog
 
 		entryDataDir.Text = Settings.Instance.SupertuxData;
 		entryExe.Text = Settings.Instance.SupertuxExe;
+		rbToolsLeft.Active = !Settings.Instance.ToolboxOnRight;
+		rbToolsRight.Active = Settings.Instance.ToolboxOnRight;
 
 		Changed = false;
 		settingsDialog.Icon = EditorStock.WindowIcon;
@@ -94,6 +100,14 @@ public class SettingsDialog
 			entryExe.Text = fileChooser.Filename;
 		}
 		fileChooser.Destroy();
+	}
+
+	protected void OnRbToolboxPosition(object o, EventArgs args)
+	{
+		if (Settings.Instance.ToolboxOnRight != rbToolsRight.Active)
+			Changed = true;
+		Settings.Instance.ToolboxOnRight = rbToolsRight.Active;
+		Settings.Instance.Save();
 	}
 
 	protected void OnClose(object o, EventArgs args)

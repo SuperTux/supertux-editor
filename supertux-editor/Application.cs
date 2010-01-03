@@ -259,7 +259,14 @@ public class Application
 
 		// Hide some extra widgets (because MainWindow.ShowAll(); showed them all)
 		fGObjects.Visible = false;
-		fToolsLeft.Visible = false;
+		if (Settings.Instance.ToolboxOnRight) 
+		{
+			aTools.Reparent(fToolsRight);
+			fToolsLeft.Hide();
+		} else {
+			aTools.Reparent(fToolsLeft);
+			fToolsRight.Hide();
+		}
 
 
 		// Tool "Select" is selected by default - call its event handler
