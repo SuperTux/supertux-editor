@@ -1152,24 +1152,23 @@ public class Application
 
 	protected void OnToolboxSizeAllocated(object o, Gtk.SizeAllocatedArgs args)
 	{
+		Gtk.Frame fActive = (Gtk.Frame) o;
+		Gtk.Frame fOther = (o == fToolsRight)?fToolsLeft:fToolsRight;
+		Settings.Instance.ToolboxOnRight = (fActive == fToolsRight);		//recently touched frame becomes stored in preferences
+
 		if (args.Allocation.Width < 5)
 		{
-			fToolsLeft.Show();
-			fToolsRight.Show();
+			if (fOther.Visible)		//ignore, if the other frame is already visible;
+				return;
+			fActive.Show();
+			fOther.Show();
 		} else {
-			if (o==fToolsLeft) {
-				if (!fToolsRight.Visible) return;
-				fToolsLeft.WidthRequest=1;
-				fToolsLeft.Show();
-				aTools.Reparent(fToolsLeft);
-				fToolsRight.Hide();
-			} else {
-				if (!fToolsLeft.Visible) return;
-				fToolsRight.WidthRequest=1;
-				fToolsRight.Show();
-				aTools.Reparent(fToolsRight);
-				fToolsLeft.Hide();
-			}		
+			if (!fOther.Visible)		//ignore, if the other frame is already hidden;
+				return;
+			fActive.WidthRequest=1;
+			fActive.Show();
+			aTools.Reparent(fActive);
+			fOther.Hide();
 		}
 	}
 
