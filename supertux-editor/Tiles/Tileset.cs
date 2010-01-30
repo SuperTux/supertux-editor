@@ -139,9 +139,13 @@ public sealed class Tileset {
 		int width = 0;
 		int height = 0;
 		string image = String.Empty;
+		string editor_images = String.Empty;
 		props.Get("width", ref width);
 		props.Get("height", ref height);
 		props.Get("image", ref image);
+		if (image.Equals (String.Empty))
+			props.Get("images", ref image);
+		props.Get("editor-images", ref editor_images);
 		if(width == 0 || height == 0)
 			throw new ApplicationException("Width and Height of tiles block must be > 0");
 
@@ -164,14 +168,26 @@ public sealed class Tileset {
 				if (ids[id] != 0) {
 					Tile tile = new Tile();
 
-					Tile.ImageResource res = new Tile.ImageResource();
-					res.Filename = image;
-					res.x = x * TILE_WIDTH;
-					res.y = y * TILE_HEIGHT;
-					res.w = TILE_WIDTH;
-					res.h = TILE_HEIGHT;
-					tile.Images = new List<Tile.ImageResource>();
-					tile.Images.Add(res);
+					if (!image.Equals (String.Empty)) {
+						Tile.ImageResource res = new Tile.ImageResource();
+						res.Filename = image;
+						res.x = x * TILE_WIDTH;
+						res.y = y * TILE_HEIGHT;
+						res.w = TILE_WIDTH;
+						res.h = TILE_HEIGHT;
+						tile.Images = new List<Tile.ImageResource>();
+						tile.Images.Add(res);
+					}
+					if (!editor_images.Equals (String.Empty)) {
+						Tile.ImageResource eres = new Tile.ImageResource();
+						eres.Filename = editor_images;
+						eres.x = x * TILE_WIDTH;
+						eres.y = y * TILE_HEIGHT;
+						eres.w = TILE_WIDTH;
+						eres.h = TILE_HEIGHT;
+						tile.EditorImages = new List<Tile.ImageResource>();
+						tile.EditorImages.Add(eres);
+					}
 					tile.Id = ids[id];
 					tile.Attributes = (attributes.Count > 0)?(Tile.Attribute) attributes[id]:0;	//missing atributes == all-are-0-attributes
 					tile.Data = (datas.Count > 0)?(int) datas[id]:0;	//missing DATAs == all-are-0-DATAs
