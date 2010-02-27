@@ -253,7 +253,6 @@ public class Application
 		ToolFill.StockId = EditorStock.ToolFill;
 		ToolReplace.StockId = EditorStock.ToolReplace;
 		ToolPath.StockId = EditorStock.ToolPath;
-		ToolZoom.StockId = EditorStock.ToolZoom;
 		ToolButtonCamera.StockId = EditorStock.Camera;
 #endif
 

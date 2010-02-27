@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -31,7 +31,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -51,6 +51,8 @@
   -->
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ITool.cs" />
+    <Compile Include="Libs\GLHelper.cs" />
     <Compile Include="LogManager.cs" />
     <Compile Include="DataStructures\Field.cs" />
     <Compile Include="DataStructures\FieldPos.cs" />
@@ -65,7 +67,6 @@
     <Compile Include="Drawing\TextureManager.cs" />
     <Compile Include="ErrorDialog.cs" />
     <Compile Include="GLWidgetBase.cs" />
-    <Compile Include="IEditor.cs" />
     <Compile Include="Libs\OpenGl.cs" />
     <Compile Include="Libs\OpenGlUtil.cs" />
     <Compile Include="Libs\Sdl.cs" />
