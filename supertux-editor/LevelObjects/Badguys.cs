@@ -206,6 +206,16 @@ public sealed class Fish : SimpleObject
 	}
 }
 
+[SupertuxObject("snowman", "images/creatures/snowman/snowman.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Snowman : SimpleDirObject
+{
+	public Snowman() {
+		Sprite = SpriteManager.Create("images/creatures/snowman/snowman.sprite");
+		Sprite.Action = "walk-left";
+	}
+}
+
 [SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrTree : SimpleDirObject
