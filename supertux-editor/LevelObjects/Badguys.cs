@@ -257,7 +257,8 @@ public sealed class Zeekling : SimpleDirObject
 }
 
 [SupertuxObject("dart", "images/creatures/dart/dart.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+		ObjectListAction = "flying-left")]
 public sealed class Dart : SimpleDirObject
 {
 	public Dart() {
