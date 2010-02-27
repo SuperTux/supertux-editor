@@ -145,13 +145,13 @@ public sealed class FlyingSnowball : SimpleObject
 	}
 }
 
-[SupertuxObject("jumpy", "images/creatures/jumpy/jumpy.sprite",
+[SupertuxObject("jumpy", "images/creatures/snowjumpy/snowjumpy.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "left-up")]
 public sealed class Jumpy : SimpleObject
 {
 	public Jumpy() {
-		Sprite = SpriteManager.Create("images/creatures/jumpy/jumpy.sprite");
+		Sprite = SpriteManager.Create("images/creatures/snowjumpy/snowjumpy.sprite");
 		Sprite.Action = "left-up";
 	}
 }
