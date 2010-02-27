@@ -383,10 +383,10 @@ public sealed class UnstableTile : SimpleObject
 			spriteFile = value;
 		}
 	}
-	private string spriteFile = "images/objects/unstable_tile/unstable_tile.sprite";
+	private string spriteFile = "images/objects/unstable_tile/snow.sprite";
 
 	public UnstableTile() {
-		Sprite = SpriteManager.Create("images/objects/unstable_tile/unstable_tile.sprite");
+		Sprite = SpriteManager.Create("images/objects/unstable_tile/snow.sprite");
 		Sprite.Action = "normal";
 	}
 }
