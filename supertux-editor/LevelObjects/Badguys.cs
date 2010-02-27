@@ -308,7 +308,7 @@ public sealed class Kugelblitz : SimpleObject
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "dropper")]
+                ObjectListAction = "working")]
 public sealed class Dispenser : SimpleDirObject
 {
 	private bool random;
@@ -334,7 +334,7 @@ public sealed class Dispenser : SimpleDirObject
 		dropper
 	}
 
-	private DispenserTypes dispenserType = DispenserTypes.dropper;
+	private DispenserTypes dispenserType = DispenserTypes.cannon;
 	private List<string> badguy = new List<string>();
 
 	[PropertyProperties(Tooltip = "Type of dispenser.", RedrawOnChange = true)]
@@ -373,12 +373,12 @@ public sealed class Dispenser : SimpleDirObject
 	}
 
 	[LispChild("cycle")]
-	public float Cycle = 1;
+	public float Cycle = 5;
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
-		Sprite.Action = "dropper";
-		badguy.Add("snowball");
+		Sprite.Action = "working";
+		badguy.Add("kamikazesnowball");
 	}
 
 	public override object Clone() {
