@@ -250,37 +250,42 @@ public class LayerListWidget : TreeView {
 	[GLib.ConnectBefore]
 		private void OnButtonPressed(object o, ButtonPressEventArgs args)
 	{
-		TreePath path;
-		if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
-			return;
+		// FIXME: temporary exception crash stopper, need proper fix
+		try {
+			TreePath path;
+			if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
+				return;
 
-		TreeIter iter;
-		if(!Model.GetIter(out iter, path))
-			return;
+			TreeIter iter;
+			if(!Model.GetIter(out iter, path))
+				return;
 
-		object obj = Model.GetValue(iter, 0);
-		if(obj is Tilemap) {
-			if (visibility[obj]>0) {		//set null tilemap when selected one is invisible
-				application.CurrentTilemap = (Tilemap) obj;
+			object obj = Model.GetValue(iter, 0);
+			if(obj is Tilemap) {
+				if (visibility[obj]>0) {		//set null tilemap when selected one is invisible
+					application.CurrentTilemap = (Tilemap) obj;
+				} else {
+					application.CurrentTilemap = null;
+				}
 			} else {
+				if (obj == separatorObject)
+					return;
 				application.CurrentTilemap = null;
 			}
-		} else {
-			if (obj == separatorObject)
-				return;
-			application.CurrentTilemap = null;
-		}
 
-		if (obj is ILayer) {
-			ILayer ILayer = (ILayer) obj;
-			if (ILayer != null) {		//open it's properties if any
-				string name = (String.IsNullOrEmpty(ILayer.Name))?"":" \"" +ILayer.Name + "\"";
-				application.EditProperties(ILayer, ILayer.GetType().Name + name + " (" + ILayer.Layer.ToString() + ")");
+			if (obj is ILayer) {
+				ILayer ILayer = (ILayer) obj;
+				if (ILayer != null) {		//open it's properties if any
+					string name = (String.IsNullOrEmpty(ILayer.Name))?"":" \"" +ILayer.Name + "\"";
+					application.EditProperties(ILayer, ILayer.GetType().Name + name + " (" + ILayer.Layer.ToString() + ")");
+				}
 			}
-		}
 
-		if ((args.Event.Button == 3) && (obj is ILayer)) {
-			ShowPopupMenu(obj as ILayer);
+			if ((args.Event.Button == 3) && (obj is ILayer)) {
+				ShowPopupMenu(obj as ILayer);
+			}
+		} catch(Exception e) {
+			LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnButtonPressed: " + e);
 		}
 	}
 
@@ -401,41 +406,45 @@ public class LayerListWidget : TreeView {
 
 	private void OnVisibilityChange(object o, EventArgs args)
 	{
-		TreeIter treeIter;
-		TreeModel treeModel;
-		if (Selection.GetSelected(out treeModel, out treeIter))
-		{	//we have selected row
-			object obj = treeModel.GetValue(treeIter, 0);
+		try {
+			TreeIter treeIter;
+			TreeModel treeModel;
+			if (Selection.GetSelected(out treeModel, out treeIter))
+			{	//we have selected row
+				object obj = treeModel.GetValue(treeIter, 0);
 
-			if (obj is ILayer && !(obj is IDrawableLayer))	//skip it, if we can't currently display that object
-				return;
+				if (obj is ILayer && !(obj is IDrawableLayer))	//skip it, if we can't currently display that object
+					return;
 
-			float vis = visibility[obj];
-			float newvis = 1.0f;
-			if(vis == 1.0f) {
-				newvis = 0.5f;
-			} else if(vis == 0.5f) {
-				newvis = 0.0f;
-			} else {
-				newvis = 1.0f;
+				float vis = visibility[obj];
+				float newvis = 1.0f;
+				if(vis == 1.0f) {
+					newvis = 0.5f;
+				} else if(vis == 0.5f) {
+					newvis = 0.0f;
+				} else {
+					newvis = 1.0f;
+				}
+
+				if (obj is ILayer)
+					application.CurrentRenderer.SetILayerColor((ILayer)obj,
+										   new Color(1, 1, 1, newvis));
+				if (obj == badguysObject)
+					application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
+
+				visibility[obj] = newvis;
+
+				if (obj is Tilemap) {				//Selecting and deselecting for invisible layers
+					if ( (application.CurrentTilemap == obj) && newvis == 0)	//deselect active tilemap that is made invisible
+						application.CurrentTilemap = null;
+					if ( (application.CurrentTilemap == null) && newvis != 0)	//select un-invisibled tilemap if we have no active one
+						application.CurrentTilemap = (Tilemap) obj;
+				}
+
+				QueueDraw();
 			}
-
-			if (obj is ILayer)
-				application.CurrentRenderer.SetILayerColor((ILayer)obj,
-									   new Color(1, 1, 1, newvis));
-			if (obj == badguysObject)
-				application.CurrentRenderer.SetObjectsColor(new Color(1, 1, 1, newvis));
-
-			visibility[obj] = newvis;
-
-			if (obj is Tilemap) {				//Selecting and deselecting for invisible layers
-				if ( (application.CurrentTilemap == obj) && newvis == 0)	//deselect active tilemap that is made invisible
-					application.CurrentTilemap = null;
-				if ( (application.CurrentTilemap == null) && newvis != 0)	//select un-invisibled tilemap if we have no active one
-					application.CurrentTilemap = (Tilemap) obj;
-			}
-
-			QueueDraw();
+		} catch(Exception e) {
+			LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnVisibilityChange: " + e);
 		}
 	}
 }
