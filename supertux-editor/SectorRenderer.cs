@@ -99,10 +99,9 @@ public sealed class SectorRenderer : RenderView
 
 	public Color GetILayerColor(ILayer ILayer)
 	{
-		LogManager.Log(LogLevel.Debug, "Get color of ILayer {0}", ILayer.GetHashCode());
 		ColorNode cnode=(ColorNode) colors[ILayer];
 		if(cnode == null) {
-			LogManager.Log(LogLevel.Debug, "FIXME: An idiot put null instead of ColorNode in SectorRenderer.colors[], please find out who put that in here!.");
+			LogManager.Log(LogLevel.Error, "FIXME: An idiot put null instead of ColorNode in SectorRenderer.colors[], please find out who put that in here!.");
 			return new Color(0,0,0,0);
 		}
 		return cnode.Color;
@@ -151,7 +150,6 @@ public sealed class SectorRenderer : RenderView
 			Node tnode = new TilemapNode(tilemap, level.Tileset);
 			ColorNode colorNode = new ColorNode(tnode, new Color(1f, 1f, 1f, 1f));
 			layer.Add(tilemap.Layer, colorNode);
-			LogManager.Log(LogLevel.Debug, "Adding tilemap color: {0}", Object.GetHashCode());
 			colors[tilemap] = colorNode;
 		}
 
@@ -162,7 +160,6 @@ public sealed class SectorRenderer : RenderView
 			if(mynode != null) {
 				ColorNode colorNode = new ColorNode(mynode, new Color(1f, 1f, 1f, 1f));
 				layer.Add(IDrawableLayer.Layer, colorNode);
-				LogManager.Log(LogLevel.Debug, "Adding ILayer color: {0}", Object.GetHashCode());
 				colors[IDrawableLayer] = colorNode;
 			}
 		}
