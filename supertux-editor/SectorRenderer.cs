@@ -190,7 +190,7 @@ public sealed class SectorRenderer : RenderView
 		if (! (Object is IGameObject && sector.Contains((IGameObject)Object)))	//return, if it's not (GameObject in our sector)
 			return;
 
-		if (Object is ILayer && field.Name == "Layer") { //filter for ILayer.Layer
+		if (Object is IDrawableLayer && field.Name == "Layer") { //filter for ILayer.Layer
 			Layer layer = (Layer) SceneGraphRoot;
 			ILayer ILayer = (ILayer) Object;
 			ColorNode color = (ColorNode) colors[ILayer];
