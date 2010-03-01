@@ -50,6 +50,16 @@ public sealed class MrBomb : SimpleDirObject
 	}
 }
 
+[SupertuxObject("haywire", "images/creatures/haywire/haywire.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Haywire : SimpleDirObject
+{
+	public Haywire() {
+		Sprite = SpriteManager.Create("images/creatures/haywire/haywire.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("snowball", "images/creatures/snowball/snowball.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Snowball : SimpleDirObject
