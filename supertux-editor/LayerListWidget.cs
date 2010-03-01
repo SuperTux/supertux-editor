@@ -215,27 +215,22 @@ public class LayerListWidget : TreeView {
 	private void VisibilityDataFunc(TreeViewColumn Column, CellRenderer Renderer,
 	                                TreeModel Model, TreeIter Iter)
 	{
-		// FIXME: temporary exception crash stopper, need proper fix
-		try {
-			CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
+		CellRendererPixbuf PixbufRenderer = (CellRendererPixbuf) Renderer;
 
-			object o = Model.GetValue(Iter, 0);
+		object o = Model.GetValue(Iter, 0);
 
-			if (o is ILayer && !(o is IDrawableLayer)) {	//no visibility for objects that we can't currently display
-				PixbufRenderer.StockId = null;
-				return;
-			}
+		if (o is ILayer && !(o is IDrawableLayer)) {	//no visibility for objects that we can't currently display
+			PixbufRenderer.StockId = null;
+			return;
+		}
 
-			float vis = visibility[o];
-			if(vis <= 0) {
-				PixbufRenderer.StockId = null;
-			} else if(vis <= 0.5f) {
-				PixbufRenderer.StockId = EditorStock.EyeHalf;
-			} else {
-				PixbufRenderer.StockId = EditorStock.Eye;
-			}
-		} catch(Exception e) {
-			LogManager.Log(LogLevel.Debug, "LayerListWidget.cs VisibilityDataFunc: " + e);
+		float vis = visibility[o];
+		if(vis <= 0) {
+			PixbufRenderer.StockId = null;
+		} else if(vis <= 0.5f) {
+			PixbufRenderer.StockId = EditorStock.EyeHalf;
+		} else {
+			PixbufRenderer.StockId = EditorStock.Eye;
 		}
 	}
 
@@ -263,42 +258,37 @@ public class LayerListWidget : TreeView {
 	[GLib.ConnectBefore]
 		private void OnButtonPressed(object o, ButtonPressEventArgs args)
 	{
-		// FIXME: temporary exception crash stopper, need proper fix
-		try {
-			TreePath path;
-			if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
-				return;
+		TreePath path;
+		if(!GetPathAtPos((int) args.Event.X, (int) args.Event.Y, out path))
+			return;
 
-			TreeIter iter;
-			if(!Model.GetIter(out iter, path))
-				return;
+		TreeIter iter;
+		if(!Model.GetIter(out iter, path))
+			return;
 
-			object obj = Model.GetValue(iter, 0);
-			if(obj is Tilemap) {
-				if (visibility[obj]>0) {		//set null tilemap when selected one is invisible
-					application.CurrentTilemap = (Tilemap) obj;
-				} else {
-					application.CurrentTilemap = null;
-				}
+		object obj = Model.GetValue(iter, 0);
+		if(obj is Tilemap) {
+			if (visibility[obj]>0) {		//set null tilemap when selected one is invisible
+				application.CurrentTilemap = (Tilemap) obj;
 			} else {
-				if (obj == separatorObject)
-					return;
 				application.CurrentTilemap = null;
 			}
+		} else {
+			if (obj == separatorObject)
+				return;
+			application.CurrentTilemap = null;
+		}
 
-			if (obj is ILayer) {
-				ILayer ILayer = (ILayer) obj;
-				if (ILayer != null) {		//open it's properties if any
-					string name = (String.IsNullOrEmpty(ILayer.Name))?"":" \"" +ILayer.Name + "\"";
-					application.EditProperties(ILayer, ILayer.GetType().Name + name + " (" + ILayer.Layer.ToString() + ")");
-				}
+		if (obj is ILayer) {
+			ILayer ILayer = (ILayer) obj;
+			if (ILayer != null) {		//open it's properties if any
+				string name = (String.IsNullOrEmpty(ILayer.Name))?"":" \"" +ILayer.Name + "\"";
+				application.EditProperties(ILayer, ILayer.GetType().Name + name + " (" + ILayer.Layer.ToString() + ")");
 			}
+		}
 
-			if ((args.Event.Button == 3) && (obj is ILayer)) {
-				ShowPopupMenu(obj as ILayer);
-			}
-		} catch(Exception e) {
-			LogManager.Log(LogLevel.Debug, "LayerListWidget.cs OnButtonPressed: " + e);
+		if ((args.Event.Button == 3) && (obj is ILayer)) {
+			ShowPopupMenu(obj as ILayer);
 		}
 	}
 
