@@ -34,6 +34,8 @@ namespace SceneGraph
 		{
 			if(Layers[Layer] == null)
 				Layers[Layer] = new List<Node>();
+			if(Child == null)
+				throw new Exception("Somebody has passed Child==null to Layer.Add");
 			List<Node> Childs = (List<Node>) Layers[Layer];
 			Childs.Add(Child);
 		}
@@ -41,7 +43,9 @@ namespace SceneGraph
 		public void Remove(float Layer, Node Child)
 		{
 			if(Layers[Layer] == null)
-				throw new Exception("Specified Layer is empty");
+				throw new Exception("Failed to Remove SceneGraph node - No object was found in layer \""+ Layer.ToString() +"\"");
+			if(Child == null)
+				throw new Exception("Somebody has passed Child==null to Layer.Remove");
 			List<Node> Childs = (List<Node>) Layers[Layer];
 			Childs.Remove(Child);
 		}
