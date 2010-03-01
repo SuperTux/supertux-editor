@@ -23,12 +23,25 @@ using Drawing;
 using LispReader;
 using Undo;
 
+class ReferenceCompare<T> : IEqualityComparer<T>
+{
+	public bool Equals(T lhs, T rhs)
+	{
+		return System.Object.ReferenceEquals(lhs, rhs);
+	}
+	
+	public int GetHashCode(T obj)
+	{
+		return System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(obj);
+	}
+}
+
 public class LayerListWidget : TreeView {
 	private Application application;
 	private static object separatorObject = new System.Object();
 	private static object badguysObject = new System.Object();
 	private Sector sector;
-	private Dictionary<object, float> visibility = new Dictionary<object, float>();
+	private Dictionary<object, float> visibility = new Dictionary<object, float>(new ReferenceCompare<object>());
 
 	private class VisibilityRenderer : CellRendererPixbuf
 	{
