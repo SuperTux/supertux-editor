@@ -27,7 +27,7 @@ public sealed class Decal : IGameObject, IObject, Node {
 	[LispChild("y", Optional = true, Default = 0f)]
 	public float Y;
 
-	[LispChild("image")]
+	[LispChild("sprite")]
 	[ChooseResourceSetting]
 	public string Image {
 		get {
