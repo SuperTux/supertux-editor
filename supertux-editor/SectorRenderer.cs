@@ -99,7 +99,13 @@ public sealed class SectorRenderer : RenderView
 
 	public Color GetILayerColor(ILayer ILayer)
 	{
-		return ((ColorNode) colors[ILayer]).Color;
+		LogManager.Log(LogLevel.Debug, "Get color of ILayer {0}", ILayer.GetHashCode());
+		ColorNode cnode=(ColorNode) colors[ILayer];
+		if(cnode == null) {
+			LogManager.Log(LogLevel.Debug, "FIXME: An idiot put null instead of ColorNode in SectorRenderer.colors[], please find out who put that in here!.");
+			return new Color(0,0,0,0);
+		}
+		return cnode.Color;
 	}
 
 	/// <summary>
