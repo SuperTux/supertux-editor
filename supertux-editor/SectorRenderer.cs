@@ -18,14 +18,13 @@ using System;
 using SceneGraph;
 using Drawing;
 using DataStructures;
-using System.Collections;
+using System.Collections.Generic;
 using Gtk;
 using LispReader;
 
 public sealed class SectorRenderer : RenderView
 {
-	//TODO: replace hashtable with a Dictionary for consistency.
-	private Hashtable colors = new Hashtable(new ReferenceComparer());
+	private Dictionary<object, ColorNode> colors = new Dictionary<object, ColorNode>();
 	private ColorNode objectsColorNode;
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
@@ -115,7 +114,7 @@ public sealed class SectorRenderer : RenderView
 	public void SetILayerColor(ILayer ILayer, Color color)
 	{
 		LogManager.Log(LogLevel.Debug, "Set color of ILayer {0}", ILayer.GetHashCode());
-		ColorNode colorNode = (ColorNode) colors[ILayer];
+		ColorNode colorNode = colors[ILayer];
 		colorNode.Color = color;
 		QueueDraw();
 	}
@@ -193,7 +192,7 @@ public sealed class SectorRenderer : RenderView
 		if (Object is IDrawableLayer && field.Name == "Layer") { //filter for ILayer.Layer
 			Layer layer = (Layer) SceneGraphRoot;
 			ILayer ILayer = (ILayer) Object;
-			ColorNode color = (ColorNode) colors[ILayer];
+			ColorNode color = colors[typeof(ILayer)];
 			int oldLayer = (int) oldValue;
 
 			layer.Remove(oldLayer, color);
