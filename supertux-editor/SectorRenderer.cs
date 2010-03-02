@@ -24,7 +24,7 @@ using LispReader;
 
 public sealed class SectorRenderer : RenderView
 {
-	private Dictionary<object, ColorNode> colors = new Dictionary<object, ColorNode>();
+	private Dictionary<ILayer, ColorNode> colors = new Dictionary<ILayer, ColorNode>();
 	private ColorNode objectsColorNode;
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
@@ -192,7 +192,7 @@ public sealed class SectorRenderer : RenderView
 		if (Object is IDrawableLayer && field.Name == "Layer") { //filter for ILayer.Layer
 			Layer layer = (Layer) SceneGraphRoot;
 			ILayer ILayer = (ILayer) Object;
-			ColorNode color = colors[typeof(ILayer)];
+			ColorNode color = colors[ILayer];
 			int oldLayer = (int) oldValue;
 
 			layer.Remove(oldLayer, color);
