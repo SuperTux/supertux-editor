@@ -24,7 +24,8 @@ using LispReader;
 
 public sealed class SectorRenderer : RenderView
 {
-	private Hashtable colors = new Hashtable();
+	//TODO: replace hashtable with a Dictionary for consistency.
+	private Hashtable colors = new Hashtable(new ReferenceComparer());
 	private ColorNode objectsColorNode;
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
@@ -100,10 +101,6 @@ public sealed class SectorRenderer : RenderView
 	public Color GetILayerColor(ILayer ILayer)
 	{
 		ColorNode cnode=(ColorNode) colors[ILayer];
-		if(cnode == null) {
-			LogManager.Log(LogLevel.Error, "FIXME: An idiot put null instead of ColorNode in SectorRenderer.colors[], please find out who put that in here!.");
-			return new Color(0,0,0,0);
-		}
 		return cnode.Color;
 	}
 
