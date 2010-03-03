@@ -34,10 +34,10 @@ public sealed class TileFillTool : TileToolBase, ITool {
 		if (!application.CurrentTilemap.InBounds(pos)) return;
 		if (application.CurrentTilemap[pos] != oldId) return;
 		application.CurrentTilemap[pos] = newId;
-		FloodFillAt(pos.Up, oldId, newId);
-		FloodFillAt(pos.Down, oldId, newId);
-		FloodFillAt(pos.Left, oldId, newId);
-		FloodFillAt(pos.Right, oldId, newId);
+		FloodFillAt(new FieldPos(pos.X,   pos.Y-1), oldId, newId);
+		FloodFillAt(new FieldPos(pos.X,   pos.Y+1), oldId, newId);
+		FloodFillAt(new FieldPos(pos.X-1, pos.Y),   oldId, newId);
+		FloodFillAt(new FieldPos(pos.X+1, pos.Y),   oldId, newId);
 	}
 
 	public override void PerformActionOnTile(FieldPos TilePos, ModifierType Modifiers)
