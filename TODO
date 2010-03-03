@@ -1,6 +1,14 @@
 SuperTux Editor
 ===============
 
+* use System.Drawing.Point/Rectangle/Size/etc. instead of manual
+  messing with width/height or our own classes
+
+* in SectorRenderer rename ILayer variables to layer or something else
+
+* flying snowball should show how far up and down he moves (different
+  sprite should be enough)
+
 * Object Tool should behave more like Inkscape:
 
   - LMB on an object to select
