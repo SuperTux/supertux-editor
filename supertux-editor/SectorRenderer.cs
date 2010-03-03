@@ -24,7 +24,7 @@ using LispReader;
 
 public sealed class SectorRenderer : RenderView
 {
-	private Dictionary<ILayer, ColorNode> colors = new Dictionary<ILayer, ColorNode>();
+	private Dictionary<ILayer, ColorNode> colors = new Dictionary<ILayer, ColorNode>(new ReferenceComparer<ILayer>());
 	private ColorNode objectsColorNode;
 	private NodeWithChilds objectsNode;
 	private SceneGraph.Rectangle sectorBBox;
@@ -99,8 +99,7 @@ public sealed class SectorRenderer : RenderView
 
 	public Color GetILayerColor(ILayer ILayer)
 	{
-		ColorNode cnode=(ColorNode) colors[ILayer];
-		return cnode.Color;
+		return colors[ILayer].Color;
 	}
 
 	/// <summary>
@@ -167,7 +166,7 @@ public sealed class SectorRenderer : RenderView
 		if( Object is IDrawableLayer || Object is Tilemap ){
 			Layer layer = (Layer) SceneGraphRoot;
 			ILayer ILayer = (ILayer) Object;
-			layer.Remove(ILayer.Layer, (ColorNode) colors[ILayer]);
+			layer.Remove(ILayer.Layer, colors[ILayer]);
 			colors.Remove(ILayer);
 			QueueDraw();
 			return;
