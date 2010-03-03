@@ -30,12 +30,12 @@ public class TileBrush
 	/// <summary>
 	/// width (in Tiles) of this Brush
 	/// </summary>
-	protected uint width;
+	protected int width;
 
 	/// <summary>
 	/// height (in Tiles) of this Brush
 	/// </summary>
-	protected uint height;
+	protected int height;
 
 	/// <summary>
 	/// List of TileBlocks that constitute a valid pattern
@@ -54,7 +54,7 @@ public class TileBrush
 	/// <summary>
 	/// Create a new brush from a given list of patterns
 	/// </summary>
-	public TileBrush(uint width, uint height, List<TileBlock> patterns, Tileset tileset)
+	public TileBrush(int width, int height, List<TileBlock> patterns, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
@@ -65,7 +65,7 @@ public class TileBrush
 	/// <summary>
 	/// Create a new, empty brush
 	/// </summary>
-	public TileBrush(uint width, uint height, Tileset tileset)
+	public TileBrush(int width, int height, Tileset tileset)
 	{
 		this.width = width;
 		this.height = height;
@@ -85,7 +85,7 @@ public class TileBrush
 	/// <summary>
 	/// Width (in Tiles) of patterns in this Brush
 	/// </summary>
-	public uint Width {
+	public int Width {
 		get {
 			return width;
 		}
@@ -94,7 +94,7 @@ public class TileBrush
 	/// <summary>
 	/// Height (in Tiles) of patterns in this Brush
 	/// </summary>
-	public uint Height {
+	public int Height {
 		get {
 			return height;
 		}
@@ -190,8 +190,8 @@ public class TileBrush
 	public void ApplyToTilemap(FieldPos pos, Tilemap tilemap) {
 
 		// find upper-left corner of where to apply brush
-		int px = pos.X - (int)(width/2);
-		int py = pos.Y - (int)(height/2);
+		int px = pos.X - (width/2);
+		int py = pos.Y - (height/2);
 
 		TileBlock bestPattern = null;
 

@@ -80,8 +80,8 @@ public class ResizeDialog
 		try {
 			int xOffset = Int32.Parse(XOffsetEntry.Text);
 			int yOffset = Int32.Parse(YOffsetEntry.Text);
-			uint newWidth = UInt32.Parse(WidthEntry.Text);
-			uint newHeight = UInt32.Parse(HeightEntry.Text);
+			int newWidth = Int32.Parse(WidthEntry.Text);
+			int newHeight = Int32.Parse(HeightEntry.Text);
 			//application.TakeUndoSnapshot( "Sector resized to " + newWidth + "x" + newHeight);
 			SectorSizeChangeCommand command = new SectorSizeChangeCommand(
 				undoTitleBase + " resized to " + newWidth + "x" + newHeight,

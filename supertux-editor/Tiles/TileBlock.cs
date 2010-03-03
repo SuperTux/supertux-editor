@@ -22,25 +22,82 @@ using LispReader;
 using System.Collections.Generic;
 
 [LispRoot("tileblock")]
-public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
+public class TileBlock : ICustomLispSerializer, IComparable {
 	public int TileListFirstTile = -1;
+	private Field<int> field; 
 
-	public TileBlock() : base() {
+	public TileBlock()
+	{
+		field = new Field<int>();
 	}
 
-	public TileBlock(uint Width, uint Height, int FillValue) : base(Width, Height, FillValue) {
+	public TileBlock(int width, int height, int fillValue)
+	{
+		field = new Field<int>(width, height, fillValue);
 	}
 
 	/// <summary>
 	/// Clone Subset of other TileBlock
 	/// </summary>
-	public TileBlock(TileBlock Other, int startX, int startY, uint width, uint height) : base(Other, startX, startY, width, height, 0) {
+	public TileBlock(TileBlock other, int startX, int startY, int width, int height)
+	{
+		field = new Field<int>(other.field, startX, startY, width, height, 0);
+	}
+
+	public int Width 
+	{
+		get { return field.Width; }
+	}
+
+	public int Height 
+	{
+		get { return field.Height; }
+	}
+
+	public void Resize(int newWidth, int newHeight, int fillValue)
+	{
+		field.Resize(newWidth, newHeight, fillValue);
+	}
+
+	public void Resize(int xOffset, int yOffset, int newWidth, int newHeight, int fillValue)
+	{
+		field.Resize(xOffset, yOffset, newWidth, newHeight, fillValue);
+	}
+
+	public bool EqualContents(TileBlock rhs)
+	{
+		return field.EqualContents(rhs.field);
+	}
+
+	public int this[int x, int y]
+	{
+		get {
+			return field[x, y];
+		}
+		set {
+			field[x, y] = value;
+		}
+	}
+
+	public int this[FieldPos pos]
+	{
+		get {
+			return field[pos];
+		}
+		set {
+			field[pos] = value;
+		}
+	}
+
+	public bool InBounds(FieldPos pos) 
+	{
+		return field.InBounds(pos);
 	}
 
 	public void Draw(Vector Pos, Tileset Tileset) {
 		Vector CurrentPos = Pos;
-		for(uint y = 0; y < Height; ++y) {
-			for(uint x = 0; x < Width; ++x) {
+		for(int y = 0; y < Height; ++y) {
+			for(int x = 0; x < Width; ++x) {
 				int TileId = this[x, y];
 				Tile Tile = Tileset.Get(TileId);
 				if (Tile != null)
@@ -57,14 +114,14 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	}
 
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
-		uint StartX = (uint) Math.Max(0, -pos.X);
-		uint StartY = (uint) Math.Max(0, -pos.Y);
-		uint W = Math.Min((uint) (Tilemap.Width - pos.X), Width);
-		uint H = Math.Min((uint) (Tilemap.Height - pos.Y), Height);
-		for(uint y = StartY; y < H; ++y) {
-			for(uint x = StartX; x < W; ++x) {
+		int StartX = (int) Math.Max(0, -pos.X);
+		int StartY = (int) Math.Max(0, -pos.Y);
+		int W = Math.Min((int) (Tilemap.Width - pos.X), Width);
+		int H = Math.Min((int) (Tilemap.Height - pos.Y), Height);
+		for(int y = StartY; y < H; ++y) {
+			for(int x = StartX; x < W; ++x) {
 				if ((skipNull) && (this[x, y] == 0) && (Width > 1 || Height > 1)) continue;
-				Tilemap[(uint) (pos.X + x), (uint) (pos.Y + y)] = this[x, y];
+				Tilemap[(int) (pos.X + x), (int) (pos.Y + y)] = this[x, y];
 			}
 		}
 	}
@@ -74,8 +131,8 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	}
 
 	public void CustomLispRead(Properties Props) {
-		uint Width = 0;
-		uint Height = 0;
+		int Width = 0;
+		int Height = 0;
 		Props.Get("width", ref Width);
 		Props.Get("height", ref Height);
 		if(Width == 0 || Height == 0) throw new LispException("Width or Height of TileBlock invalid");
@@ -84,16 +141,16 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 		Props.GetIntList("tiles", Tiles);
 		if(Tiles.Count != (int) (Width * Height)) throw new LispException("TileCount != Width*Height: " + Tiles.Count + " != " + (int)Width + "*" + (int)Height);
 
-		Assign(Tiles, Width, Height);
+		field.Assign(Tiles, Width, Height);
 	}
 
 	public void CustomLispWrite(Writer Writer) {
 		Writer.Write("width", Width);
 		Writer.Write("height", Height);
 		Writer.WriteVerbatimLine("(tiles");
-		for (uint y = 0; y < Height; ++y) {
+		for (int y = 0; y < Height; ++y) {
 			StringBuilder line = new StringBuilder();
-			for (uint x = 0; x < Width; ++x) {
+			for (int x = 0; x < Width; ++x) {
 				if(x != 0)
 					line.Append(" ");
 				line.Append(this[x, y]);
@@ -125,18 +182,18 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 		if (obj == null) return 1;
 		TileBlock tileblock = obj as TileBlock;
 		if (tileblock != null) {
-			for (int i = 0; i < Math.Min(this.Elements.Count, tileblock.Elements.Count); i++) {
-				if (this.Elements[i] == tileblock.Elements[i])
+			for (int i = 0; i < Math.Min(field.Elements.Count, tileblock.field.Elements.Count); i++) {
+				if (field.Elements[i] == tileblock.field.Elements[i])
 					continue;
-				if (this.Elements[i] > tileblock.Elements[i])
+				if (field.Elements[i] > tileblock.field.Elements[i])
 					return 1;
 				else
 					return -1;
 			}
 			// Same data up to the last index of the smallest one at least.
-			if (this.Elements.Count == tileblock.Elements.Count)
+			if (field.Elements.Count == tileblock.field.Elements.Count)
 				return 0;
-			if (this.Elements.Count > tileblock.Elements.Count)
+			if (field.Elements.Count > tileblock.field.Elements.Count)
 				return 1;
 			else
 				return -1;
@@ -152,9 +209,9 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 
     public override int GetHashCode() {
         int x = 13;
-        x = x*23+(int)width;
-        x= x*23+(int)height;
-        x=x*23+Elements.GetHashCode();
+        x = x*23+Width;
+        x= x*23+Height;
+        x=x*23 + field.Elements.GetHashCode();
         return x;
     }
 
@@ -162,9 +219,9 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 
 	internal struct StateData {
 		public List<int> Elements;
-		public uint width;
-		public uint height;
-		public StateData(uint width, uint height, List<int> Elements) {
+		public int width;
+		public int height;
+		public StateData(int width, int height, List<int> Elements) {
 			this.width = width;
 			this.height = height;
 			// This we need to clone.
@@ -177,7 +234,7 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	/// </summary>
 	/// <returns>Data for undoing</returns>
 	internal StateData SaveState() {
-		return new StateData(Width, Height, Elements);
+		return new StateData(Width, Height, field.Elements);
 	}
 
 	/// <summary>
@@ -185,11 +242,8 @@ public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	/// </summary>
 	/// <returns>Data for undoing</returns>
 	internal void RestoreState(StateData state) {
-		width = state.width;
-		height = state.height;
-		Elements = new List<int>(state.Elements);
+		field = new Field<int>(state.Elements, state.width, state.height);
 	}
-
 }
 
 /* EOF */

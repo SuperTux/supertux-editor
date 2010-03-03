@@ -64,10 +64,10 @@ namespace Undo
 
 		private int xOffset;
 		private int yOffset;
-		private uint newWidth;
-		private uint newHeight;
-		private uint minWidth;
-		private uint minHeight;
+		private int newWidth;
+		private int newHeight;
+		private int minWidth;
+		private int minHeight;
 
 		public override void Do()
 		{
@@ -108,8 +108,8 @@ namespace Undo
 		/// <param name="oldHeight"> Used when you want to set different value </param>
 		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap,
 						 int xOffset, int yOffset,
-						 uint newWidth, uint newHeight,
-						 uint oldWidth, uint oldHeight)
+						 int newWidth, int newHeight,
+						 int oldWidth, int oldHeight)
 			: base(title, sector)
 		{
 			this.xOffset = xOffset;
@@ -138,12 +138,12 @@ namespace Undo
 		}
 
 		internal SectorSizeChangeCommand(string title, Sector sector,
-						 int xOffset, int yOffset, uint newWidth, uint newHeight)
+						 int xOffset, int yOffset, int newWidth, int newHeight)
 			:this(title, sector, null, xOffset, yOffset, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 
 		internal SectorSizeChangeCommand(string title, Sector sector, Tilemap tilemap,
-						 int xOffset, int yOffset, uint newWidth, uint newHeight)
+						 int xOffset, int yOffset, int newWidth, int newHeight)
 			:this(title, sector, tilemap, xOffset, yOffset, newWidth, newHeight, sector.Width, sector.Height)
 		{ }
 	}

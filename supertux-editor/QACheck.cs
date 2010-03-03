@@ -33,8 +33,8 @@ public static class QACheck
 	/// <returns>List of invalid tile ids.</returns>
 	public static List<int> CheckIds(TileBlock tiles, Tileset Tileset) {
 		List<int> invalidTiles = new List<int>();
-		for (uint y = 0; y < tiles.Height; ++y) {
-			for (uint x = 0; x < tiles.Width; ++x) {
+		for (int y = 0; y < tiles.Height; ++y) {
+			for (int x = 0; x < tiles.Width; ++x) {
 				int TileId = tiles[x, y];
 				if (!Tileset.IsValid(TileId)) {
 					if (invalidTiles.IndexOf(TileId) == -1)
@@ -108,8 +108,8 @@ public static class QACheck
 		// We don't have any worldmap one currently
 		if (TilesetFile != "images/tiles.strf")
 			return;
-		for (uint y = 0; y < tiles.Height; ++y) {
-			for (uint x = 0; x < tiles.Width; ++x) {
+		for (int y = 0; y < tiles.Height; ++y) {
+			for (int x = 0; x < tiles.Width; ++x) {
 				int TileId = tiles[x, y];
 				if (LevelReplaceMap.ContainsKey(TileId)) {
 					tiles[x, y] = LevelReplaceMap[TileId];

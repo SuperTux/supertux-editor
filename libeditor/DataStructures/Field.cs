@@ -22,23 +22,23 @@ namespace DataStructures
 	/// <summary>This class represents a dynamic 2-dimensional array</summary>
 	public class Field<T>
 	{
-		protected List<T> Elements = new List<T>();
-		protected uint width;
-		protected uint height;
+		public    List<T> Elements = new List<T>();
+		protected int width;
+		protected int height;
 
 		public Field()
 		{
 		}
 
-		public Field(uint Width, uint Height, T FillValue)
+		public Field(int Width, int Height, T FillValue)
 		{
 			this.width = Width;
 			this.height = Height;
-			for(uint i = 0; i < Width * Height; ++i)
+			for(int i = 0; i < Width * Height; ++i)
 				Elements.Add(FillValue);
 		}
 
-		public Field(List<T> Values, uint Width, uint Height)
+		public Field(List<T> Values, int Width, int Height)
 		{
 			Assign(Values, Width, Height);
 		}
@@ -46,7 +46,7 @@ namespace DataStructures
 		/// <summary>
 		/// Clone Subset of other field
 		/// </summary>
-		public Field(Field<T> Other, int startX, int startY, uint width, uint height) {
+		public Field(Field<T> Other, int startX, int startY, int width, int height) {
 			this.width = width;
 			this.height = height;
 			if (startX < 0) throw new ArgumentOutOfRangeException("startX");
@@ -63,7 +63,7 @@ namespace DataStructures
 		/// <summary>
 		/// Clone Subset of other field, filling in missing values with FillValue
 		/// </summary>
-		public Field(Field<T> Other, int startX, int startY, uint width, uint height, T FillValue) {
+		public Field(Field<T> Other, int startX, int startY, int width, int height, T FillValue) {
 			this.width = width;
 			this.height = height;
 			for (int y = startY; y < startY + height; y++) {
@@ -79,7 +79,7 @@ namespace DataStructures
 		/// <summary>
 		/// Width of array
 		/// </summary>
-		public uint Width
+		public int Width
 		{
 			get
 			{
@@ -90,7 +90,7 @@ namespace DataStructures
 		/// <summary>
 		/// Height of array
 		/// </summary>
-		public uint Height
+		public int Height
 		{
 			get
 			{
@@ -98,27 +98,15 @@ namespace DataStructures
 			}
 		}
 
-		public T this[uint X, uint Y]
-		{
-			get
-			{
-				return Elements[(int) (Y * width + X)];
-			}
-			set
-			{
-				Elements[(int) (Y * width + X)] = value;
-			}
-		}
-
 		public T this[int X, int Y]
 		{
 			get
 			{
-				return Elements[Y * (int) width + X];
+				return Elements[Y * width + X];
 			}
 			set
 			{
-				Elements[Y * (int) width + X] = value;
+				Elements[Y * width + X] = value;
 			}
 		}
 
@@ -126,15 +114,15 @@ namespace DataStructures
 		{
 			get
 			{
-				return this[(uint) Pos.X, (uint) Pos.Y];
+				return this[Pos.X, Pos.Y];
 			}
 			set
 			{
-				this[(uint) Pos.X, (uint) Pos.Y] = value;
+				this[Pos.X, Pos.Y] = value;
 			}
 		}
 
-		public void Assign(List<T> Values, uint Width, uint Height)
+		public void Assign(List<T> Values, int Width, int Height)
 		{
 			if(Values.Count != Width * Height)
 				throw new Exception("invalid size of value list for field");
@@ -149,7 +137,7 @@ namespace DataStructures
 		/// xOffset/yOffset are the coordinates of the old
 		/// Field relative to the top/left of the new Field,
 		/// same as Gimps "Image->Canvas Size"
-		public void Resize(int xOffset, int yOffset, uint newWidth, uint newHeight, T fillValue)
+		public void Resize(int xOffset, int yOffset, int newWidth, int newHeight, T fillValue)
 		{
 			if (xOffset == 0 && yOffset == 0)
 			{
@@ -184,11 +172,11 @@ namespace DataStructures
 			}
 		}
 
-		public void Resize(uint NewWidth, uint NewHeight, T FillValue)
+		public void Resize(int NewWidth, int NewHeight, T FillValue)
 		{
 			List<T> NewElements = new List<T>();
-			for(uint y = 0; y < NewHeight; ++y) {
-				for(uint x = 0; x < NewWidth; ++x) {
+			for(int y = 0; y < NewHeight; ++y) {
+				for(int x = 0; x < NewWidth; ++x) {
 					if(x < Width && y < Height)
 						NewElements.Add(this[x, y]);
 					else

@@ -35,14 +35,14 @@ public sealed class TilemapNode : Node {
 		cliprect.X -= (int)tilemap.X;
 		cliprect.Y -= (int)tilemap.Y;
 
-		uint start_x = (uint) Math.Max(0, cliprect.X / 32 - 1);
-		uint start_y = (uint) Math.Max(0, cliprect.Y / 32 - 1);
+		int start_x = Math.Max(0, cliprect.X / 32 - 1);
+		int start_y = Math.Max(0, cliprect.Y / 32 - 1);
 		//HACK: Couldn't find any "inrange" or such
-		uint end_x = (uint) Math.Max(0, Math.Min(tilemap.Width, (cliprect.X + cliprect.Width) / 32 + 1));
-		uint end_y = (uint) Math.Max(0, Math.Min(tilemap.Height, (cliprect.Y + cliprect.Height) / 32 + 1));
+		int end_x = Math.Max(0, Math.Min(tilemap.Width, (cliprect.X + cliprect.Width) / 32 + 1));
+		int end_y = Math.Max(0, Math.Min(tilemap.Height, (cliprect.Y + cliprect.Height) / 32 + 1));
 		Tile Tile;
-		for (uint y = start_y; y < end_y; ++y) {
-			for (uint x = start_x; x < end_x; ++x) {
+		for (int y = start_y; y < end_y; ++y) {
+			for (int x = start_x; x < end_x; ++x) {
 				Tile = Tileset.Get(tilemap[x, y]);
 				if (Tile != null)
 					Tile.DrawEditor(new Vector(x * 32 + tilemap.X,

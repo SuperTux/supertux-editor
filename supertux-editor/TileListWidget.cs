@@ -270,7 +270,7 @@ public class TileListWidget : GLWidgetBase {
 			//sanity check
 			if( width < 1 || height < 1 )
 				return;
-			selection.Resize( (uint) width, (uint) height, 0);
+			selection.Resize(width, height, 0);
 			for( int y = 0; y < height; y++ ) {
 				for( int x = 0; x < width; x++ ) {
 					selection[ x, y] = tilegroup.Tiles[ tile1 + x + TILES_PER_ROW * y ];

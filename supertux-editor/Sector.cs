@@ -48,20 +48,20 @@ public sealed class Sector : ICustomLispSerializer {
 	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
-	private uint height;
-	private uint width;
+	private int height;
+	private int width;
 
 	public event ObjectAddedHandler ObjectAdded;
 	public event ObjectRemovedHandler ObjectRemoved;
 	public event SizeChangedHandler SizeChanged;
 
-	public uint Height{
+	public int Height{
 		get {
 			return height;
 		}
 	}
 
-	public uint Width{
+	public int Width{
 		get {
 			return width;
 		}

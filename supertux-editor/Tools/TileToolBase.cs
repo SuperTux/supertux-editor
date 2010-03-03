@@ -299,15 +299,15 @@ public abstract class TileToolBase : ToolBase, IDisposable
 		}
 
 		if(state == State.SELECTING) {
-			uint NewWidth = (uint) (SelectionP2.X - SelectionP1.X) + 1;
-			uint NewHeight = (uint) (SelectionP2.Y - SelectionP1.Y) + 1;
+			int NewWidth = (SelectionP2.X - SelectionP1.X) + 1;
+			int NewHeight = (SelectionP2.Y - SelectionP1.Y) + 1;
 			selection.Resize(NewWidth, NewHeight, 0);
 
-			for(uint y = 0; y < NewHeight; y++) {
-				for(uint x = 0; x < NewWidth; ++x) {
+			for(int y = 0; y < NewHeight; y++) {
+				for(int x = 0; x < NewWidth; ++x) {
 					selection[x, y]
-						= application.CurrentTilemap[(uint) SelectionP1.X + x,
-									     (uint) SelectionP1.Y + y];
+						= application.CurrentTilemap[SelectionP1.X + x,
+									     SelectionP1.Y + y];
 				}
 			}
 		}
