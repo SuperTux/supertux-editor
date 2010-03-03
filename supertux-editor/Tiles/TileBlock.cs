@@ -24,7 +24,6 @@ using System.Collections.Generic;
 [LispRoot("tileblock")]
 public class TileBlock : Field<int>, ICustomLispSerializer, IComparable {
 	public int TileListFirstTile = -1;
-	public int TileListW, TileListH;
 
 	public TileBlock() : base() {
 	}
