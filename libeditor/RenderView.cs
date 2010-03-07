@@ -40,8 +40,11 @@ public class RenderView : GLWidgetBase
 		set {
 			if(this.editor != null) {
 				this.editor.Redraw -= QueueDraw;
-				if(this.editor is IToolCursorChange)
+				if(this.editor is IToolCursorChange) {
 					((IToolCursorChange) this.editor).CursorChange -= CursorChange;
+						//TODO: find a way how to reset it to default, this is wrong
+					GdkWindow.Cursor = new Cursor(CursorType.LeftPtr);
+				}
 				if(this.editor is IDisposable)
 					((IDisposable) this.editor).Dispose();
 			}
