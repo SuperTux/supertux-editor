@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using SceneGraph;
 using OpenGl;
 
+#region Milestone 2
+
 [SupertuxObject("mrbomb", "images/creatures/mr_bomb/mr_bomb.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrBomb : SimpleDirObject
@@ -246,6 +248,101 @@ public sealed class Owl : SimpleDirObject
 	}
 }
 
+[SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "idle")]
+public sealed class IceCrusher : SimpleObject
+{
+	public IceCrusher() {
+		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
+		Sprite.Action = "idle";
+	}
+}
+
+[SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "working")]
+public sealed class Dispenser : SimpleDirObject
+{
+	private bool random;
+
+	[PropertyProperties(Tooltip = "Put a tick here to make badguys order random")]
+	[LispChild("random", Optional = true, Default = false)]
+	public bool Random {
+		get {
+			return random;
+		}
+		set {
+			random = value;
+		}
+	}
+
+
+	/// <summary>
+	/// Type of dispenser.
+	/// </summary>
+	public enum DispenserTypes {
+		rocketlauncher,
+		cannon,
+		dropper
+	}
+
+	private DispenserTypes dispenserType = DispenserTypes.cannon;
+	private List<string> badguy = new List<string>();
+
+	[PropertyProperties(Tooltip = "Type of dispenser.", RedrawOnChange = true)]
+	[LispChild("type", Optional = true, Default = DispenserTypes.dropper)]
+	public DispenserTypes DispenserType {
+		get {
+			return dispenserType;
+		}
+		set {
+			dispenserType = value;
+			if (value == DispenserTypes.rocketlauncher)
+				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+			else if (value == DispenserTypes.cannon)
+				Sprite.Action = "working";
+			else
+				Sprite.Action = "dropper";
+		}
+	}
+
+	[ChooseBadguySetting]
+	[PropertyProperties(Tooltip = "Badguys which will dispenser shoot. To add badguy just drag it here from badguy list.")]
+	[LispChild("badguy")]
+	public List<string> Badguy {
+		get {
+			return badguy;
+		}
+		set {
+			badguy = value;
+		}
+	}
+
+	protected override void DirectionChanged() {
+		if (dispenserType == DispenserTypes.rocketlauncher) {
+			Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
+		}
+	}
+
+	[LispChild("cycle")]
+	public float Cycle = 5;
+
+	public Dispenser() {
+		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
+		Sprite.Action = "working";
+		badguy.Add("kamikazesnowball");
+	}
+
+	public override object Clone() {
+		Dispenser aClone = (Dispenser) MemberwiseClone();
+		aClone.badguy = new List<string>(aClone.badguy);
+		return aClone;
+	}
+}
+
+#endregion /* Milestone 2 */
+
 [SupertuxObject("mrtree", "images/creatures/mr_tree/mr_tree.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrTree : SimpleDirObject
@@ -347,88 +444,6 @@ public sealed class Kugelblitz : SimpleObject
 	}
 }
 
-[SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "working")]
-public sealed class Dispenser : SimpleDirObject
-{
-	private bool random;
-
-	[PropertyProperties(Tooltip = "Put a tick here to make badguys order random")]
-	[LispChild("random", Optional = true, Default = false)]
-	public bool Random {
-		get {
-			return random;
-		}
-		set {
-			random = value;
-		}
-	}
-
-
-	/// <summary>
-	/// Type of dispenser.
-	/// </summary>
-	public enum DispenserTypes {
-		rocketlauncher,
-		cannon,
-		dropper
-	}
-
-	private DispenserTypes dispenserType = DispenserTypes.cannon;
-	private List<string> badguy = new List<string>();
-
-	[PropertyProperties(Tooltip = "Type of dispenser.", RedrawOnChange = true)]
-	[LispChild("type", Optional = true, Default = DispenserTypes.dropper)]
-	public DispenserTypes DispenserType {
-		get {
-			return dispenserType;
-		}
-		set {
-			dispenserType = value;
-			if (value == DispenserTypes.rocketlauncher)
-				Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
-			else if (value == DispenserTypes.cannon)
-				Sprite.Action = "working";
-			else
-				Sprite.Action = "dropper";
-		}
-	}
-
-	[ChooseBadguySetting]
-	[PropertyProperties(Tooltip = "Badguys which will dispenser shoot. To add badguy just drag it here from badguy list.")]
-	[LispChild("badguy")]
-	public List<string> Badguy {
-		get {
-			return badguy;
-		}
-		set {
-			badguy = value;
-		}
-	}
-
-	protected override void DirectionChanged() {
-		if (dispenserType == DispenserTypes.rocketlauncher) {
-			Sprite.Action = (Direction == Directions.right) ? "working-right" : "working-left";
-		}
-	}
-
-	[LispChild("cycle")]
-	public float Cycle = 5;
-
-	public Dispenser() {
-		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
-		Sprite.Action = "working";
-		badguy.Add("kamikazesnowball");
-	}
-
-	public override object Clone() {
-		Dispenser aClone = (Dispenser) MemberwiseClone();
-		aClone.badguy = new List<string>(aClone.badguy);
-		return aClone;
-	}
-}
-
 [SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
@@ -439,18 +454,6 @@ public sealed class AngryStone : SimpleObject
 		Sprite.Action = "idle";
 	}
 }
-
-[SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "idle")]
-public sealed class IceCrusher : SimpleObject
-{
-	public IceCrusher() {
-		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
-		Sprite.Action = "idle";
-	}
-}
-
 
 [SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
