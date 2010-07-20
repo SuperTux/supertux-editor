@@ -244,8 +244,7 @@ public class Application
 		MainWindow.Icon = EditorStock.WindowIcon;
 		MainWindow.ShowAll();
 
-#if WINDOWS
-		// Manually set icons for Tools, automatic stock initialization is probably broken on some systems
+		// Manually set icons for Tools, automatic stock initialization is broken on some systems
 		ToolSelect.StockId = EditorStock.ToolSelect;
 		ToolTiles.StockId = EditorStock.ToolTiles;
 		ToolObjects.StockId = EditorStock.ToolObjects;
@@ -254,7 +253,6 @@ public class Application
 		ToolReplace.StockId = EditorStock.ToolReplace;
 		ToolPath.StockId = EditorStock.ToolPath;
 		ToolButtonCamera.StockId = EditorStock.Camera;
-#endif
 
 		// Hide some extra widgets (because MainWindow.ShowAll(); showed them all)
 		fGObjects.Visible = false;

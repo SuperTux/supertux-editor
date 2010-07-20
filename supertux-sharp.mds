@@ -1,4 +1,7 @@
 <Combine fileversion="2.0" name="supertux-sharp">
+  <Policies>
+    <DotNetNamingPolicy DirectoryNamespaceAssociation="None" ResourceNamePolicy="FileFormatDefault" />
+  </Policies>
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="Resources" configuration="Debug" />
@@ -26,11 +29,11 @@
     <Execute type="None" entry="gtkgl-sharp" />
   </StartMode>
   <Entries>
-    <Entry filename="Resources/Resources.mdp" />
-    <Entry filename="Lisp/Lisp.mdp" />
-    <Entry filename="LispReader/LispReader.mdp" />
-    <Entry filename="libeditor/libeditor.mdp" />
-    <Entry filename="supertux-editor/supertux-editor.mdp" />
-    <Entry filename="gtkgl-sharp/gtkgl-sharp.mdp" />
+    <Entry filename="Resources\Resources.mdp" />
+    <Entry filename="Lisp\Lisp.mdp" />
+    <Entry filename="LispReader\LispReader.mdp" />
+    <Entry filename="libeditor\libeditor.mdp" />
+    <Entry filename="supertux-editor\supertux-editor.mdp" />
+    <Entry filename="gtkgl-sharp\gtkgl-sharp.mdp" />
   </Entries>
 </Combine>

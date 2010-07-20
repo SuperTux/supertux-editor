@@ -1,13 +1,13 @@
 <Project name="libeditor" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="libeditor" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
-      <Output directory="../bin/Debug" assembly="libeditor" />
+      <Output directory="..\bin\Debug" assembly="libeditor" />
       <Build debugmode="True" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="True" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
-      <Output directory="../bin/Release" assembly="libeditor" />
+      <Output directory="..\bin\Release" assembly="libeditor" />
       <Build debugmode="False" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="True" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
@@ -15,45 +15,48 @@
   </Configurations>
   <Contents>
     <File subtype="Code" buildaction="Compile" name="GLWidgetBase.cs" />
-    <File subtype="Code" buildaction="Compile" name="DataStructures/Field.cs" />
-    <File subtype="Code" buildaction="Compile" name="DataStructures/FieldPos.cs" />
-    <File subtype="Code" buildaction="Compile" name="DataStructures/Matrix.cs" />
-    <File subtype="Code" buildaction="Compile" name="DataStructures/RectangleF.cs" />
-    <File subtype="Code" buildaction="Compile" name="DataStructures/Vector.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/GlUtil.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/ImageTexture.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/Surface.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/Texture.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/TextureManager.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/GLX.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/OpenGl.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/OpenGlUtil.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/Sdl.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/SdlImage.cs" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/Layer.cs" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/Node.cs" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/NodeWithChilds.cs" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/Transform.cs" />
-    <File subtype="Code" buildaction="Compile" name="Drawing/Color.cs" />
+    <File subtype="Code" buildaction="Compile" name="DataStructures\Field.cs" />
+    <File subtype="Code" buildaction="Compile" name="DataStructures\FieldPos.cs" />
+    <File subtype="Code" buildaction="Compile" name="DataStructures\Matrix.cs" />
+    <File subtype="Code" buildaction="Compile" name="DataStructures\RectangleF.cs" />
+    <File subtype="Code" buildaction="Compile" name="DataStructures\Vector.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\GlUtil.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\ImageTexture.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\Surface.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\Texture.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\TextureManager.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\GLX.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\OpenGl.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\OpenGlUtil.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\Sdl.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\SdlImage.cs" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\Layer.cs" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\Node.cs" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\NodeWithChilds.cs" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\Transform.cs" />
+    <File subtype="Code" buildaction="Compile" name="Drawing\Color.cs" />
     <File subtype="Code" buildaction="Compile" name="ErrorDialog.cs" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/ColorNode.cs" />
-    <File subtype="Code" buildaction="EmbedAsResource" name="resources/errordialog.glade" />
-    <File subtype="Code" buildaction="Compile" name="SceneGraph/Rect.cs" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\ColorNode.cs" />
+    <File subtype="Code" buildaction="EmbedAsResource" name="resources\errordialog.glade" />
+    <File subtype="Code" buildaction="Compile" name="SceneGraph\Rect.cs" />
     <File subtype="Code" buildaction="Compile" name="LogManager.cs" />
     <File subtype="Code" buildaction="Compile" name="RenderView.cs" />
     <File subtype="Code" buildaction="Compile" name="ScrollBarRenderView.cs" />
     <File subtype="Code" buildaction="Compile" name="AssemblyInfo.cs" />
     <File subtype="Code" buildaction="Nothing" name="libeditor.csproj" />
     <File subtype="Code" buildaction="Compile" name="ITool.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/GLHelper.cs" />
+    <File subtype="Code" buildaction="Compile" name="Libs\GLHelper.cs" />
+    <File subtype="Code" buildaction="Compile" name="ReferenceComparer.cs" />
   </Contents>
   <References>
-    <ProjectReference type="Project" localcopy="True" refto="Resources" />
-    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glade-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Project" localcopy="True" refto="gtkgl-sharp" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Project" localcopy="True" refto="Resources" />
   </References>
   <DeploymentInformation strategy="File" />
 </Project>
