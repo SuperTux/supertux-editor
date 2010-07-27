@@ -114,14 +114,14 @@ public class TileBlock : ICustomLispSerializer, IComparable {
 	}
 
 	public void ApplyToTilemap(FieldPos pos, Tilemap Tilemap, bool skipNull) {
-		int StartX = (int) Math.Max(0, -pos.X);
-		int StartY = (int) Math.Max(0, -pos.Y);
-		int W = Math.Min((int) (Tilemap.Width - pos.X), Width);
-		int H = Math.Min((int) (Tilemap.Height - pos.Y), Height);
+		int StartX = Math.Max(0, -pos.X);
+		int StartY = Math.Max(0, -pos.Y);
+		int W = Math.Min(Tilemap.Width  - pos.X, Width);
+		int H = Math.Min(Tilemap.Height - pos.Y, Height);
 		for(int y = StartY; y < H; ++y) {
 			for(int x = StartX; x < W; ++x) {
 				if ((skipNull) && (this[x, y] == 0) && (Width > 1 || Height > 1)) continue;
-				Tilemap[(int) (pos.X + x), (int) (pos.Y + y)] = this[x, y];
+				Tilemap[ pos.X + x, pos.Y + y ] = this[x, y];
 			}
 		}
 	}
@@ -210,8 +210,8 @@ public class TileBlock : ICustomLispSerializer, IComparable {
     public override int GetHashCode() {
         int x = 13;
         x = x*23+Width;
-        x= x*23+Height;
-        x=x*23 + field.Elements.GetHashCode();
+        x = x*23+Height;
+        x = x*23+field.Elements.GetHashCode();
         return x;
     }
 
