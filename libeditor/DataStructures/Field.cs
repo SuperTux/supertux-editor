@@ -202,6 +202,14 @@ namespace DataStructures
 			return true;
 		}
 
+		public bool InBounds(int x, int y) {
+			if (x < 0) return false;
+			if (y < 0) return false;
+			if (x >= Width) return false;
+			if (y >= Height) return false;
+			return true;
+		}
+
 		public bool EqualContents(object obj) {
 			if (!(obj is Field<T>)) return false;
 			Field<T> other = (Field<T>)obj;

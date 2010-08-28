@@ -72,26 +72,33 @@ public class TileBlock : ICustomLispSerializer, IComparable {
 	public int this[int x, int y]
 	{
 		get {
-			return field[x, y];
+			return (InBounds(x,y)) ? field[x, y] : 0;
 		}
 		set {
-			field[x, y] = value;
+			if(InBounds(x,y))
+				field[x, y] = value;
 		}
 	}
 
 	public int this[FieldPos pos]
 	{
 		get {
-			return field[pos];
+			return (InBounds(pos)) ? field[pos] : 0;
 		}
 		set {
-			field[pos] = value;
+			if(InBounds(pos))
+				field[pos] = value;
 		}
 	}
 
 	public bool InBounds(FieldPos pos) 
 	{
 		return field.InBounds(pos);
+	}
+
+	public bool InBounds(int x, int y) 
+	{
+		return field.InBounds(x, y);
 	}
 
 	public void Draw(Vector Pos, Tileset Tileset) {
