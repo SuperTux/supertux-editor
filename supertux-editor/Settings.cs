@@ -26,7 +26,7 @@ using Glade;
 public sealed class Settings {
 	public string LastDirectoryName;
 	public string LastBrushDir = "/usr/share/games/supertux-editor/brushes";
-	public string SupertuxExe = "/usr/games/supertux2";
+	public string SupertuxExe = "supertux2";
 	public string SupertuxData = "/usr/share/games/supertux2";
 	public bool   ToolboxOnRight = false;
 	public List<string> RecentDocuments = new List<string>();	//Added default value to prevent null-pointer-exceptions

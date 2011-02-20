@@ -747,11 +747,6 @@ public class Application
 		if(level == null)
 			return;
 
-		if (!File.Exists(Settings.Instance.SupertuxExe)){
-			ErrorDialog.ShowError("The SuperTux binary does not seem to exist." + Environment.NewLine +
-			                      "Please set the correct location of it in the settings.");
-			return;
-		}
 		try {
 			string tempName = System.IO.Path.GetTempPath();
 
@@ -761,9 +756,29 @@ public class Application
 				tempName += "/supertux-editor.tmp.stl";
 
 			serializer.Write(tempName, level);
-			Process.Start(Settings.Instance.SupertuxExe, "\"" + tempName + "\"");
+
+			Process supertux_process = new Process();
+			supertux_process.StartInfo.FileName = Settings.Instance.SupertuxExe;
+			supertux_process.StartInfo.Arguments = "\"" + tempName + "\"";
+String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxExe);
+			if (working_dir != null)
+				supertux_process.StartInfo.WorkingDirectory = working_dir;
+
+			/*
+			 * Avoid problems with xdg-open being used wrongly and
+			 * exceptions not being thrown. These problems happen
+			 * when UseShellExecute = true.
+			 */
+			supertux_process.StartInfo.UseShellExecute = false;
+
+			supertux_process.Start();
+		} catch(System.ComponentModel.Win32Exception e) {
+			ErrorDialog.ShowError("The SuperTux binary does not seem to exist." + Environment.NewLine +
+			                      "Please set the correct location of it in the settings." + Environment.NewLine +
+					      "(The current setting is `" + Settings.Instance.SupertuxExe + "')");
+			
 		} catch(Exception e) {
-			ErrorDialog.Exception("Couldn't start supertux", e);
+			ErrorDialog.Exception("Couldn't start supertux. You might try checking the configuration value for the path to the SuperTux binary.", e);
 		}
 	}
 
