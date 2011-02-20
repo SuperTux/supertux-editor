@@ -205,61 +205,61 @@ public sealed class Tileset {
 
 	/// <summary>Parse a tile (from a tile block in the tileset file)</summary>
 	/// <exception cref="System.Exception">Thrown when a tile has no ID</exception>
-	private static void ParseTile(Tile Tile, List Data) {
+	private static void ParseTile(Tile tile, List Data) {
 		Properties Props = new Properties(Data);
 
-		if(!Props.Get("id", ref Tile.Id))
+		if(!Props.Get("id", ref tile.Id))
 			throw new ApplicationException("Tile has no ID");
 
 		List images = null;
 		Props.Get("images", ref images);
 		if(images != null)
-			Tile.Images = ParseTileImages(images);
+			tile.Images = ParseTileImages(images);
 
 		List editorImages = null;
 		Props.Get("editor-images", ref editorImages);
 		if(editorImages != null) {
-			Tile.EditorImages = ParseTileImages(editorImages);
+			tile.EditorImages = ParseTileImages(editorImages);
 		}
 
 		bool val = false;
 		if(Props.Get("solid", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.SOLID;
+			tile.Attributes |= Tile.Attribute.SOLID;
 		if(Props.Get("unisolid", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.UNISOLID | Tile.Attribute.SOLID;
+			tile.Attributes |= Tile.Attribute.UNISOLID | Tile.Attribute.SOLID;
 		if(Props.Get("brick", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.BRICK;
+			tile.Attributes |= Tile.Attribute.BRICK;
 		if(Props.Get("ice", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.ICE;
+			tile.Attributes |= Tile.Attribute.ICE;
 		if(Props.Get("water", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.WATER;
+			tile.Attributes |= Tile.Attribute.WATER;
 		if(Props.Get("hurts", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.HURTS;
+			tile.Attributes |= Tile.Attribute.HURTS;
 		if (Props.Get("fire", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.FIRE;
+			tile.Attributes |= Tile.Attribute.FIRE;
 		if(Props.Get("fullbox", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.FULLBOX;
+			tile.Attributes |= Tile.Attribute.FULLBOX;
 		if(Props.Get("coin", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.COIN;
+			tile.Attributes |= Tile.Attribute.COIN;
 		if(Props.Get("goal", ref val) && val)
-			Tile.Attributes |= Tile.Attribute.GOAL;
+			tile.Attributes |= Tile.Attribute.GOAL;
 
 	// TODO: Find out why are worldmap tile attributes stored in data(s)
 		if(Props.Get("north", ref val) && val)
-			Tile.Data |= (int)Tile.Attribute.WORLDMAP_NORTH;
+			tile.Data |= (int)Tile.Attribute.WORLDMAP_NORTH;
 		if(Props.Get("south", ref val) && val)
-			Tile.Data |= (int)Tile.Attribute.WORLDMAP_SOUTH;
+			tile.Data |= (int)Tile.Attribute.WORLDMAP_SOUTH;
 		if(Props.Get("west", ref val) && val)
-			Tile.Data |= (int)Tile.Attribute.WORLDMAP_WEST;
+			tile.Data |= (int)Tile.Attribute.WORLDMAP_WEST;
 		if(Props.Get("east", ref val) && val)
-			Tile.Data |= (int)Tile.Attribute.WORLDMAP_EAST;
+			tile.Data |= (int)Tile.Attribute.WORLDMAP_EAST;
 		if(Props.Get("stop", ref val) && val)
-			Tile.Data |= (int)Tile.Attribute.WORLDMAP_STOP;
+			tile.Data |= (int)Tile.Attribute.WORLDMAP_STOP;
 
-		Props.Get("data", ref Tile.Data);
-		Props.Get("anim-fps", ref Tile.AnimFps);
-		if(Props.Get("slope-type", ref Tile.Data))
-			Tile.Attributes |= Tile.Attribute.SLOPE | Tile.Attribute.SOLID;
+		Props.Get("data", ref tile.Data);
+		Props.Get("anim-fps", ref tile.AnimFps);
+		if(Props.Get("slope-type", ref tile.Data))
+			tile.Attributes |= Tile.Attribute.SLOPE | Tile.Attribute.SOLID;
 	}
 
 	private static List<Tile.ImageResource> ParseTileImages(List list) {
