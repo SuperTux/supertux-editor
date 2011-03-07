@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -26,9 +27,38 @@ using Glade;
 public sealed class Settings {
 	public string LastDirectoryName;
 	public string LastBrushDir = "/usr/share/games/supertux-editor/brushes";
-	public string SupertuxExe = "supertux2";
-	public string SupertuxData = "/usr/share/games/supertux2";
-	public bool   ToolboxOnRight = false;
+
+	public string SupertuxExe
+	{
+		get
+		{
+			return supertuxexe;
+		}
+		set
+		{
+			supertuxexe = value;
+			supertuxdatadir_cached = false;
+		}
+		
+	}
+	private string supertuxexe = "supertux2";
+
+	public string SupertuxData
+	{
+		get
+		{
+			if (!supertuxdatadir_cached)
+			{
+				supertuxdatadir = GuessDataDir();
+				supertuxdatadir_cached = true;
+			}
+			return supertuxdatadir;
+		}
+	}
+	private string supertuxdatadir;
+	private bool supertuxdatadir_cached = false;
+
+	public bool ToolboxOnRight = false;
 	public List<string> RecentDocuments = new List<string>();	//Added default value to prevent null-pointer-exceptions
 
 	public static Settings Instance;
@@ -53,17 +83,29 @@ public sealed class Settings {
 				reader.Close();
 		}
 
-		if(!Instance.SupertuxData.EndsWith(System.IO.Path.DirectorySeparatorChar.ToString())) {
-			Instance.SupertuxData += System.IO.Path.DirectorySeparatorChar;
-		}
-
 		LogManager.Log(LogLevel.Info, "Supertux is run as: " + Instance.SupertuxExe);
-		LogManager.Log(LogLevel.Info, "Data files are in: " + Instance.SupertuxData);
+		if (Instance.SupertuxData != null)
+			LogManager.Log(LogLevel.Info, "Data files are in: " + Instance.SupertuxData);
+		else
+			LogManager.Log(LogLevel.Info, "Unable to find data files when querying supertux.");
 
 		// If data path does not exist, prompt user to change it before we try continue initializing
-		if (!new DirectoryInfo(System.IO.Path.GetDirectoryName(Instance.SupertuxData)).Exists) {
+		if (Instance.SupertuxData == null
+		    || !new DirectoryInfo(System.IO.Path.GetDirectoryName(Instance.SupertuxData)).Exists) {
 			LogManager.Log(LogLevel.Error, "Data path does not exist.");
-			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.None, "The current data path, \"" + Instance.SupertuxData + "\", does not exist." + Environment.NewLine + Environment.NewLine + "Edit the settings to set a valid data path.");
+
+			String bad_data_path_msg;
+			if (Instance.SupertuxData == null)
+				bad_data_path_msg = "The data path could not be calculated." + Environment.NewLine
+					+ Environment.NewLine
+					+ "You must install a newer version of Supertux to use this version of the editor or specify the correct path to the supertux2 binary.";
+			else
+				bad_data_path_msg = "The current data path, `"
+					+ Instance.SupertuxData + "', does not exist." + Environment.NewLine
+					+ Environment.NewLine
+					+ "This means that your supertux installation (`" + Instance.SupertuxExe + "') is corrupted or incomplete.";
+
+			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.None, bad_data_path_msg);
 			md.AddButton(Gtk.Stock.No, ResponseType.No);
 			md.AddButton(Gtk.Stock.Edit, ResponseType.Yes);
 			if (md.Run() == (int)ResponseType.Yes) {
@@ -85,7 +127,8 @@ public sealed class Settings {
 		if (SupertuxDir == null)
 			SupertuxDir = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles) + "\\SuperTux-0.3";
 		SupertuxExe = SupertuxDir + "\\SuperTux2.exe";
-		SupertuxData = SupertuxDir + "\\data\\";
+		/* Move the following statement into GuessDataDir() if it's needed */
+		/* SupertuxData = SupertuxDir + "\\data\\"; */
 #endif
 	}
 
@@ -115,6 +158,61 @@ public sealed class Settings {
 		while (RecentDocuments.Count > 8) RecentDocuments.RemoveAt(0);
 	}
 
+	/**
+	 * \brief
+	 *   Utility for the SupertuxData property.
+	 * \return
+	 *   The guessed datadir.
+	 */
+	private String GuessDataDir()
+	{
+		if (String.IsNullOrEmpty(SupertuxExe))
+			return null;
+
+		/*
+		 * If the SupertuxExe has directory separators in it, we can
+		 * check if it exists before inefficiently trying to execute it.
+		 */
+		if ((SupertuxExe.IndexOf(System.IO.Path.DirectorySeparatorChar) > -1
+		     || SupertuxExe.IndexOf(System.IO.Path.AltDirectorySeparatorChar) > -1)
+		    && !File.Exists(SupertuxExe))
+			return null;
+
+		/* Query supertux for its datadirs. */
+		Process supertux_process = new Process();
+		supertux_process.StartInfo.FileName = SupertuxExe;
+		String working_dir;
+		try
+		{
+			working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxExe);
+			if (working_dir != null)
+				supertux_process.StartInfo.WorkingDirectory = working_dir;
+		} catch (Exception) { working_dir = ""; }
+		supertux_process.StartInfo.Arguments = "--print-datadir";
+		supertux_process.StartInfo.UseShellExecute = false;
+		supertux_process.StartInfo.RedirectStandardOutput = true;
+		/* SDL-1.2 likes to mess with supertux's stdout unless we ask SDL not to: */
+		supertux_process.StartInfo.EnvironmentVariables.Add("SDL_STDIO_REDIRECT", "0");
+		try
+		{
+			supertux_process.Start();
+			String supertux_datadir = null;
+			String supertux_datadir_best = null;
+			while (!String.IsNullOrEmpty(supertux_datadir = supertux_process.StandardOutput.ReadLine())) {
+				if(System.IO.Path.IsPathRooted(supertux_datadir)) {
+					supertux_datadir_best = supertux_datadir;
+				}
+			}
+
+			if (supertux_datadir_best != null && Directory.Exists(supertux_datadir_best))
+				return supertux_datadir_best;
+		}
+		catch (Exception)
+		{
+		}
+
+		return null;
+	}
 }
 
 /* EOF */

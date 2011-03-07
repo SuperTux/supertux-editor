@@ -15,7 +15,7 @@ namespace Resources
 	/// </remarks>
 	public abstract class ResourceManager
 	{
-		public static ResourceManager Instance = new DefaultResourceManager("data/");
+		public static ResourceManager Instance = new DefaultResourceManager("data");
 
 		// Try to avoid this function
 		[System.Obsolete("Do not use GetFileName: resource could be inside an archive file")]

@@ -282,7 +282,7 @@ public class Application
 		fileChooser = new Gtk.FileChooserDialog("Choose a Level", MainWindow, Gtk.FileChooserAction.Open, new object[] {});
 		if (!Directory.Exists(Settings.Instance.LastDirectoryName)) {	//noexistent (or null) LastDirectoryName, resetting to default
 			if( Settings.Instance.SupertuxData != null ) {
-				Settings.Instance.LastDirectoryName = Settings.Instance.SupertuxData + "levels" + System.IO.Path.DirectorySeparatorChar;
+				Settings.Instance.LastDirectoryName = System.IO.Path.Combine(Settings.Instance.SupertuxData, "levels") + System.IO.Path.DirectorySeparatorChar;
 			} else {
 				Settings.Instance.LastDirectoryName = Environment.ExpandEnvironmentVariables("%HOME%");
 			}
@@ -314,7 +314,7 @@ public class Application
 		fileChooser.AddFilter( all );
 		if( Settings.Instance.SupertuxData != null ){
 			try {
-				fileChooser.AddShortcutFolder(Settings.Instance.SupertuxData + System.IO.Path.DirectorySeparatorChar +"levels");
+				fileChooser.AddShortcutFolder(System.IO.Path.Combine(Settings.Instance.SupertuxData, "levels"));
 			} catch (Exception e) {
 				LogManager.Log(LogLevel.Warning, "Couldn't add supertux level directory to File Chooser: " + e.Message);
 			}

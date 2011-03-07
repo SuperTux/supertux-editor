@@ -24,8 +24,6 @@ public class SettingsDialog
 	[Glade.Widget]
 	private Dialog settingsDialog = null;
 	[Glade.Widget]
-	private Entry entryDataDir = null;
-	[Glade.Widget]
 	private Entry entryExe = null;
 	[Glade.Widget]
 	private RadioButton rbToolsLeft = null;
@@ -35,22 +33,21 @@ public class SettingsDialog
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
 	/// </summary>
-	private bool Changed;
+	private bool SidebarChanged;
 
 	public SettingsDialog(bool modal)
 	{
 		Glade.XML gxml = new Glade.XML("editor.glade", "settingsDialog");
 		gxml.Autoconnect(this);
 
-		if(settingsDialog == null || entryDataDir == null || entryExe == null)
+		if(settingsDialog == null || entryExe == null)
 			throw new Exception("Couldn't load settings Dialog");
 
-		entryDataDir.Text = Settings.Instance.SupertuxData;
 		entryExe.Text = Settings.Instance.SupertuxExe;
 		rbToolsLeft.Active = !Settings.Instance.ToolboxOnRight;
 		rbToolsRight.Active = Settings.Instance.ToolboxOnRight;
 
-		Changed = false;
+		SidebarChanged = false;
 		settingsDialog.Icon = EditorStock.WindowIcon;
 		if (!modal) {
 			settingsDialog.ShowAll();
@@ -60,34 +57,12 @@ public class SettingsDialog
 		}
 	}
 
-	protected void OnEntryDataDirChanged(object o, EventArgs args)
-	{
-		if (Settings.Instance.SupertuxData.TrimEnd(System.IO.Path.DirectorySeparatorChar) != entryDataDir.Text)
-			Changed = true;
-		Settings.Instance.SupertuxData = entryDataDir.Text;
-		Settings.Instance.Save();
-	}
-
 	protected void OnEntryExeChanged(object o, EventArgs args)
 	{
 		if (entryExe.Text == null)
 			return;
-		if (Settings.Instance.SupertuxExe != entryExe.Text)
-			Changed = true;
 		Settings.Instance.SupertuxExe = entryExe.Text;
 		Settings.Instance.Save();
-	}
-
-	protected void OnBtnDataDirBrowseClicked(object o, EventArgs args)
-	{
-		FileChooserDialog fileChooser = new FileChooserDialog("Locate SuperTux Data Directory", settingsDialog, FileChooserAction.SelectFolder, new object[] {});
-		fileChooser.AddButton(Gtk.Stock.Cancel, Gtk.ResponseType.Cancel);
-		fileChooser.AddButton(Gtk.Stock.Ok, Gtk.ResponseType.Ok);
-		fileChooser.DefaultResponse = Gtk.ResponseType.Ok;
-		if (fileChooser.Run() == (int)ResponseType.Ok) {
-			entryDataDir.Text = fileChooser.Filename;
-		}
-		fileChooser.Destroy();
 	}
 
 	protected void OnBtnExeBrowseClicked(object o, EventArgs args)
@@ -105,14 +80,14 @@ public class SettingsDialog
 	protected void OnRbToolboxPosition(object o, EventArgs args)
 	{
 		if (Settings.Instance.ToolboxOnRight != rbToolsRight.Active)
-			Changed = true;
+			SidebarChanged = true;
 		Settings.Instance.ToolboxOnRight = rbToolsRight.Active;
 		Settings.Instance.Save();
 	}
 
 	protected void OnClose(object o, EventArgs args)
 	{
-		if (Changed) {
+		if (SidebarChanged) {
 			MessageDialog md = new MessageDialog(settingsDialog,
 			                                     DialogFlags.DestroyWithParent,
 			                                     MessageType.Warning,
@@ -121,6 +96,22 @@ public class SettingsDialog
 			md.Run();
 			md.Destroy();
 		}
+
+		/* Verify the SupertuxExe setting. */
+		if (Settings.Instance.SupertuxData == null)
+		{
+			MessageDialog md = new MessageDialog(null, DialogFlags.DestroyWithParent, MessageType.Warning, ButtonsType.Ok,
+							     "Your SuperTux data directory could not be determined." + Environment.NewLine
+							     + Environment.NewLine
+							     + "The following problems are possible:" + Environment.NewLine
+							     + "1. You have an old SuperTux installation. Upgrade to a newer version of SuperTux." + Environment.NewLine
+							     + "2. You have specified an invalid path to the supertux2 executable. Reopen the preferences dialog and set a correct executable." + Environment.NewLine
+							     + "3. Your SuperTux installation is confused about where its data directory is. Fix your corrupted SuperTux installation.");
+			md.Run();
+			md.Destroy();
+		}
+		/* Replace the ResourceManager with one which has the new datadir */
+		Resources.ResourceManager.Instance = new Resources.DefaultResourceManager(Settings.Instance.SupertuxData + "/");
 
 		settingsDialog.Hide();
 	}

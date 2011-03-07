@@ -1168,21 +1168,10 @@
           <widget class="GtkTable" id="table2">
             <property name="visible">True</property>
             <property name="border_width">12</property>
-            <property name="n_rows">3</property>
+            <property name="n_rows">2</property>
             <property name="n_columns">2</property>
             <property name="column_spacing">12</property>
             <property name="row_spacing">6</property>
-            <child>
-              <widget class="GtkLabel" id="label3">
-                <property name="visible">True</property>
-                <property name="xalign">0</property>
-                <property name="label" translatable="yes">Supertux Data Directory:</property>
-              </widget>
-              <packing>
-                <property name="x_options">GTK_FILL</property>
-                <property name="y_options"></property>
-              </packing>
-            </child>
             <child>
               <widget class="GtkLabel" id="label4">
                 <property name="visible">True</property>
@@ -1195,44 +1184,7 @@
                 <property name="x_options">GTK_FILL</property>
                 <property name="y_options"></property>
               </packing>
-            </child>
-            <child>
-              <widget class="GtkHBox" id="hbox1">
-                <property name="visible">True</property>
-                <child>
-                  <widget class="GtkEntry" id="entryDataDir">
-                    <property name="width_request">320</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="invisible_char">&#x25CF;</property>
-                    <signal name="changed" handler="OnEntryDataDirChanged"/>
-                  </widget>
-                  <packing>
-                    <property name="padding">5</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="btnDataDirBrowse">
-                    <property name="label" translatable="yes">...</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="use_underline">True</property>
-                    <signal name="clicked" handler="OnBtnDataDirBrowseClicked"/>
-                  </widget>
-                  <packing>
-                    <property name="padding">5</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </widget>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="y_options">GTK_FILL</property>
-              </packing>
-            </child>
+	    </child>
             <child>
               <widget class="GtkHBox" id="hbox2">
                 <property name="visible">True</property>
