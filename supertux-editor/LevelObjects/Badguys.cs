@@ -261,7 +261,7 @@ public sealed class IceCrusher : SimpleObject
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "working")]
+                ObjectListAction = "dropper")]
 public sealed class Dispenser : SimpleDirObject
 {
 	private bool random;
@@ -287,7 +287,7 @@ public sealed class Dispenser : SimpleDirObject
 		dropper
 	}
 
-	private DispenserTypes dispenserType = DispenserTypes.cannon;
+	private DispenserTypes dispenserType = DispenserTypes.dropper;
 	private List<string> badguy = new List<string>();
 
 	[PropertyProperties(Tooltip = "Type of dispenser.", RedrawOnChange = true)]
@@ -308,7 +308,7 @@ public sealed class Dispenser : SimpleDirObject
 	}
 
 	[ChooseBadguySetting]
-	[PropertyProperties(Tooltip = "Badguys which will dispenser shoot. To add badguy just drag it here from badguy list.")]
+	[PropertyProperties(Tooltip = "Badguys which dispenser will shoot. To add badguy just drag it here from badguy list.")]
 	[LispChild("badguy")]
 	public List<string> Badguy {
 		get {
@@ -330,8 +330,8 @@ public sealed class Dispenser : SimpleDirObject
 
 	public Dispenser() {
 		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
-		Sprite.Action = "working";
-		badguy.Add("kamikazesnowball");
+		Sprite.Action = "dropper";
+		badguy.Add("snowball");
 	}
 
 	public override object Clone() {
