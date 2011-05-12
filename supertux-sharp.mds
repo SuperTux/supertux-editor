@@ -29,11 +29,11 @@
     <Execute type="None" entry="gtkgl-sharp" />
   </StartMode>
   <Entries>
-    <Entry filename="Resources\Resources.mdp" />
-    <Entry filename="Lisp\Lisp.mdp" />
-    <Entry filename="LispReader\LispReader.mdp" />
-    <Entry filename="libeditor\libeditor.mdp" />
-    <Entry filename="supertux-editor\supertux-editor.mdp" />
-    <Entry filename="gtkgl-sharp\gtkgl-sharp.mdp" />
+    <Entry filename="Resources/Resources.mdp" />
+    <Entry filename="Lisp/Lisp.mdp" />
+    <Entry filename="LispReader/LispReader.mdp" />
+    <Entry filename="libeditor/libeditor.mdp" />
+    <Entry filename="supertux-editor/supertux-editor.mdp" />
+    <Entry filename="gtkgl-sharp/gtkgl-sharp.mdp" />
   </Entries>
 </Combine>
