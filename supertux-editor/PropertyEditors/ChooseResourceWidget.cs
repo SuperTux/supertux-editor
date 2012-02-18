@@ -50,16 +50,15 @@ public sealed class ChooseResourceWidget : CustomSettingsWidget {
 		dialog.DefaultResponse = Gtk.ResponseType.Ok;
 
 		dialog.Action = FileChooserAction.Open;
-		dialog.SetFilename(Settings.Instance.SupertuxData + entry.Text);
+		dialog.SetFilename(Settings.Instance.SupertuxData + System.IO.Path.DirectorySeparatorChar + entry.Text);
 		int result = dialog.Run();
 		if (result != (int) ResponseType.Ok) {
 			dialog.Destroy();
 			return;
 		}
 		string path;
-		if (dialog.Filename.StartsWith(Settings.Instance.SupertuxData))
-			path = dialog.Filename.Substring(Settings.Instance.SupertuxData.Length,
-																						 dialog.Filename.Length - Settings.Instance.SupertuxData.Length);
+		if (dialog.Filename.StartsWith(Settings.Instance.SupertuxData + System.IO.Path.DirectorySeparatorChar))
+			path = dialog.Filename.Substring((Settings.Instance.SupertuxData+System.IO.Path.DirectorySeparatorChar).Length);
 		else
 			path = System.IO.Path.GetFileName(dialog.Filename);
 		// Fixes backslashes on windows:
