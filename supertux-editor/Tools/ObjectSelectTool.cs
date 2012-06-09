@@ -98,7 +98,8 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 	{
 		if (button == 1) {
 			IObject obj = FindObjectAt(mousePos);
-
+			Application.EditorApplication.CurrentRenderer.GrabFocus(); //HACK: remove focus from PropertiesView NOW so it can save things.
+			
 			if (obj == null)
 			{
 				// Start drawing the select rectangle
