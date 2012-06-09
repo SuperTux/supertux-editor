@@ -288,11 +288,14 @@ public class ObjectListWidget : GLWidgetBase
 			Atom[] Targets = args.Context.Targets;
 
 			foreach (Atom target in Targets){
-				if (target.Name == "BadguyName")
-					//TODO: Send only badguys into dispensers, no Doors, no Tilemaps..
-					args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
+				if (target.Name == "BadguyName") {
+					if (SelectedObjectNr != 0) { //HACK: don't try to send the name of the arrow (null)
+	                    //TODO: Send only badguys into dispensers, no Doors, no Tilemaps..
+						args.SelectionData.Set (target, 8, System.Text.Encoding.UTF8.GetBytes (gameObjectTypes[SelectedObjectNr].Name.ToLower()));
+	              	}
+				}
 				//if (target.Name == "GameObject")
-				//no data transmitted
+					//no data transmitted
 			}
 		}
 	}
