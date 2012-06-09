@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual C# Express 2005
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LispReader", "LispReader\LispReader.csproj", "{2DDAEA33-FE40-4FF5-BF60-BBD4DD13576D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lisp", "Lisp\Lisp.csproj", "{9EC3C894-3BEA-419C-ABE1-634B86AE7C0C}"
@@ -50,7 +50,8 @@ Global
 		{FD0B9E66-17B4-495E-B099-439507637A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD0B9E66-17B4-495E-B099-439507637A6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = supertux-editor\supertux-editor.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
