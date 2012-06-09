@@ -257,6 +257,24 @@ public sealed class IceCrusher : SimpleObject
 		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
 		Sprite.Action = "idle";
 	}
+	
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+         [ChooseResourceSetting]
+         [LispChild("sprite")]
+         public string SpriteFile {
+                 get {
+                         return spriteFile;
+                 }
+                 set {
+                         if (!String.IsNullOrEmpty(value)) {
+                                 Sprite newSprite = SpriteManager.Create(value);
+                                 newSprite.Action = "idle";
+                                 Sprite = newSprite;     //save new sprite after (no exception only)
+                         }
+                         spriteFile = value;
+                 }
+         }
+         private string spriteFile = "images/creatures/icecrusher/icecrusher.sprite";
 }
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
