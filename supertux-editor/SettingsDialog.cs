@@ -29,7 +29,15 @@ public class SettingsDialog
 	private RadioButton rbToolsLeft = null;
 	[Glade.Widget]
 	private RadioButton rbToolsRight = null;
-
+	
+	[Glade.Widget]
+    private Entry entryName;
+    [Glade.Widget]
+    private Entry entryContact;
+    [Glade.Widget]
+    private Entry entryLicense;
+ 
+	
 	/// <summary>
 	/// Used to show message about the editor needs to be restarted.
 	/// </summary>
@@ -46,7 +54,11 @@ public class SettingsDialog
 		entryExe.Text = Settings.Instance.SupertuxExe;
 		rbToolsLeft.Active = !Settings.Instance.ToolboxOnRight;
 		rbToolsRight.Active = Settings.Instance.ToolboxOnRight;
-
+		
+		entryName.Text = Settings.Instance.Name;
+        entryContact.Text = Settings.Instance.ContactInfo;
+        entryLicense.Text = Settings.Instance.License;
+		
 		SidebarChanged = false;
 		settingsDialog.Icon = EditorStock.WindowIcon;
 		if (!modal) {
@@ -84,7 +96,26 @@ public class SettingsDialog
 		Settings.Instance.ToolboxOnRight = rbToolsRight.Active;
 		Settings.Instance.Save();
 	}
-
+	protected void OnNameChanged(object o, EventArgs args)
+    {
+        if (entryName.Text != null)
+            Settings.Instance.Name = entryName.Text;
+        Settings.Instance.Save();
+    }
+    
+    protected void OnContactChanged(object o, EventArgs args)
+    {
+        if (entryContact.Text != null)
+            Settings.Instance.ContactInfo = entryContact.Text;
+        Settings.Instance.Save();
+    }
+    
+    protected void OnLicenseChanged(object o, EventArgs args)
+    {
+        if (entryLicense.Text != null)
+            Settings.Instance.License = entryLicense.Text;
+        Settings.Instance.Save();
+    }
 	protected void OnClose(object o, EventArgs args)
 	{
 		if (SidebarChanged) {

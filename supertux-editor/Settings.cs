@@ -60,7 +60,11 @@ public sealed class Settings {
 
 	public bool ToolboxOnRight = false;
 	public List<string> RecentDocuments = new List<string>();	//Added default value to prevent null-pointer-exceptions
-
+	
+	public string Name = Environment.UserName;
+    public string ContactInfo = "";
+    public string License = "";
+	
 	public static Settings Instance;
 	private static XmlSerializer settingsSerializer = new XmlSerializer(typeof(Settings));
 	private static string SettingsFile;

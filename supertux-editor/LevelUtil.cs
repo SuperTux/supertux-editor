@@ -26,7 +26,9 @@ public static class LevelUtil
 	{
 		Level level = new Level();
 		level.Name = "Unnamed";
-		level.Author = Environment.UserName;
+		level.Author = Settings.Instance.Name;
+ 		level.Contact = Settings.Instance.ContactInfo;
+ 		level.License = Settings.Instance.License;
 
 		level.Sectors.Add(CreateSector("main"));
 

@@ -600,6 +600,7 @@ public class Application
 		UpdateTitlebar();
 		UndoManager.MarkAsSaved();
 		ToolButtonCamera.Sensitive=true;
+		EditProperties(CurrentLevel, "Level");
 	}
 
 	protected void OnOpen(object o, EventArgs e)
@@ -618,6 +619,7 @@ public class Application
 		Settings.Instance.LastDirectoryName = fileChooser.CurrentFolder;
 		Settings.Instance.Save();
 		Load(fileChooser.Filename);
+		EditProperties(CurrentLevel, "Level");
 	}
 
 	private void Load(string fileName)
