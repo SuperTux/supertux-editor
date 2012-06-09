@@ -36,12 +36,10 @@ namespace Gdl
 	{
 		DockMaster master;
 		ArrayList items;
-		Tooltips tooltips;
-
+		
 		public DockBar (Dock dock)
 		{
 			items = new ArrayList ();
-			tooltips = new Tooltips ();
 			Master = dock.Master;
 		}
 
@@ -64,7 +62,7 @@ namespace Gdl
 			// create a button for the item
 			DockBarButton button = new DockBarButton (item);
 			this.PackStart (button, false, false, 0);
-			tooltips.SetTip (button, item.LongName, item.LongName);
+			button.TooltipText = item.LongName;
 			item.DockBar = this;
 			item.DockBarButton = button;
 			button.Clicked += new EventHandler (OnDockButtonClicked);
@@ -89,9 +87,7 @@ namespace Gdl
 				master = null;
 			}
 
-			if (tooltips != null) {
-				tooltips = null;
-			}
+			
 
 			base.Destroy ();
 		}

@@ -12,5 +12,4 @@ using System.Security.Permissions;
 [assembly: AssemblyCompany ("Olympum")]
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliant(false)]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum,
-                              UnmanagedCode = true, Unrestricted = true)]
+

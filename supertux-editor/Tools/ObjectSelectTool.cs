@@ -141,7 +141,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 		}
 		Redraw();
 
-		if (false)
+		/*if (false)
 		{
 			if (state == State.SELECTING) {
 				state = State.NONE;
@@ -199,7 +199,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					state = State.SELECTING;
 				}
 			}
-		}
+		}*/
 	}
 
 	public void OnMouseButtonRelease(Vector mousePos, int button, ModifierType Modifiers)
@@ -283,7 +283,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 			Redraw();
 		}
 
-		if (false)
+		/*if (false)
 		{
 			if (button == 1 && state == State.DRAGGING) {
 				state = State.NONE;
@@ -354,7 +354,7 @@ public sealed class ObjectSelectTool : ObjectToolBase, ITool, IDisposable
 					Redraw();
 				}
 			}
-		}
+		}*/
 	}
 
 	public void OnMouseMotion(Vector mousePos, ModifierType Modifiers)

@@ -84,8 +84,8 @@ public abstract class CustomSettingsWidget : ICustomSettingsWidget, IDisposable 
 		PropertyPropertiesAttribute propertyProperties = (PropertyPropertiesAttribute)
 			field.GetCustomAttribute(typeof(PropertyPropertiesAttribute));
 		if ((propertyProperties != null) && (caller.GetType() == typeof(PropertiesView))) {
-			PropertiesView propview = (PropertiesView)caller;
-			propview.tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
+			//PropertiesView propview = (PropertiesView)caller;
+			widget.TooltipText = propertyProperties.Tooltip;
 		}
 	}
 }

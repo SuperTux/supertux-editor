@@ -40,7 +40,6 @@ namespace Gdl
 		private Gdk.Window titleWindow;
 		private Button closeButton;
 		private Button iconifyButton;
-		private Tooltips tooltips;
 		private Gdk.Pixbuf icon = null;
 		private string title;
 		private Pango.Layout layout = null;
@@ -81,9 +80,8 @@ namespace Gdl
 
 			iconifyButton.Clicked += new EventHandler (IconifyClicked);
 
-			tooltips = new Tooltips ();
-			tooltips.SetTip (iconifyButton, "Iconify", "Iconify this dock");
-			tooltips.SetTip (closeButton, "Close", "Close this dock");
+			iconifyButton.TooltipText = "Iconify";
+			closeButton.TooltipText = "Close";
 		}
 
 		public DockItemGrip (DockItem item) : this ()
@@ -105,7 +103,7 @@ namespace Gdl
 			}
 		}
 
-		public new DockItem Item {
+		public DockItem Item {
 			get {
 				return item;
 			}
@@ -245,8 +243,6 @@ namespace Gdl
 				layout = null;
 			if (icon != null)
 				icon = null;
-			if (tooltips != null)
-				tooltips = null;
 			if (item != null) {
 				// FIXME: Disconnect future signal handlers for notify.
 			}

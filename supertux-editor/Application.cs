@@ -772,7 +772,7 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 			supertux_process.StartInfo.UseShellExecute = false;
 
 			supertux_process.Start();
-		} catch(System.ComponentModel.Win32Exception e) {
+		} catch(System.ComponentModel.Win32Exception /*e*/) {
 			ErrorDialog.ShowError("The SuperTux binary does not seem to exist." + Environment.NewLine +
 			                      "Please set the correct location of it in the settings." + Environment.NewLine +
 					      "(The current setting is `" + Settings.Instance.SupertuxExe + "')");

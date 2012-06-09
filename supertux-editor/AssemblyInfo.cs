@@ -24,7 +24,5 @@ using System.Security.Permissions;
 [assembly: AssemblyTitle("supertux-editor")]
 [assembly: ComVisibleAttribute(false)]
 [assembly: CLSCompliant(false)]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum,
-                              Execution = true, UnmanagedCode = true, Unrestricted = true)]
 
 /* EOF */

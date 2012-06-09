@@ -54,7 +54,6 @@ public class PropertiesView : Gtk.ScrolledWindow
 	private List<object> widgetTable = new List<object>();	//self-managed widgets ...
 	private List<FieldOrProperty> fieldTable = new List<FieldOrProperty>();	//... and fields that they edit
 	private Gtk.Label errorLabel;
-	internal Gtk.Tooltips tooltips;
 	private Gtk.Label titleLabel;
 
 	public PropertiesView(Application application) {
@@ -93,8 +92,7 @@ public class PropertiesView : Gtk.ScrolledWindow
 	private void CreatePropertyWidgets(string title, object NewObject)
 	{
 		Gtk.VBox box = new Gtk.VBox();
-		tooltips = new Gtk.Tooltips();
-
+		
 		titleLabel = new Gtk.Label();
 		titleLabel.Xalign = 0;
 		titleLabel.Xpad = 12;
@@ -229,7 +227,7 @@ public class PropertiesView : Gtk.ScrolledWindow
 	/// <param name="widget">Widget to add tooltip to.</param>
 	private void AddTooltip(PropertyPropertiesAttribute propertyProperties, Gtk.Widget widget) {
 		if ((propertyProperties != null) && (propertyProperties.Tooltip.Length != 0))
-			tooltips.SetTip(widget, propertyProperties.Tooltip, propertyProperties.Tooltip);
+			widget.TooltipText = propertyProperties.Tooltip;
 	}
 
 	private void OnEntryChangeDone(object o, Gtk.FocusOutEventArgs args)
