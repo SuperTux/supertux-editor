@@ -225,8 +225,8 @@ public sealed class PathTool : ToolBase, ITool, IToolCursorChange, IDisposable
 
 		MenuItem deleteItem = new ImageMenuItem(Stock.Delete, null);
 		deleteItem.Activated += OnDelete;
-		//Do not allow to delete already deleted node.
-		deleteItem.Sensitive = path.Nodes.IndexOf(selectedNode) > -1;
+		//Do not allow to delete already deleted node or to delete the last node
+		deleteItem.Sensitive = (path.Nodes.IndexOf(selectedNode) > -1 && path.Nodes.Count > 1);
 		popupMenu.Append(deleteItem);
 
 		MenuItem shiftLeftItem = new ImageMenuItem(Stock.GoBack, null);
