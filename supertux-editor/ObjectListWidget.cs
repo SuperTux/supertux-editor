@@ -42,6 +42,7 @@ public class ObjectListWidget : GLWidgetBase
 	private Application application;
 	private Level level;
 	private Adjustment vadjustment;
+	private int LastObjectHovered;
 
 	public static TargetEntry [] DragTargetEntries = new TargetEntry[] {
 		new TargetEntry("GameObject", TargetFlags.App, 0),
@@ -71,6 +72,8 @@ public class ObjectListWidget : GLWidgetBase
 		application.LevelChanged += OnLevelChanged;
 		vadjustment = adjv;
 		vadjustment.ValueChanged += OnVAdjustmentChangedValue;
+		HasTooltip = true;
+		QueryTooltip += OnQueryTooltip;
 	}
 
 	/// <summary>Redraw Widget</summary>
@@ -241,12 +244,13 @@ public class ObjectListWidget : GLWidgetBase
 
 			Vector MousePos = new Vector((float) args.Event.X,
 			                             (float) args.Event.Y);
-			int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
-			int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
-			if( column >= TILES_PER_ROW ){
-				return;
+			int? objectNr = GetObjectNrByPosition(MousePos);
+			int selected;
+			if (!objectNr.HasValue) {
+				return ;
+			} else {
+				selected = (int)objectNr;
 			}
-			int selected = TILES_PER_ROW * row + column;
 			if( selected  < gameObjectTypes.Count ){
 				if( SelectedObjectNr != selected ){
 					SelectedObjectNr = selected;
@@ -264,6 +268,40 @@ public class ObjectListWidget : GLWidgetBase
 						}
 					}
 					QueueDraw();
+				}
+			}
+		}
+	}
+	
+	private int? GetObjectNrByPosition (Vector MousePos)
+	{
+		int row = FirstRow + (int) Math.Floor( MousePos.Y / ROW_HEIGHT );
+		int column = (int) Math.Floor (MousePos.X / COLUMN_WIDTH);
+		if( column >= TILES_PER_ROW ){
+			return null;
+		} else {
+		 return TILES_PER_ROW * row + column;
+		}
+	}
+	
+	private void OnQueryTooltip (object o, QueryTooltipArgs args)
+	{
+		int? objectNr = GetObjectNrByPosition(new Vector(
+				(float)args.X, 
+				(float)args.Y));
+		if (objectNr.HasValue) {
+			int selected = (int)objectNr;
+			if (selected != LastObjectHovered) {
+				//HACK: disable tooltip if hovered object changed
+				LastObjectHovered = selected;
+				return;
+			}
+			args.Tooltip.Text = "";
+			if (selected < gameObjectTypes.Count) {
+				Type type = gameObjectTypes[selected];
+				if (type != null) {
+					args.Tooltip.Text = type.Name;
+					args.RetVal = true;
 				}
 			}
 		}

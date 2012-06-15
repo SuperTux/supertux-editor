@@ -696,4 +696,110 @@ public sealed class Thunderstorm : IGameObject, ILayer
 	public float Interval = 10;
 }
 
+[SupertuxObject("pneumatic-platform", "images/objects/platforms/wood-tiny.png", //TODO: need image, this is really a placeholder
+			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class PneumaticPlatform : SimpleObject
+{
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "default";
+				Sprite = newSprite;	//save new sprite after (no exception only)
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/objects/platforms/small.sprite";
+	
+	public override RectangleF Area {
+		get {
+			if(Sprite != null)
+				return new RectangleF(X - Sprite.Offset.X, Y - Sprite.Offset.Y,
+				                          Sprite.Width*2, Sprite.Height+2);
+			else
+				return new RectangleF(X, Y, 32, 32);
+		}
+	}
+	
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if(Sprite == null)
+			return;
+		if (cliprect.IntersectsWith((Gdk.Rectangle) Area))
+		{
+			Sprite.Draw(new Vector(X, Y));
+			Sprite.Draw(new Vector(X+Sprite.Width, Y));
+		}
+	}
+	
+	public PneumaticPlatform() {
+		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
+		Sprite.Action = "default";
+	}
+}
+
+[SupertuxObject("bicycle-platform", "images/objects/platforms/wood-tiny.png", //TODO: need image, this is really a placeholder
+			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class BicyclePlatform : SimpleObject
+{
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "default";
+				Sprite = newSprite;	//save new sprite after (no exception only)
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/objects/platforms/small.sprite";
+	
+	public override RectangleF Area {
+		get {
+			if(Sprite != null)
+				return new RectangleF(X - Sprite.Offset.X - 128 - Sprite.Width/2, Y - Sprite.Offset.Y-Sprite.Height/2,
+				                          Sprite.Width+256, Sprite.Height);
+			else
+				return new RectangleF(X, Y, 32, 32);
+		}
+	}
+	
+	//FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left + Sprite.Offset.X + 128 + Sprite.Width/2;
+		Y = NewArea.Top + Sprite.Offset.Y + Sprite.Height/2;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+	
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if(Sprite == null)
+			return;
+		if (cliprect.IntersectsWith((Gdk.Rectangle) Area))
+		{
+			Sprite.Draw(new Vector(X-128-Sprite.Width/2, Y-Sprite.Height/2));
+			Sprite.Draw(new Vector(X+128-Sprite.Width/2, Y-Sprite.Height/2));
+		}
+	}
+	
+	public BicyclePlatform() {
+		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
+		Sprite.Action = "default";
+	}
+}
+
 /* EOF */
