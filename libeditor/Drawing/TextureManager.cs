@@ -16,9 +16,8 @@
 
 using System;
 using System.Collections.Generic;
-using Sdl;
-using Sdl.Image;
 using Resources;
+using Gtk;
 
 namespace Drawing
 {
@@ -43,17 +42,11 @@ namespace Drawing
 
 		private static ImageTexture CreateImageTexture(string Resourcepath)
 		{
-			IntPtr image = IMG.Load(
+			Gdk.Pixbuf image = new Gdk.Pixbuf(
 					ResourceManager.Instance.GetFileName(Resourcepath));
-			if(image == IntPtr.Zero) {
-				throw new Exception("Couldn't load image '" + Resourcepath
-						+ "' : " + SDL.GetError());
-			}
-			try {
-				return new ImageTexture(image);
-			} finally {
-				SDL.FreeSurface(image);
-			}
+			
+			return new ImageTexture(image);
+			
 		}
 	}
 

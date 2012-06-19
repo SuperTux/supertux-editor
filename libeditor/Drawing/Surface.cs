@@ -16,8 +16,6 @@
 
 using System;
 using OpenGl;
-using Sdl;
-using Sdl.Image;
 using DataStructures;
 
 namespace Drawing

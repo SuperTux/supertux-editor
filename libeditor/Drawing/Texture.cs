@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sdl;
 using OpenGl;
 
 namespace Drawing
@@ -59,34 +58,32 @@ namespace Drawing
 			CreateEmpty(width, height, glformat);
 		}
 
-		public Texture(IntPtr surfacep, uint glformat)
+		public Texture(Gdk.Pixbuf pixbuf, uint glformat)
 		{
-			CreateFromSurface(surfacep, glformat);
+			CreateFromPixbuf(pixbuf, glformat);
 		}
 
-		protected unsafe void CreateFromSurface(IntPtr surfacep, uint glformat)
+		protected unsafe void CreateFromPixbuf(Gdk.Pixbuf pixbuf, uint glformat)
 		{
-			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
-			this.width = (uint) surface->w;
-			this.height = (uint) surface->h;
-
+			this.width = (uint)pixbuf.Width;
+			this.height = (uint)pixbuf.Height;
+			
 			// Not needed on newer OpenGL
-		if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
-		{
+			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
+			{
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
 			}
-
+			
 			GlUtil.Assert("before creating texture");
 			CreateTexture();
-
+			
 			try {
 				gl.BindTexture(gl.TEXTURE_2D, handle);
-				uint surface_format = SetupPixelFormat(surfacep);
-
+				
 				gl.TexImage2D(gl.TEXTURE_2D, 0, (int) glformat,
-				              (int) width, (int) height, 0, surface_format,
-				              gl.UNSIGNED_BYTE, surface->pixels);
+				              (int) width, (int) height, 0, (pixbuf.HasAlpha ? gl.RGBA : gl.RGB),
+				              gl.UNSIGNED_BYTE, pixbuf.Pixels);
 				GlUtil.Assert("creating texture (too big?)");
 
 				SetTextureParams();
@@ -95,6 +92,7 @@ namespace Drawing
 				gl.DeleteTextures(1, handles);
 				throw;
 			}
+			
 		}
 
 		protected void CreateEmpty(uint width, uint height, uint glformat)
@@ -137,31 +135,6 @@ namespace Drawing
 			this.handle = 0;
 		}
 
-		public unsafe void copy_to(IntPtr surfacep, uint surface_x, uint surface_y,
-		                           uint texture_x, uint texture_y,
-		                           uint width, uint height)
-		{
-			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
-			PixelFormat* format = (PixelFormat*) surface->format;
-			GlUtil.Assert("Before update texture");
-
-			uint surface_format = SetupPixelFormat(surfacep);
-
-
-			/* We're extracting sub rectangles from the SDL_Surface pixeldata, by
-			 * setting the pitch to the real width, but telling OpenGL just our
-			 * desired image dimensions.
-			 */
-			IntPtr pixeldata = (IntPtr)
-				(((byte*) surface->pixels) + surface_y * surface->pitch
-				 + format->BytesPerPixel * surface_x);
-			gl.TexSubImage2D(gl.TEXTURE_2D, 0, (int) texture_x, (int) texture_y,
-			                 (int) width, (int) height, surface_format,
-			                 gl.UNSIGNED_BYTE, pixeldata);
-
-			GlUtil.Assert("Updating Texture Part");
-		}
-
 		private static void SetTextureParams()
 		{
 			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
@@ -190,25 +163,6 @@ namespace Drawing
 		private static bool IsPowerOf2(uint val)
 		{
 			return (val & (val - 1)) == 0;
-		}
-
-		private static unsafe uint SetupPixelFormat(IntPtr surfacep)
-		{
-			Sdl.Surface* surface = (Sdl.Surface*) surfacep;
-			PixelFormat* format = (PixelFormat*) surface->format;
-			uint glformat;
-			if(format->BytesPerPixel == 3)
-				glformat = gl.RGB;
-			else if(format->BytesPerPixel == 4)
-				glformat = gl.RGBA;
-			else
-				throw new Exception("Surface format not supported (only 24 and 32BPP modes supported at the moment)");
-
-			gl.PixelStorei(gl.UNPACK_ALIGNMENT, 1);
-			gl.PixelStorei(gl.UNPACK_ROW_LENGTH,
-			               surface->pitch / format->BytesPerPixel);
-
-			return glformat;
 		}
 	}
 

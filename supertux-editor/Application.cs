@@ -18,7 +18,6 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using Glade;
-using Sdl;
 using Drawing;
 using LispReader;
 using System.Collections.Generic;
@@ -397,14 +396,6 @@ public class Application
 		}
 		throw new Exception("No Custom Widget Handler named \""+func_name+"\" exists");
 	}
-
-	private static void InitSdl()
-	{
-		if(SDL.Init( SDL.INIT_VIDEO | SDL.INIT_NOPARACHUTE ) < 0) {
-			throw new Exception("Couldn't initialize SDL: " + SDL.GetError());
-		}
-	}
-
 
 	#region Tool Button Handlers
 
@@ -1189,8 +1180,7 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 	public static void Main(string[] args)
 	{
 		LispSerializer.SetupSerializers(typeof(Application).Assembly);
-		InitSdl();
-
+		
 		Gtk.Application.Init();
 
 		Application app = new Application(args);
@@ -1211,7 +1201,6 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 #endif
 		Settings.Instance.Save();
 
-		SDL.Quit();
 	}
 }
 

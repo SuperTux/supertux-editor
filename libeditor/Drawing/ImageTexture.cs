@@ -15,7 +15,6 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using Sdl;
 using OpenGl;
 
 namespace Drawing
@@ -27,48 +26,29 @@ namespace Drawing
 		public float ImageHeight;
 		public int refcount;
 
-		public ImageTexture(IntPtr surface)
+		public ImageTexture(Gdk.Pixbuf surface)
 		{
 			Create(surface);
 		}
 
-		private unsafe void Create(IntPtr sdlsurface)
+		private unsafe void Create(Gdk.Pixbuf bmp)
 		{
-			Sdl.Surface* surface = (Sdl.Surface*) sdlsurface;
-
-			uint width  = (uint)surface->w;
-			uint height = (uint)surface->h;
-
+			uint width = (uint)bmp.Width;
+			uint height = (uint)bmp.Height;
+			
 			// Round to next power-of-two isn't needed with newer OpenGL versions
 			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two")) {
 				width  = NextPowerOfTwo((uint)width);
 				height = NextPowerOfTwo((uint)height);
 			}
-
-			IntPtr pixelbufferp;
-			if(BitConverter.IsLittleEndian) {
-				pixelbufferp = SDL.CreateRGBSurface(SDL.SWSURFACE,
-				                                    (int) width, (int) height, 32,
-				                                    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000);
-			} else {
-				pixelbufferp = SDL.CreateRGBSurface(SDL.SWSURFACE,
-				                                    (int) width, (int) height, 32,
-				                                    0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
-			}
-			if(pixelbufferp == IntPtr.Zero)
-				throw new Exception("Couldn't create surface texture (out of memory?)");
-
-			try {
-				SDL.SetAlpha(sdlsurface, 0, 0);
-				SDL.BlitSurface(sdlsurface, IntPtr.Zero, pixelbufferp, IntPtr.Zero);
-
-				CreateFromSurface(pixelbufferp, gl.RGBA);
-			} finally {
-				SDL.FreeSurface(pixelbufferp);
-			}
-
-			ImageWidth = (float) surface->w;
-			ImageHeight = (float) surface->h;
+			
+			Gdk.Pixbuf target = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, (int)width, (int)height);
+			bmp.CopyArea(0, 0, bmp.Width, bmp.Height, target, 0, 0);
+			
+			ImageWidth = (float) bmp.Width;
+			ImageHeight = (float) bmp.Height;
+			
+			CreateFromPixbuf(target, gl.RGBA);
 		}
 
 		private static uint NextPowerOfTwo(uint val)

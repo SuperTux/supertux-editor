@@ -61,8 +61,6 @@
     <Compile Include="GLWidgetBase.cs" />
     <Compile Include="Libs\OpenGl.cs" />
     <Compile Include="Libs\OpenGlUtil.cs" />
-    <Compile Include="Libs\Sdl.cs" />
-    <Compile Include="Libs\SdlImage.cs" />
     <Compile Include="RenderView.cs" />
     <Compile Include="SceneGraph\ColorNode.cs" />
     <Compile Include="SceneGraph\Layer.cs" />
