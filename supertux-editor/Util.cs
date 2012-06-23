@@ -22,7 +22,7 @@ using Resources;
 /// <summary>This class contains some convenience functions</summary>
 public static class Util {
 	public static List Load(string Filename, string RootElement) {
-		return Load(ResourceManager.Instance.Get(Filename), Filename, RootElement);
+		return Load(new StreamReader(ResourceManager.Instance.Get(Filename)), Filename, RootElement);
 	}
 
 	public static List Load(TextReader Reader, string Source, string RootElement) {

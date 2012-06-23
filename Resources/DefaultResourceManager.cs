@@ -22,10 +22,10 @@ namespace Resources
 			return Path.Combine(DataDir, ResourcePath);
 		}
 
-		public override TextReader Get(string ResourcePath)
+		public override Stream Get(string ResourcePath)
 		{
 			try {
-				return new StreamReader(Path.Combine(DataDir, ResourcePath));
+				return new FileStream(Path.Combine(DataDir, ResourcePath), FileMode.Open, FileAccess.Read);
 			} catch(Exception e) {
 				throw new Exception("Couldn't load resource '" + ResourcePath + "'", e);
 			}

@@ -16,6 +16,7 @@
 
 using System;
 using OpenGl;
+using System.IO;
 
 namespace Drawing
 {
@@ -25,16 +26,19 @@ namespace Drawing
 		public float ImageWidth;
 		public float ImageHeight;
 		public int refcount;
-
-		public ImageTexture(Gdk.Pixbuf surface)
+		
+		/// <summary>
+		/// Reference to the Gdk.Pixbuf containing the texture image. Needed for lazy loading textures
+		/// </summary>
+		private Gdk.Pixbuf pixbuf;
+		
+		public ImageTexture(Stream input)
 		{
-			Create(surface);
-		}
-
-		private unsafe void Create(Gdk.Pixbuf bmp)
-		{
-			uint width = (uint)bmp.Width;
-			uint height = (uint)bmp.Height;
+			Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(input);
+			
+			uint width = (uint)pixbuf.Width;
+			uint height = (uint)pixbuf.Height;
+			
 			
 			// Round to next power-of-two isn't needed with newer OpenGL versions
 			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two")) {
@@ -43,12 +47,46 @@ namespace Drawing
 			}
 			
 			Gdk.Pixbuf target = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, (int)width, (int)height);
-			bmp.CopyArea(0, 0, bmp.Width, bmp.Height, target, 0, 0);
+			pixbuf.CopyArea(0, 0, pixbuf.Width, pixbuf.Height, target, 0, 0);
 			
-			ImageWidth = (float) bmp.Width;
-			ImageHeight = (float) bmp.Height;
+			ImageWidth = (float) pixbuf.Width;
+			ImageHeight = (float) pixbuf.Height;
 			
-			CreateFromPixbuf(target, gl.RGBA);
+			this.width = (uint)target.Width;
+			this.height = (uint)target.Height;
+						
+			this.pixbuf = target;
+		}
+
+		protected override void Create()
+		{
+			// Not needed on newer OpenGL
+			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
+			{
+				if(!IsPowerOf2(width) || !IsPowerOf2(height))
+					throw new Exception("Texture size must be power of 2");
+			}
+			
+			GlUtil.Assert("before creating texture");
+			CreateTexture();
+			
+			try {
+				gl.BindTexture(gl.TEXTURE_2D, Handle);
+				
+				gl.TexImage2D(gl.TEXTURE_2D, 0, (int)gl.RGBA,
+				              (int) width, (int) height, 0, (pixbuf.HasAlpha ? gl.RGBA : gl.RGB),
+				              gl.UNSIGNED_BYTE, pixbuf.Pixels);
+				GlUtil.Assert("creating texture (too big?)");
+
+				SetTextureParams();
+				
+				this.pixbuf = null; //gc can take it now
+			} catch(Exception) {
+				uint[] handles = { Handle };
+				gl.DeleteTextures(1, handles);
+				throw;
+			}
+			
 		}
 
 		private static uint NextPowerOfTwo(uint val)

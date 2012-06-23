@@ -20,7 +20,7 @@ namespace Resources
 		// Try to avoid this function
 		[System.Obsolete("Do not use GetFileName: resource could be inside an archive file")]
 		public abstract string GetFileName(string ResourcePath);
-		public abstract TextReader Get(string ResourcePath);
+		public abstract Stream Get(string ResourcePath);
 		public abstract string GetDirectoryName(string ResourcePath);
 	}
 

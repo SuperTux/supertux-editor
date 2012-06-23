@@ -27,11 +27,14 @@ namespace Drawing
 		{
 			get
 			{
+				if (handle == 0) {
+					Create();
+				} 
 				return handle;
 			}
 		}
 
-		private uint width;
+		protected uint width;
 		public uint Width
 		{
 			get
@@ -40,7 +43,7 @@ namespace Drawing
 			}
 		}
 
-		private uint height;
+		protected uint height;
 		public uint Height
 		{
 			get
@@ -48,77 +51,44 @@ namespace Drawing
 				return height;
 			}
 		}
+		
+		//cached value for use in Create()
+		private uint glformat;
 
 		protected Texture()
 		{
+			handle = 0;
 		}
-
+		
 		public Texture(uint width, uint height, uint glformat)
 		{
-			CreateEmpty(width, height, glformat);
+			this.width = width;
+			this.height = height;
+			this.glformat = glformat;
 		}
-
-		public Texture(Gdk.Pixbuf pixbuf, uint glformat)
+		
+		protected virtual void Create()
 		{
-			CreateFromPixbuf(pixbuf, glformat);
-		}
-
-		protected unsafe void CreateFromPixbuf(Gdk.Pixbuf pixbuf, uint glformat)
-		{
-			this.width = (uint)pixbuf.Width;
-			this.height = (uint)pixbuf.Height;
-			
+			LogManager.Log(LogLevel.Debug, "Texture.Create()");
 			// Not needed on newer OpenGL
 			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
 			{
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
 			}
-			
-			GlUtil.Assert("before creating texture");
-			CreateTexture();
-			
-			try {
-				gl.BindTexture(gl.TEXTURE_2D, handle);
-				
-				gl.TexImage2D(gl.TEXTURE_2D, 0, (int) glformat,
-				              (int) width, (int) height, 0, (pixbuf.HasAlpha ? gl.RGBA : gl.RGB),
-				              gl.UNSIGNED_BYTE, pixbuf.Pixels);
-				GlUtil.Assert("creating texture (too big?)");
-
-				SetTextureParams();
-			} catch(Exception) {
-				uint[] handles = { handle };
-				gl.DeleteTextures(1, handles);
-				throw;
-			}
-			
-		}
-
-		protected void CreateEmpty(uint width, uint height, uint glformat)
-		{
-			// Not needed on newer OpenGL
-		if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
-		{
-				if(!IsPowerOf2(width) || !IsPowerOf2(height))
-					throw new Exception("Texture size must be power of 2");
-			}
-
-			this.width = width;
-			this.height = height;
 
 			GlUtil.Assert("before creating texture");
 			CreateTexture();
 
 			try {
-				gl.BindTexture(gl.TEXTURE_2D, handle);
+				gl.BindTexture(gl.TEXTURE_2D, Handle);
 				gl.TexImage2D(gl.TEXTURE_2D, 0, (int) glformat,
 				              (int) width, (int) height, 0,
 				              gl.RGBA, gl.UNSIGNED_BYTE, IntPtr.Zero);
 				GlUtil.Assert("creating texture (too big?)");
 				SetTextureParams();
 			} catch(Exception) {
-				uint[] handles = { handle };
+				uint[] handles = { Handle };
 				gl.DeleteTextures(1, handles);
 				throw;
 			}
@@ -129,13 +99,16 @@ namespace Drawing
 			if(handle == 0)
 				return;
 
-			uint[] handles = { handle };
+			uint[] handles = { Handle };
 
 			gl.DeleteTextures(1, handles);
 			this.handle = 0;
 		}
-
-		private static void SetTextureParams()
+		
+		/// <summary>
+		/// Helper method: set common texture parameters.
+		/// </summary>
+		protected static void SetTextureParams()
 		{
 			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
 			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
@@ -145,8 +118,11 @@ namespace Drawing
 
 			GlUtil.Assert("setting texture parameters");
 		}
-
-		private unsafe void CreateTexture()
+		
+		/// <summary>
+		/// Helper method: creates a texture using glGenTexture and saves the handle.
+		/// </summary>
+		protected unsafe void CreateTexture()
 		{
 			if(!GlUtil.ContextValid) {
 				LogManager.Log(LogLevel.Warning, "No opengl context active when creating textures");
@@ -160,7 +136,7 @@ namespace Drawing
 			this.handle = handles[0];
 		}
 
-		private static bool IsPowerOf2(uint val)
+		protected static bool IsPowerOf2(uint val)
 		{
 			return (val & (val - 1)) == 0;
 		}

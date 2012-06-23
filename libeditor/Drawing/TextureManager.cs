@@ -42,10 +42,7 @@ namespace Drawing
 
 		private static ImageTexture CreateImageTexture(string Resourcepath)
 		{
-			Gdk.Pixbuf image = new Gdk.Pixbuf(
-					ResourceManager.Instance.GetFileName(Resourcepath));
-			
-			return new ImageTexture(image);
+			return new ImageTexture(ResourceManager.Instance.Get(Resourcepath));
 			
 		}
 	}
