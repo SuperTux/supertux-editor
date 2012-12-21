@@ -391,12 +391,29 @@ public sealed class UnstableTile : SimpleObject
 	}
 }
 
-[SupertuxObject("weak_block", "images/objects/strawbox/strawbox.sprite",
+[SupertuxObject("weak_block", "images/objects/weak_block/strawbox.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class WeakBlock : SimpleObject
 {
+  [PropertyProperties(Tooltip = "Enable for straw which burns adjacent blocks.")]
+	[LispChild("linked", Optional = true, Default = true)]
+	public bool Linked {
+		get {
+			return linked;
+		}
+		set {
+			linked = value;
+			if( value == false ){
+				Sprite = SpriteManager.Create("images/objects/weak_block/meltbox.sprite");
+			} else {
+				Sprite = SpriteManager.Create("images/objects/weak_block/strawbox.sprite");
+			}
+			Sprite.Action = "normal";
+		}
+	}
+	private bool linked = true;
 	public WeakBlock() {
-		Sprite = SpriteManager.Create("images/objects/strawbox/strawbox.sprite");
+		Sprite = SpriteManager.Create("images/objects/weak_block/strawbox.sprite");
 		Sprite.Action = "normal";
 	}
 }
