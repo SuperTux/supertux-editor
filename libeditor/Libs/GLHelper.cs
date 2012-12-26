@@ -26,10 +26,10 @@ namespace OpenGl
 		}
 
 		/// <summary>
-		/// Wrapper arout glGetString(GL_EXTENSIONS)
+		/// Wrapper around glGetString(GL_EXTENSIONS)
 		/// </summary>
 		/// <returns>
-		/// <c>true</c> if the specified extension is availabel; otherwise, <c>false</c>.
+		/// <c>true</c> if the specified extension is available; otherwise, <c>false</c>.
 		/// </returns>
 		public static bool HasExtension(string name) {
 			if (Extensions != null) {
