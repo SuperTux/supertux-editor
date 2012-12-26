@@ -41,7 +41,7 @@ namespace Drawing
 			
 			
 			// Round to next power-of-two isn't needed with newer OpenGL versions
-			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two")) {
+			if (!GlHelper.HasExtension("GL_ARB_texture_non_power_of_two")) {
 				width  = NextPowerOfTwo((uint)width);
 				height = NextPowerOfTwo((uint)height);
 			}
@@ -61,7 +61,7 @@ namespace Drawing
 		protected override void Create()
 		{
 			// Not needed on newer OpenGL
-			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
+			if (!GlHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
 			{
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");

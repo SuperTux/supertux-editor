@@ -4,38 +4,39 @@ using System.Collections.Generic;
 
 namespace OpenGl
 {
-	public static class glHelper
+	public static class GlHelper
 	{
-
-#if WINDOWS
-		//FIXME: this is incredibly wrong
-		//TODO: M$ C# has no HashSet support, plese fix this awful workaround
-		//string "exts" can be static, but it won't solve the problem
-		public static bool HasExtension(string name) {
-			IntPtr extstr = gl.GetString(gl.EXTENSIONS);
-			string exts = Marshal.PtrToStringAuto(extstr);
-			return exts.Contains(name);
-		}
-#else
-		private static HashSet<string> extensions;
-		/// <summary>
-		/// Wrapper around glGetString(GL_EXTENSIONS).
-		/// </summary>
+		private static HashSet<string> extensions = null;
 		public static HashSet<string> Extensions {
 			get {
-				return extensions;
+				if (extensions == null) {
+					IntPtr extstr = gl.GetString(gl.EXTENSIONS);
+					if (extstr.Equals(IntPtr.Zero)) {
+						LogManager.Log(LogLevel.Warning, "Couldn't receive a list of gl extensions (no context?)");
+						return null;
+					} else {
+						string exts = Marshal.PtrToStringAuto(extstr);
+						extensions = new HashSet<string>(exts.Split(' '));
+						return extensions;
+					}
+				} else {
+					return extensions;
+				}
 			}
 		}
 
+		/// <summary>
+		/// Wrapper arout glGetString(GL_EXTENSIONS)
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if the specified extension is availabel; otherwise, <c>false</c>.
+		/// </returns>
 		public static bool HasExtension(string name) {
-			return Extensions.Contains(name);
+			if (Extensions != null) {
+				return Extensions.Contains(name);
+			} else {
+				return false;
+			}
 		}
-
-		static glHelper() {
-			IntPtr extstr = gl.GetString(gl.EXTENSIONS);
-			string exts = Marshal.PtrToStringAuto(extstr);
-			extensions = new HashSet<string>(exts.Split(' '));
-		}
-#endif
 	}
 }

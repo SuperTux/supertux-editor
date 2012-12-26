@@ -71,7 +71,7 @@ namespace Drawing
 		{
 			LogManager.Log(LogLevel.Debug, "Texture.Create()");
 			// Not needed on newer OpenGL
-			if (!glHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
+			if (!GlHelper.HasExtension("GL_ARB_texture_non_power_of_two"))
 			{
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
