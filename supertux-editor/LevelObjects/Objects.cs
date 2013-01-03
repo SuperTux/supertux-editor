@@ -418,6 +418,87 @@ public sealed class WeakBlock : SimpleObject
 	}
 }
 
+[SupertuxObject("bonusblock","images/objects/bonus_block/bonusblock.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class BonusBlock : SimpleObject
+{
+  [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = "images/objects/bonus_block/bonusblock.sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite newSprite = SpriteManager.Create(value);
+				newSprite.Action = "normal";
+				Sprite = newSprite;	//save new sprite after (no exception only)
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/objects/bonus_block/bonusblock.sprite";
+	
+	public int hit_counter = 1;
+	[PropertyProperties(Tooltip = "Number of times BonusBlock can be hit (use 0 for infinite)")]
+	[LispChild("count", Optional = true, Default = 1)]
+	public int HitCounter {
+		get {
+			return hit_counter;
+		}
+		set {
+			hit_counter = value;
+		}
+	}
+	
+	//TODO enumerate contents for easy selection
+	/*public enum ContentTypes {
+		coin,
+		firegrow,
+    icegrow,
+    star,
+    tuxdoll,
+    custom,
+    script,
+    light,
+    trampoline,
+    porttrampoline,
+    rock
+	}*/
+
+	private string contents = "coin";
+	
+	[PropertyProperties(Tooltip = "Contents of BonusBlock", RedrawOnChange = true)]
+	[LispChild("contents", Optional = true, Default = "coin")]
+	public string Content {
+		get {
+  	    return contents;
+		}
+		set {
+			contents = value;
+			//TODO change sprites automatically for content or leave up to user?
+			/*if (value == firegrow)
+				
+			else if (value == icegrow)
+				
+			else*/
+		}
+	}
+	
+	//TODO custom powerup support
+	
+	[PropertyProperties(Tooltip = "Script to run when BonusBlock is hit.  Only used if Content is set to \"script\"")]
+	[LispChild("script", Optional = true)]
+	[EditScriptSetting]
+	public string Script = String.Empty;
+	
+  public BonusBlock() {
+    Sprite = SpriteManager.Create("images/objects/bonus_block/bonusblock.sprite");
+    Sprite.Action = "normal";
+  }
+}
+
 [SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class InfoBlock : SimpleObject
