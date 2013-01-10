@@ -91,6 +91,10 @@ public class PropertiesView : Gtk.ScrolledWindow
 
 	private void CreatePropertyWidgets(string title, object NewObject)
 	{
+		//NOTE: we need to remove all the old widgets before we empty the widget and field tables, because the
+		//      focus out event handlers which may be called during this step need them.
+		Foreach(Remove);
+
 		Gtk.VBox box = new Gtk.VBox();
 		
 		titleLabel = new Gtk.Label();
@@ -216,7 +220,6 @@ public class PropertiesView : Gtk.ScrolledWindow
 
 		box.ShowAll();
 
-		Foreach(Remove);
 		AddWithViewport(box);
 	}
 
