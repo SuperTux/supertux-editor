@@ -794,7 +794,7 @@ public sealed class Thunderstorm : IGameObject, ILayer
 	public float Interval = 10;
 }
 
-[SupertuxObject("pneumatic-platform", "images/objects/platforms/wood-tiny.png", //TODO: need image, this is really a placeholder
+[SupertuxObject("pneumatic-platform", "images/engine/editor/pneumaticplatform.png", 
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class PneumaticPlatform : SimpleObject
 {
@@ -842,7 +842,7 @@ public sealed class PneumaticPlatform : SimpleObject
 	}
 }
 
-[SupertuxObject("bicycle-platform", "images/objects/platforms/wood-tiny.png", //TODO: need image, this is really a placeholder
+[SupertuxObject("bicycle-platform", "images/engine/editor/bicycleplatform.png", 
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class BicyclePlatform : SimpleObject
 {
