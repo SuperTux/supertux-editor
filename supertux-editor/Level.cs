@@ -17,6 +17,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using LispReader;
 
 public delegate void TilesetChangedHandler(Level level);
@@ -43,7 +44,8 @@ public sealed class Level
 	private string tilesetFile = "images/tiles.strf";
 	public bool isWorldmap {
 		get {
-			return tilesetFile == "images/worldmap.strf";
+		  //Tileset files containing "world" in their name are considered worldmaps
+			return (Regex.IsMatch(tilesetFile, @"world", RegexOptions.IgnoreCase));
 		}
 	}
 	public Tileset Tileset = new Tileset("images/tiles.strf");
