@@ -119,9 +119,19 @@ public sealed class Crystallo : SimpleDirObject
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
 
+  //FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left - Radius;
+		Y = NewArea.Top;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+  
 	public Crystallo() {
 		Sprite = SpriteManager.Create("images/creatures/crystallo/crystallo.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "editor";
 	}
 }
 
@@ -161,9 +171,19 @@ public sealed class BouncingSnowball : SimpleDirObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class FlyingSnowball : SimpleObject
 {
+  //FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left - Sprite.Offset.X;
+		Y = NewArea.Top - 83;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+	
 	public FlyingSnowball() {
 		Sprite = SpriteManager.Create("images/creatures/flying_snowball/flying_snowball.sprite");
-		Sprite.Action = "left";
+		Sprite.Action = "editor";
 	}
 }
 
@@ -212,9 +232,19 @@ public sealed class Flame : SimpleObject
 	[LispChild("speed", Optional = true, Default = 2f)]
 	public float Speed = 2;
 
+  //FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left - 96;
+		Y = NewArea.Top - 96;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+	
 	public Flame() {
 		Sprite = SpriteManager.Create("images/creatures/flame/flame.sprite");
-		Sprite.Action = "normal";
+		Sprite.Action = "editor";
 	}
 }
 
