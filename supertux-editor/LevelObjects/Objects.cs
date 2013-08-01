@@ -363,7 +363,7 @@ public sealed class HurtingPlatform : SimplePathObject
 #region TileLike
 
 [SupertuxObject("unstable_tile",
-                "images/objects/unstable_tile/unstable_tile.sprite",
+                "images/objects/unstable_tile/snow.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class UnstableTile : SimpleObject
 {
@@ -391,12 +391,12 @@ public sealed class UnstableTile : SimpleObject
 	}
 }
 
-[SupertuxObject("weak_block", "images/objects/weak_block/strawbox.sprite",
+[SupertuxObject("weak_block", "images/objects/weak_block/meltbox.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class WeakBlock : SimpleObject
 {
   [PropertyProperties(Tooltip = "Enable for straw which burns adjacent blocks.")]
-	[LispChild("linked", Optional = true, Default = true)]
+	[LispChild("linked", Optional = false, Default = false)]
 	public bool Linked {
 		get {
 			return linked;
@@ -411,9 +411,9 @@ public sealed class WeakBlock : SimpleObject
 			Sprite.Action = "normal";
 		}
 	}
-	private bool linked = true;
+	private bool linked = false;
 	public WeakBlock() {
-		Sprite = SpriteManager.Create("images/objects/weak_block/strawbox.sprite");
+		Sprite = SpriteManager.Create("images/objects/weak_block/meltbox.sprite");
 		Sprite.Action = "normal";
 	}
 }
