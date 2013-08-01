@@ -189,7 +189,7 @@ public sealed class Lantern : SimpleColorObject
 [SupertuxObject("candle", "images/objects/candle/candle.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "on")]
-public sealed class Candle : SimpleObject
+public sealed class Candle : SimpleColorObject
 {
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
@@ -197,6 +197,51 @@ public sealed class Candle : SimpleObject
 	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
+	[PropertyProperties(Tooltip = "If enabled the candle will flicker while on.")]
+	[LispChild("flicker", Optional = true, Default = true)]
+	public bool Flicker = true;
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+  [ChooseResourceSetting]
+  [LispChild("sprite", Optional = true, Default = "images/objects/candle/candle.sprite")]
+  public string SpriteFile {
+    get {
+      return spriteFile;
+    }
+    set {
+      if (!String.IsNullOrEmpty(value)) {
+        Sprite newSprite = SpriteManager.Create(value);
+        newSprite.Action = "on";
+        Sprite = newSprite;     //save new sprite after (no exception only)
+      }
+      spriteFile = value;
+    }
+  }
+  private string spriteFile = "images/objects/candle/candle.sprite";
+	[ChooseColorSetting]
+	[LispChild("color", Optional = true )]
+	public Drawing.Color LightColor {
+		get {
+			return lightcolor;
+		}
+		set {
+			lightcolor.Red = value.Red;
+			lightcolor.Green = value.Green;
+			lightcolor.Blue = value.Blue;
+		}
+	}
+	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
+
+	public override void Draw(Gdk.Rectangle cliprect) {
+		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
+			return;
+		// Draw sprite
+		if(Sprite == null)
+			return;
+
+		Sprite.Draw(new Vector(X, Y));
+		// Draw a color rectangle
+		DrawColor(lightcolor);
+	}
 
 	public Candle() {
 		Sprite = SpriteManager.Create("images/objects/candle/candle.sprite");
