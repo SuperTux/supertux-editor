@@ -62,6 +62,16 @@ public sealed class Haywire : SimpleDirObject
 	}
 }
 
+[SupertuxObject("goldbomb", "images/creatures/gold_bomb/gold_bomb.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class GoldBomb : SimpleDirObject
+{
+	public GoldBomb() {
+		Sprite = SpriteManager.Create("images/creatures/gold_bomb/gold_bomb.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("short_fuse", "images/creatures/short_fuse/short_fuse.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Short_Fuse : SimpleDirObject
@@ -244,6 +254,56 @@ public sealed class Flame : SimpleObject
 	
 	public Flame() {
 		Sprite = SpriteManager.Create("images/creatures/flame/flame.sprite");
+		Sprite.Action = "editor";
+	}
+}
+
+[SupertuxObject("iceflame", "images/creatures/flame/iceflame.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class IceFlame : SimpleObject
+{
+	[LispChild("radius", Optional = true, Default = 100f)]
+	public float Radius = 100f;
+	[LispChild("speed", Optional = true, Default = 2f)]
+	public float Speed = 2;
+
+  //FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left - 96;
+		Y = NewArea.Top - 96;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+	
+	public IceFlame() {
+		Sprite = SpriteManager.Create("images/creatures/flame/iceflame.sprite");
+		Sprite.Action = "editor";
+	}
+}
+
+[SupertuxObject("ghostflame", "images/creatures/flame/ghostflame.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class GhostFlame : SimpleObject
+{
+	[LispChild("radius", Optional = true, Default = 100f)]
+	public float Radius = 100f;
+	[LispChild("speed", Optional = true, Default = 2f)]
+	public float Speed = 2;
+
+  //FIXME: this shouldn't be necessary
+	public override void ChangeArea(RectangleF NewArea) {
+		X = NewArea.Left - 96;
+		Y = NewArea.Top - 96;
+		if(Sprite != null) {
+			X += Sprite.Offset.X;
+			Y += Sprite.Offset.Y;
+		}
+	}
+	
+	public GhostFlame() {
+		Sprite = SpriteManager.Create("images/creatures/flame/ghostflame.sprite");
 		Sprite.Action = "editor";
 	}
 }
