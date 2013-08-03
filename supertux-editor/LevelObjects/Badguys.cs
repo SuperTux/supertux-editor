@@ -340,12 +340,12 @@ public sealed class Owl : SimpleDirObject
 
 [SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
-                ObjectListAction = "idle")]
+                ObjectListAction = "crushing")]
 public sealed class IceCrusher : SimpleObject
 {
 	public IceCrusher() {
 		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
-		Sprite.Action = "idle";
+		Sprite.Action = "crushing";
 	}
 	
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
@@ -358,7 +358,7 @@ public sealed class IceCrusher : SimpleObject
     set {
       if (!String.IsNullOrEmpty(value)) {
         Sprite newSprite = SpriteManager.Create(value);
-        newSprite.Action = "idle";
+        newSprite.Action = "crushing";
         Sprite = newSprite;     //save new sprite after (no exception only)
       }
       spriteFile = value;
