@@ -568,6 +568,16 @@ public sealed class Coin : SimplePathObject
 	}
 }
 
+[SupertuxObject("heavycoin",
+                "images/objects/coin/heavy_coin.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class HeavyCoin : SimpleObject
+{
+	public HeavyCoin() {
+		Sprite = SpriteManager.Create("images/objects/coin/coin.sprite");
+		Sprite.Action = "editor-heavy";
+	}
+}
 #endregion TileLike
 
 [SupertuxObject("powerup", "images/engine/editor/powerup.png",

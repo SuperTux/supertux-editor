@@ -165,6 +165,16 @@ public sealed class MrIceBlock : SimpleDirObject
 	}
 }
 
+[SupertuxObject("smartblock", "images/creatures/mr_iceblock/smart_block/smart_block.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class SmartBlock : SimpleDirObject
+{
+	public SmartBlock() {
+		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+		Sprite.Action = "left";
+	}
+}
+
 [SupertuxObject("bouncingsnowball",
                 "images/creatures/bouncing_snowball/bouncing_snowball.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
