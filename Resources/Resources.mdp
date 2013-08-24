@@ -1,13 +1,13 @@
-<Project name="Resources" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="Resources" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="Resources" fileversion="2.0" releaseVersion="0.3.x" newfilesearch="OnLoad" DefaultNamespace="Resources" language="C#" clr-version="Net_2_0" targetFramework="4.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
-      <Output directory="..\bin\Debug" assembly="Resources" />
+      <Output directory="../bin/Debug" assembly="Resources" />
       <Build debugmode="True" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="False" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
-      <Output directory="..\bin\Release" assembly="Resources" />
+      <Output directory="../bin/Release" assembly="Resources" />
       <Build debugmode="False" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />

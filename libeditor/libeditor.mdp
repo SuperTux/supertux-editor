@@ -1,4 +1,4 @@
-<Project name="libeditor" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="libeditor" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="libeditor" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="libeditor" language="C#" clr-version="Net_2_0" targetFramework="4.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
       <Output directory="../bin/Debug" assembly="libeditor" />
@@ -28,8 +28,6 @@
     <File subtype="Code" buildaction="Compile" name="Libs/GLX.cs" />
     <File subtype="Code" buildaction="Compile" name="Libs/OpenGl.cs" />
     <File subtype="Code" buildaction="Compile" name="Libs/OpenGlUtil.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/Sdl.cs" />
-    <File subtype="Code" buildaction="Compile" name="Libs/SdlImage.cs" />
     <File subtype="Code" buildaction="Compile" name="SceneGraph/Layer.cs" />
     <File subtype="Code" buildaction="Compile" name="SceneGraph/Node.cs" />
     <File subtype="Code" buildaction="Compile" name="SceneGraph/NodeWithChilds.cs" />
@@ -47,6 +45,7 @@
     <File subtype="Code" buildaction="Compile" name="ITool.cs" />
     <File subtype="Code" buildaction="Compile" name="Libs/GLHelper.cs" />
     <File subtype="Code" buildaction="Compile" name="ReferenceComparer.cs" />
+    <File subtype="Code" buildaction="Nothing" name="../libeditor.dll.config" copyToOutputDirectory="Always" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
@@ -55,7 +54,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Project" localcopy="True" refto="gtkgl-sharp" />
-    <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Project" localcopy="True" refto="Resources" />
   </References>
   <DeploymentInformation strategy="File" />

@@ -1,13 +1,13 @@
-<Project name="Lisp" fileversion="2.0" newfilesearch="OnLoad" DefaultNamespace="Lisp" language="C#" clr-version="Net_2_0" targetFramework="3.5" ctype="DotNetProject">
+<Project name="Lisp" fileversion="2.0" releaseVersion="0.3.x" newfilesearch="OnLoad" DefaultNamespace="Lisp" language="C#" clr-version="Net_2_0" targetFramework="4.0" ctype="DotNetProject">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="DotNetProjectConfiguration">
-      <Output directory="..\bin\Debug" assembly="Lisp" />
+      <Output directory="../bin/Debug" assembly="Lisp" />
       <Build debugmode="True" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
     </Configuration>
     <Configuration name="Release" ctype="DotNetProjectConfiguration">
-      <Output directory="..\bin\Release" assembly="Lisp" />
+      <Output directory="../bin/Release" assembly="Lisp" />
       <Build debugmode="False" target="Library" />
       <Execution consolepause="True" runwithwarnings="True" runtime="MsNet" clr-version="Net_2_0" />
       <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
