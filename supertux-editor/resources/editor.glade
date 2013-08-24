@@ -5,7 +5,7 @@
   <widget class="GtkWindow" id="MainWindow">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="title" translatable="yes">SuperTux Editor 0.3-svn</property>
+    <property name="title" translatable="yes">SuperTux Editor 0.3.x-git</property>
     <property name="default_width">900</property>
     <property name="default_height">675</property>
     <child>
@@ -34,7 +34,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnNew" swapped="no"/>
+                        <signal name="activate" handler="OnNew"/>
                       </widget>
                     </child>
                     <child>
@@ -45,7 +45,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnOpen" swapped="no"/>
+                        <signal name="activate" handler="OnOpen"/>
                       </widget>
                     </child>
                     <child>
@@ -56,7 +56,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnSave" swapped="no"/>
+                        <signal name="activate" handler="OnSave"/>
                       </widget>
                     </child>
                     <child>
@@ -67,7 +67,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnSaveAs" swapped="no"/>
+                        <signal name="activate" handler="OnSaveAs"/>
                       </widget>
                     </child>
                     <child>
@@ -83,7 +83,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Check level</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnQACheck" swapped="no"/>
+                        <signal name="activate" handler="OnQACheck"/>
                       </widget>
                     </child>
                     <child>
@@ -94,7 +94,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnLevelProperties" swapped="no"/>
+                        <signal name="activate" handler="OnLevelProperties"/>
                       </widget>
                     </child>
                     <child>
@@ -104,8 +104,7 @@
                         <property name="can_focus">False</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
-                        <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnPlay" swapped="no"/>
+                        <signal name="activate" handler="OnPlay"/>
                         <accelerator key="P" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -129,7 +128,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnQuit" swapped="no"/>
+                        <signal name="activate" handler="OnQuit"/>
                       </widget>
                     </child>
                   </widget>
@@ -143,7 +142,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="label" translatable="yes">_Edit</property>
                 <property name="use_underline">True</property>
-                <signal name="activate" handler="OnMenuEdit" swapped="no"/>
+                <signal name="activate" handler="OnMenuEdit"/>
                 <child>
                   <widget class="GtkMenu" id="edit1_menu">
                     <property name="can_focus">False</property>
@@ -155,7 +154,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnUndo" swapped="no"/>
+                        <signal name="activate" handler="OnUndo"/>
                         <accelerator key="Z" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -167,7 +166,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnRedo" swapped="no"/>
+                        <signal name="activate" handler="OnRedo"/>
                         <accelerator key="Y" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -179,7 +178,7 @@
                         <property name="label" translatable="yes">Snap Objects to Grid</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
-                        <signal name="activate" handler="OnSnap" swapped="no"/>
+                        <signal name="activate" handler="OnSnap"/>
                       </widget>
                     </child>
                     <child>
@@ -196,7 +195,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnSettings" swapped="no"/>
+                        <signal name="activate" handler="OnSettings"/>
                       </widget>
                     </child>
                   </widget>
@@ -221,7 +220,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnHome" swapped="no"/>
+                        <signal name="activate" handler="OnHome"/>
                         <accelerator key="Home" signal="activate" modifiers="GDK_MOD1_MASK"/>
                       </widget>
                     </child>
@@ -233,7 +232,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnNormalSize" swapped="no"/>
+                        <signal name="activate" handler="OnNormalSize"/>
                       </widget>
                     </child>
                     <child>
@@ -244,7 +243,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnZoomIn" swapped="no"/>
+                        <signal name="activate" handler="OnZoomIn"/>
                         <accelerator key="plus" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -256,7 +255,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnZoomOut" swapped="no"/>
+                        <signal name="activate" handler="OnZoomOut"/>
                         <accelerator key="minus" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                       </widget>
                     </child>
@@ -271,7 +270,7 @@
                 <property name="use_action_appearance">False</property>
                 <property name="label" translatable="yes">_Tool</property>
                 <property name="use_underline">True</property>
-                <signal name="activate" handler="OnMenuTool" swapped="no"/>
+                <signal name="activate" handler="OnMenuTool"/>
                 <child>
                   <widget class="GtkMenu" id="tool1_menu">
                     <property name="can_focus">False</property>
@@ -282,7 +281,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Select</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolSelect" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolSelect"/>
                         <accelerator key="F4" signal="activate"/>
                       </widget>
                     </child>
@@ -293,7 +292,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Objects</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolObjects" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolObjects"/>
                         <accelerator key="F6" signal="activate"/>
                       </widget>
                     </child>
@@ -304,7 +303,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Tiles</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolTiles" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolTiles"/>
                         <accelerator key="F5" signal="activate"/>
                       </widget>
                     </child>
@@ -315,7 +314,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Brush</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolBrush" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolBrush"/>
                       </widget>
                     </child>
                     <child>
@@ -325,7 +324,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Fill</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolFill" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolFill"/>
                       </widget>
                     </child>
                     <child>
@@ -335,7 +334,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Replace</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolReplace" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolReplace"/>
                       </widget>
                     </child>
                     <child>
@@ -345,7 +344,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="label" translatable="yes">Path editor</property>
                         <property name="use_underline">True</property>
-                        <signal name="activate" handler="OnMenuToolPath" swapped="no"/>
+                        <signal name="activate" handler="OnMenuToolPath"/>
                       </widget>
                     </child>
                   </widget>
@@ -369,7 +368,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
                         <property name="use_stock">True</property>
-                        <signal name="activate" handler="OnAbout" swapped="no"/>
+                        <signal name="activate" handler="OnAbout"/>
                       </widget>
                     </child>
                   </widget>
@@ -395,7 +394,7 @@
                 <property name="tooltip" translatable="yes">Create new level</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-new</property>
-                <signal name="clicked" handler="OnNew" swapped="no"/>
+                <signal name="clicked" handler="OnNew"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -409,7 +408,7 @@
                 <property name="tooltip" translatable="yes">Open</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-open</property>
-                <signal name="clicked" handler="OnOpen" swapped="no"/>
+                <signal name="clicked" handler="OnOpen"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -423,7 +422,7 @@
                 <property name="tooltip" translatable="yes">Save</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-save</property>
-                <signal name="clicked" handler="OnSave" swapped="no"/>
+                <signal name="clicked" handler="OnSave"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -446,7 +445,7 @@
                 <property name="tooltip" translatable="yes">Play current version</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-media-play</property>
-                <signal name="clicked" handler="OnPlay" swapped="no"/>
+                <signal name="clicked" handler="OnPlay"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -470,7 +469,7 @@
                 <property name="tooltip" translatable="yes">Undo last action</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-undo</property>
-                <signal name="clicked" handler="OnUndo" swapped="no"/>
+                <signal name="clicked" handler="OnUndo"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -485,7 +484,7 @@
                 <property name="tooltip" translatable="yes">Redo last action</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-redo</property>
-                <signal name="clicked" handler="OnRedo" swapped="no"/>
+                <signal name="clicked" handler="OnRedo"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -509,7 +508,7 @@
                 <property name="tooltip" translatable="yes">Display camera properties in current sector</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">Camera</property>
-                <signal name="clicked" handler="OnEditCamera" swapped="no"/>
+                <signal name="clicked" handler="OnEditCamera"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -532,7 +531,7 @@
                 <property name="tooltip" translatable="yes">Zoom IN</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-zoom-in</property>
-                <signal name="clicked" handler="OnZoomIn" swapped="no"/>
+                <signal name="clicked" handler="OnZoomIn"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -546,7 +545,7 @@
                 <property name="tooltip" translatable="yes">Zoom OUT</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-zoom-out</property>
-                <signal name="clicked" handler="OnZoomOut" swapped="no"/>
+                <signal name="clicked" handler="OnZoomOut"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -560,7 +559,7 @@
                 <property name="tooltip" translatable="yes">Reset zoom to 100%</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-zoom-100</property>
-                <signal name="clicked" handler="OnNormalSize" swapped="no"/>
+                <signal name="clicked" handler="OnNormalSize"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -574,7 +573,7 @@
                 <property name="tooltip" translatable="yes">Fit Zoom to Level</property>
                 <property name="use_action_appearance">False</property>
                 <property name="stock_id">gtk-zoom-fit</property>
-                <signal name="clicked" handler="OnZoomFit" swapped="no"/>
+                <signal name="clicked" handler="OnZoomFit"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -608,7 +607,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">gtk-zoom-fit</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolZoom" swapped="no"/>
+                    <signal name="toggled" handler="OnToolZoom"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -634,7 +633,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolSelect</property>
                     <property name="active">True</property>
-                    <signal name="toggled" handler="OnToolSelect" swapped="no"/>
+                    <signal name="toggled" handler="OnToolSelect"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -651,7 +650,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolObjects</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolObjects" swapped="no"/>
+                    <signal name="toggled" handler="OnToolObjects"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -677,7 +676,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolTiles</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolTiles" swapped="no"/>
+                    <signal name="toggled" handler="OnToolTiles"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -694,7 +693,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolBrush</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolBrush" swapped="no"/>
+                    <signal name="toggled" handler="OnToolBrush"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -711,7 +710,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolFill</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolFill" swapped="no"/>
+                    <signal name="toggled" handler="OnToolFill"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -728,7 +727,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolReplace</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolReplace" swapped="no"/>
+                    <signal name="toggled" handler="OnToolReplace"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -755,7 +754,7 @@
                     <property name="use_underline">True</property>
                     <property name="stock_id">ToolPath</property>
                     <property name="group">ToolSelect</property>
-                    <signal name="toggled" handler="OnToolPath" swapped="no"/>
+                    <signal name="toggled" handler="OnToolPath"/>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -778,7 +777,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="label_xalign">0</property>
-                    <signal name="size_allocate" handler="OnToolboxSizeAllocated" swapped="no"/>
+                    <signal name="size_allocate" handler="OnToolboxSizeAllocated"/>
                   </widget>
                   <packing>
                     <property name="resize">False</property>
@@ -915,7 +914,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label_xalign">0</property>
-                        <signal name="size_allocate" handler="OnToolboxSizeAllocated" swapped="no"/>
+                        <signal name="size_allocate" handler="OnToolboxSizeAllocated"/>
                         <child>
                           <widget class="GtkAlignment" id="aTools">
                             <property name="visible">True</property>
@@ -1040,7 +1039,7 @@
                                                         <property name="can_focus">False</property>
                                                         <property name="use_action_appearance">False</property>
                                                         <property name="stock_id">gtk-open</property>
-                                                        <signal name="clicked" handler="OnBrushLoad" swapped="no"/>
+                                                        <signal name="clicked" handler="OnBrushLoad"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1053,7 +1052,7 @@
                                                         <property name="can_focus">False</property>
                                                         <property name="use_action_appearance">False</property>
                                                         <property name="stock_id">gtk-save-as</property>
-                                                        <signal name="clicked" handler="OnBrushSaveAs" swapped="no"/>
+                                                        <signal name="clicked" handler="OnBrushSaveAs"/>
                                                       </widget>
                                                       <packing>
                                                         <property name="expand">False</property>
@@ -1176,7 +1175,7 @@
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="OnCancel" swapped="no"/>
+                <signal name="clicked" handler="OnCancel"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -1194,7 +1193,7 @@
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="OnOk" swapped="no"/>
+                <signal name="clicked" handler="OnOk"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -1372,7 +1371,7 @@
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="OnCancel" swapped="no"/>
+                <signal name="clicked" handler="OnCancel"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -1390,7 +1389,7 @@
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="OnOk" swapped="no"/>
+                <signal name="clicked" handler="OnOk"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -1452,7 +1451,7 @@
                 <property name="receives_default">False</property>
                 <property name="use_action_appearance">False</property>
                 <property name="use_stock">True</property>
-                <signal name="clicked" handler="OnClose" swapped="no"/>
+                <signal name="clicked" handler="OnClose"/>
               </widget>
               <packing>
                 <property name="expand">False</property>
@@ -1510,7 +1509,7 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
-                        <signal name="changed" handler="OnEntryExeChanged" swapped="no"/>
+                        <signal name="changed" handler="OnEntryExeChanged"/>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -1527,7 +1526,7 @@
                         <property name="receives_default">True</property>
                         <property name="use_action_appearance">False</property>
                         <property name="use_underline">True</property>
-                        <signal name="clicked" handler="OnBtnExeBrowseClicked" swapped="no"/>
+                        <signal name="clicked" handler="OnBtnExeBrowseClicked"/>
                       </widget>
                       <packing>
                         <property name="expand">True</property>
@@ -1574,7 +1573,7 @@
                         <property name="use_action_appearance">False</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="OnRbToolboxPosition" swapped="no"/>
+                        <signal name="toggled" handler="OnRbToolboxPosition"/>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -1694,7 +1693,7 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
-                        <signal name="changed" handler="OnNameChanged" swapped="no"/>
+                        <signal name="changed" handler="OnNameChanged"/>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1711,7 +1710,7 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
-                        <signal name="changed" handler="OnContactChanged" swapped="no"/>
+                        <signal name="changed" handler="OnContactChanged"/>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1730,7 +1729,7 @@
                         <property name="secondary_icon_activatable">False</property>
                         <property name="primary_icon_sensitive">True</property>
                         <property name="secondary_icon_sensitive">True</property>
-                        <signal name="changed" handler="OnLicenseChanged" swapped="no"/>
+                        <signal name="changed" handler="OnLicenseChanged"/>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
