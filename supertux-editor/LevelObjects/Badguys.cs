@@ -243,6 +243,51 @@ public sealed class SleepSpiky : SimpleDirObject
 	}
 }
 
+[SupertuxObject("livefire", "images/creatures/livefire/livefire.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "left")]
+public sealed class LiveFire : SimpleDirObject
+{
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "right" : "left";
+	}
+
+	public LiveFire() {
+		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		Sprite.Action = "left";
+	}
+}
+
+[SupertuxObject("livefire_asleep", "images/creatures/livefire/livefire.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "waking-left")]
+public sealed class LiveFireAsleep : SimpleDirObject
+{
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "waking-right" : "waking-left";
+	}
+
+	public LiveFireAsleep() {
+		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		Sprite.Action = "waking-left";
+	}
+}
+
+[SupertuxObject("livefire_dormant", "images/creatures/livefire/livefire.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "sleeping-left")]
+public sealed class LiveFireDormant : SimpleDirObject
+{
+	protected override void DirectionChanged() {
+		Sprite.Action = (Direction == Directions.right) ? "sleeping-right" : "sleeping-left";
+	}
+
+	public LiveFireDormant() {
+		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		Sprite.Action = "sleeping-left";
+	}
+}
+
 [SupertuxObject("flame", "images/creatures/flame/flame.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Flame : SimpleObject
