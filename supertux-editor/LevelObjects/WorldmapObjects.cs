@@ -68,10 +68,9 @@ public sealed class WorldmapLevel : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
-	[LispChild("extro-filename", Optional = true, Default = "")]
-	public string ExtroFilename = String.Empty;
-	[LispChild("quit-worldmap", Optional = true, Default = false)]
-	public bool QuitWorldmap = false;
+	[LispChild("extro-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string Script = String.Empty;
 	[LispChild("auto-play", Optional = true, Default = false)]
 	public bool AutoPlay = false;
 	[ChooseResourceSetting]
@@ -101,10 +100,6 @@ public sealed class WorldmapLevel : WorldmapObject
 [SupertuxObject("special-tile", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class SpecialTile : WorldmapObject
 {
-	[LispChild("teleport-to-x", Optional = true, Default = -1f)]
-	public float TeleportToX = -1f;
-	[LispChild("teleport-to-y", Optional = true, Default = -1f)]
-	public float TeleportToY = -1f;
 	[LispChild("map-message", Optional = true, Default = "", Translatable = true)]
 	public string Message = String.Empty;
 	[LispChild("invisible-tile", Optional = true, Default = false)]
