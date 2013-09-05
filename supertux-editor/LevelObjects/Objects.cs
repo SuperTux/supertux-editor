@@ -581,8 +581,8 @@ public sealed class ScriptedObject : SimpleObject
 		}
 	}
 	private string spriteFile = String.Empty;
-	[LispChild("z-pos", Optional = true, Default = -10)]
-	public int ZPos = -10;
+	[LispChild("layer", Optional = true, Default = -10)]
+	public int Layer = -10;
 	[LispChild("visible")]
 	public bool Visible = true;
 	[LispChild("physic-enabled")]
