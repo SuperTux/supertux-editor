@@ -73,14 +73,7 @@ public static class LevelUtil
 		Camera camera = new Camera();
 		sector.Add(camera, true);
 
-		Background background = new Background();
-		background.Image = "images/background/BlueRock_Forest/blue-middle.jpg";
-		background.ImageTop = "images/background/BlueRock_Forest/blue-top.jpg";
-		background.ImageBottom = "images/background/BlueRock_Forest/blue-bottom.jpg";
-
 		sector.FinishRead(); //let sector detect it's dimensions
-
-		sector.Add(background, true);
 
 		return sector;
 	}
