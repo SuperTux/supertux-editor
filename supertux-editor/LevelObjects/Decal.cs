@@ -21,7 +21,7 @@ using Drawing;
 using SceneGraph;
 
 [SupertuxObject("decal", "images/engine/editor/decal.png")]
-public sealed class Decal : IGameObject, IObject, Node {
+public sealed class Decal : IGameObject, IObject, Node, ICloneable {
 	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
 	[LispChild("y", Optional = true, Default = 0f)]
@@ -78,6 +78,10 @@ public sealed class Decal : IGameObject, IObject, Node {
 
 	public Node GetSceneGraphNode() {
 		return this;
+	}
+
+	public object Clone() {
+		return MemberwiseClone();
 	}
 
 }
