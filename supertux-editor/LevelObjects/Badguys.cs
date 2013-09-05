@@ -28,7 +28,7 @@ using OpenGl;
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class MrBomb : SimpleDirObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	/*[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -45,7 +45,7 @@ public sealed class MrBomb : SimpleDirObject
 			spriteFile = value;
 		}
 	}
-	private string spriteFile = String.Empty;
+	private string spriteFile = String.Empty;*/
 	public MrBomb() {
 		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
 		Sprite.Action = "left";
@@ -147,7 +147,7 @@ public sealed class Crystallo : SimpleDirObject
 
 [SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Stalactite : SimpleObject
+public sealed class Stalactite : SimpleSpriteObject
 {
 	public Stalactite() {
 		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
@@ -189,7 +189,7 @@ public sealed class BouncingSnowball : SimpleDirObject
 [SupertuxObject("flyingsnowball",
                 "images/creatures/flying_snowball/flying_snowball.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class FlyingSnowball : SimpleObject
+public sealed class FlyingSnowball : SimpleSpriteObject
 {
   //FIXME: this shouldn't be necessary
 	public override void ChangeArea(RectangleF NewArea) {
@@ -210,7 +210,7 @@ public sealed class FlyingSnowball : SimpleObject
 [SupertuxObject("jumpy", "images/creatures/snowjumpy/snowjumpy.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "left-up")]
-public sealed class Jumpy : SimpleObject
+public sealed class Jumpy : SimpleSpriteObject
 {
 	public Jumpy() {
 		Sprite = SpriteManager.Create("images/creatures/snowjumpy/snowjumpy.sprite");
@@ -365,7 +365,7 @@ public sealed class GhostFlame : SimpleObject
 
 [SupertuxObject("fish", "images/creatures/fish/fish.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Fish : SimpleObject
+public sealed class Fish : SimpleSpriteObject
 {
 	public Fish() {
 		Sprite = SpriteManager.Create("images/creatures/fish/fish.sprite");
@@ -620,7 +620,7 @@ public sealed class AngryStone : SimpleObject
 
 [SupertuxObject("spidermite", "images/creatures/spidermite/spidermite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Spidermite : SimpleObject
+public sealed class Spidermite : SimpleSpriteObject
 {
 	public Spidermite() {
 		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
@@ -650,7 +650,7 @@ public sealed class Nolok_01 : SimpleObject
                 "images/creatures/willowisp/willowisp.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
-public sealed class WilloWisp : SimpleObject, IPathObject
+public sealed class WilloWisp : SimpleSpriteObject, IPathObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector = String.Empty;
@@ -774,7 +774,7 @@ public sealed class Toad : SimpleDirObject
 [SupertuxObject("mole", "images/creatures/mole/mole.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
-public sealed class Mole : SimpleObject
+public sealed class Mole : SimpleSpriteObject
 {
 	public Mole() {
 		Sprite = SpriteManager.Create("images/creatures/mole/mole.sprite");

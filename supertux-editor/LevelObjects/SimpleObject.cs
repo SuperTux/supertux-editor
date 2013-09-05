@@ -101,6 +101,24 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 	}
 }
 
+/// <summary>Base class for objects that can have a sprite change.</summary>
+public abstract class SimpleSpriteObject : SimpleObject
+{
+  [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true)]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if(! String.IsNullOrEmpty(value))
+				Sprite = SpriteManager.Create(value);
+			spriteFile = value;
+		}
+	}
+	private string spriteFile;
+}
 
 /// <summary>Base class for objects that draw a color box.</summary>
 public abstract class SimpleColorObject : SimpleObject
@@ -132,7 +150,7 @@ public abstract class SimpleColorObject : SimpleObject
 
 
 /// <summary>Base class for objects with a direction. (Like most badguys)</summary>
-public abstract class SimpleDirObject : SimpleObject
+public abstract class SimpleDirObject : SimpleSpriteObject
 {
 	public enum Directions {
 		/// <summary>
@@ -188,7 +206,7 @@ public abstract class SimpleDirObject : SimpleObject
 		}
 	}
 
-	[LispChild("dead-script", Optional = true, Default = "")]
+  [LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public String DeadScript = String.Empty;
 }
