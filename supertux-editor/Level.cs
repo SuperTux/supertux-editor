@@ -40,6 +40,9 @@ public sealed class Level
 	[PropertyProperties(Tooltip = "Whether to allow the community to share the level, improve it, include it in bonus packs, ...")]
 	[LispChild("license", Optional = true, Default = ""), ChooseLicenseSetting()]
 	public string License = "";
+  [PropertyProperties(Tooltip = "Set an optional time, in seconds, that the player can try to beat the level in")]
+	[LispChild("target-time", Optional = true)]
+	public float TargetTime;
 
 	private string tilesetFile = "images/tiles.strf";
 	public bool isWorldmap {
