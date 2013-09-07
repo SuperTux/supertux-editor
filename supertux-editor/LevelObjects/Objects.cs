@@ -620,7 +620,7 @@ public sealed class Wind : SimpleObjectArea
 	public float Acceleration = 0;
 
 	public Wind() {
-		Color = new Drawing.Color(.8f, 0, 0.8f, 0.8f);
+		Color = new Drawing.Color(0, 0.8f, 0.8f, 0.8f);
 	}
 }
 
@@ -680,7 +680,7 @@ public sealed class ScriptTrigger : SimpleObjectArea
 public sealed class InvisibleWall : SimpleObjectArea
 {
 	public InvisibleWall() {
-		Color = new Drawing.Color(0, .8f, 0, 0.8f);
+		Color = new Drawing.Color(0, 0, 0, 0.8f);
 	}
 }
 
