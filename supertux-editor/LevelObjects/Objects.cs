@@ -704,9 +704,7 @@ public sealed class SecretArea : SimpleObjectArea
 	}
 }
 
-// TODO: This image isn't good for this, make one that fit with the
-//       other areas.
-[SupertuxObject("climbable",  "images/tiles/forest/ladder.png",
+[SupertuxObject("climbable",  "images/engine/editor/climbable.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Climbable : SimpleObjectArea
 {
