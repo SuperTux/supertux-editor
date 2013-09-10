@@ -396,8 +396,26 @@ public sealed class HurtingPlatform : SimplePathObject
 [SupertuxObject("unstable_tile",
                 "images/objects/unstable_tile/snow.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class UnstableTile : SimpleSpriteObject
+public sealed class UnstableTile : SimpleObject
 {
+  [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+  [ChooseResourceSetting]
+  [LispChild("sprite")]
+  public string SpriteFile {
+    get {
+      return spriteFile;
+    }
+    set {
+      if (!String.IsNullOrEmpty(value)) {
+        Sprite newSprite = SpriteManager.Create(value);
+        newSprite.Action = "normal";
+        Sprite = newSprite;     //save new sprite after 
+      }
+      spriteFile = value;
+    }
+  }
+  private string spriteFile = "images/objects/unstable_tile/snow.sprite";
+
 	public UnstableTile() {
 		Sprite = SpriteManager.Create("images/objects/unstable_tile/snow.sprite");
 		Sprite.Action = "normal";
