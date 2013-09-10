@@ -711,13 +711,13 @@ public class Application
 		dialog.Icon = EditorStock.WindowIcon;
 		dialog.ProgramName = "SuperTux Editor";
 		dialog.Version = Constants.PACKAGE_VERSION;
-		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.0";
+		dialog.Comments = "A level and worldmap editor for SuperTux 0.3.x";
 		dialog.Authors = authors;
-		dialog.Copyright = "Copyright (c) 2006 SuperTux Devel Team";
+		dialog.Copyright = "Copyright (c) 2006-2013 SuperTux Devel Team";
 		dialog.License =
 			"This program is free software; you can redistribute it and/or modify" + Environment.NewLine +
 			"it under the terms of the GNU General Public License as published by" + Environment.NewLine +
-			"the Free Software Foundation; either version 2 of the License, or" + Environment.NewLine +
+			"the Free Software Foundation; either version 3 of the License, or" + Environment.NewLine +
 			"(at your option) any later version." + Environment.NewLine +
 			Environment.NewLine +
 			"This program is distributed in the hope that it will be useful," + Environment.NewLine +
