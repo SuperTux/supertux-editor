@@ -147,7 +147,12 @@ public class Properties {
 		if(list == null)
 			return false;
 		for(int i = 1; i < list.Length; ++i) {
-			AList.Add((string) list[i]);
+			try {
+				AList.Add((string) list[i]);
+			}
+			catch(InvalidCastException) {
+				AList.Add(((Lisp.Symbol)list[i]).Name);
+			}
 		}
 		return true;
 	}
