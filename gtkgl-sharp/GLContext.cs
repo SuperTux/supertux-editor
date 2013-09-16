@@ -59,8 +59,15 @@ namespace Gdk
 
 				return CreateContext(attrs, share, gdkDrawable);
 			} else {
-				return new W32GLContext(attrs,
-				                        (W32GLContext) share, gdkDrawable);
+				PlatformID operatingSystem = Environment.OSVersion.Platform;
+				if (operatingSystem == PlatformID.Win32Windows) {
+					return new W32GLContext (attrs,
+					                         (W32GLContext)share, gdkDrawable);
+				} else {
+					Console.WriteLine("Trying osx API");
+					return new MacGLContext (attrs,
+					                         (MacGLContext)share, gdkDrawable);
+				}
 			}
 		}
 
