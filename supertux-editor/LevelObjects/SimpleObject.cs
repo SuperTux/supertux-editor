@@ -148,9 +148,17 @@ public abstract class SimpleColorObject : SimpleObject
 	}
 }
 
+/// <summary>Base class for badguys</summary>
+public abstract class SimpleBadguyObject : SimpleSpriteObject
+{
+  [PropertyProperties(Tooltip = "Squirrel script to be run when badguy dies")]
+  [LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = String.Empty;
+}
 
 /// <summary>Base class for objects with a direction. (Like most badguys)</summary>
-public abstract class SimpleDirObject : SimpleSpriteObject
+public abstract class SimpleDirObject : SimpleBadguyObject
 {
 	public enum Directions {
 		/// <summary>
@@ -205,10 +213,6 @@ public abstract class SimpleDirObject : SimpleSpriteObject
 			DirectionChanged();
 		}
 	}
-
-  [LispChild("dead-script", Optional = true, Default = "")]
-	[EditScriptSetting]
-	public String DeadScript = String.Empty;
 }
 
 /// <summary>Base class for platforms and other moving objects.</summary>
