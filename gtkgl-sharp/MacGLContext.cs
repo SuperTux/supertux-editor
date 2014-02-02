@@ -1,6 +1,7 @@
 namespace Gdk
 {
 	using System;
+	using OpenTK.Platform;
 	using OpenTK.Graphics;
 	using OpenTK.Graphics.OpenGL;
 
@@ -12,6 +13,9 @@ namespace Gdk
 		                       MacGLContext share,
 		                       IntPtr gdkDrawable)
 		{
+			if (gdkDrawable == IntPtr.Zero) {
+				Console.WriteLine ("ERROR: gdkDrawable is NULL");
+			}
 			windowinfo = OpenTK.Platform.Utilities.CreateMacOSCarbonWindowInfo (gdkDrawable, true, true);
 			try {
 				ctx = new GraphicsContext (GraphicsMode.Default, windowinfo);
@@ -27,6 +31,10 @@ namespace Gdk
 			if (ctx != null) {
 				ctx.Dispose ();
 				ctx = null;
+			}
+			if (windowinfo != null) {
+				windowinfo.Dispose ();
+				windowinfo = null;
 			}
 		}
 

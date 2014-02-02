@@ -53,7 +53,6 @@ namespace Gdk
 					Console.WriteLine("Failed setting up X11 opengl context: " + e.Message);
 					Console.WriteLine("  (If you run Windows this is normal, on any other OS it would be bad)");
 					Console.WriteLine(e.StackTrace);
-					Console.WriteLine("Trying win32 API");
 					useWGLContext = true;
 				}
 
@@ -61,10 +60,11 @@ namespace Gdk
 			} else {
 				PlatformID operatingSystem = Environment.OSVersion.Platform;
 				if (operatingSystem == PlatformID.Win32Windows) {
+					Console.WriteLine("Trying win32 API");
 					return new W32GLContext (attrs,
 					                         (W32GLContext)share, gdkDrawable);
 				} else {
-					Console.WriteLine("Trying osx API");
+					Console.WriteLine("Trying OS X API");
 					return new MacGLContext (attrs,
 					                         (MacGLContext)share, gdkDrawable);
 				}

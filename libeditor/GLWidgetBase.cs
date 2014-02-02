@@ -76,6 +76,19 @@ public abstract class GLWidgetBase : GLArea
 		}
 	}
 
+	public GLWidgetBase(IntPtr windowHandle)
+		: base(attrlist, ShareArea)
+	{
+		GlUtil.ContextValid = false;
+		ExposeEvent += OnExposed;
+		ConfigureEvent += OnConfigure;
+
+		if(ShareArea == null) {
+			ShareArea = this;
+			( (GLArea)(ShareArea) ).windowRef = IntPtr.Zero;
+		}
+	}
+
 	private void OnExposed(object o, ExposeEventArgs args)
 	{
 		if(!MakeCurrent()) {

@@ -42,6 +42,7 @@ namespace Gtk
 	public class GLArea : DrawingArea
 	{
 		GLContext context;
+		public IntPtr windowRef = IntPtr.Zero;
 
 		public GLArea (int[] attributeList)
 		{
