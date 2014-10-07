@@ -113,13 +113,20 @@ public sealed class Tileset {
 	}
 
 	public Tile Get(int id) {
-		Tile tile = tiles[id];
-		if(tile == null)
+		try
+		{
+			Tile tile = tiles[id];
+			if(tile == null)
+				return null;
+
+			tile.LoadSurfaces(baseDir, LoadEditorImages);
+
+			return tile;
+		}
+		catch(System.ArgumentOutOfRangeException)
+		{
 			return null;
-
-		tile.LoadSurfaces(baseDir, LoadEditorImages);
-
-		return tile;
+		}
 	}
 
 	/// <summary>Id of the last existing tile.</summary>
