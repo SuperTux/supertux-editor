@@ -235,6 +235,31 @@ public sealed class Candle : SimpleColorObject
 	}
 }
 
+[SupertuxObject("torch", "images/objects/torch/torch1.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly,
+                ObjectListAction = "on")]
+public sealed class Torch : SimpleObject
+{
+	private string spriteFile = "images/objects/torch/torch1.sprite";
+
+	[LispChild("sprite")]
+        public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite = SpriteManager.Create(value);
+			}
+			spriteFile = value;
+		}
+	}
+
+	public Torch() {
+		Sprite = SpriteManager.Create(spriteFile);
+	}
+}
+
 #endregion Light
 
 #region Switches
