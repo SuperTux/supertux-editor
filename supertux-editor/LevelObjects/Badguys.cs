@@ -127,16 +127,6 @@ public sealed class Crystallo : SimpleDirObject
 	}
 }
 
-[SupertuxObject("kirby", "images/creatures/kirby/kirby.sprite",
-                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Kirby : SimpleDirObject
-{
-	public Kirby() {
-		Sprite = SpriteManager.Create("images/creatures/kirby/kirby.sprite");
-		Sprite.Action = "left";
-	}
-}
-
 [SupertuxObject("stalactite", "images/creatures/stalactite/stalactite.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Stalactite : SimpleBadguyObject
