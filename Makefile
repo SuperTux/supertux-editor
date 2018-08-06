@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-GMCS?=dmcs
+GMCS?=mcs
 GMCSFLAGS?=-debug -warn:4 -nowarn:1591 -unsafe
 
 ifeq ($(VERBOSE),1)
