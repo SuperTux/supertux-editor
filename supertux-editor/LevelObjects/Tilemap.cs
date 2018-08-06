@@ -17,6 +17,7 @@
 using System;
 using DataStructures;
 using SceneGraph;
+using Drawing;
 using Lisp;
 using LispReader;
 using System.Collections.Generic;
@@ -68,6 +69,9 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 
 	[LispChild("speed-y", Optional = true, Default = 1.0f)]
 	public float SpeedY = 1.0f;
+
+	[LispChild("tint", Optional = true)]
+	public Color Tint = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
