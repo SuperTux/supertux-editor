@@ -735,11 +735,11 @@ public sealed class SecretArea : SimpleObjectArea
 	[LispChild("fade-tilemap", Optional = true, Default = "")]
 	public string FadeTilemap = String.Empty;
   [PropertyProperties(Tooltip = "Run this script when the player finds the secret area. Optional.")]
-	[LispChild("script", Optional = true)]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
   [PropertyProperties(Tooltip = "Alternative message to display when the player finds the secret area. Optional.")]
-	[LispChild("message", Optional = true)]
+	[LispChild("message", Optional = true, Default = "")]
 	public string Message = String.Empty;
 
 	public SecretArea() {
