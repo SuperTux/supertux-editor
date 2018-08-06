@@ -1246,7 +1246,11 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 			Console.WriteLine("  --resave      Load a level, save it and exit");
 		} else if (opts.Resave) {
 			foreach(var fileName in opts.FileNames) {
+				try {
 					ResaveLevel(fileName, fileName);
+				} catch(Exception e) {
+					LogManager.Log(LogLevel.Fatal, $"{fileName}: error while resaving the level:\n{e}");
+				}
 			}
 		} else {
 			Gtk.Application.Init();
