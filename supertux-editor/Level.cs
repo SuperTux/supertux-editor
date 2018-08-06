@@ -41,7 +41,7 @@ public sealed class Level
 	[LispChild("license", Optional = true, Default = ""), ChooseLicenseSetting()]
 	public string License = "";
   [PropertyProperties(Tooltip = "Set an optional time, in seconds, that the player can try to beat the level in")]
-	[LispChild("target-time", Optional = true)]
+	[LispChild("target-time", Optional = true, Default = 0.0f)]
 	public float TargetTime;
 
 	private string tilesetFile = "images/tiles.strf";
