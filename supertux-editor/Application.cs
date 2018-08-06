@@ -32,7 +32,7 @@ public class Options
 {
 	public bool Help = false;
 	public bool Resave = false;
-	public string FileName = null;
+	public List<string> FileNames = new List<string>();
 };
 
 public class Application
@@ -326,8 +326,8 @@ public class Application
 			}
 		}
 
-		if (opts.FileName != null) {
-			Load(opts.FileName);
+		if (opts.FileNames.Count > 0) {
+			Load(opts.FileNames[0]);
 		}
 
 		UndoManager.OnAddCommand += OnUndoManager;
@@ -1184,7 +1184,22 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 		}
 	}
 
-	public static Options parse_args(string[] args)
+	public static void ResaveLevel(string inFileName, string outFileName)
+	{
+		Console.WriteLine($"Datadir: {Settings.Instance.SupertuxData}");
+		LispSerializer serializer = new LispSerializer(typeof(Level));
+		Console.WriteLine($"loading {inFileName}");
+		Level level = (Level) serializer.Read(inFileName);
+		if (level.Version < 2) {
+			throw new Exception("Couldn't load level: Old Level Format not supported\n" +
+													"Supertux-Editor does not support Supertux-0.1.x levels");
+		} else {
+			Console.WriteLine($"saving {outFileName}");
+			serializer.Write(outFileName, level);
+		}
+	}
+
+	public static Options ParseArgs(string[] args)
 	{
 		Options opts = new Options();
 		foreach(var arg in args)
@@ -1197,14 +1212,21 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 				} else {
 					throw new Exception($"error: unknown argument on command line: {arg}");
 				}
-			} else  {
-				if (opts.FileName == null) {
-					opts.FileName = arg;
-				} else {
-					throw new Exception($"error: only one filename allowed on command line: {arg}");
-				}
+			} else {
+				opts.FileNames.Add(arg);
 			}
 		}
+
+		if (opts.Resave) {
+			if (opts.FileNames.Count == 0) {
+				throw new Exception("error: a level filename is required for --resave");
+			}
+		} else {
+			if (opts.FileNames.Count > 1) {
+				throw new Exception($"error: only one filename allowed for the GUI editor");
+			}
+		}
+
 		return opts;
 	}
 
@@ -1212,21 +1234,19 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 	{
 		LispSerializer.SetupSerializers(typeof(Application).Assembly);
 
-		Options opts = parse_args(args);
+		Options opts = ParseArgs(args);
 
 		if (opts.Help) {
-			Console.WriteLine("Usage: supertux-editor.exe [--help|--resave] [FILENAME]");
+			Console.WriteLine("Usage: supertux-editor.exe [--help|--resave] [FILENAME]...");
 			Console.WriteLine();
 			Console.WriteLine("A SuperTux level editor");
 			Console.WriteLine();
 			Console.WriteLine("  FILENAME      A level or worldmap to load");
 			Console.WriteLine("  -h, --help    Print this help");
-			Console.WriteLine("  --resave      Load and save the given level");
+			Console.WriteLine("  --resave      Load a level, save it and exit");
 		} else if (opts.Resave) {
-			if (opts.FileName == null) {
-				throw new Exception("error: a level filename is required for --resave");
-			} else {
-				// FIXME: Insert magic here
+			foreach(var fileName in opts.FileNames) {
+					ResaveLevel(fileName, fileName);
 			}
 		} else {
 			Gtk.Application.Init();
