@@ -28,6 +28,13 @@ public delegate void LevelChangedEventHandler(Level NewLevel);
 public delegate void SectorChangedEventHandler(Level Level, Sector NewSector);
 public delegate void TilemapChangedEventHandler(Tilemap Tilemap);
 
+public class Options
+{
+	public bool Help = false;
+	public bool Resave = false;
+	public string FileName = null;
+};
+
 public class Application
 {
 	private class MruEntry {
@@ -214,7 +221,7 @@ public class Application
 		sbMain.Push( printStatusContextID, message );
 	}
 
-	private Application(string[] args) {
+	private Application(Options opts) {
 		selection = new TileSelection();
 
 		Glade.XML.CustomHandler = GladeCustomWidgetHandler;
@@ -319,8 +326,8 @@ public class Application
 			}
 		}
 
-		if (args.Length > 0) {
-			Load(args[0]);
+		if (opts.FileName != null) {
+			Load(opts.FileName);
 		}
 
 		UndoManager.OnAddCommand += OnUndoManager;
@@ -1177,30 +1184,71 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 		}
 	}
 
+	public static Options parse_args(string[] args)
+	{
+		Options opts = new Options();
+		foreach(var arg in args)
+		{
+			if (arg != String.Empty && arg[0] == '-') {
+				if (arg == "-h" || arg == "--help") {
+					opts.Help = true;
+				} else if (arg == "--resave") {
+					opts.Resave = true;
+				} else {
+					throw new Exception($"error: unknown argument on command line: {arg}");
+				}
+			} else  {
+				if (opts.FileName == null) {
+					opts.FileName = arg;
+				} else {
+					throw new Exception($"error: only one filename allowed on command line: {arg}");
+				}
+			}
+		}
+		return opts;
+	}
+
 	public static void Main(string[] args)
 	{
 		LispSerializer.SetupSerializers(typeof(Application).Assembly);
-		
-		Gtk.Application.Init();
 
-		Application app = new Application(args);
-#if !INSANEDEBUG
-		try {
-#endif
-			Gtk.Application.Run();
-#if !INSANEDEBUG
-		} catch(Exception e) {
-			if(app.level != null) {
-				string filename = System.IO.Path.GetTempPath() + "/supertux-editor-emergency."+ ((app.level.isWorldmap)?"stwm":"stl");
-				LogManager.Log(LogLevel.Fatal, "Unexpected Exception... Emergency save to '" + filename + "'");
-				Console.Error.WriteLine(e.Message);
-				app.serializer.Write(filename, app.level);
+		Options opts = parse_args(args);
+
+		if (opts.Help) {
+			Console.WriteLine("Usage: supertux-editor.exe [--help|--resave] [FILENAME]");
+			Console.WriteLine();
+			Console.WriteLine("A SuperTux level editor");
+			Console.WriteLine();
+			Console.WriteLine("  FILENAME      A level or worldmap to load");
+			Console.WriteLine("  -h, --help    Print this help");
+			Console.WriteLine("  --resave      Load and save the given level");
+		} else if (opts.Resave) {
+			if (opts.FileName == null) {
+				throw new Exception("error: a level filename is required for --resave");
+			} else {
+				// FIXME: Insert magic here
 			}
-			throw;
-		}
-#endif
-		Settings.Instance.Save();
+		} else {
+			Gtk.Application.Init();
 
+			Application app = new Application(opts);
+#if !INSANEDEBUG
+			try {
+#endif
+				Gtk.Application.Run();
+#if !INSANEDEBUG
+			} catch(Exception e) {
+				if(app.level != null) {
+					string filename = System.IO.Path.GetTempPath() + "/supertux-editor-emergency."+ ((app.level.isWorldmap)?"stwm":"stl");
+					LogManager.Log(LogLevel.Fatal, "Unexpected Exception... Emergency save to '" + filename + "'");
+					Console.Error.WriteLine(e.Message);
+					app.serializer.Write(filename, app.level);
+				}
+				throw;
+			}
+#endif
+			Settings.Instance.Save();
+		}
 	}
 }
 
