@@ -81,8 +81,9 @@ public sealed class Tileset {
 		Tilegroup allGroup = new Tilegroup();
 			allGroup.Name = "All";
 			foreach(Tile tile in tiles) {
-				if(tile != null)
+				if(tile != null && !tile.Deprecated) {
 					allGroup.Tiles.Add(tile.Id);
+				}
 			}
 			tilegroups.Add(allGroup.Name, allGroup);
 
@@ -217,6 +218,8 @@ public sealed class Tileset {
 
 		if(!Props.Get("id", ref tile.Id))
 			throw new ApplicationException("Tile has no ID");
+
+		Props.Get("deprecated", ref tile.Deprecated);
 
 		List images = null;
 		Props.Get("images", ref images);

@@ -65,6 +65,8 @@ public sealed class Tile {
 
 	/// <summary>tile id</summary>
 	public int Id;
+	/// <summary>Tile should no longer be used</summary>
+	public bool Deprecated;
 	/// <summary>tile attributes (see Attributes enum)</summary>
 	public Attribute Attributes;
 	/// <summary>General purpose data attached to a tile (content of a box, type of coin)</summary>
