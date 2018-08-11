@@ -18,6 +18,7 @@ using System;
 using Sprites;
 using DataStructures;
 using LispReader;
+using Drawing;
 
 public abstract class WorldmapObject : SimpleObject
 {
@@ -68,6 +69,8 @@ public sealed class WorldmapLevel : WorldmapObject
 {
 	[LispChild("name")]
 	public string Name;
+	[LispChild("color", Optional = true)]
+	public Color color;
 	[LispChild("extro-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
@@ -92,6 +95,8 @@ public sealed class WorldmapLevel : WorldmapObject
 
 	public WorldmapLevel()
 	{
+		color = new Color(1, 1, 1);
+
 		Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
 		Sprite.Action = "solved";
 	}
