@@ -45,15 +45,6 @@ public class ColorSerializer : ILispSerializer
 		if(color.Alpha != 1.0f) {
 			float[] vals = new float[] { color.Red, color.Green, color.Blue, color.Alpha };
 			writer.Write(name, vals);
-	  } else if ((name == "tint" || name == "color") &&
-		     color.Red == 1.0f && color.Green == 1.0f && color.Blue == 1.0f && color.Alpha == 1.0f) {
-			// FIXME: This is an ugly hack for the tilemap 'tint' made
-			// necessary due to C# not supporting structs as attribute
-			// arguments, i.e. this doesn't work:
-			//
-			// [LispChild("tint", Optional = true, Default = new Color(1,1,1))]
-			//
-			// Thus we skip the tag generation here.
 		} else {
 			float[] vals = new float[] { color.Red, color.Green, color.Blue };
 			writer.Write(name, vals);

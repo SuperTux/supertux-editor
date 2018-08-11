@@ -82,7 +82,7 @@ public sealed class Spotlight : SimpleColorObject
 	public float Angle;
 
 	[ChooseColorSetting(UseAlpha = true)]
-	[LispChild("color", Optional = true )]
+	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Drawing.Color color = new Drawing.Color( 1f, 1f, 1f );
 
 	public Spotlight() {
@@ -107,7 +107,7 @@ public sealed class Spotlight : SimpleColorObject
 public sealed class MagicBlock : SimpleColorObject
 {
 	[ChooseColorSetting]
-	[LispChild("color")]
+	[LispChild("color", Optional = true, Default = "Color(0, 0, 0, 0)")]
 	public Drawing.Color MagicColor {
 		get {
 			return magiccolor;
@@ -142,7 +142,7 @@ public sealed class MagicBlock : SimpleColorObject
 public sealed class Lantern : SimpleColorObject
 {
 	[ChooseColorSetting]
-	[LispChild("color")]
+	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Drawing.Color LightColor {
 		get {
 			return lightcolor;
@@ -204,7 +204,7 @@ public sealed class Candle : SimpleColorObject
   }
   private string spriteFile = "images/objects/candle/candle.sprite";
 	[ChooseColorSetting]
-	[LispChild("color", Optional = true )]
+	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Drawing.Color LightColor {
 		get {
 			return lightcolor;

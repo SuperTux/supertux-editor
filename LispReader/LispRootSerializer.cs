@@ -148,7 +148,9 @@ namespace LispReader
 
 							ILispSerializer serializer = LispSerializer.GetSerializer(childType);
 							if(serializer != null) {
-								serializer.Write(writer, ChildAttrib.Name, Value);
+								if(!ChildAttrib.Optional || !Value.Equals(ChildAttrib.Default)) {
+									serializer.Write(writer, ChildAttrib.Name, Value);
+								}
 							} else {
 								if(ChildAttrib.Optional && childType.IsEnum) {
 									// If it is an enum we need to convert ChildAttrib.Default

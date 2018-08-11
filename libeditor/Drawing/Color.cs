@@ -14,6 +14,8 @@
 //  You should have received a copy of the GNU General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+
 namespace Drawing
 {
 
@@ -54,10 +56,30 @@ namespace Drawing
 		}
 
 		public override bool Equals(object obj) {
-			if (!(obj is Color))
+			if (obj is Color) {
+				Color color = (Color)obj;
+				return this == color;
+			} else if (obj is string) {
+				// FIXME: This is a bit of an hack to
+				// allow colors to be specified in
+				// object attributes, as this doesn't work:
+				//
+				// [LispChild("color", Optional = true, Default = new Color(1,1,1))]
+				//
+				// instead use this:
+				//
+				// [LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
+				//
+				// Note that this is a dumb string
+				// compare, no parsing takes place, so
+				// specify all four color components
+				// and make sure the spaces are
+				// exactly tha same or it will fail.
+				string text = String.Format("Color({0}, {1}, {2}, {3})", Red, Green, Blue, Alpha);
+				return text.Equals(obj);
+			} else {
 				return false;
-			Color color = (Color)obj;
-			return this == color;
+			}
 		}
 
 		public override int GetHashCode() {

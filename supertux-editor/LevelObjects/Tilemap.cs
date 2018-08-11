@@ -70,7 +70,7 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 	[LispChild("speed-y", Optional = true, Default = 1.0f)]
 	public float SpeedY = 1.0f;
 
-	[LispChild("tint", Optional = true)]
+	[LispChild("tint", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Color Tint = new Color(1.0f, 1.0f, 1.0f, 1.0f);
 
 	private Path path;
