@@ -107,7 +107,7 @@ public sealed class Spotlight : SimpleColorObject
 public sealed class MagicBlock : SimpleColorObject
 {
 	[ChooseColorSetting]
-	[LispChild("color", Optional = true, Default = "Color(0, 0, 0, 0)")]
+	[LispChild("color", Optional = true, Default = "Color(0, 0, 0, 1)")]
 	public Drawing.Color MagicColor {
 		get {
 			return magiccolor;
@@ -118,7 +118,7 @@ public sealed class MagicBlock : SimpleColorObject
 			magiccolor.Blue = (value.Blue >= 0.5f?1f:0);
 		}
 	}
-	private Drawing.Color magiccolor = new Drawing.Color( 1f, 0f, 0f );
+	private Drawing.Color magiccolor = new Drawing.Color( 0f, 0f, 0f );
 
 	public override void Draw(Gdk.Rectangle cliprect) {
 		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
