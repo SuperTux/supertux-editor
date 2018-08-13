@@ -491,7 +491,7 @@ public sealed class WeakBlock : SimpleSpriteObject
 			Sprite.Action = "normal";
 		}
 	}
-	private bool linked = false;
+	private bool linked = true;
 	public WeakBlock() {
 		Sprite = SpriteManager.Create("images/objects/weak_block/meltbox.sprite");
 		Sprite.Action = "normal";
