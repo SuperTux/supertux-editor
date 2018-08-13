@@ -747,7 +747,7 @@ public sealed class WalkingCandle : SimpleDirObject
 {
 	[ChooseColorSetting]
 	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
-	public Color color;
+	public Color color = new Color(1, 1, 1);
 
 	public WalkingCandle() {
 		Sprite = SpriteManager.Create("images/creatures/mr_candle/mr-candle.sprite");
