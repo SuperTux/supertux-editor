@@ -64,6 +64,9 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		}
 	}
 
+	[LispChild("running", Optional = true, Default = false)]
+	public bool Running = false;
+
 	[LispChild("speed", Optional = true, Default = 1.0f)]
 	public float Speed = 1.0f;
 
