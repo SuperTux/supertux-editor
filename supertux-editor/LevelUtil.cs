@@ -67,7 +67,7 @@ public static class LevelUtil
 		SpawnPoint spawnpoint = new SpawnPoint();
 		spawnpoint.X = 96;
 		spawnpoint.Y = 96;
-		spawnpoint.Name = "main";
+		spawnpoint.EntityName = "main";
 		sector.Add(spawnpoint, true);
 
 		Camera camera = new Camera();

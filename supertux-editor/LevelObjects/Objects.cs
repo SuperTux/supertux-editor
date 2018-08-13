@@ -36,9 +36,6 @@ internal static class ToolTipStrings {
 [SupertuxObject("spawnpoint", "images/engine/editor/spawnpoint.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SpawnPoint : SimpleObject {
-	[LispChild("name")]
-	public string Name;
-
 	public SpawnPoint() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/spawnpoint.png");
 		Sprite.Action = "default";
@@ -181,15 +178,14 @@ public sealed class Lantern : SimpleColorObject
                 ObjectListAction = "on")]
 public sealed class Candle : SimpleColorObject
 {
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "If enabled the candle will be burning initially.")]
 	[LispChild("burning", Optional = true, Default = true)]
 	public bool Burning = true;
+
 	[PropertyProperties(Tooltip = "If enabled the candle will flicker while on.")]
 	[LispChild("flicker", Optional = true, Default = true)]
 	public bool Flicker = true;
+
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
   [ChooseResourceSetting]
   [LispChild("sprite", Optional = true, Default = "images/objects/candle/candle.sprite")]
@@ -639,9 +635,6 @@ public sealed class Powerup : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class ScriptedObject : SimpleObject
 {
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name")]
-	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
@@ -677,10 +670,6 @@ public sealed class ScriptedObject : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Wind : SimpleObjectArea
 {
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
-
 	[PropertyProperties(Tooltip = "If enabled the wind will be blowing initially.")]
 	[LispChild("blowing", Optional = true, Default = true)]
 	public bool Blowing = true;
@@ -706,15 +695,15 @@ public sealed class AmbientSound : SimpleObjectArea
 	[LispChild("sample")]
 	[ChooseResourceSetting]
 	public string Sample = String.Empty;
+
 	[LispChild("distance_factor")]
 	public float DistanceFactor;
+
 	[LispChild("distance_bias")]
 	public float DistanceBias;
+
 	[LispChild("volume")]
 	public float Volume;
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
 
 	public AmbientSound() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/ambientsound.png");

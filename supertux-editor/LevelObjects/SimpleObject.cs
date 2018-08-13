@@ -25,6 +25,10 @@ using SceneGraph;
 
 /// <summary>Base class for objects in levels</summary>
 public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	private float x, y;
 	[PropertyProperties(Tooltip = "X position of object", RedrawOnChange = true)]
 	[LispChild("x")]
@@ -218,9 +222,6 @@ public abstract class SimpleDirObject : SimpleBadguyObject
 /// <summary>Base class for platforms and other moving objects.</summary>
 public abstract class SimplePathObject : SimpleObject, IPathObject
 {
-	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
-	[LispChild("name", Optional = true, Default = "")]
-	public string Name = String.Empty;
 	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;

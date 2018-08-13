@@ -53,8 +53,6 @@ public abstract class WorldmapObject : SimpleObject
 [SupertuxObject("worldmap-spawnpoint", "images/worldmap/common/tux.png", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class WorldmapSpawnpoint : WorldmapObject
 {
-	[LispChild("name")]
-	public string Name;
 	[LispChild("auto-dir", Optional = true, Default = "none")]
 	public string AutoDir = "none";
 
@@ -67,15 +65,16 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 [SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class WorldmapLevel : WorldmapObject
 {
-	[LispChild("name")]
-	public string Name;
 	[LispChild("color", Optional = true)]
 	public Color color;
+
 	[LispChild("extro-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
+
 	[LispChild("auto-play", Optional = true, Default = false)]
 	public bool AutoPlay = false;
+
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {

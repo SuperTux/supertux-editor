@@ -327,10 +327,11 @@ public sealed class GhostFlame : SimpleObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
+
 	[LispChild("speed", Optional = true, Default = 2f)]
 	public float Speed = 2;
 
-  //FIXME: this shouldn't be necessary
+	//FIXME: this shouldn't be necessary
 	public override void ChangeArea(RectangleF NewArea) {
 		X = NewArea.Left - 96;
 		Y = NewArea.Top - 96;
@@ -339,7 +340,7 @@ public sealed class GhostFlame : SimpleObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-	
+
 	public GhostFlame() {
 		Sprite = SpriteManager.Create("images/creatures/flame/ghostflame.sprite");
 		Sprite.Action = "editor";
@@ -642,8 +643,6 @@ public sealed class WilloWisp : SimpleSpriteObject, IPathObject
 	public string Sector = String.Empty;
 	[LispChild("spawnpoint")]
 	public string SpawnPoint = String.Empty;
-	[LispChild("name")]
-	public string Name;
 	[LispChild("flyspeed", Optional = true, Default=64f)]
 	public float FlySpeed = 64f;
 	[LispChild("track-range", Optional = true, Default=384f)]

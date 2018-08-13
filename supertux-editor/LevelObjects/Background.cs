@@ -230,6 +230,9 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 public sealed class Gradient : IGameObject, ILayer {
 	public string Name {get {return "";}}	//= it can't have a name
 
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	private int layer = -300;
 	[LispChild("z-pos", Optional = true, Default = -300, AlternativeName = "layer")]
 	public int Layer {
