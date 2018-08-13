@@ -37,9 +37,10 @@ namespace LispReader
 					field.GetCustomAttribute(typeof(LispChildAttribute));
 				if(ChildAttrib != null) {
 					string Name = ChildAttrib.Name;
+					string altName = ChildAttrib.AlternativeName;
 					if(field.Type == typeof(int)) {
 						int val = 0;
-						if(!props.Get(Name, ref val)) {
+						if(!(props.Get(Name, ref val) || (altName != null && props.Get(altName, ref val)))) {
 							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);
@@ -53,7 +54,7 @@ namespace LispReader
 						}
 					} else if(field.Type == typeof(float)) {
 						float val = 0;
-						if(!props.Get(Name, ref val)) {
+						if(!(props.Get(Name, ref val) || (altName != null && props.Get(altName, ref val)))) {
 							CheckRequired(ChildAttrib);
 						} else {
 							field.SetValue(result, val);

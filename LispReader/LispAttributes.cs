@@ -49,6 +49,7 @@ namespace LispReader
 		public bool Transient;
 		public object Default;
 		public string Name;
+		public string AlternativeName;
 
 		public LispChildAttribute(string Name) {
 			this.Name = Name;
