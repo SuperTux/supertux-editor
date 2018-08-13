@@ -594,6 +594,10 @@ public sealed class Coin : SimplePathObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class HeavyCoin : SimpleSpriteObject
 {
+	[LispChild("collect-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string Script = String.Empty;
+
 	public HeavyCoin() {
 		Sprite = SpriteManager.Create("images/objects/coin/coin.sprite");
 		Sprite.Action = "editor-heavy";
