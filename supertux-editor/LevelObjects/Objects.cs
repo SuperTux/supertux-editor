@@ -468,7 +468,7 @@ public sealed class UnstableTile : SimpleObject
 public sealed class WeakBlock : SimpleSpriteObject
 {
   [PropertyProperties(Tooltip = "Enable for straw which burns adjacent blocks.")]
-	[LispChild("linked", Optional = false, Default = false)]
+	[LispChild("linked", Optional = false, Default = true)]
 	public bool Linked {
 		get {
 			return linked;
