@@ -21,6 +21,7 @@ using DataStructures;
 using System.Collections.Generic;
 using SceneGraph;
 using OpenGl;
+using Drawing;
 
 #region Milestone 2
 
@@ -738,6 +739,19 @@ public sealed class Igel : SimpleDirObject
 	public Igel() {
 		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
 		Sprite.Action = "walking-left";
+	}
+}
+
+[SupertuxObject("walking_candle", "images/creatures/mr_candle/mr-candle.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class WalkingCandle : SimpleDirObject
+{
+	[ChooseColorSetting]
+	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
+	public Color color;
+
+	public WalkingCandle() {
+		Sprite = SpriteManager.Create("images/creatures/mr_candle/mr-candle.sprite");
 	}
 }
 
