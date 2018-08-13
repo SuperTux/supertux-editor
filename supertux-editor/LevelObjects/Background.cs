@@ -105,8 +105,8 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 
-	private int layer = -200;
-	[LispChild("layer", Optional = true, Default = -200)]
+	private int layer = -300;
+	[LispChild("z-pos", Optional = true, Default = -300, AlternativeName = "layer")]
 	public int Layer {
 		get {
 			return layer;
@@ -218,8 +218,8 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 public sealed class Gradient : IGameObject, ILayer {
 	public string Name {get {return "";}}	//= it can't have a name
 
-	private int layer = -200;
-	[LispChild("layer", Optional = true, Default = -200)]
+	private int layer = -300;
+	[LispChild("z-pos", Optional = true, Default = -300, AlternativeName = "layer")]
 	public int Layer {
 		get {
 			return layer;
