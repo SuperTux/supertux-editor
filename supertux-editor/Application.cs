@@ -32,6 +32,7 @@ public class Options
 {
 	public bool Help = false;
 	public bool Resave = false;
+	public bool NoSort = false;
 	public List<string> FileNames = new List<string>();
 };
 
@@ -1209,6 +1210,8 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 					opts.Help = true;
 				} else if (arg == "--resave") {
 					opts.Resave = true;
+				} else if (arg == "--no-sort") {
+					opts.NoSort = true;
 				} else {
 					throw new Exception($"error: unknown argument on command line: {arg}");
 				}
@@ -1236,14 +1239,19 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 
 		Options opts = ParseArgs(args);
 
+		if (opts.NoSort) {
+			Sector.SortObjectTags = false;
+		}
+
 		if (opts.Help) {
-			Console.WriteLine("Usage: supertux-editor.exe [--help|--resave] [FILENAME]...");
+			Console.WriteLine("Usage: supertux-editor.exe [--help|--resave|--no-sort] [FILENAME]...");
 			Console.WriteLine();
 			Console.WriteLine("A SuperTux level editor");
 			Console.WriteLine();
 			Console.WriteLine("  FILENAME      A level or worldmap to load");
 			Console.WriteLine("  -h, --help    Print this help");
 			Console.WriteLine("  --resave      Load a level, save it and exit");
+			Console.WriteLine("  --no-sort     Don't sort object tags");
 		} else if (opts.Resave) {
 			foreach(var fileName in opts.FileNames) {
 				try {

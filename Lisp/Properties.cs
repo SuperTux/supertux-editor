@@ -9,13 +9,20 @@ namespace Lisp
 public class Properties {
 	private Hashtable Props = new Hashtable();
 
+	private ArrayList LinearList;
+
 	public Properties(List List) {
+		LinearList = new ArrayList();
+
 		for(int i = 0; i < List.Length; ++i) {
 			object o = List[i];
 			if(i == 0 && o is Symbol)
 				continue;
 
 			List ChildList = o as List;
+
+			LinearList.Add(ChildList);
+
 			if(o == null)
 				throw new LispException("Child of properties lisp is not a list");
 			if(ChildList.Length > 0) {
@@ -200,6 +207,10 @@ public class Properties {
 			return new ArrayList();
 
 		return AList;
+	}
+
+	public IList GetList() {
+		return LinearList;
 	}
 
 	public void PrintUnusedWarnings() {

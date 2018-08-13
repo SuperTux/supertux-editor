@@ -28,6 +28,8 @@ public delegate void SizeChangedHandler(Sector sector);
 
 [LispRootAttribute("sector")]
 public sealed class Sector : ICustomLispSerializer {
+	public static bool SortObjectTags = true;
+
 	[LispChild("name")]
 	public string Name = String.Empty;
 	[ChooseResourceSetting]
@@ -227,16 +229,40 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void CustomLispRead(Properties Props) {
-		foreach(Type type in this.GetType().Assembly.GetTypes()) {
-			SupertuxObjectAttribute objectAttribute
-			= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
-			if(objectAttribute == null)
-				continue;
+		if (SortObjectTags)
+		{
+			foreach(Type type in this.GetType().Assembly.GetTypes()) {
+				SupertuxObjectAttribute objectAttribute
+					= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+				if(objectAttribute == null)
+					continue;
 
-			LispSerializer serializer = new LispSerializer(type);
-			foreach(List list in Props.GetList(objectAttribute.Name)) {
-				IGameObject Object = (IGameObject) serializer.Read(list);
-				GameObjects.Add(Object);
+				LispSerializer serializer = new LispSerializer(type);
+				foreach(List list in Props.GetList(objectAttribute.Name)) {
+					IGameObject Object = (IGameObject) serializer.Read(list);
+					GameObjects.Add(Object);
+				}
+			}
+		}
+		else
+		{
+			// FIXME: this is all just a hack to make the
+			// editor not reorder the elements on load,
+			// could be done nicer.
+			foreach(List list in Props.GetList()) {
+				foreach(Type type in this.GetType().Assembly.GetTypes()) {
+					SupertuxObjectAttribute objectAttribute
+						= (SupertuxObjectAttribute) Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+					if(objectAttribute == null)
+						continue;
+
+					if (objectAttribute.Name == (list[0] as Symbol).Name) {
+						LispSerializer serializer = new LispSerializer(type);
+						IGameObject Object = (IGameObject) serializer.Read(list);
+						GameObjects.Add(Object);
+						break;
+					}
+				}
 			}
 		}
 	}
@@ -254,18 +280,36 @@ public sealed class Sector : ICustomLispSerializer {
 	}
 
 	public void CustomLispWrite(Writer Writer) {
-		Type[] types = this.GetType().Assembly.GetTypes();
-		Array.Sort(types, CompareTypeNames);
-		foreach(Type type in types) {
-			SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
-				Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
-			if(objectAttribute == null)
-				continue;
+		if (SortObjectTags)
+		{
+			Type[] types = this.GetType().Assembly.GetTypes();
+			Array.Sort(types, CompareTypeNames);
+			foreach(Type type in types) {
+				SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
+					Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+				if(objectAttribute == null)
+					continue;
 
-			string name = objectAttribute.Name;
-			LispSerializer serializer = new LispSerializer(type);
-			foreach(object Object in GetObjects(type)) {
-				serializer.Write(Writer, name, Object);
+				string name = objectAttribute.Name;
+				LispSerializer serializer = new LispSerializer(type);
+				foreach(object Object in GetObjects(type)) {
+					serializer.Write(Writer, name, Object);
+				}
+			}
+		}
+		else
+		{
+			foreach(object obj in GetObjects()) {
+				Type type = obj.GetType();
+
+				SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
+					Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+				if(objectAttribute == null)
+					continue;
+
+				string name = objectAttribute.Name;
+				LispSerializer serializer = new LispSerializer(type);
+				serializer.Write(Writer, name, obj);
 			}
 		}
 	}
@@ -279,7 +323,7 @@ public sealed class Sector : ICustomLispSerializer {
 			if(tmap.Height > height)
 				height = tmap.Height;
 			tmap.UpdatePos();
-			}
+		}
 	}
 }
 
