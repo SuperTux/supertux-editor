@@ -369,6 +369,9 @@ public sealed class Snowman : SimpleDirObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Owl : SimpleDirObject
 {
+	[LispChild("carry", Optional = true)]
+	public string Carry;
+
 	public Owl() {
 		Sprite = SpriteManager.Create("images/creatures/owl/owl.sprite");
 		Sprite.Action = "left";
