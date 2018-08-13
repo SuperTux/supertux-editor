@@ -45,7 +45,7 @@ public sealed class Decal : IGameObject, IObject, Node, ICloneable {
 	private string image;
 	private Surface surface;
 
-	[LispChild("layer", Optional = true, Default = 50)]
+	[LispChild("z-pos", Optional = true, Default = 50, AlternativeName = "layer")]
 	public int Layer = 50;
 
 	public RectangleF Area {

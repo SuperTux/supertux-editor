@@ -624,7 +624,7 @@ public sealed class ScriptedObject : SimpleObject
 		}
 	}
 	private string spriteFile = String.Empty;
-	[LispChild("layer", Optional = true, Default = -10)]
+	[LispChild("z-pos", Optional = true, Default = -10, AlternativeName = "layer")]
 	public int Layer = -10;
 	[LispChild("visible")]
 	public bool Visible = true;
@@ -829,7 +829,7 @@ public sealed class Thunderstorm : IGameObject, ILayer
 
 	private int layer = -101;
 	[PropertyProperties(Tooltip = "Layer in which lightning appears.")]
-	[LispChild("layer", Optional = true, Default = -101)]
+	[LispChild("z-pos", Optional = true, Default = -101, AlternativeName = "layer")]
 	public int Layer {
 		get {
 			return layer;
