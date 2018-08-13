@@ -102,6 +102,18 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 	private string imageBottom;
 	private Surface surfaceBottom;
 
+	[LispChild("scroll-offset-x", Optional = true, Default = 0.0f)]
+	public float OffsetX = 0;
+
+	[LispChild("scroll-offset-y", Optional = true, Default = 0.0f)]
+	public float OffsetY = 0;
+
+	[LispChild("scroll-speed-x", Optional = true, Default = 0.5f)]
+	public float SpeedX = 0.5f;
+
+	[LispChild("scroll-speed-y", Optional = true, Default = 0.5f)]
+	public float SpeedY = 0.5f;
+
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 
