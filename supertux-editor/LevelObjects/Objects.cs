@@ -290,6 +290,10 @@ public sealed class Switch : SimpleObject
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
+	[LispChild("off-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string OffScript = String.Empty;
+
 	public Switch() {
 		Sprite = SpriteManager.Create("images/objects/switch/switch.sprite");
 		Sprite.Action = "off";
