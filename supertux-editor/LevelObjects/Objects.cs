@@ -788,6 +788,10 @@ public sealed class Climbable : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class RainParticles : IGameObject, ILayer
 {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = 0;
 	[LispChild("z-pos", Optional = true, Default = 0)]
@@ -798,6 +802,10 @@ public sealed class RainParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class GhostParticles : IGameObject, ILayer
 {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
@@ -808,6 +816,10 @@ public sealed class GhostParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SnowParticles : IGameObject, ILayer
 {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
@@ -818,6 +830,10 @@ public sealed class SnowParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class CloudParticles : IGameObject, ILayer
 {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	public string Name {get {return "";}}	//= it can't have a name
 	private int layer = -200;
 	[LispChild("z-pos", Optional = true, Default = -200)]
