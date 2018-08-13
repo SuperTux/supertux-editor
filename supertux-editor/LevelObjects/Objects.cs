@@ -579,6 +579,10 @@ public sealed class InfoBlock : SimpleObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Coin : SimplePathObject
 {
+	[LispChild("collect-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public string Script = String.Empty;
+
 	public Coin() {
 		Sprite = SpriteManager.Create("images/objects/coin/coin.sprite");
 		Sprite.Action = "editor-path";
