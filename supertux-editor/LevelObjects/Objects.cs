@@ -775,6 +775,9 @@ public sealed class SecretArea : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Climbable : SimpleObjectArea
 {
+	[LispChild("message", Optional = true, Default = "", Translatable = true)]
+	public string Message = String.Empty;
+
 	public Climbable() {
 		Color = new Drawing.Color(.8f, .8f, 0, 0.8f);
 	}
