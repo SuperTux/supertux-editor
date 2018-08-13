@@ -62,8 +62,12 @@ public sealed class Door : SimpleObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector;
+
 	[LispChild("spawnpoint")]
 	public string Spawnpoint;
+
+	[LispChild("script", Optional = true, Default = "")]
+	public string Script;
 
 	public Door() {
 		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
