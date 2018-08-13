@@ -788,6 +788,9 @@ public sealed class Climbable : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class RainParticles : IGameObject, ILayer
 {
+	[LispChild("enabled", Optional = true, Default = true)]
+	public bool Enabled = true;
+
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string EntityName = String.Empty;
@@ -802,6 +805,9 @@ public sealed class RainParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class GhostParticles : IGameObject, ILayer
 {
+	[LispChild("enabled", Optional = true, Default = true)]
+	public bool Enabled = true;
+
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string EntityName = String.Empty;
@@ -816,6 +822,9 @@ public sealed class GhostParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class SnowParticles : IGameObject, ILayer
 {
+	[LispChild("enabled", Optional = true, Default = true)]
+	public bool Enabled = true;
+
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string EntityName = String.Empty;
@@ -830,6 +839,9 @@ public sealed class SnowParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class CloudParticles : IGameObject, ILayer
 {
+	[LispChild("enabled", Optional = true, Default = true)]
+	public bool Enabled = true;
+
 	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
 	[LispChild("name", Optional = true, Default = "")]
 	public string EntityName = String.Empty;
