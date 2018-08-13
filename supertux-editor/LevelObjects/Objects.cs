@@ -378,6 +378,22 @@ public sealed class Trampoline : SimpleSpriteObject
 	}
 }
 
+[SupertuxObject("rustytrampoline", "images/objects/rustytrampoline/rustytram-poline.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class RustyTrampoline : SimpleSpriteObject
+{
+	[LispChild("portable", Optional = true, Default = true)]
+	public bool Portable = true;
+
+	[LispChild("counter", Optional = true, Default = 3)]
+	public int Counter = 3;
+
+	public RustyTrampoline() {
+		Sprite = SpriteManager.Create("images/objects/rusty-trampoline/rusty-trampoline.sprite");
+		Sprite.Action = "normal";
+	}
+}
+
 [SupertuxObject("rock", "images/objects/rock/rock.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Rock : SimpleSpriteObject
