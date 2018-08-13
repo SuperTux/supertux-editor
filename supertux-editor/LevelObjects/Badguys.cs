@@ -812,6 +812,10 @@ public sealed class StalactiteYeti : SimpleObject
                 ObjectListAction = "default")]
 public sealed class GhostTree : SimpleObject
 {
+	[LispChild("dead-script")]
+	[EditScriptSetting]
+	public string DeadScript = String.Empty;
+
 	public GhostTree() {
 		Sprite = SpriteManager.Create("images/creatures/ghosttree/ghosttree.sprite");
 		Sprite.Action = "default";
