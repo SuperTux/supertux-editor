@@ -1253,11 +1253,21 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 			Console.WriteLine("  --resave      Load a level, save it and exit");
 			Console.WriteLine("  --no-sort     Don't sort object tags");
 		} else if (opts.Resave) {
+			var failedFiles = new List<string>();
 			foreach(var fileName in opts.FileNames) {
 				try {
 					ResaveLevel(fileName, fileName);
 				} catch(Exception e) {
 					LogManager.Log(LogLevel.Fatal, $"{fileName}: error while resaving the level:\n{e}");
+					failedFiles.Add(fileName);
+				}
+			}
+
+			if (failedFiles.Count > 0)
+			{
+				Console.WriteLine("Files that failed to resave:");
+				foreach(var fileName in failedFiles) {
+					Console.WriteLine($"  {fileName}");
 				}
 			}
 		} else {
