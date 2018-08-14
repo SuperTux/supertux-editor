@@ -444,7 +444,7 @@ public sealed class UnstableTile : SimpleObject
       if (!String.IsNullOrEmpty(value)) {
         Sprite newSprite = SpriteManager.Create(value);
         newSprite.Action = "normal";
-        Sprite = newSprite;     //save new sprite after 
+        Sprite = newSprite;     //save new sprite after
       }
       spriteFile = value;
     }
@@ -499,7 +499,7 @@ public sealed class BonusBlock : SimpleSpriteObject
 			hit_counter = value;
 		}
 	}
-	
+
 	//TODO enumerate contents for easy selection
 	/*public enum ContentTypes {
 		coin,
@@ -516,7 +516,7 @@ public sealed class BonusBlock : SimpleSpriteObject
 	}*/
 
 	private string contents = "coin";
-	
+
 	[PropertyProperties(Tooltip = "Contents of BonusBlock", RedrawOnChange = true)]
 	[LispChild("contents", Optional = true, Default = "coin")]
 	public string Content {
@@ -527,20 +527,20 @@ public sealed class BonusBlock : SimpleSpriteObject
 			contents = value;
 			//TODO change sprites automatically for content or leave up to user?
 			/*if (value == firegrow)
-				
+
 			else if (value == icegrow)
-				
+
 			else*/
 		}
 	}
-	
+
 	//TODO custom powerup support
-	
+
 	[PropertyProperties(Tooltip = "Script to run when BonusBlock is hit.  Only used if Content is set to \"script\"")]
 	[LispChild("script", Optional = true)]
 	[EditScriptSetting]
 	public string Script = String.Empty;
-	
+
   public BonusBlock() {
     Sprite = SpriteManager.Create("images/objects/bonus_block/bonusblock.sprite");
     Sprite.Action = "normal";
@@ -890,7 +890,7 @@ public sealed class Thunderstorm : IGameObject, ILayer
 	public float Interval = 10;
 }
 
-[SupertuxObject("pneumatic-platform", "images/engine/editor/pneumaticplatform.png", 
+[SupertuxObject("pneumatic-platform", "images/engine/editor/pneumaticplatform.png",
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class PneumaticPlatform : SimpleObject
 {
@@ -911,7 +911,7 @@ public sealed class PneumaticPlatform : SimpleObject
 		}
 	}
 	private string spriteFile = "images/objects/platforms/small.sprite";
-	
+
 	public override RectangleF Area {
 		get {
 			if(Sprite != null)
@@ -921,7 +921,7 @@ public sealed class PneumaticPlatform : SimpleObject
 				return new RectangleF(X, Y, 32, 32);
 		}
 	}
-	
+
 	public override void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
@@ -931,14 +931,14 @@ public sealed class PneumaticPlatform : SimpleObject
 			Sprite.Draw(new Vector(X+Sprite.Width, Y));
 		}
 	}
-	
+
 	public PneumaticPlatform() {
 		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
 		Sprite.Action = "default";
 	}
 }
 
-[SupertuxObject("bicycle-platform", "images/engine/editor/bicycleplatform.png", 
+[SupertuxObject("bicycle-platform", "images/engine/editor/bicycleplatform.png",
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class BicyclePlatform : SimpleObject
 {
@@ -959,7 +959,7 @@ public sealed class BicyclePlatform : SimpleObject
 		}
 	}
 	private string spriteFile = "images/objects/platforms/small.sprite";
-	
+
 	public override RectangleF Area {
 		get {
 			if(Sprite != null)
@@ -969,7 +969,7 @@ public sealed class BicyclePlatform : SimpleObject
 				return new RectangleF(X, Y, 32, 32);
 		}
 	}
-	
+
 	//FIXME: this shouldn't be necessary
 	public override void ChangeArea(RectangleF NewArea) {
 		X = NewArea.Left + Sprite.Offset.X + 128 + Sprite.Width/2;
@@ -979,7 +979,7 @@ public sealed class BicyclePlatform : SimpleObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-	
+
 	public override void Draw(Gdk.Rectangle cliprect) {
 		if(Sprite == null)
 			return;
@@ -989,7 +989,7 @@ public sealed class BicyclePlatform : SimpleObject
 			Sprite.Draw(new Vector(X+128-Sprite.Width/2, Y-Sprite.Height/2));
 		}
 	}
-	
+
 	public BicyclePlatform() {
 		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
 		Sprite.Action = "default";
