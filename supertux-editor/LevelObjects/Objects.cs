@@ -144,17 +144,7 @@ public sealed class Lantern : SimpleColorObject
 {
 	[ChooseColorSetting]
 	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
-	public Drawing.Color LightColor {
-		get {
-			return lightcolor;
-		}
-		set { ////Limit color to 8 useful values (white red green blue yellow violet cyan black)
-			lightcolor.Red = (value.Red >= 0.5f?1f:0);
-			lightcolor.Green = (value.Green >= 0.5f?1f:0);
-			lightcolor.Blue = (value.Blue >= 0.5f?1f:0);
-		}
-	}
-	private Drawing.Color lightcolor = new Drawing.Color( 1f, 1f, 1f );
+	public Drawing.Color LightColor = new Drawing.Color( 1f, 1f, 1f );
 
 	public override void Draw(Gdk.Rectangle cliprect) {
 		if (!cliprect.IntersectsWith((Gdk.Rectangle) Area))
@@ -165,7 +155,7 @@ public sealed class Lantern : SimpleColorObject
 
 		Sprite.Draw(new Vector(X, Y));
 		// Draw a color rectangle
-		DrawColor(lightcolor);
+		DrawColor(LightColor);
 	}
 	public Lantern() {
 		Sprite = SpriteManager.Create("images/objects/lantern/lantern.sprite");
