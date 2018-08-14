@@ -651,12 +651,12 @@ public sealed class ScriptedObject : SimpleObject
 	private string spriteFile = String.Empty;
 	[LispChild("z-pos", Optional = true, Default = -10, AlternativeName = "layer")]
 	public int Layer = -10;
-	[LispChild("visible")]
+	[LispChild("visible", Optional = true, Default = true)]
 	public bool Visible = true;
-	[LispChild("physic-enabled")]
-	public bool PhysicEnabled = false;
-	[LispChild("solid")]
-	public bool Solid = false;
+	[LispChild("physic-enabled", Optional = true, Default = true)]
+	public bool PhysicEnabled = true;
+	[LispChild("solid", Optional = true, Default = true)]
+	public bool Solid = true;
 
 	public ScriptedObject() {
 		Sprite = SpriteManager.CreateFromImage("images/engine/editor/scriptedobject.png");
