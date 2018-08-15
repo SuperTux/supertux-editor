@@ -38,7 +38,11 @@ public class Path
 		/// <summary>
 		/// Follows path to it's end and then continues from start again.
 		/// </summary>
-		circular
+		circular,
+		/// <summary>
+		///  Moves randomly among the nodes
+		/// </summary>
+		unordered
 	}
 
 	/// Can be: oneshot, pingpong and circular
