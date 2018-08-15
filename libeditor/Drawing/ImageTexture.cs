@@ -26,35 +26,35 @@ namespace Drawing
 		public float ImageWidth;
 		public float ImageHeight;
 		public int refcount;
-		
+
 		/// <summary>
 		/// Reference to the Gdk.Pixbuf containing the texture image. Needed for lazy loading textures
 		/// </summary>
 		private Gdk.Pixbuf pixbuf;
-		
+
 		public ImageTexture(Stream input)
 		{
 			Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(input);
-			
+
 			uint width = (uint)pixbuf.Width;
 			uint height = (uint)pixbuf.Height;
-			
-			
+
+
 			// Round to next power-of-two isn't needed with newer OpenGL versions
 			if (!GlHelper.HasExtension("GL_ARB_texture_non_power_of_two")) {
 				width  = NextPowerOfTwo((uint)width);
 				height = NextPowerOfTwo((uint)height);
 			}
-			
+
 			Gdk.Pixbuf target = new Gdk.Pixbuf(Gdk.Colorspace.Rgb, true, 8, (int)width, (int)height);
 			pixbuf.CopyArea(0, 0, pixbuf.Width, pixbuf.Height, target, 0, 0);
-			
+
 			ImageWidth = (float) pixbuf.Width;
 			ImageHeight = (float) pixbuf.Height;
-			
+
 			this.width = (uint)target.Width;
 			this.height = (uint)target.Height;
-						
+
 			this.pixbuf = target;
 		}
 
@@ -66,27 +66,27 @@ namespace Drawing
 				if(!IsPowerOf2(width) || !IsPowerOf2(height))
 					throw new Exception("Texture size must be power of 2");
 			}
-			
+
 			GlUtil.Assert("before creating texture");
 			CreateTexture();
-			
+
 			try {
 				gl.BindTexture(gl.TEXTURE_2D, Handle);
-				
+
 				gl.TexImage2D(gl.TEXTURE_2D, 0, (int)gl.RGBA,
 				              (int) width, (int) height, 0, (pixbuf.HasAlpha ? gl.RGBA : gl.RGB),
 				              gl.UNSIGNED_BYTE, pixbuf.Pixels);
 				GlUtil.Assert("creating texture (too big?)");
 
 				SetTextureParams();
-				
+
 				this.pixbuf = null; //gc can take it now
 			} catch(Exception) {
 				uint[] handles = { Handle };
 				gl.DeleteTextures(1, handles);
 				throw;
 			}
-			
+
 		}
 
 		private static uint NextPowerOfTwo(uint val)
