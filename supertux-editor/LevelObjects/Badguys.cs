@@ -804,6 +804,23 @@ public sealed class Mole : SimpleBadguyObject
                 ObjectListAction = "stand-left")]
 public sealed class Yeti : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = "images/creatures/flame/flame.sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite newSprite = SpriteManager.Create(value);
+ 				newSprite.Action = "default";
+				Sprite = newSprite;
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/creatures/flame/flame.sprite";
 
 	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
