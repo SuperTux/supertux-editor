@@ -164,6 +164,22 @@ public class Properties {
 		return true;
 	}
 
+	public bool GetLispList(string Name, out Lisp.List result) {
+		List list = Find(Name);
+		if(list == null) {
+			result = null;
+			return false;
+		} else {
+			object[] entries = new object[list.Length - 1];
+			for(int i = 1; i < list.Length; ++i) {
+				entries[i - 1] = list[i];
+			}
+			result = new List(entries);
+
+			return true;
+		}
+	}
+
 	public bool GetUIntList(string Name, List<uint> AList) {
 		List list = Find(Name);
 		if(list == null)

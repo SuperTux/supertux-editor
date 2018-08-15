@@ -501,18 +501,19 @@ public sealed class BonusBlock : SimpleSpriteObject
 	}
 
 	//TODO enumerate contents for easy selection
-	/*public enum ContentTypes {
-		coin,
-		firegrow,
-    icegrow,
-    star,
-    tuxdoll,
-    custom,
-    script,
-    light,
-    trampoline,
-    porttrampoline,
-    rock
+	/*
+	  public enum ContentTypes {
+	  coin,
+	  firegrow,
+	  icegrow,
+	  star,
+	  tuxdoll,
+	  custom,
+	  script,
+	  light,
+	  trampoline,
+	  porttrampoline,
+	  rock
 	}*/
 
 	private string contents = "coin";
@@ -534,17 +535,27 @@ public sealed class BonusBlock : SimpleSpriteObject
 		}
 	}
 
-	//TODO custom powerup support
+	// TODO: move 'powerup' under 'custom-content'
+	// [LispChild("custom-content", Optional = true)]
+	// public Lisp.List customContent = null;
+
+	// backward compatibilty hack, we only do it for powerup, as
+	// it's the only one used by existing levels
+	[LispChild("powerup", Optional = true)]
+	public Lisp.List customContentPowerup; /* {
+		get { return null; }
+		set { customContent = value.List; }
+	}*/
 
 	[PropertyProperties(Tooltip = "Script to run when BonusBlock is hit.  Only used if Content is set to \"script\"")]
 	[LispChild("script", Optional = true)]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
-  public BonusBlock() {
-    Sprite = SpriteManager.Create("images/objects/bonus_block/bonusblock.sprite");
-    Sprite.Action = "normal";
-  }
+	public BonusBlock() {
+		Sprite = SpriteManager.Create("images/objects/bonus_block/bonusblock.sprite");
+		Sprite.Action = "normal";
+	}
 }
 
 [SupertuxObject("infoblock", "images/objects/bonus_block/infoblock.sprite",

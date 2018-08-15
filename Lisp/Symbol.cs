@@ -14,7 +14,7 @@ public sealed class Symbol {
 	}
 
 	public override string ToString() {
-		return "`" + name + "`";
+		return name;
 	}
 }
 

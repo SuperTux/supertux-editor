@@ -87,6 +87,13 @@ namespace LispReader
 						} else {
 							field.SetValue(result, val);
 						}
+					} else if(field.Type == typeof(Lisp.List)) {
+						Lisp.List val;
+						if(!props.GetLispList(Name, out val)) {
+							CheckRequired(ChildAttrib);
+						} else {
+							field.SetValue(result, val);
+						}
 					} else {
 						ILispSerializer serializer = LispSerializer.GetSerializer(field.Type);
 						if(serializer == null)

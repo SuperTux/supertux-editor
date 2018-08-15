@@ -68,18 +68,18 @@ public sealed class Writer {
 	public void Write(string name, object value) {
 		indent();
 		stream.Write("(" + name);
-		if(value is string) {
-			stream.Write(" \"");
-			foreach(char c in value.ToString()) {
-				if(c == '\"')
-					stream.Write("\\\"");
-				else if(c == '\\')
-					stream.Write("\\\\");
-				else
-					stream.Write(c);
+		if((value is Lisp.List)) {
+			stream.Write("\n");
+			foreach(object o in (IEnumerable) value) {
+				stream.Write(" ");
+				WriteValue(o);
 			}
-			stream.Write("\"");
-		} else if(value is IEnumerable) {
+			indent();
+		} else if((value is IEnumerable) && !(value is string)) {
+			if (value is Lisp.List)
+			{
+				stream.Write("\n");
+			}
 			foreach(object o in (IEnumerable) value) {
 				stream.Write(" ");
 				WriteValue(o);
@@ -138,6 +138,34 @@ public sealed class Writer {
 		} else if(val is float || val is double) {
 			string num = String.Format(CultureInfo.InvariantCulture, "{0:G}", val);
 			stream.Write(num);
+		} else if(val is string) {
+			stream.Write("\"");
+			foreach(char c in val.ToString()) {
+				if(c == '\"')
+					stream.Write("\\\"");
+				else if(c == '\\')
+					stream.Write("\\\\");
+				else
+					stream.Write(c);
+			}
+			stream.Write("\"");
+		} else if(val is Lisp.Symbol) {
+			stream.Write(((Lisp.Symbol)val).Name);
+		} else if(val is Lisp.List) {
+			IndentDepth += 1;
+			indent();
+			stream.Write("(");
+			bool first = true;
+			foreach(object it in (Lisp.List)val) {
+				if (!first) {
+					stream.Write(" ");
+				} else {
+					first = false;
+				}
+				WriteValue(it);
+			}
+			IndentDepth -= 1;
+			stream.Write(")\n");
 		} else {
 			stream.Write("\"" + val.ToString() + "\"");
 		}
