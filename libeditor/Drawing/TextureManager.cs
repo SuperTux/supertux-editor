@@ -42,8 +42,12 @@ namespace Drawing
 
 		private static ImageTexture CreateImageTexture(string Resourcepath)
 		{
-			return new ImageTexture(ResourceManager.Instance.Get(Resourcepath));
-			
+			try {
+				return new ImageTexture(ResourceManager.Instance.Get(Resourcepath));
+			} catch {
+				Console.WriteLine($"error: failed to load: {Resourcepath}");
+				throw;
+			}
 		}
 	}
 
