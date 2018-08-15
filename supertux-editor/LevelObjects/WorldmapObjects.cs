@@ -65,7 +65,7 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 [SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class WorldmapLevel : WorldmapObject
 {
-	[LispChild("color", Optional = true)]
+	[LispChild("color", Optional = true, Default = "Color(0, 0, 0, 1)")]
 	public Color color;
 
 	[LispChild("extro-script", Optional = true, Default = "")]
@@ -94,7 +94,7 @@ public sealed class WorldmapLevel : WorldmapObject
 
 	public WorldmapLevel()
 	{
-		color = new Color(1, 1, 1);
+		color = new Color(0, 0, 0);
 
 		Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
 		Sprite.Action = "solved";
