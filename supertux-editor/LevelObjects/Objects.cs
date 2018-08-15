@@ -535,17 +535,23 @@ public sealed class BonusBlock : SimpleSpriteObject
 		}
 	}
 
-	// TODO: move 'powerup' under 'custom-content'
-	// [LispChild("custom-content", Optional = true)]
-	// public Lisp.List customContent = null;
+	[LispChild("custom-contents", Optional = true)]
+	public Lisp.List customContents = null;
 
 	// backward compatibilty hack, we only do it for powerup, as
 	// it's the only one used by existing levels
-	[LispChild("powerup", Optional = true)]
-	public Lisp.List customContentPowerup; /* {
+	[LispChild("powerup", Optional = true, Default = null)]
+	public Lisp.List customContentsPowerup {
 		get { return null; }
-		set { customContent = value.List; }
-	}*/
+		set {
+			List<object> list = new List<object>();
+			list.Add(new Lisp.Symbol("powerup"));
+			foreach(var it in value) {
+				list.Add(it);
+			}
+			this.customContents = new Lisp.List(new object[]{new Lisp.List(list.ToArray())});
+		}
+	}
 
 	[PropertyProperties(Tooltip = "Script to run when BonusBlock is hit.  Only used if Content is set to \"script\"")]
 	[LispChild("script", Optional = true)]

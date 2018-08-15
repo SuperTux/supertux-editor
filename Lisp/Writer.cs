@@ -152,7 +152,7 @@ public sealed class Writer {
 		} else if(val is Lisp.Symbol) {
 			stream.Write(((Lisp.Symbol)val).Name);
 		} else if(val is Lisp.List) {
-			IndentDepth += 1;
+			IndentDepth += 2;
 			indent();
 			stream.Write("(");
 			bool first = true;
@@ -164,7 +164,7 @@ public sealed class Writer {
 				}
 				WriteValue(it);
 			}
-			IndentDepth -= 1;
+			IndentDepth -= 2;
 			stream.Write(")\n");
 		} else {
 			stream.Write("\"" + val.ToString() + "\"");
