@@ -275,6 +275,24 @@ public sealed class LiveFireDormant : SimpleDirObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Flame : SimpleObject
 {
+	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
+	[ChooseResourceSetting]
+	[LispChild("sprite", Optional = true, Default = "images/creatures/flame/flame.sprite")]
+	public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				Sprite newSprite = SpriteManager.Create(value);
+ 				newSprite.Action = "default";
+				Sprite = newSprite;
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/creatures/flame/flame.sprite";
+
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
 	[LispChild("speed", Optional = true, Default = 2f)]
