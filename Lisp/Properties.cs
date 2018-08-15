@@ -137,7 +137,13 @@ public class Properties {
 		if (!(list[1] is string))
 			return false;
 
-		Val = (Enum)Enum.Parse(proptype ,(string)list[1]);
+		try {
+			Val = (Enum)Enum.Parse(proptype, (string)list[1]);
+		} catch(System.ArgumentException) {
+			Console.WriteLine($"Properties.Get(): failed to convert: '{list[1]}' to enum at '{Name}'");
+			throw;
+		}
+
 		return true;
 	}
 
