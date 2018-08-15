@@ -1026,20 +1026,42 @@ public sealed class Decal : SimpleObject
 			return spriteFile;
 		}
 		set {
-			if (!String.IsNullOrEmpty(value)) {
-				if (value.EndsWith(".sprite")) {
-					Sprite = SpriteManager.Create(value);
-				} else {
-					Sprite = SpriteManager.CreateFromImage(value);
-				}
-			}
 			spriteFile = value;
+			ReloadSprite();
 		}
 	}
 	private string spriteFile = "images/tiles/doodads/iceshrub.sprite";
 
+	[LispChild("action", Optional = true, Default = "default")]
+	public string Action {
+		get {
+			return action;
+		}
+		set {
+			action = value;
+			ReloadSprite();
+		}
+	}
+	public string action = "default";
+
 	[LispChild("z-pos", Optional = true, Default = 50, AlternativeName = "layer")]
 	public int Layer = 50;
+
+	private void ReloadSprite() {
+		if (String.IsNullOrEmpty(spriteFile))
+			return;
+
+		if (spriteFile.EndsWith(".sprite")) {
+			Sprite = SpriteManager.Create(spriteFile);
+			try {
+				Sprite.Action = action;
+			} catch (System.Collections.Generic.KeyNotFoundException) {
+				Console.WriteLine($"error: action '{action}' not found in '{spriteFile}'");
+			}
+		} else {
+			Sprite = SpriteManager.CreateFromImage(spriteFile);
+		}
+	}
 }
 
 /* EOF */
