@@ -865,6 +865,10 @@ public sealed class CloudParticles : IGameObject, ILayer
                 Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class LevelTime : IGameObject
 {
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string Name;
+
 	[PropertyProperties(Tooltip = "Time in seconds")]
 	[LispChild("time")]
 	public float Time;
