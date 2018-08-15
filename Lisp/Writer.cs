@@ -99,7 +99,9 @@ public sealed class Writer {
 	/// <param name="value">The value of it.</param>
 	public void WriteTranslatable(string Name, string value) {
 		indent();
-		stream.WriteLine("(" + Name + " (_ \"" + value + "\"))");
+		stream.Write("(" + Name + " (_ ");
+		WriteValue(value);
+		stream.WriteLine("))");
 	}
 
 	/// <summary>
