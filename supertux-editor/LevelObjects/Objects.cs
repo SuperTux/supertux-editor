@@ -1013,4 +1013,33 @@ public sealed class BicyclePlatform : SimpleObject
 	}
 }
 
+[SupertuxObject("decal", "images/engine/editor/decal.png")]
+public sealed class Decal : SimpleObject
+{
+	[LispChild("solid", Optional = true, Default = false)]
+	public bool Solid = false;
+
+	[LispChild("sprite")]
+	[ChooseResourceSetting]
+        public string SpriteFile {
+		get {
+			return spriteFile;
+		}
+		set {
+			if (!String.IsNullOrEmpty(value)) {
+				if (value.EndsWith(".sprite")) {
+					Sprite = SpriteManager.Create(value);
+				} else {
+					Sprite = SpriteManager.CreateFromImage(value);
+				}
+			}
+			spriteFile = value;
+		}
+	}
+	private string spriteFile = "images/tiles/doodads/iceshrub.sprite";
+
+	[LispChild("z-pos", Optional = true, Default = 50, AlternativeName = "layer")]
+	public int Layer = 50;
+}
+
 /* EOF */
