@@ -76,14 +76,16 @@ public class Sprite : Node {
 
 	public string Action {
 		set {
-			SpriteData.Action NewAction = Data.Actions[value];
-			if(NewAction == null)
-				throw new Exception("No action with Name '" + value + "' defined");
-			if(NewAction == CurrentAction)
-				return;
+			try {
+				SpriteData.Action NewAction = Data.Actions[value];
+				if(NewAction == CurrentAction)
+					return;
 
-			CurrentAction = NewAction;
-			ActionTimeOffset = Timer.CurrentTime;
+				CurrentAction = NewAction;
+				ActionTimeOffset = Timer.CurrentTime;
+			} catch (KeyNotFoundException) {
+				Console.WriteLine($"error: Sprite.Action: No action with Name '{value}' defined");
+			}
 		}
 		get {
 			if(CurrentAction == null)
