@@ -27,6 +27,18 @@ namespace Drawing
 		private static Dictionary<string, ImageTexture> ImageTextures
 			= new Dictionary<string, ImageTexture>();
 
+		private static ImageTexture notFoundImageTexture = null;
+		private static ImageTexture NotFoundImageTexture {
+			get {
+				if (notFoundImageTexture != null) {
+					return notFoundImageTexture;
+				} else {
+					notFoundImageTexture = new ImageTexture(ResourceManager.Instance.Get("images/engine/missing.png"));
+					return notFoundImageTexture;
+				}
+			}
+		}
+
 		public static ImageTexture Get(string Resourcepath)
 		{
 			ImageTexture Result;
@@ -46,7 +58,7 @@ namespace Drawing
 				return new ImageTexture(ResourceManager.Instance.Get(Resourcepath));
 			} catch {
 				Console.WriteLine($"error: failed to load: {Resourcepath}");
-				throw;
+				return NotFoundImageTexture;
 			}
 		}
 	}
