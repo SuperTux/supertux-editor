@@ -607,6 +607,10 @@ public sealed class Snail : SimpleDirObject
                 ObjectListAction = "walking-left")]
 public sealed class Totem : SimpleObject
 {
+	[LispChild("dead-script", Optional = true, Default = "")]
+	[EditScriptSetting]
+	public String DeadScript = String.Empty;
+
 	public Totem() {
 		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
 		Sprite.Action = "walking-left";
