@@ -28,6 +28,10 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		}
 	}
 
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	[LispChild("x", Optional = true, Default = 0f)]
 	public float X;
 	[LispChild("y", Optional = true, Default = 0f)]
