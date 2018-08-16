@@ -31,6 +31,18 @@ namespace Sprites {
 		private static Dictionary<string, SpriteData> SpriteDatas
 			= new Dictionary<string, SpriteData>();
 
+		private static Sprite notFoundSprite = null;
+		private static Sprite NotFoundSprite {
+			get {
+				if (notFoundSprite != null) {
+					return notFoundSprite;
+				} else {
+					notFoundSprite = CreateFromImage("images/engine/missing.png");
+					return notFoundSprite;
+				}
+			}
+		}
+
 		/// <summary>
 		/// Load a sprite from a sprite file.
 		/// </summary>
@@ -41,6 +53,16 @@ namespace Sprites {
 		/// <param name="SpriteFile">The file to load the sprite from.</param>
 		/// <returns>A <see cref="Sprite"/>.</returns>
 		public static Sprite Create(string SpriteFile) {
+			try
+			{
+				return CreateRaw(SpriteFile);
+			} catch {
+				Console.WriteLine($"error: failed to load: {SpriteFile}");
+				return NotFoundSprite;
+			}
+		}
+
+		private static Sprite CreateRaw(string SpriteFile) {
 			if(!SpriteDatas.ContainsKey(SpriteFile)) {
 				SpriteData Data = LoadSprite(SpriteFile);
 				SpriteDatas[SpriteFile] = Data;
@@ -62,6 +84,14 @@ namespace Sprites {
 		/// <param name="offset">Offset, same as <see cref="Sprite.Offset"/>.</param>
 		/// <returns>A <see cref="Sprite"/>.</returns>
 		public static Sprite CreateFromImage(string ImageFile, Vector offset) {
+			try {
+				return CreateFromImageRaw(ImageFile, offset);
+			} catch {
+				return NotFoundSprite;
+			}
+		}
+
+		private static Sprite CreateFromImageRaw(string ImageFile, Vector offset) {
 			if(!SpriteDatas.ContainsKey(ImageFile)) {
 				Surface Surface = new Surface(ImageFile);
 				SpriteData Data = new SpriteData(Surface, offset);
