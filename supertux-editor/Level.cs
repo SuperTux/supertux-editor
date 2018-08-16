@@ -64,9 +64,15 @@ public sealed class Level
 		set {
 			if(String.IsNullOrEmpty(value))
 				return;
-			Tileset = new Tileset(value);
-			if(TilesetChanged != null)
-				TilesetChanged(this);
+
+			try {
+				Tileset = new Tileset(value);
+				if(TilesetChanged != null)
+					TilesetChanged(this);
+			} catch {
+				Console.WriteLine($"error: failed to load {value}");
+			}
+
 			tilesetFile = value;
 		}
 	}
