@@ -398,6 +398,18 @@ public sealed class Owl : SimpleDirObject
 	}
 }
 
+[SupertuxObject("skydive", "images/creatures/skydive/skydive.sprite",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class Skydive : SimpleDirObject
+{
+	[LispChild("carry", Optional = true)]
+	public string Carry;
+
+	public Skydive() {
+		Sprite = SpriteManager.Create("images/creatures/skydive/skydive.sprite");
+	}
+}
+
 [SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "crushing")]
