@@ -205,13 +205,20 @@ public sealed class Tile {
 	}
 
 	private static Surface LoadSurface(string BaseDir, ImageResource Resource) {
+		Surface surface;
 		if(Resource.w > 0) {
-			return new Surface(BaseDir + "/" + Resource.Filename,
+			surface = new Surface(BaseDir + "/" + Resource.Filename,
 			                   Resource.x, Resource.y,
 			                   Resource.w, Resource.h);
 		} else {
-			return new Surface(BaseDir + "/" + Resource.Filename);
+			surface = new Surface(BaseDir + "/" + Resource.Filename);
 		}
+
+		if (surface.Width != 32 || surface.Height != 32) {
+			Console.WriteLine($"warning: tile is not 32x32: {Resource.Filename}");
+		}
+
+		return surface;
 	}
 
 	public void Draw(Vector pos) {
