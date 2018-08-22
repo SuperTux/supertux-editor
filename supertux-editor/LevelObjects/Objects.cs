@@ -232,8 +232,8 @@ public sealed class Torch : SimpleObject
 {
 	private string spriteFile = "images/objects/torch/torch1.sprite";
 
-	[LispChild("sprite")]
-        public string SpriteFile {
+	[LispChild("sprite", Optional = true, Default = "images/objects/torch/torch1.sprite")]
+	public string SpriteFile {
 		get {
 			return spriteFile;
 		}
@@ -435,7 +435,7 @@ public sealed class UnstableTile : SimpleObject
 {
   [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
   [ChooseResourceSetting]
-  [LispChild("sprite")]
+  [LispChild("sprite", Optional = true, Default = "images/objects/unstable_tile/snow.sprite")]
   public string SpriteFile {
     get {
       return spriteFile;
@@ -917,7 +917,7 @@ public sealed class PneumaticPlatform : SimpleObject
 {
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
-	[LispChild("sprite")]
+	[LispChild("sprite", Optional = true, Default = "images/objects/platforms/small.sprite")]
 	public string SpriteFile {
 		get {
 			return spriteFile;
@@ -965,7 +965,7 @@ public sealed class BicyclePlatform : SimpleObject
 {
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
-	[LispChild("sprite")]
+	[LispChild("sprite", Optional = true, Default = "images/objects/platforms/small.sprite")]
 	public string SpriteFile {
 		get {
 			return spriteFile;

@@ -419,10 +419,10 @@ public sealed class IceCrusher : SimpleObject
 		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
 		Sprite.Action = "crushing";
 	}
-	
+
 	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
   [ChooseResourceSetting]
-  [LispChild("sprite")]
+  [LispChild("sprite", Optional = true, Default = "images/creatures/icecrusher/icecrusher.sprite")]
   public string SpriteFile {
     get {
       return spriteFile;
