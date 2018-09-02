@@ -97,9 +97,9 @@ public sealed class CaptainSnowball : SimpleDirObject
 
 [SupertuxObject("kamikazesnowball", "images/creatures/snowball/kamikaze-snowball.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Snowshot : SimpleDirObject
+public sealed class Kamikazesnowball : SimpleDirObject
 {
-	public Snowshot() {
+	public Kamikazesnowball() {
 		Sprite = SpriteManager.Create("images/creatures/snowball/kamikaze-snowball.sprite");
 		Sprite.Action = "left";
 	}
