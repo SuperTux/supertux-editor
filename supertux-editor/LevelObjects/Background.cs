@@ -121,6 +121,9 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 	[LispChild("speed")]
 	public float Speed = 0.5f;
 
+	[LispChild("fill", Optional = true, Default = false)]
+	public bool Fill = false;
+
 	private int layer = -300;
 	[LispChild("z-pos", Optional = true, Default = -300, AlternativeName = "layer")]
 	public int Layer {
