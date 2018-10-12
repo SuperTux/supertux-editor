@@ -1235,6 +1235,11 @@ String working_dir = System.IO.Path.GetDirectoryName(Settings.Instance.SupertuxE
 
 	public static void Main(string[] args)
 	{
+		// FIXME: 2018-10-12
+		// Temporary workaround to solve incompatibility of mono with ncurses6
+		// See: https://github.com/mono/mono/issues/6752
+		System.Environment.SetEnvironmentVariable("TERM", "xterm");
+
 		LispSerializer.SetupSerializers(typeof(Application).Assembly);
 
 		Options opts = ParseArgs(args);
