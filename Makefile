@@ -17,7 +17,10 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
 
-GMCS?=mcs
+# FIXME: 2018-10-12
+# Temporary workaround to solve incompatibility of mono with ncurses6
+# See: https://github.com/mono/mono/issues/6752
+GMCS?=TERM=xterm mcs
 GMCSFLAGS?=-debug -warn:4 -nowarn:1591 -unsafe
 
 ifeq ($(VERBOSE),1)
