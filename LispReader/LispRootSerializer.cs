@@ -103,8 +103,16 @@ namespace LispReader
 						if(!props.Get(Name, ref val)) {
 							CheckRequired(ChildAttrib);
 						} else {
-							object oval = serializer.Read(val);
-							field.SetValue(result, oval);
+							try {
+								object oval = serializer.Read(val);
+								field.SetValue(result, oval);
+							} catch(LispException) {
+								if (Name == "ambient-light" || Name == "music") {
+									// ignore errors of these for backward compatibilty
+								} else {
+									throw;
+								}
+							}
 						}
 					}
 				}

@@ -15,6 +15,7 @@
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using LispReader;
+using System;
 
 [SupertuxObject("camera", "images/engine/editor/camera.png", Target = SupertuxObjectAttribute.Usage.None)]
 public sealed class Camera : IGameObject, IPathObject {
@@ -56,6 +57,39 @@ public sealed class Camera : IGameObject, IPathObject {
 	}
 	public bool PathRemovable {
 		get { return true; }
+	}
+}
+
+[SupertuxObject("music", "images/engine/editor/music.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class MusicObject : IGameObject
+{
+	[LispChild("file", Optional = true, Default = "")]
+	public string File = String.Empty;
+
+	public MusicObject() {
+		File = String.Empty;
+	}
+
+	public MusicObject(string file) {
+		File = file;
+	}
+}
+
+[SupertuxObject("ambient-light", "images/engine/editor/ambient_light.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class AmbientLightObject : IGameObject
+{
+	[ChooseColorSetting(UseAlpha = false)]
+	[LispChild("color", Optional = false)]
+	public Drawing.Color Color = new Drawing.Color(1f, 1f, 1f);
+
+	public AmbientLightObject() {
+		Color = new Drawing.Color(1f, 1f, 1f);
+	}
+
+	public AmbientLightObject(Drawing.Color color) {
+		Color = color;
 	}
 }
 

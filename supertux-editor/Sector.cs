@@ -32,13 +32,16 @@ public sealed class Sector : ICustomLispSerializer {
 
 	[LispChild("name")]
 	public string Name = String.Empty;
+
 	[ChooseResourceSetting]
 	[PropertyProperties(Tooltip = "Background music to use for the sector.")]
 	[LispChild("music", Optional = true, Default = "")]
 	public string Music = String.Empty;
+
 	[PropertyProperties(Tooltip = "Gravity in sector, currently broken(?)")]
 	[LispChild("gravity", Optional = true, Default = 10f)]
 	public float Gravity = 10f;
+
 	[LispChild("init-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string InitScript = String.Empty;
@@ -46,7 +49,7 @@ public sealed class Sector : ICustomLispSerializer {
 	//[ChooseColorSetting]
 	//[LispChild("ambient-light", Optional = true, Default = new Drawing.Color( 1f, 1f, 1f ) )]
 	[ChooseColorSetting]
-	[LispChild("ambient-light", Optional = true )]
+	[LispChild("ambient-light", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Drawing.Color AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 
 	private List<IGameObject> GameObjects = new List<IGameObject> ();
@@ -239,8 +242,18 @@ public sealed class Sector : ICustomLispSerializer {
 
 				LispSerializer serializer = new LispSerializer(type);
 				foreach(List list in Props.GetList(objectAttribute.Name)) {
-					IGameObject Object = (IGameObject) serializer.Read(list);
-					GameObjects.Add(Object);
+					try {
+						IGameObject Object = (IGameObject) serializer.Read(list);
+						GameObjects.Add(Object);
+					} catch (System.NullReferenceException) {
+						if (type == typeof(MusicObject) || type == typeof(AmbientLightObject)) {
+							// ignore errors here due to the given fields being
+							// turned from properties to objects
+						} else {
+							Console.WriteLine("Unexpected error while parsing object: {0} {1}", type, list);
+							throw;
+						}
+					}
 				}
 			}
 		}
@@ -323,6 +336,16 @@ public sealed class Sector : ICustomLispSerializer {
 			if(tmap.Height > height)
 				height = tmap.Height;
 			tmap.UpdatePos();
+		}
+
+		if (!String.IsNullOrEmpty(Music)) {
+			GameObjects.Add(new MusicObject(Music));
+			Music = String.Empty;
+		}
+
+		if (!(GameObjects.Exists(x => x is AmbientLightObject))) {
+			GameObjects.Add(new AmbientLightObject(AmbientLight));
+			AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 		}
 	}
 }
