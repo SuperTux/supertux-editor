@@ -135,6 +135,12 @@ public sealed class Background : IGameObject, Node, IDrawableLayer {
 		}
 	}
 
+	[LispChild("blend", Optional = true, Default = BlendMode.blend)]
+	public BlendMode BlendMode = BlendMode.blend;
+
+	[LispChild("target", Optional = true, Default = DrawTargets.normal)]
+	public DrawTargets DrawTarget = DrawTargets.normal;
+
 	public RectangleF Area {
 		get {
 			if(surface != null) {
@@ -251,12 +257,18 @@ public sealed class Gradient : IGameObject, ILayer {
 		}
 	}
 
+	[LispChild("blend", Optional = true, Default = BlendMode.blend)]
+	public BlendMode BlendMode = BlendMode.blend;
+
 	[ChooseColorSetting]
 	[LispChild("top_color")]
 	public Color TopColor;
 	[ChooseColorSetting]
 	[LispChild("bottom_color")]
 	public Color BottomColor;
+
+	[LispChild("target", Optional = true, Default = DrawTargets.normal)]
+	public DrawTargets DrawTarget = DrawTargets.normal;
 }
 
 /* EOF */

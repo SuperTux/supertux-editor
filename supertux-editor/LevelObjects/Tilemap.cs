@@ -93,18 +93,6 @@ public sealed class Tilemap : TileBlock, IGameObject, IPathObject, IDrawableLaye
 		get { return true; }
 	}
 
-	public enum DrawTargets
-	{
-		/// <summary>
-		/// Normal tilemap.
-		/// </summary>
-		normal,
-		/// <summary>
-		/// Used for lightmap.
-		/// </summary>
-		lightmap
-	}
-
 	/// <summary>
 	/// Target for tilemap.
 	/// </summary>
