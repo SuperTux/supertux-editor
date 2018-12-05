@@ -1015,6 +1015,9 @@ public sealed class BicyclePlatform : SimpleObject
 		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
 		Sprite.Action = "default";
 	}
+
+	[LispChild("platforms", Optional = true, Default = 2)]
+	public int Platforms = 2;
 }
 
 [SupertuxObject("decal", "images/engine/editor/decal.png")]
