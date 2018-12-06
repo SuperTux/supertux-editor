@@ -295,10 +295,6 @@ public sealed class Sector : ICustomLispSerializer {
 			attributes.Sort((lhs, rhs) => lhs.Item2.Name.CompareTo(rhs.Item2.Name));
 
 			foreach(var attr in attributes) {
-				if (attr != null) {
-					Console.WriteLine("Type: {0} {1}", attr.Item2.Name, attr);
-				}
-
 				LispSerializer serializer = new LispSerializer(attr.Item1);
 				foreach(var obj in GetObjects(attr.Item1)) {
 					serializer.Write(Writer, attr.Item2.Name, obj);
