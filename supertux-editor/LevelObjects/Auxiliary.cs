@@ -93,4 +93,15 @@ public sealed class AmbientLightObject : IGameObject
 	}
 }
 
+[SupertuxObject("textscroller", "images/engine/editor/textscroller.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public sealed class TextScroller : IGameObject
+{
+	[LispChild("speed", Optional = true, Default = 20.0f)]
+	public float Speed = 20.0f;
+
+	[LispChild("file", Optional = true, Default = "")]
+	public string File = String.Empty;
+}
+
 /* EOF */
