@@ -280,33 +280,28 @@ public sealed class Sector : ICustomLispSerializer {
 		}
 	}
 
-	private static int CompareTypeNames(Type x, Type y) {
-		if ((x == null) && (y == null)) return 0;
-		if ((x != null) && (y == null)) return 1;
-		if ((x == null) && (y != null)) return -1;
-		return x.Name.CompareTo(y.Name);
-		//SupertuxObjectAttribute oax = (SupertuxObjectAttribute)Attribute.GetCustomAttribute(x, typeof(SupertuxObjectAttribute));
-		//if (oax == null) return x.Name.CompareTo(y.Name);
-		//SupertuxObjectAttribute oay = (SupertuxObjectAttribute)Attribute.GetCustomAttribute(y, typeof(SupertuxObjectAttribute));
-		//if (oay == null) return x.Name.CompareTo(y.Name);
-		//return oax.Name.CompareTo(oay.Name);
-	}
-
 	public void CustomLispWrite(Writer Writer) {
 		if (SortObjectTags)
 		{
-			Type[] types = this.GetType().Assembly.GetTypes();
-			Array.Sort(types, CompareTypeNames);
-			foreach(Type type in types) {
-				SupertuxObjectAttribute objectAttribute = (SupertuxObjectAttribute)
-					Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
-				if(objectAttribute == null)
-					continue;
+			var attributes = new List<Tuple<Type, SupertuxObjectAttribute>>();
 
-				string name = objectAttribute.Name;
-				LispSerializer serializer = new LispSerializer(type);
-				foreach(object Object in GetObjects(type)) {
-					serializer.Write(Writer, name, Object);
+			foreach(Type type in GetType().Assembly.GetTypes()) {
+				var attr = (SupertuxObjectAttribute)Attribute.GetCustomAttribute(type, typeof(SupertuxObjectAttribute));
+				if (attr != null) {
+					attributes.Add(Tuple.Create(type, attr));
+				}
+			}
+
+			attributes.Sort((lhs, rhs) => lhs.Item2.Name.CompareTo(rhs.Item2.Name));
+
+			foreach(var attr in attributes) {
+				if (attr != null) {
+					Console.WriteLine("Type: {0} {1}", attr.Item2.Name, attr);
+				}
+
+				LispSerializer serializer = new LispSerializer(attr.Item1);
+				foreach(var obj in GetObjects(attr.Item1)) {
+					serializer.Write(Writer, attr.Item2.Name, obj);
 				}
 			}
 		}
