@@ -240,15 +240,19 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 	}
 	private string spriteFile;
 
-	private Path path = new Path();
+	private Path path = null;
 	[LispChild("path")]
 	public Path Path {
-		get {
-			return path;
-		}
-		set {
-			path = value;
-		}
+		get { return path; }
+		set { path = value; }
+	}
+
+	private string pathRef = String.Empty;
+
+	[LispChild("path-ref", Optional = true, Default="")]
+	public string PathRef {
+		get { return pathRef; }
+		set { pathRef = value; }
 	}
 
 	[LispChild("x", Optional = true, Transient = true)]
@@ -276,7 +280,6 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 
 	public SimplePathObject()
 	{
-		path.Nodes.Add(new Path.Node());
 	}
 
 	public override void ChangeArea(RectangleF NewArea) {
@@ -299,9 +302,11 @@ public abstract class SimplePathObject : SimpleObject, IPathObject
 
 	public override object Clone() {
 		SimplePathObject aClone = (SimplePathObject) MemberwiseClone();
-		aClone.Path = new Path();
-		foreach(Path.Node node in this.Path.Nodes) {
-			aClone.Path.Nodes.Add((Path.Node) node.Clone());
+		if (Path != null) {
+			aClone.Path = new Path();
+			foreach(Path.Node node in this.Path.Nodes) {
+				aClone.Path.Nodes.Add((Path.Node) node.Clone());
+			}
 		}
 		return aClone;
 	}

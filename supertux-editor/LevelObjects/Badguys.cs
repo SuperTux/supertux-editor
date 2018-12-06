@@ -690,12 +690,16 @@ public sealed class WilloWisp : SimpleSpriteObject, IPathObject
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
 	public Path Path {
-		get {
-			return path;
-		}
-		set {
-			path = value;
-		}
+		get { return path; }
+		set { path = value; }
+	}
+
+	private string pathRef = String.Empty;
+
+	[LispChild("path-ref", Optional = true, Default="")]
+	public string PathRef {
+		get { return pathRef; }
+		set { pathRef = value; }
 	}
 
 	public bool PathRemovable {

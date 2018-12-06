@@ -123,9 +123,46 @@ public interface IPathObject {
 		set;
 	}
 
+	string PathRef {
+		get;
+		set;
+	}
+
 	/// <summary>If true it is possible to remove the path from the object.</summary>
 	bool PathRemovable {
 		get;
+	}
+}
+
+[SupertuxObject("path", "images/engine/editor/path.png",
+                Target = SupertuxObjectAttribute.Usage.LevelOnly)]
+public class PathGameObject : IGameObject, IPathObject
+{
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
+	private Path path;
+	[LispChild("path", Optional = true, Default = null)]
+	public Path Path {
+		get { return path; }
+		set { path = value; }
+	}
+
+	private string pathRef = String.Empty;
+
+	[LispChild("path-ref", Optional = true, Default="")]
+	public string PathRef {
+		get { return pathRef; }
+		set { pathRef = value; }
+	}
+
+	public bool PathRemovable {
+		get { return true; }
+	}
+
+	public PathGameObject() {
+		EntityName = System.Guid.NewGuid().ToString();
 	}
 }
 

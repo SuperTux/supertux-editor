@@ -347,6 +347,25 @@ public sealed class Sector : ICustomLispSerializer {
 			GameObjects.Add(new AmbientLightObject(AmbientLight));
 			AmbientLight = new Drawing.Color( 1f, 1f, 1f );
 		}
+
+		List<IGameObject> new_gameobjects = new List<IGameObject>();
+		foreach(IGameObject obj in this.GetObjects()) {
+			if (obj is IPathObject) {
+				IPathObject path_obj = (IPathObject)obj;
+				if (path_obj is PathGameObject) {
+					// don't touch
+				} else if (path_obj.Path != null) {
+					PathGameObject new_path_gameobject = new PathGameObject();
+
+					new_path_gameobject.Path = path_obj.Path;
+					path_obj.Path = null;
+					path_obj.PathRef = new_path_gameobject.EntityName;
+
+					new_gameobjects.Add(new_path_gameobject);
+				}
+			}
+		}
+		GameObjects.AddRange(new_gameobjects);
 	}
 }
 
