@@ -180,7 +180,7 @@ namespace LispReader
 							}
 						}
 					} else {
-						LogManager.Log(LogLevel.Debug, "Field '" + field.Name + "' is null");
+						LogManager.Log(LogLevel.Debug, "Field '{0}' of type '{1}' is null", field.Name, name);
 					}
 				}
 
