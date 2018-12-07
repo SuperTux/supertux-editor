@@ -30,7 +30,8 @@ using Drawing;
 public sealed class MrBomb : SimpleDirObject
 {
 	public MrBomb() {
-		Sprite = SpriteManager.Create("images/creatures/mr_bomb/mr_bomb.sprite");
+		DefaultSpriteFile = "images/creatures/mr_bomb/mr_bomb.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -40,7 +41,8 @@ public sealed class MrBomb : SimpleDirObject
 public sealed class Haywire : SimpleDirObject
 {
 	public Haywire() {
-		Sprite = SpriteManager.Create("images/creatures/haywire/haywire.sprite");
+		DefaultSpriteFile = "images/creatures/haywire/haywire.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -50,7 +52,8 @@ public sealed class Haywire : SimpleDirObject
 public sealed class GoldBomb : SimpleDirObject
 {
 	public GoldBomb() {
-		Sprite = SpriteManager.Create("images/creatures/gold_bomb/gold_bomb.sprite");
+		DefaultSpriteFile = "images/creatures/gold_bomb/gold_bomb.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -60,7 +63,8 @@ public sealed class GoldBomb : SimpleDirObject
 public sealed class Short_Fuse : SimpleDirObject
 {
 	public Short_Fuse() {
-		Sprite = SpriteManager.Create("images/creatures/short_fuse/short_fuse.sprite");
+		DefaultSpriteFile = "images/creatures/short_fuse/short_fuse.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -70,7 +74,8 @@ public sealed class Short_Fuse : SimpleDirObject
 public sealed class Snowball : SimpleDirObject
 {
 	public Snowball() {
-		Sprite = SpriteManager.Create("images/creatures/snowball/snowball.sprite");
+		DefaultSpriteFile = "images/creatures/snowball/snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -80,7 +85,8 @@ public sealed class Snowball : SimpleDirObject
 public sealed class MrsSnowball : SimpleDirObject
 {
 	public MrsSnowball() {
-		Sprite = SpriteManager.Create("images/creatures/snowball/smart-snowball.sprite");
+		DefaultSpriteFile = "images/creatures/snowball/smart-snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -90,7 +96,8 @@ public sealed class MrsSnowball : SimpleDirObject
 public sealed class CaptainSnowball : SimpleDirObject
 {
 	public CaptainSnowball() {
-		Sprite = SpriteManager.Create("images/creatures/snowball/cpt-snowball.sprite");
+		DefaultSpriteFile = "images/creatures/snowball/cpt-snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -100,7 +107,8 @@ public sealed class CaptainSnowball : SimpleDirObject
 public sealed class Kamikazesnowball : SimpleDirObject
 {
 	public Kamikazesnowball() {
-		Sprite = SpriteManager.Create("images/creatures/snowball/kamikaze-snowball.sprite");
+		DefaultSpriteFile = "images/creatures/snowball/kamikaze-snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -121,9 +129,10 @@ public sealed class Crystallo : SimpleDirObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-  
+
 	public Crystallo() {
-		Sprite = SpriteManager.Create("images/creatures/crystallo/crystallo.sprite");
+		DefaultSpriteFile = "images/creatures/crystallo/crystallo.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor";
 	}
 }
@@ -133,7 +142,8 @@ public sealed class Crystallo : SimpleDirObject
 public sealed class Stalactite : SimpleBadguyObject
 {
 	public Stalactite() {
-		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
+		DefaultSpriteFile = "images/creatures/stalactite/stalactite.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -143,7 +153,8 @@ public sealed class Stalactite : SimpleBadguyObject
 public sealed class MrIceBlock : SimpleDirObject
 {
 	public MrIceBlock() {
-		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/mr_iceblock.sprite");
+		DefaultSpriteFile = "images/creatures/mr_iceblock/mr_iceblock.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -153,7 +164,8 @@ public sealed class MrIceBlock : SimpleDirObject
 public sealed class SmartBlock : SimpleDirObject
 {
 	public SmartBlock() {
-		Sprite = SpriteManager.Create("images/creatures/mr_iceblock/smart_block/smart_block.sprite");
+		DefaultSpriteFile = "images/creatures/mr_iceblock/smart_block/smart_block.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -164,7 +176,8 @@ public sealed class SmartBlock : SimpleDirObject
 public sealed class BouncingSnowball : SimpleDirObject
 {
 	public BouncingSnowball() {
-		Sprite = SpriteManager.Create("images/creatures/bouncing_snowball/bouncing_snowball.sprite");
+		DefaultSpriteFile = "images/creatures/bouncing_snowball/bouncing_snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -183,9 +196,10 @@ public sealed class FlyingSnowball : SimpleBadguyObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-	
+
 	public FlyingSnowball() {
-		Sprite = SpriteManager.Create("images/creatures/flying_snowball/flying_snowball.sprite");
+		DefaultSpriteFile = "images/creatures/flying_snowball/flying_snowball.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor";
 	}
 }
@@ -196,7 +210,8 @@ public sealed class FlyingSnowball : SimpleBadguyObject
 public sealed class Jumpy : SimpleBadguyObject
 {
 	public Jumpy() {
-		Sprite = SpriteManager.Create("images/creatures/snowjumpy/snowjumpy.sprite");
+		DefaultSpriteFile = "images/creatures/snowjumpy/snowjumpy.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left-up";
 	}
 }
@@ -206,7 +221,8 @@ public sealed class Jumpy : SimpleBadguyObject
 public sealed class Spiky : SimpleDirObject
 {
 	public Spiky() {
-		Sprite = SpriteManager.Create("images/creatures/spiky/spiky.sprite");
+		DefaultSpriteFile = "images/creatures/spiky/spiky.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -221,7 +237,8 @@ public sealed class SleepSpiky : SimpleDirObject
 	}
 
 	public SleepSpiky() {
-		Sprite = SpriteManager.Create("images/creatures/spiky/sleepingspiky.sprite");
+		DefaultSpriteFile = "images/creatures/spiky/sleepingspiky.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "sleeping-left";
 	}
 }
@@ -236,7 +253,8 @@ public sealed class LiveFire : SimpleDirObject
 	}
 
 	public LiveFire() {
-		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		DefaultSpriteFile = "images/creatures/livefire/livefire.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -251,7 +269,8 @@ public sealed class LiveFireAsleep : SimpleDirObject
 	}
 
 	public LiveFireAsleep() {
-		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		DefaultSpriteFile = "images/creatures/livefire/livefire.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "waking-left";
 	}
 }
@@ -266,33 +285,16 @@ public sealed class LiveFireDormant : SimpleDirObject
 	}
 
 	public LiveFireDormant() {
-		Sprite = SpriteManager.Create("images/creatures/livefire/livefire.sprite");
+		DefaultSpriteFile = "images/creatures/livefire/livefire.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "sleeping-left";
 	}
 }
 
 [SupertuxObject("flame", "images/creatures/flame/flame.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Flame : SimpleObject
+public sealed class Flame : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = "images/creatures/flame/flame.sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite newSprite = SpriteManager.Create(value);
- 				newSprite.Action = "default";
-				Sprite = newSprite;
-			}
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = "images/creatures/flame/flame.sprite";
-
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
 	[LispChild("speed", Optional = true, Default = 2f)]
@@ -307,16 +309,17 @@ public sealed class Flame : SimpleObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-	
+
 	public Flame() {
-		Sprite = SpriteManager.Create("images/creatures/flame/flame.sprite");
+		DefaultSpriteFile = "images/creatures/flame/flame.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor";
 	}
 }
 
 [SupertuxObject("iceflame", "images/creatures/flame/iceflame.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class IceFlame : SimpleObject
+public sealed class IceFlame : SimpleSpriteObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
@@ -332,16 +335,17 @@ public sealed class IceFlame : SimpleObject
 			Y += Sprite.Offset.Y;
 		}
 	}
-	
+
 	public IceFlame() {
-		Sprite = SpriteManager.Create("images/creatures/flame/iceflame.sprite");
+		DefaultSpriteFile = "images/creatures/flame/iceflame.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor";
 	}
 }
 
 [SupertuxObject("ghostflame", "images/creatures/flame/ghostflame.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class GhostFlame : SimpleObject
+public sealed class GhostFlame : SimpleSpriteObject
 {
 	[LispChild("radius", Optional = true, Default = 100f)]
 	public float Radius = 100f;
@@ -360,7 +364,8 @@ public sealed class GhostFlame : SimpleObject
 	}
 
 	public GhostFlame() {
-		Sprite = SpriteManager.Create("images/creatures/flame/ghostflame.sprite");
+		DefaultSpriteFile = "images/creatures/flame/ghostflame.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor";
 	}
 }
@@ -370,7 +375,8 @@ public sealed class GhostFlame : SimpleObject
 public sealed class Fish : SimpleBadguyObject
 {
 	public Fish() {
-		Sprite = SpriteManager.Create("images/creatures/fish/fish.sprite");
+		DefaultSpriteFile = "images/creatures/fish/fish.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -380,7 +386,8 @@ public sealed class Fish : SimpleBadguyObject
 public sealed class Snowman : SimpleDirObject
 {
 	public Snowman() {
-		Sprite = SpriteManager.Create("images/creatures/snowman/snowman.sprite");
+		DefaultSpriteFile = "images/creatures/snowman/snowman.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "walk-left";
 	}
 }
@@ -393,7 +400,8 @@ public sealed class Owl : SimpleDirObject
 	public string Carry;
 
 	public Owl() {
-		Sprite = SpriteManager.Create("images/creatures/owl/owl.sprite");
+		DefaultSpriteFile = "images/creatures/owl/owl.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -406,37 +414,21 @@ public sealed class Skydive : SimpleDirObject
 	public string Carry;
 
 	public Skydive() {
-		Sprite = SpriteManager.Create("images/creatures/skydive/skydive.sprite");
+		DefaultSpriteFile = "images/creatures/skydive/skydive.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
 [SupertuxObject("icecrusher", "images/creatures/icecrusher/icecrusher.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "crushing")]
-public sealed class IceCrusher : SimpleObject
+public sealed class IceCrusher : SimpleSpriteObject
 {
 	public IceCrusher() {
-		Sprite = SpriteManager.Create("images/creatures/icecrusher/icecrusher.sprite");
+		DefaultSpriteFile = "images/creatures/icecrusher/icecrusher.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "crushing";
 	}
-
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-  [ChooseResourceSetting]
-  [LispChild("sprite", Optional = true, Default = "images/creatures/icecrusher/icecrusher.sprite")]
-  public string SpriteFile {
-    get {
-      return spriteFile;
-    }
-    set {
-      if (!String.IsNullOrEmpty(value)) {
-        Sprite newSprite = SpriteManager.Create(value);
-        newSprite.Action = "crushing";
-        Sprite = newSprite;     //save new sprite after (no exception only)
-      }
-      spriteFile = value;
-    }
-  }
-  private string spriteFile = "images/creatures/icecrusher/icecrusher.sprite";
 }
 
 [SupertuxObject("dispenser", "images/creatures/dispenser/dispenser.sprite",
@@ -509,7 +501,8 @@ public sealed class Dispenser : SimpleDirObject
 	public float Cycle = 5;
 
 	public Dispenser() {
-		Sprite = SpriteManager.Create("images/creatures/dispenser/dispenser.sprite");
+		DefaultSpriteFile = "images/creatures/dispenser/dispenser.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "dropper";
 		badguy.Add("snowball");
 	}
@@ -528,7 +521,8 @@ public sealed class Dispenser : SimpleDirObject
 public sealed class MrTree : SimpleDirObject
 {
 	public MrTree() {
-		Sprite = SpriteManager.Create("images/creatures/mr_tree/mr_tree.sprite");
+		DefaultSpriteFile = "images/creatures/mr_tree/mr_tree.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -538,7 +532,8 @@ public sealed class MrTree : SimpleDirObject
 public sealed class Stumpy : SimpleDirObject
 {
 	public Stumpy() {
-		Sprite = SpriteManager.Create("images/creatures/mr_tree/stumpy.sprite");
+		DefaultSpriteFile = "images/creatures/mr_tree/stumpy.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -548,7 +543,8 @@ public sealed class Stumpy : SimpleDirObject
 public sealed class PoisonIvy : SimpleDirObject
 {
 	public PoisonIvy() {
-		Sprite = SpriteManager.Create("images/creatures/poison_ivy/poison_ivy.sprite");
+		DefaultSpriteFile = "images/creatures/poison_ivy/poison_ivy.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -558,7 +554,8 @@ public sealed class PoisonIvy : SimpleDirObject
 public sealed class WalkingLeaf : SimpleDirObject
 {
 	public WalkingLeaf() {
-		Sprite = SpriteManager.Create("images/creatures/walkingleaf/walkingleaf.sprite");
+		DefaultSpriteFile = "images/creatures/walkingleaf/walkingleaf.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -568,7 +565,8 @@ public sealed class WalkingLeaf : SimpleDirObject
 public sealed class Zeekling : SimpleDirObject
 {
 	public Zeekling() {
-		Sprite = SpriteManager.Create("images/creatures/zeekling/zeekling.sprite");
+		DefaultSpriteFile = "images/creatures/zeekling/zeekling.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -579,7 +577,8 @@ public sealed class Zeekling : SimpleDirObject
 public sealed class Dart : SimpleDirObject
 {
 	public Dart() {
-		Sprite = SpriteManager.Create("images/creatures/dart/dart.sprite");
+		DefaultSpriteFile = "images/creatures/dart/dart.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "flying-left";
 	}
 
@@ -597,7 +596,8 @@ public sealed class Dart : SimpleDirObject
 public sealed class Snail : SimpleDirObject
 {
 	public Snail() {
-		Sprite = SpriteManager.Create("images/creatures/snail/snail.sprite");
+		DefaultSpriteFile = "images/creatures/snail/snail.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
@@ -605,14 +605,15 @@ public sealed class Snail : SimpleDirObject
 [SupertuxObject("totem", "images/creatures/totem/totem.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "walking-left")]
-public sealed class Totem : SimpleObject
+public sealed class Totem : SimpleSpriteObject
 {
 	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public String DeadScript = String.Empty;
 
 	public Totem() {
-		Sprite = SpriteManager.Create("images/creatures/totem/totem.sprite");
+		DefaultSpriteFile = "images/creatures/totem/totem.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "walking-left";
 	}
 }
@@ -620,10 +621,11 @@ public sealed class Totem : SimpleObject
 [SupertuxObject("kugelblitz", "images/creatures/kugelblitz/kugelblitz.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "falling")]
-public sealed class Kugelblitz : SimpleObject
+public sealed class Kugelblitz : SimpleSpriteObject
 {
 	public Kugelblitz() {
-		Sprite = SpriteManager.Create("images/creatures/kugelblitz/kugelblitz.sprite");
+		DefaultSpriteFile = "images/creatures/kugelblitz/kugelblitz.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "falling";
 	}
 }
@@ -631,10 +633,11 @@ public sealed class Kugelblitz : SimpleObject
 [SupertuxObject("angrystone", "images/creatures/angrystone/angrystone.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "idle")]
-public sealed class AngryStone : SimpleObject
+public sealed class AngryStone : SimpleSpriteObject
 {
 	public AngryStone() {
-		Sprite = SpriteManager.Create("images/creatures/angrystone/angrystone.sprite");
+		DefaultSpriteFile = "images/creatures/angrystone/angrystone.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle";
 	}
 }
@@ -644,26 +647,29 @@ public sealed class AngryStone : SimpleObject
 public sealed class Spidermite : SimpleBadguyObject
 {
 	public Spidermite() {
-		Sprite = SpriteManager.Create("images/creatures/spidermite/spidermite.sprite");
+		DefaultSpriteFile = "images/creatures/spidermite/spidermite.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "left";
 	}
 }
 
 [SupertuxObject("plant", "images/creatures/plant/plant.sprite",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Plant : SimpleObject
+public sealed class Plant : SimpleSpriteObject
 {
 	public Plant() {
-		Sprite = SpriteManager.Create("images/creatures/plant/plant.sprite");
+		DefaultSpriteFile = "images/creatures/plant/plant.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
 [SupertuxObject("nolok_01", "images/creatures/nolok/nolok.sprite",
                 Target = SupertuxObjectAttribute.Usage.None)]
-public sealed class Nolok_01 : SimpleObject
+public sealed class Nolok_01 : SimpleSpriteObject
 {
 	public Nolok_01() {
-		Sprite = SpriteManager.Create("images/creatures/nolok/nolok.sprite");
+		DefaultSpriteFile = "images/creatures/nolok/nolok.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
@@ -726,7 +732,8 @@ public sealed class WilloWisp : SimpleSpriteObject, IPathObject
 	}
 
 	public WilloWisp() {
-		Sprite = SpriteManager.Create("images/creatures/willowisp/willowisp.sprite");
+		DefaultSpriteFile = "images/creatures/willowisp/willowisp.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle";
 	}
 }
@@ -748,7 +755,8 @@ public sealed class DartTrap : SimpleDirObject
 	}
 
 	public DartTrap() {
-		Sprite = SpriteManager.Create("images/creatures/darttrap/darttrap.sprite");
+		DefaultSpriteFile = "images/creatures/darttrap/darttrap.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle-left";
 	}
 }
@@ -763,7 +771,8 @@ public sealed class SkullyHop : SimpleDirObject
 	}
 
 	public SkullyHop() {
-		Sprite = SpriteManager.Create("images/creatures/skullyhop/skullyhop.sprite");
+		DefaultSpriteFile = "images/creatures/skullyhop/skullyhop.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "standing-left";
 	}
 }
@@ -774,7 +783,8 @@ public sealed class SkullyHop : SimpleDirObject
 public sealed class Igel : SimpleDirObject
 {
 	public Igel() {
-		Sprite = SpriteManager.Create("images/creatures/igel/igel.sprite");
+		DefaultSpriteFile = "images/creatures/igel/igel.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "walking-left";
 	}
 }
@@ -788,7 +798,8 @@ public sealed class WalkingCandle : SimpleDirObject
 	public Color color = new Color(1, 1, 1);
 
 	public WalkingCandle() {
-		Sprite = SpriteManager.Create("images/creatures/mr_candle/mr-candle.sprite");
+		DefaultSpriteFile = "images/creatures/mr_candle/mr-candle.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
@@ -802,7 +813,8 @@ public sealed class Toad : SimpleDirObject
 	}
 
 	public Toad() {
-		Sprite = SpriteManager.Create("images/creatures/toad/toad.sprite");
+		DefaultSpriteFile = "images/creatures/toad/toad.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle-left";
 	}
 }
@@ -813,7 +825,8 @@ public sealed class Toad : SimpleDirObject
 public sealed class Mole : SimpleBadguyObject
 {
 	public Mole() {
-		Sprite = SpriteManager.Create("images/creatures/mole/mole.sprite");
+		DefaultSpriteFile = "images/creatures/mole/mole.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle";
 	}
 }
@@ -822,42 +835,26 @@ public sealed class Mole : SimpleBadguyObject
 [SupertuxObject("yeti", "images/creatures/yeti/yeti.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "stand-left")]
-public sealed class Yeti : SimpleObject
+public sealed class Yeti : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = "images/creatures/flame/flame.sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite newSprite = SpriteManager.Create(value);
- 				newSprite.Action = "default";
-				Sprite = newSprite;
-			}
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = "images/creatures/flame/flame.sprite";
-
 	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public String DeadScript = String.Empty;
 
 	public Yeti() {
-		Sprite = SpriteManager.Create("images/creatures/yeti/yeti.sprite");
+		DefaultSpriteFile = "images/creatures/yeti/yeti.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "stand-left";
 	}
 }
 
 [SupertuxObject("yeti_stalactite", "images/engine/editor/stalactite_yeti.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class StalactiteYeti : SimpleObject
+public sealed class StalactiteYeti : SimpleSpriteObject
 {
 	public StalactiteYeti() {
-		Sprite = SpriteManager.Create("images/creatures/stalactite/stalactite.sprite");
+		DefaultSpriteFile = "images/creatures/stalactite/stalactite.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -865,14 +862,15 @@ public sealed class StalactiteYeti : SimpleObject
 [SupertuxObject("ghosttree", "images/creatures/ghosttree/ghosttree.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "default")]
-public sealed class GhostTree : SimpleObject
+public sealed class GhostTree : SimpleSpriteObject
 {
 	[LispChild("dead-script")]
 	[EditScriptSetting]
 	public string DeadScript = String.Empty;
 
 	public GhostTree() {
-		Sprite = SpriteManager.Create("images/creatures/ghosttree/ghosttree.sprite");
+		DefaultSpriteFile = "images/creatures/ghosttree/ghosttree.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
 }

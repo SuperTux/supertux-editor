@@ -47,7 +47,8 @@ public sealed class SpawnPoint : SimpleObject {
 public sealed class Firefly : SimpleSpriteObject
 {
 	public Firefly() {
-		Sprite = SpriteManager.Create("images/objects/resetpoints/default-resetpoint.sprite");
+		DefaultSpriteFile = "images/objects/resetpoints/default-resetpoint.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -55,7 +56,7 @@ public sealed class Firefly : SimpleSpriteObject
 [SupertuxObject("door", "images/objects/door/door.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "closed")]
-public sealed class Door : SimpleObject
+public sealed class Door : SimpleSpriteObject
 {
 	[LispChild("sector"), ChooseSectorSetting()]
 	public string Sector;
@@ -67,7 +68,8 @@ public sealed class Door : SimpleObject
 	public string Script;
 
 	public Door() {
-		Sprite = SpriteManager.Create("images/objects/door/door.sprite");
+		DefaultSpriteFile = "images/objects/door/door.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "closed";
 	}
 }
@@ -228,25 +230,11 @@ public sealed class Candle : SimpleColorObject
 [SupertuxObject("torch", "images/objects/torch/torch1.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly,
                 ObjectListAction = "on")]
-public sealed class Torch : SimpleObject
+public sealed class Torch : SimpleSpriteObject
 {
-	private string spriteFile = "images/objects/torch/torch1.sprite";
-
-	[LispChild("sprite", Optional = true, Default = "images/objects/torch/torch1.sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite = SpriteManager.Create(value);
-			}
-			spriteFile = value;
-		}
-	}
-
 	public Torch() {
-		Sprite = SpriteManager.Create(spriteFile);
+		DefaultSpriteFile = "images/objects/torch/torch1.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
@@ -256,26 +244,8 @@ public sealed class Torch : SimpleObject
 
 [SupertuxObject("switch", "images/objects/switch/switch-0.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Switch : SimpleObject
+public sealed class Switch : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite newSprite = SpriteManager.Create(value);
-				newSprite.Action = "off";
-				Sprite = newSprite;	//save new sprite after (no exception only)
-			}
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = "images/objects/switch/switch.sprite";
-
 	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
@@ -285,7 +255,8 @@ public sealed class Switch : SimpleObject
 	public string OffScript = String.Empty;
 
 	public Switch() {
-		Sprite = SpriteManager.Create("images/objects/switch/switch.sprite");
+		DefaultSpriteFile = "images/objects/switch/switch.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "off";
 	}
 }
@@ -300,7 +271,8 @@ public sealed class PushButton : SimpleSpriteObject
 	public string Script = String.Empty;
 
 	public PushButton() {
-		Sprite = SpriteManager.Create("images/objects/pushbutton/pushbutton.sprite");
+		DefaultSpriteFile = "images/objects/pushbutton/pushbutton.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "off";
 	}
 }
@@ -337,7 +309,8 @@ public sealed class Ispy : SimpleDirObject
 	}
 
 	public Ispy() {
-		Sprite = SpriteManager.Create("images/objects/ispy/ispy.sprite");
+		DefaultSpriteFile = "images/objects/ispy/ispy.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "idle-right";
 	}
 }
@@ -358,9 +331,11 @@ public sealed class Trampoline : SimpleSpriteObject
 		set {
 			portable = value;
 			if( value == false ){
-				Sprite = SpriteManager.Create("images/objects/trampoline/trampoline_fix.sprite");
+				DefaultSpriteFile = "images/objects/trampoline/trampoline_fix.sprite";
+				Sprite = SpriteManager.Create(DefaultSpriteFile);
 			} else {
-				Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
+				DefaultSpriteFile = "images/objects/trampoline/trampoline.sprite";
+				Sprite = SpriteManager.Create(DefaultSpriteFile);
 			}
 			Sprite.Action = "normal";
 		}
@@ -383,7 +358,8 @@ public sealed class RustyTrampoline : SimpleSpriteObject
 	public int Counter = 3;
 
 	public RustyTrampoline() {
-		Sprite = SpriteManager.Create("images/objects/rusty-trampoline/rusty-trampoline.sprite");
+		DefaultSpriteFile = "images/objects/rusty-trampoline/rusty-trampoline.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -393,7 +369,8 @@ public sealed class RustyTrampoline : SimpleSpriteObject
 public sealed class Rock : SimpleSpriteObject
 {
 	public Rock() {
-		Sprite = SpriteManager.Create("images/objects/rock/rock.sprite");
+		DefaultSpriteFile = "images/objects/rock/rock.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -431,28 +408,11 @@ public sealed class HurtingPlatform : SimplePathObject
 [SupertuxObject("unstable_tile",
                 "images/objects/unstable_tile/snow.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class UnstableTile : SimpleObject
+public sealed class UnstableTile : SimpleSpriteObject
 {
-  [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-  [ChooseResourceSetting]
-  [LispChild("sprite", Optional = true, Default = "images/objects/unstable_tile/snow.sprite")]
-  public string SpriteFile {
-    get {
-      return spriteFile;
-    }
-    set {
-      if (!String.IsNullOrEmpty(value)) {
-        Sprite newSprite = SpriteManager.Create(value);
-        newSprite.Action = "normal";
-        Sprite = newSprite;     //save new sprite after
-      }
-      spriteFile = value;
-    }
-  }
-  private string spriteFile = "images/objects/unstable_tile/snow.sprite";
-
 	public UnstableTile() {
-		Sprite = SpriteManager.Create("images/objects/unstable_tile/snow.sprite");
+		DefaultSpriteFile = "images/objects/unstable_tile/snow.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -610,22 +570,8 @@ public sealed class HeavyCoin : SimpleSpriteObject
 
 [SupertuxObject("powerup", "images/engine/editor/powerup.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class Powerup : SimpleObject
+public sealed class Powerup : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value))
-				Sprite = SpriteManager.Create(value);
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = String.Empty;
 	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
@@ -633,29 +579,16 @@ public sealed class Powerup : SimpleObject
 	public bool DisablePhysics;
 
 	public Powerup() {
-		Sprite = SpriteManager.CreateFromImage("images/engine/editor/powerup.png");
+		DefaultSpriteFile = "images/engine/editor/powerup.png";
+		Sprite = SpriteManager.CreateFromImage(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
 }
 
 [SupertuxObject("scriptedobject", "images/engine/editor/scriptedobject.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class ScriptedObject : SimpleObject
+public sealed class ScriptedObject : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value))
-				Sprite = SpriteManager.Create(value);
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = String.Empty;
 	[LispChild("z-pos", Optional = true, Default = -10, AlternativeName = "layer")]
 	public int Layer = -10;
 	[LispChild("visible", Optional = true, Default = true)]
@@ -666,7 +599,8 @@ public sealed class ScriptedObject : SimpleObject
 	public bool Solid = true;
 
 	public ScriptedObject() {
-		Sprite = SpriteManager.CreateFromImage("images/engine/editor/scriptedobject.png");
+		DefaultSpriteFile = "images/engine/editor/scriptedobject.png";
+		Sprite = SpriteManager.CreateFromImage(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
 }
@@ -913,26 +847,8 @@ public sealed class Thunderstorm : IGameObject, ILayer
 
 [SupertuxObject("pneumatic-platform", "images/engine/editor/pneumaticplatform.png",
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class PneumaticPlatform : SimpleObject
+public sealed class PneumaticPlatform : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = "images/objects/platforms/small.sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite newSprite = SpriteManager.Create(value);
-				newSprite.Action = "default";
-				Sprite = newSprite;	//save new sprite after (no exception only)
-			}
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = "images/objects/platforms/small.sprite";
-
 	public override RectangleF Area {
 		get {
 			if(Sprite != null)
@@ -954,33 +870,16 @@ public sealed class PneumaticPlatform : SimpleObject
 	}
 
 	public PneumaticPlatform() {
-		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
+		DefaultSpriteFile = "images/objects/platforms/small.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
 }
 
 [SupertuxObject("bicycle-platform", "images/engine/editor/bicycleplatform.png",
 			    Target = SupertuxObjectAttribute.Usage.LevelOnly)]
-public sealed class BicyclePlatform : SimpleObject
+public sealed class BicyclePlatform : SimpleSpriteObject
 {
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true, Default = "images/objects/platforms/small.sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if (!String.IsNullOrEmpty(value)) {
-				Sprite newSprite = SpriteManager.Create(value);
-				newSprite.Action = "default";
-				Sprite = newSprite;	//save new sprite after (no exception only)
-			}
-			spriteFile = value;
-		}
-	}
-	private string spriteFile = "images/objects/platforms/small.sprite";
-
 	public override RectangleF Area {
 		get {
 			if(Sprite != null)
@@ -1012,7 +911,8 @@ public sealed class BicyclePlatform : SimpleObject
 	}
 
 	public BicyclePlatform() {
-		Sprite = SpriteManager.Create("images/objects/platforms/small.sprite");
+		DefaultSpriteFile = "images/objects/platforms/small.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
 

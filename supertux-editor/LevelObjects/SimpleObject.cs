@@ -108,9 +108,22 @@ public abstract class SimpleObject : IGameObject, IObject, Node, ICloneable {
 /// <summary>Base class for objects that can have a sprite change.</summary>
 public abstract class SimpleSpriteObject : SimpleObject
 {
+	[LispChild("sprite", Optional = true, Default = "")]
+	public string SpriteFileUnlessDefault {
+		get {
+			if (defaultSpriteFile == spriteFile) {
+				return String.Empty;
+			} else {
+				return spriteFile;
+			}
+		}
+		set {
+			spriteFile = value;
+		}
+	}
+
   [PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
 	[ChooseResourceSetting]
-	[LispChild("sprite", Optional = true)]
 	public string SpriteFile {
 		get {
 			return spriteFile;
@@ -122,6 +135,12 @@ public abstract class SimpleSpriteObject : SimpleObject
 		}
 	}
 	private string spriteFile;
+
+	public string DefaultSpriteFile {
+		get { return defaultSpriteFile; }
+		set { defaultSpriteFile = value; }
+	}
+	private string defaultSpriteFile;
 }
 
 /// <summary>Base class for objects that draw a color box.</summary>
