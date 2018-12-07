@@ -276,7 +276,7 @@ public sealed class Switch : SimpleObject
 	}
 	private string spriteFile = "images/objects/switch/switch.sprite";
 
-	[LispChild("script")]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
@@ -295,7 +295,7 @@ public sealed class Switch : SimpleObject
                 ObjectListAction = "off")]
 public sealed class PushButton : SimpleSpriteObject
 {
-	[LispChild("script")]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
@@ -310,7 +310,7 @@ public sealed class PushButton : SimpleSpriteObject
                 ObjectListAction = "idle-left")]
 public sealed class Ispy : SimpleDirObject
 {
-	[LispChild("script")]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
@@ -554,7 +554,7 @@ public sealed class BonusBlock : SimpleSpriteObject
 	}
 
 	[PropertyProperties(Tooltip = "Script to run when BonusBlock is hit.  Only used if Content is set to \"script\"")]
-	[LispChild("script", Optional = true)]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 
@@ -735,7 +735,7 @@ public sealed class SequenceTrigger : SimpleObjectArea
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class ScriptTrigger : SimpleObjectArea
 {
-	[LispChild("script")]
+	[LispChild("script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string Script = String.Empty;
 	[LispChild("button")]
