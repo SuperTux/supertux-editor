@@ -767,7 +767,7 @@ public sealed class SecretArea : SimpleObjectArea
 	[EditScriptSetting]
 	public string Script = String.Empty;
   [PropertyProperties(Tooltip = "Alternative message to display when the player finds the secret area. Optional.")]
-	[LispChild("message", Optional = true, Default = "")]
+	[LispChild("message", Optional = true, Default = "", Translatable = true)]
 	public string Message = String.Empty;
 
 	public SecretArea() {
