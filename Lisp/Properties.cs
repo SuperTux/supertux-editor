@@ -104,7 +104,7 @@ public class Properties {
 		List list = Find(Name);
 		if(list == null)
 			return false;
-		if(! (list[1] is string))
+		if(!(list.Length >= 2 && list[1] is string))
 			return false;
 
 		Val = (string) list[1];
