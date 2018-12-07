@@ -357,6 +357,14 @@ public sealed class Sector : ICustomLispSerializer {
 			}
 		}
 		GameObjects.AddRange(new_gameobjects);
+
+		if (GetObjects(typeof(MusicObject)).Count == 0) {
+			Add(new MusicObject());
+		}
+
+		if (GetObjects(typeof(AmbientLightObject)).Count == 0) {
+			Add(new AmbientLightObject());
+		}
 	}
 }
 
