@@ -679,9 +679,9 @@ public sealed class Nolok_01 : SimpleSpriteObject
                 ObjectListAction = "idle")]
 public sealed class WilloWisp : SimpleSpriteObject, IPathObject
 {
-	[LispChild("sector"), ChooseSectorSetting()]
+	[LispChild("sector", Optional = true, Default = ""), ChooseSectorSetting()]
 	public string Sector = String.Empty;
-	[LispChild("spawnpoint")]
+	[LispChild("spawnpoint", Optional = true, Default = "")]
 	public string SpawnPoint = String.Empty;
 	[LispChild("flyspeed", Optional = true, Default=64f)]
 	public float FlySpeed = 64f;
