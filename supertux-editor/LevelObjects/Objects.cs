@@ -242,7 +242,7 @@ public sealed class Torch : SimpleSpriteObject
 
 #region Switches
 
-[SupertuxObject("switch", "images/objects/switch/switch-0.png",
+[SupertuxObject("switch", "images/objects/switch/left.sprite",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class Switch : SimpleSpriteObject
 {
@@ -255,7 +255,7 @@ public sealed class Switch : SimpleSpriteObject
 	public string OffScript = String.Empty;
 
 	public Switch() {
-		DefaultSpriteFile = "images/objects/switch/switch.sprite";
+		DefaultSpriteFile = "images/objects/switch/left.sprite";
 		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "off";
 	}
@@ -386,7 +386,8 @@ public sealed class FlyingPlatform : SimplePathObject
 {
 	public FlyingPlatform()
 	{
-		SpriteFile = "images/objects/flying_platform/flying_platform.sprite";
+		DefaultSpriteFile = "images/objects/flying_platform/flying_platform.sprite";
+		SpriteFile = DefaultSpriteFile;
 	}
 }
 
@@ -397,7 +398,8 @@ public sealed class HurtingPlatform : SimplePathObject
 {
 	public HurtingPlatform()
 	{
-		SpriteFile = "images/objects/sawblade/sawblade.sprite";
+		DefaultSpriteFile = "images/objects/sawblade/sawblade.sprite";
+		SpriteFile = DefaultSpriteFile;
 	}
 }
 
@@ -439,7 +441,8 @@ public sealed class WeakBlock : SimpleSpriteObject
 	}
 	private bool linked = true;
 	public WeakBlock() {
-		Sprite = SpriteManager.Create("images/objects/weak_block/meltbox.sprite");
+		DefaultSpriteFile = "images/objects/weak_block/meltbox.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -519,7 +522,8 @@ public sealed class BonusBlock : SimpleSpriteObject
 	public string Script = String.Empty;
 
 	public BonusBlock() {
-		Sprite = SpriteManager.Create("images/objects/bonus_block/bonusblock.sprite");
+		DefaultSpriteFile = "images/objects/bonus_block/bonusblock.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -547,7 +551,8 @@ public sealed class Coin : SimplePathObject
 	public string Script = String.Empty;
 
 	public Coin() {
-		Sprite = SpriteManager.Create("images/objects/coin/coin.sprite");
+		DefaultSpriteFile = "images/objects/coin/coin.sprite";
+		SpriteFile = DefaultSpriteFile;
 		Sprite.Action = "editor-path";
 	}
 }
@@ -562,7 +567,8 @@ public sealed class HeavyCoin : SimpleSpriteObject
 	public string Script = String.Empty;
 
 	public HeavyCoin() {
-		Sprite = SpriteManager.Create("images/objects/coin/coin.sprite");
+		DefaultSpriteFile = "images/objects/coin/coin.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "editor-heavy";
 	}
 }
@@ -579,7 +585,7 @@ public sealed class Powerup : SimpleSpriteObject
 	public bool DisablePhysics;
 
 	public Powerup() {
-		DefaultSpriteFile = "images/engine/editor/powerup.png";
+		DefaultSpriteFile = "images/powerups/egg/egg.sprite";
 		Sprite = SpriteManager.CreateFromImage(DefaultSpriteFile);
 		Sprite.Action = "default";
 	}
@@ -921,23 +927,10 @@ public sealed class BicyclePlatform : SimpleSpriteObject
 }
 
 [SupertuxObject("decal", "images/engine/editor/decal.png")]
-public sealed class Decal : SimpleObject
+public sealed class Decal : SimpleSpriteObject
 {
 	[LispChild("solid", Optional = true, Default = false)]
 	public bool Solid = false;
-
-	[LispChild("sprite")]
-	[ChooseResourceSetting]
-        public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			spriteFile = value;
-			ReloadSprite();
-		}
-	}
-	private string spriteFile = "images/tiles/doodads/iceshrub.sprite";
 
 	[LispChild("action", Optional = true, Default = "default")]
 	public string Action {
@@ -955,18 +948,19 @@ public sealed class Decal : SimpleObject
 	public int Layer = 50;
 
 	private void ReloadSprite() {
-		if (String.IsNullOrEmpty(spriteFile))
+		if (String.IsNullOrEmpty(SpriteFile))
 			return;
 
-		if (spriteFile.EndsWith(".sprite")) {
-			Sprite = SpriteManager.Create(spriteFile);
+		if (SpriteFile.EndsWith(".sprite")) {
+			Sprite = SpriteManager.Create(SpriteFile);
 			try {
 				Sprite.Action = action;
 			} catch (System.Collections.Generic.KeyNotFoundException) {
-				Console.WriteLine($"error: action '{action}' not found in '{spriteFile}'");
+				Console.WriteLine($"error: action '{action}' not found in '{SpriteFile}'");
 			}
 		} else {
-			Sprite = SpriteManager.CreateFromImage(spriteFile);
+			DefaultSpriteFile = SpriteFile;
+			Sprite = SpriteManager.CreateFromImage(DefaultSpriteFile);
 		}
 	}
 }

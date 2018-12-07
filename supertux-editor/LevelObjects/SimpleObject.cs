@@ -239,25 +239,11 @@ public abstract class SimpleDirObject : SimpleBadguyObject
 }
 
 /// <summary>Base class for platforms and other moving objects.</summary>
-public abstract class SimplePathObject : SimpleObject, IPathObject
+public abstract class SimplePathObject : SimpleSpriteObject, IPathObject
 {
 	[PropertyProperties(Tooltip = "If enabled the platform will be moving initially.")]
 	[LispChild("running", Optional = true, Default = true)]
 	public bool Running = true;
-	[PropertyProperties(Tooltip = "File describing \"skin\" for object.", RedrawOnChange = true)]
-	[ChooseResourceSetting]
-	[LispChild("sprite")]
-	public string SpriteFile {
-		get {
-			return spriteFile;
-		}
-		set {
-			if(! String.IsNullOrEmpty(value))
-				Sprite = SpriteManager.Create(value);
-			spriteFile = value;
-		}
-	}
-	private string spriteFile;
 
 	private Path path = null;
 	[LispChild("path")]
