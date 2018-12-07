@@ -41,10 +41,6 @@ public sealed class Camera : IGameObject, IPathObject {
 	[LispChild("mode")]
 	public Modes Mode = Modes.normal;
 
-	[PropertyProperties(Tooltip = "Defines if camera can scroll backwards")]
-	[LispChild("backscrolling", Optional = true, Default = true)]
-	public bool BackScrolling = true;
-
 	private Path path;
 	[LispChild("path", Optional = true, Default = null)]
 	public Path Path {
