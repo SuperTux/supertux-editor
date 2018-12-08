@@ -748,8 +748,8 @@ public sealed class RainParticles : IGameObject, ILayer
 	public string EntityName = String.Empty;
 
 	public string Name {get {return "";}}	//= it can't have a name
-	private int layer = 0;
-	[LispChild("z-pos", Optional = true, Default = 0, AlternativeName = "layer")]
+	private int layer = -200;
+	[LispChild("z-pos", Optional = true, Default = -200, AlternativeName = "layer")]
 	public int Layer { get { return layer; } set { layer = value; }}	//property around field layer needed to implement ILayer
 }
 
