@@ -537,7 +537,7 @@ public sealed class BonusBlock : SimpleSpriteObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class InfoBlock : SimpleObject
 {
-	[LispChild("message", Translatable = true)]
+	[LispChild("message", Optional = true, Default = "", Translatable = true)]
 	[EditScriptSetting]
 	public string Message = String.Empty;
 
