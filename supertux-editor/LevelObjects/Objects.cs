@@ -635,7 +635,7 @@ public sealed class Wind : SimpleObjectArea
 	}
 }
 
-[SupertuxObject("ambient_sound", "images/engine/editor/ambientsound.png",
+[SupertuxObject("ambient-sound", "images/engine/editor/ambientsound.png",
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class AmbientSound : SimpleObjectArea
 {
