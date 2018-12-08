@@ -341,8 +341,10 @@ public sealed class Trampoline : SimpleSpriteObject
 		}
 	}
 	private bool portable = true;
+
 	public Trampoline() {
-		Sprite = SpriteManager.Create("images/objects/trampoline/trampoline.sprite");
+		DefaultSpriteFile = "images/objects/trampoline/trampoline.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
 }
@@ -432,16 +434,19 @@ public sealed class WeakBlock : SimpleSpriteObject
 		set {
 			linked = value;
 			if( value == false ){
-				Sprite = SpriteManager.Create("images/objects/weak_block/meltbox.sprite");
+				DefaultSpriteFile = "images/objects/weak_block/meltbox.sprite";
+				Sprite = SpriteManager.Create(DefaultSpriteFile);
 			} else {
-				Sprite = SpriteManager.Create("images/objects/weak_block/strawbox.sprite");
+ 				DefaultSpriteFile = "images/objects/weak_block/strawbox.sprite";
+				Sprite = SpriteManager.Create(DefaultSpriteFile);
 			}
 			Sprite.Action = "normal";
 		}
 	}
 	private bool linked = true;
+
 	public WeakBlock() {
-		DefaultSpriteFile = "images/objects/weak_block/meltbox.sprite";
+		DefaultSpriteFile = "images/objects/weak_block/strawbox.sprite";
 		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "normal";
 	}
