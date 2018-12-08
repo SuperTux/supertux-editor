@@ -864,7 +864,7 @@ public sealed class StalactiteYeti : SimpleSpriteObject
                 ObjectListAction = "default")]
 public sealed class GhostTree : SimpleSpriteObject
 {
-	[LispChild("dead-script")]
+	[LispChild("dead-script", Optional = true, Default = "")]
 	[EditScriptSetting]
 	public string DeadScript = String.Empty;
 
