@@ -600,8 +600,8 @@ public sealed class Powerup : SimpleSpriteObject
                 Target = SupertuxObjectAttribute.Usage.LevelOnly)]
 public sealed class ScriptedObject : SimpleSpriteObject
 {
-	[LispChild("z-pos", Optional = true, Default = -10, AlternativeName = "layer")]
-	public int Layer = -10;
+	[LispChild("z-pos", Optional = true, Default = 50, AlternativeName = "layer")]
+	public int Layer = 50;
 	[LispChild("visible", Optional = true, Default = true)]
 	public bool Visible = true;
 	[LispChild("physic-enabled", Optional = true, Default = true)]
