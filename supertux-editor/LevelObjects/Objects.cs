@@ -58,10 +58,10 @@ public sealed class Firefly : SimpleSpriteObject
                 ObjectListAction = "closed")]
 public sealed class Door : SimpleSpriteObject
 {
-	[LispChild("sector"), ChooseSectorSetting()]
+	[LispChild("sector", Optional = true, Default = ""), ChooseSectorSetting()]
 	public string Sector;
 
-	[LispChild("spawnpoint")]
+	[LispChild("spawnpoint", Optional = true, Default = "")]
 	public string Spawnpoint;
 
 	[LispChild("script", Optional = true, Default = "")]
