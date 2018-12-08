@@ -38,6 +38,10 @@ public sealed class Camera : IGameObject, IPathObject {
 		manual
 	}
 
+	[PropertyProperties(Tooltip = ToolTipStrings.ScriptingName)]
+	[LispChild("name", Optional = true, Default = "")]
+	public string EntityName = String.Empty;
+
 	[LispChild("mode")]
 	public Modes Mode = Modes.normal;
 
