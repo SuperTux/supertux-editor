@@ -20,7 +20,7 @@ using DataStructures;
 using LispReader;
 using Drawing;
 
-public abstract class WorldmapObject : SimpleObject
+public abstract class WorldmapObject : SimpleSpriteObject
 {
 	public WorldmapObject()
 	{
@@ -58,7 +58,8 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 
 	public WorldmapSpawnpoint()
 	{
-		Sprite = SpriteManager.CreateFromImage("images/worldmap/common/tux.png", new Vector(16, 16));
+		DefaultSpriteFile = "images/worldmap/common/tux.png";
+		Sprite = SpriteManager.CreateFromImage(DefaultSpriteFile, new Vector(16, 16));
 	}
 }
 
@@ -75,6 +76,7 @@ public sealed class WorldmapLevel : WorldmapObject
 	[LispChild("auto-play", Optional = true, Default = false)]
 	public bool AutoPlay = false;
 
+	/*
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -91,12 +93,14 @@ public sealed class WorldmapLevel : WorldmapObject
 		}
 	}
 	private string spriteFile = String.Empty;
+	*/
 
 	public WorldmapLevel()
 	{
 		color = new Color(0, 0, 0);
 
-		Sprite = SpriteManager.Create("images/worldmap/common/leveldot.sprite");
+		DefaultSpriteFile = "images/worldmap/common/leveldot.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 		Sprite.Action = "solved";
 	}
 }
@@ -115,6 +119,8 @@ public sealed class SpecialTile : WorldmapObject
 	public string Script = String.Empty;
 	[LispChild("apply-to-direction", Optional = true, Default = "")]
 	public string ApplyToDirection = String.Empty;
+
+/*
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -131,6 +137,7 @@ public sealed class SpecialTile : WorldmapObject
 		}
 	}
 	private string spriteFile = String.Empty;
+	*/
 
 	public SpecialTile()
 	{
@@ -141,6 +148,7 @@ public sealed class SpecialTile : WorldmapObject
 [SupertuxObject("sprite-change", "images/engine/editor/spritechange.png", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class SpriteChange : WorldmapObject
 {
+	/*
 	[ChooseResourceSetting]
 	[LispChild("sprite")]
 	public string SpriteFile {
@@ -157,12 +165,17 @@ public sealed class SpriteChange : WorldmapObject
 		}
 	}
 	private string spriteFile = String.Empty;
+	*/
+
 	[LispChild("change-on-touch")]
 	public bool ChangeOnTouch;
+
 	[LispChild("stay-action")]
 	public string StayAction;
+
 	[LispChild("initial-stay-action")]
 	public bool InitialStayAction = false;
+
 	[LispChild("stay-group", Optional = true, Default = "")]
 	public string StayGroup;
 
@@ -174,6 +187,7 @@ public sealed class SpriteChange : WorldmapObject
 [SupertuxObject("teleporter", "images/worldmap/common/teleporterdot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class Teleporter : WorldmapObject
 {
+	/*
 	[ChooseResourceSetting]
 	[LispChild("sprite", Optional = true, Default = "")]
 	public string SpriteFile {
@@ -184,12 +198,13 @@ public sealed class Teleporter : WorldmapObject
 			if (!String.IsNullOrEmpty(value)) {
 				Sprite = SpriteManager.Create(value);
 			} else {
-				Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+				Sprite = SpriteManager.Create(DefaultSpriteFile);
 			}
 			spriteFile = value;
 		}
 	}
 	private string spriteFile = String.Empty;
+	*/
 
 	[LispChild("worldmap", Optional = true, Default = "")]
 	public string Worldmap = String.Empty;
@@ -205,7 +220,8 @@ public sealed class Teleporter : WorldmapObject
 
 	public Teleporter()
 	{
-		Sprite = SpriteManager.Create("images/worldmap/common/teleporterdot.sprite");
+		DefaultSpriteFile = "images/worldmap/common/teleporterdot.sprite";
+		Sprite = SpriteManager.Create(DefaultSpriteFile);
 	}
 }
 
