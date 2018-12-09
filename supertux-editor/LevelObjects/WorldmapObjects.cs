@@ -66,7 +66,7 @@ public sealed class WorldmapSpawnpoint : WorldmapObject
 [SupertuxObject("level", "images/worldmap/common/leveldot.sprite", Target = SupertuxObjectAttribute.Usage.WorldmapOnly)]
 public sealed class WorldmapLevel : WorldmapObject
 {
-	[LispChild("color", Optional = true, Default = "Color(0, 0, 0, 1)")]
+	[LispChild("color", Optional = true, Default = "Color(1, 1, 1, 1)")]
 	public Color color;
 
 	[LispChild("extro-script", Optional = true, Default = "")]
@@ -97,7 +97,7 @@ public sealed class WorldmapLevel : WorldmapObject
 
 	public WorldmapLevel()
 	{
-		color = new Color(0, 0, 0);
+		color = new Color(1, 1, 1);
 
 		DefaultSpriteFile = "images/worldmap/common/leveldot.sprite";
 		Sprite = SpriteManager.Create(DefaultSpriteFile);
@@ -170,7 +170,7 @@ public sealed class SpriteChange : WorldmapObject
 	[LispChild("change-on-touch")]
 	public bool ChangeOnTouch;
 
-	[LispChild("stay-action")]
+	[LispChild("stay-action", Optional = true, Default = "")]
 	public string StayAction;
 
 	[LispChild("initial-stay-action")]
